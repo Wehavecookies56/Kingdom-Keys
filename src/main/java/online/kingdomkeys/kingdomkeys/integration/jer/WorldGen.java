@@ -1,12 +1,18 @@
 package online.kingdomkeys.kingdomkeys.integration.jer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiFunction;
+
+import org.apache.maven.artifact.versioning.Restriction;
+
 import jeresources.api.IWorldGenRegistry;
 import jeresources.api.conditionals.Conditional;
 import jeresources.api.distributions.DistributionTriangular;
 import jeresources.api.drop.LootDrop;
 import jeresources.api.restrictions.BiomeRestriction;
 import jeresources.api.restrictions.DimensionRestriction;
-import jeresources.api.restrictions.Restriction;
 import jeresources.api.util.BiomeHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,11 +23,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.features.OreConfig;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiFunction;
 
 public class WorldGen {
 

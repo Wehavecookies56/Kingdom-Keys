@@ -1,13 +1,16 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import com.mojang.math.Vector3f;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,9 +30,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
 import online.kingdomkeys.kingdomkeys.container.GummiEditorContainer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
@@ -77,7 +77,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container.gummi_editor");
+		return Component.translatable("container.gummi_editor");
 	}
 
 	@Nullable

@@ -1,14 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -32,10 +36,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipAccessories;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuSelectAccessoryButton extends MenuButtonBase {
 
@@ -242,7 +242,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showAP) {
-		                    drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
+		                    drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalAP - oldAP)+"", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, oldAP > ap ? 0xFF0000 : oldAP == ap ? 0xFFFF00 : 0x00AAFF);
@@ -251,7 +251,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showStr) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalStrength - oldStr)+"", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, oldStr > strength ? 0xFF0000 : oldStr == strength ? 0xFFFF00 : 0x00AAFF);
@@ -260,7 +260,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showMag) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalMagic - oldMag)+"", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, oldMag > magic ? 0xFF0000 : oldMag == magic ? 0xFFFF00 : 0x00AAFF);
@@ -269,7 +269,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    }
 	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
 								RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

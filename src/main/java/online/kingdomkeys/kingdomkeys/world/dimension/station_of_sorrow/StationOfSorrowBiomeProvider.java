@@ -1,6 +1,11 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.mojang.serialization.Codec;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.RegistryOps;
@@ -13,10 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class StationOfSorrowBiomeProvider extends BiomeSource {
     public static void registerBiomeProvider() {

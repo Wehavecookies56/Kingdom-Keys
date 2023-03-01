@@ -1,6 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
+import java.awt.Color;
+import java.util.Map.Entry;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -15,9 +19,6 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.Map.Entry;
 
 public class MenuCustomizeScreen extends MenuBackground {
 		

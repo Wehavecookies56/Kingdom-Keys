@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.damagesource;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +18,7 @@ public class StopDamageSource extends EntityDamageSource {
 
 	@Override
 	public Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
-		return new TranslatableComponent("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), entity.getDisplayName().getString());
+		return Component.translatable("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), entity.getDisplayName().getString());
 	}
 
 }

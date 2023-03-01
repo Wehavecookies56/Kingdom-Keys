@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import java.util.List;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -15,10 +17,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-
-import java.util.List;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public class DriveOrbEntity extends ItemDropEntity {
 

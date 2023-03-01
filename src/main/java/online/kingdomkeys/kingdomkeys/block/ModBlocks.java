@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -11,9 +14,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.Objects;
-import java.util.function.Supplier;
 
 public class ModBlocks {
 

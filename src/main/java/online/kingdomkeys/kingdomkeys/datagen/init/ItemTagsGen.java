@@ -1,26 +1,27 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import javax.annotation.Nullable;
+
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.RecordItem;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-import javax.annotation.Nullable;
-
 public class ItemTagsGen extends ItemTagsProvider {
-	public ItemTagsGen(DataGenerator dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
-		super(dataGenerator, blockTagsProvider, KingdomKeys.MODID, existingFileHelper);
+	public ItemTagsGen(PackOutput dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
+		super(dataGenerator, lookupProvider, blockTagsProvider, KingdomKeys.MODID, existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
+	protected void addTags(Provider provider) {
 		for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries()) {
 			final Item item = itemRegistryObject.get();
 			if (item instanceof RecordItem) {

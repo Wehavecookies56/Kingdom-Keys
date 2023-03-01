@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
+import java.util.Set;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -9,8 +11,6 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-
-import java.util.Set;
 
 public class OreGeneration {
 

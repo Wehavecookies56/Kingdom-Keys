@@ -1,8 +1,10 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.platform.InputConstants;
+
+import net.minecraft.client.Minecraft;
 
 public class KeyboardHelper {
 

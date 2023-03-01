@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.synthesis.material;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -11,8 +13,6 @@ import net.minecraftforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.util.function.Supplier;
 
 public class ModMaterials {
 

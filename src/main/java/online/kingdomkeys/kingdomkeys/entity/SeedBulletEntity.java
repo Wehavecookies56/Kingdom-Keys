@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,8 +11,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public class SeedBulletEntity extends ThrowableProjectile {
 
@@ -34,7 +33,7 @@ public class SeedBulletEntity extends ThrowableProjectile {
     }
     
     @Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
     

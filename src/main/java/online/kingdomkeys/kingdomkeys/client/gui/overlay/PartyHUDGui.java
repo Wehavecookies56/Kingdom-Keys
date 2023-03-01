@@ -1,8 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -16,9 +21,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-
-import java.util.ArrayList;
-import java.util.List;
 
 //TODO cleanup + comments
 public class PartyHUDGui extends OverlayBase {

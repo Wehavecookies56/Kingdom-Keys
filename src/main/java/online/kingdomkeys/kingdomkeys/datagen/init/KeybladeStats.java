@@ -1,5 +1,12 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -10,12 +17,6 @@ import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -202,4 +203,6 @@ public class KeybladeStats extends KeybladeProvider {
     public String getName() {
         return "Keyblade json";
     }
+
+	
 }

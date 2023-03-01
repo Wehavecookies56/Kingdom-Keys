@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 
+import java.util.UUID;
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,9 +13,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
-
-import java.util.UUID;
-import java.util.function.Supplier;
 
 public class CSSetOrgPortalName {
 

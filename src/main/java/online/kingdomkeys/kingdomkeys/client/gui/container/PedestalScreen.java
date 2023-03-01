@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.container;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
@@ -41,13 +41,13 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     protected void init() {
         super.init();
         float current = (rotationSpeedMax / 100.0F) * (menu.TE.getRotationSpeed() * (100.0F/(PedestalTileEntity.DEFAULT_ROTATION_SPEED * rotationSpeedMax)));
-        addRenderableWidget(scaleSlider = new Slider(leftPos + 8, topPos + 30, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0.2D, scaleMax, menu.TE.getScale(), true, false, h -> {}));
-        addRenderableWidget(heightSlider = new Slider(leftPos + 8, topPos + 42, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, heightMax, menu.TE.getBaseHeight(), true, false, h -> {}));
-        addRenderableWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
-        addRenderableWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, new TranslatableComponent(""), new TranslatableComponent(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
+        addRenderableWidget(scaleSlider = new Slider(leftPos + 8, topPos + 30, 50, 10, Component.translatable(""), Component.translatable(""), 0.2D, scaleMax, menu.TE.getScale(), true, false, h -> {}));
+        addRenderableWidget(heightSlider = new Slider(leftPos + 8, topPos + 42, 50, 10, Component.translatable(""), Component.translatable(""), 0, heightMax, menu.TE.getBaseHeight(), true, false, h -> {}));
+        addRenderableWidget(rotationSpeedSlider = new Slider(leftPos + 8, topPos + 54, 50, 10, Component.translatable(""), Component.translatable(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), true, false, h -> { }));
+        addRenderableWidget(bobSpeedSlider = new Slider(leftPos + 8, topPos + 66, 50, 10, Component.translatable(""), Component.translatable(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), true, false, h -> {}));
         addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
         addRenderableWidget(flippedCheckbox = new CheckboxButton(leftPos + 60, topPos + 18, "Flip", menu.TE.isFlipped()));
-        addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, new TranslatableComponent("Reset"), p -> {
+        addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("Reset"), p -> {
             menu.TE.setPause(false);
             menu.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
             menu.TE.setSpeed(PedestalTileEntity.DEFAULT_ROTATION_SPEED, PedestalTileEntity.DEFAULT_BOB_SPEED);

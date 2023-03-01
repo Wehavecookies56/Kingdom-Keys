@@ -1,9 +1,10 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import net.minecraft.Util;
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -28,10 +29,6 @@ import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class DataPortalBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -72,7 +69,7 @@ public class DataPortalBlock extends BaseBlock {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location()), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level);
 			marluxia.finalizeSpawn((ServerLevel)player.level, player.level.getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
 			player.level.addFreshEntity(marluxia);

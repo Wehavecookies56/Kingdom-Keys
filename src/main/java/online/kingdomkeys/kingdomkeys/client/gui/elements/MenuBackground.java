@@ -1,15 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import java.awt.Color;
+
+import org.jline.reader.Widget;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
@@ -26,8 +29,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-import java.awt.*;
-
 public class MenuBackground extends Screen {
 
 	int selected;
@@ -36,7 +37,7 @@ public class MenuBackground extends Screen {
 	Color color;
 	
 	public MenuBackground(String name, Color rgb) {
-		super(new TranslatableComponent(name));
+		super(Component.translatable(name));
 		minecraft = Minecraft.getInstance();
 		selected = -1;
 		this.color = rgb;

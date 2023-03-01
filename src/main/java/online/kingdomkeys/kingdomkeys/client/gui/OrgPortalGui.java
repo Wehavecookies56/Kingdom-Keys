@@ -1,18 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import java.util.UUID;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
-
-import java.util.UUID;
 
 public class OrgPortalGui extends Screen {
 
@@ -22,7 +22,7 @@ public class OrgPortalGui extends Screen {
 	BlockPos pos;
 
 	public OrgPortalGui(BlockPos pos) {
-		super(new TranslatableComponent("Org Portal"));
+		super(Component.translatable("Org Portal"));
 		this.pos = pos;
 		minecraft = Minecraft.getInstance();
 	}
@@ -30,8 +30,8 @@ public class OrgPortalGui extends Screen {
 	@Override
 	protected void init() {
 		int tfWidth = minecraft.font.width("####################");
-		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, new TranslatableComponent("")));
-		addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, new TranslatableComponent("Set name"), (e) -> {
+		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, Component.translatable("")));
+		addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, Component.translatable("Set name"), (e) -> {
 			action();
 		}));
 

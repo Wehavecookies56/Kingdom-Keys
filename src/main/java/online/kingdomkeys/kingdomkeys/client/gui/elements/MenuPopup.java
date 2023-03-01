@@ -1,20 +1,22 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.glfw.GLFW;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class MenuPopup extends Screen {
 
@@ -57,7 +59,7 @@ public abstract class MenuPopup extends Screen {
     }
 
     public MenuPopup() {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
     }
 
     int[] alpha;

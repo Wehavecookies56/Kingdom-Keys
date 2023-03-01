@@ -1,9 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -11,7 +16,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Witch;
@@ -32,12 +42,6 @@ import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public class ThunderBoltEntity extends ThrowableProjectile {
 	private int lightningState;
@@ -209,7 +213,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 

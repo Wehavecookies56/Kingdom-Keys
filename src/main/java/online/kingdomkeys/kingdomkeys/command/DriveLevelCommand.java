@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -7,12 +11,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -25,10 +29,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class DriveLevelCommand extends BaseCommand{
 //kk_ <give/take/set> <amount> [player]
@@ -87,8 +87,8 @@ public class DriveLevelCommand extends BaseCommand{
 			ExpCommand.fix(playerData, player); //Mainly here to remove given abilities in case form is going to be lower
 			
 			DriveForm formInstance = ModDriveForms.registry.get().getValue(new ResourceLocation(form));
-			context.getSource().sendSuccess(new TranslatableComponent("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
-			player.sendMessage(new TranslatableComponent("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level), Util.NIL_UUID);
+			context.getSource().sendSuccess(Component.translatable("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
+			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level));
 		}
 		return 1;
 	}

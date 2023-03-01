@@ -1,8 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.List;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -22,10 +23,6 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-
-import java.util.List;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class SynthesisBagItem extends Item implements IItemCategory {
 
@@ -52,7 +49,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		CompoundTag nbt = stack.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		tooltip.add(new TranslatableComponent("Level " + (bagLevel+1)));
+		tooltip.add(Component.translatable("Level " + (bagLevel+1)));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 

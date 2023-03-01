@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
-import net.minecraft.nbt.CompoundTag;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.nbt.CompoundTag;
 
 public class Stat {
 

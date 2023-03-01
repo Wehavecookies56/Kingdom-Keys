@@ -1,8 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -28,13 +35,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class SynthesisForgeScreen extends MenuFilterable {
  
@@ -142,7 +142,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		// addButton(scrollBar = new MenuScrollBar());
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 		super.init();
 		itemsPerPage = (int) (middleHeight / 14);
@@ -181,13 +181,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addRenderableWidget(upgrade = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
+		addRenderableWidget(upgrade = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
 			action("upgrade");
 		}));
 	}

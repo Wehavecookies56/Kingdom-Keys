@@ -1,17 +1,21 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -19,10 +23,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 
 public class ChoiceCommand extends BaseCommand {
@@ -74,9 +74,9 @@ public class ChoiceCommand extends BaseCommand {
             targetData.setSacrifice(SoAState.NONE);
             PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
             if (players.size() > 1) {
-                context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
+                context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
             }
-            target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been reset"), Util.NIL_UUID);
+            target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been reset"));
 
         }
         return 1;
@@ -108,15 +108,15 @@ public class ChoiceCommand extends BaseCommand {
                     }
                     PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
                     if (players.size() > 1) {
-                        context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
+                        context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
                     }
-                    target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr), Util.NIL_UUID);
+                    target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr));
                 }
             } else {
-                context.getSource().sendFailure(new TranslatableComponent("CHOSEN and SACRIFICED must not be the same"));
+                context.getSource().sendFailure(Component.translatable("CHOSEN and SACRIFICED must not be the same"));
             }
         } else {
-            context.getSource().sendFailure(new TranslatableComponent("CHOSEN or SACRIFICED value is invalid"));
+            context.getSource().sendFailure(Component.translatable("CHOSEN or SACRIFICED value is invalid"));
         }
         return 1;
     }

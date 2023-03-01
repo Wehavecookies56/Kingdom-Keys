@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
 import java.util.List;
+
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class OreConfig {
 

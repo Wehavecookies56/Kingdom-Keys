@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 /**
  * Stores the data loaded from the keyblades datapack

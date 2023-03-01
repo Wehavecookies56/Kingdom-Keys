@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,8 +18,6 @@ import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-
-import java.util.function.Supplier;
 
 public class CSSpawnOrgPortalPacket {
 

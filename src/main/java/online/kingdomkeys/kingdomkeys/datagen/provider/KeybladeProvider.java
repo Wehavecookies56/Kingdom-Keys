@@ -1,18 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
-import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +9,21 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
 public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements DataProvider {
 

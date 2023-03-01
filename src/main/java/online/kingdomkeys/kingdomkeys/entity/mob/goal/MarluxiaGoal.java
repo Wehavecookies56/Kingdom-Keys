@@ -1,10 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import com.mojang.math.Vector3f;
+import java.util.List;
+
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,9 +24,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
-
-import java.util.List;
-import java.util.Random;
 
 public class MarluxiaGoal extends TargetGoal {
 	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)
@@ -166,7 +167,7 @@ public class MarluxiaGoal extends TargetGoal {
 		} else if(chasingTicks < 300) {
 			mob.absMoveTo(mob.getTarget().getX(), mob.getTarget().getY(), mob.getTarget().getZ(), mob.getTarget().getYRot(), mob.getTarget().getYRot());
 			//goalOwner.faceEntity(goalOwner.getAttackTarget(), 0, 0);
-			Random rand = ((ServerLevel) mob.level).random;
+			RandomSource rand = ((ServerLevel) mob.level).getRandom();
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 			if(chasingTicks % 10 == 0) {
@@ -200,7 +201,7 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 
 	private void attackWithTP() {
-		Random rand = mob.level.random;
+		RandomSource rand = mob.level.getRandom();
 		for(int i=0;i<10;i++)
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 2 + rand.nextDouble() * 4, mob.getY() + rand.nextDouble() * 4, mob.getZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
 			

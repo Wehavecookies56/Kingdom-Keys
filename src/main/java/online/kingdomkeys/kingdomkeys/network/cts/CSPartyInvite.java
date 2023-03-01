@@ -1,9 +1,11 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.UUID;
+import java.util.function.Supplier;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
@@ -13,9 +15,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-
-import java.util.UUID;
-import java.util.function.Supplier;
 
 public class CSPartyInvite {
 	
@@ -56,7 +55,7 @@ public class CSPartyInvite {
 				
 				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 				Party p = worldData.getPartyFromName(message.name);
-				target.sendMessage(new TranslatableComponent(ChatFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()), Util.NIL_UUID);
+				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
 			}
 			
 			

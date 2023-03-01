@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,15 +22,13 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.List;
-
 public class WeaponUnlockScreen extends Screen {
 
     IPlayerCapabilities playerData;
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
         playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
@@ -90,10 +90,10 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Unlock"), p -> actionPerformed(SELECT)));
+        addRenderableWidget(cancel = new Button(0, 0, 50, 20, Component.translatable("Back"), p -> actionPerformed(CANCEL)));
+        addRenderableWidget(next = new Button(0, 0, 20, 20, Component.translatable(">"), p -> actionPerformed(NEXT)));
+        addRenderableWidget(prev = new Button(0, 0, 20, 20, Component.translatable("<"), p -> actionPerformed(PREV)));
+        addRenderableWidget(select = new Button(0, 0, 50, 20, Component.translatable("Unlock"), p -> actionPerformed(SELECT)));
         updateButtons();
     }
 
@@ -219,17 +219,17 @@ public class WeaponUnlockScreen extends Screen {
     public void updateButtons() {
         if (playerData.isWeaponUnlocked(weapons.get(current))) {
             unlock = false;
-            select.setMessage(new TranslatableComponent("Equip"));
+            select.setMessage(Component.translatable("Equip"));
             if (playerData.getEquippedWeapon().getItem() == weapons.get(current)) {
                 select.active = false;
-                select.setMessage(new TranslatableComponent("Equipped"));
+                select.setMessage(Component.translatable("Equipped"));
             } else {
                 select.active = true;
-                select.setMessage(new TranslatableComponent("Equip"));
+                select.setMessage(Component.translatable("Equip"));
             }
         } else {
             unlock = true;
-            select.setMessage(new TranslatableComponent("Unlock"));
+            select.setMessage(Component.translatable("Unlock"));
             if (canUnlock()) {
                 select.active = true;
             } else {

@@ -1,10 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -18,10 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectPoti
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MenuPotionSelectorScreen extends MenuBackground {
 
@@ -57,7 +57,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 

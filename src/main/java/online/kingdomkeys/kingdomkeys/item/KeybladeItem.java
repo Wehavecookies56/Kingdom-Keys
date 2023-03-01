@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -52,12 +58,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.UUID;
 
 public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach {
 
@@ -302,23 +302,23 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
 			if(getKeybladeLevel(stack) > 0)
-				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
+				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
+			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {
 					Entry<Material, Integer> mat = it.next();
-					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
 				}
 			}
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("keybladeID")) {
-					tooltip.add(new TranslatableComponent(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
+					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
 				}
 			}
 		}

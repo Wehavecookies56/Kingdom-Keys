@@ -1,10 +1,21 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -48,10 +59,6 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class ClientEvents {
 
@@ -412,7 +419,7 @@ public class ClientEvents {
 				LivingEntity entityIn = event.getEntity();
 
 				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				TranslatableComponent displayNameIn = new TranslatableComponent("o");
+				TranslatableComponent displayNameIn = Component.translatable("o");
 				float f = entityIn.getBbHeight();
 				matrixStackIn.pushPose();
 				{

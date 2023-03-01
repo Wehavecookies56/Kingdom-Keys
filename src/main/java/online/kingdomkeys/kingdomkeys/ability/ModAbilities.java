@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -9,13 +11,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-import java.util.function.Supplier;
-
 public class ModAbilities {
 
 	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(Ability.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 

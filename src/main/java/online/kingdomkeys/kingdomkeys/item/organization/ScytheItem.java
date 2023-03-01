@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
@@ -34,7 +35,7 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 				player.setItemInHand(hand, ItemStack.EMPTY);
 				KKThrowableEntity entity = new KKThrowableEntity(level);
 				
-				switch (stack.getItem().getRegistryName().getPath()) {
+				switch (ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath()) {
 				case Strings.gracefulDahlia:
 				case Strings.proudAmaryllis:
 				case Strings.madSafflower:
@@ -60,7 +61,7 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 				
 				
 				entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
-				entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+				entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 	
 				entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
 	

@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -15,8 +18,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
 
 public class GuiOverlay extends OverlayBase {
 

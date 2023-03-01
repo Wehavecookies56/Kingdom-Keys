@@ -1,10 +1,16 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +18,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -27,8 +37,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -44,16 +58,34 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.*;
+import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.*;
+import online.kingdomkeys.kingdomkeys.entity.DriveOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.FocusOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
+import online.kingdomkeys.kingdomkeys.entity.MPOrbEntity;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.MunnyEntity;
+import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.XPEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.*;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
@@ -72,7 +104,18 @@ import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
@@ -81,8 +124,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
-
-import java.util.*;
 
 public class EntityEvents {
 
@@ -98,7 +139,7 @@ public class EntityEvents {
 				int level = mobData.getLevel();
 
 				if(!mob.hasCustomName()) {
-					mob.setCustomName(new TranslatableComponent(mob.getDisplayName().getString()+" Lv."+level));
+					mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
 					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
 					mob.heal(mob.getMaxHealth());
@@ -1052,7 +1093,7 @@ public class EntityEvents {
 						
 						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getEntity().level);
 						newDusk.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newDusk.setCustomName(new TranslatableComponent(event.getEntity().getDisplayName().getString()+"'s Nobody"));
+						newDusk.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString()+"'s Nobody"));
 						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
 						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
@@ -1060,7 +1101,7 @@ public class EntityEvents {
 						
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level);
 						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newShadow.setCustomName(new TranslatableComponent(event.getEntity().getDisplayName().getString()+"'s Heartless"));
+						newShadow.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString()+"'s Heartless"));
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 						

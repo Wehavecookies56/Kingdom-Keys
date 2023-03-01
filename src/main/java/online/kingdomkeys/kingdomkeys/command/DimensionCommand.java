@@ -1,19 +1,22 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,9 +28,6 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
-
-import java.util.Collection;
-import java.util.List;
 
 public class DimensionCommand extends BaseCommand {
 
@@ -50,14 +50,14 @@ public class DimensionCommand extends BaseCommand {
 		ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dim));
 
 		if (dimension == null) {
-			context.getSource().sendSuccess(new TranslatableComponent("Invalid dimension " + dim), true);
+			context.getSource().sendSuccess(Component.translatable("Invalid dimension " + dim), true);
 			return 1;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			context.getSource().sendSuccess(new TranslatableComponent("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
-			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location().toString()), Util.NIL_UUID);
+			context.getSource().sendSuccess(Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
+			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
 		}
 		return 1;
 	}

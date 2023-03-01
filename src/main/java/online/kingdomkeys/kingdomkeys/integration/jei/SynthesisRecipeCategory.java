@@ -1,7 +1,11 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -9,22 +13,18 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
-
-import java.util.List;
-import java.util.Map;
 
 public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 
@@ -54,20 +54,20 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
     public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         if (recipe.getCost() > 0) {
             munny.draw(stack, 5, 57);
-            new TextDrawable(new TranslatableComponent(String.valueOf(recipe.getCost())), 0xFFFF55).draw(stack, 5, 57);
+            new TextDrawable(Component.translatable(String.valueOf(recipe.getCost())), 0xFFFF55).draw(stack, 5, 57);
         }
         Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES).ifPresent(cap -> {
             if (cap.hasKnownRecipe(recipe.getRegistryName())) {
-                new TextDrawable(new TranslatableComponent("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(stack, 5, 72);
+                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(stack, 5, 72);
             } else {
-                new TextDrawable(new TranslatableComponent("jei.category.kingdomkeys.synthesis.locked"), 0xFF5555).draw(stack, 5, 72);
+                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.locked"), 0xFF5555).draw(stack, 5, 72);
             }
         });
     }
 
     @Override
     public Component getTitle() {
-        return new TranslatableComponent("jei.category.kingdomkeys.synthesis");
+        return Component.translatable("jei.category.kingdomkeys.synthesis");
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
         int currentX = startX;
         int currentY = startY;
         for (Map.Entry<Material, Integer> ingredient : recipe.getMaterials().entrySet()) {
-            TextDrawable quantityOverlay = new TextDrawable(new TranslatableComponent(ingredient.getValue().toString()));
+            TextDrawable quantityOverlay = new TextDrawable(Component.translatable(ingredient.getValue().toString()));
             builder.addSlot(RecipeIngredientRole.INPUT, currentX, currentY)
                     .addItemStack(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(ingredient.getKey().getMaterialName()))))
                     .setSlotName(ingredient.getKey().getMaterialName())

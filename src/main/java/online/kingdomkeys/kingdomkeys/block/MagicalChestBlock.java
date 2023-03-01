@@ -1,9 +1,13 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -40,12 +44,6 @@ import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class MagicalChestBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty BIG = BooleanProperty.create("big");
@@ -61,7 +59,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		tooltip.add(new TranslatableComponent("Can be locked with a keyblade"));
+		tooltip.add(Component.translatable("Can be locked with a keyblade"));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
@@ -89,7 +87,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 			if (te != null) {
 				Player player = (Player) placer;
 				te.setOwner(player.getGameProfile().getId());
-				player.displayClientMessage(new TranslatableComponent("message.chest.lock"), true);
+				player.displayClientMessage(Component.translatable("message.chest.lock"), true);
 			}
 		}
 		super.setPlacedBy(worldIn, pos, state, placer, stack);
@@ -119,13 +117,13 @@ public class MagicalChestBlock extends BaseEntityBlock {
 										buf.writeBlockPos(pos);
 									});
 								} else {
-									player.displayClientMessage(new TranslatableComponent("message.chest.locked"), true);
+									player.displayClientMessage(Component.translatable("message.chest.locked"), true);
 									//you can't open it with that keyblade message
 								}
 							} else {
 								//Set the keyblade ID to unlock
 								te.setKeyblade(heldID);
-								player.displayClientMessage(new TranslatableComponent("message.chest.keyblade_set"), true);
+								player.displayClientMessage(Component.translatable("message.chest.keyblade_set"), true);
 							}
 						} else if (keyblade == null) {
 							//Chest is not locked and keyblade has no ID
@@ -140,7 +138,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 						});
 						return InteractionResult.SUCCESS;
 					} else {
-						player.displayClientMessage(new TranslatableComponent("message.chest.locked"), true);
+						player.displayClientMessage(Component.translatable("message.chest.locked"), true);
 					}
 				}
 			}
@@ -216,7 +214,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 								UUID heldID = Utils.getID(held);
 								if (heldID.equals(te.getKeyblade())) {
 									te.setKeyblade(null);
-									player.displayClientMessage(new TranslatableComponent("message.chest.unlocked"), true);
+									player.displayClientMessage(Component.translatable("message.chest.unlocked"), true);
 								}
 							}
 						}

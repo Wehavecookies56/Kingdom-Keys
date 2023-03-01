@@ -2,11 +2,9 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class KKOreBlock extends BaseBlock {
 
@@ -14,7 +12,7 @@ public class KKOreBlock extends BaseBlock {
 		super(properties);
 	}
 
-	protected int getExperience(Random rand) {
+	protected int getExperience(RandomSource rand) {
 		if (this == ModBlocks.stormyOre.get() ||
 				this == ModBlocks.writhingOre.get() || 
 				this == ModBlocks.betwixtOre.get() || 
@@ -33,7 +31,7 @@ public class KKOreBlock extends BaseBlock {
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader reader, BlockPos pos, int fortune, int silktouch) {
-		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	public int getExpDrop(BlockState state, LevelReader reader, RandomSource randomSource, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? this.getExperience(randomSource) : 0;
 	}
 }

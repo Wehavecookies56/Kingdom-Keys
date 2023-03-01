@@ -1,21 +1,21 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import java.util.Collection;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-
-import java.util.Collection;
 
 public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -66,9 +66,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setHearts(value);
 		
-			context.getSource().sendSuccess(new TranslatableComponent("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
+			context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
 		
-		player.sendMessage(new TranslatableComponent("Your hearts have been set to "+value),Util.NIL_UUID);
+		player.sendSystemMessage(Component.translatable("Your hearts have been set to "+value));
 		return 1;
 	}
 	
@@ -85,9 +85,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addHearts(value);
 		
-			context.getSource().sendSuccess(new TranslatableComponent("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
 		
-		player.sendMessage(new TranslatableComponent("Your hearts have been increased by "+value),Util.NIL_UUID);
+		player.sendSystemMessage(Component.translatable("Your hearts have been increased by "+value));
 		return 1;
 	}
 	
@@ -105,9 +105,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.removeHearts(value);
 		
-			context.getSource().sendSuccess(new TranslatableComponent("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
 		
-		player.sendMessage(new TranslatableComponent("Your hearts have been decreased by "+value),Util.NIL_UUID);
+		player.sendSystemMessage(Component.translatable("Your hearts have been decreased by "+value));
 		return 1;
 	}
 }

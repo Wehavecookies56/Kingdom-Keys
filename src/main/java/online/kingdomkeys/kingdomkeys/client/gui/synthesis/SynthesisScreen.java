@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -12,8 +15,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
 
 public class SynthesisScreen extends MenuBackground {
 		

@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import static online.kingdomkeys.kingdomkeys.item.ModItems.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static online.kingdomkeys.kingdomkeys.item.ModItems.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Lists {   
     public static List<ResourceLocation> keybladeRecipes = new ArrayList<>();

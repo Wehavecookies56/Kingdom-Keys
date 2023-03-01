@@ -1,8 +1,12 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Random;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -25,12 +29,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-import java.util.UUID;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class SavePointBlock extends BaseBlock implements EntityBlock {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
@@ -69,7 +67,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock {
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if(!worldIn.isClientSide) {
 	    	((ServerPlayer)player).setRespawnPosition(worldIn.dimension(), pos.above(), 0F, true, false);
-			player.displayClientMessage(new TranslatableComponent("block.minecraft.set_spawn"), true);
+			player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
 		} else {
 			player.playSound(ModSounds.savespawn.get(), 1F, 1F);
 		}

@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -17,9 +20,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public class ProofOfHeartItem extends Item {
     public ProofOfHeartItem(Item.Properties properties) {
         super(properties);
@@ -30,13 +30,13 @@ public class ProofOfHeartItem extends Item {
     	IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerIn);
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
         	if(Utils.isWearingOrgRobes(playerIn)) {
-        		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.unequip"), true);
+        		playerIn.displayClientMessage(Component.translatable("gui.proofofheart.unequip"), true);
         	} else {
         		if(worldIn.isClientSide) {
 					if(Utils.findSummoned(playerIn.getInventory(), playerData.getEquippedWeapon(), true) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true, playerData.getAlignment()));
         		}
-        		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.leftorg"), true);
+        		playerIn.displayClientMessage(Component.translatable("gui.proofofheart.leftorg"), true);
 
         		if(playerIn.getMainHandItem() != null && playerIn.getMainHandItem().getItem() == this) {
         			playerIn.getMainHandItem().shrink(1);
@@ -52,7 +52,7 @@ public class ProofOfHeartItem extends Item {
         		
         	}
         } else {
-    		playerIn.displayClientMessage(new TranslatableComponent("gui.proofofheart.notinorg"), true);
+    		playerIn.displayClientMessage(Component.translatable("gui.proofofheart.notinorg"), true);
         }    	
         return super.use(worldIn, playerIn, handIn);
     }
@@ -60,8 +60,8 @@ public class ProofOfHeartItem extends Item {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(new TranslatableComponent("gui.proofofheart.desc"));
-       	tooltip.add(new TranslatableComponent("gui.proofofheart.desc2"));
+        tooltip.add(Component.translatable("gui.proofofheart.desc"));
+       	tooltip.add(Component.translatable("gui.proofofheart.desc2"));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 }

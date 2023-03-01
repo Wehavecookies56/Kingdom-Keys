@@ -1,15 +1,17 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import java.util.Collection;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -21,8 +23,6 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.Collection;
 
 public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -72,12 +72,12 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 				while (playerData.getLevel() < level) {
 					playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);
 				}
-				context.getSource().sendSuccess(new TranslatableComponent("Set "+player.getDisplayName().getString()+" level to "+level), true);
-				player.sendMessage(new TranslatableComponent("Your level is now "+level), Util.NIL_UUID);
+				context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" level to "+level), true);
+				player.sendSystemMessage(Component.translatable("Your level is now "+level));
 				player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
 			} else {
-				context.getSource().sendSuccess(new TranslatableComponent(player.getDisplayName().getString() + " has to make a choice first"), true);
+				context.getSource().sendSuccess(Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
 			}
 
             Utils.restartLevel2(playerData, player);			

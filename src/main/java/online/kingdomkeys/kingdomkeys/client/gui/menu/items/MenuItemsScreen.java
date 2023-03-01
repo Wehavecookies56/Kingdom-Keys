@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -10,8 +13,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.awt.*;
 
 public class MenuItemsScreen extends MenuBackground {
 

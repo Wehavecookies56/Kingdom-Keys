@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -18,11 +22,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
-
-import javax.annotation.Nullable;
-import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class PairBloxBlock extends BaseBlock {
 

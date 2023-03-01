@@ -1,10 +1,11 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -23,11 +24,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class RecipeItem extends Item implements IItemCategory {
 	int tier=0;
@@ -52,7 +48,7 @@ public class RecipeItem extends Item implements IItemCategory {
 					if(tier <= playerData.getSynthLevel())
 						learnRecipes(player, stack);
 					else
-						player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
+						player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
 				} else {
 					//System.out.println(tier);
 					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
@@ -75,11 +71,11 @@ public class RecipeItem extends Item implements IItemCategory {
 					} else if(types.size() == 1){
 						type = types.get(0);
 					} else {
-						player.displayClientMessage(new TranslatableComponent("No more recipes to learn"), true);
+						player.displayClientMessage(Component.translatable("No more recipes to learn"), true);
 						return super.use(world, player, hand);
 					}
 					
-					player.displayClientMessage(new TranslatableComponent("Opened "+type+" recipe"), true);
+					player.displayClientMessage(Component.translatable("Opened "+type+" recipe"), true);
 
 					//Set up the recipe item with the given type
 					//We get here if there are recipes still available to learn.
@@ -98,7 +94,7 @@ public class RecipeItem extends Item implements IItemCategory {
 
 		//System.out.println(tier+" "+playerData.getSynthLevel());
 		if(tier > playerData.getSynthLevel()) {
-			player.displayClientMessage(new TranslatableComponent("You can't learn that recipe yet"), true);
+			player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
 			return;
 		}
 		boolean consume = false;
@@ -108,15 +104,15 @@ public class RecipeItem extends Item implements IItemCategory {
 				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());
 				if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
 					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
-					player.sendMessage(new TranslatableComponent(ChatFormatting.RED + message), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
 				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
 					String message = "Recipe for " + Utils.translateToLocal(outputStack.getDescriptionId()) + " already learnt";
-					player.sendMessage(new TranslatableComponent(ChatFormatting.YELLOW + message), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + message));
 				} else { // If recipe is not known, learn it
 					playerData.addKnownRecipe(rl);
 					consume = true;
 					String message = "Recipe " + Utils.translateToLocal(outputStack.getDescriptionId()) + " learnt successfully";
-					player.sendMessage(new TranslatableComponent(ChatFormatting.GREEN + message), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable(ChatFormatting.GREEN + message));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}
@@ -228,7 +224,7 @@ public class RecipeItem extends Item implements IItemCategory {
 						} else {
 							name = new ItemStack(recipe.getResult()).getDescriptionId();
 						}
-						tooltip.add(new TranslatableComponent(Utils.translateToLocal(name)));
+						tooltip.add(Component.translatable(Utils.translateToLocal(name)));
 					}
 				}
 			}

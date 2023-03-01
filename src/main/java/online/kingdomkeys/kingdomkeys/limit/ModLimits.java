@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -8,8 +10,6 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.util.function.Supplier;
 
 public class ModLimits {
 

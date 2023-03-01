@@ -1,7 +1,12 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Supplier;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -9,10 +14,6 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.limit.LimitData;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataDeserializer;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Supplier;
 
 public class SCSyncLimitData {
 

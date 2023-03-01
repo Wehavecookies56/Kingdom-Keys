@@ -1,6 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import com.mojang.math.Vector3f;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
@@ -17,14 +24,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public class SonicBladeCoreEntity extends ThrowableProjectile{
 	int maxTicks = 260;

@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.config;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TranslatableComponent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -16,12 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MenuConfigScreen extends MenuBackground {
 		
@@ -91,12 +91,12 @@ public class MenuConfigScreen extends MenuBackground {
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
-			cmHeaderTextVisibleButton.setMessage(new TranslatableComponent(cmHeaderTextVisible+""));
+			cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
 		case "hpShowHearts":
 			hpShowHearts = !hpShowHearts;
-			hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
+			hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 			ModConfigs.setShowHearts(hpShowHearts);
 			break;
 		}
@@ -145,7 +145,7 @@ public class MenuConfigScreen extends MenuBackground {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		int pos = 0;
 
-		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -171,7 +171,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(cmXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -197,7 +197,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmSelectedXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(cmSelectedXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -223,7 +223,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmSubXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(cmSubXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -249,8 +249,8 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
-		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
+		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -277,7 +277,7 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 		
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
-		cmHeaderTextVisibleButton.setMessage(new TranslatableComponent(cmHeaderTextVisible+""));
+		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 		cmXScaleBox.setValue(""+ModConfigs.cmXScale);
 		cmXPosBox.setValue(""+ModConfigs.cmXPos);
 		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
@@ -297,7 +297,7 @@ public class MenuConfigScreen extends MenuBackground {
 		hpShowHearts = ModConfigs.hpShowHearts;
 		int pos = 0;
 		
-		addRenderableWidget(hpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(hpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -323,7 +323,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(hpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(hpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -349,8 +349,8 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, new TranslatableComponent(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
-		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("")){
+		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
+		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -376,7 +376,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(hpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(hpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -405,7 +405,7 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		hpXPosBox.setValue(""+ModConfigs.hpXPos);
 		hpYPosBox.setValue(""+ModConfigs.hpYPos);
-		hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
+		hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
 		hpXScaleBox.setValue(""+ModConfigs.hpXScale);
 
@@ -422,7 +422,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initMP() {
 		int pos = 0;
 		
-		addRenderableWidget(mpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(mpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -448,7 +448,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(mpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(mpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -474,7 +474,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(mpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(mpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -515,7 +515,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initDP() {
 		int pos = 0;
 		
-		addRenderableWidget(dpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(dpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -541,7 +541,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(dpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(dpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -567,7 +567,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(dpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(dpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -593,7 +593,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(dpYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(dpYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -639,7 +639,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initPlayerSkin() {
 		int pos = 0;
 		
-		addRenderableWidget(playerSkinXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(playerSkinXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -665,7 +665,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(playerSkinYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(playerSkinYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -702,7 +702,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initLockOn() {
 		int pos = 0;
 		
-		addRenderableWidget(lockOnXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -728,7 +728,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(lockOnYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -754,7 +754,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(lockOnHPScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnHPScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -780,7 +780,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(lockOnIconScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnIconScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -807,7 +807,7 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 		
 
-		addRenderableWidget(lockOnIconRotationBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnIconRotationBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -833,7 +833,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(lockOnHpPerBarBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(lockOnHpPerBarBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -878,7 +878,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initParty() {
 		int pos = 0;
 		
-		addRenderableWidget(partyXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(partyXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -904,7 +904,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(partyYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(partyYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -930,7 +930,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(partyYDistanceBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(partyYDistanceBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -969,7 +969,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initFocus() {
 		int pos = 0;
 		
-		addRenderableWidget(focusXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(focusXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -995,7 +995,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(focusYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(focusYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -1021,7 +1021,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(focusXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(focusXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -1047,7 +1047,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(focusYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, new TranslatableComponent("test")){
+		addRenderableWidget(focusYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c) || c == '-') {
@@ -1087,7 +1087,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initImpExp() {
 		int pos = 0;
 
-		addRenderableWidget(importCode = new EditBoxLength(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("##############################"), 16, 100, new TranslatableComponent("test")){
+		addRenderableWidget(importCode = new EditBoxLength(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("##############################"), 16, 100, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
 				super.charTyped(c, i);
@@ -1102,11 +1102,11 @@ public class MenuConfigScreen extends MenuBackground {
 
 		});
 
-		addRenderableWidget(Import = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20, new TranslatableComponent("gui.menu.config.impexp.import"), (e) -> {
+		addRenderableWidget(Import = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20, Component.translatable("gui.menu.config.impexp.import"), (e) -> {
 			readImportCode(importCode.getValue());
 		}));
 
-		addRenderableWidget(export = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20, new TranslatableComponent("gui.menu.config.impexp.export"), (e) -> {
+		addRenderableWidget(export = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20, Component.translatable("gui.menu.config.impexp.export"), (e) -> {
 			Minecraft.getInstance().keyboardHandler.setClipboard(exportCode());
 		}));
 
@@ -1514,7 +1514,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'E' -> {
 				ModConfigs.setCmHeaderTextVisible(value == 1);
 				cmHeaderTextVisible = value == 1;
-				cmHeaderTextVisibleButton.setMessage(new TranslatableComponent(cmHeaderTextVisible+""));
+				cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 			}
 			case 'F' -> {
 				ModConfigs.setCmTextXOffset(value);
@@ -1531,7 +1531,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'I' -> {
 				ModConfigs.setShowHearts(value == 1);
 				hpShowHearts = value == 1;
-				hpShowHeartsButton.setMessage(new TranslatableComponent(hpShowHearts+""));
+				hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 			}
 			case 'J' -> {
 				ModConfigs.setMpXPos(value);

@@ -4,6 +4,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,8 +30,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public class SpawningOrbEntity extends Monster {
 
@@ -69,7 +68,7 @@ public class SpawningOrbEntity extends Monster {
 					mobData.setLevel(level);
 					PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
 				}
-				/*this.mob.setCustomName(new TranslatableComponent(this.mob.getDisplayName().getString()+" Lv."+level));
+				/*this.mob.setCustomName(Component.translatable(this.mob.getDisplayName().getString()+" Lv."+level));
 				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));*/
 			}
@@ -188,7 +187,7 @@ public class SpawningOrbEntity extends Monster {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

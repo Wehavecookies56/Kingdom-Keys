@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -10,14 +11,20 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,8 +36,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
 
 public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
 
@@ -91,7 +96,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -117,7 +122,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            Explosion.BlockInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
+            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
             this.level.explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);

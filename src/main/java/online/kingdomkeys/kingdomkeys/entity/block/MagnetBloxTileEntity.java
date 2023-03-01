@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import com.mojang.math.Vector3f;
+import java.util.List;
+
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -15,8 +18,6 @@ import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import java.util.List;
 
 public class MagnetBloxTileEntity extends BlockEntity {
 	public MagnetBloxTileEntity(BlockPos pos, BlockState state) {
