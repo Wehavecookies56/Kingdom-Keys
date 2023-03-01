@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -28,7 +28,7 @@ public class DriveFormValor extends DriveForm {
 
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {
+		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof Monster) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -43,9 +43,9 @@ public class DriveFormValor extends DriveForm {
 	}
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof Player) {
-			Player player = (Player) event.getEntityLiving();
+	public static void onLivingUpdate(LivingTickEvent event) {
+		if(event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {

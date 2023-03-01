@@ -26,6 +26,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class FiraEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;

@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModLootModifier {
-    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
     public static final RegistryObject<GlobalLootModifierSerializer<?>> FORTUNE_BONUS = LOOT_MODIFIERS.register("fortune_bonus", FortuneBonusModifier.Serializer::new);
 
 }

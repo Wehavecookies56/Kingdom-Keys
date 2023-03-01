@@ -31,6 +31,8 @@ import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class DataPortalBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 

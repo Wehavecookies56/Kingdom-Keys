@@ -28,6 +28,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class GravityEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;

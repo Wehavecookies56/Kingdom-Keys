@@ -5,6 +5,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import net.minecraft.client.renderer.DimensionSpecialEffects.SkyType;
+
 @OnlyIn(Dist.CLIENT)
 public class DiveToTheHeartRenderInfo extends DimensionSpecialEffects {
 

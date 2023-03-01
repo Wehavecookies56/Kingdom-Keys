@@ -26,6 +26,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
 

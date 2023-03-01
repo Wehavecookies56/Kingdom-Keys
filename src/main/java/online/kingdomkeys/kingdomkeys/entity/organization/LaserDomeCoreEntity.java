@@ -25,6 +25,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 
 import java.util.*;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class LaserDomeCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;

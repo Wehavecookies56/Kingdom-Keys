@@ -30,6 +30,8 @@ import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class SavePointBlock extends BaseBlock implements EntityBlock {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 

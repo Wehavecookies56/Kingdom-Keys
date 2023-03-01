@@ -23,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class StatUpgradeItem extends Item implements IItemCategory {
 	String boost;
 

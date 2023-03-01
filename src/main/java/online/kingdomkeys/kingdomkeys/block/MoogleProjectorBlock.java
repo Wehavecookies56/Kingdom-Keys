@@ -21,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class MoogleProjectorBlock extends BaseBlock implements EntityBlock {
 
 	//TODO add facing

@@ -15,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 /**
  * Mostly a copy of {@link net.minecraft.world.entity.item.PrimedTnt} with some small changes
  */

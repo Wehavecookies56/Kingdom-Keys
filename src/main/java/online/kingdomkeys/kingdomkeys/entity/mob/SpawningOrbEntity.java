@@ -30,6 +30,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class SpawningOrbEntity extends Monster {
 
 	Monster mob;

@@ -20,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import java.util.Optional;
 import java.util.UUID;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;

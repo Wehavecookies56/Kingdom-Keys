@@ -12,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class HPOrbEntity extends ItemDropEntity {
 
 	public HPOrbEntity(Level worldIn, double x, double y, double z, int expValue) {

@@ -15,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class MunnyEntity extends ItemDropEntity {
 
 	public MunnyEntity(Level worldIn, double x, double y, double z, int expValue) {

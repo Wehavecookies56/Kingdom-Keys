@@ -27,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class RecipeItem extends Item implements IItemCategory {
 	int tier=0;
 	

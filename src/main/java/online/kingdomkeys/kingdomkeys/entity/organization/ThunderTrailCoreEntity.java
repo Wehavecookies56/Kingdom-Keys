@@ -23,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import java.util.Optional;
 import java.util.UUID;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class ThunderTrailCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;

@@ -16,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import java.awt.*;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class VolleyShotEntity extends BaseShotlockShotEntity {
 	
 	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {

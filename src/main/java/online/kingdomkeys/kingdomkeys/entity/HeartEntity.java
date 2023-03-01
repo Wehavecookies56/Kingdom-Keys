@@ -9,6 +9,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class HeartEntity extends Entity {
 
 	public final static int MAX_TICKS = 30;

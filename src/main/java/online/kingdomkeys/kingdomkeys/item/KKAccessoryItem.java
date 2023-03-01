@@ -20,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class KKAccessoryItem extends Item implements IItemCategory {
 
 	int ap,str,mag;

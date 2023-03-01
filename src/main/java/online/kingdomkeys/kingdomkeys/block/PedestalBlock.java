@@ -30,6 +30,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class PedestalBlock extends BaseEntityBlock {
 
 	public PedestalBlock(Properties properties) {
@@ -70,7 +72,7 @@ public class PedestalBlock extends BaseEntityBlock {
 							return InteractionResult.FAIL;
 						}
 					} else {
-						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+						NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 							packetBuffer.writeBlockPos(pos);
 						});
 					}

@@ -12,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class SoRCore extends BaseBlock implements EntityBlock {
 
 	public SoRCore(Properties properties) {

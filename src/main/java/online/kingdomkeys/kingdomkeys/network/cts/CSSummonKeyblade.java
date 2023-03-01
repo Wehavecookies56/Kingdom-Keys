@@ -293,7 +293,7 @@ public class CSSummonKeyblade {
 
 		@SubscribeEvent
 		public static void containerClose(PlayerContainerEvent.Close event) {
-			ServerPlayer player = (ServerPlayer) event.getPlayer();
+			ServerPlayer player = (ServerPlayer) event.getEntity();
 			AbstractContainerMenu openContainer = event.getContainer();
 			AbstractContainerMenu playerContainer = player.inventoryMenu;
 
@@ -324,7 +324,7 @@ public class CSSummonKeyblade {
 
 		@SubscribeEvent
 		public static void dropItem(ItemTossEvent event) {
-			ItemStack droppedItem = event.getEntityItem().getItem();
+			ItemStack droppedItem = event.getEntity().getItem();
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			Player player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

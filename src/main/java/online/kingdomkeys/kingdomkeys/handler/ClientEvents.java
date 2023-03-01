@@ -20,15 +20,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
+import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -56,7 +56,7 @@ import java.util.ArrayList;
 public class ClientEvents {
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getEntity().getLevel().isClientSide) {
 				if(ent instanceof Player player) {
@@ -75,19 +75,19 @@ public class ClientEvents {
 			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
 				player.getMainHandItem().getItem();
 				if (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, true);
+					GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, true);
 				} else {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, false);
+					GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, false);
 				}
 			}
 		}
@@ -124,11 +124,11 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void onLivingUpdate(LivingUpdateEvent event) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+	public void onLivingUpdate(LivingTickEvent event) {
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				if(event.getEntityLiving().getLevel().isClientSide) {
+				if(event.getEntity().getLevel().isClientSide) {
 					if(Minecraft.getInstance().screen == null)
 						Minecraft.getInstance().setScreen(new StopGui());
 				}
@@ -136,7 +136,7 @@ public class ClientEvents {
 			}
 		}
 		
-		if(event.getEntityLiving() == Minecraft.getInstance().player) {
+		if(event.getEntity() == Minecraft.getInstance().player) {
 			if(InputHandler.qrCooldown > 0) {
 				InputHandler.qrCooldown -= 1;
 			}
@@ -455,7 +455,7 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void PlayerClick(ClickInputEvent event) {
+	public void PlayerClick(InteractionKeyMappingTriggered event) {
 		if(event.isPickBlock()) {
 			Minecraft mc = Minecraft.getInstance();
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){

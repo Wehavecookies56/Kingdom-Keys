@@ -17,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
+import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -648,7 +648,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
+    public void handleKeyInputEvent(InputEvent.Key event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
@@ -687,20 +687,20 @@ public class InputHandler {
                         player.displayClientMessage(new TranslatableComponent("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
                         switch (ModConfigs.showGuiToggle) {
                             case HIDE, WEAPON:
-                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, false);
+                                GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, false);
                                 break;
                             case SHOW:
-                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, true);
+                                GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, true);
                                 break;
                         }
                         break;
@@ -922,7 +922,7 @@ public class InputHandler {
 	}
 
 	@SubscribeEvent
-    public void OnMouseWheelScroll(MouseScrollEvent event) {
+    public void OnMouseWheelScroll(MouseScrollingEvent event) {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);

@@ -32,6 +32,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class WaterEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;

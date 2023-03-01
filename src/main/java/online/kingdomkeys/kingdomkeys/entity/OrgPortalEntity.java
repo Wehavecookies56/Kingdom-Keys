@@ -19,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData {
 
 	int maxTicks = 100;

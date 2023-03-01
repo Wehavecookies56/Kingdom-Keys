@@ -16,6 +16,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class KKRecordItem extends RecordItem implements IItemCategory {
 
 	float length;

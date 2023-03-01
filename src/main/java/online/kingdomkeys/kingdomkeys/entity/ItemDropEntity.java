@@ -22,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
 	public int value;
