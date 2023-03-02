@@ -14,7 +14,7 @@ public class ModMagic {
 
 	public static DeferredRegister<Magic> MAGIC = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "magics"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Magic>> registry = MAGIC.makeRegistry(Magic.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Magic>> registry = MAGIC.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 

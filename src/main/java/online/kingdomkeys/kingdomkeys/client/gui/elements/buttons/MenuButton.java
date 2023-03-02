@@ -43,14 +43,14 @@ public class MenuButton extends MenuButtonBase {
 	ButtonType type;
 	private boolean selected;
 
-	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.OnPress onPress) {
-		super(x, y, 22 + widthIn, 20, Utils.translateToLocal(buttonText), onPress);
+	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.OnPress onPress, CreateNarration nar) {
+		super(x, y, 22 + widthIn, 20, Utils.translateToLocal(buttonText), onPress, nar);
 		middleWidth = widthIn;
 		this.type = type;
 	}
 
-	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.OnPress onPress) {
-		this(x, y, widthIn, buttonText, type, onPress);
+	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.OnPress onPress, CreateNarration nar) {
+		this(x, y, widthIn, buttonText, type, onPress, nar);
 		if(hasTooltip)
 			this.tip = buttonText+".desc";
 	}
@@ -74,7 +74,7 @@ public class MenuButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
-			isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
+			isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
 		/*if(isHovered()) {
 			selected = false;
 		}*/
@@ -87,23 +87,23 @@ public class MenuButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderTexture(0, texture);
 			if (isHovered && active) { // Hovered button
-				x += 10;
+				setX(getX() + 10);
 				drawButton(matrixStack, true);
-				drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
-				x -= 10;
+				drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
+				setX(getX() - 10);
 			} else {
 				if (active) {// Not hovered but fully visible
 					drawButton(matrixStack, false);
-					drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(255, 255, 255).hashCode());
+					drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
 				} else {// Not hovered and selected (not fully visible)
 					if (selected) {
-						x += 10;
+						setX(getX() + 10);
 						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
-						x -= 10;
+						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
+						setX(getX() - 10);
 					} else {
 						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), x + 12, y + 6, new Color(100, 100, 100).hashCode());
+						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
 					}
 				}
 			}
@@ -135,10 +135,10 @@ public class MenuButton extends MenuButtonBase {
 
 		vPos = hovered || selected ? selVPos : vPos;
 
-		blit(matrixStack, x, y, leftU, vPos, endWidth, height);
+		blit(matrixStack, getX(), getY(), leftU, vPos, endWidth, height);
 		for (int i = 0; i < middleWidth; i++)
-			blit(matrixStack, x + i + endWidth, y, middleU, vPos, 1, height);
-		blit(matrixStack, x + endWidth + middleWidth, y, rightU, vPos, endWidth, height);
+			blit(matrixStack, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
+		blit(matrixStack, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
 	}
 

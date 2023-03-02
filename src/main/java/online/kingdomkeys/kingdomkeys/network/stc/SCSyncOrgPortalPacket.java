@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -37,7 +38,7 @@ public class SCSyncOrgPortalPacket {
 		SCSyncOrgPortalPacket msg = new SCSyncOrgPortalPacket();
 		msg.pos = buffer.readBlockPos();
         msg.destPos = buffer.readBlockPos();
-        msg.dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
+        msg.dimension = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
 		return msg;
 	}
 

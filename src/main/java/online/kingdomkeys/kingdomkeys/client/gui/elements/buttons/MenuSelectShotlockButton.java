@@ -30,14 +30,14 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	MenuShotlockSelectorScreen parent;
 	Minecraft minecraft;
 
-	public MenuSelectShotlockButton(String shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour) {
+	public MenuSelectShotlockButton(String shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour, CreateNarration nar) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				PacketHandler.sendToServer(new CSEquipShotlock(shotlockName));
 			} else {
 				Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 			}
-		});
+		},nar);
 		
 		this.shotlockName = shotlockName;
 		width = (int) (parent.width * 0.264F);
@@ -51,7 +51,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Font fr = minecraft.font;
-		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.SHOTLOCK;
@@ -69,7 +69,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-			matrixStack.translate(x + 0.6F, y, 0);
+			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
@@ -85,7 +85,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			} else {
 				shName = shotlock.getTranslationKey();
 			}
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(shName), x + 15, y + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, Utils.translateToLocal(shName), getX() + 15, getY() + 3, 0xFFFFFF);
 			
 			if (selected || isHovered) { //Render stuff on the right
 				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
@@ -93,7 +93,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				{
 					RenderSystem.enableBlend();
 					
-					matrixStack.translate(x + 0.6F, y, 0);
+					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
@@ -111,7 +111,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				RenderSystem.enableBlend();
 				//RenderSystem.enableAlpha();
 				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-				matrixStack.translate(x + width + 14F, y, 0);
+				matrixStack.translate(getX() + width + 14F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				
 				blit(matrixStack, 0, 0, 219, 34, 15, 28);
@@ -123,7 +123,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			matrixStack.popPose();
 			String label = shotlock == null ? "N/A" : "Max: "+shotlock.getMaxLocks();
 			float centerX = (labelWidth / 2) - (minecraft.font.width(label) / 2);
-			drawString(matrixStack, minecraft.font, label, (int) (x + width + centerX) + 14, y + 3, labelColour);
+			drawString(matrixStack, minecraft.font, label, (int) (getX() + width + centerX) + 14, getY() + 3, labelColour);
 		}
 		
 	}

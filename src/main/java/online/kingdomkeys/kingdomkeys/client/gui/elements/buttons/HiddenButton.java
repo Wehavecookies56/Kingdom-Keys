@@ -3,10 +3,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 
 public class HiddenButton extends Button {
-	public HiddenButton(int x, int y, int width, int height, OnPress onPress) {
-		super(x, y, width, height, Component.translatable(""), onPress);
+	public HiddenButton(int x, int y, int width, int height, OnPress onPress, CreateNarration narration) {
+		super(x, y, width, height, Component.translatable(""), onPress, narration);
 	}
 
 	@Override

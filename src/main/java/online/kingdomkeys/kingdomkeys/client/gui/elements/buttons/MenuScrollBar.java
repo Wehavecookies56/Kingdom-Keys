@@ -4,15 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuScrollBar extends Button {
 
 	int clickX, clickY, startX, startY, top, bottom;
+	private int scrollY;
+	private int y;
 
-	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.OnPress onPress) {
-		super(x, y, 22 + widthIn, 20, Component.translatable(buttonText), onPress);
+	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.OnPress onPress, CreateNarration nar) {
+		super(x, y, 22 + widthIn, 20, Component.translatable(buttonText), onPress, nar);
 		height = 10;
 		width = 14;
 		
@@ -23,18 +26,18 @@ public class MenuScrollBar extends Button {
 		if (visible) {
 			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
-			matrixStack.translate(x, y, 0);
+			matrixStack.translate(getX(), getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, -9, 41, 29, 14, 9);
 			matrixStack.popPose();
 			matrixStack.pushPose();
-			matrixStack.translate(x, y, 0);
+			matrixStack.translate(getX(), getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, height, 41, 41, 14, 9);
 			matrixStack.popPose();
 			for (int i = 0; i < height; i++) {
 				matrixStack.pushPose();
-				matrixStack.translate(x, y, 0);
+				matrixStack.translate(getX(), getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 0);
 				blit(matrixStack, 0, i, 41, 39, 14, 1);
 				matrixStack.popPose();
@@ -44,7 +47,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public boolean mouseDragged(double p_mouseDragged_1_, double mouseX, int mouseY, double p_mouseDragged_6_, double p_mouseDragged_8_) {
-		if (clickX >= x && clickX <= x + width) {
+		if (clickX >= getX() && clickX <= getX() + width) {
 			if (startY - (clickY - mouseY) >= top - 1 && startY - (clickY - mouseY) <= bottom - height && active) {
 				this.y = startY - (clickY - mouseY);
 				return true;
@@ -56,8 +59,8 @@ public class MenuScrollBar extends Button {
 	public boolean mouseClicked(double mouseX, double mouseY, int p_mouseClicked_5_) {
 		clickX = (int) mouseX;
 		clickY = (int) mouseY;
-		startX = x;
-		startY = y;
+		startX = getX();
+		startY = scrollY;
 		return false;
 	}
 	

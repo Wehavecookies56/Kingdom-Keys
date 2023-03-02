@@ -22,7 +22,9 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -327,7 +329,7 @@ public class ClientEvents {
         float scale = 0.02666667f;
         float iconScale = (0.02666667f);//*5;
         if (distance > 12.0f) {
-            int renderDistance = Minecraft.getInstance().options.renderDistance * 16;
+            int renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance() * 16;
             if (distance > (float) renderDistance) {
                 float scaleFactor = (float) renderDistance /distance;
                 x *= scaleFactor;
@@ -372,7 +374,7 @@ public class ClientEvents {
 		bufferbuilder.vertex(0.5, -0.5, 0.0).uv(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 		
 		RenderSystem.depthMask(true);
 		RenderSystem.enableDepthTest();
@@ -419,7 +421,7 @@ public class ClientEvents {
 				LivingEntity entityIn = event.getEntity();
 
 				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				TranslatableComponent displayNameIn = Component.translatable("o");
+				MutableComponent displayNameIn = Component.translatable("o");
 				float f = entityIn.getBbHeight();
 				matrixStackIn.pushPose();
 				{
@@ -458,7 +460,7 @@ public class ClientEvents {
 		bufferbuilder.vertex(matrix, (float) x1, (float) y1, (float) blitOffset).uv(minU, minV).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 	}
 	
 	@SubscribeEvent

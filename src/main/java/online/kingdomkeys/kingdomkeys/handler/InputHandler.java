@@ -873,7 +873,7 @@ public class InputHandler {
 
 	
     @SubscribeEvent
-    public void handleMouseInputEvent(InputEvent.RawMouseEvent event) {
+    public void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
     	Minecraft mc = Minecraft.getInstance();
     	if(mc.level != null){
 	        if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {

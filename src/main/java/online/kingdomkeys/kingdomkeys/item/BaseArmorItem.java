@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -48,7 +50,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 		consumer.accept(new IClientItemExtensions() {
 			@Nullable
 			@Override
-			public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
 				HumanoidModel armorModel = ClientSetup.armorModels.get(itemStack.getItem());
 
 				if (armorModel != null) {

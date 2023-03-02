@@ -9,6 +9,7 @@ import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -50,6 +51,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -168,27 +170,27 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
 
-					playerData.addKnownRecipe(ModItems.mythril_shard.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.mythril_stone.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.mythril_crystal.get().getRegistryName());
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_shard.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_stone.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_gem.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_crystal.get()));
 					
-					playerData.addKnownRecipe(ModItems.potion.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiPotion.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.megaPotion.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.ether.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiEther.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.megaEther.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.elixir.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.megaLixir.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.driveRecovery.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiDriveRecovery.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.refocuser.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.hiRefocuser.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.potion.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiPotion.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaPotion.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.ether.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiEther.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaEther.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.elixir.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaLixir.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.driveRecovery.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiDriveRecovery.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.refocuser.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiRefocuser.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.powerBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.magicBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.defenseBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
 					
 					if(playerData.getEquippedItems().size() == 0) {
 						HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
@@ -199,11 +201,11 @@ public class EntityEvents {
 					}
 				}
 				
-				if(!playerData.getKnownRecipeList().contains(ModItems.powerBoost.get().getRegistryName())){
-					playerData.addKnownRecipe(ModItems.powerBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.magicBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.defenseBoost.get().getRegistryName());
-					playerData.addKnownRecipe(ModItems.apBoost.get().getRegistryName());
+				if(!playerData.getKnownRecipeList().contains(ForgeRegistries.ITEMS.getKey(ModItems.powerBoost.get()))){
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.powerBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.magicBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.defenseBoost.get()));
+					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
 				}
 
 				//Old worlds stat conversion
@@ -1127,7 +1129,7 @@ public class EntityEvents {
 			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
 				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
-				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
+				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			}

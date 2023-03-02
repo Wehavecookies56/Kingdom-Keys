@@ -15,6 +15,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
@@ -52,12 +53,12 @@ public class MenuEquipmentButton extends Button {
     boolean hasLabel;
     ItemCategory category;
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, CreateNarration narration) {
         super(x, y, (int) (parent.width * 0.264f), 14, Component.translatable(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
+        }, narration);
         this.stack = stack;
         this.colour = colour;
         this.toOpen = toOpen;
@@ -66,19 +67,19 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
-        this(stack, x, y, colour, toOpen, category, parent);
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour, CreateNarration narration) {
+        this(stack, x, y, colour, toOpen, category, parent, narration);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
     }
     
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, CreateNarration narration) {
         super(x, y, (int) (parent.width * 0.264f), 14, Component.translatable(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
+        }, narration);
         this.stack = null;
         this.shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
         this.colour = colour;
@@ -88,8 +89,8 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
-        this(shotlock, x, y, colour, toOpen, category, parent);
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour, CreateNarration narration) {
+        this(shotlock, x, y, colour, toOpen, category, parent, narration);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
@@ -107,9 +108,9 @@ public class MenuEquipmentButton extends Button {
 
         float itemY = parent.height * 0.1907F;
         float bottomY = parent.height - (parent.height * 0.25F);
-        if (this.y < itemY - 1 || this.y > bottomY - 1) return;
+        if (this.getY() < itemY - 1 || this.getY() > bottomY - 1) return;
 
-        isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+        isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         Color col = Color.decode(String.valueOf(colour));
         RenderSystem.setShaderColor(1, 1, 1, 1);
         float labelWidth = parent.width * 0.142F;
@@ -123,7 +124,7 @@ public class MenuEquipmentButton extends Button {
                 
                 Lighting.setupForFlatItems();
                 RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-                matrixStack.translate(x + 0.6F, y, 0);
+                matrixStack.translate(getX() + 0.6F, getY(), 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
                 //Gradient Background
                 for (int i = 0; i < height * 2; i++) {
@@ -155,12 +156,12 @@ public class MenuEquipmentButton extends Button {
                 } else if (ItemStack.matches(stack, ItemStack.EMPTY)) {
                     itemName = "---";
                 }
-                drawString(matrixStack, fr, itemName, x + 15, y + 3, 0xFFFFFF);
+                drawString(matrixStack, fr, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
             } else {
             	if(shotlock != null) {
-            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), x + 15, y + 3, 0xFFFFFF);
+            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), getX() + 15, getY() + 3, 0xFFFFFF);
             	} else {
-            		drawString(matrixStack, fr, "---", x + 15, y + 3, 0xFFFFFF);	
+            		drawString(matrixStack, fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);	
             	}
             }
             if (isHovered) {
@@ -168,7 +169,7 @@ public class MenuEquipmentButton extends Button {
                 matrixStack.pushPose();
                 {
                     
-                    matrixStack.translate(x + 0.6F, y, 0);
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
                     blit(matrixStack, 0, 0, 128, 34, 18, 28);
@@ -397,7 +398,7 @@ public class MenuEquipmentButton extends Button {
                     
                     Lighting.setupForFlatItems();
                     RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-                    matrixStack.translate(x - labelWidth, y, 0);
+                    matrixStack.translate(getX() - labelWidth, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
 
                     //Left label
@@ -411,7 +412,7 @@ public class MenuEquipmentButton extends Button {
                 }
                 matrixStack.popPose();
                 float centerX = (labelWidth / 2) - (fr.width(Utils.translateToLocal(label)) / 2);
-                drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (x - labelWidth + centerX), y + 3, labelColour);
+                drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (getX() - labelWidth + centerX), getY() + 3, labelColour);
             }
         }
 

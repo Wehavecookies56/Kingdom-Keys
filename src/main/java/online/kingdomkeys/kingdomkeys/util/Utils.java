@@ -15,7 +15,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -171,7 +173,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocalFormatted(String name, Object... format) {
-		TranslatableComponent translation = Component.translatable(name, format);
+		MutableComponent translation = Component.translatable(name, format);
 		return translation.getString();
 	}
 
@@ -182,7 +184,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocal(String name, Object... args) {
-		TranslatableComponent translation = Component.translatable(name, args);
+		MutableComponent translation = Component.translatable(name, args);
 		return translation.getString();
 	}
 
@@ -615,7 +617,7 @@ public class Utils {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);
-			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_") && !itemStack.getItem().getRegistryName().getPath().startsWith("xemnas_") && !itemStack.getItem().getRegistryName().getPath().startsWith("anticoat_")) {
+			if (itemStack.isEmpty() || !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("organization_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("xemnas_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("anticoat_")) {
 				wearingOrgCloak = false;
 				break;
 			}
