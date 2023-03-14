@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSDepositMaterials {
 	
@@ -39,15 +40,15 @@ public class CSDepositMaterials {
 				for(int i = 0; i < player.getInventory().getContainerSize();i++) {
 					ItemStack stack = player.getInventory().getItem(i);
 					if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
-						if(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
-							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
+						if(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
+							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(stack.getItem()).getPath()));
 							playerData.addMaterial(mat, stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 						
 						//Bag
 						if (stack != null && stack.getItem() instanceof SynthesisBagItem) {
-		                    IItemHandler bag = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+		                    IItemHandler bag = stack.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
 		                    removeMaterial(bag, player, i);
 		    				//PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bag), (ServerPlayerEntity) player);
 						}
@@ -63,7 +64,7 @@ public class CSDepositMaterials {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         for (int j = 0; j < bag.getSlots(); j++) { //Check bag slots
             ItemStack bagItem = bag.getStackInSlot(j);
-        	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+bagItem.getItem().getRegistryName().getPath()));
+        	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(bagItem.getItem()).getPath()));
             if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) { //If current bag slot is filled
             	if(mat != null) {
             		playerData.addMaterial(mat, bag.getStackInSlot(j).getCount());

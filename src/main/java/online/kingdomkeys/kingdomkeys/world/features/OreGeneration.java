@@ -7,9 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 public class OreGeneration {
@@ -21,6 +19,8 @@ public class OreGeneration {
 		settingsBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
 	}
 
+	/** //TODO Ore Generation all done in JSON now pretty much
+	 *
 	public static void generateOre(BiomeLoadingEvent event) {
 		settingsBuilder = event.getGeneration();
 
@@ -146,4 +146,5 @@ public class OreGeneration {
 			}
 		}
 	}
+	 **/
 }

@@ -1,11 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
@@ -15,7 +14,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
@@ -32,7 +31,7 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	    this.renderItem = Minecraft.getInstance().getItemRenderer();
 
 	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
-			tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
+			tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(iih -> {
 				if (!iih.getStackInSlot(0).isEmpty()) {
 					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0), combinedLightIn);
 				}

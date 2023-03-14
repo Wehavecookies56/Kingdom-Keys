@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -54,7 +53,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -131,7 +130,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	@Override
 	public void readSpawnData(FriendlyByteBuf additionalData) {
 		destinationPos = additionalData.readBlockPos();
-    	destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
+    	destinationDim = ResourceKey.create(Registry.DIMENSION_REGISTRY, additionalData.readResourceLocation());
     	shouldTeleport = additionalData.readBoolean();
     }
 }

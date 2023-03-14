@@ -9,11 +9,11 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -42,16 +42,6 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     @Override
     public IDrawable getIcon() {
         return icon;
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return new ResourceLocation(KingdomKeys.MODID, "keyblade_summon");
-    }
-
-    @Override
-    public Class<? extends KeychainItem> getRecipeClass() {
-        return KeychainItem.class;
     }
 
     @Override

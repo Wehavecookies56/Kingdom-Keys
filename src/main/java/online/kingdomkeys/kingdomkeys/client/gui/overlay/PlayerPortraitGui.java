@@ -18,6 +18,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 //TODO cleanup + comments
 public class PlayerPortraitGui extends OverlayBase {
 
+	public static final PlayerPortraitGui INSTANCE = new PlayerPortraitGui();
+
+	private PlayerPortraitGui() {
+		super();
+	}
+
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
@@ -30,7 +36,7 @@ public class PlayerPortraitGui extends OverlayBase {
 		ResourceLocation skin = minecraft.player.getSkinTextureLocation();
 		RenderSystem.setShaderTexture(0, skin);
 		float scale = 0.5f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85f;
 				break;

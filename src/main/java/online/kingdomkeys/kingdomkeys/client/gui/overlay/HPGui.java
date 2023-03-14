@@ -15,12 +15,18 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class HPGui extends OverlayBase {
+
+	public static final HPGui INSTANCE = new HPGui();
 	float hpBarWidth, missingHpBarWidth;
 	int guiHeight = 10;
 
 	private float playerHealth;
 	private long lastSystemTime;
 	private float lastPlayerHealth;
+
+	private HPGui() {
+		super();
+	}
 
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
@@ -32,7 +38,7 @@ public class HPGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 
 		float scale = 1f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;

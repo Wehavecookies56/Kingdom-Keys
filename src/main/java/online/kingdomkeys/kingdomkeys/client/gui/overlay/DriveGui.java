@@ -23,6 +23,12 @@ public class DriveGui extends OverlayBase {
 	
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
+	public static final DriveGui INSTANCE = new DriveGui();
+
+	private DriveGui() {
+		super();
+	}
+
 	int maxDrive = 1000;
 	int maxLength = 100;
 	int maxBars = 9;

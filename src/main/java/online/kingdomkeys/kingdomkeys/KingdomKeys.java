@@ -24,8 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -47,12 +45,8 @@ import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicKKWeapons;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.KKAnimations;
 import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -86,7 +80,7 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.1.6.9";
-	public static final String MCVER = "1.18.2";
+	public static final String MCVER = "1.19.2";
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
 		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
@@ -150,8 +144,8 @@ public class KingdomKeys {
 		modEventBus.addListener(this::modLoaded);
 
 		if (ModList.get().isLoaded("epicfight")) {
-			modEventBus.addListener(KKAnimations::register);
-			modEventBus.addListener(EpicKKWeapons::register);
+			//modEventBus.addListener(KKAnimations::register);
+			//modEventBus.addListener(EpicKKWeapons::register);
 		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
@@ -178,14 +172,11 @@ public class KingdomKeys {
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
-		if (ModList.get().isLoaded("jeresources")) {
-			KKJERPlugin.setup();
-		}
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
 			@Override
 			public void run() {
 				if (ModList.get().isLoaded("epicfight")) {
-					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+					//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
 			}
 		});
@@ -213,8 +204,10 @@ public class KingdomKeys {
 		ModCommands.register(dispatcher);
 	}
 
-	
-	@SubscribeEvent(priority = EventPriority.HIGH)
+
+	/** TODO event removed cause JSON
+	 *
+	 @SubscribeEvent(priority = EventPriority.HIGH)
 	public void addToBiome(BiomeLoadingEvent event) {
 		MobSpawnings.registerSpawns(event);
 		OreGeneration.generateOre(event);
@@ -224,6 +217,7 @@ public class KingdomKeys {
 	public void removeFromBiome(BiomeLoadingEvent event) {
 		MobSpawnings.removeSpawns(event);
 	}
+	 **/
 
 	@SubscribeEvent
 	public void addReloadListeners(AddReloadListenerEvent event) {

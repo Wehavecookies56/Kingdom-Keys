@@ -21,6 +21,10 @@ public class SoAMessages extends OverlayBase {
 
     public static final SoAMessages INSTANCE = new SoAMessages();
 
+    private SoAMessages() {
+        super();
+    }
+
     public static class Title {
         public String title, subtitle;
         public int fadeIn = 10, fadeOut = 20, displayTime = 70;

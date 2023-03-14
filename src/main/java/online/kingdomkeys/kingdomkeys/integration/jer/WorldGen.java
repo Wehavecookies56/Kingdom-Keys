@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.world.features.OreConfig;
 
 public class WorldGen {
 
+    /** TODO API changed a lot
     IWorldGenRegistry registry;
 
     public WorldGen(IWorldGenRegistry registry) {
@@ -206,5 +207,7 @@ public class WorldGen {
         }
         return new BiomeRestriction(Restriction.Type.WHITELIST, biome1, allowedBiomes.toArray(new Biome[0]));
     }
+
+     */
 
 }

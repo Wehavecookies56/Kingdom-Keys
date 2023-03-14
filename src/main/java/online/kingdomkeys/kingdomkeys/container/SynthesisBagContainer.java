@@ -10,14 +10,15 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class SynthesisBagContainer extends AbstractContainerMenu {
 
-	@ObjectHolder(KingdomKeys.MODID + ":synthesis_bag")
+	@ObjectHolder(registryName = "forge:menu", value = KingdomKeys.MODID + ":synthesis_bag")
 	public static MenuType<SynthesisBagContainer> TYPE;
 
 	public static SynthesisBagContainer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buf) {
@@ -33,7 +34,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 		int i;
 		int j;
 
-		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
 
 		CompoundTag nbt = playerInv.getSelected().getOrCreateTag();
 		int bagLevel = nbt.getInt("level");

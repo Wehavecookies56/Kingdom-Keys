@@ -5,8 +5,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
+
+	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;
 	int guiWidth = 100;
 	int guiHeight = 70;
@@ -23,14 +28,20 @@ public class ShotlockGUI extends OverlayBase {
 	int noborderguiheight = 68;
 	IPlayerCapabilities playerData;
 
+	private ShotlockGUI() {
+		super();
+	}
+
+	@SubscribeEvent
+	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
+		if (ClientEvents.focusing && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type()) {
+			event.setCanceled(true);
+		}
+	}
+
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
-		if (ClientEvents.focusing) {
-			GuiOverlayManager.enableOverlay(ForgeGui.CROSSHAIR_ELEMENT, false);
-		} else {
-			GuiOverlayManager.enableOverlay(ForgeGui.CROSSHAIR_ELEMENT, true);
-		}
 
 		Player player = minecraft.player;
 
@@ -40,7 +51,7 @@ public class ShotlockGUI extends OverlayBase {
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 		float rawScale = 1f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				rawScale = 0.85F;
 				break;

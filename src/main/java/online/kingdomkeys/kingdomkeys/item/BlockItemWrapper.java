@@ -11,6 +11,5 @@ public class BlockItemWrapper extends BlockItem {
 
     public BlockItemWrapper(Block blockIn, CreativeModeTab group) {
         super(blockIn, new Item.Properties().tab(group));
-        setRegistryName(ForgeRegistries.BLOCKS.getKey(blockIn));
     }
 }

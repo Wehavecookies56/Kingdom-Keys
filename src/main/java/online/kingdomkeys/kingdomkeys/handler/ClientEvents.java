@@ -3,8 +3,9 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -77,29 +78,29 @@ public class ClientEvents {
 			}
 		}
 	}
+
 	@SubscribeEvent
-	public void onRenderTick(RenderTickEvent event) { //Lock on
+	public void renderOverlays(RenderGuiOverlayEvent event) {
 		Player player = Minecraft.getInstance().player;
 		if (player != null) {
 			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
 				player.getMainHandItem().getItem();
-				if (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-					GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, true);
-					GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-					GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, true);
-					GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, true);
-					GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, true);
-					GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, true);
-				} else {
-					GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, false);
-					GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-					GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, false);
-					GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, false);
-					GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, false);
-					GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, false);
+				if (!(player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon)) {
+					event.setCanceled(
+							event.getOverlay() == ClientSetup.COMMAND_MENU ||
+							event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
+							event.getOverlay() == ClientSetup.HP_BAR ||
+							event.getOverlay() == ClientSetup.MP_BAR ||
+							event.getOverlay() == ClientSetup.DRIVE_BAR ||
+							event.getOverlay() == ClientSetup.SHOTLOCK
+					);
 				}
 			}
 		}
+	}
+	@SubscribeEvent
+	public void onRenderTick(RenderTickEvent event) { //Lock on
+		Player player = Minecraft.getInstance().player;
 
 		if(InputHandler.lockOn != null && player != null) {
 			if(InputHandler.lockOn.isRemoved()) {

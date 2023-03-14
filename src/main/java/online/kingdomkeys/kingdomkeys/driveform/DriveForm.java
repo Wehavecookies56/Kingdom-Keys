@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
+public abstract class DriveForm {
 
 	public static final ResourceLocation NONE = new ResourceLocation(KingdomKeys.MODID + ":none");
 	public static final ResourceLocation SYNCH_BLADE = new ResourceLocation(KingdomKeys.MODID + ":synch_blade");
@@ -197,6 +196,10 @@ public abstract class DriveForm extends ForgeRegistryEntry<DriveForm> {
 	}
 	public float getSpeedMult() {
 		return data.speedMult;
+	}
+
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(name);
 	}
 
 }

@@ -3,12 +3,13 @@ package online.kingdomkeys.kingdomkeys.entity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 public class MobSpawnings {
 
+	/** TODO event has been removed so need to figure this out
+	 *
 	public static void registerSpawns(BiomeLoadingEvent event) {
 		String[] moogle = ModConfigs.moogleSpawnRate.get(0).split(",");
 		String[] enemies = ModConfigs.moogleSpawnRate.get(1).split(",");
@@ -28,7 +29,9 @@ public class MobSpawnings {
 		for (EntityType<?> entityType : ModEntities.nobody) {
 			event.getSpawns().getSpawner(entityType.getClassification()).add(new MobSpawnInfo.Spawners(entityType, Integer.parseInt(nobody[1]), Integer.parseInt(nobody[2]), Integer.parseInt(nobody[3])));
 		}*/
+	/**
 	}
+
 
 	public static void removeSpawns(BiomeLoadingEvent event) {
 		if (event.getName().getNamespace().equals(KingdomKeys.MODID)) {
@@ -41,5 +44,7 @@ public class MobSpawnings {
 			}
 		}
 	}
+
+	**/
 
 }

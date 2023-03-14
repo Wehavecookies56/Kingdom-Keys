@@ -6,8 +6,8 @@ import net.minecraft.network.chat.Component;
 public class MenuButtonBase extends Button {
 
 	boolean selected = false;
-	public MenuButtonBase(int widthIn, int heightIn, int width, int height, String text, OnPress onPress, CreateNarration narration) {
-		super(widthIn, heightIn, width, height, Component.translatable(text), onPress, narration);
+	public MenuButtonBase(int widthIn, int heightIn, int width, int height, String text, OnPress onPress) {
+		super(widthIn, heightIn, width, height, Component.translatable(text), onPress);
 		
 	}
 

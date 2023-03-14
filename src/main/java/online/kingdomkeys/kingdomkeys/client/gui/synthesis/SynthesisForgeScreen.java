@@ -166,7 +166,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				items.add(player.getInventory().getItem(i));
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			if(items.get(i).getItem() instanceof KeychainItem) {
@@ -208,10 +208,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
 			KeybladeItem kb = ((KeychainItem)selectedItemStack.getItem()).getKeyblade();
-			if(!RecipeRegistry.getInstance().containsKey(kb.getRegistryName())){
+			if(!RecipeRegistry.getInstance().containsKey(Utils.getItemRegistryName(kb))){
 				return;
 			}
-			Recipe recipe = RecipeRegistry.getInstance().getValue(kb.getRegistryName());
+			Recipe recipe = RecipeRegistry.getInstance().getValue(Utils.getItemRegistryName(kb));
 			
 			//Set create button state
 			if(kcItem.getKeybladeLevel(selectedItemStack) < 10) {

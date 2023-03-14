@@ -5,7 +5,8 @@
 
 package online.kingdomkeys.kingdomkeys.loot;
 
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import com.mojang.serialization.Codec;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModLootModifier {
-    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
-    public static final RegistryObject<GlobalLootModifierSerializer<?>> FORTUNE_BONUS = LOOT_MODIFIERS.register("fortune_bonus", FortuneBonusModifier.Serializer::new);
+    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
+    public static final RegistryObject<Codec<FortuneBonusModifier>> FORTUNE_BONUS = LOOT_MODIFIERS.register("fortune_bonus", FortuneBonusModifier.CODEC);
 
 }

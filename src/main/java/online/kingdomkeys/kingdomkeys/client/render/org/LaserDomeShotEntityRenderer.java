@@ -2,10 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.render.org;
 
 import javax.annotation.Nullable;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GuiOverlay extends OverlayBase {
 
+	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
 	public static boolean showLevelUp;

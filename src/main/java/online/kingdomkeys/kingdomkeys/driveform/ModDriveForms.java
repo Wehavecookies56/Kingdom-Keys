@@ -14,7 +14,7 @@ public class ModDriveForms {
 
 	public static DeferredRegister<DriveForm> DRIVE_FORMS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "driveforms"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<DriveForm>> registry = DRIVE_FORMS.makeRegistry(DriveForm.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<DriveForm>> registry = DRIVE_FORMS.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 

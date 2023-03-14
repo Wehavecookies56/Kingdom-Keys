@@ -4,10 +4,9 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;

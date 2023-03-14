@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -10,6 +10,11 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
+import com.google.gson.stream.JsonWriter;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.util.GsonHelper;
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -58,52 +63,21 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
     }
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(CachedOutput cache) throws IOException {
         clear();
         registerKeyblades();
         generateAll(cache);
     }
 
-    protected void generateAll(HashCache cache) {
+    protected void generateAll(CachedOutput cache) {
         for (T model : generatedModels.values()) {
             Path target = getPath(model);
             try {
-                save(GSON, cache, model.toJson(), target);
+                DataProvider.saveStable(cache, model.toJson(), target);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    static void save(Gson pGson, HashCache pCache, JsonElement pJsonElement, Path pPath) throws IOException {
-        String s = pGson.toJson(pJsonElement);
-        s = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(s);
-        String s1 = SHA1.hashUnencodedChars(s).toString();
-        if (!Objects.equals(pCache.getHash(pPath), s1) || !Files.exists(pPath)) {
-            Files.createDirectories(pPath.getParent());
-            BufferedWriter bufferedwriter = Files.newBufferedWriter(pPath);
-
-            try {
-                bufferedwriter.write(s);
-            } catch (Throwable throwable1) {
-                if (bufferedwriter != null) {
-                    try {
-                        bufferedwriter.close();
-                    } catch (Throwable throwable) {
-                        throwable1.addSuppressed(throwable);
-                    }
-                }
-
-                throw throwable1;
-            }
-
-            if (bufferedwriter != null) {
-                bufferedwriter.close();
-            }
-        }
-
-        pCache.putNew(pPath, s1);
     }
 
     private Path getPath(T model) {

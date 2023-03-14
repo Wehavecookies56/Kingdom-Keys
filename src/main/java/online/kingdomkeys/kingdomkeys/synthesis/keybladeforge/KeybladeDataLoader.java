@@ -58,12 +58,12 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
         String folder = "keyblades";
         String extension = ".json";
         
-        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
-            	BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
+            	BufferedReader br = manager.getResource(file).get().openAsReader();
+            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";
             	while(br.ready()) {
             		data += br.readLine();
@@ -75,13 +75,14 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
                     names.add(keybladeDataID.toString());
                    
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 keyblade.setKeybladeData(result);
                 if(result.keychain != null)
                 	result.keychain.setKeyblade(keyblade);
-                IOUtils.closeQuietly(manager.getResource(file));
+                IOUtils.closeQuietly(br);
+                IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
             }

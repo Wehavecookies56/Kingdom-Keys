@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -80,6 +81,22 @@ public class InputHandler {
     
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
+
+    @SubscribeEvent
+    public void renderOverlays(RenderGuiOverlayEvent event) {
+        switch (ModConfigs.showGuiToggle) {
+            case HIDE, WEAPON:
+                event.setCanceled(
+                        event.getOverlay() == ClientSetup.COMMAND_MENU ||
+                        event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
+                        event.getOverlay() == ClientSetup.HP_BAR ||
+                        event.getOverlay() == ClientSetup.MP_BAR ||
+                        event.getOverlay() == ClientSetup.DRIVE_BAR ||
+                        event.getOverlay() == ClientSetup.SHOTLOCK
+                );
+                break;
+        }
+    }
 
     public boolean antiFormCheck() { //Only checks if form is not final
         Minecraft mc = Minecraft.getInstance();
@@ -706,24 +723,6 @@ public class InputHandler {
                     case SHOW_GUI:
                         ModConfigs.toggleGui();
                         player.displayClientMessage(Component.translatable("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
-                        switch (ModConfigs.showGuiToggle) {
-                            case HIDE, WEAPON:
-                                GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, false);
-                                GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-                                GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, false);
-                                GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, false);
-                                GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, false);
-                                GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, false);
-                                break;
-                            case SHOW:
-                                GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, true);
-                                GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-                                GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, true);
-                                GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, true);
-                                GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, true);
-                                GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, true);
-                                break;
-                        }
                         break;
 
                     case SCROLL_UP:

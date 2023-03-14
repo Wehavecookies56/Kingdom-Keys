@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.sound;
 
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,7 +21,7 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
    private float pitch = 0.0F;
   
    public AlarmSoundInstance(Player player) {
-      super(ModSounds.alarm.get(), SoundSource.PLAYERS);
+      super(ModSounds.alarm.get(), SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
       this.player = player;
       this.looping = true;
       this.delay = 0;

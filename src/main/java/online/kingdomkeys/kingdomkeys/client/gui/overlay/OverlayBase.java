@@ -14,7 +14,7 @@ public abstract class OverlayBase implements IGuiOverlay {
     PoseStack poseStack;
     Font font;
 
-    public OverlayBase() {
+    protected OverlayBase() {
         minecraft = Minecraft.getInstance();
         font = minecraft.font;
     }

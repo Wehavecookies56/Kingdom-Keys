@@ -3,11 +3,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -24,10 +23,16 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 //TODO cleanup + comments
 public class PartyHUDGui extends OverlayBase {
+
+	public static final PartyHUDGui INSTANCE = new PartyHUDGui();
 	int hpBarWidth;
 	int guiHeight = 10;
 
 	int counter = 0;
+
+	private PartyHUDGui() {
+		super();
+	}
 
 	public ResourceLocation getLocationSkin(Player player) {
 		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());

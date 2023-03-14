@@ -71,16 +71,17 @@ import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.wisdom_shot;
 
 import java.util.function.Supplier;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SoundDefinition;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class Sounds extends SoundDefinitionsProvider {
 
-    public Sounds(PackOutput generator, ExistingFileHelper helper) {
+    public Sounds(DataGenerator generator, ExistingFileHelper helper) {
         super(generator, KingdomKeys.MODID, helper);
     }
 
@@ -163,14 +164,14 @@ public class Sounds extends SoundDefinitionsProvider {
     }
 
     public void add(Supplier<SoundEvent> sound) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(sound.get().getRegistryName(), SoundDefinition.SoundType.SOUND)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND)));
     }
 
     public void add(Supplier<SoundEvent> sound, boolean stream) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(sound.get().getRegistryName(), SoundDefinition.SoundType.SOUND).stream(stream)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND).stream(stream)));
     }
 
     public void add(Supplier<SoundEvent> sound, float volume) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(sound.get().getRegistryName(), SoundDefinition.SoundType.SOUND).volume(volume)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND).volume(volume)));
     }
 }

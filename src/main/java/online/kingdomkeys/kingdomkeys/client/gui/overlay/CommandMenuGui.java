@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
 
+	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
 
 	int TOP_WIDTH = 70;
@@ -55,6 +56,10 @@ public class CommandMenuGui extends OverlayBase {
 	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0, itemSelected = 0, reactionSelected = 0;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
+
+	private CommandMenuGui() {
+		super();
+	}
 
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {

@@ -131,7 +131,7 @@ public class ShopScreen extends MenuFilterable {
 			ResourceLocation itemName = null;
 			ShopItem shopItem = shopList.getList().get(i);
 			if(shopItem != null) {
-				ResourceLocation recipeRL = shopItem.getResult().getRegistryName();
+				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
 				ItemStack stack = new ItemStack(shopItem.getResult());
 	
 				if (shopItem.getResult() instanceof KeychainItem)
@@ -144,7 +144,7 @@ public class ShopScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(items.get(i)));

@@ -1,17 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -19,7 +22,10 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LockOnGui extends OverlayBase {
+
+	public static final LockOnGui INSTANCE = new LockOnGui();
 	int guiWidth = 256;
 	int guiHeight = 256;
 
@@ -41,14 +47,20 @@ public class LockOnGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastTargetHealth;
 
+	private LockOnGui() {
+		super();
+	}
+
+	@SubscribeEvent
+	public static void renderOverlay(RenderGuiOverlayEvent.Pre event) {
+		if (InputHandler.lockOn != null && event.getOverlay().equals(VanillaGuiOverlay.CROSSHAIR.type())) {
+			event.setCanceled(true);
+		}
+	}
+
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
-		if (InputHandler.lockOn != null) {
-			GuiOverlayManager.enableOverlay(ForgeGui.CROSSHAIR_ELEMENT, false);
-		} else {
-			GuiOverlayManager.enableOverlay(ForgeGui.CROSSHAIR_ELEMENT, true);
-		}
 		Player player = minecraft.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {

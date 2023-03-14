@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -22,7 +23,7 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
 
     @Override
     public boolean place(FeaturePlaceContext<BloxOreFeatureConfig> pContext) {
-        Random rand = pContext.random();
+        RandomSource rand = pContext.random();
         BloxOreFeatureConfig config = pContext.config();
         BlockPos pos = pContext.origin();
         LevelAccessor reader = pContext.level();
@@ -53,7 +54,7 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
         return false;
     }
 
-    protected boolean doPlace(LevelAccessor worldIn, Random random, BloxOreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
+    protected boolean doPlace(LevelAccessor worldIn, RandomSource random, BloxOreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
         int i = 0;
         BitSet bitset = new BitSet(p_207803_19_ * p_207803_20_ * p_207803_19_);
         BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();

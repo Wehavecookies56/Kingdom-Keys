@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -15,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationO
 
 @Mod.EventBusSubscriber
 public class ModDimensions {
-    public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart));
-    public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow));
+    public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart));
+    public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow));
 
     public static void setupDimension() {
         DiveToTheHeartChunkGenerator.registerChunkGenerator();

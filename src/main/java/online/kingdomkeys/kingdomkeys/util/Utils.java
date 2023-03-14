@@ -36,7 +36,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryManager;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -73,6 +75,14 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
+
+	public static ResourceLocation getItemRegistryName(Item item) {
+		return ForgeRegistries.ITEMS.getKey(item);
+	}
+
+	public static ResourceLocation getBlockRegistryName(Block block) {
+		return ForgeRegistries.BLOCKS.getKey(block);
+	}
 
 	public static int getSlotFor(Inventory inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {

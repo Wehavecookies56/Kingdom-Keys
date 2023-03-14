@@ -14,7 +14,7 @@ public class ModShotlocks {
 
 	public static DeferredRegister<Shotlock> SHOTLOCKS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "shotlocks"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(Shotlock.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 	public static final RegistryObject<Shotlock>

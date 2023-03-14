@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.block.SoRCore;
 
 public class BlockStates extends BlockStateProvider {
 
-    public BlockStates(PackOutput gen, ExistingFileHelper exFileHelper) {
+    public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, KingdomKeys.MODID,  exFileHelper);
     }
 

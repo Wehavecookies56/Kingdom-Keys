@@ -77,7 +77,7 @@ public class MenuStockScreen extends MenuFilterable {
         } else {
         	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
-                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
+                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents().toString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
             }
         }
         
@@ -125,7 +125,7 @@ public class MenuStockScreen extends MenuFilterable {
                 items.add(player.getInventory().getItem(i));
             }
         }
-        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents()));
+        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
         for (int i = 0; i < items.size(); i += 2) {
         	//Left col
             inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), (int)(width * 0.3255F), true));

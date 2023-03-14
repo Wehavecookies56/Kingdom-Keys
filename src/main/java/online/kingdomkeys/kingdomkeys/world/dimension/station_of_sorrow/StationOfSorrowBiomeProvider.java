@@ -53,10 +53,4 @@ public class StationOfSorrowBiomeProvider extends BiomeSource {
     protected Codec<? extends BiomeSource> codec() {
         return CODEC;
     }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public BiomeSource withSeed(long seed) {
-        return this;
-    }
 }

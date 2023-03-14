@@ -2,7 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
-import org.jline.reader.Widget;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.network.chat.Component;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;

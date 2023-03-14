@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShieldItem;
@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
 public class ItemModels extends ItemModelProvider {
 
-	public ItemModels(PackOutput generator, ExistingFileHelper existingFileHelper) {
+	public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 		super(generator, KingdomKeys.MODID, existingFileHelper);
 	}
 

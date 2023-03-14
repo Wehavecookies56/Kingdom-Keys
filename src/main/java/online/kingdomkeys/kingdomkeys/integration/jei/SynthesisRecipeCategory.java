@@ -13,12 +13,12 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -99,16 +99,6 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
                 currentX = startX;
             }
         }
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return new ResourceLocation(KingdomKeys.MODID, "synthesis");
-    }
-
-    @Override
-    public Class<? extends Recipe> getRecipeClass() {
-        return Recipe.class;
     }
 
     @Override

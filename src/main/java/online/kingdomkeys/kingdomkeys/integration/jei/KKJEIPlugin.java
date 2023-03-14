@@ -8,6 +8,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +38,7 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
+        //registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
     }
 
     @Override

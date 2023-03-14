@@ -9,7 +9,6 @@ import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -35,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -49,7 +49,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -703,7 +702,7 @@ public class EntityEvents {
 					ItemStack bag = event.getEntity().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
-							IItemHandler inv = bag.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+							IItemHandler inv = bag.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
 							addSynthesisMaterialToBag(inv, event, bag);
 						}
 					}
@@ -1129,7 +1128,7 @@ public class EntityEvents {
 			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
 				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
-				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			}

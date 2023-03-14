@@ -56,12 +56,12 @@ public class LimitDataLoader extends SimpleJsonResourceReloadListener {
         String folder = "limits";
         String extension = ".json";
 
-        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation limitName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
 			Limit limit = ModLimits.registry.get().getValue(limitName);
             try {
-            	BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
+            	BufferedReader br = manager.getResource(file).get().openAsReader();
+            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";
             	while(br.ready()) {
             		data += br.readLine();
@@ -73,11 +73,12 @@ public class LimitDataLoader extends SimpleJsonResourceReloadListener {
                     names.add(limitName.toString());
                    
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
                     continue;
                 }
                 limit.setLimitData(result);
-                IOUtils.closeQuietly(manager.getResource(file));
+                IOUtils.closeQuietly(br);
+                IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
             }

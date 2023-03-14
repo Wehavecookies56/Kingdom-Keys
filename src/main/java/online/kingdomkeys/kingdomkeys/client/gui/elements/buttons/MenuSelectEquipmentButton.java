@@ -44,7 +44,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour, CreateNarration nar) {
+	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
@@ -60,7 +60,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
 			}
-		},nar);
+		});
 		this.stack = stack;
 		width = (int) (parent.width * 0.29F);
 		height = 14;
@@ -74,7 +74,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Font fr = minecraft.font;
-		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
+		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.TOOL;
@@ -93,7 +93,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-			matrixStack.translate(getX() + 0.6F, getY(), 0);
+			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
@@ -109,7 +109,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			} else {
 				itemName = new ItemStack(keyblade).getHoverName().getString();
 			}
-			drawString(matrixStack, minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, itemName, x + 15, y + 3, 0xFFFFFF);
 			String ab = "N/A";
 			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			float labelWidth = parent.width * 0.215F;
@@ -119,7 +119,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				RenderSystem.enableBlend();
 				//RenderSystem.enableAlpha();
 				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-				matrixStack.translate(getX() + width + 2.1F, getY(), 0);
+				matrixStack.translate(x + width + 2.1F, y, 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				blit(matrixStack, 0, 0, 219, 34, 15, 28);
 
@@ -142,7 +142,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			}
 
 			float centerX = (labelWidth / 2) - (minecraft.font.width(ab) / 2);
-			drawString(matrixStack, minecraft.font, ab, (int) (getX() + width + centerX + 3), getY() + 3, labelColour);
+			drawString(matrixStack, minecraft.font, ab, (int) (x + width + centerX + 3), y + 3, labelColour);
 		
 			if (selected || isHovered) { //Render stuff on the right
 				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
@@ -150,7 +150,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				{
 					RenderSystem.enableBlend();
 					
-					matrixStack.translate(getX() + 0.6F, getY(), 0);
+					matrixStack.translate(x + 0.6F, y, 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {

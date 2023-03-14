@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MultipleBlockMatchRuleTest extends RuleTest {
     public static final Codec<MultipleBlockMatchRuleTest> CODEC = RecordCodecBuilder.create((p_237118_0_) -> {
-        return p_237118_0_.group(Registries.BLOCK.codec().listOf().fieldOf("blocks").forGetter((p_237120_0_) -> {
+        return p_237118_0_.group(Registry.BLOCK.byNameCodec().listOf().fieldOf("blocks").forGetter((p_237120_0_) -> {
             return p_237120_0_.blocks;
         })).apply(p_237118_0_, MultipleBlockMatchRuleTest::new);
     });

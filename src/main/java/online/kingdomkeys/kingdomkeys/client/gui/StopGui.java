@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;

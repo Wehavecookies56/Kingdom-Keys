@@ -14,12 +14,18 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
 public class MPGui extends OverlayBase {
+
+	public static final MPGui INSTANCE = new MPGui();
 	int guiWidth = 173;
 	int mpBarWidth;
 	int guiHeight = 10;
 	int noborderguiwidth = 171;
 	IPlayerCapabilities playerData;
 	int counter = 0;
+
+	private MPGui() {
+		super();
+	}
 
 	@Override
 	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
@@ -35,7 +41,7 @@ public class MPGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 
 		float scale = 1f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;

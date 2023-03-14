@@ -23,8 +23,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -97,7 +97,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -122,7 +122,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
+            Explosion.BlockInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             this.level.explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);

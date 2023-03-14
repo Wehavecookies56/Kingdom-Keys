@@ -31,8 +31,7 @@ public class ModContainers {
     ;
 
     public static <M extends AbstractContainerMenu> RegistryObject<MenuType<?>> createContainer(String name, IContainerFactory<M> container) {
-        MenuType<M> newContainer = IForgeMenuType.create(container);
-        RegistryObject<MenuType<?>> result = CONTAINERS.register(name, newContainer.delegate);
+        RegistryObject<MenuType<?>> result = CONTAINERS.register(name, () -> new MenuType<>(container));
         return result;
     }
 

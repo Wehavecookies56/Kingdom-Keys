@@ -10,7 +10,7 @@ public class DiveToTheHeartRenderInfo extends DimensionSpecialEffects {
 
     public DiveToTheHeartRenderInfo() {
         super(Float.NaN, true, SkyType.NONE, true, true);
-        setSkyRenderHandler((ticks, partialTicks, matrixStack, world, mc) -> {});
+        //setSkyRenderHandler((ticks, partialTicks, matrixStack, world, mc) -> {});
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -53,7 +54,7 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
     }
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(CachedOutput cache) throws IOException {
         clear();
         registerRecipe();
         generateAll(cache);
@@ -64,11 +65,11 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
         return "Recipes";
     }
 
-    protected void generateAll(HashCache cache) {
+    protected void generateAll(CachedOutput cache) {
         for (T model : generatedModels.values()) {
             Path target = getPath(model);
             try {
-                DataProvider.save(GSON, cache, model.toJson(), target);
+                DataProvider.saveStable(cache, model.toJson(), target);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

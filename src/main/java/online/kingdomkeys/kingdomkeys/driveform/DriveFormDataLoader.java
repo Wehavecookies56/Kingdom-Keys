@@ -57,12 +57,12 @@ public class DriveFormDataLoader extends SimpleJsonResourceReloadListener {
         String folder = "driveforms";
         String extension = ".json";
 
-        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation driveFormName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
 			DriveForm driveform = ModDriveForms.registry.get().getValue(driveFormName);
             try {
-            	BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
+            	BufferedReader br = manager.getResource(file).get().openAsReader();
+            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";
             	while(br.ready()) {
             		data += br.readLine();
@@ -73,11 +73,12 @@ public class DriveFormDataLoader extends SimpleJsonResourceReloadListener {
                     result = GSON_BUILDER.fromJson(br2, DriveFormData.class);
                     names.add(driveFormName.toString());
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing driveform json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing driveform json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 driveform.setDriveFormData(result);
-                IOUtils.closeQuietly(manager.getResource(file));
+                IOUtils.closeQuietly(br);
+                IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
             }

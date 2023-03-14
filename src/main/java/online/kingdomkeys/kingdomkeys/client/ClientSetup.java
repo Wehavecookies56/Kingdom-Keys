@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,13 +22,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import net.minecraftforge.client.model.ForgeModelBakery;
+import net.minecraftforge.client.gui.overlay.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -63,7 +60,17 @@ public class ClientSetup {
 
 	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
 
-	public static IGuiOverlay COMMAND_MENU, PLAYER_PORTRAIT, HP_BAR, MP_BAR, DRIVE_BAR, KK_NOTIFICATIONS, LOCK_ON, PARTY_INFO, SHOTLOCK, STATION_OF_AWAKENING_MESSAGES;
+	public static NamedGuiOverlay
+			COMMAND_MENU,
+			PLAYER_PORTRAIT,
+			HP_BAR,
+			MP_BAR,
+			DRIVE_BAR,
+			KK_NOTIFICATIONS,
+			LOCK_ON,
+			PARTY_INFO,
+			SHOTLOCK,
+			STATION_OF_AWAKENING_MESSAGES;
 
     //Register the entity models
     @SubscribeEvent
@@ -73,7 +80,8 @@ public class ClientSetup {
     
     @SubscribeEvent
 	public static void registerLayers(EntityRenderersEvent.AddLayers event) {
-    	EntityRendererProvider.Context context = new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font);
+		Minecraft mc = Minecraft.getInstance();
+    	EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
@@ -184,57 +192,75 @@ public class ClientSetup {
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
+	@SubscribeEvent
+	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "command_menu", CommandMenuGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "player_portrait", PlayerPortraitGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "hp_bar", HPGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "mp_bar", MPGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "drive_bar", DriveGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "kk_notifications", GuiOverlay.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CROSSHAIR.id(), "lock_on", LockOnGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "party_info", PartyHUDGui.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CROSSHAIR.id(), "shotlock", ShotlockGUI.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.TITLE_TEXT.id(), "station_of_awakening_messages", SoAMessages.INSTANCE);
+	}
+
+	@SubscribeEvent
+	public static void registerKeyBinding(RegisterKeyMappingsEvent event) {
+		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+			event.register(key.getKeybind());
+	}
+
+	@SubscribeEvent
+	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
+		if (ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
+			NamedGuiOverlay o = event.getOverlay();
+			event.setCanceled(o == COMMAND_MENU || o == PLAYER_PORTRAIT || o == HP_BAR || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK);
+		}
+
+		if (!ModConfigs.hpShowHearts) {
+			event.setCanceled(event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type());
+		}
+	}
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-    	for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
-            ClientRegistry.registerKeyBinding(key.getKeybind());
+		COMMAND_MENU = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "command_menu"));
+		PLAYER_PORTRAIT = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "player_portrait"));
+		HP_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "hp_bar"));
+		MP_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "mp_bar"));
+		DRIVE_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "drive_bar"));
+		KK_NOTIFICATIONS = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "kk_notifications"));
+		LOCK_ON = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "lock_on"));
+		PARTY_INFO = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "party_info"));
+		SHOTLOCK = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "shotlock"));
+		STATION_OF_AWAKENING_MESSAGES = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "station_of_awakening_messages"));
 
-		MinecraftForge.EVENT_BUS.register(new GuiOverlay());
+		MinecraftForge.EVENT_BUS.register(new ClientSetup());
+		MinecraftForge.EVENT_BUS.register(KK_NOTIFICATIONS);
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
-		MinecraftForge.EVENT_BUS.register(new CommandMenuGui());
-		MinecraftForge.EVENT_BUS.register(new PlayerPortraitGui());
-		MinecraftForge.EVENT_BUS.register(new HPGui());
-		MinecraftForge.EVENT_BUS.register(new MPGui());
-		MinecraftForge.EVENT_BUS.register(new ShotlockGUI());
-		MinecraftForge.EVENT_BUS.register(new DriveGui());
+		MinecraftForge.EVENT_BUS.register(COMMAND_MENU);
+		MinecraftForge.EVENT_BUS.register(PLAYER_PORTRAIT);
+		MinecraftForge.EVENT_BUS.register(HP_BAR);
+		MinecraftForge.EVENT_BUS.register(MP_BAR);
+		MinecraftForge.EVENT_BUS.register(SHOTLOCK);
+		MinecraftForge.EVENT_BUS.register(DRIVE_BAR);
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
-		MinecraftForge.EVENT_BUS.register(new LockOnGui());
-		MinecraftForge.EVENT_BUS.register(new PartyHUDGui());
+		MinecraftForge.EVENT_BUS.register(LOCK_ON);
+		MinecraftForge.EVENT_BUS.register(PARTY_INFO);
 		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
 
 		//Could probably use one for all void style dimensions
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
-
-		//Overlay setup
-
-		COMMAND_MENU = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "Command Menu", new CommandMenuGui());
-		PLAYER_PORTRAIT = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "Player Portrait", new PlayerPortraitGui());
-		HP_BAR = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "HP Bar", new HPGui());
-		MP_BAR = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "MP Bar", new MPGui());
-		DRIVE_BAR = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "Drive Bar", new DriveGui());
-		KK_NOTIFICATIONS = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "KK Notifications", new GuiOverlay());
-		LOCK_ON = GuiOverlayManager.registerOverlayBelow(ForgeGui.CROSSHAIR_ELEMENT, "Lock On", new LockOnGui());
-		PARTY_INFO = GuiOverlayManager.registerOverlayBelow(ForgeGui.HUD_TEXT_ELEMENT, "Party Info", new PartyHUDGui());
-		SHOTLOCK = GuiOverlayManager.registerOverlayBelow(ForgeGui.CROSSHAIR_ELEMENT, "Shotlock", new ShotlockGUI());
-		STATION_OF_AWAKENING_MESSAGES = GuiOverlayManager.registerOverlayBelow(ForgeGui.TITLE_TEXT_ELEMENT, "Station of Awakening Messages", SoAMessages.INSTANCE);
-
-		if (ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
-			GuiOverlayManager.enableOverlay(ClientSetup.COMMAND_MENU, false);
-			GuiOverlayManager.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-			GuiOverlayManager.enableOverlay(ClientSetup.HP_BAR, false);
-			GuiOverlayManager.enableOverlay(ClientSetup.MP_BAR, false);
-			GuiOverlayManager.enableOverlay(ClientSetup.DRIVE_BAR, false);
-			GuiOverlayManager.enableOverlay(ClientSetup.SHOTLOCK, false);
-		}
-
-		if (!ModConfigs.hpShowHearts) {
-			GuiOverlayManager.enableOverlay(ForgeGui.PLAYER_HEALTH_ELEMENT, false);
-		}
 		
 		ModContainers.registerGUIFactories();
 
+
+		/** TODO this is done in the model JSONs now
+		 *
         event.enqueueWork(() -> {
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.cutout());
@@ -246,13 +272,14 @@ public class ClientSetup {
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
         });
+		 **/
     }
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-	public static void modelRegistry(RegisterGeometryLoaders event) {
-		ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
-		ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
-		ForgeModelBakery.addSpecialModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+	public static void modelRegistry(ModelEvent.RegisterAdditional event) {
+		event.register(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+		event.register(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
+		event.register(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
 	}
 }

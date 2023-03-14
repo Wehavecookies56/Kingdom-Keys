@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -91,7 +92,7 @@ public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
             message = Utils.translateToLocal(message);
             ChatFormatting formatting = state.getValue(ATTRACT) ? ChatFormatting.BLUE : ChatFormatting.RED;
             message = formatting + message;
-            player.displayClientMessage(new TextComponent(message), true);
+            player.displayClientMessage(Component.translatable(message), true);
         } else {
             int newRange = state.getValue(RANGE) + 1;
             if (state.getValue(RANGE) == max) {
