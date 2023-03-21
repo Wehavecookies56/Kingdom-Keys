@@ -55,6 +55,9 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
     public void loadData(ResourceManager manager) {
         String folder = "magics";
         String extension = ".json";
+        
+        names.clear();
+        dataList.clear();
 
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation magicName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
