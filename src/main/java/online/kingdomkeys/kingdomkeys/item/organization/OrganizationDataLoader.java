@@ -58,6 +58,9 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
         String folder = "organization";
         String extension = ".json";
         
+        names.clear();
+        dataList.clear();
+
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation organizationDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(organizationDataID);
