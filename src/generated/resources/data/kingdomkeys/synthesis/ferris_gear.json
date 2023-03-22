@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:ferris_gear_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_stone",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_lucid_gem",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:ferris_gear_chain",
+    "quantity": 1
+  },
+  "tier": 2
 }

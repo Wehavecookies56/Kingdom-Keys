@@ -1,14 +1,13 @@
 {
   "ability": "",
-  "reach": 5.0,
-  "keychain": "kingdomkeys:mirage_split_chain",
   "base_stats": {
-    "str": 7,
-    "mag": 7
+    "mag": 7,
+    "str": 7
   },
+  "description": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+  "keychain": "kingdomkeys:mirage_split_chain",
   "levels": [
     {
-      "str": 7,
       "mag": 8,
       "recipe": [
         {
@@ -19,10 +18,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 7
     },
     {
-      "str": 8,
       "mag": 8,
       "recipe": [
         {
@@ -33,10 +32,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 3
         }
-      ]
+      ],
+      "str": 8
     },
     {
-      "str": 8,
       "mag": 9,
       "recipe": [
         {
@@ -47,10 +46,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 4
         }
-      ]
+      ],
+      "str": 8
     },
     {
-      "str": 9,
       "mag": 9,
       "recipe": [
         {
@@ -61,10 +60,10 @@
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 9
     },
     {
-      "str": 9,
       "mag": 10,
       "recipe": [
         {
@@ -79,10 +78,10 @@
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 9
     },
     {
-      "str": 10,
       "mag": 10,
       "recipe": [
         {
@@ -97,10 +96,10 @@
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 10
     },
     {
-      "str": 10,
       "mag": 11,
       "recipe": [
         {
@@ -115,10 +114,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 10
     },
     {
-      "str": 11,
       "mag": 11,
       "recipe": [
         {
@@ -133,10 +132,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 11
     },
     {
-      "str": 11,
       "mag": 12,
       "recipe": [
         {
@@ -151,10 +150,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 11
     },
     {
-      "str": 12,
       "mag": 12,
       "recipe": [
         {
@@ -169,8 +168,9 @@
           "material": "kingdomkeys:mat_writhing_crystal",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 12
     }
   ],
-  "description": "A Keyblade formed from a Reality Shift in The World That Never Was."
+  "reach": 5.0
 }

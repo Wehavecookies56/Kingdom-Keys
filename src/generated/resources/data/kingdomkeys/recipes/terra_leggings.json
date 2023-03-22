@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "LDL",
-    "DAD",
-    "O O"
-  ],
   "key": {
-    "L": {
-      "item": "minecraft:lava_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_leggings"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    },
     "O": {
       "item": "minecraft:obsidian"
     }
   },
+  "pattern": [
+    "LDL",
+    "DAD",
+    "O O"
+  ],
   "result": {
     "item": "kingdomkeys:terra_leggings"
   }

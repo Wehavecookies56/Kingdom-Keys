@@ -1,11 +1,5 @@
 {
   "cost": 200,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:hi_potion",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lucid_stone",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:hi_potion",
+    "quantity": 1
+  },
+  "tier": 1
 }

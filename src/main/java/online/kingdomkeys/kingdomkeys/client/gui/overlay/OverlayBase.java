@@ -16,7 +16,9 @@ public abstract class OverlayBase implements IGuiOverlay {
 
     protected OverlayBase() {
         minecraft = Minecraft.getInstance();
-        font = minecraft.font;
+        if (minecraft != null) { //datagen fails otherwise
+            font = minecraft.font;
+        }
     }
 
     public void blit(PoseStack stack, int x, int y, int u, int v, int uwidth, int vheight) {

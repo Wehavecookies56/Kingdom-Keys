@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:braveheart_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_crystal",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_pulsing_gem",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:braveheart_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

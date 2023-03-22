@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "LBL",
-    "EAE"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_helmet"
+    },
     "B": {
       "item": "minecraft:clock"
     },
     "E": {
       "item": "minecraft:book"
     },
-    "A": {
-      "item": "minecraft:leather_helmet"
-    },
     "L": {
       "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "LBL",
+    "EAE"
+  ],
   "result": {
     "item": "kingdomkeys:aced_helmet"
   }

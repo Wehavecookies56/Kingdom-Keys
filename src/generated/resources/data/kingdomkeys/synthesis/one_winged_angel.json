@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:one_winged_angel_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_blazing_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_orichalcum",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:one_winged_angel_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

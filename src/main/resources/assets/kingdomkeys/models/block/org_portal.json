@@ -1,5 +1,6 @@
 {
 	"parent": "forge:block/default",
+	"render_type": "minecraft:cutout",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/org_portal.obj",
 	"transform":{

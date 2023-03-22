@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 0,
-  "output": {
-    "item": "kingdomkeys:advent_red_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:advent_red_chain",
+    "quantity": 1
+  },
+  "tier": 0
 }

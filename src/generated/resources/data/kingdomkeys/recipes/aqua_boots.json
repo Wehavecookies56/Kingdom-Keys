@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "D D",
-    "WAW"
-  ],
   "key": {
-    "W": {
-      "item": "minecraft:water_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_boots"
     },
     "D": {
       "item": "minecraft:dragon_breath"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
     }
   },
+  "pattern": [
+    "D D",
+    "WAW"
+  ],
   "result": {
     "item": "kingdomkeys:aqua_boots"
   }

@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "E E",
-    "QAQ",
-    "DQD"
-  ],
   "key": {
-    "E": {
-      "item": "minecraft:emerald_block"
-    },
     "A": {
       "item": "minecraft:diamond_chestplate"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "E": {
+      "item": "minecraft:emerald_block"
+    },
     "Q": {
       "item": "minecraft:quartz_block"
     }
   },
+  "pattern": [
+    "E E",
+    "QAQ",
+    "DQD"
+  ],
   "result": {
     "item": "kingdomkeys:ventus_chestplate"
   }

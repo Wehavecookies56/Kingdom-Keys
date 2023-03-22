@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "WAW",
-    "DHD",
-    "PDP"
-  ],
   "key": {
-    "W": {
-      "item": "minecraft:water_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_chestplate"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "H": {
+      "item": "minecraft:heart_of_the_sea"
+    },
     "P": {
       "item": "minecraft:prismarine_crystals"
     },
-    "H": {
-      "item": "minecraft:heart_of_the_sea"
+    "W": {
+      "item": "minecraft:water_bucket"
     }
   },
+  "pattern": [
+    "WAW",
+    "DHD",
+    "PDP"
+  ],
   "result": {
     "item": "kingdomkeys:aqua_chestplate"
   }

@@ -85,7 +85,7 @@ public class InputHandler {
     @SubscribeEvent
     public void renderOverlays(RenderGuiOverlayEvent event) {
         switch (ModConfigs.showGuiToggle) {
-            case HIDE, WEAPON:
+            case HIDE:
                 event.setCanceled(
                         event.getOverlay() == ClientSetup.COMMAND_MENU ||
                         event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||

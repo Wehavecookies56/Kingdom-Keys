@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "LAL",
-    "EBE",
-    "LLL"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_chestplate"
+    },
     "B": {
       "tag": "forge:dyes/black"
     },
     "E": {
       "item": "minecraft:ghast_tear"
     },
-    "A": {
-      "item": "minecraft:leather_chestplate"
-    },
     "L": {
       "tag": "forge:dyes/red"
     }
   },
+  "pattern": [
+    "LAL",
+    "EBE",
+    "LLL"
+  ],
   "result": {
     "item": "kingdomkeys:vanitas_chestplate"
   }

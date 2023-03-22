@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:monochrome_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_shard",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_writhing_stone",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:monochrome_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

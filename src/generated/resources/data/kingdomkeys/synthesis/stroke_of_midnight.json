@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:stroke_of_midnight_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_frost_shard",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_betwixt_shard",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:stroke_of_midnight_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

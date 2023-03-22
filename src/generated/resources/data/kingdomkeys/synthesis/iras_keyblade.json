@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:iras_keyblade_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_pulsing_gem",
       "quantity": "4"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:iras_keyblade_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

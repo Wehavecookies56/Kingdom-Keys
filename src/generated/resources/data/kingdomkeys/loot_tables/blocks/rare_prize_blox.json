@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -92,34 +91,35 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 3,
-                  "name": "kingdomkeys:orichalcum"
+                  "name": "kingdomkeys:orichalcum",
+                  "weight": 3
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 2,
-                  "name": "kingdomkeys:orichalcumplus"
+                  "name": "kingdomkeys:orichalcumplus",
+                  "weight": 2
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 3,
-                  "name": "kingdomkeys:manifest_illusion"
+                  "name": "kingdomkeys:manifest_illusion",
+                  "weight": 3
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 2,
-                  "name": "kingdomkeys:lost_illusion"
+                  "name": "kingdomkeys:lost_illusion",
+                  "weight": 2
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 2,
-                  "name": "kingdomkeys:electrum"
+                  "name": "kingdomkeys:electrum",
+                  "weight": 2
                 }
               ]
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

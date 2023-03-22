@@ -1,11 +1,5 @@
 {
   "cost": 320,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:mega_ether",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_stone",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_hungry_gem",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:mega_ether",
+    "quantity": 1
+  },
+  "tier": 2
 }

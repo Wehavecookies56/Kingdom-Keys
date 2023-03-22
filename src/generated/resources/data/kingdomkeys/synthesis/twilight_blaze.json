@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:twilight_blaze_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_blazing_crystal",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_twilight_crystal",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:twilight_blaze_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

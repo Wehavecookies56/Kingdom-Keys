@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:wishing_star_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_soothing_gem",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:wishing_star_chain",
+    "quantity": 1
+  },
+  "tier": 2
 }

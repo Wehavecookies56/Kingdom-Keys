@@ -239,17 +239,17 @@ public class ClientSetup {
 		STATION_OF_AWAKENING_MESSAGES = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "station_of_awakening_messages"));
 
 		MinecraftForge.EVENT_BUS.register(new ClientSetup());
-		MinecraftForge.EVENT_BUS.register(KK_NOTIFICATIONS);
+		MinecraftForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(new ClientEvents());
-		MinecraftForge.EVENT_BUS.register(COMMAND_MENU);
-		MinecraftForge.EVENT_BUS.register(PLAYER_PORTRAIT);
-		MinecraftForge.EVENT_BUS.register(HP_BAR);
-		MinecraftForge.EVENT_BUS.register(MP_BAR);
-		MinecraftForge.EVENT_BUS.register(SHOTLOCK);
-		MinecraftForge.EVENT_BUS.register(DRIVE_BAR);
+		MinecraftForge.EVENT_BUS.register(CommandMenuGui.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(PlayerPortraitGui.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(HPGui.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(MPGui.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ShotlockGUI.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(DriveGui.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(new InputHandler());
-		MinecraftForge.EVENT_BUS.register(LOCK_ON);
-		MinecraftForge.EVENT_BUS.register(PARTY_INFO);
+		MinecraftForge.EVENT_BUS.register(LockOnGui.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(PartyHUDGui.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
 
 		//Could probably use one for all void style dimensions
@@ -257,22 +257,6 @@ public class ClientSetup {
 		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
 		
 		ModContainers.registerGUIFactories();
-
-
-		/** TODO this is done in the model JSONs now
-		 *
-        event.enqueueWork(() -> {
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.ghostBlox.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.magicalChest.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.mosaic_stained_glass.get(), RenderType.translucent());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.soADoor.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.moogleProjector.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.savepoint.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.orgPortal.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.pedestal.get(), RenderType.cutout());
-			ItemBlockRenderTypes.setRenderLayer(ModBlocks.station_of_awakening_core.get(), RenderType.translucent());
-        });
-		 **/
     }
 
 	@OnlyIn(Dist.CLIENT)

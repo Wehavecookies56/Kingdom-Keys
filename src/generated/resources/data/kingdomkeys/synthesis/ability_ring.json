@@ -1,11 +1,5 @@
 {
   "cost": 400,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:ability_ring",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_gem",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_hungry_shard",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:ability_ring",
+    "quantity": 1
+  },
+  "tier": 1
 }

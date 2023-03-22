@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 7,
-  "output": {
-    "item": "kingdomkeys:kiblade_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_crystal",
@@ -59,5 +53,11 @@
       "material": "kingdomkeys:mat_writhing_crystal",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:kiblade_chain",
+    "quantity": 1
+  },
+  "tier": 7
 }

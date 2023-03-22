@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "H": {
+      "item": "kingdomkeys:hard_blox"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
   "pattern": [
     "HI",
     "IH"
   ],
-  "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
-    "H": {
-      "item": "kingdomkeys:hard_blox"
-    }
-  },
   "result": {
     "item": "kingdomkeys:metal_blox"
   }

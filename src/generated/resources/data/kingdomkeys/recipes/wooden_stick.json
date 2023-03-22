@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "S",
-    "S",
-    "S"
-  ],
   "key": {
     "S": {
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "S",
+    "S",
+    "S"
+  ],
   "result": {
     "item": "kingdomkeys:wooden_stick"
   }

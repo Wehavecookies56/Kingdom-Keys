@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 0,
-  "output": {
-    "item": "kingdomkeys:dawn_till_dusk_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_blazing_crystal",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_blazing_stone",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:dawn_till_dusk_chain",
+    "quantity": 1
+  },
+  "tier": 0
 }

@@ -1,11 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    " WS",
-    " WS",
-    " S "
-  ],
   "key": {
     "S": {
       "item": "minecraft:stick"
@@ -14,6 +9,11 @@
       "tag": "minecraft:planks"
     }
   },
+  "pattern": [
+    " WS",
+    " WS",
+    " S "
+  ],
   "result": {
     "item": "kingdomkeys:wooden_keyblade"
   }

@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:organization_boots"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "tag": "forge:leather"
+    },
+    "P": {
+      "tag": "forge:dyes/purple"
+    }
+  },
   "pattern": [
     "EPE",
     "LAL"
   ],
-  "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
-    "A": {
-      "item": "kingdomkeys:organization_boots"
-    },
-    "P": {
-      "tag": "forge:dyes/purple"
-    },
-    "E": {
-      "item": "minecraft:end_crystal"
-    }
-  },
   "result": {
     "item": "kingdomkeys:anticoat_boots"
   }

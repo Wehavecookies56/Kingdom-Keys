@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "L": {
+      "item": "minecraft:lava_bucket"
+    },
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    }
+  },
   "pattern": [
     "NLN",
     "NTN",
     "NTN"
   ],
-  "key": {
-    "T": {
-      "item": "minecraft:tnt"
-    },
-    "N": {
-      "item": "kingdomkeys:normal_blox"
-    },
-    "L": {
-      "item": "minecraft:lava_bucket"
-    }
-  },
   "result": {
     "item": "kingdomkeys:blast_blox"
   }

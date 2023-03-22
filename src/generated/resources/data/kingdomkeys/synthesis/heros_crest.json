@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:heros_crest_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_soothing_stone",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:heros_crest_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

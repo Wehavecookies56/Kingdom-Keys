@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 0,
-  "output": {
-    "item": "kingdomkeys:hunny_spout_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_crystal",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:hunny_spout_chain",
+    "quantity": 1
+  },
+  "tier": 0
 }

@@ -1,14 +1,13 @@
 {
   "ability": "",
-  "reach": 5.0,
-  "keychain": "kingdomkeys:fenrir_chain",
   "base_stats": {
-    "str": 9,
-    "mag": 2
+    "mag": 2,
+    "str": 9
   },
+  "description": "Has great range and strength, but maximum ground and midair combos are decreased by 1.",
+  "keychain": "kingdomkeys:fenrir_chain",
   "levels": [
     {
-      "str": 9,
       "mag": 3,
       "recipe": [
         {
@@ -19,10 +18,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 9
     },
     {
-      "str": 10,
       "mag": 3,
       "recipe": [
         {
@@ -33,10 +32,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 3
         }
-      ]
+      ],
+      "str": 10
     },
     {
-      "str": 10,
       "mag": 4,
       "recipe": [
         {
@@ -47,10 +46,10 @@
           "material": "kingdomkeys:mat_wellspring_shard",
           "quantity": 4
         }
-      ]
+      ],
+      "str": 10
     },
     {
-      "str": 11,
       "mag": 4,
       "recipe": [
         {
@@ -61,10 +60,10 @@
           "material": "kingdomkeys:mat_wellspring_stone",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 11
     },
     {
-      "str": 11,
       "mag": 5,
       "recipe": [
         {
@@ -79,10 +78,10 @@
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 11
     },
     {
-      "str": 12,
       "mag": 5,
       "recipe": [
         {
@@ -97,10 +96,10 @@
           "material": "kingdomkeys:mat_writhing_stone",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 12
     },
     {
-      "str": 12,
       "mag": 6,
       "recipe": [
         {
@@ -115,10 +114,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 12
     },
     {
-      "str": 13,
       "mag": 6,
       "recipe": [
         {
@@ -133,10 +132,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 13
     },
     {
-      "str": 13,
       "mag": 7,
       "recipe": [
         {
@@ -151,10 +150,10 @@
           "material": "kingdomkeys:mat_writhing_gem",
           "quantity": 2
         }
-      ]
+      ],
+      "str": 13
     },
     {
-      "str": 14,
       "mag": 7,
       "recipe": [
         {
@@ -169,8 +168,9 @@
           "material": "kingdomkeys:mat_writhing_crystal",
           "quantity": 1
         }
-      ]
+      ],
+      "str": 14
     }
   ],
-  "description": "Has great range and strength, but maximum ground and midair combos are decreased by 1."
+  "reach": 5.0
 }

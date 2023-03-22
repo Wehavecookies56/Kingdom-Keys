@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:nightmares_end_and_mirage_split_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_nightmares_end_chain",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_mirage_split_chain",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:nightmares_end_and_mirage_split_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:incomplete_kiblade_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -31,5 +25,11 @@
       "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:incomplete_kiblade_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

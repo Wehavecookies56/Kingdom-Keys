@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:guardian_bell_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_shard",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_wellspring_crystal",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:guardian_bell_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

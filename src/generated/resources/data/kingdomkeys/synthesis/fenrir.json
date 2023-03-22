@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:fenrir_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_wellspring_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_betwixt_shard",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:fenrir_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

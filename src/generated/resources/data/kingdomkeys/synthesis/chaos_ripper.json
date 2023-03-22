@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:chaos_ripper_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_crystal",
@@ -31,5 +25,11 @@
       "material": "kingdomkeys:mat_hungry_gem",
       "quantity": "4"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:chaos_ripper_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }
