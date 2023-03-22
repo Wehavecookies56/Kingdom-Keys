@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 public class CommonConfig {
 
     public ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
-    public ForgeConfigSpec.ConfigValue<List<? extends String>> moogleSpawnRate;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
     public ForgeConfigSpec.BooleanValue mobLevelingUp;
@@ -351,11 +350,6 @@ public class CommonConfig {
                 .comment("Heartless spawning mode: NEVER, ALWAYS, AFTER_KEYCHAIN (after the first keychain is synthesized), AFTER_DRAGON (after the Ender Dragon is defeated)")
                 .translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
                 .defineEnum("heartlessSpawningMode", SpawningMode.AFTER_KEYCHAIN);
-
-        moogleSpawnRate = builder
-                .comment("Mob Spawn [weight, min, max]")
-                .translation(KingdomKeys.MODID + ".config.moogle_spawn")
-                .defineList("moogleSpawn", Lists.newArrayList("Moogle,2,0,1", "Enemies,200,1,5"), o -> o instanceof String);
 
         mobSpawnRate = builder
                 .comment("Mob Spawn chance in percentage [type, chance] (if the chance doesn't add up to 100, enemies will not spawn)")

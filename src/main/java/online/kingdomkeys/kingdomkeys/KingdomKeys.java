@@ -47,7 +47,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -70,7 +69,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
-import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -203,21 +201,6 @@ public class KingdomKeys {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 		ModCommands.register(dispatcher);
 	}
-
-
-	/** TODO event removed cause JSON
-	 *
-	 @SubscribeEvent(priority = EventPriority.HIGH)
-	public void addToBiome(BiomeLoadingEvent event) {
-		MobSpawnings.registerSpawns(event);
-		OreGeneration.generateOre(event);
-	}
-
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void removeFromBiome(BiomeLoadingEvent event) {
-		MobSpawnings.removeSpawns(event);
-	}
-	 **/
 
 	@SubscribeEvent
 	public void addReloadListeners(AddReloadListenerEvent event) {

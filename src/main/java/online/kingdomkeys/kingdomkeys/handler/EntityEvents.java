@@ -1269,6 +1269,11 @@ public class EntityEvents {
 					te.setUUID(player.getUUID());
 				}
 			}
+			
+			IWorldCapabilities fromWorldData = ModCapabilities.getWorld(player.getServer().getLevel(e.getFrom()));
+			IWorldCapabilities toWorldData = ModCapabilities.getWorld(world);
+			
+			toWorldData.deserializeNBT(fromWorldData.serializeNBT());
 
 			Utils.RefreshAbilityAttributes(player, playerData);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);

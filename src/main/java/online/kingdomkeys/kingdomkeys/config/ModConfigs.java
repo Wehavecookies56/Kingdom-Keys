@@ -346,7 +346,6 @@ public class ModConfigs {
     public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
-    public static List<String> moogleSpawnRate;
     public static List<String> mobSpawnRate;
     public static boolean mobLevelingUp;
 
@@ -375,9 +374,7 @@ public class ModConfigs {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
         oreGen = COMMON.oreGen.get();
-        bloxGen = COMMON.bloxGen.get();
-
-		
+        bloxGen = COMMON.bloxGen.get();		
         
         twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
         wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
@@ -422,7 +419,6 @@ public class ModConfigs {
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
-        moogleSpawnRate = (List<String>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
 
