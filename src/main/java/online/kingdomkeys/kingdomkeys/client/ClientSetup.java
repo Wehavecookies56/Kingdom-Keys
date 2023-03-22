@@ -52,8 +52,6 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartRenderInfo;
-import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowRenderInfo;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
@@ -251,10 +249,6 @@ public class ClientSetup {
 		MinecraftForge.EVENT_BUS.register(LockOnGui.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(PartyHUDGui.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
-
-		//Could probably use one for all void style dimensions
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart), new DiveToTheHeartRenderInfo());
-		DimensionSpecialEffects.EFFECTS.put(new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow), new StationOfSorrowRenderInfo());
 		
 		ModContainers.registerGUIFactories();
     }

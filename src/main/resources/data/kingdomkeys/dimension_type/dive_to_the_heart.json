@@ -18,5 +18,5 @@
   "fixed_time": 18000,
   "monster_spawn_block_light_limit": 0,
   "monster_spawn_light_level": 0,
-  "effects": "kingdomkeys:dive_to_the_heart"
+  "effects": "minecraft:the_nether"
 }
