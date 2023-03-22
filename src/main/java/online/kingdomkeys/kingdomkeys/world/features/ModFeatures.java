@@ -125,6 +125,7 @@ public class ModFeatures {
     
 
 
+    /* gonna remove soon anyway
     private static Holder<PlacedFeature> addBloxOreFeature(ResourceLocation registryName, List<BlockState> blocks, OreConfig config) {
         Holder<ConfiguredFeature<BloxOreFeatureConfig, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(ModFeatures.BLOX.get(), new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.OVERWORLD, blocks, config.values.veinSize())));
         return registerPF(registryName, feature, CountPlacement.of(config.values.count()), InSquarePlacement.spread(), BiomeFilter.biome(), HeightRangePlacement.triangle(VerticalAnchor.absolute(config.values.minHeight()), VerticalAnchor.absolute((config.values.maxHeight() - config.values.minHeight())/2)));
@@ -134,6 +135,7 @@ public class ModFeatures {
         Holder<ConfiguredFeature<BloxOreFeatureConfig, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(ModFeatures.BLOX.get(), new BloxOreFeatureConfig(BloxOreFeatureConfig.FillerBlockType.END, blocks, config.values.veinSize())));
         return registerPF(registryName, feature, CountPlacement.of(config.values.count()), InSquarePlacement.spread(), BiomeFilter.biome(), HeightRangePlacement.triangle(VerticalAnchor.absolute(config.values.minHeight()), VerticalAnchor.absolute((config.values.maxHeight() - config.values.minHeight())/2)));
     }
+     */
 
     private static Holder<PlacedFeature> addOreFeature(ResourceLocation registryName, RuleTest fillerBlock, Block block, OreConfig config) {
         Holder<ConfiguredFeature<OreConfiguration, ?>> feature = registerCF(registryName, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(fillerBlock, block.defaultBlockState(), config.values.veinSize())));
@@ -212,11 +214,11 @@ public class ModFeatures {
 
         WRITHING_ORE_END = addEndOre(rl("writhing_ore_end"), ModBlocks.writhingOreE.get(), WRITHING_ORE_END_CONFIG);
         PULSING_ORE_END = addEndOre(rl("pulsing_ore_end"), ModBlocks.pulsingOreE.get(), PULSING_ORE_END_CONFIG);
-        BLOX_CLUSTER_END = addEndBloxOreFeature(rl("blox_cluster_end"), BLOX_LIST, BLOX_CLUSTER_END_CONFIG);
-        PRIZE_BLOX_CLUSTER_END = addEndBloxOreFeature(rl("prize_blox_cluster_end"), PRIZE_BLOX_LIST, PRIZE_BLOX_CLUSTER_END_CONFIG);
+        //BLOX_CLUSTER_END = addEndBloxOreFeature(rl("blox_cluster_end"), BLOX_LIST, BLOX_CLUSTER_END_CONFIG);
+        //PRIZE_BLOX_CLUSTER_END = addEndBloxOreFeature(rl("prize_blox_cluster_end"), PRIZE_BLOX_LIST, PRIZE_BLOX_CLUSTER_END_CONFIG);
 
-        BLOX_CLUSTER = addBloxOreFeature(rl("blox_cluster"), BLOX_LIST, BLOX_CLUSTER_CONFIG);
-        PRIZE_BLOX_CLUSTER = addBloxOreFeature(rl("prize_blox_cluster"), PRIZE_BLOX_LIST, PRIZE_BLOX_CLUSTER_CONFIG);
+        //BLOX_CLUSTER = addBloxOreFeature(rl("blox_cluster"), BLOX_LIST, BLOX_CLUSTER_CONFIG);
+        //PRIZE_BLOX_CLUSTER = addBloxOreFeature(rl("prize_blox_cluster"), PRIZE_BLOX_LIST, PRIZE_BLOX_CLUSTER_CONFIG);
         BETWIXT_ORE = addOverworldOre(rl("betwixt_ore"), ModBlocks.betwixtOre.get(), BETWIXT_ORE_CONFIG);
         SINISTER_ORE = addOverworldOre(rl("sinister_ore"), ModBlocks.sinisterOre.get(), SINISTER_ORE_CONFIG);
         STORMY_ORE = addOverworldOre(rl("stormy_ore"), ModBlocks.stormyOre.get(), STORMY_ORE_CONFIG);
