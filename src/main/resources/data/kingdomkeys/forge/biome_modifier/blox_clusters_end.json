@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_end",
+  "features": [
+    "kingdomkeys:blox_cluster_end", "kingdomkeys:prize_blox_cluster_end"
+  ],
+  "step": "underground_ores"
+}

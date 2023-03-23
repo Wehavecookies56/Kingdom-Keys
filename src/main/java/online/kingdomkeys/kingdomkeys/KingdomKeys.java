@@ -135,6 +135,7 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
+		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModBiomes.BIOMES.register(modEventBus);
 
@@ -158,8 +159,6 @@ public class KingdomKeys {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		ModFeatures.registerConfiguredFeatures();
-
 		// Run setup on proxies
 		//ModBiomes.init();
 		//ModDimensions.init();

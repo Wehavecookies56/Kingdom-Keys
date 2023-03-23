@@ -22,7 +22,6 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
-import online.kingdomkeys.kingdomkeys.world.features.OreConfig;
 
 public class WorldGen {
 

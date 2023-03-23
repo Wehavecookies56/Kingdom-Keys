@@ -1,0 +1,25 @@
+{
+  "type": "kingdomkeys:blox",
+  "config": {
+    "discard_chance_on_air_exposure": 0.0,
+    "size": 10,
+    "targets": [
+      {
+        "states": [
+          { "Name": "kingdomkeys:normal_blox" },
+          { "Name": "kingdomkeys:hard_blox" },
+          { "Name": "kingdomkeys:metal_blox" },
+          { "Name": "kingdomkeys:danger_blox" }
+        ],
+        "target": {
+          "predicate_type": "kingdomkeys:multiple_block_match",
+          "blocks": [
+            "minecraft:grass_block",
+            "minecraft:dirt",
+            "minecraft:sand"
+          ]
+        }
+      }
+    ]
+  }
+}

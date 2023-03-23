@@ -1,0 +1,29 @@
+{
+  "type": "kingdomkeys:blox",
+  "config": {
+    "discard_chance_on_air_exposure": 0.0,
+    "size": 6,
+    "targets": [
+      {
+        "states": [
+          { "Name": "kingdomkeys:prize_blox" },
+          { "Name": "kingdomkeys:prize_blox" },
+          { "Name": "kingdomkeys:prize_blox" },
+          { "Name": "kingdomkeys:prize_blox" },
+          { "Name": "kingdomkeys:rare_prize_blox" },
+          { "Name": "kingdomkeys:rare_prize_blox" },
+          { "Name": "kingdomkeys:danger_blox" },
+          { "Name": "kingdomkeys:blast_blox" }
+        ],
+        "target": {
+          "predicate_type": "kingdomkeys:multiple_block_match",
+          "blocks": [
+            "minecraft:grass_block",
+            "minecraft:dirt",
+            "minecraft:sand"
+          ]
+        }
+      }
+    ]
+  }
+}

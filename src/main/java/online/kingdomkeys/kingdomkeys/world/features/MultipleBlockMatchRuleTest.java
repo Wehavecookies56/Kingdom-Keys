@@ -21,7 +21,6 @@ public class MultipleBlockMatchRuleTest extends RuleTest {
         })).apply(p_237118_0_, MultipleBlockMatchRuleTest::new);
     });
 
-    public static final RuleTestType<MultipleBlockMatchRuleTest> OVERWORLD_GROUND = Registry.register(Registry.RULE_TEST, new ResourceLocation(KingdomKeys.MODID + ":multiple_block_match"), () -> CODEC);
 
     public final List<Block> blocks;
 
@@ -39,6 +38,6 @@ public class MultipleBlockMatchRuleTest extends RuleTest {
 
     @Override
     protected RuleTestType<?> getType() {
-        return OVERWORLD_GROUND;
+        return ModFeatures.MULTIPLE_BLOCK_MATCH.get();
     }
 }

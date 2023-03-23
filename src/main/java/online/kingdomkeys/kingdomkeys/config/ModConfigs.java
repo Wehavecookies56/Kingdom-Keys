@@ -373,49 +373,6 @@ public class ModConfigs {
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
-        oreGen = COMMON.oreGen.get();
-        bloxGen = COMMON.bloxGen.get();		
-        
-        twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
-        wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
-        writhingOreNetherGen = COMMON.writhingOreNetherGen.get();
-        blazingOreNetherGen = COMMON.blazingOreNetherGen.get();
-        writhingOreEndGen = COMMON.writhingOreEndGen.get();
-        pulsingOreEndGen = COMMON.pulsingOreEndGen.get();
-        betwixtOreGen = COMMON.betwixtOreGen.get();
-        sinisterOreGen = COMMON.sinisterOreGen.get();
-        stormyOreGen = COMMON.stormyOreGen.get();
-        writhingOreGen = COMMON.writhingOreGen.get();
-        hungryOreGen = COMMON.hungryOreGen.get();
-        lightningOreGen = COMMON.lightningOreGen.get();
-        lucidOreGen = COMMON.lucidOreGen.get();
-        remembranceOreGen = COMMON.remembranceOreGen.get();
-        soothingOreGen = COMMON.soothingOreGen.get();
-        tranquilityOreGen = COMMON.tranquilityOreGen.get();
-        twilightOreGen = COMMON.twilightOreGen.get();
-        wellspringOreGen = COMMON.wellspringOreGen.get();
-        blazingOreWarmGen = COMMON.blazingOreWarmGen.get();
-        frostOreColdGen = COMMON.frostOreColdGen.get();
-        pulsingOreColdGen = COMMON.pulsingOreColdGen.get();
-        frostOreColderGen = COMMON.frostOreColderGen.get();
-        pulsingOreWetGen = COMMON.pulsingOreWetGen.get();
-        stormyOreWetGen = COMMON.stormyOreWetGen.get();
-        
-        blazingOreDeepslateGen = COMMON.blazingOreDeepslateGen.get();
-		betwixtOreDeepslateGen = COMMON.betwixtOreDeepslateGen.get();
-		frostOreDeepslateGen = COMMON.frostOreDeepslateGen.get();
-		pulsingOreDeepslateGen = COMMON.pulsingOreDeepslateGen.get();
-		sinisterOreDeepslateGen = COMMON.sinisterOreDeepslateGen.get();
-		soothingOreDeepslateGen = COMMON.soothingOreDeepslateGen.get();
-		stormyOreDeepslateGen = COMMON.stormyOreDeepslateGen.get();
-		twilightOreDeepslateGen = COMMON.twilightOreDeepslateGen.get();
-		writhingOreDeepslateGen = COMMON.writhingOreDeepslateGen.get();
-
-        bloxClusterEndGen = COMMON.bloxClusterEndGen.get();
-        prizeBloxClusterEndGen = COMMON.prizeBloxClusterEndGen.get();
-        bloxClusterGen = COMMON.bloxClusterGen.get();
-        prizeBloxClusterGen = COMMON.prizeBloxClusterGen.get();
-
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
