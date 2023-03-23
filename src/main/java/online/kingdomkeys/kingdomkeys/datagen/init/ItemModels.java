@@ -15,6 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
@@ -92,6 +93,8 @@ public class ItemModels extends ItemModelProvider {
 		} else if (block instanceof SoADoorBlock) {
 			// skip - no texture/special block?
 		} else if (block instanceof DataPortalBlock) {
+			// manually generated version exists in main/resources
+		} else if (block instanceof MagicalChestBlock) {
 			// manually generated version exists in main/resources
 		} else {
 			// fallback in case block item could not be generated as part of blockstates
