@@ -4,7 +4,7 @@
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/magical_chest.obj",
 	"transform":{
-		"translation": [ -1, -1.5, -1 ],
+		"translation": [ -1.015, -1.5, -0.985 ],
 		"scale": [ 0.015, 0.015, 0.015 ],
 		"rotation": [ 0, 180, 0 ]
 	},
