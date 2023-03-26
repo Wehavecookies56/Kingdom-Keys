@@ -25,6 +25,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -122,7 +123,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            Explosion.BlockInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
+            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
             this.level.explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);

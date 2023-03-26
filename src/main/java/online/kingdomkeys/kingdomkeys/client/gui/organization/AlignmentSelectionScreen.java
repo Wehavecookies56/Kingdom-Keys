@@ -264,19 +264,19 @@ public class AlignmentSelectionScreen extends Screen {
             next.visible = false;
             prev.visible = false;
             select.visible = false;
-            ok.x = (width / 2) - (ok.getWidth() / 2);
-            ok.y = (height / 2) - (ok.getHeight() / 2) + font.lineHeight + 2;
+            ok.setX((width / 2) - (ok.getWidth() / 2));
+            ok.setY((height / 2) - (ok.getHeight() / 2) + font.lineHeight + 2);
         } else {
             ok.visible = false;
             next.visible = true;
-            next.x = (width / 2) - (next.getWidth() / 2) + 128;
-            next.y = (height / 2) - (next.getHeight() / 2);
+            next.setX((width / 2) - (next.getWidth() / 2) + 128);
+            next.setY((height / 2) - (next.getHeight() / 2));
             prev.visible = true;
-            prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-            prev.y = (height / 2) - (prev.getHeight() / 2);
+            prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
+            prev.setY((height / 2) - (prev.getHeight() / 2));
             select.visible = true;
-            select.x = (width / 2) - (select.getWidth() / 2);
-            select.y= (height / 2) - (select.getHeight() / 2) + 90;
+            select.setX((width / 2) - (select.getWidth() / 2));
+            select.setY((height / 2) - (select.getHeight() / 2) + 90);
             confirm.visible = false;
             cancel.visible = false;
             if (confirmChoice) {
@@ -285,10 +285,10 @@ public class AlignmentSelectionScreen extends Screen {
                 next.visible = false;
                 prev.visible = false;
                 select.visible = false;
-                confirm.x = (width / 2) - (confirm.getWidth() / 2);
-                confirm.y = (height / 2) - (confirm.getHeight() / 2) + 30;
-                cancel.x = (width / 2) - (cancel.getWidth() / 2);
-                cancel.y = (height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight();
+                confirm.setX((width / 2) - (confirm.getWidth() / 2));
+                confirm.setY((height / 2) - (confirm.getHeight() / 2) + 30);
+                cancel.setX((width / 2) - (cancel.getWidth() / 2));
+                cancel.setY((height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight());
             }
         }
     }

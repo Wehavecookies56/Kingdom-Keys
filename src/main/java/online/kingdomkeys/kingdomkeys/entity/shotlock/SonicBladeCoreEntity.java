@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;

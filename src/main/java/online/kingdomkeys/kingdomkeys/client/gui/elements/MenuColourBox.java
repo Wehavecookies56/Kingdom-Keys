@@ -52,10 +52,10 @@ public class MenuColourBox extends AbstractWidget {
 			RenderSystem.setShaderTexture(0, texture);
 
 			for (int i = 0; i < middleWidth; i++) {
-				blit(matrixStack, x + i, y, u, vPos, 1, height);
+				blit(matrixStack, getX() + i, getY(), u, vPos, 1, height);
 			}
-			drawString(matrixStack, minecraft.font, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
-			drawString(matrixStack, minecraft.font, value, x + width - minecraft.font.width(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
+			drawString(matrixStack, minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
+			drawString(matrixStack, minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
 			matrixStack.popPose();
 		}
@@ -87,7 +87,7 @@ public class MenuColourBox extends AbstractWidget {
 	}
 
 	@Override
-	public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+	public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
 
 	}
 }

@@ -348,7 +348,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		//Page renderer
 		matrixStack.pushPose();
 		{
-			matrixStack.translate(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
+			matrixStack.translate(prev.getX()+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
@@ -361,7 +361,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (i < abilities.size()) {
 				if (abilities.get(i) != null) {
 					abilities.get(i).visible = true;
-					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
+					abilities.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 19 + 2); // 6 = offset
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
 			}

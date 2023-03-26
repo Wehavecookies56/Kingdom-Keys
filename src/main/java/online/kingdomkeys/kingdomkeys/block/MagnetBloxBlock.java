@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.awt.TextComponent;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;

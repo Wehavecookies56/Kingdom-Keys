@@ -144,7 +144,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		float boxWidth = (float) width * 0.33F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxL.x + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
 		
 		super.init();
 		initItems();
@@ -159,7 +159,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		int button_statsY = (int) topBarHeight + 10;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		float invPosX = boxL.x;
+		float invPosX = boxL.getX();
 		float invPosY = (float) height * 0.1851F;
 		
 		inventory.clear();
@@ -195,7 +195,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		next.visible = false;
 		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
+		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.getX()+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c)) {
@@ -246,7 +246,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			if (i < inventory.size()) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
-					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
+					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
 					inventory.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}
@@ -268,13 +268,13 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		take.visible = true;
 
-		float iconPosX = boxR.x;
-		float iconPosY = boxR.y + 15;
+		float iconPosX = boxR.getX();
+		float iconPosY = boxR.getY() + 15;
 
 		matrixStack.pushPose();
 		{
 			String name = selectedItemStack.getHoverName().getString();
-			matrixStack.translate(boxR.x + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.y+3, 1);
+			matrixStack.translate(boxR.getX() + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.getY()+3, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
 		}
 		matrixStack.popPose();

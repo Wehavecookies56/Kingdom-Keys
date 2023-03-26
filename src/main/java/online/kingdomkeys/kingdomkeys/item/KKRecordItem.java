@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Supplier;
 

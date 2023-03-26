@@ -6,6 +6,7 @@
 package online.kingdomkeys.kingdomkeys.loot;
 
 import com.mojang.serialization.Codec;
+
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;

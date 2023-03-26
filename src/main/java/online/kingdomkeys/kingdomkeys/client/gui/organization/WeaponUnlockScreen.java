@@ -238,16 +238,16 @@ public class WeaponUnlockScreen extends Screen {
             }
         }
         next.visible = true;
-        next.x = (width / 2) - (next.getWidth() / 2) + 128;
-        next.y = (height / 2) - (next.getHeight() / 2);
+        next.setX((width / 2) - (next.getWidth() / 2) + 128);
+        next.setY((height / 2) - (next.getHeight() / 2));
         prev.visible = true;
-        prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-        prev.y = (height / 2) - (prev.getHeight() / 2);
+        prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
+        prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
-        select.x = (width / 2) - (select.getWidth() / 2);
-        select.y = (height / 2) - (select.getHeight() / 2) + 90;
+        select.setX((width / 2) - (select.getWidth() / 2));
+        select.setY((height / 2) - (select.getHeight() / 2) + 90);
         cancel.visible = true;
-        cancel.x = (width / 2) - (select.getWidth() / 2);
-        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
+        cancel.setX((width / 2) - (select.getWidth() / 2));
+        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
     }
 }

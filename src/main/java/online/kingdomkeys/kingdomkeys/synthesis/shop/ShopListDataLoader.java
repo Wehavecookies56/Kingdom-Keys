@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;

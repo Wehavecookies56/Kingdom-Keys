@@ -113,7 +113,7 @@ public class MenuConfigScreen extends MenuBackground {
 		float middleHeight = (float) height * 0.6F;
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		buttonsX = box.x + 10;
+		buttonsX = box.getX() + 10;
 		
 		super.init();
 		this.renderables.clear();
@@ -1179,7 +1179,7 @@ public class MenuConfigScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			int pos = 0;
-			matrixStack.translate(buttonsX, box.y + 4, 1);
+			matrixStack.translate(buttonsX, box.getY() + 4, 1);
 			
 			switch (window) {
 			case COMMAND_MENU:

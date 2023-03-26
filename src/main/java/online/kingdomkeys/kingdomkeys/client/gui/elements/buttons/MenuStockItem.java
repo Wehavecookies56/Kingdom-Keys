@@ -57,7 +57,7 @@ public class MenuStockItem extends Button {
 
 	@Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
@@ -70,7 +70,7 @@ public class MenuStockItem extends Button {
                 {
                     RenderSystem.enableBlend();
                     
-                    matrixStack.translate(x + 0.6F, y, 0);
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
                     blit(matrixStack, 0, 0, 27, 0, 18, 28);
@@ -84,18 +84,18 @@ public class MenuStockItem extends Button {
             ItemCategory category = Utils.getCategoryForStack(stack);
             matrixStack.pushPose();
             {
-                matrixStack.translate(x + 3, y + 2, 0);
+                matrixStack.translate(getX() + 3, getY() + 2, 0);
                 float scale = 0.5F;
                 int categorySize = 20;
                 matrixStack.scale(scale, scale, 1);
                 blit(matrixStack, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
-            drawString(matrixStack, mc.font, customName == null ? stack.getHoverName().getString() : customName, x + 15, y + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+            drawString(matrixStack, mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();
-	            drawString(matrixStack, mc.font, count, x + width - mc.font.width(count), y + 3, 0xF8F711);
+	            drawString(matrixStack, mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
             }
         }
     }

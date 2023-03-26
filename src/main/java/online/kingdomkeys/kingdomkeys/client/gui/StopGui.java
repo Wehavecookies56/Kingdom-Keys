@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
-import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class StopGui extends Screen {

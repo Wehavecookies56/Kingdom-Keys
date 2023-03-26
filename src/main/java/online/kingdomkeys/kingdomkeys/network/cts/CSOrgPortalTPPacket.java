@@ -2,7 +2,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.function.Supplier;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CSOrgPortalTPPacket {
@@ -38,7 +37,7 @@ public class CSOrgPortalTPPacket {
 	public static CSOrgPortalTPPacket decode(FriendlyByteBuf buffer) {
 		CSOrgPortalTPPacket msg = new CSOrgPortalTPPacket();
 		//No idea if this how you should do this
-		msg.dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
+		msg.dim = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
 		msg.x = buffer.readDouble();
 		msg.y = buffer.readDouble();
 		msg.z = buffer.readDouble();

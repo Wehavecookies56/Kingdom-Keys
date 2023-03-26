@@ -11,7 +11,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
@@ -188,7 +188,7 @@ public class KingdomKeys {
 	}
 
 	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
-		ResourceKey<StructureTemplatePool> key = ResourceKey.create(Registry.TEMPLATE_POOL_REGISTRY, pattern);
+		ResourceKey<StructureTemplatePool> key = ResourceKey.create(Registries.TEMPLATE_POOL, pattern);
 		StructureTemplatePool pat = BuiltinRegistries.TEMPLATE_POOL.get(key);
 		pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(StructureTemplatePool.Projection.RIGID), weight));
 		Pools.register(pat);

@@ -45,7 +45,7 @@ public class MenuFilterBar {
 
     public void renderSelectionBox(PoseStack matrixStack, GuiComponent gui, MenuFilterButton button) {
         if (button.isHoveredOrFocused() || currentFilter == button.category)
-            ClientUtils.blitScaled(matrixStack, gui, button.x - 1.5F, button.y - 1.5F, 66, 30, 58, 36, 0.5F);
+            ClientUtils.blitScaled(matrixStack, gui, button.getX() - 1.5F, button.getY() - 1.5F, 66, 30, 58, 36, 0.5F);
     }
 
     public void init() {

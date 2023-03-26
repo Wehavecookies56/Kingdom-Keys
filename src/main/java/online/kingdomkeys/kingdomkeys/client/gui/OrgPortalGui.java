@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 
 import java.util.UUID;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -32,9 +30,13 @@ public class OrgPortalGui extends Screen {
 	protected void init() {
 		int tfWidth = minecraft.font.width("####################");
 		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, Component.translatable("")));
-		addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, Component.translatable("Set name"), (e) -> {
+		/*addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, Component.translatable("Set name"), (e) -> {
 			action();
-		}));
+		}));*/
+		
+		addRenderableWidget(Button.builder(Component.translatable("Set name"), (e) -> {
+			action();
+		}).bounds(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20).build());
 
 		if (minecraft.player.level.getBlockEntity(pos) != null && minecraft.player.level.getBlockEntity(pos) instanceof OrgPortalTileEntity) {
 			OrgPortalTileEntity te = (OrgPortalTileEntity) minecraft.player.level.getBlockEntity(pos);
@@ -52,9 +54,4 @@ public class OrgPortalGui extends Screen {
 		onClose();
 	}
 
-	@Override
-	public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
-
-		super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
-	}
 }

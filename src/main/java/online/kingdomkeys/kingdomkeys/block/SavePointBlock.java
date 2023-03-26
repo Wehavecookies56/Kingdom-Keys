@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Nullable;

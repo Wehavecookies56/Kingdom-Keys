@@ -112,13 +112,13 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-    	if(pMouseX >= scaleSlider.x && pMouseX <= scaleSlider.x+width && pMouseY >= scaleSlider.y && pMouseY <= scaleSlider.y + scaleSlider.getHeight())
+    	if(pMouseX >= scaleSlider.getX() && pMouseX <= scaleSlider.getX()+width && pMouseY >= scaleSlider.getY() && pMouseY <= scaleSlider.getY() + scaleSlider.getHeight())
     		scaleSlider.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-    	if(pMouseX >= heightSlider.x && pMouseX <= heightSlider.x+width && pMouseY >= heightSlider.y && pMouseY <= heightSlider.y + heightSlider.getHeight())
+    	if(pMouseX >= heightSlider.getX() && pMouseX <= heightSlider.getX()+width && pMouseY >= heightSlider.getY() && pMouseY <= heightSlider.getY() + heightSlider.getHeight())
     		heightSlider.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-    	if(pMouseX >= rotationSpeedSlider.x && pMouseX <= rotationSpeedSlider.x+width && pMouseY >= rotationSpeedSlider.y && pMouseY <= rotationSpeedSlider.y + rotationSpeedSlider.getHeight())
+    	if(pMouseX >= rotationSpeedSlider.getX() && pMouseX <= rotationSpeedSlider.getX()+width && pMouseY >= rotationSpeedSlider.getY() && pMouseY <= rotationSpeedSlider.getY() + rotationSpeedSlider.getHeight())
     		rotationSpeedSlider.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-    	if(pMouseX >= bobSpeedSlider.x && pMouseX <= bobSpeedSlider.x+width && pMouseY >= bobSpeedSlider.y && pMouseY <= bobSpeedSlider.y + bobSpeedSlider.getHeight())
+    	if(pMouseX >= bobSpeedSlider.getX() && pMouseX <= bobSpeedSlider.getX()+width && pMouseY >= bobSpeedSlider.getY() && pMouseY <= bobSpeedSlider.getY() + bobSpeedSlider.getHeight())
     		bobSpeedSlider.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     	return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 

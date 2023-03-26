@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -388,7 +388,7 @@ public class SCSyncCapabilityPacket {
 		int length = buffer.readInt();
 		msg.driveForm = buffer.readUtf(length);
 		
-		msg.returnDim = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
+		msg.returnDim = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
 		msg.returnPos = new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		msg.soAstate = SoAState.fromByte(buffer.readByte());
 		msg.choice = SoAState.fromByte(buffer.readByte());

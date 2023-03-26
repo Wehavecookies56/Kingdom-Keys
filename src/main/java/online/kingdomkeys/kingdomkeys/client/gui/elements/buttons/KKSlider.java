@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
@@ -28,13 +29,13 @@ public class KKSlider extends ForgeSlider {
 
         final Minecraft mc = Minecraft.getInstance();
         final int bgYImage = this.getYImage(this.isHoveredOrFocused());
-        ScreenUtils.blitWithBorder(poseStack, this.x, this.y, 0, 46 + bgYImage * 20, this.width, this.height, 200, 20, 2, 3, 2, 2, this.getBlitOffset());
+        ScreenUtils.blitWithBorder(poseStack, this.getX(), this.getY(), 0, 46 + bgYImage * 20, this.width, this.height, 200, 20, 2, 3, 2, 2, this.getBlitOffset());
 
         final int sliderYImage = (this.isHoveredOrFocused() ? 2 : 1) * 20;
-        ScreenUtils.blitWithBorder(poseStack, this.x + (int)(this.value * (double)(this.width - 8)), this.y, 0, 46 + sliderYImage, 8, this.height, 200, 20 , 2, 3, 2, 2, this.getBlitOffset());
+        ScreenUtils.blitWithBorder(poseStack, this.getX() + (int)(this.value * (double)(this.width - 8)), this.getY(), 0, 46 + sliderYImage, 8, this.height, 200, 20 , 2, 3, 2, 2, this.getBlitOffset());
 
         final FormattedText message = ellipsize(getMessage(), this.width - 6);
-        drawCenteredString(poseStack, mc.font, Language.getInstance().getVisualOrder(message), this.x + this.width / 2, this.y + (this.height - 8) / 2, getFGColor());
+        drawCenteredString(poseStack, mc.font, Language.getInstance().getVisualOrder(message), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, getFGColor());
     }
 
     FormattedText ELLIPSIS = FormattedText.of("...");

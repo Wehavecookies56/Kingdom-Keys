@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;

@@ -100,7 +100,7 @@ public class ShopScreen extends MenuFilterable {
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
@@ -234,7 +234,7 @@ public class ShopScreen extends MenuFilterable {
 			if (i < inventory.size()) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
-					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
+					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
 					inventory.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}
@@ -252,15 +252,15 @@ public class ShopScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
-		float iconPosX = boxR.x;
-		float iconPosY = boxR.y + 25;
+		float iconPosX = boxR.getX();
+		float iconPosY = boxR.getY() + 25;
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		matrixStack.pushPose();
 		{
 			double offset = (boxM.getWidth()*0.1F);
-			matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
+			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
 			
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
 			ShopItem item = null;
@@ -313,7 +313,7 @@ public class ShopScreen extends MenuFilterable {
 				
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(boxM.x+20, height*0.58, 1);
+				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
 				
 				int offset = -20;
 				

@@ -9,10 +9,8 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 

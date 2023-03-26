@@ -78,17 +78,17 @@ public abstract class HUDElement extends AbstractWidget {
     }
 
 
-    private void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setPosition(int x, int y) {
+        this.setX(x);
+        this.setY(y);
     }
 
     private void setPositionX(int x) {
-        setPosition(x, this.y);
+        setPosition(x, this.getY());
     }
 
     private void setPositionY(int y) {
-        setPosition(this.x, y);
+        setPosition(this.getX(), y);
     }
 
     /**
@@ -110,12 +110,12 @@ public abstract class HUDElement extends AbstractWidget {
      * @param colour The text colour
      */
     public void drawString(PoseStack matrixStack, String string, int posX, int posY, Color colour) {
-        drawString(matrixStack, mcInstance.font, string, this.x + posX, this.y + posY, colour.getRGB());
+        drawString(matrixStack, mcInstance.font, string, this.getX() + posX, this.getY() + posY, colour.getRGB());
     }
 
     @Override
     public void blit(PoseStack matrixStack, int posX, int posY, int texU, int texV, int texWidth, int texHeight) {
-        super.blit(matrixStack, this.x + posX, this.y + posY, texU, texV, texWidth, texHeight);
+        super.blit(matrixStack, this.getX() + posX, this.getY() + posY, texU, texV, texWidth, texHeight);
     }
 
     /**
@@ -142,31 +142,31 @@ public abstract class HUDElement extends AbstractWidget {
         setPosition(0, 0);
         switch (this.anchor) {
             case TOP_LEFT:
-                setPosition(this.x + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(this.getX() + anchoredPositionX, this.getY() + anchoredPositionY);
                 break;
             case TOP_CENTER:
-                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(this.getX() + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.getY() + anchoredPositionY);
                 break;
             case TOP_RIGHT:
-                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.y + anchoredPositionY);
+                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.getY() + anchoredPositionY);
                 break;
             case BOTTOM_LEFT:
-                setPosition(this.x + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.getX() + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_CENTER:
-                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
+                setPosition(this.getX() + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case BOTTOM_RIGHT:
                 setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, mcInstance.getWindow().getGuiScaledHeight() - getHeight() + anchoredPositionY);
                 break;
             case CENTER_LEFT:
-                setPosition(this.x + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.getX() + anchoredPositionX, this.getY() + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER:
-                setPosition(this.x + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(this.getX() + (mcInstance.getWindow().getGuiScaledWidth()/2) - (getWidth()/2) + anchoredPositionX, this.getY() + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
             case CENTER_RIGHT:
-                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.y + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
+                setPosition(mcInstance.getWindow().getGuiScaledWidth() - getWidth() + anchoredPositionX, this.getY() + (mcInstance.getWindow().getGuiScaledHeight()/2) - (getHeight()/2) + anchoredPositionY);
                 break;
         }
     }
