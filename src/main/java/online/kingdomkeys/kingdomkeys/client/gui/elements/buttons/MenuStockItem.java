@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Button.Builder;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -26,9 +27,10 @@ public class MenuStockItem extends Button {
     String customName = null;
 
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
-        super(x, y, width, 14, Component.translatable(""), b -> {
-        	parent.action(rl, displayStack);
-        });
+    	super(new Builder(Component.literal(""), b -> {
+            parent.action(rl, displayStack);
+        }).bounds(x, y, width, 14));
+
         this.parent = parent;
         this.rl = rl;
         this.showAmount = showAmount;
@@ -36,10 +38,11 @@ public class MenuStockItem extends Button {
     }
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
-        super(x, y, width, 14, Component.translatable(""), b -> {
+    	super(new Builder(Component.literal(""), b -> {
             parent.action(ForgeRegistries.ITEMS.getKey(stack.getItem()), stack);
-        });
-        this.parent = parent;
+        }).bounds(x, y, width, 14));
+
+    	this.parent = parent;
         this.rl = ForgeRegistries.ITEMS.getKey(stack.getItem());
         this.stack = stack;
         this.showAmount = showAmount;

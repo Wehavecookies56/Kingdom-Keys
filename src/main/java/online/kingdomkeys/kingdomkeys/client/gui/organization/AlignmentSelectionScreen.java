@@ -200,12 +200,31 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addRenderableWidget(ok = new Button(0, 0, 50, 20, Component.translatable("gui.org.ok"), p -> actionPerformed(OK)));
-        addRenderableWidget(confirm = new Button(0, 0, 60, 20, Component.translatable("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
-        addRenderableWidget(cancel = new Button(0, 0, 60, 20,  Component.translatable("gui.org.cancel"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, Component.translatable(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, Component.translatable("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 70, 20,  Component.translatable("gui.org.select"), p -> actionPerformed(SELECT)));
+    	addRenderableWidget(ok = Button.builder(Component.translatable("gui.org.ok"), (e) -> {
+			actionPerformed(OK);
+		}).bounds(0, 0, 50, 20).build());
+    	
+        
+        addRenderableWidget(confirm = Button.builder(Component.translatable("gui.org.confirm"), (e) -> {
+			actionPerformed(CONFIRM);
+		}).bounds(0, 0, 60, 20).build());
+        
+        addRenderableWidget(cancel = Button.builder(Component.translatable("gui.org.cancel"), (e) -> {
+			actionPerformed(CANCEL);
+		}).bounds(0, 0, 60, 20).build());
+        
+        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+			actionPerformed(NEXT);
+		}).bounds(0, 0, 20, 20).build());
+                
+        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+			actionPerformed(PREV);
+		}).bounds(0, 0, 20, 20).build());
+        
+        addRenderableWidget(select = Button.builder(Component.translatable("gui.org.select"), (e) -> {
+			actionPerformed(SELECT);
+		}).bounds(0, 0, 70, 20).build());
+        
         updateButtons();
         super.init();
     }

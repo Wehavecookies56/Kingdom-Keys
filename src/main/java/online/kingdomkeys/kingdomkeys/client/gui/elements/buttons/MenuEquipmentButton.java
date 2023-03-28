@@ -54,11 +54,12 @@ public class MenuEquipmentButton extends Button {
     ItemCategory category;
 
     public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
-        super(x, y, (int) (parent.width * 0.264f), 14, Component.translatable(""), b -> {
+        super(new Builder(Component.literal(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
+        }).bounds(x, y, (int) (parent.width * 0.264f), 14));
+        
         this.stack = stack;
         this.colour = colour;
         this.toOpen = toOpen;
@@ -75,12 +76,13 @@ public class MenuEquipmentButton extends Button {
     }
     
     public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
-        super(x, y, (int) (parent.width * 0.264f), 14, Component.translatable(""), b -> {
+    	super(new Builder(Component.literal(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
-        this.stack = null;
+        }).bounds(x, y, (int) (parent.width * 0.264f), 14));
+    	
+    	this.stack = null;
         this.shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
         this.colour = colour;
         this.toOpen = toOpen;

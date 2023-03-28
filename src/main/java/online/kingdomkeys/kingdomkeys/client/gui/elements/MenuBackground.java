@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.Holder;
@@ -172,7 +173,7 @@ public class MenuBackground extends Screen {
 	}
 
 	private void clearButtons() {
-		for(Widget btn : renderables) {
+		for(Renderable btn : renderables) {
 			if(btn instanceof MenuButtonBase) {
 				((MenuButtonBase) btn).setSelected(false);
 			}
@@ -254,7 +255,7 @@ public class MenuBackground extends Screen {
 	public void drawTip (PoseStack matrixStack) {
 		tip = null;
 
-		for(Widget btn : renderables) {
+		for(Renderable btn : renderables) {
 			if(btn instanceof MenuButtonBase) {
 				if(((MenuButtonBase) btn).isHoveredOrFocused()) {
 					selected = -1;

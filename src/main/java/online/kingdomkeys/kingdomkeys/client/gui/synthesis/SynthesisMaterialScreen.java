@@ -184,12 +184,13 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		inventory.forEach(this::addWidget);
 
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int) (height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
 			action("prev");
-		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int) (height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> {
+		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
+
+		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
 			action("next");
-		}));
+		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
 		
 		prev.visible = false;
 		next.visible = false;
@@ -209,7 +210,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				return super.charTyped(c, i);
 			}
 		});
-		addRenderableWidget(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> { action("take"); }));
+		addRenderableWidget(take = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> {
+			action("take");
+		}).bounds((int) amountBox.getX() + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20).build());
+		
 		take.visible = false;
 		updateButtons();
 	}

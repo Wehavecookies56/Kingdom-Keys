@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Button.Builder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -15,7 +16,7 @@ public class MenuScrollBar extends Button {
 	private int barY;
 
 	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.OnPress onPress) {
-		super(x, y, 22 + widthIn, 20, Component.translatable(buttonText), onPress);
+		super(new Builder(Component.translatable(buttonText),onPress).bounds(x,y, 22 + widthIn, 20));		
 		height = 10;
 		width = 14;
 		

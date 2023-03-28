@@ -91,10 +91,21 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(cancel = new Button(0, 0, 50, 20, Component.translatable("Back"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, Component.translatable(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, Component.translatable("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 50, 20, Component.translatable("Unlock"), p -> actionPerformed(SELECT)));
+        
+        addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
+    		actionPerformed(CANCEL);
+		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+    		actionPerformed(NEXT);
+		}).bounds(0, 0, 20, 20).build());
+        
+        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+    		actionPerformed(PREV);
+		}).bounds(0, 0, 20, 20).build());
+
+        addRenderableWidget(select = Button.builder(Component.translatable("Unlock"), (e) -> {
+    		actionPerformed(SELECT);
+		}).bounds(0, 0, 50, 20).build());
         updateButtons();
     }
 

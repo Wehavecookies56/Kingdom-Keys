@@ -250,7 +250,10 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
+		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.translatable(cmHeaderTextVisible+""), (e) -> {
+			 action("textHeaderVisibility");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+
 		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -350,7 +353,10 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
+		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable(hpShowHearts+""), (e) -> {
+			 action("hpShowHearts");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		
 		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -1103,14 +1109,14 @@ public class MenuConfigScreen extends MenuBackground {
 
 		});
 
-		addRenderableWidget(Import = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20, Component.translatable("gui.menu.config.impexp.import"), (e) -> {
+		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable("gui.menu.config.impexp.import"), (e) -> {
 			readImportCode(importCode.getValue());
-		}));
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20).build());
 
-		addRenderableWidget(export = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20, Component.translatable("gui.menu.config.impexp.export"), (e) -> {
+		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable("gui.menu.config.impexp.export"), (e) -> {
 			Minecraft.getInstance().keyboardHandler.setClipboard(exportCode());
-		}));
-
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20).build());
+		
 		impExpList.add(importCode);
 		impExpList.add(Import);
 		impExpList.add(export);

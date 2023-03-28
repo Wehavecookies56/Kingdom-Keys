@@ -182,15 +182,18 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
+		
+		addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
 			action("prev");
-		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
+
+		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
 			action("next");
-		}));
-		addRenderableWidget(upgrade = new Button((int) (boxM.x+3), (int) (height * 0.67), 70, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
+		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
+        
+        addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
 			action("upgrade");
-		}));
+		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), 70, 20).build());
 	}
 
 	@Override
