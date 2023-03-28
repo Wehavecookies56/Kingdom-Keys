@@ -8,7 +8,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class BlockModels extends BlockModelProvider {
 	public BlockModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, KingdomKeys.MODID, existingFileHelper);
+		super(generator.getPackOutput(), KingdomKeys.MODID, existingFileHelper);
 	}
 
 	@Override

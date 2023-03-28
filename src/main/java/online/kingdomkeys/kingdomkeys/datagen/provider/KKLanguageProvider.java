@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 public abstract class KKLanguageProvider extends LanguageProvider {
 
     public KKLanguageProvider(DataGenerator gen, String locale) {
-        super(gen, KingdomKeys.MODID, locale);
+        super(gen.getPackOutput(), KingdomKeys.MODID, locale);
     }
 
     public void add(int level, Ability key, String value) {

@@ -236,7 +236,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
 
     //Mobs
-    public static final Item.Properties PROPERTIES = new Item.Properties().tab(CreativeModeTab.TAB_MISC);
+    public static final Item.Properties PROPERTIES = new Item.Properties();
 
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, MobCategory.AMBIENT, "moogle", 0.6F, 1.5F);
     public static final RegistryObject<Item> MOOGLE_EGG = ModItems.ITEMS.register("moogle_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_MOOGLE, 0xDACAB0, 0xC50033, PROPERTIES));

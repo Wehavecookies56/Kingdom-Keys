@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import javax.annotation.Nullable;
 
+import com.mojang.math.Axis;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -54,7 +55,7 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 				else // Static size
 					matrixStackIn.scale(0.005f, 0.005f, 0.005f);
 						        
-				matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(ticks*20));
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(ticks*20));
 				
 				for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) { //TODO totally made this up in the 1.19.3 port
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);

@@ -22,7 +22,7 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
     OrganizationData data = new OrganizationData();
 
 	public OrgShieldItem() {
-		super(new Item.Properties().tab(KingdomKeys.orgWeaponsGroup).stacksTo(1));
+		super(new Item.Properties().stacksTo(1));
 	}
 
 	@Override

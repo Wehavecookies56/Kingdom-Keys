@@ -2,6 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import javax.annotation.Nullable;
 
+import com.mojang.math.Axis;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -42,8 +45,8 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
+    		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+    		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
     		matrixStackIn.scale(0.1F, 0.1F, 0.8F);
     		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color[0],color[1],color[2], 1F);
      	}

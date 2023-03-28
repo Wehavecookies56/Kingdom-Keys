@@ -105,12 +105,12 @@ public class ModBlocks {
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(KingdomKeys.miscGroup));
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
         ModItems.ITEMS.register(name, item);
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block, CreativeModeTab tab) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(tab));
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
         ModItems.ITEMS.register(name, item);
     }
 }

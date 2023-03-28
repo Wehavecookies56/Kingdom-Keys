@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 
+import com.mojang.math.Axis;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -41,7 +42,7 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 
 		matrixStackIn.translate(0.0D, (double) 0.1F, 0.0D);
 		matrixStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
-		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+		matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
 		matrixStackIn.scale(0.3F, 0.3F, 0.3F);
 		VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getTextureLocation(entityIn)));
 		PoseStack.Pose matrixstack$entry = matrixStackIn.last();

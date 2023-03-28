@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -159,7 +160,7 @@ public class ClientEvents {
 				if(playerData != null) {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
-						event.getPoseStack().mulPose(Vector3f.YP.rotationDegrees(player.tickCount*80));
+						event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {

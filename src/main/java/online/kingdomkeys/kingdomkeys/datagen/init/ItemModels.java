@@ -34,7 +34,7 @@ import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 public class ItemModels extends ItemModelProvider {
 
 	public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, KingdomKeys.MODID, existingFileHelper);
+		super(generator.getPackOutput(), KingdomKeys.MODID, existingFileHelper);
 	}
 
     @Override

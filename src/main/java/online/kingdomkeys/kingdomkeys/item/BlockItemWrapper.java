@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 //Wrapper class to set registry name and item group for an ItemBlock
 public class BlockItemWrapper extends BlockItem {
 
-    public BlockItemWrapper(Block blockIn, CreativeModeTab group) {
-        super(blockIn, new Item.Properties().tab(group));
+    public BlockItemWrapper(Block blockIn) {
+        super(blockIn, new Item.Properties());
     }
 }

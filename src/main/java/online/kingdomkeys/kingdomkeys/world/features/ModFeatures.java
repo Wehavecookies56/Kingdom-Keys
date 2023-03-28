@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ModFeatures {
 
-    public static final DeferredRegister<RuleTestType<?>> RULE_TESTS = DeferredRegister.create(Registries.RULE_TEST.key(), KingdomKeys.MODID);
+    public static final DeferredRegister<RuleTestType<?>> RULE_TESTS = DeferredRegister.create(Registries.RULE_TEST, KingdomKeys.MODID);
     public static final RegistryObject<RuleTestType<MultipleBlockMatchRuleTest>> MULTIPLE_BLOCK_MATCH = RULE_TESTS.register("multiple_block_match", () -> () -> MultipleBlockMatchRuleTest.CODEC);
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, KingdomKeys.MODID);

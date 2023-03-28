@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import com.mojang.math.Axis;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -48,7 +49,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 		        
 	        	matrixStackIn.scale(1.0f, 0.5f, 1.0f);
 
-				matrixStackIn.mulPose(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
+				matrixStackIn.mulPose(Axis.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
 				
 				for (BakedQuad quad : model.getQuads(null, null, entity.level.random, ModelData.EMPTY, RenderType.translucent())) {
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb[0], rgb[1], rgb[2], rgb[3], 0x00F000F0, OverlayTexture.NO_OVERLAY, true);

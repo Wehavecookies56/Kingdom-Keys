@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
@@ -43,7 +44,7 @@ public class WorldLoader {
 
             for (int i = 0; i < palette.size(); i++) {
                 CompoundTag block = palette.getCompound(i);
-                blockStates.add(NbtUtils.readBlockState(block));
+                blockStates.add(NbtUtils.readBlockState(world.holderLookup(Registries.BLOCK), block));
             }
 
             for (int i = 0; i < blocks.size(); i++) {

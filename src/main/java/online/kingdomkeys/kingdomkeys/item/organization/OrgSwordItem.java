@@ -22,7 +22,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
-        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().tab(KingdomKeys.orgWeaponsGroup).stacksTo(1));
+        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().stacksTo(1));
     }
     @Override
 	public float getReach() {

@@ -1,8 +1,16 @@
 package online.kingdomkeys.kingdomkeys;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.common.CreativeModeTabRegistry;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +20,6 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -80,39 +87,50 @@ public class KingdomKeys {
 	public static final String MODVER = "2.2.0.0";
 	public static final String MCVER = "1.19.2";
 
-	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
-		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
-		@Override
-		public ItemStack makeIcon() {
-			return ItemStack.EMPTY;
-		}
+	@SubscribeEvent
+	public void creativeTabRegistry(CreativeModeTabEvent.Register event) {
+		final List<ItemStack> kkItems = ForgeRegistries.ITEMS.getKeys().stream().filter(key -> key.getNamespace().equals(MODID)).map(rl -> new ItemStack(ForgeRegistries.ITEMS.getValue(rl))).toList();
+		final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
+		final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
+		final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon)).toList());
 
-		@Override
-		public ItemStack getIconItem() {
-			List<ItemStack> orgWeaponsList = orgWeapons.get();
-			return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
-		}
-	};
-	public static CreativeModeTab keybladesGroup = new CreativeModeTab(Strings.keybladesGroup) {
-		private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof KeybladeItem).map(ItemStack::new).toList());
-		@Override
-		public ItemStack makeIcon() {
-			return ItemStack.EMPTY;
-		}
+		//Keyblades
+		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.keybladesGroup), builder -> {
+			builder
+					.title(Component.translatable("itemGroup." + Strings.keybladesGroup))
+					.icon(() -> {
+						List<ItemStack> keybladesList = keyblades.get();
+						return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
+					})
+					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
+						keyblades.get().forEach(pOutput::accept);
+					}));
+		});
 
-		@Override
-		public ItemStack getIconItem() {
-			List<ItemStack> keybladesList = keyblades.get();
-			return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
-		}
-	};
-	public static CreativeModeTab miscGroup = new CreativeModeTab(Strings.miscGroup) {
-		@Override
-		public ItemStack makeIcon() {
-			return new ItemStack(ModBlocks.normalBlox.get());
-		}
-	};
-	
+		//Org weapons
+		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.organizationGroup), builder -> {
+			builder
+					.title(Component.translatable("itemGroup." + Strings.organizationGroup))
+					.icon(() -> {
+						List<ItemStack> orgWeaponsList = orgWeapons.get();
+						return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
+					})
+					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
+						orgWeapons.get().forEach(pOutput::accept);
+					}));
+		});
+
+		//Misc
+		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.miscGroup), builder -> {
+			builder
+					.title(Component.translatable("itemGroup." + Strings.miscGroup))
+					.icon(() -> new ItemStack(ModBlocks.normalBlox.get()))
+					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
+						misc.get().forEach(pOutput::accept);
+					}));
+		});
+	}
+
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -165,7 +183,6 @@ public class KingdomKeys {
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);
-		addMoogleHouse();
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
@@ -179,19 +196,20 @@ public class KingdomKeys {
 		});
 	}
 
-	public void addMoogleHouse() {
-		addPieceToPattern(new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
-		addPieceToPattern(new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
-		addPieceToPattern(new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
-		addPieceToPattern(new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
-		addPieceToPattern(new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+	@SubscribeEvent
+	public void addMoogleHouse(TagsUpdatedEvent event) {
+		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
+		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
+		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
+		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
+		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
 	}
 
-	public void addPieceToPattern(ResourceLocation pattern, ResourceLocation structure, int weight) {
-		ResourceKey<StructureTemplatePool> key = ResourceKey.create(Registries.TEMPLATE_POOL, pattern);
-		StructureTemplatePool pat = BuiltinRegistries.TEMPLATE_POOL.get(key);
+	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {
+		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
+		StructureTemplatePool pat = Objects.requireNonNull(registry.get(pattern));
 		pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(StructureTemplatePool.Projection.RIGID), weight));
-		Pools.register(pat);
+		//Pools.register(pat);
 	}
 
 	

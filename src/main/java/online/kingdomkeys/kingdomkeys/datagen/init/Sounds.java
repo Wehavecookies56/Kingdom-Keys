@@ -82,7 +82,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 public class Sounds extends SoundDefinitionsProvider {
 
     public Sounds(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator, KingdomKeys.MODID, helper);
+        super(generator.getPackOutput(), KingdomKeys.MODID, helper);
     }
 
     @Override

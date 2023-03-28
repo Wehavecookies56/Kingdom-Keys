@@ -20,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.datagen.init.Sounds;
 import online.kingdomkeys.kingdomkeys.datagen.init.SynthesisRecipe;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 
+import java.util.Collections;
+
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
@@ -29,18 +31,17 @@ public class DataGeneration {
         final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         //tags
-        BlockTagsGen blockTags = new BlockTagsGen(generator, existingFileHelper);
+        BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new ItemTagsGen(generator, blockTags, existingFileHelper));
-
+        generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags, existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockModels(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
-        generator.addProvider(event.includeServer(), new LootTables(generator));
+        generator.addProvider(event.includeServer(), new LootTables(generator, Collections.emptySet(), Collections.emptyList()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
-        generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator));
+        //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));

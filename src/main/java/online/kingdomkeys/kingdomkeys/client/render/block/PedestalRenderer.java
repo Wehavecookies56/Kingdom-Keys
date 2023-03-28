@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
+import com.mojang.math.Axis;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -59,10 +61,10 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			}
 
 			matrixStack.translate(0.5F, height, 0.5F);
-			matrixStack.mulPose(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
+			matrixStack.mulPose(new Quaternionf(0, 1, 0, rotation));
 			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
 			if(tileEntity.isFlipped()) {
-	        	matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
+	        	matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
 				matrixStack.translate(0, -0.6F, 0);
 
 			}

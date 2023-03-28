@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
+import com.mojang.math.Axis;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -46,7 +47,7 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 		            float f = ageInTicks*20;
 		            if(i %2 == 0)
 		            	f*=-1;
-		            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
+		            matrixStackIn.mulPose(Axis.YP.rotationDegrees(f));
 		            float scale = 1;
 		            switch(globalData.getAeroLevel()) {
 		            case 0:
