@@ -21,6 +21,7 @@ import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -31,30 +32,19 @@ import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
-	
-	public StationOfSorrowChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<Biome> registry) {
-		super(structureSetRegistry, Optional.empty(), new StationOfSorrowBiomeProvider(registry));
-	}
 
-	public static void registerChunkGenerator() {
-		Registry.register(Registries.CHUNK_GENERATOR, new ResourceLocation(KingdomKeys.MODID, "station_of_sorrow_generator"), StationOfSorrowChunkGenerator.CODEC);
+    BiomeSource biomeSource;
+	public StationOfSorrowChunkGenerator(BiomeSource biomeSource) {
+		super(biomeSource);
+        this.biomeSource = biomeSource;
 	}
 
     public static final Codec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    RegistryOps.retrieveRegistry(Registries.STRUCTURE_SET).forGetter(StationOfSorrowChunkGenerator::getStructureSetRegistry),
-                    RegistryOps.retrieveRegistry(Registries.BIOME).forGetter(StationOfSorrowChunkGenerator::getBiomeRegistry)
-            ).apply(instance, StationOfSorrowChunkGenerator::new));
-
-    public Registry<Biome> getBiomeRegistry() {
-        return ((StationOfSorrowBiomeProvider)biomeSource).getBiomeRegistry();
-    }
-
-    public Registry<StructureSet> getStructureSetRegistry() {
-        return structureSets;
-    }
+            instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
+                    .apply(instance, instance.stable(StationOfSorrowChunkGenerator::new)));
 
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
 

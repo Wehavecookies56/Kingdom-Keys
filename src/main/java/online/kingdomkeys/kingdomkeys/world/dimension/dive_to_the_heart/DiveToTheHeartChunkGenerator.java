@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;
@@ -21,13 +22,13 @@ import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -39,27 +40,16 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
-    public DiveToTheHeartChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<Biome> registry) {
-        super(structureSetRegistry, Optional.empty(), new DiveToTheHeartBiomeProvider(registry));
+    public DiveToTheHeartChunkGenerator(BiomeSource biomeSource) {
+        super(biomeSource);
+        this.biomeSource = biomeSource;
     }
 
-    public static void registerChunkGenerator() {
-		Registry.register(Registries.CHUNK_GENERATOR, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart_generator"), DiveToTheHeartChunkGenerator.CODEC);
-	}
+    BiomeSource biomeSource;
 
 	public static final Codec<DiveToTheHeartChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    RegistryOps.retrieveRegistry(Registries.STRUCTURE_SET).forGetter(DiveToTheHeartChunkGenerator::getStructureSetRegistry),
-                    RegistryOps.retrieveRegistry(Registries.BIOME).forGetter(DiveToTheHeartChunkGenerator::getBiomeRegistry)
-            ).apply(instance, DiveToTheHeartChunkGenerator::new));
-
-    public Registry<Biome> getBiomeRegistry() {
-        return ((DiveToTheHeartBiomeProvider)biomeSource).getBiomeRegistry();
-    }
-
-    public Registry<StructureSet> getStructureSetRegistry() {
-        return structureSets;
-    }
+            instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
+                    .apply(instance, instance.stable(DiveToTheHeartChunkGenerator::new)));
 
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
 

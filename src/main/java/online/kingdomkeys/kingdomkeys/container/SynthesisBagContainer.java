@@ -17,9 +17,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class SynthesisBagContainer extends AbstractContainerMenu {
 
-	@ObjectHolder(registryName = "forge:menu", value = KingdomKeys.MODID + ":synthesis_bag")
-	public static MenuType<SynthesisBagContainer> TYPE;
-
 	public static SynthesisBagContainer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buf) {
 		InteractionHand hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		return new SynthesisBagContainer(windowId, inv, inv.player.getItemInHand(hand));
@@ -28,7 +25,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 	private final ItemStack bag;
 
 	public SynthesisBagContainer(int windowId, Inventory playerInv, ItemStack bag) {
-		super(TYPE, windowId);
+		super(ModContainers.SYNTHESIS_BAG.get(), windowId);
 		this.bag = bag;
 		int i;
 		int j;

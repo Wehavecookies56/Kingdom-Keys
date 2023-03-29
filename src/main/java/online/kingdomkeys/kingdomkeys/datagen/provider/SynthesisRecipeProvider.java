@@ -65,7 +65,7 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
 
     @Override
     public String getName() {
-        return "Recipes";
+        return "Synthesis Recipes";
     }
 
     protected CompletableFuture<?> generateAll(CachedOutput cache) {

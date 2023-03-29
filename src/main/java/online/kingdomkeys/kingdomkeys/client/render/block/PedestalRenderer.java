@@ -61,7 +61,7 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			}
 
 			matrixStack.translate(0.5F, height, 0.5F);
-			matrixStack.mulPose(new Quaternionf(0, 1, 0, rotation));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
 			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
 			if(tileEntity.isFlipped()) {
 	        	matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));

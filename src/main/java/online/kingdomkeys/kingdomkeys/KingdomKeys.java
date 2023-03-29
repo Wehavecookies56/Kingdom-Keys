@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.CreativeModeTabRegistry;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import org.apache.logging.log4j.LogManager;
@@ -20,10 +19,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.Pools;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -73,7 +69,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
-import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 
@@ -85,7 +80,7 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.2.0.0";
-	public static final String MCVER = "1.19.2";
+	public static final String MCVER = "1.19.3";
 
 	@SubscribeEvent
 	public void creativeTabRegistry(CreativeModeTabEvent.Register event) {
@@ -155,10 +150,11 @@ public class KingdomKeys {
 
 		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
-		ModBiomes.BIOMES.register(modEventBus);
+		ModDimensions.CHUNK_GENERATORS.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
+		modEventBus.addListener(this::creativeTabRegistry);
 
 		if (ModList.get().isLoaded("epicfight")) {
 			//modEventBus.addListener(KKAnimations::register);
@@ -182,7 +178,6 @@ public class KingdomKeys {
 		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerPlacements);
-		event.enqueueWork(ModDimensions::setupDimension);
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
@@ -208,8 +203,11 @@ public class KingdomKeys {
 	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {
 		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
 		StructureTemplatePool pat = Objects.requireNonNull(registry.get(pattern));
-		pat.rawTemplates.add(Pair.of(StructurePoolElement.legacy(structure.toString()).apply(StructureTemplatePool.Projection.RIGID), weight));
-		//Pools.register(pat);
+		SinglePoolElement piece = StructurePoolElement.legacy(structure.toString()).apply(StructureTemplatePool.Projection.RIGID);
+		for (int i = 0; i < weight; i++) {
+			pat.templates.add(piece);
+		}
+		pat.rawTemplates = List.of(Pair.of(piece, weight));
 	}
 
 	
