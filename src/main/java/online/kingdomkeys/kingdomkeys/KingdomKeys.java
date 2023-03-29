@@ -97,8 +97,8 @@ public class KingdomKeys {
 						List<ItemStack> keybladesList = keyblades.get();
 						return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
 					})
-					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
-						keyblades.get().forEach(pOutput::accept);
+					.displayItems(((params, output) -> {
+						keyblades.get().forEach(output::accept);
 					}));
 		});
 
@@ -110,8 +110,8 @@ public class KingdomKeys {
 						List<ItemStack> orgWeaponsList = orgWeapons.get();
 						return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
 					})
-					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
-						orgWeapons.get().forEach(pOutput::accept);
+					.displayItems(((params, output) -> {
+						orgWeapons.get().forEach(output::accept);
 					}));
 		});
 
@@ -120,8 +120,8 @@ public class KingdomKeys {
 			builder
 					.title(Component.translatable("itemGroup." + Strings.miscGroup))
 					.icon(() -> new ItemStack(ModBlocks.normalBlox.get()))
-					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
-						misc.get().forEach(pOutput::accept);
+					.displayItems(((params, output) -> {
+						misc.get().forEach(output::accept);
 					}));
 		});
 	}
