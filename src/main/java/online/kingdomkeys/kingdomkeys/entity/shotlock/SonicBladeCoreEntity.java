@@ -102,7 +102,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
     		list.remove(getOwner());
     		
             for(LivingEntity enemy : list) {
-				enemy.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+            	enemy.hurt(enemy.damageSources().thrown(this, this.getOwner()), dmg);
 			}
 
 		}

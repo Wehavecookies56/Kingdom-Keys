@@ -199,9 +199,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		boxL.draw(matrixStack);
-		boxM.draw(matrixStack);
-		boxR.draw(matrixStack);
+		boxL.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		boxM.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		prev.visible = page > 0;
@@ -345,7 +345,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 						//playerData.setMaterial(m.getKey(), 1);
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 						drawString(matrixStack, minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
-						itemRenderer.renderGuiItem(stack, -17, (i*16)-4);
+						itemRenderer.renderGuiItem(matrixStack, stack, -17, (i*16)-4);
 						i++;
 					}
 				}

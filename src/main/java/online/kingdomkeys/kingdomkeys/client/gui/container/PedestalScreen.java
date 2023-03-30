@@ -12,7 +12,6 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CheckboxButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.KKSlider;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -38,10 +37,10 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(scaleSlider = new KKSlider(leftPos + 8, topPos + 30, 50, 10, Component.translatable(""), Component.translatable(""), 0.2D, scaleMax, menu.TE.getScale(), 0, 0, false));
-        addRenderableWidget(heightSlider = new KKSlider(leftPos + 8, topPos + 42, 50, 10, Component.translatable(""), Component.translatable(""), 0, heightMax, menu.TE.getBaseHeight(), 0, 0, false));
-        addRenderableWidget(rotationSpeedSlider = new KKSlider(leftPos + 8, topPos + 54, 50, 10, Component.translatable(""), Component.translatable(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), 0, 0, false));
-        addRenderableWidget(bobSpeedSlider = new KKSlider(leftPos + 8, topPos + 66, 50, 10, Component.translatable(""), Component.translatable(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), 0, 0, false));
+        addRenderableWidget(scaleSlider = new ForgeSlider(leftPos + 8, topPos + 30, 50, 10, Component.translatable(""), Component.translatable(""), 0.2D, scaleMax, menu.TE.getScale(), 0, 0, false));
+        addRenderableWidget(heightSlider = new ForgeSlider(leftPos + 8, topPos + 42, 50, 10, Component.translatable(""), Component.translatable(""), 0, heightMax, menu.TE.getBaseHeight(), 0, 0, false));
+        addRenderableWidget(rotationSpeedSlider = new ForgeSlider(leftPos + 8, topPos + 54, 50, 10, Component.translatable(""), Component.translatable(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), 0, 0, false));
+        addRenderableWidget(bobSpeedSlider = new ForgeSlider(leftPos + 8, topPos + 66, 50, 10, Component.translatable(""), Component.translatable(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), 0, 0, false));
         addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
         addRenderableWidget(flippedCheckbox = new CheckboxButton(leftPos + 60, topPos + 18, "Flip", menu.TE.isFlipped()));
         addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("Reset"), p -> {

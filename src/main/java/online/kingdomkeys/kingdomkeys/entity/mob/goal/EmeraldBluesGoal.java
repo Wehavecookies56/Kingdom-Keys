@@ -63,12 +63,12 @@ public class EmeraldBluesGoal extends TargetGoal {
 				break;
 			case 1:
 	            for(LivingEntity enemy : Utils.getLivingEntitiesInRadius(mob, 1F)) {
-					enemy.hurt(DamageSource.mobAttack(mob), (float) mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * 0.03F);
+					enemy.hurt(enemy.damageSources().mobAttack(mob), (float) mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * 0.03F);
 				}
 				break;
 			case 2:
 	            for(LivingEntity enemy : Utils.getLivingEntitiesInRadius(mob, 1.2F)) {
-					enemy.hurt(DamageSource.mobAttack(mob), (float) mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * 0.04F);
+					enemy.hurt(enemy.damageSources().mobAttack(mob), (float) mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * 0.04F);
 				}
 				break;
 			}

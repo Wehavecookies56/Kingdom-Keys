@@ -41,7 +41,7 @@ public class MenuColourBox extends AbstractWidget {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		// isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y +
 		// height;
 		if (visible) {

@@ -29,4 +29,10 @@ public class HPBarHUDElement extends HUDElement {
     public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
 
     }
+
+	@Override
+	public void renderWidget(PoseStack p_268228_, int p_268034_, int p_268009_, float p_268085_) {
+		// TODO Auto-generated method stub
+		
+	}
 }

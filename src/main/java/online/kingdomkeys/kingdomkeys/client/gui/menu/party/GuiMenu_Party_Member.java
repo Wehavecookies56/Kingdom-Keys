@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -125,7 +127,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 					matrixStack.pushPose();
 					matrixStack.scale(0.9F, 0.9F, 1.0F);
 
-					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+					InventoryScreen.renderEntityInInventory(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, new Quaternionf(), new Quaternionf(), player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);

@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 public class ItemTagsGen extends ItemTagsProvider {
 
 
-	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, TagsProvider<Block> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
+	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, CompletableFuture<TagLookup<Block>> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
 		super(p_255871_, p_256035_, p_256467_, KingdomKeys.MODID, existingFileHelper);
 	}
 

@@ -73,11 +73,6 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
-        super.renderBackground(matrixStack, p_renderBackground_1_);
-    }
-
-    @Override
     public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
     	
         renderBackground(matrixStack);

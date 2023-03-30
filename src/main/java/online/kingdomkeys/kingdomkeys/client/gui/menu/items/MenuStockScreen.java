@@ -42,7 +42,7 @@ public class MenuStockScreen extends MenuFilterable {
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-        box.draw(matrixStack);
+		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         inventory.forEach(i -> i.render(matrixStack, mouseX, mouseY, partialTicks));

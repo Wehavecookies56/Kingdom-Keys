@@ -105,7 +105,7 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
-					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					super.remove(RemovalReason.KILLED);
 				}
 			}

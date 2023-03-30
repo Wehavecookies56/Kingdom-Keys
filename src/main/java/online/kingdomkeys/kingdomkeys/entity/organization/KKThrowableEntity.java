@@ -161,7 +161,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getProjOwner()) {
 					// target.setFire(5);
-					target.hurt(DamageSource.thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					// setReturn();
 					setDeltaMovement(getDeltaMovement().scale(0.5));
 					dmg *= 0.9;

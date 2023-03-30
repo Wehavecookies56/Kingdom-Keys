@@ -116,7 +116,7 @@ public class GravigaEntity extends ThrowableProjectile {
 								float dmg = this.getOwner() instanceof Player ? ((LivingEntity)e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
 								dmg = Math.min(dmg, 99);
 								System.out.println(dmg * dmgMult);
-								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 							}
 							if (e instanceof LivingEntity)
 								PacketHandler.syncToAllAround((LivingEntity) e, globalData);

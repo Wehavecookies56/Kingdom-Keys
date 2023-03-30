@@ -175,8 +175,8 @@ public abstract class HUDElement extends AbstractWidget {
      * Render the hud element here, might be redundant as drawElement can currently be called instead
      * @param partialTicks the partial ticks from the render event
      */
-    public void render(PoseStack matrixStack, float partialTicks) {
-        drawElement(matrixStack, partialTicks);
+    public void render(PoseStack matrixStack, int x, int y, float partialTicks) {
+        renderWidget(matrixStack, x, y, partialTicks);
     }
     public abstract void tick();
 

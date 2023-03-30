@@ -195,7 +195,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                             this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
                             for(LivingEntity enemy : EntityHelper.getEntitiesNear(this.theEntity, 2.5))
-                                enemy.hurt(DamageSource.mobAttack(this.theEntity), 4);
+								enemy.hurt(enemy.damageSources().mobAttack(this.theEntity), 4);
                         } else {
                             return;
                         }

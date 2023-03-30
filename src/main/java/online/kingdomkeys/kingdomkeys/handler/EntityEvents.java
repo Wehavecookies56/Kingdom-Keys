@@ -590,7 +590,7 @@ public class EntityEvents {
 						if(!list.isEmpty()) {
 							for(Entity e : list) {
 								if(event.getEntity() instanceof Player)
-									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
+									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
 							}
 						}
 					}
@@ -601,7 +601,7 @@ public class EntityEvents {
 						if(!list.isEmpty()) {
 							for(Entity e : list) {
 								if(event.getEntity() instanceof Player)
-									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
+									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
 							}
 						}
 					}
@@ -682,7 +682,7 @@ public class EntityEvents {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
+								e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 							}
 						}
 						player.level.playSound(null, player.blockPosition(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -1078,7 +1078,7 @@ public class EntityEvents {
 				}
 			}
 			//TODO check if works
-			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.anvil(event.getSource().getEntity())) {
+			if(event.getEntity() instanceof MoogleEntity && event.getSource() == event.getEntity().damageSources().anvil(event.getSource().getEntity())) {
 				ItemEntity ie = new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().level.addFreshEntity(ie);
 			}

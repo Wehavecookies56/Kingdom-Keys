@@ -24,7 +24,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 	String textureName;
 	
-	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlot slot, String textureName) {
+	public BaseArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
 		super(materialIn, slot, new Item.Properties());
 		this.textureName = textureName;
 	}

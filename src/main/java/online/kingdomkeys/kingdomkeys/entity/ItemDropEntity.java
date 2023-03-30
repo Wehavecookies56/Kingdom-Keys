@@ -114,7 +114,7 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	protected void dealFireDamage(int amount) {
-		this.hurt(DamageSource.IN_FIRE, (float) amount);
+		this.hurt(this.damageSources().onFire(), (float) amount);
 	}
 
 	/**

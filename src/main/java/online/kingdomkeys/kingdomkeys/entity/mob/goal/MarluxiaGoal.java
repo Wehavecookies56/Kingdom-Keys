@@ -190,7 +190,7 @@ public class MarluxiaGoal extends TargetGoal {
 	    		list.remove(mob);
 	    		
 	            for(LivingEntity enemy : list) {
-	            	enemy.hurt(DamageSource.MAGIC, 3);
+	            	enemy.hurt(enemy.damageSources().magic(), 3);
 				}						
 			}
 		} else if(chasingTicks >= 300) {
@@ -211,7 +211,7 @@ public class MarluxiaGoal extends TargetGoal {
 			if(this.mob.getTarget() instanceof Player)
 				((Player)this.mob.getTarget()).travel(new Vec3(0,2,0));
 			this.mob.getTarget().setDeltaMovement(0,1.2,0);
-			mob.getTarget().hurt(DamageSource.MAGIC, 2);
+        	mob.getTarget().hurt(mob.getTarget().damageSources().magic(), 2);
 		} else {
 			EntityHelper.setState(mob, 0);
 		}

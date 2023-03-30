@@ -5,6 +5,7 @@ import org.joml.Matrix4f;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -40,7 +41,7 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
             	matrixStackIn.scale((30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F);
 
             Matrix4f matrix4f = matrixStackIn.last().pose();
-            mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0x00FFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
+            mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0x00FFFF, false, matrix4f, bufferIn, Font.DisplayMode.NORMAL, 0, packedLightIn);
             matrixStackIn.popPose();
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

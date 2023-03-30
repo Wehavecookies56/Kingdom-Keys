@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
 
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -151,7 +153,7 @@ public class MenuScreen extends MenuBackground {
 			Player player = minecraft.player;
 			// player.getSwingProgress(1);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+			InventoryScreen.renderEntityInInventory(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, new Quaternionf(), new Quaternionf(), player);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 		}
 		matrixStack.popPose();

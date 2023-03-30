@@ -24,28 +24,25 @@ public class DangerBloxBlock extends BaseBlock {
         super(properties);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return collisionShape;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity) {
             LivingEntity entityLiving = (LivingEntity) entity;
             if (ItemStack.matches(entityLiving.getItemBySlot(EquipmentSlot.FEET), ItemStack.EMPTY)) {
-                entity.hurt(DamageSource.MAGIC, damage);
+                entity.hurt(entity.damageSources().magic(), damage);
             }
         } else {
-            entity.hurt(DamageSource.MAGIC, damage);
+            entity.hurt(entity.damageSources().magic(), damage);
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void attack(BlockState state, Level world, BlockPos pos, Player player) {
-        player.hurt(DamageSource.MAGIC, damage);
+        player.hurt(player.damageSources().magic(), damage);
     }
 }

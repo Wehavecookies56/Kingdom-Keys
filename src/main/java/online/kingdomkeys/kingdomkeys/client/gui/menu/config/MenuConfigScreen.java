@@ -1134,7 +1134,7 @@ public class MenuConfigScreen extends MenuBackground {
 		focusButton.active = window != ActualWindow.FOCUS;
 		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
 		
-		box.draw(matrixStack);
+		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		for(AbstractWidget b : commandMenuList) {
