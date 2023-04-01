@@ -19,7 +19,7 @@ public class MagicGravity extends Magic {
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
-		player.level.playSound(null, player.blockPosition(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
 
 		switch(level) {
 		case 0:

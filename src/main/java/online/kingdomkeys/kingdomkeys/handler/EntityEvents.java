@@ -358,7 +358,7 @@ public class EntityEvents {
 						playerData.setFP(playerData.getFP() - 0.3);
 					} else {
 						playerData.setActiveDriveForm(DriveForm.NONE.toString());
-						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						if(!event.player.level.isClientSide) {
 							PacketHandler.syncToAllAround(event.player, playerData);
 						}
@@ -686,7 +686,7 @@ public class EntityEvents {
 								e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 							}
 						}
-						player.level.playSound(null, player.blockPosition(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 					playerData.setReflectActive(false); // Restart reflect
@@ -967,9 +967,9 @@ public class EntityEvents {
 		if(event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if(player.level.getLevelData().isHardcore())
-				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
 			else
-				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
+				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 
 		if (!event.getEntity().level.isClientSide) {
