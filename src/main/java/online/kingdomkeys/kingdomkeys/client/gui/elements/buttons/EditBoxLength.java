@@ -436,7 +436,8 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         this.setFocused(pIsFocused);
     }
 
-    public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    @Override
+    public void renderWidget(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.isVisible()) {
             if (this.isBordered()) {
                 int i = this.isFocused() ? -1 : -6250336;
@@ -592,9 +593,9 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         this.textColorUneditable = pColor;
     }
 
-    public boolean changeFocus(boolean pFocus) {
+    /*public boolean changeFocus(boolean pFocus) {
         return this.visible && this.isEditable ? super.changeFocus(pFocus) : false;
-    }
+    }*/
 
     public boolean isMouseOver(double pMouseX, double pMouseY) {
         return this.visible && pMouseX >= (double)this.getX() && pMouseX < (double)(this.getX() + this.width) && pMouseY >= (double)this.getY() && pMouseY < (double)(this.getY() + this.height);
@@ -694,4 +695,5 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

@@ -92,7 +92,7 @@ public enum KKArmorMaterial implements ArmorMaterial {
 
 	@Override
 	public int getDefenseForType(ArmorItem.Type slotIn) {
-		return this.damageReductionAmountArray[slotIn.getIndex()];
+		return this.damageReductionAmountArray[slotIn.ordinal()]; //TODO changed intex to ordinal for 1.19.4, might not be the best way
 	}
 
 	@Override

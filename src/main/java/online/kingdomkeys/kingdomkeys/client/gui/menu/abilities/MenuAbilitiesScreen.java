@@ -373,12 +373,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
-			renderSelectedData(mouseX, mouseY, partialTicks);
+			renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
 		}
 	}
 
-	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
-		ClientUtils.drawSplitString(font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
+	protected void renderSelectedData(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+		ClientUtils.drawSplitString(poseStack, font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP(PoseStack matrixStack) {

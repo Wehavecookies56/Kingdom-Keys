@@ -271,7 +271,7 @@ public class MenuBackground extends Screen {
 		if(tip != null) {
 			matrixStack.pushPose();
 			{
-				ClientUtils.drawSplitString(font, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
+				ClientUtils.drawSplitString(matrixStack, font, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
 			}
 			matrixStack.popPose();
 		}

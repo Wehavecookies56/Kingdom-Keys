@@ -379,13 +379,13 @@ public class MenuEquipmentButton extends Button {
 						}
 						
 						if(stack.getItem() instanceof KeychainItem) {
-	                    	ClientUtils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	ClientUtils.drawSplitString(matrixStack, fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
-                            ClientUtils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(matrixStack, fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKPotionItem) {
-                            ClientUtils.drawSplitString(fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(matrixStack, fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     }
                 } 

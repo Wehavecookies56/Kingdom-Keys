@@ -133,7 +133,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 							this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
 							for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.mob, 4))
-								enemy.hurt(DamageSource.mobAttack(this.mob), 4);
+								enemy.hurt(enemy.damageSources().mobAttack(this.mob), 4);
 						} else {
 							return;
 						}

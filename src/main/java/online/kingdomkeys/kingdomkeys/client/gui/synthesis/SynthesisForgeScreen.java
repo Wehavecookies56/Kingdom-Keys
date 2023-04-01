@@ -299,7 +299,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				String text = Utils.translateToLocal(kb.getDescriptionId());
 				drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-				ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+				ClientUtils.drawSplitString(matrixStack, font, kb.getDesc(), (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 			}
 			matrixStack.popPose();
 			

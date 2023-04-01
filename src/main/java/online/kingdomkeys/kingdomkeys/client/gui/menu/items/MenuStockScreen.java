@@ -71,7 +71,7 @@ public class MenuStockScreen extends MenuFilterable {
         if(selectedItemstack.getItem() instanceof KeybladeItem || selectedItemstack.getItem() instanceof KeychainItem) {
         	KeybladeItem kb = selectedItemstack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemstack.getItem()).getKeyblade() : (KeybladeItem) selectedItemstack.getItem();
 
-            ClientUtils.drawSplitString(font, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
+            ClientUtils.drawSplitString(matrixStack, font, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
         } else {
