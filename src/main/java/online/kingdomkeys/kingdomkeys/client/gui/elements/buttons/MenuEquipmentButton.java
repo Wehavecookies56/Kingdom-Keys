@@ -142,7 +142,7 @@ public class MenuEquipmentButton extends Button {
                 blit(matrixStack, 0, 0, 166, 34, 18, 28);
                 //Middle item slot
                 for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                    blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
+                    blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
                 }
                 //Right item slot
                 blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
@@ -170,14 +170,13 @@ public class MenuEquipmentButton extends Button {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                    
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
                     blit(matrixStack, 0, 0, 128, 34, 18, 28);
                     //Middle selected
                     for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                        blit(matrixStack, 17 + i, 0, 146, 34, 2, 28);
+                        blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
                     }
                     //Right selected
                     blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
@@ -414,6 +413,7 @@ public class MenuEquipmentButton extends Button {
                 }
                 matrixStack.popPose();
                 float centerX = (labelWidth / 2) - (fr.width(Utils.translateToLocal(label)) / 2);
+    			RenderSystem.setShaderColor(1,1,1,1);
                 drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (getX() - labelWidth + centerX), getY() + 3, labelColour);
             }
         }

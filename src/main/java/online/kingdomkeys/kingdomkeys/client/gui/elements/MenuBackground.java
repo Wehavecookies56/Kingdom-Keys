@@ -151,6 +151,7 @@ public class MenuBackground extends Screen {
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawBars(matrixStack);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawMunnyTime(matrixStack);
 		drawBiomeDim(matrixStack);
 		drawTip(matrixStack);

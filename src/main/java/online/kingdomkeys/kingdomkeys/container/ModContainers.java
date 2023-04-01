@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.container;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,7 +31,7 @@ public class ModContainers {
     ;
 
     public static <M extends AbstractContainerMenu> RegistryObject<MenuType<?>> createContainer(String name, IContainerFactory<M> container) {
-        RegistryObject<MenuType<?>> result = CONTAINERS.register(name, () -> new MenuType<>(container));
+        RegistryObject<MenuType<?>> result = CONTAINERS.register(name, () -> new MenuType<>(container, FeatureFlags.VANILLA_SET));
         return result;
     }
 

@@ -17,8 +17,8 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
-	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
+	 /*private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);*/
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -45,7 +45,7 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));*/
         
-        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
+       // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 
     }
 }

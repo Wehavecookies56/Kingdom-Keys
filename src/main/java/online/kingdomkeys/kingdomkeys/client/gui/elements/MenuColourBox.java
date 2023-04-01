@@ -54,6 +54,7 @@ public class MenuColourBox extends AbstractWidget {
 			for (int i = 0; i < middleWidth; i++) {
 				blit(matrixStack, getX() + i, getY(), u, vPos, 1, height);
 			}
+			RenderSystem.setShaderColor(1,1,1,1);
 			drawString(matrixStack, minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
 			drawString(matrixStack, minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();

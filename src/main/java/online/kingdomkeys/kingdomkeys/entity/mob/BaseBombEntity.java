@@ -37,6 +37,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
 
@@ -104,7 +105,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!this.level.isClientSide) {
-            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getDirectEntity() instanceof FireEntity)) {
+            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getMsgId().equals(KKResistanceType.fire.toString()))) {
                 explode();
             }
         }

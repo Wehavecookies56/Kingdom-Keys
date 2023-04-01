@@ -45,7 +45,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 	protected void action(String string) {
 		switch(string) {
 		case "back":
-			GuiHelper.openMenu();			
+			GuiHelper.openMenu();
 			break;		
 		case "leave":
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
@@ -126,8 +126,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				if(member != null && player != null) {
 					matrixStack.pushPose();
 					matrixStack.scale(0.9F, 0.9F, 1.0F);
-
-					InventoryScreen.renderEntityInInventory(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, new Quaternionf(), new Quaternionf(), player);
+					InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, this.minecraft.player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);

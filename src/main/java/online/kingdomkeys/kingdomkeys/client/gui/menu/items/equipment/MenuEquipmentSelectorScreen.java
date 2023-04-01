@@ -77,6 +77,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 				ability = Utils.translateToLocal(a.getTranslationKey());
 			}
 		}
+
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
 		if(form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added

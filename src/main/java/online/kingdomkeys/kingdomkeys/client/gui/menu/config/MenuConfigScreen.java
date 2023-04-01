@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -1109,11 +1110,11 @@ public class MenuConfigScreen extends MenuBackground {
 
 		});
 
-		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable("gui.menu.config.impexp.import"), (e) -> {
+		addRenderableWidget(Import = Button.builder(Component.translatable("gui.menu.config.impexp.import"), (e) -> {
 			readImportCode(importCode.getValue());
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20).build());
 
-		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable("gui.menu.config.impexp.export"), (e) -> {
+		addRenderableWidget(export = Button.builder(Component.translatable("gui.menu.config.impexp.export"), (e) -> {
 			Minecraft.getInstance().keyboardHandler.setClipboard(exportCode());
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20).build());
 		

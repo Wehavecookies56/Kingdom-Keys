@@ -15,12 +15,15 @@ public class KeybladeDamageSource extends DamageSource {
 	}
 	
 	public static DamageSource causeOffhandKeybladeDamage(Player player) {
-		if(player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem)
-			return player.damageSources().source(KKDamageTypes.OFFHAND, player);
-		else
+		if(player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) {
+			return player.damageSources().source(KKDamageTypes.OFFHAND, player, player);
+		} else
 			return player.damageSources().playerAttack(player);
 	}
 
+	/* public static DamageSource getFireDamage(Entity directEntity, Entity indirectEntity) {
+			return directEntity.damageSources().source(KKDamageTypes.FIRE,directEntity,indirectEntity);        
+	    }*/
 	@Override
 	public Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
 		return Component.translatable("keybladedamage.death", entityLivingBaseIn.getDisplayName().getString(), entityLivingBaseIn.getDisplayName().getString());

@@ -78,9 +78,9 @@ public class MenuStockItem extends Button {
                     matrixStack.scale(scale, scale, 1);
                     blit(matrixStack, 0, 0, 27, 0, 18, 28);
                     for (int i = 0; i < (width * (1 / scale)) - (17 * (1 / scale)); i++) {
-                        blit(matrixStack, 17 + i, 0, 45, 0, 2, 28);
+                        blit(matrixStack, 16 + i, 0, 46, 0, 2, 28);
                     }
-                    blit(matrixStack, (int)(width * (1 / scale)) - 17, 0, 47, 0, 17, 28);
+                    blit(matrixStack, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
                 }
                 matrixStack.popPose();
             }

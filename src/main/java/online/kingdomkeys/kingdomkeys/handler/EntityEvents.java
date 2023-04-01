@@ -62,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -816,13 +817,13 @@ public class EntityEvents {
 				damage -= (damage * resistMultiplier);
 			}
 						
-			if(event.getSource() instanceof FireDamageSource) {
+			if(event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.fire.toString())) / 100F;
-			} else if (event.getSource() instanceof IceDamageSource) {
+			} else if (event.getSource().getMsgId().equals(KKResistanceType.ice.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.ice.toString())) / 100F;
-			} else if (event.getSource() instanceof LightningDamageSource) {
+			} else if (event.getSource().getMsgId().equals(KKResistanceType.lightning.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString())) / 100F;
-			} else if (event.getSource() instanceof DarknessDamageSource) {
+			} else if (event.getSource().getMsgId().equals(KKResistanceType.darkness.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;	
 			}
 			//System.out.println(damage);
@@ -880,7 +881,7 @@ public class EntityEvents {
 				
 				if (EntityHelper.getState(event.getEntity()) == 1) { // If marly is armored
 					damage = event.getAmount() * 0.1F;
-					if (event.getSource() instanceof FireDamageSource) {
+					if (event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
 				} else if (EntityHelper.getState(event.getEntity()) == 2) {

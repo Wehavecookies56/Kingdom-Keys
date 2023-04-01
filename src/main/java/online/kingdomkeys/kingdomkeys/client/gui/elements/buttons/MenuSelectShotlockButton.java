@@ -73,7 +73,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
-				blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
+				blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
 			}
 			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -97,7 +97,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-						blit(matrixStack, 17 + i, 0, 146, 34, 2, 28);
+						blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
 					}
 					blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
@@ -116,7 +116,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				
 				blit(matrixStack, 0, 0, 219, 34, 15, 28);
 				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
-					blit(matrixStack, 14 + i, 0, 184, 34, 2, 28);
+					blit(matrixStack, 14 + i, 0, 186, 34, 2, 28);
 				}
 				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}

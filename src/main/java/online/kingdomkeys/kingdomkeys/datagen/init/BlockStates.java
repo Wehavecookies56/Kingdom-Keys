@@ -84,7 +84,7 @@ public class BlockStates extends BlockStateProvider {
 				// skip
 			} else if (block instanceof SoAPlatformCoreBlock) {
 				// skip
-			} else if (block instanceof SoADoorBlock) {
+			//} else if (block instanceof SoADoorBlock) {
 				// skip
 			} else if (block instanceof PedestalBlock) {
 				// skip

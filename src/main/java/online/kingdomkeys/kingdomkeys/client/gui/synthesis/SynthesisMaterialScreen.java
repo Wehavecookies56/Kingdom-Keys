@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
@@ -238,6 +239,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();

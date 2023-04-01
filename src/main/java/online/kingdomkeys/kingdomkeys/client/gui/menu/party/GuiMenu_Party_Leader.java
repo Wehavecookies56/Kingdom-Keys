@@ -151,7 +151,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
 					matrixStack.pushPose();
-					InventoryScreen.renderEntityInInventory(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, new Quaternionf(), new Quaternionf(), player);
+				    InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, this.minecraft.player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);

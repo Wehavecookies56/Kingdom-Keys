@@ -210,7 +210,7 @@ public class Utils {
 				return player.getMainHandItem();
 			}
 			break;
-		case "keybladeOffhand":
+		case "offhand":
 			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
 				return player.getOffhandItem();
 			}

@@ -2,14 +2,22 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
 
+import javax.annotation.Nullable;
+
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -42,7 +50,6 @@ public class MenuScreen extends MenuBackground {
 
 	MenuButton items, abilities, customize, party, status, journal, config;
 
-	static int munny;
 	protected void action(int buttonID) {
 		switch (buttonID) {
 		case ITEMS:
@@ -143,23 +150,20 @@ public class MenuScreen extends MenuBackground {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		drawPlayer(matrixStack);
 	}
-
+	
 	public void drawPlayer(PoseStack matrixStack) {
+		//PoseStack ps2 = matrixStack;
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
 		matrixStack.pushPose();
 		{
 			Player player = minecraft.player;
-			// player.getSwingProgress(1);
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.renderEntityInInventory(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, new Quaternionf(), new Quaternionf(), player);
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
+		    InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, this.minecraft.player);
 		}
 		matrixStack.popPose();
 		matrixStack.pushPose();
-		
-		RenderSystem.setShaderColor(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			matrixStack.translate(1, 1, 100);
 			
 			RenderSystem.enableBlend();
@@ -183,6 +187,7 @@ public class MenuScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(2, 2, 100);
+			
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			if (playerData != null) {
 				matrixStack.pushPose();
