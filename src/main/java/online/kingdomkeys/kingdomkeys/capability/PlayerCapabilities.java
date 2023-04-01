@@ -627,7 +627,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		if(sound)
-			player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
@@ -668,7 +668,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(baseAbility,name);
 		}
 
-		player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+		player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 
 		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}

@@ -54,7 +54,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 		    	}
 		    	player.level.addFreshEntity(entity);
 
-				player.level.playSound(player, player.blockPosition(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1F, 1F);
+				player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1F, 1F);
 				entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, (1F + (dmgMult * 2)), 0);
 				
 				if(player.getMainHandItem() != null && player.getMainHandItem().getItem() == this) {

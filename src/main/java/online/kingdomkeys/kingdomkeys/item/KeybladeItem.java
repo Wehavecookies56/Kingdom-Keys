@@ -160,11 +160,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								//System.out.println(formChainID);
 								//if(playerData.isAbilityEquipped(Strings.synchBlade))
 								player.getInventory().setItem(slot, ItemStack.EMPTY);
-								player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+								player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
 						} else {
 							player.getInventory().setItem(slot, ItemStack.EMPTY);
-							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 						//Check for dupes
@@ -180,7 +180,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
 									if (id.equals(stackID) && i != player.getInventory().selected) {
 										player.getInventory().setItem(i, ItemStack.EMPTY);
-										player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+										player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 									}
 								}
 							}
@@ -256,7 +256,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 						world.addFreshEntity(shot);
-						player.level.playSound(null, player.blockPosition(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 				}

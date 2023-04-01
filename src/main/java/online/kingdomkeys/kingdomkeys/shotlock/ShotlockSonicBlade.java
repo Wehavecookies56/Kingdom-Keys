@@ -26,7 +26,7 @@ public class ShotlockSonicBlade extends Shotlock {
 
 	@Override
 	public void onUse(Player player, List<Entity> targetList) {
-		player.level.playSound(null, player.blockPosition(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setLimitCooldownTicks(cooldown);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);

@@ -106,11 +106,11 @@ public class InputHandler {
         if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
         	PacketHandler.sendToServer(new CSSummonKeyblade(true));
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.level.playSound(player, player.blockPosition(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
         	return true;
         }
         
@@ -127,11 +127,11 @@ public class InputHandler {
 
         if (random * 100 < prob) {
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.level.playSound(player, player.blockPosition(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
             return true;
         } else {
             return false;
@@ -140,7 +140,7 @@ public class InputHandler {
 
     public void commandUp() {
         Minecraft mc = Minecraft.getInstance();
-        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
+        mc.level.playSound(mc.player, mc.player.position().x(),mc.player.position().y(),mc.player.position().z(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
         loadLists();
 
@@ -217,7 +217,7 @@ public class InputHandler {
 
     public void commandDown() {
         Minecraft mc = Minecraft.getInstance();
-        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
+        mc.level.playSound(mc.player, mc.player.position().x(),mc.player.position().y(),mc.player.position().z(), ModSounds.menu_move.get(), SoundSource.MASTER, 1.0f, 1.0f);
         loadLists();
 
         // Mainmenu
@@ -316,10 +316,10 @@ public class InputHandler {
                         if (!this.portalCommands.isEmpty() && !playerData.getRecharge()) {
                             CommandMenuGui.submenu = CommandMenuGui.SUB_PORTALS;
                             CommandMenuGui.portalSelected = 0;
-                            world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         } else {
                             CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                            world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         }
                         return;
                     }
@@ -347,11 +347,11 @@ public class InputHandler {
                     if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicsMap.isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
                         //CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-                        mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                        mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     }
                 }
                 break;
@@ -361,10 +361,10 @@ public class InputHandler {
                     if (!this.itemsList.isEmpty()) {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_ITEMS;
                         CommandMenuGui.itemSelected = 0;
-                        world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     } else {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                        world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                        world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     }
                     return;
                 }
@@ -381,20 +381,20 @@ public class InputHandler {
 	                        	if(!driveFormsMap.isEmpty()) {
 	                                CommandMenuGui.driveSelected = 0;
 	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
-	                                mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                                mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                                return;
 	                        	} else {
 	                                CommandMenuGui.selected = CommandMenuGui.ATTACK;
-	                                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                        	}
 	                        }
 	                	} else {//REVERT
 	                		
 	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
-	                			player.level.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		} else {
 			                	PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
-			            		player.level.playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		}
 						}
 					} else { // Org member Limits
@@ -402,7 +402,7 @@ public class InputHandler {
                 		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
 							CommandMenuGui.limitSelected = 0;
 							CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
-							mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							return;
 						}
 
@@ -445,7 +445,7 @@ public class InputHandler {
 
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                 }
             }
         }
@@ -455,13 +455,13 @@ public class InputHandler {
      // Limits Submenu
         if (CommandMenuGui.selected == CommandMenuGui.DRIVE && CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
 			if (this.limitsList.isEmpty()) {
-                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                 CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 			} else {
 				
 				if(playerData.getDP() < limitsList.get(CommandMenuGui.limitSelected).getCost()) {
-                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
 				} else {
@@ -471,7 +471,7 @@ public class InputHandler {
 						PacketHandler.sendToServer(new CSUseLimitPacket(CommandMenuGui.limitSelected));
 					CommandMenuGui.selected = CommandMenuGui.ATTACK;
 					CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-					world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+					world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				}
 			}
 		}
@@ -500,14 +500,14 @@ public class InputHandler {
             			//Target selector
             			CommandMenuGui.targetSelected = party.getMemberIndex(player.getUUID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
-    	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
             		}
             		CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-                    world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
                
             }
@@ -522,20 +522,20 @@ public class InputHandler {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-	            		player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
 		                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-		            		player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                    }
 	                }
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
 	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	 } else {
  	                CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
                      CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                     world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                     world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
             }
         }
@@ -551,9 +551,9 @@ public class InputHandler {
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicName, member.getUsername(), level));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-	                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
 
             }
@@ -580,9 +580,9 @@ public class InputHandler {
                 	}
             		CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	} else {
-	                world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
             	}
 
             }
@@ -597,7 +597,7 @@ public class InputHandler {
 				double cost = ModMagic.registry.get().getValue(new ResourceLocation(magic)).getCost(mag[0], player);
 
             	if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
-                    world.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
                     CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             	} else {
@@ -605,7 +605,7 @@ public class InputHandler {
             			Party party = worldData.getPartyFromMember(player.getUUID());
                         CommandMenuGui.targetSelected = party.getMemberIndex(player.getUUID());
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
-    	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
             		} else {
                 		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
@@ -614,7 +614,7 @@ public class InputHandler {
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             		}
-                    world.playSound(player, player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                    world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
     			}
             }
         }
@@ -649,7 +649,7 @@ public class InputHandler {
 
 	public void commandBack() {
     	Minecraft mc = Minecraft.getInstance();
-    	mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    	mc.level.playSound(mc.player, mc.player.position().x(),mc.player.position().y(),mc.player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         Player player = mc.player;
         Level world = mc.level;
 
@@ -657,25 +657,25 @@ public class InputHandler {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_DRIVE) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_PORTALS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ATTACKS) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_TARGET) {
             CommandMenuGui.submenu = CommandMenuGui.selected == CommandMenuGui.MAGIC ? CommandMenuGui.SUB_MAGIC : CommandMenuGui.ITEMS;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         } else if (CommandMenuGui.submenu == CommandMenuGui.SUB_LIMIT) {
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
-            world.playSound(player, player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
         }
         //CommandMenuGui.magicSelected = 0;
         CommandMenuGui.driveSelected = 0;
@@ -780,7 +780,7 @@ public class InputHandler {
                                     if (reach >= distance) {
                                         if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                                             lockOn = (LivingEntity) ertr.getEntity();
-                                            player.level.playSound((Player) player, player.blockPosition(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                                            player.level.playSound((Player) player, player.position().x(),player.position().y(),player.position().z(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
                                         }
                                     }
                                 }
@@ -936,7 +936,7 @@ public class InputHandler {
     		Player player = mc.player;
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
 			CommandMenuGui.reactionSelected = 0;
-			player.level.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		}
 	}
 
