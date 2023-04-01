@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:organization_chestplate"
-  }
+  },
+  "show_notification": true
 }

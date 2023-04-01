@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public class KKDamageTypes {
 	
-	protected static void bootstrap(BootstapContext<DamageType> context){
+	public static void bootstrap(BootstapContext<DamageType> context){
         context.register(KKDamageTypes.DARKNESS, new DamageType(KKResistanceType.darkness.toString(), 0.1F));
         context.register(KKDamageTypes.FIRE, new DamageType(KKResistanceType.fire.toString(), 0.1F));
         context.register(KKDamageTypes.LIGHTNING, new DamageType(KKResistanceType.lightning.toString(), 0.1F));

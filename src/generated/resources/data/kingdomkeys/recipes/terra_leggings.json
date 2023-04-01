@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:terra_leggings"
-  }
+  },
+  "show_notification": true
 }

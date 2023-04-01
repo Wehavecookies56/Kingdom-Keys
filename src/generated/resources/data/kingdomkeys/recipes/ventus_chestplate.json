@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:ventus_chestplate"
-  }
+  },
+  "show_notification": true
 }

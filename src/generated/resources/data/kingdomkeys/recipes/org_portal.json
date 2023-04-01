@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:org_portal"
-  }
+  },
+  "show_notification": true
 }

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "kingdomkeys:ventus_helmet"
-  }
+  },
+  "show_notification": true
 }

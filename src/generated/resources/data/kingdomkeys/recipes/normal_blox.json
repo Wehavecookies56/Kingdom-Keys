@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "kingdomkeys:normal_blox"
-  }
+  },
+  "show_notification": true
 }

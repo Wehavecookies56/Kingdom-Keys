@@ -21,5 +21,6 @@
   "result": {
     "count": 4,
     "item": "kingdomkeys:mosaic_stained_glass"
-  }
+  },
+  "show_notification": true
 }

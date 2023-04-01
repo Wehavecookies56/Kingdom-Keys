@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "kingdomkeys:synthesis_bag"
-  }
+  },
+  "show_notification": true
 }

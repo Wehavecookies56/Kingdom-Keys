@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "kingdomkeys:bounce_blox"
-  }
+  },
+  "show_notification": true
 }

@@ -20,5 +20,6 @@
   ],
   "result": {
     "item": "kingdomkeys:ghost_blox"
-  }
+  },
+  "show_notification": true
 }

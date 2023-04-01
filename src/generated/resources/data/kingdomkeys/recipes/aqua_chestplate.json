@@ -26,5 +26,6 @@
   ],
   "result": {
     "item": "kingdomkeys:aqua_chestplate"
-  }
+  },
+  "show_notification": true
 }

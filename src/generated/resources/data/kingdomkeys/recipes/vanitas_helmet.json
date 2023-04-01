@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "kingdomkeys:vanitas_helmet"
-  }
+  },
+  "show_notification": true
 }

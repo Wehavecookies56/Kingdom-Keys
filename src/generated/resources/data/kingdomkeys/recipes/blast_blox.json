@@ -20,5 +20,6 @@
   ],
   "result": {
     "item": "kingdomkeys:blast_blox"
-  }
+  },
+  "show_notification": true
 }

@@ -20,5 +20,6 @@
   ],
   "result": {
     "item": "kingdomkeys:pedestal"
-  }
+  },
+  "show_notification": true
 }

@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "kingdomkeys:wooden_stick"
-  }
+  },
+  "show_notification": true
 }

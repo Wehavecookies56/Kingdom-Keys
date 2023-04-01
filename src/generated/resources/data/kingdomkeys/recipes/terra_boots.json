@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "kingdomkeys:terra_boots"
-  }
+  },
+  "show_notification": true
 }

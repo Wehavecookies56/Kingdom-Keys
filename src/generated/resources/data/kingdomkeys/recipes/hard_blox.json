@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "kingdomkeys:hard_blox"
-  }
+  },
+  "show_notification": true
 }

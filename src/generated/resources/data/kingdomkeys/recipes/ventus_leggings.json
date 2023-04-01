@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:ventus_leggings"
-  }
+  },
+  "show_notification": true
 }

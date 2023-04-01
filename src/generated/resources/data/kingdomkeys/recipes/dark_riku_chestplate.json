@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:dark_riku_chestplate"
-  }
+  },
+  "show_notification": true
 }

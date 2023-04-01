@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "kingdomkeys:metal_blox"
-  }
+  },
+  "show_notification": true
 }

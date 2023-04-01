@@ -20,5 +20,6 @@
   ],
   "result": {
     "item": "kingdomkeys:magical_chest"
-  }
+  },
+  "show_notification": true
 }

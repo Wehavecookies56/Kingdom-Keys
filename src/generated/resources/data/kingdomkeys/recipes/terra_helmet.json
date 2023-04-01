@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "kingdomkeys:terra_helmet"
-  }
+  },
+  "show_notification": true
 }

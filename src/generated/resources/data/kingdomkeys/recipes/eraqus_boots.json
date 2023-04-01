@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "kingdomkeys:eraqus_boots"
-  }
+  },
+  "show_notification": true
 }

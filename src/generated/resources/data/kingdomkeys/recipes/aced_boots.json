@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "kingdomkeys:aced_boots"
-  }
+  },
+  "show_notification": true
 }

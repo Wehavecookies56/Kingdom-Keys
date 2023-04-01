@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
+import java.util.Collections;
 import java.util.Set;
 
 import net.minecraft.core.RegistrySetBuilder;
@@ -13,12 +14,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.datagen.init.*;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
-	 /*private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);*/
+	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -27,9 +29,11 @@ public class DataGeneration {
 
         final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
+        //Datapack Registry providers
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
        
         //tags
-        /*BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
+        BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator));
@@ -43,7 +47,7 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
-        generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));*/
+        generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

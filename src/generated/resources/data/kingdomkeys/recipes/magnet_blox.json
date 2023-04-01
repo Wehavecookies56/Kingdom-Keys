@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:magnet_blox"
-  }
+  },
+  "show_notification": true
 }

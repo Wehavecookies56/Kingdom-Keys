@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "kingdomkeys:aqua_boots"
-  }
+  },
+  "show_notification": true
 }

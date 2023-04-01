@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "kingdomkeys:station_of_awakening_core"
-  }
+  },
+  "show_notification": true
 }

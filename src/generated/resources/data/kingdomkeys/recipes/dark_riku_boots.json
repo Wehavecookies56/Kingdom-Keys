@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "kingdomkeys:dark_riku_boots"
-  }
+  },
+  "show_notification": true
 }

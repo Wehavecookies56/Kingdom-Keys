@@ -23,5 +23,6 @@
   ],
   "result": {
     "item": "kingdomkeys:xemnas_chestplate"
-  }
+  },
+  "show_notification": true
 }

@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "kingdomkeys:wooden_keyblade"
-  }
+  },
+  "show_notification": true
 }

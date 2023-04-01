@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "kingdomkeys:ventus_boots"
-  }
+  },
+  "show_notification": true
 }
