@@ -10,6 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.registries.RegistryObject;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,10 +86,11 @@ public class KingdomKeys {
 
 	@SubscribeEvent
 	public void creativeTabRegistry(CreativeModeTabEvent.Register event) {
-		final List<ItemStack> kkItems = ForgeRegistries.ITEMS.getKeys().stream().filter(key -> key.getNamespace().equals(MODID)).map(rl -> new ItemStack(ForgeRegistries.ITEMS.getValue(rl))).toList();
+		final List<ItemStack> kkItems = ModItems.ITEMS.getEntries().stream().map(RegistryObject::get).map(ItemStack::new).toList();
 		final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
 		final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
-		final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon)).toList());
+		final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
+		final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon)&& !(item.getItem() instanceof KeychainItem)).toList());
 
 		//Keyblades
 		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.keybladesGroup), builder -> {
@@ -99,6 +102,7 @@ public class KingdomKeys {
 					})
 					.displayItems(((pEnabledFeatures, pOutput, pDisplayOperatorCreativeTab) -> {
 						keyblades.get().forEach(pOutput::accept);
+						keychains.get().forEach(pOutput::accept);
 					}));
 		});
 

@@ -91,8 +91,6 @@ public class ItemModels extends ItemModelProvider {
 			// skip - no texture/special block
 		} else if (block instanceof SoAPlatformCoreBlock) {
 			// skip - no texture/special block
-		} else if (block instanceof SoADoorBlock) {
-			// skip - no texture/special block?
 		} else if (block instanceof DataPortalBlock) {
 			// manually generated version exists in main/resources
 		} else if (block instanceof MagicalChestBlock) {
