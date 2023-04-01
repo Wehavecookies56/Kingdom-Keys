@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -12,11 +10,8 @@ import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 /** Mainly here just to reduce the size of {@link online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities} */
 public class LevelStats {
@@ -40,8 +35,8 @@ public class LevelStats {
 			cap.addDefense(levelData.getDef(level));
 		}
 		
-		if (levelData.getAP(level) > 0) {
-			cap.addMaxAP(levelData.getAP(level));
+		if (levelData.getMaxAP(level) > 0) {
+			cap.addMaxAP(levelData.getMaxAP(level));
 		}
 		
 		if (levelData.getMaxHp(level) > 0) {

@@ -1,21 +1,22 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -23,7 +24,10 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LockOnGui extends OverlayBase {
+
+	public static final LockOnGui INSTANCE = new LockOnGui();
 	int guiWidth = 256;
 	int guiHeight = 256;
 
@@ -45,14 +49,20 @@ public class LockOnGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastTargetHealth;
 
-	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
-		if (InputHandler.lockOn != null) {
-			OverlayRegistry.enableOverlay(ForgeIngameGui.CROSSHAIR_ELEMENT, false);
-		} else {
-			OverlayRegistry.enableOverlay(ForgeIngameGui.CROSSHAIR_ELEMENT, true);
+	private LockOnGui() {
+		super();
+	}
+
+	@SubscribeEvent
+	public static void renderOverlay(RenderGuiOverlayEvent.Pre event) {
+		if (InputHandler.lockOn != null && event.getOverlay().equals(VanillaGuiOverlay.CROSSHAIR.type())) {
+			event.setCanceled(true);
 		}
+	}
+
+	@Override
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {
@@ -85,7 +95,7 @@ public class LockOnGui extends OverlayBase {
 
 					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
-					poseStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F));
+					poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F)));
 					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
 					this.blit(poseStack, 0, 0, 0, 0, guiWidth, guiHeight);
 				}

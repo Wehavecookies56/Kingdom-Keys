@@ -2,8 +2,9 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData.DataItem;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -21,12 +22,16 @@ import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 
@@ -64,10 +69,29 @@ public class MoogleEntity extends PathfinderMob {
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
-        if (!player.level.isClientSide && !player.isCrouching()) {
-        	PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);
+        if (!player.level.isClientSide) {
+        	if(!player.isCrouching()) {
+	        	ItemStack itemstack = player.getItemInHand(hand);
+	        	if(!ItemStack.isSame(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
+	        		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+	        		int reward = 500;
+	        		playerData.setMunny(playerData.getMunny() + reward);
+	        		itemstack.shrink(1);
+					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
+					return InteractionResult.FAIL;
+	        	} else {
+	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);
+	        	}
+	        }
+	        return super.interactAt(player, vec, hand);
         }
-        return super.interactAt(player, vec, hand);
+    	ItemStack itemstack = player.getItemInHand(hand);
+    	if(!ItemStack.isSame(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
+    		return InteractionResult.SUCCESS;
+    	} else {
+	        return super.interactAt(player, vec, hand);
+    	}
+
     }
 
     @Override

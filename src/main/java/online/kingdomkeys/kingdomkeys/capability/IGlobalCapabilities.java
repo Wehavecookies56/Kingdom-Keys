@@ -10,8 +10,8 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	void subStoppedTicks(int time);
 	
 	//Stop damage
-	float getDamage();
-	void setDamage(float dmg);
+	float getStopDamage();
+	void setStopDamage(float dmg);
 	void addDamage(float dmg);
 	void setStopCaster(String name);
 	String getStopCaster();
@@ -21,8 +21,18 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	int getFlatTicks();
 	void setFlatTicks(int time);
 	void subFlatTicks(int time);
+	
+	//Aero
+	int getAeroLevel();
+	void setAeroLevel(int level);
+	int getAeroTicks();
+	void setAeroTicks(int i, int level);
+	void remAeroTicks(int ticks);
 
 	//Castle Oblivion
 	boolean getCastleOblivionMarker();
 	void setCastleOblivionMarker(boolean marker);
+	
+	void setLevel(int lvl);
+	int getLevel();
 }

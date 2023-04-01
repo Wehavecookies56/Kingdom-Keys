@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:organization_leggings"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "tag": "forge:leather"
+    },
+    "P": {
+      "tag": "forge:dyes/purple"
+    }
+  },
   "pattern": [
     "LPL",
     "EAE",
     "L L"
   ],
-  "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
-    "A": {
-      "item": "kingdomkeys:organization_leggings"
-    },
-    "P": {
-      "tag": "forge:dyes/purple"
-    },
-    "E": {
-      "item": "minecraft:end_crystal"
-    }
-  },
   "result": {
     "item": "kingdomkeys:anticoat_leggings"
-  }
+  },
+  "show_notification": true
 }

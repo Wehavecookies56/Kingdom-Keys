@@ -11,8 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -21,6 +20,10 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class SoAMessages extends OverlayBase {
 
     public static final SoAMessages INSTANCE = new SoAMessages();
+
+    private SoAMessages() {
+        super();
+    }
 
     public static class Title {
         public String title, subtitle;
@@ -58,7 +61,7 @@ public class SoAMessages extends OverlayBase {
     }
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+    public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         super.render(gui, poseStack, partialTick, width, height);
         if (!messages.isEmpty() || titlesTimer != 0) {
             draw(poseStack, partialTick);

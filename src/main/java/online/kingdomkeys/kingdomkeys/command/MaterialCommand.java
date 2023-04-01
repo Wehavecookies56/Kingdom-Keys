@@ -12,12 +12,11 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -71,9 +70,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.addMaterial(material, amount);
 
-			context.getSource().sendSuccess(new TranslatableComponent("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslatableComponent("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -89,9 +88,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeMaterial(material, amount);
 
-			context.getSource().sendSuccess(new TranslatableComponent("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslatableComponent("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -107,9 +106,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 				playerData.addMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(new TranslatableComponent("Given all materials to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslatableComponent("You have been given all the materials"), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -122,9 +121,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.clearMaterials();
 
-			context.getSource().sendSuccess(new TranslatableComponent("Taken all materials from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslatableComponent("Your materials have been taken away"), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -140,9 +139,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMaterial(material, amount);
 
-			context.getSource().sendSuccess(new TranslatableComponent("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
-			player.sendMessage(new TranslatableComponent("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -158,9 +157,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 				playerData.setMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(new TranslatableComponent("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
+			context.getSource().sendSuccess(Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
 
-			player.sendMessage(new TranslatableComponent("You have been set all the materials to " + amount), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been set all the materials to " + amount));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;

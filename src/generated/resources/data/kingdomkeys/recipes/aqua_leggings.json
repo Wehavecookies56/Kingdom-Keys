@@ -1,15 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "WDW",
-    "DAD",
-    "P P"
-  ],
   "key": {
-    "W": {
-      "item": "minecraft:water_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_leggings"
     },
@@ -18,9 +11,18 @@
     },
     "P": {
       "item": "minecraft:prismarine_crystals"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
     }
   },
+  "pattern": [
+    "WDW",
+    "DAD",
+    "P P"
+  ],
   "result": {
     "item": "kingdomkeys:aqua_leggings"
-  }
+  },
+  "show_notification": true
 }

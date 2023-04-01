@@ -2,11 +2,12 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import java.util.List;
 
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -67,18 +68,19 @@ public class MagnetBloxTileEntity extends BlockEntity {
 					}
 
 					for (double i = 0.7; i < range; i += 0.3) {
+						float scale = 1+ (float) i / 6;
 						if (facing == Direction.NORTH) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, 0,0,0);
 						} else if (facing == Direction.EAST) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5,0,0,0);
 						} else if (facing == Direction.SOUTH) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i,0,0,0);
 						} else if (facing == Direction.WEST) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, 0,0,0);
 						} else if (facing == Direction.UP) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, 0,0,0);
 						} else if (facing == Direction.DOWN) {
-							level.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, colors[0], colors[1], colors[2]);
+							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, 0,0,0);
 						}
 					}
 				}
@@ -89,20 +91,9 @@ public class MagnetBloxTileEntity extends BlockEntity {
 				if (!entities.isEmpty()) {
 					double strength = 0.75;
 					for (Entity e : entities) {
-						Vec3 ePos = e.position();
-						Vec3 blockPos;
-						if (e instanceof LivingEntity) {
-							blockPos = new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-						} else {
-							blockPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-						}
-
 						Vec3 pushDir = TE.toVector3f(facing);
-						if (attract) {
-							e.setDeltaMovement(pushDir.normalize().multiply(-strength, -strength, -strength));
-						} else {
-							e.setDeltaMovement(pushDir.normalize().multiply(strength, strength, strength));
-						}
+						strength = attract ? -strength : strength;
+						e.setDeltaMovement(pushDir.normalize().multiply(strength, strength, strength));
 					}
 				}
 			}

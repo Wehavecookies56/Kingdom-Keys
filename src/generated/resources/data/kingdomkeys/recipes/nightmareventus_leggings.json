@@ -1,20 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:ventus_leggings"
+    },
+    "O": {
+      "tag": "forge:obsidian"
+    }
+  },
   "pattern": [
     "OAO",
     "O O",
     "O O"
   ],
-  "key": {
-    "O": {
-      "tag": "forge:obsidian"
-    },
-    "A": {
-      "item": "kingdomkeys:ventus_leggings"
-    }
-  },
   "result": {
     "item": "kingdomkeys:nightmareventus_leggings"
-  }
+  },
+  "show_notification": true
 }

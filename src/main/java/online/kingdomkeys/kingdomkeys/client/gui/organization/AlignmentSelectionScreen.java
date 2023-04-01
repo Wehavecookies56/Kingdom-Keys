@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -51,7 +51,7 @@ public class AlignmentSelectionScreen extends Screen {
     private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     public AlignmentSelectionScreen() {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
         minecraft = Minecraft.getInstance();
     }
 
@@ -73,11 +73,6 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
-        super.renderBackground(matrixStack, p_renderBackground_1_);
-    }
-
-    @Override
     public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
     	
         renderBackground(matrixStack);
@@ -85,9 +80,9 @@ public class AlignmentSelectionScreen extends Screen {
         String line2 = "gui.org.line2";
         String line3 = "gui.org.line3";
         if (showWelcome) {
-            drawCenteredString(matrixStack, font, new TranslatableComponent(line1).getString(), (width / 2), height / 2 - font.lineHeight * 3, 0xFFFFFF);
-            drawCenteredString(matrixStack, font, new TranslatableComponent(line2).getString(), (width / 2), height / 2 - font.lineHeight * 2, 0xFFFFFF);
-            drawCenteredString(matrixStack, font, new TranslatableComponent(line3).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, Component.translatable(line1).getString(), (width / 2), height / 2 - font.lineHeight * 3, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, Component.translatable(line2).getString(), (width / 2), height / 2 - font.lineHeight * 2, 0xFFFFFF);
+            drawCenteredString(matrixStack, font, Component.translatable(line3).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
         } else {
             String name = "";
             String weapon = "";
@@ -175,8 +170,8 @@ public class AlignmentSelectionScreen extends Screen {
             }
 
             if (confirmChoice) {
-                drawCenteredString(matrixStack, font, new TranslatableComponent("gui.org.line4", name).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
-                drawCenteredString(matrixStack, font, new TranslatableComponent("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, Component.translatable("gui.org.line4", name).getString(), (width / 2), height / 2 - font.lineHeight, 0xFFFFFF);
+                drawCenteredString(matrixStack, font, Component.translatable("gui.org.line5").getString(), (width / 2), height / 2, 0xFFFFFF);
             } else {
                 matrixStack.pushPose();
                 RenderSystem.setShaderTexture(0, GLOW);
@@ -200,12 +195,31 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addRenderableWidget(ok = new Button(0, 0, 50, 20, new TranslatableComponent("gui.org.ok"), p -> actionPerformed(OK)));
-        addRenderableWidget(confirm = new Button(0, 0, 60, 20, new TranslatableComponent("gui.org.confirm"), p -> actionPerformed(CONFIRM)));
-        addRenderableWidget(cancel = new Button(0, 0, 60, 20,  new TranslatableComponent("gui.org.cancel"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 70, 20,  new TranslatableComponent("gui.org.select"), p -> actionPerformed(SELECT)));
+    	addRenderableWidget(ok = Button.builder(Component.translatable("gui.org.ok"), (e) -> {
+			actionPerformed(OK);
+		}).bounds(0, 0, 50, 20).build());
+    	
+        
+        addRenderableWidget(confirm = Button.builder(Component.translatable("gui.org.confirm"), (e) -> {
+			actionPerformed(CONFIRM);
+		}).bounds(0, 0, 60, 20).build());
+        
+        addRenderableWidget(cancel = Button.builder(Component.translatable("gui.org.cancel"), (e) -> {
+			actionPerformed(CANCEL);
+		}).bounds(0, 0, 60, 20).build());
+        
+        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+			actionPerformed(NEXT);
+		}).bounds(0, 0, 20, 20).build());
+                
+        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+			actionPerformed(PREV);
+		}).bounds(0, 0, 20, 20).build());
+        
+        addRenderableWidget(select = Button.builder(Component.translatable("gui.org.select"), (e) -> {
+			actionPerformed(SELECT);
+		}).bounds(0, 0, 70, 20).build());
+        
         updateButtons();
         super.init();
     }
@@ -264,19 +278,19 @@ public class AlignmentSelectionScreen extends Screen {
             next.visible = false;
             prev.visible = false;
             select.visible = false;
-            ok.x = (width / 2) - (ok.getWidth() / 2);
-            ok.y = (height / 2) - (ok.getHeight() / 2) + font.lineHeight + 2;
+            ok.setX((width / 2) - (ok.getWidth() / 2));
+            ok.setY((height / 2) - (ok.getHeight() / 2) + font.lineHeight + 2);
         } else {
             ok.visible = false;
             next.visible = true;
-            next.x = (width / 2) - (next.getWidth() / 2) + 128;
-            next.y = (height / 2) - (next.getHeight() / 2);
+            next.setX((width / 2) - (next.getWidth() / 2) + 128);
+            next.setY((height / 2) - (next.getHeight() / 2));
             prev.visible = true;
-            prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-            prev.y = (height / 2) - (prev.getHeight() / 2);
+            prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
+            prev.setY((height / 2) - (prev.getHeight() / 2));
             select.visible = true;
-            select.x = (width / 2) - (select.getWidth() / 2);
-            select.y= (height / 2) - (select.getHeight() / 2) + 90;
+            select.setX((width / 2) - (select.getWidth() / 2));
+            select.setY((height / 2) - (select.getHeight() / 2) + 90);
             confirm.visible = false;
             cancel.visible = false;
             if (confirmChoice) {
@@ -285,10 +299,10 @@ public class AlignmentSelectionScreen extends Screen {
                 next.visible = false;
                 prev.visible = false;
                 select.visible = false;
-                confirm.x = (width / 2) - (confirm.getWidth() / 2);
-                confirm.y = (height / 2) - (confirm.getHeight() / 2) + 30;
-                cancel.x = (width / 2) - (cancel.getWidth() / 2);
-                cancel.y = (height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight();
+                confirm.setX((width / 2) - (confirm.getWidth() / 2));
+                confirm.setY((height / 2) - (confirm.getHeight() / 2) + 30);
+                cancel.setX((width / 2) - (cancel.getWidth() / 2));
+                cancel.setY((height / 2) - (cancel.getHeight() / 2) + 32 + confirm.getHeight());
             }
         }
     }

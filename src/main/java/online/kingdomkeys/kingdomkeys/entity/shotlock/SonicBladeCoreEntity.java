@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -14,17 +14,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -62,6 +59,10 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 
 	@Override
 	public void tick() {
+		if(getCaster() == null) {
+			this.remove(RemovalReason.KILLED);
+			return;
+		}
 		getCaster().startAutoSpinAttack(10);
 
 		if(tickCount % 8 == 1) {
@@ -101,7 +102,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
     		list.remove(getOwner());
     		
             for(LivingEntity enemy : list) {
-				enemy.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+            	enemy.hurt(enemy.damageSources().thrown(this, this.getOwner()), dmg);
 			}
 
 		}

@@ -1,14 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "WPW",
-    "DAD"
-  ],
   "key": {
-    "W": {
-      "item": "minecraft:water_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_helmet"
     },
@@ -17,9 +11,17 @@
     },
     "P": {
       "item": "minecraft:prismarine_crystals"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
     }
   },
+  "pattern": [
+    "WPW",
+    "DAD"
+  ],
   "result": {
     "item": "kingdomkeys:aqua_helmet"
-  }
+  },
+  "show_notification": true
 }

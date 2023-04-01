@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LBL",
-    "EAE",
-    "L L"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_leggings"
+    },
     "B": {
       "tag": "forge:dyes/black"
     },
     "E": {
       "item": "minecraft:ghast_tear"
     },
-    "A": {
-      "item": "minecraft:leather_leggings"
-    },
     "L": {
       "tag": "forge:dyes/red"
     }
   },
+  "pattern": [
+    "LBL",
+    "EAE",
+    "L L"
+  ],
   "result": {
     "item": "kingdomkeys:vanitas_leggings"
-  }
+  },
+  "show_notification": true
 }

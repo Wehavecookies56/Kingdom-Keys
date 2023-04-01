@@ -1,25 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LBL",
-    "EAE"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_helmet"
+    },
     "B": {
       "tag": "forge:dyes/black"
     },
     "E": {
       "item": "minecraft:ghast_tear"
     },
-    "A": {
-      "item": "minecraft:leather_helmet"
-    },
     "L": {
       "tag": "forge:dyes/red"
     }
   },
+  "pattern": [
+    "LBL",
+    "EAE"
+  ],
   "result": {
     "item": "kingdomkeys:vanitas_helmet"
-  }
+  },
+  "show_notification": true
 }

@@ -9,7 +9,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -18,19 +17,14 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitLaserDome extends Limit {
 
-	public LimitLaserDome(String registryName, int order, int cost, int cooldown, OrgMember owner) {
-		super(registryName, order, cost, cooldown, owner);
+	public LimitLaserDome(String registryName, int order, OrgMember owner) {
+		super(registryName, order, owner);
 	}
 
 	@Override
-	public int getCost() {
-		return ModConfigs.limitLaserDomeCost;
-	}
-	
-	@Override
 	public void onUse(Player player, LivingEntity target) {
 		ItemStack stack = player.getMainHandItem();
-		player.level.playSound(null, player.blockPosition(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
@@ -38,6 +32,8 @@ public class LimitLaserDome extends Limit {
 		} else {
 			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2F;
 		}
+
+		damage *= getLimitData().getDmgMult();
 
 		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.level, player, target, damage);
 		dome.setPos(target.getX(), target.getY(), target.getZ());

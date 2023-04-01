@@ -1,11 +1,5 @@
 {
   "cost": 400,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:drive_recovery",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_shard",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_mythril_shard",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:drive_recovery",
+    "quantity": 1
+  },
+  "tier": 1
 }

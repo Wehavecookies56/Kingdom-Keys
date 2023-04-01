@@ -11,6 +11,8 @@ public class DriveFormData {
     int cost, ap;
     int[] levelUp;
     List<String> abilities;
+    List<String> baseLevelUpAbilities;
+    List<String> dfLevelUpAbilities;
     
     public DriveFormData() {
 
@@ -79,6 +81,30 @@ public class DriveFormData {
 
 	public void setAbilities(List<String> array) {
 		this.abilities = array;
+	}
+
+	public List<String> getBaseLevelUpAbilities() {
+		return this.baseLevelUpAbilities;
+	}
+
+	public void setBaseLevelUpAbilities(List<String> array) {
+		this.baseLevelUpAbilities = array;
+	}
+	
+	public String getBaseAbilityForLevel(int driveFormLevel) {
+		return this.baseLevelUpAbilities.get(driveFormLevel);
+	}
+	
+	public List<String> getDFLevelUpAbilities() {
+		return this.dfLevelUpAbilities;
+	}
+
+	public void setDFLevelUpAbilities(List<String> array) {
+		this.dfLevelUpAbilities = array;
+	}
+	
+	public String getDFAbilityForLevel(int driveFormLevel) {
+		return this.dfLevelUpAbilities.get(driveFormLevel);
 	}
 
 }

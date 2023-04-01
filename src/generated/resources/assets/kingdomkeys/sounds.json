@@ -1,4 +1,14 @@
 {
+  "aero1": {
+    "sounds": [
+      "kingdomkeys:aero1"
+    ]
+  },
+  "aero2": {
+    "sounds": [
+      "kingdomkeys:aero2"
+    ]
+  },
   "alarm": {
     "sounds": [
       "kingdomkeys:alarm"
@@ -7,6 +17,21 @@
   "antidrive": {
     "sounds": [
       "kingdomkeys:antidrive"
+    ]
+  },
+  "arrowgunreload": {
+    "sounds": [
+      "kingdomkeys:arrowgunreload"
+    ]
+  },
+  "blizzard": {
+    "sounds": [
+      "kingdomkeys:blizzard"
+    ]
+  },
+  "cure": {
+    "sounds": [
+      "kingdomkeys:cure"
     ]
   },
   "drive": {
@@ -19,9 +44,24 @@
       "kingdomkeys:error"
     ]
   },
+  "fire": {
+    "sounds": [
+      "kingdomkeys:fire"
+    ]
+  },
+  "gravity": {
+    "sounds": [
+      "kingdomkeys:gravity"
+    ]
+  },
   "hp_orb": {
     "sounds": [
       "kingdomkeys:hp_orb"
+    ]
+  },
+  "invincible_hit": {
+    "sounds": [
+      "kingdomkeys:invincible_hit"
     ]
   },
   "itemget": {
@@ -39,6 +79,11 @@
       "kingdomkeys:kupoliving"
     ]
   },
+  "laser": {
+    "sounds": [
+      "kingdomkeys:laser"
+    ]
+  },
   "levelup": {
     "sounds": [
       "kingdomkeys:levelup"
@@ -47,6 +92,16 @@
   "lockon": {
     "sounds": [
       "kingdomkeys:lockon"
+    ]
+  },
+  "magnet1": {
+    "sounds": [
+      "kingdomkeys:magnet1"
+    ]
+  },
+  "magnet2": {
+    "sounds": [
+      "kingdomkeys:magnet2"
     ]
   },
   "menu_back": {
@@ -79,104 +134,20 @@
       "kingdomkeys:munny"
     ]
   },
-  "potion": {
+  "music/dive_into_the_heart_destati": {
     "sounds": [
-      "kingdomkeys:potion"
+      {
+        "name": "kingdomkeys:music/dive_into_the_heart_destati",
+        "stream": true
+      }
     ]
   },
-  "savepoint": {
+  "music/lord_of_the_castle": {
     "sounds": [
-      "kingdomkeys:savepoint"
-    ]
-  },
-  "savespawn": {
-    "sounds": [
-      "kingdomkeys:savespawn"
-    ]
-  },
-  "sharpshooterbullet": {
-    "sounds": [
-      "kingdomkeys:sharpshooterbullet"
-    ]
-  },
-  "arrowgunreload": {
-    "sounds": [
-      "kingdomkeys:arrowgunreload"
-    ]
-  },
-  "summon": {
-    "sounds": [
-      "kingdomkeys:summon"
-    ]
-  },
-  "unsummon": {
-    "sounds": [
-      "kingdomkeys:unsummon"
-    ]
-  },
-  "portal": {
-    "sounds": [
-      "kingdomkeys:portal"
-    ]
-  },
-  "laser": {
-    "sounds": [
-      "kingdomkeys:laser"
-    ]
-  },
-  "fire": {
-    "sounds": [
-      "kingdomkeys:fire"
-    ]
-  },
-  "blizzard": {
-    "sounds": [
-      "kingdomkeys:blizzard"
-    ]
-  },
-  "cure": {
-    "sounds": [
-      "kingdomkeys:cure"
-    ]
-  },
-  "magnet1": {
-    "sounds": [
-      "kingdomkeys:magnet1"
-    ]
-  },
-  "magnet2": {
-    "sounds": [
-      "kingdomkeys:magnet2"
-    ]
-  },
-  "gravity": {
-    "sounds": [
-      "kingdomkeys:gravity"
-    ]
-  },
-  "aero1": {
-    "sounds": [
-      "kingdomkeys:aero1"
-    ]
-  },
-  "aero2": {
-    "sounds": [
-      "kingdomkeys:aero2"
-    ]
-  },
-  "reflect1": {
-    "sounds": [
-      "kingdomkeys:reflect1"
-    ]
-  },
-  "reflect2": {
-    "sounds": [
-      "kingdomkeys:reflect2"
-    ]
-  },
-  "stop": {
-    "sounds": [
-      "kingdomkeys:stop"
+      {
+        "name": "kingdomkeys:music/lord_of_the_castle",
+        "stream": true
+      }
     ]
   },
   "player_death": {
@@ -189,34 +160,54 @@
       "kingdomkeys:player_death_2"
     ]
   },
-  "invincible_hit": {
+  "portal": {
     "sounds": [
-      "kingdomkeys:invincible_hit"
+      "kingdomkeys:portal"
     ]
   },
-  "shotlock_lockon_start": {
+  "potion": {
     "sounds": [
-      "kingdomkeys:shotlock_lockon_start"
+      "kingdomkeys:potion"
     ]
   },
-  "shotlock_lockon_idle": {
+  "records/13th_dilemma_saix": {
     "sounds": [
-      "kingdomkeys:shotlock_lockon_idle"
+      {
+        "name": "kingdomkeys:records/13th_dilemma_saix",
+        "stream": true
+      }
     ]
   },
-  "shotlock_lockon": {
+  "records/13th_reflection": {
     "sounds": [
-      "kingdomkeys:shotlock_lockon"
+      {
+        "name": "kingdomkeys:records/13th_reflection",
+        "stream": true
+      }
     ]
   },
-  "shotlock_lockon_all": {
+  "records/13th_struggle_luxord": {
     "sounds": [
-      "kingdomkeys:shotlock_lockon_all"
+      {
+        "name": "kingdomkeys:records/13th_struggle_luxord",
+        "stream": true
+      }
     ]
   },
-  "shotlock_shot": {
+  "records/anger_unchained": {
     "sounds": [
-      "kingdomkeys:shotlock_shot"
+      {
+        "name": "kingdomkeys:records/anger_unchained",
+        "stream": true
+      }
+    ]
+  },
+  "records/another_side_battle_ver": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/another_side_battle_ver",
+        "stream": true
+      }
     ]
   },
   "records/birth_by_sleep_a_link_to_the_future": {
@@ -227,18 +218,26 @@
       }
     ]
   },
-  "records/darkness_of_the_unknown": {
+  "records/cavern_of_remembrance_days": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/darkness_of_the_unknown",
+        "name": "kingdomkeys:records/cavern_of_remembrance_days",
         "stream": true
       }
     ]
   },
-  "records/dearly_beloved_symphony_version": {
+  "records/dearly_beloved_ux": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/dearly_beloved_symphony_version",
+        "name": "kingdomkeys:records/dearly_beloved_ux",
+        "stream": true
+      }
+    ]
+  },
+  "records/destati": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/destati",
         "stream": true
       }
     ]
@@ -251,10 +250,26 @@
       }
     ]
   },
+  "records/forgotten_challenge_recoded": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/forgotten_challenge_recoded",
+        "stream": true
+      }
+    ]
+  },
   "records/hikari_kingdom_instrumental_version": {
     "sounds": [
       {
         "name": "kingdomkeys:records/hikari_kingdom_instrumental_version",
+        "stream": true
+      }
+    ]
+  },
+  "records/hunter_of_the_dark": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:records/hunter_of_the_dark",
         "stream": true
       }
     ]
@@ -291,52 +306,103 @@
       }
     ]
   },
-  "records/sanctuary": {
+  "records/passion_instrumental": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/sanctuary",
+        "name": "kingdomkeys:records/passion_instrumental",
         "stream": true
       }
     ]
   },
-  "records/simple_and_clean_planitb_remix": {
+  "records/rage_awakened": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/simple_and_clean_planitb_remix",
+        "name": "kingdomkeys:records/rage_awakened",
         "stream": true
       }
     ]
   },
-  "records/sinister_sundown": {
+  "records/the_other_promise": {
     "sounds": [
       {
-        "name": "kingdomkeys:records/sinister_sundown",
+        "name": "kingdomkeys:records/the_other_promise",
         "stream": true
       }
     ]
   },
-  "records/the_13th_anthology": {
+  "reflect1": {
     "sounds": [
-      {
-        "name": "kingdomkeys:records/the_13th_anthology",
-        "stream": true
-      }
+      "kingdomkeys:reflect1"
     ]
   },
-  "music/dive_into_the_heart_destati": {
+  "reflect2": {
     "sounds": [
-      {
-        "name": "kingdomkeys:music/dive_into_the_heart_destati",
-        "stream": true
-      }
+      "kingdomkeys:reflect2"
     ]
   },
-  "music/lord_of_the_castle": {
+  "savepoint": {
     "sounds": [
-      {
-        "name": "kingdomkeys:music/lord_of_the_castle",
-        "stream": true
-      }
+      "kingdomkeys:savepoint"
+    ]
+  },
+  "savespawn": {
+    "sounds": [
+      "kingdomkeys:savespawn"
+    ]
+  },
+  "sharpshooterbullet": {
+    "sounds": [
+      "kingdomkeys:sharpshooterbullet"
+    ]
+  },
+  "shotlock_lockon": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon"
+    ]
+  },
+  "shotlock_lockon_all": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_all"
+    ]
+  },
+  "shotlock_lockon_idle": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_idle"
+    ]
+  },
+  "shotlock_lockon_start": {
+    "sounds": [
+      "kingdomkeys:shotlock_lockon_start"
+    ]
+  },
+  "shotlock_shot": {
+    "sounds": [
+      "kingdomkeys:shotlock_shot"
+    ]
+  },
+  "stop": {
+    "sounds": [
+      "kingdomkeys:stop"
+    ]
+  },
+  "strike_raid": {
+    "sounds": [
+      "kingdomkeys:strike_raid"
+    ]
+  },
+  "summon": {
+    "sounds": [
+      "kingdomkeys:summon"
+    ]
+  },
+  "unsummon": {
+    "sounds": [
+      "kingdomkeys:unsummon"
+    ]
+  },
+  "wisdom_shot": {
+    "sounds": [
+      "kingdomkeys:wisdom_shot"
     ]
   }
 }

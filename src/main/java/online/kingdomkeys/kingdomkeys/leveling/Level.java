@@ -2,9 +2,8 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class Level extends ForgeRegistryEntry<Level> {
+public class Level {
 
 	String name;
 	int maxLevel;
@@ -16,8 +15,6 @@ public class Level extends ForgeRegistryEntry<Level> {
 	public Level(ResourceLocation registryName) {
 		this.name = registryName.toString();
 		this.maxLevel = 100;
-		setRegistryName(registryName);
-		// translationKey = "level." + getRegistryName().getPath() + ".name";
 	}
 
 	public Level(String registryName) {
@@ -36,8 +33,6 @@ public class Level extends ForgeRegistryEntry<Level> {
 		return name;
 	}
 
-	// public String getTranslationKey() { return translationKey; }
-
 	public int getStr(int level) {
 		return data.getStr(level);
 	}
@@ -50,8 +45,8 @@ public class Level extends ForgeRegistryEntry<Level> {
 		return data.getDef(level);
 	}
 
-	public int getAP(int level) {
-		return data.getAP(level);
+	public int getMaxAP(int level) {
+		return data.getMaxAP(level);
 	}
 
 	public int getMaxHp(int level) {
@@ -72,6 +67,10 @@ public class Level extends ForgeRegistryEntry<Level> {
 	
 	public String[] getSpells(int level) {
 		return data.getSpells(level);
+	}
+
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(name);
 	}
 
 }

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +9,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
@@ -18,21 +19,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
-import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.DensityFunctions;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
@@ -43,27 +40,16 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
-    public DiveToTheHeartChunkGenerator(Registry<StructureSet> structureSetRegistry, Registry<Biome> registry) {
-        super(structureSetRegistry, Optional.empty(), new DiveToTheHeartBiomeProvider(registry));
+    public DiveToTheHeartChunkGenerator(BiomeSource biomeSource) {
+        super(biomeSource);
+        this.biomeSource = biomeSource;
     }
 
-    public static void registerChunkGenerator() {
-		Registry.register(Registry.CHUNK_GENERATOR, new ResourceLocation(KingdomKeys.MODID, "dive_to_the_heart_generator"), DiveToTheHeartChunkGenerator.CODEC);
-	}
+    BiomeSource biomeSource;
 
 	public static final Codec<DiveToTheHeartChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    RegistryOps.retrieveRegistry(Registry.STRUCTURE_SET_REGISTRY).forGetter(DiveToTheHeartChunkGenerator::getStructureSetRegistry),
-                    RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter(DiveToTheHeartChunkGenerator::getBiomeRegistry)
-            ).apply(instance, DiveToTheHeartChunkGenerator::new));
-
-    public Registry<Biome> getBiomeRegistry() {
-        return ((DiveToTheHeartBiomeProvider)biomeSource).getBiomeRegistry();
-    }
-
-    public Registry<StructureSet> getStructureSetRegistry() {
-        return structureSets;
-    }
+            instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
+                    .apply(instance, instance.stable(DiveToTheHeartChunkGenerator::new)));
 
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
 
@@ -163,18 +149,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public ChunkGenerator withSeed(long seed) {
-        return new DiveToTheHeartChunkGenerator(getStructureSetRegistry(), getBiomeRegistry());
-    }
+    public void applyCarvers(WorldGenRegion pLevel, long pSeed, RandomState pRandom, BiomeManager pBiomeManager, StructureManager pStructureManager, ChunkAccess pChunk, GenerationStep.Carving pStep) {
 
-    @Override
-    public Climate.Sampler climateSampler() {
-        return new Climate.Sampler(DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), Collections.emptyList());
     }
-
-    @Override
-    public void applyCarvers(WorldGenRegion pLevel, long pSeed, BiomeManager pBiomeManager, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk, GenerationStep.Carving pStep) { }
 
     @Override
     public void spawnOriginalMobs(WorldGenRegion pLevel) { }
@@ -187,9 +164,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     enum Corner { TL, TR, BL, BR }
 
     @Override
-    public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess chunkIn) {
+    public void buildSurface(WorldGenRegion pLevel, StructureManager pStructureManager, RandomState pRandom, ChunkAccess pChunk) {
         BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
-        ChunkPos cPos = chunkIn.getPos();
+        ChunkPos cPos = pChunk.getPos();
         int xOffset = 0;
         int zOffset = 0;
         int startZ;
@@ -271,17 +248,17 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getBaseHeight(int pX, int pZ, Heightmap.Types pType, LevelHeightAccessor pLevel) {
+    public int getBaseHeight(int pX, int pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom) {
         return 0;
     }
 
     @Override
-    public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor levelHeightAccessor) {
+    public NoiseColumn getBaseColumn(int pX, int pZ, LevelHeightAccessor pHeight, RandomState pRandom) {
         return new NoiseColumn(0, new BlockState[0]);
     }
 
     @Override
-    public void addDebugScreenInfo(List<String> p_208054_, BlockPos p_208055_) {
+    public void addDebugScreenInfo(List<String> pInfo, RandomState pRandom, BlockPos pPos) {
 
     }
 
@@ -322,9 +299,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         te.setDisplayStack(toDisplay);
     }
 
-	@Override
-	public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess chunkIn) {
-		return CompletableFuture.completedFuture(chunkIn);
-	}
+    @Override
+    public CompletableFuture<ChunkAccess> fillFromNoise(Executor pExecutor, Blender pBlender, RandomState pRandom, StructureManager pStructureManager, ChunkAccess pChunk) {
+        return CompletableFuture.completedFuture(pChunk);
+    }
     
 }

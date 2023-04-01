@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -34,9 +32,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -75,6 +74,14 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
  */
 public class Utils {
 
+	public static ResourceLocation getItemRegistryName(Item item) {
+		return ForgeRegistries.ITEMS.getKey(item);
+	}
+
+	public static ResourceLocation getBlockRegistryName(Block block) {
+		return ForgeRegistries.BLOCKS.getKey(block);
+	}
+
 	public static int getSlotFor(Inventory inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {
@@ -112,6 +119,19 @@ public class Utils {
 			return 0;
 		}
 	}
+	
+	public static int clamp(int value, int min, int max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
+	public static float clamp(float value, float min, float max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
+	public static double clamp(double value, double min, double max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
 
 	/**
 	 * Method for generating random integer between the 2 parameters, The order of
@@ -161,7 +181,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocalFormatted(String name, Object... format) {
-		TranslatableComponent translation = new TranslatableComponent(name, format);
+		MutableComponent translation = Component.translatable(name, format);
 		return translation.getString();
 	}
 
@@ -172,7 +192,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocal(String name, Object... args) {
-		TranslatableComponent translation = new TranslatableComponent(name, args);
+		MutableComponent translation = Component.translatable(name, args);
 		return translation.getString();
 	}
 
@@ -184,13 +204,13 @@ public class Utils {
 	 * @return
 	 */
 	public static ItemStack getWeaponDamageStack(DamageSource damageSource, Player player) {
-		switch (damageSource.msgId) {
+		switch (damageSource.getMsgId()) {
 		case "player":
 			if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
 				return player.getMainHandItem();
 			}
 			break;
-		case "keybladeOffhand":
+		case "offhand":
 			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
 				return player.getOffhandItem();
 			}
@@ -279,6 +299,26 @@ public class Utils {
 
 		return map;
 	}
+	
+	public static List<Limit> getPlayerLimitAttacks(Player player) {
+//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		List<Limit> limits = new ArrayList<Limit>();
+		limits.addAll(ModLimits.registry.get().getValues());
+		//TODO change when we have more member limits
+       /* for(Limit val : ModLimits.registry.getValues()) {
+        	System.out.println(val.getName());
+        	if(val.getOwner() == playerData.getAlignment()) {
+        		limits.add(val);
+        		break;
+        	}
+        }*/
+        return limits;
+	}
+	
+	public static List<Limit> getSortedLimits(List<Limit> list) {
+		Collections.sort(list, Comparator.comparingInt(Limit::getOrder));
+		return list;
+	}
 
 	public static List<String> getSortedShotlocks(List<String> list) {
 		Collections.sort(list, (Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
@@ -336,6 +376,19 @@ public class Utils {
 
 		return elList;
 	}
+	
+	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list){
+		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+
+		if(casterParty != null && !casterParty.getFriendlyFire()) {
+			for(Member m : casterParty.getMembers()) {
+				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+			}
+		} else {
+			list.remove(player);
+		}
+		return list;
+	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
 		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
@@ -359,6 +412,15 @@ public class Utils {
 		return elList;
 	}
 	
+	/**
+	 * Gets entities in radius from the entity param
+	 * @param player to ignore from the list
+	 * @param entity where to check with radius
+	 * @param radiusX
+	 * @param radiusY
+	 * @param radiusZ
+	 * @return
+	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
 		List<Entity> list = player.level.getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
 		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
@@ -563,7 +625,7 @@ public class Utils {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);
-			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_") && !itemStack.getItem().getRegistryName().getPath().startsWith("xemnas_") && !itemStack.getItem().getRegistryName().getPath().startsWith("anticoat_")) {
+			if (itemStack.isEmpty() || !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("organization_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("xemnas_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("anticoat_")) {
 				wearingOrgCloak = false;
 				break;
 			}
@@ -622,21 +684,6 @@ public class Utils {
         double d1 = target.getZ() - entity.getZ();
         return (float)-(Mth.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
     }
-
-	public static List<Limit> getPlayerLimitAttacks(Player player) {
-//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<Limit>();
-		limits.addAll(ModLimits.registry.get().getValues());
-		//TODO change when we have more member limits
-       /* for(Limit val : ModLimits.registry.getValues()) {
-        	System.out.println(val.getName());
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		limits.add(val);
-        		break;
-        	}
-        }*/
-        return limits;
-	}
 	
 	public static Shotlock getPlayerShotlock(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -699,6 +746,8 @@ public class Utils {
 	}*/
 
 	public static boolean isEntityInParty(Party party, Entity e) {
+		if(party == null)
+			return false;
 		List<Member> list = party.getMembers();
 		for(Member m : list) {
 			if(m.getUUID().equals(e.getUUID())) {
@@ -742,7 +791,12 @@ public class Utils {
 		return abilities;
 	}
 
-	public static void restartLevel(IPlayerCapabilities playerData, Player player) {
+	/**
+	 * Set to level 1 
+	 * @param playerData
+	 * @param player
+	 */
+	public static void restartLevel(IPlayerCapabilities playerData, Player player) { //sets player level to base
 		playerData.setLevel(1);
 		playerData.setExperience(0);
 		playerData.setMaxHP(20);
@@ -750,21 +804,27 @@ public class Utils {
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
         playerData.setMaxMP(0);
         playerData.setMP(playerData.getMaxMP());
-        playerData.setMaxAP(10);
         
         playerData.setStrength(1);
         playerData.setMagic(1);
         playerData.setDefense(1);
-		SoAState.applyStatsForChoices(playerData, false);
+        playerData.setMaxAP(0);
+
+        playerData.clearAbilities();
+		SoAState.applyStatsForChoices(player, playerData, false);
 
 		playerData.setEquippedShotlock("");
 		playerData.getShotlockList().clear();
 		
-		playerData.clearAbilities();
-        playerData.addAbility(Strings.zeroExp, false);
+       // playerData.addAbility(Strings.zeroExp, false);
 	}
 	
-	public static void restartLevel2(IPlayerCapabilities playerData, Player player) {
+	/**
+	 * Recalculate drive form levels
+	 * @param playerData
+	 * @param player
+	 */
+	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { //calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
 		while(it.hasNext()) {
@@ -810,6 +870,18 @@ public class Utils {
 
 	public static int stacksForItemAmount(ItemStack item, int amount) {
 		return (int) Math.round(Math.ceil((double)amount / (double)item.getMaxStackSize()));
+	}
+
+	public static int getLootingLevel(Player player) {
+		int lvl = 0;
+		if(!ItemStack.isSame(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
+            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
+		}
+		if(!ItemStack.isSame(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
+            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
+		}
+		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+		return lvl;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {

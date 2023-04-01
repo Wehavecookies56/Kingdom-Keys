@@ -1,25 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LBL",
-    "EAE"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_helmet"
+    },
     "B": {
       "tag": "forge:dyes/black"
     },
     "E": {
       "tag": "forge:ender_pearls"
     },
-    "A": {
-      "item": "minecraft:leather_helmet"
-    },
     "L": {
       "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "LBL",
+    "EAE"
+  ],
   "result": {
     "item": "kingdomkeys:organization_helmet"
-  }
+  },
+  "show_notification": true
 }

@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, flatTicks;
+	private int stoppedTicks, flatTicks, level, aeroTicks, aeroLevel;
 	private float stopDmg;
 	private boolean castleOblivionMarker;
 
@@ -20,16 +20,22 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public SCSyncGlobalCapabilityPacket(IGlobalCapabilities capability) {
 		this.stoppedTicks = capability.getStoppedTicks();
-		this.stopDmg = capability.getDamage();
+		this.stopDmg = capability.getStopDamage();
 		this.flatTicks = capability.getFlatTicks();
+		this.aeroTicks = capability.getAeroTicks();
+		this.aeroLevel = capability.getAeroLevel();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
+		this.level = capability.getLevel();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.stoppedTicks);
 		buffer.writeFloat(this.stopDmg);
 		buffer.writeInt(this.flatTicks);
+		buffer.writeInt(this.aeroTicks);
+		buffer.writeInt(this.aeroLevel);
 		buffer.writeBoolean(this.castleOblivionMarker);
+		buffer.writeInt(this.level);
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -37,7 +43,10 @@ public class SCSyncGlobalCapabilityPacket {
 		msg.stoppedTicks = buffer.readInt();
 		msg.stopDmg = buffer.readFloat();
 		msg.flatTicks = buffer.readInt();
+		msg.aeroTicks = buffer.readInt();
+		msg.aeroLevel = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
+		msg.level = buffer.readInt();
 		return msg;
 	}
 
@@ -46,9 +55,11 @@ public class SCSyncGlobalCapabilityPacket {
 			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 			globalData.ifPresent(cap -> {
 				cap.setStoppedTicks(message.stoppedTicks);
-				cap.setDamage(message.stopDmg);
+				cap.setStopDamage(message.stopDmg);
 				cap.setFlatTicks(message.flatTicks);
+				cap.setAeroTicks(message.aeroTicks, message.aeroLevel);
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
+				cap.setLevel(message.level);
 			});
 		});
 		ctx.get().setPacketHandled(true);

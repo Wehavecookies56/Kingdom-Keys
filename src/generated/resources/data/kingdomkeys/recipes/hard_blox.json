@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "kingdomkeys",
+  "key": {
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    },
+    "S": {
+      "tag": "forge:stone"
+    }
+  },
   "pattern": [
     "NS",
     "SN"
   ],
-  "key": {
-    "S": {
-      "tag": "forge:stone"
-    },
-    "N": {
-      "item": "kingdomkeys:normal_blox"
-    }
-  },
   "result": {
     "item": "kingdomkeys:hard_blox"
-  }
+  },
+  "show_notification": true
 }

@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -23,7 +22,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
-        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().tab(KingdomKeys.orgWeaponsGroup).stacksTo(1));
+        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().stacksTo(1));
     }
     @Override
 	public float getReach() {
@@ -73,15 +72,20 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     public int getMagic() {
         return data.getMagic();
     }
+    
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return true;
+	}
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     	if(data != null) {
-			tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW + "" + getMember()));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED + "Strength %s", getStrength() + DamageCalculation.getSharpnessDamage(stack) + " [" + DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack) + "]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE + "Magic %s", getMagic() + " [" + DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, this) + "]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + getDesc()));
+			tooltip.add(Component.translatable(ChatFormatting.YELLOW + "" + getMember()));
+			tooltip.add(Component.translatable(ChatFormatting.RED + "Strength %s", getStrength() + DamageCalculation.getSharpnessDamage(stack) + " [" + DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack) + "]"));
+			tooltip.add(Component.translatable(ChatFormatting.BLUE + "Magic %s", getMagic() + " [" + DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, this) + "]"));
+			tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + getDesc()));
     	}
     }
 }

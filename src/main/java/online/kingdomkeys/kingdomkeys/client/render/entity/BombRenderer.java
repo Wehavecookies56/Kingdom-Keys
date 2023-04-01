@@ -1,9 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -40,7 +42,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
             matrixStackIn.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             matrixStackIn.scale(-0.05F, -0.05F, -0.05F);
             Matrix4f matrix4f = matrixStackIn.last().pose();
-            mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, false, 0, packedLightIn);
+            mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, Font.DisplayMode.NORMAL, 0, packedLightIn);
             matrixStackIn.popPose();
         }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

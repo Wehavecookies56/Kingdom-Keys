@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,7 +19,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ArrowRainCoreEntity extends ThrowableProjectile {
@@ -27,7 +26,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	int maxTicks = 240;
 	float dmg;
 
-	double dmgMult;
 	float radius;
 	float space;
 
@@ -53,8 +51,8 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -71,11 +69,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		this.setDeltaMovement(0, 0, 0);
 		this.hurtMarked = true;
 
-		this.dmgMult = ModConfigs.limitArrowRainMult;
-
-		// world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(),
-		// getPosZ(), 1, 1, 0);
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY();
@@ -83,7 +77,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 		if (getCaster() != null) {
 			if (tickCount == 1) {
-				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
 				bullet.setPos(X, Y, Z);
 				bullet.setMaxTicks(30);
 				bullet.shoot(0, 255, 0, 1f, 0);
@@ -96,7 +90,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 				for (int s = 1; s < 360; s += space) {
 					double x = X + (radius * Math.cos(Math.toRadians(s)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg * dmgMult);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
 					bullet.setPos(X, Y + 27, Z);
 					bullet.setMaxTicks(20);
 					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);

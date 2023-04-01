@@ -5,5 +5,7 @@
 	"mag_mult":1.0,
 	"speed_mult":1.4,
 	"level_up":[ 0, 80, 240, 520, 968, 1528, 2200 ],
-	"abilities":[ "kingdomkeys:ability_synch_blade" ]
+	"abilities":[ "kingdomkeys:ability_synch_blade" ],
+	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_valor", "kingdomkeys:ability_high_jump", "", "kingdomkeys:ability_high_jump", "", "kingdomkeys:ability_high_jump" ],
+	"driveform_levelup_abilities":[ "kingdomkeys:ability_high_jump", "", "kingdomkeys:ability_high_jump", "","kingdomkeys:ability_high_jump","","kingdomkeys:ability_high_jump" ]
 }

@@ -10,12 +10,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuFilterButton;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuFilterBar {
 
@@ -47,7 +45,7 @@ public class MenuFilterBar {
 
     public void renderSelectionBox(PoseStack matrixStack, GuiComponent gui, MenuFilterButton button) {
         if (button.isHoveredOrFocused() || currentFilter == button.category)
-            ClientUtils.blitScaled(matrixStack, gui, button.x - 1.5F, button.y - 1.5F, 66, 30, 58, 36, 0.5F);
+            ClientUtils.blitScaled(matrixStack, gui, button.getX() - 1.5F, button.getY() - 1.5F, 66, 30, 58, 36, 0.5F);
     }
 
     public void init() {

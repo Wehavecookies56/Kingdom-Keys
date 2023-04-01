@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
 
 @OnlyIn(Dist.CLIENT)

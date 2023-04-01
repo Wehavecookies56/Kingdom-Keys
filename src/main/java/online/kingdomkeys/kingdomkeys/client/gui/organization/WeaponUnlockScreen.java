@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +29,7 @@ public class WeaponUnlockScreen extends Screen {
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
         playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
@@ -91,10 +91,21 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Unlock"), p -> actionPerformed(SELECT)));
+        
+        addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
+    		actionPerformed(CANCEL);
+		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+    		actionPerformed(NEXT);
+		}).bounds(0, 0, 20, 20).build());
+        
+        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+    		actionPerformed(PREV);
+		}).bounds(0, 0, 20, 20).build());
+
+        addRenderableWidget(select = Button.builder(Component.translatable("Unlock"), (e) -> {
+    		actionPerformed(SELECT);
+		}).bounds(0, 0, 50, 20).build());
         updateButtons();
     }
 
@@ -220,17 +231,17 @@ public class WeaponUnlockScreen extends Screen {
     public void updateButtons() {
         if (playerData.isWeaponUnlocked(weapons.get(current))) {
             unlock = false;
-            select.setMessage(new TranslatableComponent("Equip"));
+            select.setMessage(Component.translatable("Equip"));
             if (playerData.getEquippedWeapon().getItem() == weapons.get(current)) {
                 select.active = false;
-                select.setMessage(new TranslatableComponent("Equipped"));
+                select.setMessage(Component.translatable("Equipped"));
             } else {
                 select.active = true;
-                select.setMessage(new TranslatableComponent("Equip"));
+                select.setMessage(Component.translatable("Equip"));
             }
         } else {
             unlock = true;
-            select.setMessage(new TranslatableComponent("Unlock"));
+            select.setMessage(Component.translatable("Unlock"));
             if (canUnlock()) {
                 select.active = true;
             } else {
@@ -238,16 +249,16 @@ public class WeaponUnlockScreen extends Screen {
             }
         }
         next.visible = true;
-        next.x = (width / 2) - (next.getWidth() / 2) + 128;
-        next.y = (height / 2) - (next.getHeight() / 2);
+        next.setX((width / 2) - (next.getWidth() / 2) + 128);
+        next.setY((height / 2) - (next.getHeight() / 2));
         prev.visible = true;
-        prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-        prev.y = (height / 2) - (prev.getHeight() / 2);
+        prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
+        prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
-        select.x = (width / 2) - (select.getWidth() / 2);
-        select.y = (height / 2) - (select.getHeight() / 2) + 90;
+        select.setX((width / 2) - (select.getWidth() / 2));
+        select.setY((height / 2) - (select.getHeight() / 2) + 90);
         cancel.visible = true;
-        cancel.x = (width / 2) - (select.getWidth() / 2);
-        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
+        cancel.setX((width / 2) - (select.getWidth() / 2));
+        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
     }
 }

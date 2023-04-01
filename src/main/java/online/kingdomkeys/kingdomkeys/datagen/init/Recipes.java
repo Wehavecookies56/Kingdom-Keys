@@ -4,10 +4,8 @@ import java.util.function.Consumer;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -19,16 +17,17 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
-    public Recipes(DataGenerator generatorIn) {
-        super(generatorIn);
-        this.dataGenerator = generatorIn;
+
+    public Recipes(DataGenerator dataGenerator) {
+        super(dataGenerator.getPackOutput());
+        this.dataGenerator = dataGenerator;
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
 
         // blox
-        ShapedRecipeBuilder.shaped(ModBlocks.normalBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())
                 .define('S', Tags.Items.STONE)
                 .define('N', Items.DIRT)
                 .pattern("NS")
@@ -37,7 +36,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.dangerBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.dangerBlox.get())
                 .pattern("NC")
                 .pattern("CN")
                 .define('C', Blocks.CACTUS)
@@ -46,7 +45,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.hardBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.hardBlox.get())
                 .pattern("NS")
                 .pattern("SN")
                 .define('S', Tags.Items.STONE)
@@ -55,7 +54,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.metalBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.metalBlox.get())
                 .pattern("HI")
                 .pattern("IH")
                 .define('I', Tags.Items.INGOTS_IRON)
@@ -64,7 +63,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("hardblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.hardBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.ghostBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ghostBlox.get())
                 .pattern("GNG")
                 .pattern("GRG")
                 .pattern("GNG")
@@ -75,7 +74,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.magnetBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magnetBlox.get())
                 .pattern("RIR")
                 .pattern("GBG")
                 .pattern("RIR")
@@ -87,7 +86,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.blastBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.blastBlox.get())
                 .pattern("NLN")
                 .pattern("NTN")
                 .pattern("NTN")
@@ -98,7 +97,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.bounceBlox.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.bounceBlox.get())
                 .pattern("NNN")
                 .pattern("NSN")
                 .pattern("NNN")
@@ -108,7 +107,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.mosaic_stained_glass.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.mosaic_stained_glass.get(), 4)
                 .pattern("DGD")
                 .pattern("GIG")
                 .pattern("DGD")
@@ -120,43 +119,43 @@ public class Recipes extends RecipeProvider {
                 .save(consumer);
 
         //Items
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeC.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeC.get())
         .requires(ModItems.recipeD.get())
         .requires(ModItems.recipeD.get())
         .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeB.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
         .requires(ModItems.recipeC.get())
         .requires(ModItems.recipeC.get())
         .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeA.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
         .requires(ModItems.recipeB.get())
         .requires(ModItems.recipeB.get())
         .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeS.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
         .requires(ModItems.recipeA.get())
         .requires(ModItems.recipeA.get())
         .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeSS.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
         .requires(ModItems.recipeS.get())
         .requires(ModItems.recipeS.get())
         .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.recipeSSS.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSSS.get())
         .requires(ModItems.recipeSS.get())
         .requires(ModItems.recipeSS.get())
         .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
         .save(consumer);
         
-        ShapelessRecipeBuilder.shapeless(ModItems.iceCream.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.iceCream.get(), 3)
                 .requires(Tags.Items.RODS_WOODEN)
                 .requires(Items.SUGAR)
                 .requires(Items.WATER_BUCKET)
@@ -164,7 +163,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ice", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ICE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.synthesisBag.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.synthesisBag.get())
                 .pattern("LSL")
                 .pattern("L L")
                 .pattern("LLL")
@@ -174,7 +173,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.woodenKeyblade.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.woodenKeyblade.get())
                 .pattern(" WS")
                 .pattern(" WS")
                 .pattern(" S ")
@@ -184,7 +183,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.woodenStick.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.woodenStick.get())
                 .pattern("S")
                 .pattern("S")
                 .pattern("S")
@@ -194,7 +193,7 @@ public class Recipes extends RecipeProvider {
                 .save(consumer);
 
         //Armour TODO add some items specifically for crafting these so the recipes make a bit more sense
-        ShapedRecipeBuilder.shaped(ModItems.organizationRobe_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.organizationRobe_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .define('B', Tags.Items.DYES_BLACK)
@@ -205,7 +204,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.organizationRobe_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.organizationRobe_Chestplate.get())
                 .pattern("LAL")
                 .pattern("EBE")
                 .pattern("LLL")
@@ -217,7 +216,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.organizationRobe_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.organizationRobe_Leggings.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .pattern("L L")
@@ -229,7 +228,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.organizationRobe_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.organizationRobe_Boots.get())
                 .pattern("EBE")
                 .pattern("LAL")
                 .define('L', Tags.Items.LEATHER)
@@ -240,7 +239,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
                 .pattern("LOL")
                 .pattern("DAD")
                 .define('L', Items.LAVA_BUCKET)
@@ -251,7 +250,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
                 .pattern("LAL")
                 .pattern("DOD")
                 .pattern("ODO")
@@ -263,7 +262,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
                 .pattern("LDL")
                 .pattern("DAD")
                 .pattern("O O")
@@ -275,7 +274,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.terra_Boots.get())
                 .pattern("D D")
                 .pattern("LAL")
                 .define('L', Items.LAVA_BUCKET)
@@ -285,7 +284,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
                 .pattern("WPW")
                 .pattern("DAD")
                 .define('W', Items.WATER_BUCKET)
@@ -296,7 +295,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
                 .pattern("WAW")
                 .pattern("DHD")
                 .pattern("PDP")
@@ -309,7 +308,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
                 .pattern("WDW")
                 .pattern("DAD")
                 .pattern("P P")
@@ -321,7 +320,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
                 .pattern("D D")
                 .pattern("WAW")
                 .define('W', Items.WATER_BUCKET)
@@ -331,7 +330,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
                 .pattern("EAE")
                 .pattern("D D")
                 .define('E', Blocks.EMERALD_BLOCK)
@@ -341,7 +340,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
                 .pattern("E E")
                 .pattern("QAQ")
                 .pattern("DQD")
@@ -353,7 +352,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
                 .pattern("EDE")
                 .pattern("DAD")
                 .pattern("Q Q")
@@ -365,7 +364,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
                 .pattern("D D")
                 .pattern("EAE")
                 .define('E', Items.EMERALD_BLOCK)
@@ -375,7 +374,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
                 .pattern("OAO")
                 .pattern("O O")
                 .define('O', Tags.Items.OBSIDIAN)
@@ -384,7 +383,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ventus_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Helmet.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
                 .pattern("O O")
                 .pattern("OAO")
                 .pattern("OOO")
@@ -394,7 +393,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ventus_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Chestplate.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
                 .pattern("OAO")
                 .pattern("O O")
                 .pattern("O O")
@@ -404,7 +403,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ventus_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Leggings.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
                 .pattern("O O")
                 .pattern("OAO")
                 .define('O', Tags.Items.OBSIDIAN)
@@ -413,7 +412,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ventus_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Boots.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.xemnas_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.xemnas_Helmet.get())
                 .pattern("LWL")
                 .pattern("EAE")
                 .define('W', Tags.Items.DYES_WHITE)
@@ -424,7 +423,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Helmet.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.xemnas_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.xemnas_Chestplate.get())
                 .pattern("LAL")
                 .pattern("EWE")
                 .pattern("LLL")
@@ -436,7 +435,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Chestplate.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.xemnas_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.xemnas_Leggings.get())
                 .pattern("LWL")
                 .pattern("EAE")
                 .pattern("L L")
@@ -448,7 +447,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Leggings.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.xemnas_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.xemnas_Boots.get())
                 .pattern("EWE")
                 .pattern("LAL")
                 .define('L', Tags.Items.LEATHER)
@@ -459,7 +458,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Boots.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.antiCoat_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.antiCoat_Helmet.get())
                 .pattern("LPL")
                 .pattern("EAE")
                 .define('P', Tags.Items.DYES_PURPLE)
@@ -470,7 +469,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Helmet.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.antiCoat_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.antiCoat_Chestplate.get())
                 .pattern("LAL")
                 .pattern("EPE")
                 .pattern("LLL")
@@ -482,7 +481,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Chestplate.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.antiCoat_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.antiCoat_Leggings.get())
                 .pattern("LPL")
                 .pattern("EAE")
                 .pattern("L L")
@@ -494,7 +493,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Leggings.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.antiCoat_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.antiCoat_Boots.get())
                 .pattern("EPE")
                 .pattern("LAL")
                 .define('L', Tags.Items.LEATHER)
@@ -505,7 +504,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Boots.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
                 .pattern("LOL")
                 .pattern("DAD")
                 .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
@@ -516,7 +515,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
                 .pattern("LAL")
                 .pattern("DOD")
                 .pattern("ODO")
@@ -528,11 +527,11 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
                 .pattern("LDL")
                 .pattern("DAD")
                 .pattern("O O")
-                .define('L', Items.LAVA_BUCKET)
+                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
                 .define('A', Items.DIAMOND_LEGGINGS)
                 .define('D', Items.DRAGON_BREATH)
                 .define('O', Tags.Items.OBSIDIAN)
@@ -540,7 +539,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
                 .pattern("DTD")
                 .pattern("LAL")
                 .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
@@ -551,7 +550,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.vanitas_Helmet.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.vanitas_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .define('B', Tags.Items.DYES_BLACK)
@@ -562,7 +561,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.vanitas_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.vanitas_Chestplate.get())
                 .pattern("LAL")
                 .pattern("EBE")
                 .pattern("LLL")
@@ -574,7 +573,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.vanitas_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.vanitas_Leggings.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .pattern("L L")
@@ -586,7 +585,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.vanitas_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.vanitas_Boots.get())
                 .pattern("EBE")
                 .pattern("LAL")
                 .define('B', Tags.Items.DYES_BLACK)
@@ -597,35 +596,68 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Helmet.get())
 		        .requires(ModItems.vanitas_Helmet.get())
 		        .requires(Tags.Items.DYES_WHITE)
 		        .group("kingdomkeys")
 		        .unlockedBy("vanitas_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Helmet.get()))
 		        .save(consumer);
 		
-		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Chestplate.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Chestplate.get())
 		        .requires(ModItems.vanitas_Chestplate.get())
 		        .requires(Tags.Items.DYES_WHITE)
 		        .group("kingdomkeys")
 		        .unlockedBy("vanitas_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Chestplate.get()))
 		        .save(consumer);
 		
-		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Leggings.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Leggings.get())
 		        .requires(ModItems.vanitas_Leggings.get())
 		        .requires(Tags.Items.DYES_WHITE)
 		        .group("kingdomkeys")
 		        .unlockedBy("vanitas_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Leggings.get()))
 		        .save(consumer);
 		
-		ShapelessRecipeBuilder.shapeless(ModItems.vanitas_Remnant_Boots.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Boots.get())
 		        .requires(ModItems.vanitas_Boots.get())
 		        .requires(Tags.Items.DYES_WHITE)
 		        .group("kingdomkeys")
 		        .unlockedBy("vanitas_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Boots.get()))
 		        .save(consumer);
-        
-        ShapedRecipeBuilder.shaped(ModItems.aced_Helmet.get())
+        		
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.dark_Riku_Chestplate.get())
+		        .pattern("P P")
+		        .pattern("BCB")
+		        .pattern("PDP")
+		        .define('B', Tags.Items.DYES_BLACK)
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .define('D', Tags.Items.DYES_BLUE)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.dark_Riku_Leggings.get())
+				.pattern("PBP")
+		        .pattern("P P")
+		        .pattern("C C")
+		        .define('B', Tags.Items.DYES_BLACK)
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.dark_Riku_Boots.get())
+				.pattern("P P")
+		        .pattern("C C")
+		        .define('P', Items.PHANTOM_MEMBRANE)
+		        .define('C', Blocks.CRYING_OBSIDIAN)
+		        .group("kingdomkeys")
+		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
+		        .save(consumer);
+
+		
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .define('B', Items.CLOCK)
@@ -636,7 +668,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aced_Chestplate.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
                 .pattern("LAL")
                 .pattern("EBE")
                 .pattern("LLL")
@@ -648,7 +680,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aced_Leggings.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
                 .pattern("LBL")
                 .pattern("EAE")
                 .pattern("L L")
@@ -660,7 +692,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.aced_Boots.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
                 .pattern("EBE")
                 .pattern("LAL")
                 .define('B', Items.CLOCK)
@@ -671,128 +703,128 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.aced_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
                 .requires(ModItems.ira_Helmet.get())
                 .group("kingdomkeys")
                 .unlockedBy("ira_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Helmet.get()))
                 .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_helmet_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(ModItems.aced_Chestplate.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
                 .requires(ModItems.ira_Chestplate.get())
                 .group("kingdomkeys")
                 .unlockedBy("ira_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Chestplate.get()))
                 .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_chestplate_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(ModItems.aced_Leggings.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
                 .requires(ModItems.ira_Leggings.get())
                 .group("kingdomkeys")
                 .unlockedBy("ira_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Leggings.get()))
                 .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_leggings_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(ModItems.aced_Boots.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
                 .requires(ModItems.ira_Boots.get())
                 .group("kingdomkeys")
                 .unlockedBy("ira_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Boots.get()))
                 .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_boots_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ava_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Helmet.get())
                 .requires(ModItems.aced_Helmet.get())
                 .group("kingdomkeys")
                 .unlockedBy("aced_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Helmet.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ava_Chestplate.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Chestplate.get())
                 .requires(ModItems.aced_Chestplate.get())
                 .group("kingdomkeys")
                 .unlockedBy("aced_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Chestplate.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ava_Leggings.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Leggings.get())
                 .requires(ModItems.aced_Leggings.get())
                 .group("kingdomkeys")
                 .unlockedBy("aced_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Leggings.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ava_Boots.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Boots.get())
                 .requires(ModItems.aced_Boots.get())
                 .group("kingdomkeys")
                 .unlockedBy("aced_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Boots.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.gula_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Helmet.get())
                 .requires(ModItems.ava_Helmet.get())
                 .group("kingdomkeys")
                 .unlockedBy("ava_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Helmet.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.gula_Chestplate.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Chestplate.get())
                 .requires(ModItems.ava_Chestplate.get())
                 .group("kingdomkeys")
                 .unlockedBy("ava_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Chestplate.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.gula_Leggings.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Leggings.get())
                 .requires(ModItems.ava_Leggings.get())
                 .group("kingdomkeys")
                 .unlockedBy("ava_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Leggings.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.gula_Boots.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
                 .requires(ModItems.ava_Boots.get())
                 .group("kingdomkeys")
                 .unlockedBy("ava_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Boots.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.invi_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Helmet.get())
                 .requires(ModItems.gula_Helmet.get())
                 .group("kingdomkeys")
                 .unlockedBy("gula_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Helmet.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.invi_Chestplate.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Chestplate.get())
                 .requires(ModItems.gula_Chestplate.get())
                 .group("kingdomkeys")
                 .unlockedBy("gula_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Chestplate.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.invi_Leggings.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Leggings.get())
                 .requires(ModItems.gula_Leggings.get())
                 .group("kingdomkeys")
                 .unlockedBy("gula_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Leggings.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.invi_Boots.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Boots.get())
                 .requires(ModItems.gula_Boots.get())
                 .group("kingdomkeys")
                 .unlockedBy("gula_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Boots.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ira_Helmet.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Helmet.get())
                 .requires(ModItems.invi_Helmet.get())
                 .group("kingdomkeys")
                 .unlockedBy("invi_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Helmet.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ira_Chestplate.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Chestplate.get())
                 .requires(ModItems.invi_Chestplate.get())
                 .group("kingdomkeys")
                 .unlockedBy("invi_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Chestplate.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ira_Leggings.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Leggings.get())
                 .requires(ModItems.invi_Leggings.get())
                 .group("kingdomkeys")
                 .unlockedBy("invi_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Leggings.get()))
                 .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(ModItems.ira_Boots.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Boots.get())
                 .requires(ModItems.invi_Boots.get())
                 .group("kingdomkeys")
                 .unlockedBy("invi_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Boots.get()))
                 .save(consumer);
 
         // util blocks
-        ShapedRecipeBuilder.shaped(ModBlocks.magicalChest.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magicalChest.get())
                 .pattern("GNG")
                 .pattern("GCG")
                 .pattern("GNG")
@@ -803,7 +835,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("chest", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CHEST))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.orgPortal.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.orgPortal.get())
                 .pattern("OPO")
                 .pattern("CEC")
                 .pattern("OPO")
@@ -815,7 +847,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_eye", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.pedestal.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.pedestal.get())
                 .pattern(" I ")
                 .pattern("MMM")
                 .pattern("MBM")
@@ -826,7 +858,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("metalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.metalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.station_of_awakening_core.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.station_of_awakening_core.get())
                 .pattern("MMM")
                 .pattern("MGM")
                 .pattern("MMM")

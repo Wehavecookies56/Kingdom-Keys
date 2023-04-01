@@ -50,25 +50,29 @@ public class SCShowOverlayPacket {
 		ctx.get().enqueueWork(() -> {
 			Minecraft mc = Minecraft.getInstance();
 			long time = System.currentTimeMillis()/1000;
-			if (msg.type.equals("exp")) {
-	            GuiOverlay.showExp = true;
-	            GuiOverlay.timeExp = time;
-	            
-	        }
-	        if (msg.type.equals("munny")) {
-	            GuiOverlay.showMunny = true;
-	            GuiOverlay.timeMunny = time;
-	            GuiOverlay.munnyGet = msg.munny;
-	        }
-	        if (msg.type.equals("levelup")) {
-	            GuiOverlay.showLevelUp = true;
-	            GuiOverlay.timeLevelUp = time;
-	        }
-	        if (msg.type.equals("drivelevelup")) {
-	            GuiOverlay.showDriveLevelUp = true;
-	            GuiOverlay.timeDriveLevelUp = time;
-	            GuiOverlay.driveForm = msg.driveForm;
-	        }	
+			switch(msg.type) {
+				case "exp":
+		            GuiOverlay.showExp = true;
+		            GuiOverlay.timeExp = time;		
+					break;
+				case "munny":
+		            GuiOverlay.showMunny = true;
+		            GuiOverlay.timeMunny = time;
+		            GuiOverlay.munnyGet = msg.munny;
+					break;
+				case "levelup":
+		            GuiOverlay.showLevelUp = true;
+		            GuiOverlay.notifTicks = 0;
+		            GuiOverlay.timeLevelUp = time;
+					break;
+				case "drivelevelup":
+		            GuiOverlay.showDriveLevelUp = true;
+		            GuiOverlay.timeDriveLevelUp = time;
+		            GuiOverlay.driveForm = msg.driveForm;
+		            GuiOverlay.driveNotifTicks = 0;
+					break;
+			}
+			
 	    });
 		ctx.get().setPacketHandled(true);
 	}

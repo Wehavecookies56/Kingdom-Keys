@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "EDE",
-    "DAD",
-    "Q Q"
-  ],
   "key": {
-    "E": {
-      "item": "minecraft:emerald_block"
-    },
     "A": {
       "item": "minecraft:diamond_leggings"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "E": {
+      "item": "minecraft:emerald_block"
+    },
     "Q": {
       "item": "minecraft:quartz_block"
     }
   },
+  "pattern": [
+    "EDE",
+    "DAD",
+    "Q Q"
+  ],
   "result": {
     "item": "kingdomkeys:ventus_leggings"
-  }
+  },
+  "show_notification": true
 }

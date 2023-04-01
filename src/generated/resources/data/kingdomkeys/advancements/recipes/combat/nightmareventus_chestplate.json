@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:nightmareventus_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "ventus_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:ventus_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "ventus_chestplate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:nightmareventus_chestplate"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_frost_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_tranquility_gem",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_frost_crystal",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:crystal_snow_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

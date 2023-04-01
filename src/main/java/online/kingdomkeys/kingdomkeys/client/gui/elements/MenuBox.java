@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -18,7 +18,7 @@ public class MenuBox extends AbstractWidget{
     Color colour;
 
     public MenuBox(int posX, int posY, int width, int height, Color colour) {
-		super(posX, posY, width, 14, new TranslatableComponent(""));
+		super(posX, posY, width, 14, Component.translatable(""));
         this.posX = posX;
         this.posY = posY;
         this.width = width;
@@ -41,8 +41,8 @@ public class MenuBox extends AbstractWidget{
             bCenterU = 47, bCenterV = 94,
             mCenterU = 47, mCenterV = 92
             ;
-
-    public void draw(PoseStack matrixStack) {
+    @Override
+	public void renderWidget(PoseStack matrixStack, int p_268034_, int p_268009_, float p_268085_) {
         matrixStack.pushPose();
         RenderSystem.setShaderColor(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F, 1.0F);
         
@@ -115,7 +115,7 @@ public class MenuBox extends AbstractWidget{
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+    public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
 
     }
 }

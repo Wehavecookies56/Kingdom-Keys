@@ -1,8 +1,10 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SwordItem;
@@ -10,10 +12,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
@@ -31,7 +35,7 @@ import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 public class ItemModels extends ItemModelProvider {
 
 	public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, KingdomKeys.MODID, existingFileHelper);
+		super(generator.getPackOutput(), KingdomKeys.MODID, existingFileHelper);
 	}
 
     @Override
@@ -40,7 +44,7 @@ public class ItemModels extends ItemModelProvider {
 
 			//item Name
 			final Item item = itemRegistryObject.get();
-			final String path = item.getRegistryName().getPath();
+			final String path = ForgeRegistries.ITEMS.getKey(item).getPath();
 
 			if (item instanceof BaseArmorItem) {
 				standardArmor(path);
@@ -87,11 +91,12 @@ public class ItemModels extends ItemModelProvider {
 		} else if (block instanceof SoRCore) {
 			// skip - no texture/special block
 		} else if (block instanceof SoAPlatformCoreBlock) {
-			// skip - no texture/special block
-		} else if (block instanceof SoADoorBlock) {
 			// skip - no texture/special block?
 		} else if (block instanceof DataPortalBlock) {
 			// manually generated version exists in main/resources
+		} else if (block instanceof MagicalChestBlock) {
+			// manually generated version exists in main/resources
+			getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
 		} else {
 			// fallback in case block item could not be generated as part of blockstates
 			standardBlockItem(path);

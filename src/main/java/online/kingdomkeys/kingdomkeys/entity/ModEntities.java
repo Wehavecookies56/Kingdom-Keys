@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -84,6 +85,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowGlobRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.ShadowRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.SoldierRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.SpawningOrbRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.entity.XPEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.DriveOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.FocusOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.HPOrbRenderer;
@@ -93,7 +95,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowRainCoreEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.org.ChakramEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.org.KKThrowableEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
@@ -101,7 +103,17 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRende
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
-import online.kingdomkeys.kingdomkeys.entity.block.*;
+import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MoogleProjectorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
@@ -130,6 +142,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.DetonatorEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DirePlantEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DragoonEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.EmeraldBluesEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.GreenRequiemEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.LargeBodyEntity;
@@ -148,11 +161,12 @@ import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.YellowOperaEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.ChakramEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.ThunderTrailCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.PrismRainCoreEntity;
@@ -164,7 +178,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, KingdomKeys.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, KingdomKeys.MODID);
 
     public static HashMap<EntityType<? extends Entity>,Integer> pureblood = new HashMap<>();
     public static HashMap<EntityType<? extends Entity>,Integer> emblem = new HashMap<>();
@@ -211,13 +225,18 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     
-    public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
+   // public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
+    public static final RegistryObject<EntityType<KKThrowableEntity>> TYPE_CHAKRAM = ENTITIES.register("entity_chakram",
+    		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
+                    .build("entity_chakram"));
+
     public static final RegistryObject<EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
     
     public static final RegistryObject<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
+    public static final RegistryObject<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
 
     //Mobs
-    public static final Item.Properties PROPERTIES = new Item.Properties().tab(CreativeModeTab.TAB_MISC);
+    public static final Item.Properties PROPERTIES = new Item.Properties();
 
     public static final RegistryObject<EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MoogleEntity::new, MobCategory.AMBIENT, "moogle", 0.6F, 1.5F);
     public static final RegistryObject<Item> MOOGLE_EGG = ModItems.ITEMS.register("moogle_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_MOOGLE, 0xDACAB0, 0xC50033, PROPERTIES));
@@ -253,15 +272,17 @@ public class ModEntities {
     public static final RegistryObject<EntityType<GummiShipEntity>> TYPE_GUMMI_SHIP = createEntityType(GummiShipEntity::new, GummiShipEntity::new, MobCategory.MISC, "gummi_ship", 5.0F, 5.0F);
     public static final RegistryObject<EntityType<SpawningOrbEntity>> TYPE_SPAWNING_ORB = createEntityType(SpawningOrbEntity::new, SpawningOrbEntity::new, MobCategory.MONSTER, "spawning_orb", 1.5F,  1.5F);
 
-    public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 1F, 2F);
+    public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 0.8F, 1.6F);
     public static final RegistryObject<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
 
     //TODO update textures to work with newer model, make magic for
     /*
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_SILVER_ROCK = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "silver_rock", 1.0F, 1.0F);
     public static final RegistryObject<EntityType<ShadowEntity>> TYPE_CRIMSON_JAZZ = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "crimson_jazz", 1.0F, 1.0F);
-    public static final RegistryObject<EntityType<ShadowEntity>> TYPE_EMERALD_BLUES = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "emerald_blues", 1.0F, 1.0F);
     */
+    public static final RegistryObject<EntityType<EmeraldBluesEntity>> TYPE_EMERALD_BLUES = createEntityType(EmeraldBluesEntity::new, EmeraldBluesEntity::new, MobCategory.MONSTER, "emerald_blues", 0.8F, 1.6F);
+    public static final RegistryObject<Item> EMERALD_BLUES_EGG = ModItems.ITEMS.register("emerald_blues_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_EMERALD_BLUES, Color.CYAN.getRGB(), Color.GREEN.getRGB(), PROPERTIES));
+
 
     public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, MobCategory.MONSTER, "large_body", 1.3F, 1.6F);
     public static final RegistryObject<Item> LARGE_BODY_EGG = ModItems.ITEMS.register("large_body_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_LARGE_BODY, 0x4d177c, 0x29014c, PROPERTIES));
@@ -273,7 +294,7 @@ public class ModEntities {
     //Nobodies
     public static final RegistryObject<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, NobodyCreeperEntity::new, MobCategory.MONSTER, "nobody_creeper", 1F, 1.5F);
     public static final RegistryObject<Item> NOBODY_CREEPER_EGG = ModItems.ITEMS.register("nobody_creeper_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_NOBODY_CREEPER, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
-    public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.5F);
+    public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.8F);
     public static final RegistryObject<Item> DUSK_EGG = ModItems.ITEMS.register("dusk_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DUSK, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
     public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, MobCategory.MONSTER, "assassin", 1F, 1.5F);
     public static final RegistryObject<Item> ASSASSIN_EGG = ModItems.ITEMS.register("assassin_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_ASSASSIN, 0xc9c9c9, 0xd4ccff, PROPERTIES));
@@ -289,6 +310,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, LaserDomeCoreEntity::new, MobCategory.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
     
 	public static final RegistryObject<EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
 	public static final RegistryObject<EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, RagnarokCoreEntity::new, MobCategory.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
@@ -397,6 +419,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_BLUE_RHAPSODY.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_YELLOW_OPERA.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_GREEN_REQUIEM.get(), ElementalMusicalHeartlessRenderer::new);
+        event.registerEntityRenderer(TYPE_EMERALD_BLUES.get(), ElementalMusicalHeartlessRenderer::new);
         event.registerEntityRenderer(TYPE_DUSK.get(), DuskRenderer::new);
         event.registerEntityRenderer(TYPE_ASSASSIN.get(), AssassinRenderer::new);
         event.registerEntityRenderer(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
@@ -406,8 +429,11 @@ public class ModEntities {
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
 
-        event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
+        EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), KKThrowableEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_LANCE.get(), LanceEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
@@ -417,6 +443,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_LASER_DOME.get(), LaserDomeEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_THUNDER_TRAIL.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);
@@ -470,6 +497,7 @@ public class ModEntities {
         event.put(TYPE_DUSK.get(), DuskEntity.registerAttributes().build());
         event.put(TYPE_GIGA_SHADOW.get(), GigaShadowEntity.registerAttributes().build());
         event.put(TYPE_GREEN_REQUIEM.get(), GreenRequiemEntity.registerAttributes().build());
+        event.put(TYPE_EMERALD_BLUES.get(), EmeraldBluesEntity.registerAttributes().build());
         event.put(TYPE_LARGE_BODY.get(), LargeBodyEntity.registerAttributes().build());
         event.put(TYPE_MEGA_SHADOW.get(), MegaShadowEntity.registerAttributes().build());
         event.put(TYPE_MINUTE_BOMB.get(), MinuteBombEntity.registerAttributes().build());
@@ -507,6 +535,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLUE_RHAPSODY.get(), 6);
         addToGroup(HEARTLESS_EMBLEM, TYPE_YELLOW_OPERA.get(), 6);
         addToGroup(HEARTLESS_EMBLEM, TYPE_GREEN_REQUIEM.get(), 6);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_EMERALD_BLUES.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
@@ -556,6 +585,7 @@ public class ModEntities {
         SpawnPlacements.register(TYPE_DUSK.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
         SpawnPlacements.register(TYPE_GIGA_SHADOW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_GREEN_REQUIEM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(TYPE_EMERALD_BLUES.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_LARGE_BODY.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_MEGA_SHADOW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(TYPE_MINUTE_BOMB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
@@ -574,7 +604,7 @@ public class ModEntities {
         SpawnPlacements.register(TYPE_MARLUXIA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
-    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, KingdomKeys.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, KingdomKeys.MODID);
 
     public static final RegistryObject<BlockEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> BlockEntityType.Builder.of(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
     public static final RegistryObject<BlockEntityType<SavepointTileEntity>> TYPE_SAVEPOINT = TILE_ENTITIES.register("savepoint", () -> BlockEntityType.Builder.of(SavepointTileEntity::new, ModBlocks.savepoint.get()).build(null));
@@ -585,5 +615,4 @@ public class ModEntities {
     public static final RegistryObject<BlockEntityType<SoAPlatformTileEntity>> TYPE_SOA_PLATFORM = TILE_ENTITIES.register("soa_platform", () -> BlockEntityType.Builder.of(SoAPlatformTileEntity::new, ModBlocks.station_of_awakening_core.get()).build(null));
     public static final RegistryObject<BlockEntityType<GummiEditorTileEntity>> TYPE_GUMMI_EDITOR = TILE_ENTITIES.register("gummi_editor", () -> BlockEntityType.Builder.of(GummiEditorTileEntity::new, ModBlocks.gummiEditor.get()).build(null));
     public static final RegistryObject<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
-    public static final RegistryObject<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
 }

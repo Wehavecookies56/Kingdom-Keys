@@ -5,8 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,7 +29,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
@@ -92,14 +90,14 @@ public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
             message = Utils.translateToLocal(message);
             ChatFormatting formatting = state.getValue(ATTRACT) ? ChatFormatting.BLUE : ChatFormatting.RED;
             message = formatting + message;
-            player.displayClientMessage(new TextComponent(message), true);
+            player.displayClientMessage(Component.translatable(message), true);
         } else {
             int newRange = state.getValue(RANGE) + 1;
             if (state.getValue(RANGE) == max) {
                 newRange = min;
             }
             worldIn.setBlockAndUpdate(pos, state.setValue(RANGE, newRange));
-            player.displayClientMessage(new TranslatableComponent("message.magnet_blox.range", newRange), true);
+            player.displayClientMessage(Component.translatable("message.magnet_blox.range", newRange), true);
         }
         return InteractionResult.SUCCESS;
     }

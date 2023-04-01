@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -52,7 +52,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 
@@ -82,7 +82,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.draw(matrixStack);
+		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		//details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

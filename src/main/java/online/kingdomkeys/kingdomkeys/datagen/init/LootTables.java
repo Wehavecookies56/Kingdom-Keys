@@ -4,6 +4,8 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -13,20 +15,22 @@ import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.EntryGroup;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTables;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
+import java.util.List;
+import java.util.Set;
+
 public class LootTables extends BaseLootTables {
 
-    public LootTables(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
-    }
+	public LootTables(DataGenerator generator, Set<ResourceLocation> pRequiredTables, List<SubProviderEntry> pSubProviders) {
+		super(generator.getPackOutput(), pRequiredTables, pSubProviders, generator);
+	}
 
-    @Override
+	@Override
     protected void addTables() {
         blox();
         ores();

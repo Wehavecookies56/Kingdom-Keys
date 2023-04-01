@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:true_lights_flight_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_twilight_shard",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_lost_illusion",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:true_lights_flight_chain",
+    "quantity": 1
+  },
+  "tier": 2
 }

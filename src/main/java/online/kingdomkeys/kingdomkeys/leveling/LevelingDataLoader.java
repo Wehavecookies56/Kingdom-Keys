@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -27,18 +26,10 @@ public class LevelingDataLoader extends SimpleJsonResourceReloadListener {
         super(GSON_BUILDER, "levels");
     }
     
-    //public static List<String> names = new LinkedList<>();
-    //public static List<String> dataList = new LinkedList<>();
-
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
         KingdomKeys.LOGGER.info("Loading levels data");
         loadData(resourceManagerIn);
-        /*if (ServerLifecycleHooks.getCurrentServer() != null) {
-            for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                PacketHandler.sendTo(new SCSyncMagicData(names,dataList), player);
-            }
-        }*/
     }
 
     /**
@@ -50,27 +41,20 @@ public class LevelingDataLoader extends SimpleJsonResourceReloadListener {
         String folder = "leveling";
         String extension = ".json";
 
-        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation levelName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
 			Level level = ModLevels.registry.get().getValue(levelName);
             try {
-            	//BufferedReader br = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	BufferedReader br2 = new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream()));
-            	/*String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);*/
+            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	LevelingData result;
                 try {
                     result = GSON_BUILDER.fromJson(br2, LevelingData.class);
-                    //names.add(levelName.toString());
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
                     continue;
                 }
                 level.setLevelingData(result);
-                IOUtils.closeQuietly(manager.getResource(file));
+                IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
             }

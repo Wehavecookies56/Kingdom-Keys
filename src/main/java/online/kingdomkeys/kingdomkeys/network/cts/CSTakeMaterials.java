@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSTakeMaterials {
 	
@@ -43,7 +44,7 @@ public class CSTakeMaterials {
 			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(!ItemStack.isSame(message.stack, ItemStack.EMPTY)) {
-				Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+message.stack.getItem().getRegistryName().getPath()));
+				Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(message.stack.getItem()).getPath()));
 				
 				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {
 					

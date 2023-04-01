@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -26,7 +25,7 @@ public class BounceBloxBlock extends BaseBlock {
 		if (entityIn.isShiftKeyDown()) {
 			super.fallOn(worldIn, state, pos, entityIn, fallDistance);
 		} else {
-			entityIn.causeFallDamage(fallDistance, 0.0F, DamageSource.FALL);
+			entityIn.causeFallDamage(fallDistance, 0.0F, entityIn.damageSources().fall());
 		}
 	}
 

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:is_cold/overworld",
+  "features": "kingdomkeys:frost_ore",
+  "step": "underground_ores"
+}

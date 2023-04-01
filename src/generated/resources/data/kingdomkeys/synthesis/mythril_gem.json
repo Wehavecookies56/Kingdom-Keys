@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:mythril_gem",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_gem",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_hungry_stone",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:mythril_gem",
+    "quantity": 1
+  },
+  "tier": 2
 }

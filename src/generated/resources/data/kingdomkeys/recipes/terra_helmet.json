@@ -1,25 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LOL",
-    "DAD"
-  ],
   "key": {
-    "L": {
-      "item": "minecraft:lava_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_helmet"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "L": {
+      "item": "minecraft:lava_bucket"
+    },
     "O": {
       "item": "minecraft:obsidian"
     }
   },
+  "pattern": [
+    "LOL",
+    "DAD"
+  ],
   "result": {
     "item": "kingdomkeys:terra_helmet"
-  }
+  },
+  "show_notification": true
 }

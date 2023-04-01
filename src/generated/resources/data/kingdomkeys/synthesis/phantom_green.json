@@ -1,0 +1,19 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:phantom_green_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

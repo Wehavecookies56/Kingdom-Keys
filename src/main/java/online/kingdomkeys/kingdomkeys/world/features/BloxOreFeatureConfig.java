@@ -17,33 +17,51 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
  * A modified copy of {@link net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration} so that multiple blockstates can be used
  */
 public class BloxOreFeatureConfig implements FeatureConfiguration {
-    public static final Codec<BloxOreFeatureConfig> CODEC = RecordCodecBuilder.create((p_236568_0_) -> {
-        return p_236568_0_.group(RuleTest.CODEC.fieldOf("target").forGetter((config) -> {
-            return config.target;
-        }), BlockState.CODEC.listOf().fieldOf("states").forGetter((config) -> {
-            return config.states;
+    public static final Codec<BloxOreFeatureConfig> CODEC = RecordCodecBuilder.create((builder) -> {
+        return builder.group(Codec.list(TargetBlockState.CODEC).fieldOf("targets").forGetter((config) -> {
+            return config.targetStates;
         }), Codec.intRange(0, 64).fieldOf("size").forGetter((config) -> {
             return config.size;
-        })).apply(p_236568_0_, BloxOreFeatureConfig::new);
+        }), Codec.floatRange(0.0F, 1.0F).fieldOf("discard_chance_on_air_exposure").forGetter((config) -> {
+            return config.discardChanceOnAirExposure;
+        })).apply(builder, BloxOreFeatureConfig::new);
     });
-    public final RuleTest target;
+
     public final int size;
-    public final List<BlockState> states;
+    public final List<TargetBlockState> targetStates;
+    public final float discardChanceOnAirExposure;
 
-    public BloxOreFeatureConfig(RuleTest target, List<BlockState> states, int size) {
+    public BloxOreFeatureConfig(List<TargetBlockState> targetStates, int size, float discardChanceOnAirExposure) {
         this.size = size;
-        this.states = states;
-        this.target = target;
-    }
-
-    public BlockState getState() {
-        int value = Utils.randomWithRange(0, states.size() - 1);
-        return states.get(value);
+        this.discardChanceOnAirExposure = discardChanceOnAirExposure;
+        this.targetStates = targetStates;
     }
 
     public static final class FillerBlockType {
         public static final RuleTest END = new BlockMatchTest(Blocks.END_STONE);
         public static final RuleTest OVERWORLD = new MultipleBlockMatchRuleTest(Arrays.asList(Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.SAND));
+    }
+
+    public static class TargetBlockState {
+        public static final Codec<BloxOreFeatureConfig.TargetBlockState> CODEC = RecordCodecBuilder.create((p_161039_) -> {
+            return p_161039_.group(RuleTest.CODEC.fieldOf("target").forGetter((p_161043_) -> {
+                return p_161043_.target;
+            }), BlockState.CODEC.listOf().fieldOf("states").forGetter((p_161041_) -> {
+                return p_161041_.states;
+            })).apply(p_161039_, BloxOreFeatureConfig.TargetBlockState::new);
+        });
+        public final RuleTest target;
+        public final List<BlockState> states;
+
+        TargetBlockState(RuleTest target, List<BlockState> states) {
+            this.target = target;
+            this.states = states;
+        }
+
+        public BlockState getState() {
+            int value = Utils.randomWithRange(0, states.size() - 1);
+            return states.get(value);
+        }
     }
 
 }

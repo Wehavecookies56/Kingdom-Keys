@@ -1,10 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "kingdomkeys",
-  "pattern": [
-    "NC",
-    "CN"
-  ],
   "key": {
     "C": {
       "item": "minecraft:cactus"
@@ -13,7 +10,12 @@
       "item": "kingdomkeys:normal_blox"
     }
   },
+  "pattern": [
+    "NC",
+    "CN"
+  ],
   "result": {
     "item": "kingdomkeys:danger_blox"
-  }
+  },
+  "show_notification": true
 }

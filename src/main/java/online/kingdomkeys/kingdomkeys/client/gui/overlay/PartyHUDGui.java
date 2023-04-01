@@ -3,20 +3,18 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -27,10 +25,16 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 //TODO cleanup + comments
 public class PartyHUDGui extends OverlayBase {
+
+	public static final PartyHUDGui INSTANCE = new PartyHUDGui();
 	int hpBarWidth;
 	int guiHeight = 10;
 
 	int counter = 0;
+
+	private PartyHUDGui() {
+		super();
+	}
 
 	public ResourceLocation getLocationSkin(Player player) {
 		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
@@ -38,7 +42,7 @@ public class PartyHUDGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
 
@@ -170,7 +174,7 @@ public class PartyHUDGui extends OverlayBase {
 				// Bar
 				matrixStack.pushPose();
 				{
-					matrixStack.mulPose(Vector3f.ZP.rotation((float) Math.toRadians(180)));
+					matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
 					matrixStack.translate(-4, -15, 1);
 					matrixStack.scale(scale * 0.66F, (scale * 28) * val / max, 1);
 					this.blit(matrixStack, 0, 0, 0, 78, 12, 1);
@@ -211,7 +215,7 @@ public class PartyHUDGui extends OverlayBase {
 					// Bar
 					matrixStack.pushPose();
 					{
-						matrixStack.mulPose(Vector3f.ZP.rotation((float) Math.toRadians(180)));
+						matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
 						matrixStack.translate(-4, -15, 1);
 						matrixStack.scale(scale / 3 * 2, (scale * 28) * val / max, 1);
 						this.blit(matrixStack, 0, 0, 0, 64, 12, 1);

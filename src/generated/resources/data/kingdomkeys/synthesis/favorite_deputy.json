@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_remembrance_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_betwixt_stone",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:favorite_deputy_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

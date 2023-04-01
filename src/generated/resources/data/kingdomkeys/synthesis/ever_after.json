@@ -1,0 +1,27 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_stormy_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lucid_gem",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:ever_after_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

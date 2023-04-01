@@ -4,8 +4,10 @@ import java.awt.Color;
 
 import javax.annotation.Nullable;
 
+import com.mojang.math.Axis;
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -34,8 +36,8 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
+    		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+    		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
 			
     		matrixStackIn.scale(0.3F, 0.3F, 0.3F);
     		Color color = new Color(entity.getColor());

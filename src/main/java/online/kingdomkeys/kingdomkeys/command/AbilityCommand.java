@@ -11,12 +11,11 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -76,9 +75,9 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(abilityName));
 			playerData.addAbility(abilityName, true);
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(new TranslatableComponent("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslatableComponent("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"),Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -92,10 +91,10 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeAbility(ability);
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(new TranslatableComponent("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
-			player.sendMessage(new TranslatableComponent("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"),Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;
@@ -113,7 +112,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			if (player != context.getSource().asPlayer()) {
 				context.getSource().sendFeedback(new TranslationTextComponent("Added all recipes to " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslationTextComponent("You have been given all the recipes"),Util.DUMMY_UUID);
+			player.sendSystemMessage(new TranslationTextComponent("You have been given all the recipes"),Util.DUMMY_UUID);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
 		}
 		return 1;
@@ -127,9 +126,9 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			playerData.clearAbilities();
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(new TranslatableComponent("Removed all abilities from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
-			player.sendMessage(new TranslatableComponent("Your abilities have been taken away"),Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
 		return 1;

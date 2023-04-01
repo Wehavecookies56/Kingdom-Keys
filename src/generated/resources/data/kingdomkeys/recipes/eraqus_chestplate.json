@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LAL",
-    "DOD",
-    "ODO"
-  ],
   "key": {
-    "L": {
-      "tag": "forge:storage_blocks/iron"
-    },
     "A": {
       "item": "minecraft:diamond_chestplate"
     },
     "D": {
       "item": "minecraft:dragon_breath"
     },
+    "L": {
+      "tag": "forge:storage_blocks/iron"
+    },
     "O": {
       "tag": "forge:obsidian"
     }
   },
+  "pattern": [
+    "LAL",
+    "DOD",
+    "ODO"
+  ],
   "result": {
     "item": "kingdomkeys:eraqus_chestplate"
-  }
+  },
+  "show_notification": true
 }

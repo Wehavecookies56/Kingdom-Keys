@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     {
       "tag": "forge:rods/wooden"
@@ -15,6 +16,7 @@
     }
   ],
   "result": {
+    "count": 3,
     "item": "kingdomkeys:ice_cream"
   }
 }

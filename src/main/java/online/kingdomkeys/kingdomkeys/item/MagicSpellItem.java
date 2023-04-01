@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -43,15 +42,15 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
 					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
-					player.displayClientMessage(new TranslatableComponent("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
+					player.displayClientMessage(Component.translatable("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(magic);
 					if(actualLevel < magicInstance.getMaxLevel()) {
-						player.displayClientMessage(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
+						player.displayClientMessage(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
 						takeItem(player);
 					} else {
-						player.displayClientMessage(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
+						player.displayClientMessage(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
 					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -81,9 +80,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			}
 			
 			if(actualLevel < magicInstance.getMaxLevel()) {
-				tooltip.add(new TranslatableComponent("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
+				tooltip.add(Component.translatable("Unlock " + Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
 			} else {
-				tooltip.add(new TranslatableComponent(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is the max level"));
+				tooltip.add(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is the max level"));
 			}
 		}
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);

@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import java.util.List;
-import java.util.Random;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -167,7 +167,7 @@ public class MarluxiaGoal extends TargetGoal {
 		} else if(chasingTicks < 300) {
 			mob.absMoveTo(mob.getTarget().getX(), mob.getTarget().getY(), mob.getTarget().getZ(), mob.getTarget().getYRot(), mob.getTarget().getYRot());
 			//goalOwner.faceEntity(goalOwner.getAttackTarget(), 0, 0);
-			Random rand = ((ServerLevel) mob.level).random;
+			RandomSource rand = ((ServerLevel) mob.level).getRandom();
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 			if(chasingTicks % 10 == 0) {
@@ -175,7 +175,8 @@ public class MarluxiaGoal extends TargetGoal {
 				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
 				double pY = mob.getTarget().getY();
 				double pZ = mob.getTarget().getZ() - 3 + rand.nextDouble() * 6;
-				mob.level.playSound(null, new BlockPos(pX,pY,pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
+				//TODO fix cast
+				mob.level.playSound(null, new BlockPos((int) pX, (int) pY, (int) pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
 
 				for(double i=0;i<4;i=i+0.5) {
 					for (int a = 1; a <= 360; a += 7) {
@@ -190,7 +191,7 @@ public class MarluxiaGoal extends TargetGoal {
 	    		list.remove(mob);
 	    		
 	            for(LivingEntity enemy : list) {
-	            	enemy.hurt(DamageSource.MAGIC, 3);
+	            	enemy.hurt(enemy.damageSources().magic(), 3);
 				}						
 			}
 		} else if(chasingTicks >= 300) {
@@ -201,7 +202,7 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 
 	private void attackWithTP() {
-		Random rand = mob.level.random;
+		RandomSource rand = mob.level.getRandom();
 		for(int i=0;i<10;i++)
 			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 2 + rand.nextDouble() * 4, mob.getY() + rand.nextDouble() * 4, mob.getZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
 			
@@ -211,7 +212,7 @@ public class MarluxiaGoal extends TargetGoal {
 			if(this.mob.getTarget() instanceof Player)
 				((Player)this.mob.getTarget()).travel(new Vec3(0,2,0));
 			this.mob.getTarget().setDeltaMovement(0,1.2,0);
-			mob.getTarget().hurt(DamageSource.MAGIC, 2);
+        	mob.getTarget().hurt(mob.getTarget().damageSources().magic(), 2);
 		} else {
 			EntityHelper.setState(mob, 0);
 		}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -10,16 +11,12 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 
 public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainItem> {
     IDrawable background;
@@ -34,7 +31,7 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
 
     @Override
     public Component getTitle() {
-        return new TranslatableComponent("jei.category.kingdomkeys.keyblade_summon");
+        return Component.translatable("jei.category.kingdomkeys.keyblade_summon");
     }
 
     @Override
@@ -48,23 +45,13 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return new ResourceLocation(KingdomKeys.MODID, "keyblade_summon");
-    }
-
-    @Override
-    public Class<? extends KeychainItem> getRecipeClass() {
-        return KeychainItem.class;
-    }
-
-    @Override
     public RecipeType<KeychainItem> getRecipeType() {
         return TYPE;
     }
 
     @Override
     public void draw(KeychainItem recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        new TextDrawable(new TranslatableComponent("jei.category.kingdomkeys.keyblade_summon.info")).draw(stack, 0, 32);
+        new TextDrawable(Component.translatable("jei.category.kingdomkeys.keyblade_summon.info")).draw(stack, 0, 32);
     }
 
     @Override

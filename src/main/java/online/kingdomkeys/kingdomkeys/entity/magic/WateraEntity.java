@@ -2,9 +2,11 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,6 +20,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -57,8 +62,8 @@ public class WateraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -101,8 +106,10 @@ public class WateraEntity extends ThrowableProjectile {
 			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
 
-			level.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
+			if(!level.isClientSide) {
+				((ServerLevel) level).sendParticles(ParticleTypes.DRIPPING_WATER, x,  (cy+0.5) - a / 1080D, z, 1, 0,0,0, 0.5);
+				((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
+			}
 			
 			List<Entity> list = this.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 			
@@ -112,7 +119,7 @@ public class WateraEntity extends ThrowableProjectile {
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
-						e.hurt(DamageSource.thrown(this, (Player) this.getOwner()), dmg);
+						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 	                }
 	            }
 	        }
@@ -128,7 +135,8 @@ public class WateraEntity extends ThrowableProjectile {
 					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level.addParticle(ParticleTypes.DOLPHIN, x, y, z, 0, 0, 0);
+					if(!level.isClientSide)
+						((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x, y, z, 1, 0,0,0, 0.5);
 				}
 			}
 
@@ -166,7 +174,7 @@ public class WateraEntity extends ThrowableProjectile {
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 2;
-							target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 							remove(RemovalReason.KILLED);
 						}
 					}
@@ -174,6 +182,28 @@ public class WateraEntity extends ThrowableProjectile {
 			}
 			
 			float radius = 1F;
+			
+			if (brtResult != null) {
+				BlockPos ogBlockPos = brtResult.getBlockPos();
+
+				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
+					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
+						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
+							BlockPos blockpos = new BlockPos(x,y,z);
+							BlockState blockstate = level.getBlockState(blockpos);
+							if(blockstate.hasProperty(BlockStateProperties.LIT))
+								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+							if(blockstate.getBlock() == Blocks.FIRE) {
+								level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+							}
+							if(blockstate.getBlock() == Blocks.SPONGE) {
+								level.setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
+							}
+						}
+					}
+				}
+			}
+			
 			if (getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				
@@ -188,15 +218,17 @@ public class WateraEntity extends ThrowableProjectile {
 					}
 				}
 
+				Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
+					for (LivingEntity e : list) {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
-							e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
+								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
+								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+							}
 						}
 					}
 				}

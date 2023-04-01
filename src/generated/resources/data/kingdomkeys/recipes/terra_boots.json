@@ -1,22 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "D D",
-    "LAL"
-  ],
   "key": {
-    "L": {
-      "item": "minecraft:lava_bucket"
-    },
     "A": {
       "item": "minecraft:diamond_boots"
     },
     "D": {
       "item": "minecraft:dragon_breath"
+    },
+    "L": {
+      "item": "minecraft:lava_bucket"
     }
   },
+  "pattern": [
+    "D D",
+    "LAL"
+  ],
   "result": {
     "item": "kingdomkeys:terra_boots"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,11 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -11,12 +17,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-
-import java.util.*;
 
 public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getLevel();
@@ -32,15 +36,21 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getStrength(boolean combined);
 	void setStrength(int str);
 	void addStrength(int str);
+	Stat getStrengthStat();
+	void setStrengthStat(Stat stat);
 	
 	int getMagic(boolean combined);
 	void setMagic(int mag);
 	void addMagic(int mag);
-	
+	Stat getMagicStat();
+	void setMagicStat(Stat stat);
+
 	int getDefense(boolean combined);
 	void setDefense(int def);
 	void addDefense(int def);
-	
+	Stat getDefenseStat();
+	void setDefenseStat(Stat stat);
+
 	int getMaxHP();
 	void setMaxHP(int hp);
 	void addMaxHP(int hp);
@@ -85,6 +95,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getMaxAP(boolean combined);
 	void setMaxAP(int ap);
 	void addMaxAP(int ap);
+	Stat getMaxAPStat();
+	void setMaxAPStat(Stat stat);
+
 	
     void levelUpStatsAndDisplayMessage(Player player, boolean sound);
     void clearMessages();
@@ -96,12 +109,6 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setActiveDriveForm(String form);
 	String getActiveDriveForm();
 	
-	int getAeroLevel();
-	void setAeroLevel(int level);
-	int getAeroTicks();
-	void setAeroTicks(int i, int level);
-	void remAeroTicks(int ticks);
-
 	void setMagicCooldownTicks(int ticks);
 	void remMagicCooldownTicks(int ticks);
 	int getMagicCooldownTicks();
@@ -282,23 +289,10 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void changeShortcut(int position, String name, int level);
 	void removeShortcut(int position);
 	
-	int getBoostStrength();
-	void setBoostStrength(int str);
-	int getBoostMagic();
-	void setBoostMagic(int str);
-	int getBoostDefense();
-	void setBoostDefense(int str);
-	int getBoostMaxAP();
-	void setBoostMaxAP(int str);
-	
 	int getSynthLevel();
 	void setSynthLevel(int level);
 	
 	int getSynthExperience();
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
-
-	//Castle Oblivion
-	void setCurrentFloor(Floor floor);
-	Floor getCurrentFloor();
 }

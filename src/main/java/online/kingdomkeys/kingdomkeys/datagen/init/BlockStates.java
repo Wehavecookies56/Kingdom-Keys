@@ -10,21 +10,36 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
+import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
+import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.MoogleProjectorBlock;
+import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
+import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
+import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
+import online.kingdomkeys.kingdomkeys.block.PedestalBlock;
+import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
+import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
+import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
+import online.kingdomkeys.kingdomkeys.block.SoRCore;
 
 public class BlockStates extends BlockStateProvider {
 
     public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, KingdomKeys.MODID,  exFileHelper);
+        super(gen.getPackOutput(), KingdomKeys.MODID,  exFileHelper);
     }
 
     @Override
     protected void registerStatesAndModels() {
         for (RegistryObject<Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
             final Block block = itemRegistryObject.get();
-            String name = Objects.requireNonNull(block.getRegistryName()).getPath();
+            String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
 
 			if (block instanceof GhostBloxBlock) {
 				getVariantBuilder(block).forAllStates(state -> {
@@ -82,16 +97,6 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof MosaicStainedGlassBlock) {
 				// skip
 			} else if (block instanceof DataPortalBlock) {
-
-			} else if (block instanceof CastleOblivionPillarBlock) {
-
-			} else if (block instanceof CastleOblivionSlabBlock) {
-
-			} else if (block instanceof CastleOblivionStairBlock) {
-
-			} else if (block instanceof StructureWallBlock) {
-
-			} else if (block instanceof CardDoorBlock) {
 
 			} else {
 				simpleBlock(itemRegistryObject);

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:blast_blox"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "normalblox": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:normal_blox"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "normalblox",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:blast_blox"
+    ]
+  }
+}

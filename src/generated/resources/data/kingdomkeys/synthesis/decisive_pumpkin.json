@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:decisive_pumpkin_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_writhing_gem",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_orichalcum",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:decisive_pumpkin_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

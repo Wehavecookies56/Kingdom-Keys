@@ -5,5 +5,7 @@
 	"mag_mult":1.2,
 	"speed_mult":1.2,
 	"level_up":[ 0, 20, 80, 152, 242, 350, 500 ],
-	"abilities":[ "kingdomkeys:ability_mp_hastega", "kingdomkeys:ability_mp_hastega" ]
+	"abilities":[ "kingdomkeys:ability_mp_hastega", "kingdomkeys:ability_mp_hastega" ],
+	"base_levelup_abilities":[ "", "kingdomkeys:ability_auto_wisdom", "kingdomkeys:ability_quick_run", "kingdomkeys:ability_mp_rage", "kingdomkeys:ability_quick_run", "kingdomkeys:ability_mp_haste", "kingdomkeys:ability_quick_run" ],
+	"driveform_levelup_abilities":[ "kingdomkeys:ability_quick_run", "", "kingdomkeys:ability_quick_run", "","kingdomkeys:ability_quick_run","","kingdomkeys:ability_quick_run" ]
 }

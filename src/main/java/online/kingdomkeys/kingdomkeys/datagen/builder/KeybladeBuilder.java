@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
+import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
@@ -53,6 +54,20 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
     public T level(KeybladeLevel keybladeLevel) {
         keybladeLevels.add(keybladeLevel);
+        return self();
+    }
+
+    public T levels(KeybladeStats.Recipe[] recipes) {
+        int baseMag = this.baseMag;
+        int baseStr = this.baseStr;
+        for (int i = 0; i < 10; i++) {
+            if (i % 2 == 0) {
+                ++baseMag;
+            } else {
+                ++baseStr;
+            }
+            keybladeLevels.add(new KeybladeLevel.KeybladeLevelBuilder().withStats(baseStr, baseMag).withMaterials(recipes[i]).build());
+        }
         return self();
     }
 

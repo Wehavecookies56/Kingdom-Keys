@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "minecraft:leather_chestplate"
+    },
+    "B": {
+      "tag": "forge:dyes/black"
+    },
+    "E": {
+      "tag": "forge:ender_pearls"
+    },
+    "L": {
+      "tag": "forge:leather"
+    }
+  },
   "pattern": [
     "LAL",
     "EBE",
     "LLL"
   ],
-  "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
-    "A": {
-      "item": "minecraft:leather_chestplate"
-    },
-    "E": {
-      "tag": "forge:ender_pearls"
-    },
-    "B": {
-      "tag": "forge:dyes/black"
-    }
-  },
   "result": {
     "item": "kingdomkeys:organization_chestplate"
-  }
+  },
+  "show_notification": true
 }

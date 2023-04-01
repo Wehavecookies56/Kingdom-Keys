@@ -9,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +31,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	KeybladeItem keyblade;
 	
     public KeychainItem() {
-        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().tab(KingdomKeys.keybladesGroup).stacksTo(1));
+        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().stacksTo(1));
     }
     
     public void setKeyblade(KeybladeItem kb) {
@@ -91,16 +90,16 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (getKeyblade() != null && getKeyblade().data != null) {
 			if(getKeyblade().getKeybladeLevel(stack) > 0)
-				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
+				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
+			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("keybladeID")) {
-					tooltip.add(new TranslatableComponent(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
+					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
 				}
 			}
 		}
@@ -114,5 +113,10 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.TOOL;
+	}
+	
+	@Override
+	public boolean isEnchantable(ItemStack pStack) {
+		return true;
 	}
 }

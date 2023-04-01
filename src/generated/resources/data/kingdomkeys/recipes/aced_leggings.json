@@ -1,26 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "LBL",
-    "EAE",
-    "L L"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_leggings"
+    },
     "B": {
       "item": "minecraft:clock"
     },
     "E": {
       "item": "minecraft:book"
     },
-    "A": {
-      "item": "minecraft:leather_leggings"
-    },
     "L": {
       "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "LBL",
+    "EAE",
+    "L L"
+  ],
   "result": {
     "item": "kingdomkeys:aced_leggings"
-  }
+  },
+  "show_notification": true
 }

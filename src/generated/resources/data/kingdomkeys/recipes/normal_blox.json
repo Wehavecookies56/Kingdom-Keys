@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "kingdomkeys",
+  "key": {
+    "N": {
+      "item": "minecraft:dirt"
+    },
+    "S": {
+      "tag": "forge:stone"
+    }
+  },
   "pattern": [
     "NS",
     "SN"
   ],
-  "key": {
-    "S": {
-      "tag": "forge:stone"
-    },
-    "N": {
-      "item": "minecraft:dirt"
-    }
-  },
   "result": {
     "item": "kingdomkeys:normal_blox"
-  }
+  },
+  "show_notification": true
 }

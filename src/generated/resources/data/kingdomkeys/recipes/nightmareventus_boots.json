@@ -1,19 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:ventus_boots"
+    },
+    "O": {
+      "tag": "forge:obsidian"
+    }
+  },
   "pattern": [
     "O O",
     "OAO"
   ],
-  "key": {
-    "O": {
-      "tag": "forge:obsidian"
-    },
-    "A": {
-      "item": "kingdomkeys:ventus_boots"
-    }
-  },
   "result": {
     "item": "kingdomkeys:nightmareventus_boots"
-  }
+  },
+  "show_notification": true
 }

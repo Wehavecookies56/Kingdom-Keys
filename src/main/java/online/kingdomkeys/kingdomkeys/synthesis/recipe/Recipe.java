@@ -93,7 +93,7 @@ public class Recipe implements INBTSerializable<CompoundTag> {
 		CompoundTag nbt = new CompoundTag();
 
 		nbt.putString("regname", getRegistryName().toString());
-		nbt.putString("result", result.getRegistryName().toString());
+		nbt.putString("result", ForgeRegistries.ITEMS.getKey(result).toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
 		nbt.putInt("tier", tier);

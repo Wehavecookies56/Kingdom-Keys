@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:ice_cream"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "ice": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ice"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "ice",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:ice_cream"
+    ]
+  }
+}

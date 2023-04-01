@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:darkgnaw_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lucid_shard",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_writhing_crystal",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:darkgnaw_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

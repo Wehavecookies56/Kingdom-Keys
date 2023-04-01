@@ -21,7 +21,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -31,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,9 +56,24 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
+import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.LimitData;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -150,18 +165,14 @@ public class ClientUtils {
                 playerData.setLevel(message.level);
                 playerData.setExperience(message.exp);
                 playerData.setExperienceGiven(message.expGiven);
-                playerData.setStrength(message.strength);
-                playerData.setMagic(message.magic);
-                playerData.setDefense(message.defense);
-                playerData.setBoostStrength(message.boostStr);
-                playerData.setBoostMagic(message.boostMag);
-                playerData.setBoostDefense(message.boostDef);
+                playerData.setStrengthStat(message.strength);
+                playerData.setMagicStat(message.magic);
+                playerData.setDefenseStat(message.defense);
+                playerData.setMaxAPStat(message.maxAP);
                 playerData.setMP(message.MP);
                 playerData.setMaxMP(message.maxMP);
                 playerData.setRecharge(message.recharge);
                 playerData.setMaxHP(message.maxHp);
-                playerData.setMaxAP(message.maxAP);
-                playerData.setBoostMaxAP(message.boostMaxAP);
                 playerData.setDP(message.dp);
                 playerData.setFP(message.fp);
                 playerData.setMaxDP(message.maxDP);
@@ -335,10 +346,36 @@ public class ClientUtils {
                         result = SCSyncMagicData.GSON_BUILDER.fromJson(br, MagicData.class);
 
                     } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
+                        KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", message.names.get(i), e);
                         continue;
                     }
                     magic.setMagicData(result);
+                    IOUtils.closeQuietly(br);
+                }
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable syncLimitData(SCSyncLimitData message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Player player = Minecraft.getInstance().player;
+
+                for (int i = 0; i < message.names.size(); i++) {
+                    Limit limit = ModLimits.registry.get().getValue(new ResourceLocation(message.names.get(i)));
+                    String d = message.data.get(i);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+                    LimitData result;
+                    try {
+                        result = SCSyncLimitData.GSON_BUILDER.fromJson(br, LimitData.class);
+
+                    } catch (JsonParseException e) {
+                        KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", message.names.get(i), e);
+                        continue;
+                    }
+                    limit.setLimitData(result);
                     IOUtils.closeQuietly(br);
                 }
             }
@@ -495,8 +532,8 @@ public class ClientUtils {
         drawStringScaled(matrixStack, gui, x, y, text, colour, scaleXY, scaleXY);
     }
 
-    public static void drawSplitString(Font fontRenderer, String text, int x, int y, int len, int color) {
-        fontRenderer.drawWordWrap(FormattedText.of(text), x, y, len, color);
+    public static void drawSplitString(PoseStack poseStack, Font fontRenderer, String text, int x, int y, int len, int color) {
+        fontRenderer.drawWordWrap(poseStack, FormattedText.of(text), x, y, len, color);
     }
 
     public static void drawItemAsIcon(ItemStack itemStack, PoseStack poseStack, int positionX, int positionY, int size) {
@@ -521,7 +558,7 @@ public class ClientUtils {
             Lighting.setupForFlatItems();
         }
 
-        itemRenderer.render(itemStack, ItemTransforms.TransformType.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
+        itemRenderer.render(itemStack, ItemDisplayContext.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
         multibuffersource$buffersource.endBatch();
         if (flag) {
             Lighting.setupFor3DItems();

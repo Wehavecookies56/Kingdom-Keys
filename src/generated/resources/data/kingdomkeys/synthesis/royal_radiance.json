@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:royal_radiance_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_frost_shard",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:royal_radiance_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

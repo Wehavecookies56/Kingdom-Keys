@@ -8,6 +8,7 @@ import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
@@ -37,12 +39,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ThunderBoltEntity extends ThrowableProjectile {
@@ -103,15 +103,11 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 				this.level.setSkyFlashTime(2);
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
-				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
-				Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getOwner().getUUID());
-
-				if (casterParty != null && !casterParty.getFriendlyFire()) {
-					for (Member m : casterParty.getMembers()) {
-						list.remove(level.getPlayerByUUID(m.getUUID()));
-					}
+				List<LivingEntity> list;
+				if(getOwner() instanceof Player player) {
+					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius, 10F,radius);
 				} else {
-					list.remove(getOwner());
+					list = Utils.getLivingEntitiesInRadius(this, radius);
 				}
 
 				for (LivingEntity entity : list) {
@@ -219,8 +215,8 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

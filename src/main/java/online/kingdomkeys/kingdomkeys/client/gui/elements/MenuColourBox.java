@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -31,7 +31,7 @@ public class MenuColourBox extends AbstractWidget {
 	Minecraft minecraft;
 
 	public MenuColourBox(int x, int y, int widthIn, String key, String value, int color) {
-		super(x, y, widthIn, 14, new TranslatableComponent(key));
+		super(x, y, widthIn, 14, Component.translatable(key));
 		this.key = key;
 		this.value = value;
 		middleWidth = widthIn;
@@ -41,7 +41,7 @@ public class MenuColourBox extends AbstractWidget {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		// isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y +
 		// height;
 		if (visible) {
@@ -52,10 +52,11 @@ public class MenuColourBox extends AbstractWidget {
 			RenderSystem.setShaderTexture(0, texture);
 
 			for (int i = 0; i < middleWidth; i++) {
-				blit(matrixStack, x + i, y, u, vPos, 1, height);
+				blit(matrixStack, getX() + i, getY(), u, vPos, 1, height);
 			}
-			drawString(matrixStack, minecraft.font, key, x + 4, y + 4, new Color(255, 255, 255).hashCode());
-			drawString(matrixStack, minecraft.font, value, x + width - minecraft.font.width(value) - 4, y + 4, new Color(255, 255, 0).hashCode());
+			RenderSystem.setShaderColor(1,1,1,1);
+			drawString(matrixStack, minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
+			drawString(matrixStack, minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
 			matrixStack.popPose();
 		}
@@ -87,7 +88,7 @@ public class MenuColourBox extends AbstractWidget {
 	}
 
 	@Override
-	public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+	public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
 
 	}
 }

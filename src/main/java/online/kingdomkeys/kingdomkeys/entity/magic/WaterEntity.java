@@ -2,12 +2,15 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,6 +20,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -55,8 +61,8 @@ public class WaterEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -99,8 +105,10 @@ public class WaterEntity extends ThrowableProjectile {
 			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
 
-			level.addParticle(ParticleTypes.DRIPPING_WATER, x, (cy+0.5) - a / 1080D, z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 0.0D, 0.0D, 0.0D);
+			if(!level.isClientSide) {
+				((ServerLevel) level).sendParticles(ParticleTypes.DRIPPING_WATER, x,  (cy+0.5) - a / 1080D, z, 1, 0,0,0, 0.5);
+				((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
+			}
 			
 			List<Entity> list = this.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 	        if (!list.isEmpty() && list.get(0) != this) {
@@ -109,7 +117,7 @@ public class WaterEntity extends ThrowableProjectile {
 	            for (int i = 0; i < list.size(); i++) {
 	                Entity e = (Entity) list.get(i);
 	                if (e instanceof LivingEntity) {
-						e.hurt(DamageSource.thrown(this, (Player) this.getOwner()), dmg);
+						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 	                }
 	            }
 	        }
@@ -125,7 +133,8 @@ public class WaterEntity extends ThrowableProjectile {
 					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level.addParticle(ParticleTypes.DOLPHIN, x, y, z, 0, 0, 0);
+					if(!level.isClientSide)
+						((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x, y, z, 1, 0,0,0, 0.5);
 				}
 			}
 
@@ -163,13 +172,27 @@ public class WaterEntity extends ThrowableProjectile {
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
-							target.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
+							target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 							remove(RemovalReason.KILLED);
 						}
 					}
 				}
 			} else { // Block (not ERTR)
 				remove(RemovalReason.KILLED);
+			}
+			
+			if (brtResult != null) {
+				BlockPos blockpos = brtResult.getBlockPos();
+				BlockState blockstate = level.getBlockState(blockpos);
+				if(blockstate.getBlock() == Blocks.FIRE) {
+					level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+				}
+				if(blockstate.hasProperty(BlockStateProperties.LIT)) {
+					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+				}
+				if(blockstate.getBlock() == Blocks.SPONGE) {
+					level.setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
+				}
 			}
 		}
 

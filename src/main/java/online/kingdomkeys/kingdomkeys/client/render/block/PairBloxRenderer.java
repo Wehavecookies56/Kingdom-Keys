@@ -2,8 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import javax.annotation.Nullable;
 
+import com.mojang.math.Axis;
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,9 +40,9 @@ public class PairBloxRenderer extends EntityRenderer<PairBloxEntity> {
 		if (blockstate.getRenderShape() == RenderShape.MODEL) {
 			pMatrixStack.pushPose();
 			pMatrixStack.translate(0.0D, 0.5D, 0.0D);
-			pMatrixStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+			pMatrixStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
 			pMatrixStack.translate(-0.5D, -0.5D, 0.5D);
-			pMatrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+			pMatrixStack.mulPose(Axis.YP.rotationDegrees(90.0F));
 			Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockstate, pMatrixStack, pBuffer, pPackedLightIn, OverlayTexture.NO_OVERLAY);
 			pMatrixStack.popPose();
 			super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLightIn);

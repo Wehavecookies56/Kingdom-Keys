@@ -2,9 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import java.util.List;
 
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -46,7 +44,7 @@ public class UpgradeDriveFormItem extends Item {
 						}
 						int newExp = exp - oldExp;
 						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.sendMessage(new TranslatableComponent(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), Util.NIL_UUID);
+						player.sendSystemMessage(Component.translatable(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
 						
 						if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 							player.getMainHandItem().shrink(1);
@@ -59,7 +57,7 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
-					player.sendMessage(new TranslatableComponent("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())));
 					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 						player.getMainHandItem().shrink(1);
 					} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
@@ -76,7 +74,7 @@ public class UpgradeDriveFormItem extends Item {
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
 		if (form != null) {
-			tooltip.add(new TranslatableComponent("Upgrade " + Utils.translateToLocal(form.getTranslationKey())));
+			tooltip.add(Component.translatable("Upgrade " + Utils.translateToLocal(form.getTranslationKey())));
 		}
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

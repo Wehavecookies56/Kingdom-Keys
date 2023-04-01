@@ -2,17 +2,17 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
@@ -29,19 +29,19 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	    this.renderItem = Minecraft.getInstance().getItemRenderer();
 
 	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
-			tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iih -> {
+			tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(iih -> {
 				if (!iih.getStackInSlot(0).isEmpty()) {
-					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0));
+					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0), combinedLightIn);
 				}
 			});
 		} else {
 	    	if (!tileEntityIn.hide) {
-				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack());
+				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack(), combinedLightIn);
 			}
 		}
 	}
 
-	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender) {
+	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender, int combinedLightIn) {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -57,9 +57,15 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			}
 
 			matrixStack.translate(0.5F, height, 0.5F);
-			matrixStack.mulPose(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
+			matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
 			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
-			renderItem.renderStatic(toRender, TransformType.FIXED, 100, 655360, matrixStack, buffer, 0);
+			if(tileEntity.isFlipped()) {
+	        	matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
+				matrixStack.translate(0, -0.6F, 0);
+
+			}
+			BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
+			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
 	}

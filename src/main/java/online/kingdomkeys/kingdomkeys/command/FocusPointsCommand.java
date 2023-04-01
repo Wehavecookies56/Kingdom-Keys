@@ -8,11 +8,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -68,8 +67,8 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setFocus(value);
-		context.getSource().sendSuccess(new TranslatableComponent("Set "+player.getDisplayName().getString()+" focus to "+value), true);
-		player.sendMessage(new TranslatableComponent("Your focus has been set to "+value),Util.NIL_UUID);
+		context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" focus to "+value), true);
+		player.sendSystemMessage(Component.translatable("Your focus has been set to "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
@@ -86,8 +85,8 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addFocus(value);
-		context.getSource().sendSuccess(new TranslatableComponent("Added "+value+" focus to "+player.getDisplayName().getString()), true);
-		player.sendMessage(new TranslatableComponent("Your focus has been increased by "+value),Util.NIL_UUID);
+		context.getSource().sendSuccess(Component.translatable("Added "+value+" focus to "+player.getDisplayName().getString()), true);
+		player.sendSystemMessage(Component.translatable("Your focus has been increased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
@@ -105,8 +104,8 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.remFocus(value);
-		context.getSource().sendSuccess(new TranslatableComponent("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
-		player.sendMessage(new TranslatableComponent("Your focus has been decreased by "+value),Util.NIL_UUID);
+		context.getSource().sendSuccess(Component.translatable("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
+		player.sendSystemMessage(Component.translatable("Your focus has been decreased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}

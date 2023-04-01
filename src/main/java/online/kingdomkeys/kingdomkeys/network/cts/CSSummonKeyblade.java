@@ -153,14 +153,14 @@ public class CSSummonKeyblade {
 							extraChain.setTag(offHeldStack.getTag());
 							playerData.equipKeychain(message.formToSummonFrom, extraChain);
 							player.getInventory().setItem(extraSlotSummoned, ItemStack.EMPTY);
-							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				}
 			} else if (extraSlotSummoned > -1) {
 				//SUMMON FROM ANOTHER SLOT
 				Utils.swapStack(player.getInventory(), 40, extraSlotSummoned);
-				player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 			} else {
 				if (extraChain != null) {
@@ -174,7 +174,7 @@ public class CSSummonKeyblade {
 							}
 							keyblade.setTag(extraChain.getTag());
 							player.getInventory().setItem(40, keyblade);
-							player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							spawnKeybladeParticles(player, InteractionHand.OFF_HAND);
 
 						} else if (player.getInventory().getFreeSlot() > -1) {
@@ -187,7 +187,7 @@ public class CSSummonKeyblade {
 							keyblade.setTag(extraChain.getTag());
 							Utils.swapStack(player.getInventory(), player.getInventory().getFreeSlot(), 40);
 							player.getInventory().setItem(40, keyblade);
-							player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				}
@@ -199,7 +199,7 @@ public class CSSummonKeyblade {
 						chain.setTag(heldStack.getTag());
 						playerData.equipKeychain(DriveForm.NONE, chain);
 						player.getInventory().setItem(slotSummoned, ItemStack.EMPTY);
-						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					}
 				} else if (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem) { //Org user
 					Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
@@ -214,12 +214,12 @@ public class CSSummonKeyblade {
 					if(playerData.isAbilityEquipped(Strings.synchBlade)) {
 						player.getInventory().setItem(40, ItemStack.EMPTY);
 					}
-					player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+					player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				}
 			} else if (slotSummoned > -1) {
 				//SUMMON FROM ANOTHER SLOT
 				Utils.swapStack(player.getInventory(), player.getInventory().selected, slotSummoned);
-				player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				spawnKeybladeParticles(player, InteractionHand.MAIN_HAND);
 
 			} else {
@@ -241,7 +241,7 @@ public class CSSummonKeyblade {
 						}
 						//Summon when keyblade is unsummoned
 						player.getInventory().setItem(player.getInventory().selected, keyblade);
-						player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						spawnKeybladeParticles(player, InteractionHand.MAIN_HAND);
 
 					} else if (player.getInventory().getFreeSlot() > -1) {
@@ -262,7 +262,7 @@ public class CSSummonKeyblade {
 						//When does it happen?
 						Utils.swapStack(player.getInventory(), player.getInventory().getFreeSlot(), player.getInventory().selected);
 						player.getInventory().setItem(player.getInventory().selected, keyblade);
-						player.level.playSound(null, player.blockPosition(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 					}
 				}
@@ -293,7 +293,7 @@ public class CSSummonKeyblade {
 
 		@SubscribeEvent
 		public static void containerClose(PlayerContainerEvent.Close event) {
-			ServerPlayer player = (ServerPlayer) event.getPlayer();
+			ServerPlayer player = (ServerPlayer) event.getEntity();
 			AbstractContainerMenu openContainer = event.getContainer();
 			AbstractContainerMenu playerContainer = player.inventoryMenu;
 
@@ -315,7 +315,7 @@ public class CSSummonKeyblade {
 								playerData.setWeaponsUnlocked(weapons);
 							}
 							openContainer.broadcastChanges();
-							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					}
 				});
@@ -324,7 +324,7 @@ public class CSSummonKeyblade {
 
 		@SubscribeEvent
 		public static void dropItem(ItemTossEvent event) {
-			ItemStack droppedItem = event.getEntityItem().getItem();
+			ItemStack droppedItem = event.getEntity().getItem();
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			Player player = event.getPlayer();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -342,13 +342,13 @@ public class CSSummonKeyblade {
 								}
 								playerData.setWeaponsUnlocked(weapons);
 							}
-							player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							event.setCanceled(true);
 							return;
 						}
 					}
 					if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
-						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						event.setCanceled(true);
 					}
 				}

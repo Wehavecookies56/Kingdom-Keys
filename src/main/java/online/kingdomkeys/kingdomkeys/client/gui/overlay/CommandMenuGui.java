@@ -11,16 +11,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -45,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
 
+	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
 
 	int TOP_WIDTH = 70;
@@ -62,8 +57,12 @@ public class CommandMenuGui extends OverlayBase {
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
+	private CommandMenuGui() {
+		super();
+	}
+
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 		drawCommandMenu(poseStack, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
@@ -171,9 +170,10 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawHeader(PoseStack matrixStack, String text, int subMenu) {
 		matrixStack.pushPose();
 		{
-
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
 		}
 		matrixStack.popPose();
 		
@@ -188,6 +188,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT+30, TOP_WIDTH, MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -199,6 +202,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, TOP_WIDTH, 30, TOP_WIDTH, 0 + MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -212,6 +218,10 @@ public class CommandMenuGui extends OverlayBase {
 			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, alpha);
 		}
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		RenderSystem.setShaderColor(1,1,1, alpha);
+		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
+
+
 		RenderSystem.disableBlend();
 
 	}
@@ -567,7 +577,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, driveMenuColor, alpha);
-							RenderSystem.setShaderTexture(0, texture);
+				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
@@ -615,7 +625,9 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawSubLimits(PoseStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		List<Limit> limits = Utils.getPlayerLimitAttacks(minecraft.player);
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+
+		List<Limit> limits = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(minecraft.player));
 		
 		if (playerData != null && limits != null && !limits.isEmpty()) {
 			// Limit TOP

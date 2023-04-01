@@ -3,34 +3,27 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import net.minecraft.Util;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import com.mojang.math.Axis;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -39,14 +32,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
+import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -70,41 +64,41 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class ClientEvents {
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-		if(e.getEntity() instanceof Player) {
-			Player player = (Player) e.getEntity();
-			System.out.println(player.getDisplayName().getString()+" spawned");
+	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
+		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getEntity().getLevel().isClientSide) {
-				if(e.getEntity() == Minecraft.getInstance().player) {
-					Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+				if(ent instanceof Player player) {
+					if(e.getEntity() == Minecraft.getInstance().player) {
+						Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+					}
 				}
-				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(player));
+				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(ent));
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void renderOverlays(RenderGuiOverlayEvent event) {
+		Player player = Minecraft.getInstance().player;
+		if (player != null) {
+			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
+				player.getMainHandItem().getItem();
+				if (!(player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon)) {
+					event.setCanceled(
+							event.getOverlay() == ClientSetup.COMMAND_MENU ||
+							event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
+							event.getOverlay() == ClientSetup.HP_BAR ||
+							event.getOverlay() == ClientSetup.MP_BAR ||
+							event.getOverlay() == ClientSetup.DRIVE_BAR ||
+							event.getOverlay() == ClientSetup.SHOTLOCK
+					);
+				}
 			}
 		}
 	}
 	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) { //Lock on
 		Player player = Minecraft.getInstance().player;
-		if (player != null) {
-			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
-				player.getMainHandItem().getItem();
-				if (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
-				} else {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
-				}
-			}
-		}
 
 		if(InputHandler.lockOn != null && player != null) {
 			if(InputHandler.lockOn.isRemoved()) {
@@ -126,25 +120,23 @@ public class ClientEvents {
             float f = player.getXRot();
             float f1 = player.getYRot();
             
-            player.setYRot((float)((double)player.getYRot() + (double)rYaw * 0.15D));
-            player.setXRot((float)((double)player.getXRot() - (double)-(rPitch - player.getXRot()) * 0.15D));
+            player.setYRot((float)(player.getYRot() + rYaw * 0.15D));
+            player.setXRot((float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D));
             player.xRotO = player.getXRot() - f;
             player.yRotO += player.getYRot() - f1;
 
             if (player.getVehicle() != null) {
                 player.getVehicle().onPassengerTurned(player);
             }
-
 		}
 	}
-
 	
 	@SubscribeEvent
-	public void onLivingUpdate(LivingUpdateEvent event) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+	public void onLivingUpdate(LivingTickEvent event) {
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				if(event.getEntityLiving().getLevel().isClientSide) {
+				if(event.getEntity().getLevel().isClientSide) {
 					if(Minecraft.getInstance().screen == null)
 						Minecraft.getInstance().setScreen(new StopGui());
 				}
@@ -152,7 +144,7 @@ public class ClientEvents {
 			}
 		}
 		
-		if(event.getEntityLiving() == Minecraft.getInstance().player) {
+		if(event.getEntity() == Minecraft.getInstance().player) {
 			if(InputHandler.qrCooldown > 0) {
 				InputHandler.qrCooldown -= 1;
 			}
@@ -168,7 +160,7 @@ public class ClientEvents {
 				if(playerData != null) {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
-						event.getPoseStack().mulPose(Vector3f.YP.rotationDegrees(player.tickCount*80));
+						event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
@@ -178,12 +170,29 @@ public class ClientEvents {
 			}
 		}
 	}
-	
+
+	@SubscribeEvent
+	public void clientTick(TickEvent.ClientTickEvent event) {
+		if (Minecraft.getInstance().level != null) {
+			if (event.phase == Phase.START) {
+				for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
+					if (KeyboardHelper.isScrollActivatorDown()) {
+						key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
+					} else {
+						if (!key.matches(key.getDefaultKey().getValue(), key.getKey().getValue())) {
+							key.setToDefault();
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static boolean focusing = false;
 	int focusingTicks = 0;
 	public static double focusGaugeTemp = 100;
 	double cost = 0;
-	
+
 	int cooldownTicks = 0;
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
@@ -200,11 +209,11 @@ public class ClientEvents {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
-						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					
 					if(focusingTicks == 5) {
-						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
 					
@@ -222,11 +231,11 @@ public class ClientEvents {
 	
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									playerData.addShotlockEnemy(ertr.getEntity().getId());
-									event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 	
 									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
-										event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+										event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
 							}
@@ -239,7 +248,7 @@ public class ClientEvents {
 							// Send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
-								event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+								event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 								PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
 								cooldownTicks = 100;
 								focusing = false;
@@ -319,7 +328,7 @@ public class ClientEvents {
         float scale = 0.02666667f;
         float iconScale = (0.02666667f);//*5;
         if (distance > 12.0f) {
-            int renderDistance = Minecraft.getInstance().options.renderDistance * 16;
+            int renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance() * 16;
             if (distance > (float) renderDistance) {
                 float scaleFactor = (float) renderDistance /distance;
                 x *= scaleFactor;
@@ -354,7 +363,7 @@ public class ClientEvents {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.disableBlend();
-        RenderSystem.enableTexture();
+        //RenderSystem.enableTexture(); //TODO disabled dis for 1.19.4, might not be the best way
         
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -364,7 +373,7 @@ public class ClientEvents {
 		bufferbuilder.vertex(0.5, -0.5, 0.0).uv(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 		
 		RenderSystem.depthMask(true);
 		RenderSystem.enableDepthTest();
@@ -411,7 +420,7 @@ public class ClientEvents {
 				LivingEntity entityIn = event.getEntity();
 
 				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				TranslatableComponent displayNameIn = new TranslatableComponent("o");
+				MutableComponent displayNameIn = Component.translatable("o");
 				float f = entityIn.getBbHeight();
 				matrixStackIn.pushPose();
 				{
@@ -450,45 +459,17 @@ public class ClientEvents {
 		bufferbuilder.vertex(matrix, (float) x1, (float) y1, (float) blitOffset).uv(minU, minV).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 	}
 	
 	@SubscribeEvent
-	public void PlayerClick(ClickInputEvent event) {
+	public void PlayerClick(InteractionKeyMappingTriggered event) {
 		if(event.isPickBlock()) {
 			Minecraft mc = Minecraft.getInstance();
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){
 				event.setCanceled(true);
 			}
 		}	
-	}
-
-	public static void colourTint(ColorHandlerEvent.Block event) {
-		BlockColors colours = event.getBlockColors();
-		colours.register(ClientEvents::getStructureWallColour, ModBlocks.structureWall.get());
-	}
-
-	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
-		Color colour = Color.BLACK;
-		if (Minecraft.getInstance().level.dimension().location().getPath().contains("castle_oblivion_")) {
-			CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
-			if (cap != null) {
-				if (!cap.getFloors().isEmpty()) {
-					Room room = cap.getRoomAtPos(pos);
-					if (room != null) {
-						if (room.getType().getProperties().getColour() != null) {
-							colour = room.getType().getProperties().getColour();
-						} else {
-							Floor floor = room.getParent(Minecraft.getInstance().level);
-							if (floor != null) {
-								colour = floor.getType().floorColour;
-							}
-						}
-					}
-				}
-			}
-		}
-		return colour.getRGB();
 	}
 
 }

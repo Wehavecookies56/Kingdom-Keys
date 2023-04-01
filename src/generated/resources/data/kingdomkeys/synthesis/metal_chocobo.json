@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 4,
-  "output": {
-    "item": "kingdomkeys:metal_chocobo_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_wellspring_shard",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:metal_chocobo_chain",
+    "quantity": 1
+  },
+  "tier": 4
 }

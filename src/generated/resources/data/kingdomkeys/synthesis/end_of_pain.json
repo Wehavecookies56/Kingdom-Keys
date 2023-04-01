@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:end_of_pain_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_wellspring_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:end_of_pain_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

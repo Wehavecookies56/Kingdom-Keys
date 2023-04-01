@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "kingdomkeys:blox_cluster", "kingdomkeys:prize_blox_cluster"
+  ],
+  "step": "underground_ores"
+}

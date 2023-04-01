@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:bond_of_the_blaze_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_blazing_gem",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:bond_of_the_blaze_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

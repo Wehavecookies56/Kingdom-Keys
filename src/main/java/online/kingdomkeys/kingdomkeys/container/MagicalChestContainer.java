@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
@@ -27,7 +27,7 @@ public class MagicalChestContainer extends AbstractContainerMenu {
         canInteractWith = ContainerLevelAccess.create(TE.getLevel(), TE.getBlockPos());
 
         //Chest slots
-        TE.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iih -> {
+        TE.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iih -> {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 9; j++) {
                     addSlot(new SlotItemHandler(iih, j + i * 9, 8 + j * 18, 20 + i * 18));

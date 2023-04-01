@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.synthesis.material;
 
+import java.util.function.Supplier;
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 //TODO Should be an API thing
 
@@ -10,21 +13,26 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
  * Uses the forge registry so registry name follows the same format as every other registry item
  * Very simple class right now as the
  */
-public class Material extends ForgeRegistryEntry<Material> {
+public class Material {
 
-    Item material;
+    Supplier<Item> material;
+    private String registryName;
 
-    public Material(Item material) {
+    public Material(Supplier<Item> material) {
         this.material = material;
     }
 
-    public Material(String registryName, Item material) {
+    public Material(String registryName, Supplier<Item> material) {
         this(material);
-        setRegistryName(registryName);
+        this.registryName = registryName;
     }
     
     public String getMaterialName() {
-    	return material.getRegistryName().toString();
+    	return ForgeRegistries.ITEMS.getKey(material.get()).toString();
+    }
+
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(registryName);
     }
 
 }

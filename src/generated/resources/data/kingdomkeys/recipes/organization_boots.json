@@ -1,25 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "EBE",
-    "LAL"
-  ],
   "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
     "A": {
       "item": "minecraft:leather_boots"
+    },
+    "B": {
+      "tag": "forge:dyes/black"
     },
     "E": {
       "tag": "forge:ender_pearls"
     },
-    "B": {
-      "tag": "forge:dyes/black"
+    "L": {
+      "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "EBE",
+    "LAL"
+  ],
   "result": {
     "item": "kingdomkeys:organization_boots"
-  }
+  },
+  "show_notification": true
 }

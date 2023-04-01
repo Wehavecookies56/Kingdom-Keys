@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:anticoat_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "organization_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:organization_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "organization_chestplate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:anticoat_chestplate"
+    ]
+  }
+}

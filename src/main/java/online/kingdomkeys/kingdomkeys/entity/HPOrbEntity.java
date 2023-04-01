@@ -30,7 +30,7 @@ public class HPOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(Player player) {
 		if(!ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti))
-			player.heal(this.value);
+			player.heal(Math.min(this.value, 8));
 	}
 
 	@Override

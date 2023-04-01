@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 
 public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type, ShadowModel<Type>> {

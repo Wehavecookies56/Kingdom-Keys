@@ -4,16 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.OverlayRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -21,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class HPGui extends OverlayBase {
+
+	public static final HPGui INSTANCE = new HPGui();
 	float hpBarWidth, missingHpBarWidth;
 	int guiHeight = 10;
 
@@ -28,8 +24,12 @@ public class HPGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastPlayerHealth;
 
+	private HPGui() {
+		super();
+	}
+
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
 		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
@@ -38,12 +38,12 @@ public class HPGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 
 		float scale = 1f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
 		}
-		float scaleFactor = 1.5F;
+		float scaleFactor = 1.5F * ModConfigs.hpXScale/100F;
 
 		hpBarWidth = (player.getHealth() * scaleFactor);
 		int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
@@ -66,6 +66,8 @@ public class HPGui extends OverlayBase {
 
 		poseStack.pushPose();
 		{
+//			poseStack.scale(scale, 1, 1);
+
 			RenderSystem.enableBlend();
 			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
 			poseStack.pushPose();

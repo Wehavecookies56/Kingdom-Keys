@@ -1,22 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
-  "pattern": [
-    "EAE",
-    "D D"
-  ],
   "key": {
-    "E": {
-      "item": "minecraft:emerald_block"
-    },
     "A": {
       "item": "minecraft:diamond_helmet"
     },
     "D": {
       "item": "minecraft:dragon_breath"
+    },
+    "E": {
+      "item": "minecraft:emerald_block"
     }
   },
+  "pattern": [
+    "EAE",
+    "D D"
+  ],
   "result": {
     "item": "kingdomkeys:ventus_helmet"
-  }
+  },
+  "show_notification": true
 }

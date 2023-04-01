@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -112,18 +111,18 @@
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 4,
-                  "name": "kingdomkeys:fluorite"
+                  "name": "kingdomkeys:fluorite",
+                  "weight": 4
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 3,
-                  "name": "kingdomkeys:damascus"
+                  "name": "kingdomkeys:damascus",
+                  "weight": 3
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 2,
-                  "name": "kingdomkeys:adamantite"
+                  "name": "kingdomkeys:adamantite",
+                  "weight": 2
                 },
                 {
                   "type": "minecraft:item",
@@ -137,7 +136,8 @@
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

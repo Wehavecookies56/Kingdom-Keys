@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="[43,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
 [[mods]]
@@ -17,4 +17,10 @@ A mod inspired by Kingdom Hearts adding various elements from the games.
     mandatory=false
     versionRange="[9.7,)"
     ordering="BEFORE"
+    side="BOTH"
+[[dependencies.kingdomkeys]]
+    modId="epicfight"
+    mandatory=false
+    versionRange="[18.3,)"
+    ordering="AFTER"
     side="BOTH"

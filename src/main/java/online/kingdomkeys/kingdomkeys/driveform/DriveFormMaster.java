@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -22,55 +22,13 @@ public class DriveFormMaster extends DriveForm {
 		this.color = new float[] { 1F, 0.7F, 0.1F };
 		this.skinRL = skinRL;
 	}
-	
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoMaster;
-		case 3:
-			return Strings.aerialDodge;
-		case 4:
-			return "";
-		case 5:
-			return Strings.aerialDodge;
-		case 6:
-			return "";
-		case 7:
-			return Strings.aerialDodge;
-		}
-		return null;	
-	}
 
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.aerialDodge;
-		case 2:
-			return "";
-		case 3:
-			return Strings.aerialDodge;
-		case 4:
-			return "";
-		case 5:
-			return Strings.aerialDodge;
-		case 6:
-			return "";
-		case 7:
-			return Strings.aerialDodge;
-		}
-		return null;
-	}
-	
 	//Hehe you won't find it here, it's in DriveOrbEntity#onPickup
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof Player) {
-			Player player = (Player) event.getEntityLiving();
+	public static void onLivingUpdate(LivingTickEvent event) {
+		if(event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {

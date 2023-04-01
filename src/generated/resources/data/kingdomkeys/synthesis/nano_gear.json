@@ -1,0 +1,27 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_lightning_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_remembrance_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:nano_gear_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

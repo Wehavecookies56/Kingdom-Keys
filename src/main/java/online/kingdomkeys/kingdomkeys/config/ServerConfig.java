@@ -22,11 +22,7 @@ public class ServerConfig {
    // public ForgeConfigSpec.IntValue magicUsesTimer;
     
     public ForgeConfigSpec.BooleanValue requireSynthTier;
-    
-    public ForgeConfigSpec.IntValue limitLaserCircleCost;
-    public ForgeConfigSpec.IntValue limitLaserDomeCost;
-    public ForgeConfigSpec.IntValue limitArrowRainCost;
-    
+        
     public ForgeConfigSpec.BooleanValue projectorHasShop;
     public ForgeConfigSpec.BooleanValue orgEnabled;
 
@@ -89,24 +85,6 @@ public class ServerConfig {
 
         builder.pop();
         
-        builder.push("limits");
-
-        limitLaserCircleCost = builder
-                .comment("Laser Circle Cost")
-                .translation(KingdomKeys.MODID + ".config.laser_circle_cost")
-                .defineInRange("laserCircleCost",100,0,1000);
-        
-        limitLaserDomeCost = builder
-                .comment("Laser Dome Cost")
-                .translation(KingdomKeys.MODID + ".config.laser_dome_cost")
-                .defineInRange("laserDomeCost",400,0,1000);
-        
-        limitArrowRainCost = builder
-                .comment("Laser Dome Cost")
-                .translation(KingdomKeys.MODID + ".config.arrow_rain_cost")
-                .defineInRange("arrowRainCost",300,0,1000);
-
-        builder.pop();
     }
 
 }

@@ -5,12 +5,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -34,15 +33,15 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 	private static int spawn(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		ServerPlayer player = context.getSource().getPlayerOrException();
 		if(player.level.dimension() == ModDimensions.STATION_OF_SORROW) {
-			ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
+			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			player.sendMessage(new TranslatableComponent("You have been teleported to " + dimension.location()), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 		} else {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			player.sendMessage(new TranslatableComponent("You have been returned back to " + dimension.location()), Util.NIL_UUID);
+			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level);
 			marluxia.finalizeSpawn((ServerLevel)player.level, player.level.getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
 			player.level.addFreshEntity(marluxia);

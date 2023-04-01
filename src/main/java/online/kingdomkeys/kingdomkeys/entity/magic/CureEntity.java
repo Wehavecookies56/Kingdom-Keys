@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,8 +40,8 @@ public class CureEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -63,31 +64,7 @@ public class CureEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
-
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
-
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getOwner()) {
-					target.setSecondsOnFire(10);
-					target.hurt(DamageSource.thrown(this, this.getOwner()), 10);
-					remove(RemovalReason.KILLED);
-				}
-			} else { // Block (not ERTR)
-				remove(RemovalReason.KILLED);
-			}
-		}
+		remove(RemovalReason.KILLED);
 	}
 
 	public int getMaxTicks() {

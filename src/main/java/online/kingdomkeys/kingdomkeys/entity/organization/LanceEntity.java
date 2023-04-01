@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -56,8 +57,8 @@ public class LanceEntity extends ThrowableProjectile{
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class LanceEntity extends ThrowableProjectile{
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
 					//target.setFire(5);
-					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
+	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.8F;
 					//stopLance();
 				}

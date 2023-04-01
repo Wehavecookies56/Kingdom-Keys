@@ -3,13 +3,11 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,9 +19,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
@@ -56,7 +54,8 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	private float baseHeight = 1.25F;
 
-	private static boolean pause = false;
+	private boolean pause = false;
+	private boolean flipped = false;
 
 	//only changed on the client so it will not hide for other players
 	public boolean hide = false;
@@ -92,6 +91,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		scale = transformations.getFloat("scale");
 		baseHeight = transformations.getFloat("baseheight");
 		pause = transformations.getBoolean("pause");
+		flipped = transformations.getBoolean("flipped");
 		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
 		displayStack = ItemStack.of(compound.getCompound("display_stack"));
 	}
@@ -111,6 +111,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		transformations.putFloat("scale", scale);
 		transformations.putFloat("baseheight", baseHeight);
 		transformations.putBoolean("pause", pause);
+		transformations.putBoolean("flipped", flipped);
 		compound.put("transforms", transformations);
 		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
 		compound.put("display_stack", displayStack.serializeNBT());
@@ -118,7 +119,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container.pedestal");
+		return Component.translatable("container.pedestal");
 	}
 
 	@Nullable
@@ -130,7 +131,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (cap == ForgeCapabilities.ITEM_HANDLER) {
 			return inventory.cast();
 		}
 		return super.getCapability(cap, side);
@@ -173,6 +174,10 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	public boolean isPaused() {
 		return pause;
 	}
+	
+	public boolean isFlipped() {
+		return flipped;
+	}
 
 	public void setSpeed(float rotationSpeed, float bobSpeed) {
 		this.rotationSpeed = rotationSpeed;
@@ -188,6 +193,11 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 
 	public void setPause(boolean pause) {
 		this.pause = pause;
+		setChanged();
+	}
+	
+	public void setFlipped(boolean flipped) {
+		this.flipped = flipped;
 		setChanged();
 	}
 
@@ -228,9 +238,11 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		if (!pause) {
-			previousTicks = ticksExisted;
-			ticksExisted++;
+		if (level.getBlockEntity(pos) instanceof PedestalTileEntity ped) {
+			if(!ped.isPaused()) {
+				previousTicks = ticksExisted;
+				ticksExisted++;
+			}
 		}
 	}
 

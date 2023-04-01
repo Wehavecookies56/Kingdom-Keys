@@ -1,11 +1,5 @@
 {
   "cost": 2600,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:lucky_ring",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_remembrance_shard",
@@ -31,5 +25,11 @@
       "material": "kingdomkeys:mat_soothing_shard",
       "quantity": "9"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:lucky_ring",
+    "quantity": 1
+  },
+  "tier": 2
 }

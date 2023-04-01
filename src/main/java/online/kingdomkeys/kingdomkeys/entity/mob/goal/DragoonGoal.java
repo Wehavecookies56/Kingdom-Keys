@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import java.util.List;
-
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

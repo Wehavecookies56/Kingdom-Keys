@@ -54,6 +54,28 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUseShortcutPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 
 public class PacketHandler {
@@ -86,10 +108,12 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncMagicData.class, SCSyncMagicData::encode, SCSyncMagicData::decode, SCSyncMagicData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncDriveFormData.class, SCSyncDriveFormData::encode, SCSyncDriveFormData::decode, SCSyncDriveFormData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncShopData.class, SCSyncShopData::encode, SCSyncShopData::decode, SCSyncShopData::handle);
+		HANDLER.registerMessage(packetID++, SCSyncLimitData.class, SCSyncLimitData::encode, SCSyncLimitData::decode, SCSyncLimitData::handle);
+
 		HANDLER.registerMessage(packetID++, SCSyncDimensionLists.class, SCSyncDimensionLists::encode, SCSyncDimensionLists::decode, SCSyncDimensionLists::handle);
 		HANDLER.registerMessage(packetID++, SCSyncCastleOblivionInteriorCapability.class, SCSyncCastleOblivionInteriorCapability::encode, SCSyncCastleOblivionInteriorCapability::decode, SCSyncCastleOblivionInteriorCapability::handle);
 		HANDLER.registerMessage(packetID++, SCOpenCODoorGui.class, SCOpenCODoorGui::encode, SCOpenCODoorGui::decode, SCOpenCODoorGui::handle);
-		
+
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
 		HANDLER.registerMessage(packetID++, CSUseMagicPacket.class, CSUseMagicPacket::encode, CSUseMagicPacket::decode, CSUseMagicPacket::handle);

@@ -15,7 +15,7 @@ public class ModAbilities {
 
 	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(Ability.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 
@@ -26,7 +26,8 @@ public class ModAbilities {
 			AUTO_LIMIT = createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
-
+			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
+			
 			// Growth
 			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),
 			QUICK_RUN = createAbility(Strings.quickRun, 2, AbilityType.GROWTH),
@@ -53,6 +54,7 @@ public class ModAbilities {
 			JACKPOT = createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
 			FIRE_BOOST = createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 			BLIZZARD_BOOST = createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
+			WATER_BOOST = createAbility(Strings.waterBoost, 4, AbilityType.SUPPORT),
 			THUNDER_BOOST = createAbility(Strings.thunderBoost, 5, AbilityType.SUPPORT),
 			EXPERIENCE_BOOST = createAbility(Strings.experienceBoost, 4, AbilityType.SUPPORT),
 			CRITICAL_BOOST = createAbility(Strings.criticalBoost, 3, AbilityType.SUPPORT),
@@ -65,6 +67,7 @@ public class ModAbilities {
 			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
 			GRAND_MAGIC_HASTE = createAbility(Strings.grandMagicHaste, 3, AbilityType.SUPPORT),
+			
 			
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
 			BLIZZAZA = createAbility(Strings.blizzaza,3,AbilityType.SUPPORT),

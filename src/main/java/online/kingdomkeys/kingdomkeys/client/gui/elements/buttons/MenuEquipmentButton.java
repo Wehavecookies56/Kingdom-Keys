@@ -15,9 +15,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -55,11 +54,12 @@ public class MenuEquipmentButton extends Button {
     ItemCategory category;
 
     public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
-        super(x, y, (int) (parent.width * 0.264f), 14, new TranslatableComponent(""), b -> {
+        super(new Builder(Component.literal(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
+        }).bounds(x, y, (int) (parent.width * 0.264f), 14));
+        
         this.stack = stack;
         this.colour = colour;
         this.toOpen = toOpen;
@@ -76,12 +76,13 @@ public class MenuEquipmentButton extends Button {
     }
     
     public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
-        super(x, y, (int) (parent.width * 0.264f), 14, new TranslatableComponent(""), b -> {
+    	super(new Builder(Component.literal(""), b -> {
             if (b.visible && b.active) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
-        });
-        this.stack = null;
+        }).bounds(x, y, (int) (parent.width * 0.264f), 14));
+    	
+    	this.stack = null;
         this.shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
         this.colour = colour;
         this.toOpen = toOpen;
@@ -109,9 +110,9 @@ public class MenuEquipmentButton extends Button {
 
         float itemY = parent.height * 0.1907F;
         float bottomY = parent.height - (parent.height * 0.25F);
-        if (this.y < itemY - 1 || this.y > bottomY - 1) return;
+        if (this.getY() < itemY - 1 || this.getY() > bottomY - 1) return;
 
-        isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+        isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         Color col = Color.decode(String.valueOf(colour));
         RenderSystem.setShaderColor(1, 1, 1, 1);
         float labelWidth = parent.width * 0.142F;
@@ -125,7 +126,7 @@ public class MenuEquipmentButton extends Button {
                 
                 Lighting.setupForFlatItems();
                 RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-                matrixStack.translate(x + 0.6F, y, 0);
+                matrixStack.translate(getX() + 0.6F, getY(), 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
                 //Gradient Background
                 for (int i = 0; i < height * 2; i++) {
@@ -141,7 +142,7 @@ public class MenuEquipmentButton extends Button {
                 blit(matrixStack, 0, 0, 166, 34, 18, 28);
                 //Middle item slot
                 for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                    blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
+                    blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
                 }
                 //Right item slot
                 blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
@@ -157,26 +158,25 @@ public class MenuEquipmentButton extends Button {
                 } else if (ItemStack.matches(stack, ItemStack.EMPTY)) {
                     itemName = "---";
                 }
-                drawString(matrixStack, fr, itemName, x + 15, y + 3, 0xFFFFFF);
+                drawString(matrixStack, fr, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
             } else {
             	if(shotlock != null) {
-            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), x + 15, y + 3, 0xFFFFFF);
+            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), getX() + 15, getY() + 3, 0xFFFFFF);
             	} else {
-            		drawString(matrixStack, fr, "---", x + 15, y + 3, 0xFFFFFF);	
+            		drawString(matrixStack, fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);	
             	}
             }
             if (isHovered) {
                 RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
-                    
-                    matrixStack.translate(x + 0.6F, y, 0);
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
                     blit(matrixStack, 0, 0, 128, 34, 18, 28);
                     //Middle selected
                     for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                        blit(matrixStack, 17 + i, 0, 146, 34, 2, 28);
+                        blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
                     }
                     //Right selected
                     blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
@@ -297,7 +297,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 	                    if(showAP) {
-		                    drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
+		                    drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, playerData.getMaxAP(true)+"", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
@@ -306,7 +306,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 	                    if(showStr) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, playerData.getStrength(true)+"", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
@@ -315,7 +315,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 	                    if(showMag) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, playerData.getMagic(true)+"", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
@@ -327,7 +327,7 @@ public class MenuEquipmentButton extends Button {
 	                    	int pos = 0;
 	                    	{
 		                    	String resVal = ((KKArmorItem) stack.getItem()).getDefense()+"";
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, playerData.getDefense(true) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -335,7 +335,7 @@ public class MenuEquipmentButton extends Button {
 	                    	}
 							if(resistances.containsKey(KKResistanceType.fire)) {
 								String resVal = resistances.get(KKResistanceType.fire).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.fire.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -343,7 +343,7 @@ public class MenuEquipmentButton extends Button {
 							}
 							if(resistances.containsKey(KKResistanceType.ice)) {
 								String resVal = resistances.get(KKResistanceType.ice).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.ice.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -351,7 +351,7 @@ public class MenuEquipmentButton extends Button {
 							}
 							if(resistances.containsKey(KKResistanceType.lightning)) {
 								String resVal = resistances.get(KKResistanceType.lightning).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -359,7 +359,7 @@ public class MenuEquipmentButton extends Button {
 							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
 								String resVal = resistances.get(KKResistanceType.darkness).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -368,7 +368,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
 				                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
@@ -378,13 +378,13 @@ public class MenuEquipmentButton extends Button {
 						}
 						
 						if(stack.getItem() instanceof KeychainItem) {
-	                    	ClientUtils.drawSplitString(fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	ClientUtils.drawSplitString(matrixStack, fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
-                            ClientUtils.drawSplitString(fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(matrixStack, fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKPotionItem) {
-                            ClientUtils.drawSplitString(fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(matrixStack, fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     }
                 } 
@@ -399,7 +399,7 @@ public class MenuEquipmentButton extends Button {
                     
                     Lighting.setupForFlatItems();
                     RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-                    matrixStack.translate(x - labelWidth, y, 0);
+                    matrixStack.translate(getX() - labelWidth, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
 
                     //Left label
@@ -413,7 +413,8 @@ public class MenuEquipmentButton extends Button {
                 }
                 matrixStack.popPose();
                 float centerX = (labelWidth / 2) - (fr.width(Utils.translateToLocal(label)) / 2);
-                drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (x - labelWidth + centerX), y + 3, labelColour);
+    			RenderSystem.setShaderColor(1,1,1,1);
+                drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (getX() - labelWidth + centerX), getY() + 3, labelColour);
             }
         }
 

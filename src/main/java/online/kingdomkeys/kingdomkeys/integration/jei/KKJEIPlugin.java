@@ -1,12 +1,18 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.registration.*;
-import mezz.jei.api.runtime.IJeiRuntime;
-import net.minecraft.network.chat.TranslatableComponent;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
+import mezz.jei.api.registration.IModIngredientRegistration;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,16 +20,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @JeiPlugin
 public class KKJEIPlugin implements IModPlugin {
@@ -42,7 +42,7 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
+        //registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
     }
 
     @Override
@@ -109,11 +109,11 @@ public class KKJEIPlugin implements IModPlugin {
         }
 
         public void addInfo(Item item, String text) {
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, new TranslatableComponent("jei.info.kingdomkeys." + text));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }
 
         public void addInfo(Block item, String text) {
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, new TranslatableComponent("jei.info.kingdomkeys." + text));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }
     }
 

@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
@@ -11,8 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 /**
  * Stores the data loaded from the keyblades datapack
@@ -83,7 +78,7 @@ public class ShopItem implements INBTSerializable<CompoundTag> {
 	public CompoundTag serializeNBT() {
 		CompoundTag nbt = new CompoundTag();
 
-		nbt.putString("result", result.getRegistryName().toString());
+		nbt.putString("result", Utils.getItemRegistryName(result).toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
 		nbt.putInt("tier", tier);

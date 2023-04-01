@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -39,8 +39,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisCreateScreen extends MenuFilterable {
@@ -99,7 +97,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.x + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
@@ -144,7 +142,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(RecipeRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(RecipeRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(RecipeRegistry.getInstance().getValue(items.get(i)).getResult());
@@ -159,26 +157,29 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+				
+		addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
 			action("prev");
-		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
+
+		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
 			action("next");
-		}));
-		addRenderableWidget(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
+        
+        addRenderableWidget(create = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
-		}));
-		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
+		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+        
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 	}
 
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		boxL.draw(matrixStack);
-		boxM.draw(matrixStack);
-		boxR.draw(matrixStack);
+		boxL.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		boxM.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		prev.visible = page > 0;
@@ -207,9 +208,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
 			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.setMessage(new TranslatableComponent("Not enough space"));
+				create.setMessage(Component.translatable("Not enough space"));
 			} else {
-				create.setMessage(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
+				create.setMessage(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {
@@ -232,7 +233,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			if (i < inventory.size()) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
-					inventory.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 14 + 5; // 6 = offset
+					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
 					inventory.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}
@@ -250,15 +251,15 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
-		float iconPosX = boxR.x;
-		float iconPosY = boxR.y + 25;
+		float iconPosX = boxR.getX();
+		float iconPosY = boxR.getY() + 25;
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		matrixStack.pushPose();
 		{
 			double offset = (boxM.getWidth()*0.1F);
-			matrixStack.translate(boxM.x + offset/2, iconPosY, 1);
+			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
 			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
@@ -296,7 +297,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(boxM.x+20, height*0.58, 1);
+				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
 				
 				int offset = -20;
 				
@@ -322,7 +323,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				{
 					String text = Utils.translateToLocal(selectedItemStack.getDescriptionId());
 					drawString(matrixStack, minecraft.font, text, (int)(tooltipPosX + 5), (int) (tooltipPosY)+5, 0xFF9900);
-					ClientUtils.drawSplitString(font, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+					ClientUtils.drawSplitString(matrixStack, font, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
 				}
 				matrixStack.popPose();
 			}

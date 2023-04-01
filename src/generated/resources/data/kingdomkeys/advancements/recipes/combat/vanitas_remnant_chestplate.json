@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:vanitas_remnant_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "vanitas_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:vanitas_chestplate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "vanitas_chestplate",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:vanitas_remnant_chestplate"
+    ]
+  }
+}

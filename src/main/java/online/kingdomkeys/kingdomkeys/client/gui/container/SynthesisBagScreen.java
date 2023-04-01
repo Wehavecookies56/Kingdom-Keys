@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -66,12 +65,12 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		upgrade.visible = bagLevel < 2;
 		
 		if(upgrade.visible) {
-			if (x >= upgrade.x && x <= upgrade.x + upgrade.getWidth()) {
-				if (y >= upgrade.y && y <= upgrade.y + upgrade.getHeight()) {
-					list.add(new TranslatableComponent("gui.synthesisbag.upgrade"));					
-					list.add(new TranslatableComponent(ChatFormatting.YELLOW+ new TranslatableComponent("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
+			if (x >= upgrade.getX() && x <= upgrade.getX() + upgrade.getWidth()) {
+				if (y >= upgrade.getY() && y <= upgrade.getY() + upgrade.getHeight()) {
+					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
+					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
-						list.add(new TranslatableComponent(ChatFormatting.RED+ new TranslatableComponent("gui.synthesisbag.notenoughmunny").getString()));
+						list.add(Component.translatable(ChatFormatting.RED+ Component.translatable("gui.synthesisbag.notenoughmunny").getString()));
 					}
 					renderComponentTooltip(matrixStack, list, x, y);
 				}

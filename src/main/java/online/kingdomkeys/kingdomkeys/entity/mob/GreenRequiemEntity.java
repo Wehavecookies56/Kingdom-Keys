@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.damagesource.MagicDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -37,7 +38,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     public static AttributeSupplier.Builder registerAttributes() {
         return BaseElementalMusicalHeartlessEntity.registerAttributes()
         		.add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.ATTACK_DAMAGE, 2.0D);
+                .add(Attributes.ATTACK_DAMAGE, 1.0D);
     }
 
     @Override
@@ -53,12 +54,10 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        //float multiplier = 1;
-        //TODO elemental weakness, ? not sure yet
-        //if(!this.world.isRemote) {
-        //    if(source.getImmediateSource() instanceof FireEntity)
-        //        multiplier = 2;
-        //}
+        if(!this.level.isClientSide()) {
+            if(source instanceof MagicDamageSource)
+            	return false;
+        }
         return super.hurt(source, amount);
     }
 

@@ -2,17 +2,21 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -23,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FiragaEntity extends ThrowableProjectile {
 
@@ -50,8 +54,8 @@ public class FiragaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -109,19 +113,30 @@ public class FiragaEntity extends ThrowableProjectile {
 					}
 				}
 			}
-			
+
 			float radius = 2F;
-			List<Entity> list = level.getEntities(getOwner(), getBoundingBox().inflate(radius));
-			Party casterParty = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
+			
+			if (brtResult != null) {
+				BlockPos ogBlockPos = brtResult.getBlockPos();
 
-			if(casterParty != null && !casterParty.getFriendlyFire()) {
-				for(Member m : casterParty.getMembers()) {
-					list.remove(level.getPlayerByUUID(m.getUUID()));
+				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
+					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
+						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
+							BlockPos blockpos = new BlockPos(x,y,z);
+							BlockState blockstate = level.getBlockState(blockpos);
+							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
+								level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+							}
+							if(blockstate.hasProperty(BlockStateProperties.LIT))
+								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+						}
+					}
 				}
-			} else {
-				list.remove(getOwner());
 			}
-
+			
+			List<Entity> list = level.getEntities(getOwner(), getBoundingBox().inflate(radius));
+			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
+			
 			((ServerLevel)level).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {

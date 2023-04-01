@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -32,8 +33,8 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if (!player.isShiftKeyDown()) {
 			if (player.getItemInHand(hand).getTag() != null && player.getItemInHand(hand).getTag().getInt("ammo") > 0) {
-				world.playSound(player, player.blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
-				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player);
+				world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
+				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player, DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3);
 				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 				world.addFreshEntity(bullet);
 
@@ -44,7 +45,7 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 				if(tempAmmo == 0) {
 					player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));
 					player.getCooldowns().addCooldown(this, reload);
-					world.playSound(null, player.blockPosition(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
+					world.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
 			}
 
@@ -52,7 +53,7 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 			CompoundTag nbt = player.getItemInHand(hand).getTag();
 
 			if (nbt.getInt("ammo") > 0) {
-				world.playSound(player, player.blockPosition(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
+				world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 
 				player.getCooldowns().addCooldown(this, reload / nbt.getInt("ammo"));
 				player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));

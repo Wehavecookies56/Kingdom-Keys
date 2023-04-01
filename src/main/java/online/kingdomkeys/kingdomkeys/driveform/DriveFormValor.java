@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -25,52 +25,10 @@ public class DriveFormValor extends DriveForm {
 		this.color = new float[] { 1F, 0F, 0F };
 		this.skinRL = skinRL;
 	}
-	
-	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return "";
-		case 2:
-			return Strings.autoValor;
-		case 3:
-			return Strings.highJump;
-		case 4:
-			return "";
-		case 5:
-			return Strings.highJump;
-		case 6:
-			return "";
-		case 7:
-			return Strings.highJump;
-		}
-		return null;	
-	}
 
-	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		switch (driveFormLevel) {
-		case 1:
-			return Strings.highJump;
-		case 2:
-			return "";
-		case 3:
-			return Strings.highJump;
-		case 4:
-			return "";
-		case 5:
-			return Strings.highJump;
-		case 6:
-			return "";
-		case 7:
-			return Strings.highJump;
-		}
-		return null;
-	}
-	
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().level.isClientSide && event.getEntityLiving() instanceof Monster) {
+		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof Monster) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -85,9 +43,9 @@ public class DriveFormValor extends DriveForm {
 	}
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingUpdateEvent event) {
-		if(event.getEntityLiving() instanceof Player) {
-			Player player = (Player) event.getEntityLiving();
+	public static void onLivingUpdate(LivingTickEvent event) {
+		if(event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {

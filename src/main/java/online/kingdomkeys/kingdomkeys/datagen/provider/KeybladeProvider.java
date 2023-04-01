@@ -2,8 +2,11 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -12,16 +15,17 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
 public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements DataProvider {
 
-    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
+    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
     protected final DataGenerator generator;
     protected final String modid;
     protected final Function<ResourceLocation, T> factory;
@@ -52,25 +56,23 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
     }
 
     @Override
-    public void run(HashCache cache) throws IOException {
+    public CompletableFuture<?> run(CachedOutput cache) {
         clear();
         registerKeyblades();
-        generateAll(cache);
+        return generateAll(cache);
     }
 
-    protected void generateAll(HashCache cache) {
+    protected CompletableFuture<?> generateAll(CachedOutput cache) {
+        List<CompletableFuture<?>> list = new ArrayList<>();
         for (T model : generatedModels.values()) {
             Path target = getPath(model);
-            try {
-                DataProvider.save(GSON, cache, model.toJson(), target);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            list.add(DataProvider.saveStable(cache, model.toJson(), target));
         }
+        return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/keyblades/" + loc.getPath() + ".json");
+        return generator.getPackOutput().createPathProvider(PackOutput.Target.DATA_PACK, "keyblades").json(loc);
     }
 }

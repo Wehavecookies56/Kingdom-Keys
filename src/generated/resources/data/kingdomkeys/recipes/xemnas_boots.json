@@ -1,25 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:organization_boots"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "tag": "forge:leather"
+    },
+    "W": {
+      "tag": "forge:dyes/white"
+    }
+  },
   "pattern": [
     "EWE",
     "LAL"
   ],
-  "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
-    "A": {
-      "item": "kingdomkeys:organization_boots"
-    },
-    "W": {
-      "tag": "forge:dyes/white"
-    },
-    "E": {
-      "item": "minecraft:end_crystal"
-    }
-  },
   "result": {
     "item": "kingdomkeys:xemnas_boots"
-  }
+  },
+  "show_notification": true
 }

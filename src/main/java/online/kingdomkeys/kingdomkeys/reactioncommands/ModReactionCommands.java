@@ -3,25 +3,18 @@ package online.kingdomkeys.kingdomkeys.reactioncommands;
 import java.util.function.Supplier;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.magic.MagicGravity;
-import online.kingdomkeys.kingdomkeys.magic.MagicMagnet;
-import online.kingdomkeys.kingdomkeys.magic.MagicReflect;
-import online.kingdomkeys.kingdomkeys.magic.MagicStop;
 
 public class ModReactionCommands {
 
 	public static DeferredRegister<ReactionCommand> REACTION_COMMANDS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "reactioncommands"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<ReactionCommand>> registry = REACTION_COMMANDS.makeRegistry(ReactionCommand.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<ReactionCommand>> registry = REACTION_COMMANDS.makeRegistry(RegistryBuilder::new);
 
 	public static final RegistryObject<ReactionCommand>
 		AUTO_VALOR = REACTION_COMMANDS.register(Strings.autoValorRC, () -> new ReactionAutoForm(KingdomKeys.MODID+":"+Strings.autoValorRC, Strings.autoValor, Strings.Form_Valor)),

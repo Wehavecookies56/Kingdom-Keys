@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "tag": "forge:dyes/black"
+    },
+    "C": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "P": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "pattern": [
+    "PBP",
+    "P P",
+    "C C"
+  ],
+  "result": {
+    "item": "kingdomkeys:dark_riku_leggings"
+  },
+  "show_notification": true
+}

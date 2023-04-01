@@ -1,14 +1,11 @@
 package online.kingdomkeys.kingdomkeys.sound;
 
-import java.util.HashMap;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -24,7 +21,7 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
    private float pitch = 0.0F;
   
    public AlarmSoundInstance(Player player) {
-      super(ModSounds.alarm.get(), SoundSource.PLAYERS);
+      super(ModSounds.alarm.get(), SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
       this.player = player;
       this.looping = true;
       this.delay = 0;

@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -14,11 +14,11 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WeaponTreeSelectionScreen extends Screen {
     public WeaponTreeSelectionScreen() {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
     }
 
     public WeaponTreeSelectionScreen(Utils.OrgMember current) {
-        super(new TranslatableComponent(""));
+        super(Component.translatable(""));
         this.current = current;
     }
     Button cancel, next, prev, select;
@@ -64,11 +64,6 @@ public class WeaponTreeSelectionScreen extends Screen {
         }
 
         return false;
-    }
-
-    @Override
-    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
-        super.renderBackground(matrixStack, p_renderBackground_1_);
     }
 
     @Override
@@ -179,10 +174,21 @@ public class WeaponTreeSelectionScreen extends Screen {
 
     @Override
     public void init() {
-        addRenderableWidget(cancel = new Button(0, 0, 50, 20, new TranslatableComponent("Back"), p -> actionPerformed(CANCEL)));
-        addRenderableWidget(next = new Button(0, 0, 20, 20, new TranslatableComponent(">"), p -> actionPerformed(NEXT)));
-        addRenderableWidget(prev = new Button(0, 0, 20, 20, new TranslatableComponent("<"), p -> actionPerformed(PREV)));
-        addRenderableWidget(select = new Button(0, 0, 50, 20, new TranslatableComponent("Select"), p -> actionPerformed(SELECT)));
+    	addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
+    		actionPerformed(CANCEL);
+		}).bounds(0, 0, 50, 20).build());
+    	
+        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+    		actionPerformed(NEXT);
+		}).bounds(0, 0, 20, 20).build());
+        
+        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+    		actionPerformed(PREV);
+		}).bounds(0, 0, 20, 20).build());
+
+        addRenderableWidget(select = Button.builder(Component.translatable("Select"), (e) -> {
+    		actionPerformed(SELECT);
+		}).bounds(0, 0, 50, 20).build());
         updateButtons();
         super.init();
     }
@@ -218,17 +224,17 @@ public class WeaponTreeSelectionScreen extends Screen {
     }
 
     public void updateButtons() {
-        next.visible = true;
-        next.x = (width / 2) - (next.getWidth() / 2) + 128;
-        next.y = (height / 2) - (next.getHeight() / 2);
+    	next.visible = true;
+        next.setX((width / 2) - (next.getWidth() / 2) + 128);
+        next.setY((height / 2) - (next.getHeight() / 2));
         prev.visible = true;
-        prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
-        prev.y = (height / 2) - (prev.getHeight() / 2);
+        prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
+        prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
-        select.x = (width / 2) - (select.getWidth() / 2);
-        select.y= (height / 2) - (select.getHeight() / 2) + 90;
+        select.setX((width / 2) - (select.getWidth() / 2));
+        select.setY((height / 2) - (select.getHeight() / 2) + 90);
         cancel.visible = true;
-        cancel.x = (width / 2) - (select.getWidth() / 2);
-        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
+        cancel.setX((width / 2) - (select.getWidth() / 2));
+        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
     }
 }

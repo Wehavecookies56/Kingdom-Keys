@@ -12,22 +12,20 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -36,10 +34,8 @@ public class SCSyncCapabilityPacket {
 	public int level = 0;
 	public int exp = 0;
 	public int expGiven = 0;
-	public int strength = 0, boostStr = 0;
-	public int magic = 0, boostMag = 0;
-	public int defense = 0, boostDef = 0;
-	public int maxHp, maxAP=0, boostMaxAP = 0;
+	public Stat strength, magic, defense, maxAP;
+	public int maxHp;
 	public int munny = 0;
 	public int antipoints = 0;
 
@@ -87,15 +83,15 @@ public class SCSyncCapabilityPacket {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();
-		this.strength = capability.getStrength(false);
-		this.magic = capability.getMagic(false);
-		this.defense = capability.getDefense(false);
-		
+		this.strength = capability.getStrengthStat();
+		this.magic = capability.getMagicStat();
+		this.defense = capability.getDefenseStat();
+		this.maxAP = capability.getMaxAPStat();
+
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
 		this.maxHp = capability.getMaxHP();
-		this.maxAP = capability.getMaxAP(false);
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.fp = capability.getFP();
@@ -139,11 +135,6 @@ public class SCSyncCapabilityPacket {
 		
 		this.shortcutsMap = capability.getShortcutsMap();
 		
-		this.boostStr = capability.getBoostStrength();
-		this.boostMag = capability.getBoostMagic();
-		this.boostDef = capability.getBoostDefense();
-		this.boostMaxAP = capability.getBoostMaxAP();
-		
 		this.synthLevel = capability.getSynthLevel();
 		this.synthExp = capability.getSynthExperience();
 	}
@@ -152,20 +143,15 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.exp);
 		buffer.writeInt(this.expGiven);
-		buffer.writeInt(this.strength);
-		buffer.writeInt(this.magic);
-		buffer.writeInt(this.defense);
-		
-		buffer.writeInt(this.boostStr);
-		buffer.writeInt(this.boostMag);
-		buffer.writeInt(this.boostDef);
+		buffer.writeNbt(this.strength.serialize(new CompoundTag()));
+		buffer.writeNbt(this.magic.serialize(new CompoundTag()));
+		buffer.writeNbt(this.defense.serialize(new CompoundTag()));
+		buffer.writeNbt(this.maxAP.serialize(new CompoundTag()));
 		
 		buffer.writeDouble(this.MP);
 		buffer.writeDouble(this.maxMP);
 		buffer.writeBoolean(this.recharge);
 		buffer.writeInt(this.maxHp);
-		buffer.writeInt(this.maxAP);
-		buffer.writeInt(this.boostMaxAP);
 		buffer.writeDouble(this.dp);
 		buffer.writeDouble(this.maxDP);
 		buffer.writeDouble(this.fp);
@@ -305,20 +291,15 @@ public class SCSyncCapabilityPacket {
 		msg.level = buffer.readInt();
 		msg.exp = buffer.readInt();
 		msg.expGiven = buffer.readInt();
-		msg.strength = buffer.readInt();
-		msg.magic = buffer.readInt();
-		msg.defense = buffer.readInt();
-		msg.boostStr = buffer.readInt();
-		msg.boostMag = buffer.readInt();
-		msg.boostDef = buffer.readInt();
+		msg.strength = Stat.deserializeNBT("strength", buffer.readNbt());
+		msg.magic = Stat.deserializeNBT("magic", buffer.readNbt());
+		msg.defense = Stat.deserializeNBT("defense", buffer.readNbt());
+		msg.maxAP = Stat.deserializeNBT("max_ap", buffer.readNbt());
 
 		msg.MP = buffer.readDouble();
 		msg.maxMP = buffer.readDouble();
 		msg.recharge = buffer.readBoolean();
 		msg.maxHp = buffer.readInt();
-		// msg.choice1 = buffer.readString(40);
-		msg.maxAP = buffer.readInt();
-		msg.boostMaxAP = buffer.readInt();
 		msg.dp = buffer.readDouble();
 		msg.maxDP = buffer.readDouble();
 		msg.fp = buffer.readDouble();
@@ -407,7 +388,7 @@ public class SCSyncCapabilityPacket {
 		int length = buffer.readInt();
 		msg.driveForm = buffer.readUtf(length);
 		
-		msg.returnDim = ResourceKey.create(Registry.DIMENSION_REGISTRY, buffer.readResourceLocation());
+		msg.returnDim = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
 		msg.returnPos = new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
 		msg.soAstate = SoAState.fromByte(buffer.readByte());
 		msg.choice = SoAState.fromByte(buffer.readByte());

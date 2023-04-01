@@ -8,13 +8,13 @@ import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -24,8 +24,6 @@ import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagnetEntity extends ThrowableProjectile {
@@ -54,8 +52,8 @@ public class MagnetEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -99,20 +97,18 @@ public class MagnetEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 			
 			
-			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), this, radius,radius*2,radius);
-			
+			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
+			list = Utils.removePartyMembersFromList(getCaster(), list);
+
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); i++) {
-					LivingEntity e = list.get(i);
-					if (e instanceof LivingEntity) {
-						System.out.println(tickCount);
-						double d = e.getX() - getX();
-						double d1 = e.getZ() - getZ();
-						if (e.getY() < this.getY() - 0.5) {
-							e.setDeltaMovement(0, 0.5F, 0);
-						}
-						e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
+					Entity e = list.get(i);
+					double d = e.getX() - getX();
+					double d1 = e.getZ() - getZ();
+					if (e.getY() < this.getY() - 0.5) {
+						e.setDeltaMovement(0, 0.5F, 0);
 					}
+					e.setDeltaMovement(d*-0.1, e.getDeltaMovement().y, d1*-0.1);
 				}
 			}
 		}

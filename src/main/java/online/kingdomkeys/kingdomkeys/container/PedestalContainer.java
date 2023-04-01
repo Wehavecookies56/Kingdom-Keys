@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -39,7 +39,7 @@ public class PedestalContainer extends AbstractContainerMenu {
 
 		int i,j;
 		//Pedestal slot
-		TE.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(iih -> {
+		TE.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iih -> {
 			addSlot(new SlotItemHandler(iih, 0, 152, 9) {
 				@Override
 				public boolean mayPlace(ItemStack stack) {

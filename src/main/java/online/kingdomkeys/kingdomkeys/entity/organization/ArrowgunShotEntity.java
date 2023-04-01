@@ -1,11 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -13,14 +17,12 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class ArrowgunShotEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
+	float dmg;
 
 	public ArrowgunShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -36,13 +38,14 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ArrowgunShotEntity(Level world, LivingEntity player) {
+	public ArrowgunShotEntity(Level world, LivingEntity player, float damage) {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), player, world);
+		this.dmg = damage;
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -56,9 +59,9 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		//if(ticksExisted > 1)
-			//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 0, 0);
-		
+		if(tickCount > 1 && getShotType() == 1)
+			level.addParticle(ParticleTypes.ENCHANTED_HIT, getX(), getY(), getZ(), 0, 0, 0);
+
 		super.tick();
 	}
 
@@ -82,14 +85,14 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
-					float dmg = 0;
+					/*float dmg = 0;
 					if(this.getOwner() instanceof Player) {
 						Player player = (Player) this.getOwner();
 						if(player.getMainHandItem() != null) {
 							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
 						}
-					}
-					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
+					}*/
+	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}
 			} else { // Block (not ERTR)
@@ -106,19 +109,39 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.maxTicks = maxTicks;
 	}
 
+	private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(LaserDomeShotEntity.class, EntityDataSerializers.INT);
+	int type = 0;
+	
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+		if (key.equals(TYPE)) {
+			this.type = this.entityData.get(TYPE);
+		}
+	}
+
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		// compound.putInt("lvl", this.getLvl());
+        super.addAdditionalSaveData(compound);
+		compound.putInt("Type", this.getShotType());
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
-		// this.setLvl(compound.getInt("lvl"));
+        super.readAdditionalSaveData(compound);
+		this.setShotType(compound.getInt("Type"));
+	}
+	
+	public int getShotType() {
+		return type;
+	}
+	
+	public void setShotType(int type) {
+		this.entityData.set(TYPE, type);
+		this.type = type;
 	}
 
 	@Override
 	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
-
+		entityData.define(TYPE, 0);
 	}
 }

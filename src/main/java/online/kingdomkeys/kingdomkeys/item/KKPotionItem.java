@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,8 +21,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -85,7 +84,7 @@ public class KKPotionItem extends Item implements IItemCategory {
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
         	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
         	player.heal(hpAmount);
-    		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
     			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
@@ -98,7 +97,7 @@ public class KKPotionItem extends Item implements IItemCategory {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    						target.heal(hpAmount);
-	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     					}
     				}
@@ -108,7 +107,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case MP:
         	float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		playerData.addMP(mpAmount);
-    		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
     			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
@@ -121,7 +120,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    			        	targetData.addMP(mpAmount);
-	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -153,7 +152,7 @@ public class KKPotionItem extends Item implements IItemCategory {
 
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
-	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -164,7 +163,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case DRIVE:
     		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
     		playerData.addDP(dpAmount);
-    		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
     			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
@@ -188,7 +187,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case FOCUS:
     		float focusAmount = (float) (percentage ? playerData.getMaxFocus() * amount / 100 : amount);
     		playerData.addFocus(focusAmount);
-    		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
     			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
@@ -201,7 +200,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
 	    			        	targetData.addFocus(focusAmount);
-	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -220,7 +219,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
     	String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
     	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
-		tooltip.add(new TranslatableComponent(beginning + end));
+		tooltip.add(Component.translatable(beginning + end));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

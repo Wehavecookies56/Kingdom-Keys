@@ -5,19 +5,16 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -25,6 +22,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 public class DriveGui extends OverlayBase {
 	
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
+
+	public static final DriveGui INSTANCE = new DriveGui();
+
+	private DriveGui() {
+		super();
+	}
 
 	int maxDrive = 1000;
 	int maxLength = 100;
@@ -38,6 +41,7 @@ public class DriveGui extends OverlayBase {
 	int[] colors = { 255, 255, 255 };
 	static final float CONS = 0.005F;
 	float decimalColor = 0F;
+	float previousPartialTick = 0;
 
 	/**
 	 * Gets the bar currently in
@@ -53,12 +57,8 @@ public class DriveGui extends OverlayBase {
 		return bar;
 	}
 
-	private boolean doChange = false;
-
-	private int timeLastChange = (int) System.currentTimeMillis();
-
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		/*
 		 * if (!MainConfig.displayGUI()) return; if
@@ -92,32 +92,23 @@ public class DriveGui extends OverlayBase {
 
 			RenderSystem.setShaderTexture(0, texture);
 
-			float scale = 0.65f;
-			switch (minecraft.options.guiScale) {
-				case Constants.SCALE_AUTO:
-					scale = 0.85f;
-					break;
-				case Constants.SCALE_NORMAL:
-					scale = 0.85f;
-					break;
-				default:
-					scale = 0.65f;
-					break;
-			}
-			float posX = 52 * scale;
-			float posY = 20 * scale + 2;
+			float rawScale = 0.85f;
+			float scaleX = rawScale * ModConfigs.dpXScale/100F;
+			float scaleY = rawScale * ModConfigs.dpYScale/100F;
+			float posX = 52 * scaleX;
+			float posY = 20 * scaleY + 2;
 
 			poseStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				RenderSystem.enableBlend();
-				poseStack.translate(-20.3F + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
+				poseStack.translate(-27 + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
 
 				// Background
 				poseStack.pushPose();
 				{
-					poseStack.translate((screenWidth - guiWidth * scale) - posX, (screenHeight - guiHeight * scale) - posY, 0);
-					poseStack.scale(scale, scale, scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) - posX, (screenHeight - guiHeight * scaleY) - posY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
 
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
@@ -134,8 +125,8 @@ public class DriveGui extends OverlayBase {
 				poseStack.pushPose();
 				{
 					// Yellow meter
-					poseStack.translate((screenWidth - guiWidth * scale) + (guiWidth - guiBarWidth) * scale + (24 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-					poseStack.scale(scale, scale, scale);
+					poseStack.translate((screenWidth - guiWidth * scaleX) + (guiWidth - guiBarWidth) * scaleX + (24 * scaleX) - posX, (screenHeight - guiHeight * scaleY) - (2 * scaleY) - posY, 0);
+					poseStack.scale(scaleX, scaleY, 1);
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 							this.blit(poseStack, 14, 6, 0, 18, (int) currDrive, guiHeight);
@@ -151,8 +142,8 @@ public class DriveGui extends OverlayBase {
 					// Level Number
 					poseStack.pushPose();
 					{
-						poseStack.translate((screenWidth - guiWidth * scale) + (85 * scale) - posX, (screenHeight - guiHeight * scale) - (2 * scale) - posY, 0);
-						poseStack.scale(scale, scale, scale);
+						poseStack.translate((screenWidth - guiWidth * scaleX) + (85 * scaleX) - posX, (screenHeight - guiHeight * scaleY) - (2 * scaleY) - posY, 0);
+						poseStack.scale(scaleX, scaleY, 1);
 
 						int numPos = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10 : 100 + getCurrBar(fp, Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2) * 10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
@@ -162,13 +153,6 @@ public class DriveGui extends OverlayBase {
 							blit(poseStack, 14, 6, numPos, 106, 10, guiHeight);
 						}
 
-						/*
-						matrixStack.translate(20, 16, 0);
-						matrixStack.rotate(Vector3f.ZN.rotationDegrees(minecraft.player.ticksExisted*6 % 360));
-
-						//matrixStack.translate(-10, 0, 0);
-						blit(matrixStack, 10, 0, 0, 29, 3, 3);
-*/
 					}
 					poseStack.popPose();
 
@@ -176,23 +160,14 @@ public class DriveGui extends OverlayBase {
 					if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 						poseStack.pushPose();
 						{
-							if (doChange) {
-								decimalColor += CONS;
-								if (decimalColor >= 1)
-									decimalColor = 0;
-								Color c = Color.getHSBColor(decimalColor, 1F, 1F);
-								RenderSystem.setShaderColor(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1);
+							
+							decimalColor = prevMaxDriveTicks + (maxDriveTicks - prevMaxDriveTicks) * partialTick;
+							
+							Color c = Color.getHSBColor(decimalColor, 1F, 1F);
+							RenderSystem.setShaderColor(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1);
 
-								timeLastChange = (int) System.currentTimeMillis();
-								doChange = false;
-							} else {
-								if (timeLastChange + 1 < (int) System.currentTimeMillis()) {
-									doChange = true;
-								}
-							}
-
-							poseStack.translate(((screenWidth - guiWidth * scale) + (10 * scale)), ((screenHeight - guiHeight * scale) - (10 * scale)), 0);
-							poseStack.scale(scale, scale, scale);
+							poseStack.translate(((screenWidth - guiWidth * scaleX) + (10 * scaleX)), ((screenHeight - guiHeight * scaleY) - (10 * scaleY)), 0);
+							poseStack.scale(scaleX, scaleY, 1);
 							blit(poseStack, 0, -3, 0, 57, 30, guiHeight);
 							RenderSystem.setShaderColor(1, 1, 1, 1);
 						}
@@ -203,5 +178,20 @@ public class DriveGui extends OverlayBase {
 				RenderSystem.disableBlend();
 			}
 		}
+	}
+	
+	public static float maxDriveTicks = 0;
+	public static float prevMaxDriveTicks = 0;
+	
+	@SubscribeEvent
+	public void ClientTick(TickEvent.ClientTickEvent event) {
+		if(event.phase != Phase.END) {
+			return;
+		}
+		if (maxDriveTicks >= 1)
+			maxDriveTicks = 0;
+
+		prevMaxDriveTicks = maxDriveTicks;
+		maxDriveTicks += 0.02;
 	}
 }

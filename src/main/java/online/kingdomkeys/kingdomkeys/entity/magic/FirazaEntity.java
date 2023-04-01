@@ -2,17 +2,21 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -50,8 +54,8 @@ public class FirazaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -111,6 +115,26 @@ public class FirazaEntity extends ThrowableProjectile {
 			}
 			
 			float radius = 6F;
+			
+			if (brtResult != null) {
+				BlockPos ogBlockPos = brtResult.getBlockPos();
+
+				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
+					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
+						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
+							BlockPos blockpos = new BlockPos(x,y,z);
+							BlockState blockstate = level.getBlockState(blockpos);
+							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
+								level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+							}
+							if(blockstate.hasProperty(BlockStateProperties.LIT)) {
+								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+							}
+						}
+					}
+				}
+			}
+			
 			if(getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty((Player) getOwner(), radius);
 	

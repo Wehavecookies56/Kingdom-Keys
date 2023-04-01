@@ -45,11 +45,11 @@ public class ModConfigs {
     public static boolean hpShowHearts;
     public static int hpAlarm;
     
-    public static int hpXPos, hpYPos;
+    public static int hpXPos, hpYPos, hpXScale;
 
-    public static int mpXPos, mpYPos;
+    public static int mpXPos, mpYPos, mpXScale;
 
-    public static int dpXPos, dpYPos;
+    public static int dpXPos, dpYPos, dpXScale, dpYScale;
 
     public static int playerSkinXPos, playerSkinYPos;
 
@@ -57,7 +57,7 @@ public class ModConfigs {
 
     public static int partyXPos, partyYPos, partyYDistance;
 
-    public static int focusXPos, focusYPos;
+    public static int focusXPos, focusYPos, focusXScale, focusYScale;
 
 	public static boolean showDriveForms;
 
@@ -125,6 +125,11 @@ public class ModConfigs {
         CLIENT.hpAlarm.set(value);
         bakeClient();
     }
+    
+    public static void setHPXScale(int value) {
+        CLIENT.hpXScale.set(value);
+        bakeClient();
+    }
 
     //MP
     public static void setMpXPos(int value) {
@@ -136,6 +141,11 @@ public class ModConfigs {
         CLIENT.mpYPos.set(value);
         bakeClient();
     }
+    
+    public static void setMPXScale(int value) {
+        CLIENT.mpXScale.set(value);
+        bakeClient();
+    }
 
     //DP
     public static void setDpXPos(int value) {
@@ -145,6 +155,16 @@ public class ModConfigs {
 
     public static void setDpYPos(int value) {
         CLIENT.dpYPos.set(value);
+        bakeClient();
+    }
+    
+    public static void setDpXScale(int value) {
+        CLIENT.dpXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setDpYScale(int value) {
+        CLIENT.dpYScale.set(value);
         bakeClient();
     }
 
@@ -216,6 +236,16 @@ public class ModConfigs {
         CLIENT.focusYPos.set(value);
         bakeClient();
     }
+    
+    public static void setFocusXScale(int value) {
+        CLIENT.focusXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setFocusYScale(int value) {
+        CLIENT.focusYScale.set(value);
+        bakeClient();
+    }
 
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
@@ -234,12 +264,16 @@ public class ModConfigs {
         hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
-
+        hpXScale = CLIENT.hpXScale.get();
+        
         mpXPos = CLIENT.mpXPos.get();
         mpYPos = CLIENT.mpYPos.get();
+        mpXScale = CLIENT.mpXScale.get();
 
         dpXPos = CLIENT.dpXPos.get();
         dpYPos = CLIENT.dpYPos.get();
+        dpXScale = CLIENT.dpXScale.get();
+        dpYScale = CLIENT.dpYScale.get();
 
         playerSkinXPos = CLIENT.playerSkinXPos.get();
         playerSkinYPos = CLIENT.playerSkinYPos.get();
@@ -257,6 +291,8 @@ public class ModConfigs {
 
         focusXPos = CLIENT.focusXPos.get();
         focusYPos = CLIENT.focusYPos.get();
+        focusXScale = CLIENT.focusXScale.get();
+        focusYScale = CLIENT.focusYScale.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
 
@@ -310,7 +346,6 @@ public class ModConfigs {
     public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
-    public static List<String> moogleSpawnRate;
     public static List<String> mobSpawnRate;
     public static boolean mobLevelingUp;
 
@@ -325,9 +360,6 @@ public class ModConfigs {
     public static int driveDropProbability;
     public static int focusDropProbability;
 
-    public static double limitLaserCircleMult;
-    public static double limitLaserDomeMult;
-    public static double limitArrowRainMult;
     public static double shotlockMult;
     public static double critMult;
 
@@ -341,55 +373,9 @@ public class ModConfigs {
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
-        oreGen = COMMON.oreGen.get();
-        bloxGen = COMMON.bloxGen.get();
-
-		
-        
-        twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
-        wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
-        writhingOreNetherGen = COMMON.writhingOreNetherGen.get();
-        blazingOreNetherGen = COMMON.blazingOreNetherGen.get();
-        writhingOreEndGen = COMMON.writhingOreEndGen.get();
-        pulsingOreEndGen = COMMON.pulsingOreEndGen.get();
-        betwixtOreGen = COMMON.betwixtOreGen.get();
-        sinisterOreGen = COMMON.sinisterOreGen.get();
-        stormyOreGen = COMMON.stormyOreGen.get();
-        writhingOreGen = COMMON.writhingOreGen.get();
-        hungryOreGen = COMMON.hungryOreGen.get();
-        lightningOreGen = COMMON.lightningOreGen.get();
-        lucidOreGen = COMMON.lucidOreGen.get();
-        remembranceOreGen = COMMON.remembranceOreGen.get();
-        soothingOreGen = COMMON.soothingOreGen.get();
-        tranquilityOreGen = COMMON.tranquilityOreGen.get();
-        twilightOreGen = COMMON.twilightOreGen.get();
-        wellspringOreGen = COMMON.wellspringOreGen.get();
-        blazingOreWarmGen = COMMON.blazingOreWarmGen.get();
-        frostOreColdGen = COMMON.frostOreColdGen.get();
-        pulsingOreColdGen = COMMON.pulsingOreColdGen.get();
-        frostOreColderGen = COMMON.frostOreColderGen.get();
-        pulsingOreWetGen = COMMON.pulsingOreWetGen.get();
-        stormyOreWetGen = COMMON.stormyOreWetGen.get();
-        
-        blazingOreDeepslateGen = COMMON.blazingOreDeepslateGen.get();
-		betwixtOreDeepslateGen = COMMON.betwixtOreDeepslateGen.get();
-		frostOreDeepslateGen = COMMON.frostOreDeepslateGen.get();
-		pulsingOreDeepslateGen = COMMON.pulsingOreDeepslateGen.get();
-		sinisterOreDeepslateGen = COMMON.sinisterOreDeepslateGen.get();
-		soothingOreDeepslateGen = COMMON.soothingOreDeepslateGen.get();
-		stormyOreDeepslateGen = COMMON.stormyOreDeepslateGen.get();
-		twilightOreDeepslateGen = COMMON.twilightOreDeepslateGen.get();
-		writhingOreDeepslateGen = COMMON.writhingOreDeepslateGen.get();
-
-        bloxClusterEndGen = COMMON.bloxClusterEndGen.get();
-        prizeBloxClusterEndGen = COMMON.prizeBloxClusterEndGen.get();
-        bloxClusterGen = COMMON.bloxClusterGen.get();
-        prizeBloxClusterGen = COMMON.prizeBloxClusterGen.get();
-
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
-        moogleSpawnRate = (List<String>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
 
@@ -398,9 +384,6 @@ public class ModConfigs {
         drivePointsMultiplier = COMMON.drivePointsMultiplier.get();
         focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
-        limitLaserCircleMult = COMMON.limitLaserCircleMult.get();
-        limitLaserDomeMult = COMMON.limitLaserDomeMult.get();
-        limitArrowRainMult = COMMON.limitArrowRainMult.get();
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
         playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
         shotlockMult = COMMON.shotlockMult.get();
@@ -426,9 +409,6 @@ public class ModConfigs {
     //public static int magicUsesTimer;
     public static boolean requireSynthTier;
 
-    public static int limitLaserCircleCost;
-    public static int limitLaserDomeCost;
-    public static int limitArrowRainCost;
     public static List<Integer> statsMultiplier;
     public static boolean projectorHasShop;
     public static boolean orgEnabled;
@@ -440,12 +420,7 @@ public class ModConfigs {
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();
         partyXPShare = SERVER.partyXPShare.get();
-        //magicUsesTimer = SERVER.magicUsesTimer.get();
         requireSynthTier = SERVER.requireSynthTier.get();
-
-        limitLaserCircleCost = SERVER.limitLaserCircleCost.get();
-        limitLaserDomeCost = SERVER.limitLaserDomeCost.get();
-        limitArrowRainCost = SERVER.limitArrowRainCost.get();
         statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
         projectorHasShop = SERVER.projectorHasShop.get();
         orgEnabled = SERVER.orgEnabled.get();

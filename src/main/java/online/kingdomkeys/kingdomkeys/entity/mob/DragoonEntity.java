@@ -29,7 +29,7 @@ public class DragoonEntity extends BaseKHEntity {
     }
 
     public DragoonEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_SOLDIER.get(), world);
+        super(ModEntities.TYPE_DRAGOON.get(), world);
     }
     
     @Override
@@ -75,7 +75,7 @@ public class DragoonEntity extends BaseKHEntity {
 
     @Override
     public EntityHelper.MobType getKHMobType() {
-        return EntityHelper.MobType.HEARTLESS_EMBLEM;
+        return EntityHelper.MobType.NOBODY;
     }
 
 }

@@ -1,28 +1,28 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.Util;
+
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 
 public class ChoiceCommand extends BaseCommand {
@@ -45,7 +45,10 @@ public class ChoiceCommand extends BaseCommand {
                 .then(Commands.argument("targets", EntityArgument.players())
                         .executes(ChoiceCommand::makeChoice))
                 .executes(ChoiceCommand::makeChoice)));
-
+        builder.then(Commands.literal("_reset")
+                .then(Commands.argument("targets", EntityArgument.players())
+                    .executes(ChoiceCommand::resetChoice))
+                .executes(ChoiceCommand::resetChoice));
         KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
         return builder;
     }
@@ -57,6 +60,26 @@ public class ChoiceCommand extends BaseCommand {
             case "MYSTIC" -> SoAState.MYSTIC;
             default -> SoAState.NONE;
         };
+    }
+
+    private static int resetChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        Collection<ServerPlayer> players = getPlayers(context, 3);
+        for (ServerPlayer target : players) {
+            IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+            if (targetData.getSoAState() == SoAState.COMPLETE) {
+                SoAState.applyStatsForChoices(target, targetData, true);
+            }
+            targetData.setSoAState(SoAState.NONE);
+            targetData.setChoice(SoAState.NONE);
+            targetData.setSacrifice(SoAState.NONE);
+            PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+            if (players.size() > 1) {
+                context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
+            }
+            target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been reset"));
+
+        }
+        return 1;
     }
 
     private static int makeChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -74,23 +97,26 @@ public class ChoiceCommand extends BaseCommand {
                         if (targetData.getChosen() == chosen && targetData.getSacrificed() == sacrificed) {
                             noChange = true;
                         } else {
-                            SoAState.applyStatsForChoices(targetData, true);
+                            SoAState.applyStatsForChoices(target, targetData, true);
                         }
                     }
                     if (!noChange) {
                         targetData.setSoAState(SoAState.COMPLETE);
                         targetData.setSacrifice(sacrificed);
                         targetData.setChoice(chosen);
-                        SoAState.applyStatsForChoices(targetData, false);
+                        SoAState.applyStatsForChoices(target, targetData, false);
                     }
-                    context.getSource().sendSuccess(new TranslatableComponent("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
-                    target.sendMessage(new TranslatableComponent("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr), Util.NIL_UUID);
+                    PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+                    if (players.size() > 1) {
+                        context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
+                    }
+                    target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr));
                 }
             } else {
-                context.getSource().sendFailure(new TranslatableComponent("CHOSEN and SACRIFICED must not be the same"));
+                context.getSource().sendFailure(Component.translatable("CHOSEN and SACRIFICED must not be the same"));
             }
         } else {
-            context.getSource().sendFailure(new TranslatableComponent("CHOSEN or SACRIFICED value is invalid"));
+            context.getSource().sendFailure(Component.translatable("CHOSEN or SACRIFICED value is invalid"));
         }
         return 1;
     }

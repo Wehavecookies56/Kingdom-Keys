@@ -8,7 +8,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -69,7 +68,7 @@ public class ModBlocks {
     		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
-    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of(Material.GLASS).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
+    		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of(Material.GLASS).lightLevel(state -> state.getValue(MosaicStainedGlassBlock.STRUCTURE) ? 15 : 0).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
        		//mosaic_stained_glass = createNewBlock("mosaic_stained_glass", Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F)),
        		//mosaic_stained_glass = createNewBlock("mosaircfdxc_stained_glass", () -> new KKGlassBlock(Block.Properties.create(Material.GLASS).notSolid().hardnessAndResistance(1.0F, 10.0F))),
 
@@ -78,6 +77,7 @@ public class ModBlocks {
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.of(Material.METAL).lightLevel((state) -> 6).noOcclusion().strength(2F,1F))), //HL 0
             gummiEditor = createNewBlock("gummi_editor", () -> new GummiEditorBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
+            dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F)))
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
 
             cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(-1.0F, 3600000.0F))),
@@ -116,12 +116,12 @@ public class ModBlocks {
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(KingdomKeys.miscGroup));
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
         ModItems.ITEMS.register(name, item);
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block, CreativeModeTab tab) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(tab));
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
         ModItems.ITEMS.register(name, item);
     }
 }
