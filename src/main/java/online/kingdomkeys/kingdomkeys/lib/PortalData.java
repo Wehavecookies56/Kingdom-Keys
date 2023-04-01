@@ -14,11 +14,11 @@ public class PortalData {
     String name;
     BlockPos pos;
     ResourceKey<Level> dimKey;
-
+    //TODO fix casting
     public PortalData(UUID id, String name, double x, double y, double z, ResourceKey<Level> dimID, UUID ownerID) {
     	this.uuid = id;
     	this.name = name;
-    	this.pos = new BlockPos(x,y,z);
+    	this.pos = new BlockPos((int) x, (int) y, (int) z);
         this.dimKey = dimID;
         this.ownerID = ownerID;
     }
@@ -81,7 +81,9 @@ public class PortalData {
 	public void read(CompoundTag nbt) {
 		this.setUUID(nbt.getUUID("uuid"));
 		this.setName(nbt.getString("name"));
-		this.setPos(new BlockPos(nbt.getDouble("x"),nbt.getDouble("y"), nbt.getDouble("z")));
+
+        //TODO fix casting
+		this.setPos(new BlockPos((int) nbt.getDouble("x"), (int) nbt.getDouble("y"), (int) nbt.getDouble("z")));
 		ResourceLocation rl = new ResourceLocation(nbt.getString("dim"));
 		this.setDimID(ResourceKey.create(Registries.DIMENSION,rl));
 		this.setOwnerID(nbt.getUUID("owner"));

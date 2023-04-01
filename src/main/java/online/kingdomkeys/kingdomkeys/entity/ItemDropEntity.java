@@ -66,9 +66,9 @@ public abstract class ItemDropEntity extends Entity {
 		} else if (!this.isNoGravity()) {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
 		}
-
-		if (this.level.getFluidState(new BlockPos(this.position())).is(FluidTags.LAVA)) {
-			this.setDeltaMovement((double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F), (double) 0.2F, (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F));
+		//TODO fix the vec3 to Vec3i
+		if (this.level.getFluidState(new BlockPos((int)this.position().x, (int)this.position().y, (int)this.position().z)).is(FluidTags.LAVA)) {
+			this.setDeltaMovement(((this.random.nextFloat() - this.random.nextFloat()) * 0.2F), 0.2F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F));
 			this.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + this.random.nextFloat() * 0.4F);
 		}
 
@@ -97,7 +97,7 @@ public abstract class ItemDropEntity extends Entity {
 		this.move(MoverType.SELF, this.getDeltaMovement());
 		float f = 0.98F;
 		if (this.onGround) {
-			BlockPos pos = new BlockPos(this.getX(), this.getY() - 1.0D, this.getZ());
+			BlockPos pos = new BlockPos(((int) this.getX()), (int)(this.getY() - 1.0D), (int)this.getZ());
 			f = this.level.getBlockState(pos).getFriction(this.level, pos, this) * 0.98F;
 		}
 

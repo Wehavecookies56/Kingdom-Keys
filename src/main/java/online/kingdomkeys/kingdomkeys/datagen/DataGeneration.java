@@ -33,7 +33,7 @@ public class DataGeneration {
         //tags
         BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));

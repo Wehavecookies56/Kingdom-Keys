@@ -4,8 +4,10 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
 
+import com.ibm.icu.text.MessagePatternUtil;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -26,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.checkerframework.checker.units.qual.A;
 
 public class ModItems {
 
@@ -617,84 +620,84 @@ public class ModItems {
 			ampoule = createNewItem(Strings.ampoule, KnifeItem::new),
 
 
-			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, KKArmorMaterial.ORGANIZATION, EquipmentSlot.HEAD, Strings.organization),
-			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, KKArmorMaterial.ORGANIZATION, EquipmentSlot.CHEST, Strings.organization),
-			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, KKArmorMaterial.ORGANIZATION, EquipmentSlot.LEGS, Strings.organization),
-			organizationRobe_Boots = createArmorItem(Strings.organization+"_"+Strings.boots, KKArmorMaterial.ORGANIZATION, EquipmentSlot.FEET, Strings.organization),
+			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, KKArmorMaterial.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
+			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, KKArmorMaterial.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
+			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, KKArmorMaterial.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.organization),
+			organizationRobe_Boots = createArmorItem(Strings.organization+"_"+Strings.boots, KKArmorMaterial.ORGANIZATION, ArmorItem.Type.BOOTS, Strings.organization),
 
-			xemnas_Helmet = createArmorItem(Strings.xemnas+"_"+Strings.helmet, KKArmorMaterial.XEMNAS, EquipmentSlot.HEAD, Strings.xemnas),
-			xemnas_Chestplate = createArmorItem(Strings.xemnas+"_"+Strings.chestplate, KKArmorMaterial.XEMNAS, EquipmentSlot.CHEST, Strings.xemnas),
-			xemnas_Leggings = createArmorItem(Strings.xemnas+"_"+Strings.leggings, KKArmorMaterial.XEMNAS, EquipmentSlot.LEGS, Strings.xemnas),
-			xemnas_Boots = createArmorItem(Strings.xemnas+"_"+Strings.boots, KKArmorMaterial.XEMNAS, EquipmentSlot.FEET, Strings.xemnas),
+			xemnas_Helmet = createArmorItem(Strings.xemnas+"_"+Strings.helmet, KKArmorMaterial.XEMNAS, ArmorItem.Type.HELMET, Strings.xemnas),
+			xemnas_Chestplate = createArmorItem(Strings.xemnas+"_"+Strings.chestplate, KKArmorMaterial.XEMNAS, ArmorItem.Type.CHESTPLATE, Strings.xemnas),
+			xemnas_Leggings = createArmorItem(Strings.xemnas+"_"+Strings.leggings, KKArmorMaterial.XEMNAS, ArmorItem.Type.LEGGINGS, Strings.xemnas),
+			xemnas_Boots = createArmorItem(Strings.xemnas+"_"+Strings.boots, KKArmorMaterial.XEMNAS, ArmorItem.Type.BOOTS, Strings.xemnas),
 					
-			antiCoat_Helmet = createArmorItem(Strings.antiCoat+"_"+Strings.helmet, KKArmorMaterial.ANTICOAT, EquipmentSlot.HEAD, Strings.antiCoat),
-			antiCoat_Chestplate = createArmorItem(Strings.antiCoat+"_"+Strings.chestplate, KKArmorMaterial.ANTICOAT, EquipmentSlot.CHEST, Strings.antiCoat),
-			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, EquipmentSlot.LEGS, Strings.antiCoat),
-			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, EquipmentSlot.FEET, Strings.antiCoat),
+			antiCoat_Helmet = createArmorItem(Strings.antiCoat+"_"+Strings.helmet, KKArmorMaterial.ANTICOAT, ArmorItem.Type.HELMET, Strings.antiCoat),
+			antiCoat_Chestplate = createArmorItem(Strings.antiCoat+"_"+Strings.chestplate, KKArmorMaterial.ANTICOAT, ArmorItem.Type.CHESTPLATE, Strings.antiCoat),
+			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, ArmorItem.Type.LEGGINGS, Strings.antiCoat),
+			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, ArmorItem.Type.BOOTS, Strings.antiCoat),
 					
-			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.TERRA, EquipmentSlot.HEAD, Strings.terra),
-			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.TERRA, EquipmentSlot.CHEST, Strings.terra),
-			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.TERRA, EquipmentSlot.LEGS, Strings.terra),
-			terra_Boots = createArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.TERRA,EquipmentSlot.FEET, Strings.terra),
+			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.TERRA, ArmorItem.Type.HELMET, Strings.terra),
+			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.TERRA, ArmorItem.Type.CHESTPLATE, Strings.terra),
+			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.TERRA, ArmorItem.Type.LEGGINGS, Strings.terra),
+			terra_Boots = createArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.TERRA,ArmorItem.Type.BOOTS, Strings.terra),
 
-			ventus_Helmet = createArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.VENTUS, EquipmentSlot.HEAD, Strings.ventus),
-			ventus_Chestplate = createArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.VENTUS, EquipmentSlot.CHEST, Strings.ventus),
-			ventus_Leggings = createArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.VENTUS, EquipmentSlot.LEGS, Strings.ventus),
-			ventus_Boots = createArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.VENTUS, EquipmentSlot.FEET, Strings.ventus),
+			ventus_Helmet = createArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.VENTUS, ArmorItem.Type.HELMET, Strings.ventus),
+			ventus_Chestplate = createArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.VENTUS, ArmorItem.Type.CHESTPLATE, Strings.ventus),
+			ventus_Leggings = createArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.VENTUS, ArmorItem.Type.LEGGINGS, Strings.ventus),
+			ventus_Boots = createArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.VENTUS, ArmorItem.Type.BOOTS, Strings.ventus),
 
-			aqua_Helmet = createArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.AQUA, EquipmentSlot.HEAD, Strings.aqua),
-			aqua_Chestplate = createArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.AQUA, EquipmentSlot.CHEST, Strings.aqua),
-			aqua_Leggings = createArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.AQUA, EquipmentSlot.LEGS, Strings.aqua),
-			aqua_Boots = createArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.AQUA, EquipmentSlot.FEET, Strings.aqua),
+			aqua_Helmet = createArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.AQUA, ArmorItem.Type.HELMET, Strings.aqua),
+			aqua_Chestplate = createArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.AQUA, ArmorItem.Type.CHESTPLATE, Strings.aqua),
+			aqua_Leggings = createArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.AQUA, ArmorItem.Type.LEGGINGS, Strings.aqua),
+			aqua_Boots = createArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.AQUA, ArmorItem.Type.BOOTS, Strings.aqua),
 
-			eraqus_Helmet = createArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.ERAQUS, EquipmentSlot.HEAD, Strings.eraqus),
-			eraqus_Chestplate = createArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.ERAQUS, EquipmentSlot.CHEST, Strings.eraqus),
-			eraqus_Leggings = createArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.ERAQUS, EquipmentSlot.LEGS, Strings.eraqus),
-			eraqus_Boots = createArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.ERAQUS, EquipmentSlot.FEET, Strings.eraqus),
+			eraqus_Helmet = createArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.ERAQUS, ArmorItem.Type.HELMET, Strings.eraqus),
+			eraqus_Chestplate = createArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.ERAQUS, ArmorItem.Type.CHESTPLATE, Strings.eraqus),
+			eraqus_Leggings = createArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.ERAQUS, ArmorItem.Type.LEGGINGS, Strings.eraqus),
+			eraqus_Boots = createArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.ERAQUS, ArmorItem.Type.BOOTS, Strings.eraqus),
 
-			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, KKArmorMaterial.VANITAS, EquipmentSlot.HEAD, Strings.vanitas),
-			vanitas_Chestplate = createArmorItem(Strings.vanitas+"_"+Strings.chestplate, KKArmorMaterial.VANITAS, EquipmentSlot.CHEST, Strings.vanitas),
-			vanitas_Leggings = createArmorItem(Strings.vanitas+"_"+Strings.leggings, KKArmorMaterial.VANITAS, EquipmentSlot.LEGS, Strings.vanitas),
-			vanitas_Boots = createArmorItem(Strings.vanitas+"_"+Strings.boots, KKArmorMaterial.VANITAS, EquipmentSlot.FEET, Strings.vanitas),
+			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, KKArmorMaterial.VANITAS, ArmorItem.Type.HELMET, Strings.vanitas),
+			vanitas_Chestplate = createArmorItem(Strings.vanitas+"_"+Strings.chestplate, KKArmorMaterial.VANITAS, ArmorItem.Type.CHESTPLATE, Strings.vanitas),
+			vanitas_Leggings = createArmorItem(Strings.vanitas+"_"+Strings.leggings, KKArmorMaterial.VANITAS, ArmorItem.Type.LEGGINGS, Strings.vanitas),
+			vanitas_Boots = createArmorItem(Strings.vanitas+"_"+Strings.boots, KKArmorMaterial.VANITAS, ArmorItem.Type.BOOTS, Strings.vanitas),
 
-			vanitas_Remnant_Helmet = createArmorItem(Strings.vanitasRemnant+"_"+Strings.helmet, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.HEAD, Strings.vanitasRemnant),
-			vanitas_Remnant_Chestplate = createArmorItem(Strings.vanitasRemnant+"_"+Strings.chestplate, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.CHEST, Strings.vanitasRemnant),
-			vanitas_Remnant_Leggings = createArmorItem(Strings.vanitasRemnant+"_"+Strings.leggings, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.LEGS, Strings.vanitasRemnant),
-			vanitas_Remnant_Boots = createArmorItem(Strings.vanitasRemnant+"_"+Strings.boots, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.FEET, Strings.vanitasRemnant),
+			vanitas_Remnant_Helmet = createArmorItem(Strings.vanitasRemnant+"_"+Strings.helmet, KKArmorMaterial.VANITASREMNANT, ArmorItem.Type.HELMET, Strings.vanitasRemnant),
+			vanitas_Remnant_Chestplate = createArmorItem(Strings.vanitasRemnant+"_"+Strings.chestplate, KKArmorMaterial.VANITASREMNANT, ArmorItem.Type.CHESTPLATE, Strings.vanitasRemnant),
+			vanitas_Remnant_Leggings = createArmorItem(Strings.vanitasRemnant+"_"+Strings.leggings, KKArmorMaterial.VANITASREMNANT, ArmorItem.Type.LEGGINGS, Strings.vanitasRemnant),
+			vanitas_Remnant_Boots = createArmorItem(Strings.vanitasRemnant+"_"+Strings.boots, KKArmorMaterial.VANITASREMNANT, ArmorItem.Type.BOOTS, Strings.vanitasRemnant),
 					
-			nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.HEAD, Strings.nightmareVentus),
-			nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.CHEST, Strings.nightmareVentus),
-			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.LEGS, Strings.nightmareVentus),
-			nightmareVentus_Boots = createArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.FEET, Strings.nightmareVentus),
+			nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.NIGHTMAREVEN, ArmorItem.Type.HELMET, Strings.nightmareVentus),
+			nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.NIGHTMAREVEN, ArmorItem.Type.CHESTPLATE, Strings.nightmareVentus),
+			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.NIGHTMAREVEN, ArmorItem.Type.LEGGINGS, Strings.nightmareVentus),
+			nightmareVentus_Boots = createArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.NIGHTMAREVEN, ArmorItem.Type.BOOTS, Strings.nightmareVentus),
 			
-			dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, KKArmorMaterial.DARKRIKU, EquipmentSlot.CHEST, Strings.darkRiku),
-			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, KKArmorMaterial.DARKRIKU, EquipmentSlot.LEGS, Strings.darkRiku),
-			dark_Riku_Boots = createArmorItem(Strings.darkRiku+"_"+Strings.boots, KKArmorMaterial.DARKRIKU, EquipmentSlot.FEET, Strings.darkRiku),
+			dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, KKArmorMaterial.DARKRIKU, ArmorItem.Type.CHESTPLATE, Strings.darkRiku),
+			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, KKArmorMaterial.DARKRIKU, ArmorItem.Type.LEGGINGS, Strings.darkRiku),
+			dark_Riku_Boots = createArmorItem(Strings.darkRiku+"_"+Strings.boots, KKArmorMaterial.DARKRIKU, ArmorItem.Type.BOOTS, Strings.darkRiku),
 			
-			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, KKArmorMaterial.ACED, EquipmentSlot.HEAD, Strings.aced),
-			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, KKArmorMaterial.ACED, EquipmentSlot.CHEST, Strings.aced),
-			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, KKArmorMaterial.ACED, EquipmentSlot.LEGS, Strings.aced),
-			aced_Boots = createArmorItem(Strings.aced+"_"+Strings.boots, KKArmorMaterial.ACED, EquipmentSlot.FEET, Strings.aced),
+			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, KKArmorMaterial.ACED, ArmorItem.Type.HELMET, Strings.aced),
+			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, KKArmorMaterial.ACED, ArmorItem.Type.CHESTPLATE, Strings.aced),
+			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, KKArmorMaterial.ACED, ArmorItem.Type.LEGGINGS, Strings.aced),
+			aced_Boots = createArmorItem(Strings.aced+"_"+Strings.boots, KKArmorMaterial.ACED, ArmorItem.Type.BOOTS, Strings.aced),
 					
-			ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, KKArmorMaterial.AVA, EquipmentSlot.HEAD, Strings.ava),
-			ava_Chestplate = createArmorItem(Strings.ava+"_"+Strings.chestplate, KKArmorMaterial.AVA, EquipmentSlot.CHEST, Strings.ava),
-			ava_Leggings = createArmorItem(Strings.ava+"_"+Strings.leggings, KKArmorMaterial.AVA, EquipmentSlot.LEGS, Strings.ava),
-			ava_Boots = createArmorItem(Strings.ava+"_"+Strings.boots, KKArmorMaterial.AVA, EquipmentSlot.FEET, Strings.ava),
+			ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, KKArmorMaterial.AVA, ArmorItem.Type.HELMET, Strings.ava),
+			ava_Chestplate = createArmorItem(Strings.ava+"_"+Strings.chestplate, KKArmorMaterial.AVA, ArmorItem.Type.CHESTPLATE, Strings.ava),
+			ava_Leggings = createArmorItem(Strings.ava+"_"+Strings.leggings, KKArmorMaterial.AVA, ArmorItem.Type.LEGGINGS, Strings.ava),
+			ava_Boots = createArmorItem(Strings.ava+"_"+Strings.boots, KKArmorMaterial.AVA, ArmorItem.Type.BOOTS, Strings.ava),
 					
-			gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, KKArmorMaterial.GULA, EquipmentSlot.HEAD, Strings.gula),
-			gula_Chestplate = createArmorItem(Strings.gula+"_"+Strings.chestplate, KKArmorMaterial.GULA, EquipmentSlot.CHEST, Strings.gula),
-			gula_Leggings = createArmorItem(Strings.gula+"_"+Strings.leggings, KKArmorMaterial.GULA, EquipmentSlot.LEGS, Strings.gula),
-			gula_Boots = createArmorItem(Strings.gula+"_"+Strings.boots, KKArmorMaterial.GULA, EquipmentSlot.FEET, Strings.gula),
+			gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, KKArmorMaterial.GULA, ArmorItem.Type.HELMET, Strings.gula),
+			gula_Chestplate = createArmorItem(Strings.gula+"_"+Strings.chestplate, KKArmorMaterial.GULA, ArmorItem.Type.CHESTPLATE, Strings.gula),
+			gula_Leggings = createArmorItem(Strings.gula+"_"+Strings.leggings, KKArmorMaterial.GULA, ArmorItem.Type.LEGGINGS, Strings.gula),
+			gula_Boots = createArmorItem(Strings.gula+"_"+Strings.boots, KKArmorMaterial.GULA, ArmorItem.Type.BOOTS, Strings.gula),
 					
-			invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, KKArmorMaterial.INVI, EquipmentSlot.HEAD, Strings.invi),
-			invi_Chestplate = createArmorItem(Strings.invi+"_"+Strings.chestplate, KKArmorMaterial.INVI, EquipmentSlot.CHEST, Strings.invi),
-			invi_Leggings = createArmorItem(Strings.invi+"_"+Strings.leggings, KKArmorMaterial.INVI, EquipmentSlot.LEGS, Strings.invi),
-			invi_Boots = createArmorItem(Strings.invi+"_"+Strings.boots, KKArmorMaterial.INVI, EquipmentSlot.FEET, Strings.invi),
+			invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, KKArmorMaterial.INVI, ArmorItem.Type.HELMET, Strings.invi),
+			invi_Chestplate = createArmorItem(Strings.invi+"_"+Strings.chestplate, KKArmorMaterial.INVI, ArmorItem.Type.CHESTPLATE, Strings.invi),
+			invi_Leggings = createArmorItem(Strings.invi+"_"+Strings.leggings, KKArmorMaterial.INVI, ArmorItem.Type.LEGGINGS, Strings.invi),
+			invi_Boots = createArmorItem(Strings.invi+"_"+Strings.boots, KKArmorMaterial.INVI, ArmorItem.Type.BOOTS, Strings.invi),
 			
-			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, KKArmorMaterial.IRA, EquipmentSlot.HEAD, Strings.ira),
-			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, KKArmorMaterial.IRA, EquipmentSlot.CHEST, Strings.ira),
-			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, KKArmorMaterial.IRA, EquipmentSlot.LEGS, Strings.ira),
-			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, KKArmorMaterial.IRA, EquipmentSlot.FEET, Strings.ira),
+			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, KKArmorMaterial.IRA, ArmorItem.Type.HELMET, Strings.ira),
+			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, KKArmorMaterial.IRA, ArmorItem.Type.CHESTPLATE, Strings.ira),
+			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, KKArmorMaterial.IRA, ArmorItem.Type.LEGGINGS, Strings.ira),
+			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, KKArmorMaterial.IRA, ArmorItem.Type.BOOTS, Strings.ira),
 
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationMod(2.0f).nutrition(2).alwaysEat().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
@@ -879,7 +882,7 @@ public class ModItems {
 		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().stacksTo(1)));
 	}
 
-	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
+	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 

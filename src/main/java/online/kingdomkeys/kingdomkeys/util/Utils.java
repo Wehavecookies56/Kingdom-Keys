@@ -204,7 +204,7 @@ public class Utils {
 	 * @return
 	 */
 	public static ItemStack getWeaponDamageStack(DamageSource damageSource, Player player) {
-		switch (damageSource.msgId) {
+		switch (damageSource.getMsgId()) {
 		case "player":
 			if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
 				return player.getMainHandItem();

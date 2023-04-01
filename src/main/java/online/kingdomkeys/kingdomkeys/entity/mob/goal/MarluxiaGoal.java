@@ -175,7 +175,8 @@ public class MarluxiaGoal extends TargetGoal {
 				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
 				double pY = mob.getTarget().getY();
 				double pZ = mob.getTarget().getZ() - 3 + rand.nextDouble() * 6;
-				mob.level.playSound(null, new BlockPos(pX,pY,pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
+				//TODO fix cast
+				mob.level.playSound(null, new BlockPos((int) pX, (int) pY, (int) pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
 
 				for(double i=0;i<4;i=i+0.5) {
 					for (int a = 1; a <= 360; a += 7) {

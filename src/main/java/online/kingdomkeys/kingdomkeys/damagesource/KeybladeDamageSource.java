@@ -2,13 +2,12 @@ package online.kingdomkeys.kingdomkeys.damagesource;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 
-public class KeybladeDamageSource extends EntityDamageSource {
+public class KeybladeDamageSource extends DamageSource {
 	public KeybladeDamageSource(String damageTypeIn, Entity damageSourceEntityIn) {
 		super(damageTypeIn, damageSourceEntityIn);
 	}

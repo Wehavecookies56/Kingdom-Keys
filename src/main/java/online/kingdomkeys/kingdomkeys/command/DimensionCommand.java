@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -74,7 +75,9 @@ public class DimensionCommand extends BaseCommand {
 		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {
-			return new BlockPos(playerData.getReturnLocation());
+			Vec3 vec3 = playerData.getReturnLocation();
+			//TODO fix cast
+			return new BlockPos((int)vec3.x, (int)vec3.y, (int)vec3.z);
 		}
 		return new BlockPos(0, 64, 0);
 	}

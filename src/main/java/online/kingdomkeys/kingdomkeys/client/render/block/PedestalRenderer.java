@@ -1,20 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
-import com.mojang.math.Axis;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -69,7 +65,7 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 
 			}
 			BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
-			renderItem.render(toRender, TransformType.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
+			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
 	}
