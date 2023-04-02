@@ -331,8 +331,8 @@
       }
     }
   },
-  "ore_veins_enabled": true,
-  "sea_level": 63,
+  "ore_veins_enabled": false,
+  "sea_level": 55,
   "spawn_target": [
     {
       "continentalness": [
@@ -515,7 +515,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "kingdomkeys:rod_stone"
+                                  "Name": "kingdomkeys:rod_sand"
                                 }
                               }
                             ]
@@ -818,14 +818,14 @@
                               "then_run": {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "minecraft:stone"
+                                  "Name": "kingdomkeys:rod_cracked_stone"
                                 }
                               }
                             },
                             {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:gravel"
+                                "Name": "kingdomkeys:rod_stone"
                               }
                             }
                           ]
@@ -1081,7 +1081,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -1146,7 +1146,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -1253,7 +1253,7 @@
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:stone"
+                                      "Name": "kingdomkeys:rod_cracked_stone"
                                     }
                                   }
                                 ]
@@ -1293,14 +1293,14 @@
                                           "then_run": {
                                             "type": "minecraft:block",
                                             "result_state": {
-                                              "Name": "minecraft:stone"
+                                              "Name": "kingdomkeys:rod_cracked_stone"
                                             }
                                           }
                                         },
                                         {
                                           "type": "minecraft:block",
                                           "result_state": {
-                                            "Name": "minecraft:gravel"
+                                            "Name": "kingdomkeys:rod_stone"
                                           }
                                         }
                                       ]
@@ -1309,7 +1309,7 @@
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:stone"
+                                      "Name": "kingdomkeys:rod_cracked_stone"
                                     }
                                   }
                                 ]
@@ -1334,7 +1334,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               }
@@ -1424,7 +1424,7 @@
                               "then_run": {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "minecraft:stone"
+                                  "Name": "kingdomkeys:rod_cracked_stone"
                                 }
                               }
                             }
@@ -1452,7 +1452,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -1508,14 +1508,14 @@
                                       "then_run": {
                                         "type": "minecraft:block",
                                         "result_state": {
-                                          "Name": "minecraft:stone"
+                                          "Name": "kingdomkeys:rod_cracked_stone"
                                         }
                                       }
                                     },
                                     {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:gravel"
+                                        "Name": "kingdomkeys:rod_stone"
                                       }
                                     }
                                   ]
@@ -1532,7 +1532,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -1568,7 +1568,7 @@
                                     {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "kingdomkeys:rod_stone"
+                                        "Name": "kingdomkeys:rod_sand"
                                       }
                                     }
                                   ]
@@ -1589,14 +1589,14 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:stone"
+                                        "Name": "kingdomkeys:rod_cracked_stone"
                                       }
                                     }
                                   },
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:gravel"
+                                      "Name": "kingdomkeys:rod_stone"
                                     }
                                   }
                                 ]
@@ -1733,7 +1733,7 @@
                             {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "kingdomkeys:rod_stone"
+                                "Name": "kingdomkeys:rod_sand"
                               }
                             }
                           ]
@@ -1892,7 +1892,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -1949,7 +1949,7 @@
                           "then_run": {
                             "type": "minecraft:block",
                             "result_state": {
-                              "Name": "minecraft:stone"
+                              "Name": "kingdomkeys:rod_cracked_stone"
                             }
                           }
                         },
@@ -1991,7 +1991,7 @@
                               {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "kingdomkeys:rod_stone"
+                                  "Name": "kingdomkeys:rod_sand"
                                 }
                               }
                             ]
@@ -2029,7 +2029,7 @@
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:stone"
+                                      "Name": "kingdomkeys:rod_cracked_stone"
                                     }
                                   }
                                 ]
@@ -2069,14 +2069,14 @@
                                           "then_run": {
                                             "type": "minecraft:block",
                                             "result_state": {
-                                              "Name": "minecraft:stone"
+                                              "Name": "kingdomkeys:rod_cracked_stone"
                                             }
                                           }
                                         },
                                         {
                                           "type": "minecraft:block",
                                           "result_state": {
-                                            "Name": "minecraft:gravel"
+                                            "Name": "kingdomkeys:rod_stone"
                                           }
                                         }
                                       ]
@@ -2085,7 +2085,7 @@
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:stone"
+                                      "Name": "kingdomkeys:rod_cracked_stone"
                                     }
                                   }
                                 ]
@@ -2110,7 +2110,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               }
@@ -2200,7 +2200,7 @@
                               "then_run": {
                                 "type": "minecraft:block",
                                 "result_state": {
-                                  "Name": "minecraft:stone"
+                                  "Name": "kingdomkeys:rod_cracked_stone"
                                 }
                               }
                             }
@@ -2225,7 +2225,7 @@
                             "then_run": {
                               "type": "minecraft:block",
                               "result_state": {
-                                "Name": "minecraft:stone"
+                                "Name": "kingdomkeys:rod_cracked_stone"
                               }
                             }
                           }
@@ -2264,14 +2264,14 @@
                                       "then_run": {
                                         "type": "minecraft:block",
                                         "result_state": {
-                                          "Name": "minecraft:stone"
+                                          "Name": "kingdomkeys:rod_cracked_stone"
                                         }
                                       }
                                     },
                                     {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:gravel"
+                                        "Name": "kingdomkeys:rod_stone"
                                       }
                                     }
                                   ]
@@ -2288,7 +2288,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "minecraft:stone"
+                                    "Name": "kingdomkeys:rod_cracked_stone"
                                   }
                                 }
                               },
@@ -2303,7 +2303,7 @@
                                 "then_run": {
                                   "type": "minecraft:block",
                                   "result_state": {
-                                    "Name": "kingdomkeys:rod_stone"
+                                    "Name": "kingdomkeys:rod_sand"
                                   }
                                 }
                               },
@@ -2322,14 +2322,14 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:stone"
+                                        "Name": "kingdomkeys:rod_cracked_stone"
                                       }
                                     }
                                   },
                                   {
                                     "type": "minecraft:block",
                                     "result_state": {
-                                      "Name": "minecraft:gravel"
+                                      "Name": "kingdomkeys:rod_stone"
                                     }
                                   }
                                 ]
@@ -2355,7 +2355,7 @@
                         {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "kingdomkeys:rod_stone"
+                            "Name": "kingdomkeys:rod_sand"
                           }
                         }
                       ]
@@ -2440,7 +2440,7 @@
                     "then_run": {
                       "type": "minecraft:block",
                       "result_state": {
-                        "Name": "minecraft:stone"
+                        "Name": "kingdomkeys:rod_cracked_stone"
                       }
                     }
                   },
@@ -2497,14 +2497,14 @@
                         "then_run": {
                           "type": "minecraft:block",
                           "result_state": {
-                            "Name": "minecraft:stone"
+                            "Name": "kingdomkeys:rod_cracked_stone"
                           }
                         }
                       },
                       {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "minecraft:gravel"
+                          "Name": "kingdomkeys:rod_stone"
                         }
                       }
                     ]

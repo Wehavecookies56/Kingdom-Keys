@@ -1,5 +1,5 @@
 {
-  "type": "kingdomkeys:realm_of_darkness_dimension",
+  "type": "kingdomkeys:realm_of_darkness",
   "generator": {
     	"biome_source": {
       		"biomes": [
@@ -13,7 +13,7 @@
                         "humidity": 0.0,
                         "continentalness": 0.0
                     },
-                    "biome": "kingdomkeys:realm_of_darkness_biome"
+                    "biome": "kingdomkeys:realm_of_darkness"
                 }
             ],
             "type": "minecraft:multi_noise"
