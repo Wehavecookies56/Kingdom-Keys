@@ -32,13 +32,17 @@ public class BlockTagsGen extends BlockTagsProvider {
             String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
 
             if (block instanceof Block) {
-        		add(BlockTags.MINEABLE_WITH_PICKAXE, block);
-
-            	if(name.contains("writhing_ore") || name.contains("betwixt_ore") || name.contains("pulsing_ore") || name.contains("sinister_ore") || name.contains("stormy_ore") || name.contains("twilight_ore")) {
-            		add(BlockTags.NEEDS_IRON_TOOL, block);
-            	} else {
-            		add(BlockTags.NEEDS_STONE_TOOL, block);
-            	}
+                if(block == ModBlocks.rodSand.get()) {
+            		add(BlockTags.MINEABLE_WITH_SHOVEL, block);
+                } else {
+	        		add(BlockTags.MINEABLE_WITH_PICKAXE, block);
+	
+	            	if(name.contains("writhing_ore") || name.contains("betwixt_ore") || name.contains("pulsing_ore") || name.contains("sinister_ore") || name.contains("stormy_ore") || name.contains("twilight_ore")) {
+	            		add(BlockTags.NEEDS_IRON_TOOL, block);
+	            	} else {
+	            		add(BlockTags.NEEDS_STONE_TOOL, block);
+	            	}
+                }
             }
 
         }		

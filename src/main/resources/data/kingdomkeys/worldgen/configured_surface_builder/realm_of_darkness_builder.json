@@ -1,0 +1,14 @@
+{
+	"config": {
+		"top_material": {
+			"Name": "minecraft:obsidian"
+		},
+		"under_material": {
+			"Name": "minecraft:obsidian"
+		},
+		"underwater_material": {
+			"Name": "minecraft:obsidian"
+		}
+	},
+	"type": "minecraft:nope"
+}
