@@ -73,6 +73,9 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.STATION_OF_SORROW) {
 			return new BlockPos(0, 26, 0);
 		}
+		if(dimension.location().toString().contains("realm_of_darkness")) {
+			return player.getServer().getLevel(dimension).getSharedSpawnPos();
+		}
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {
 			Vec3 vec3 = playerData.getReturnLocation();

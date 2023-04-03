@@ -1079,7 +1079,7 @@ public class EntityEvents {
 				}
 			}
 			//TODO check if works
-			if(event.getEntity() instanceof MoogleEntity && event.getSource() == event.getEntity().damageSources().anvil(event.getSource().getEntity())) {
+			if(event.getEntity() instanceof MoogleEntity && event.getSource().getMsgId().equals("anvil")) {
 				ItemEntity ie = new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().level.addFreshEntity(ie);
 			}

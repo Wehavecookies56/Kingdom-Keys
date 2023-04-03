@@ -146,7 +146,6 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initCommandMenu() {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		int pos = 0;
-
 		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -169,6 +168,12 @@ public class MenuConfigScreen extends MenuBackground {
 				super.keyPressed(keyCode, scanCode, modifiers);
 				ModConfigs.setCmXScale(Utils.getInt(getValue()));
 				return true;
+			}
+			
+			@Override
+			public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+				RenderSystem.setShaderColor(1, 1, 1, 1);
+				super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
 			}
 			
 		});
