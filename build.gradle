@@ -15,7 +15,7 @@ apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemapper/main/remapper.gradle'
 
 
-def mcver = "1.19.2"
+def mcver = "1.19.3"
 version = mcver + '-2.2.0.0'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
