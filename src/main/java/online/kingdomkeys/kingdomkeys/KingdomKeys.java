@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import org.apache.logging.log4j.LogManager;
@@ -196,12 +197,12 @@ public class KingdomKeys {
 	}
 
 	@SubscribeEvent
-	public void addMoogleHouse(TagsUpdatedEvent event) {
-		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
-		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
-		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
-		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
-		addPieceToPattern(event.getRegistryAccess(), new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+	public void addMoogleHouse(ServerAboutToStartEvent event) {
+		addPieceToPattern(event.getServer().registryAccess(), new ResourceLocation("village/plains/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), new ResourceLocation("village/desert/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), new ResourceLocation("village/savanna/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), new ResourceLocation("village/snowy/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), new ResourceLocation("village/taiga/houses"), new ResourceLocation(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
 	}
 
 	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {
