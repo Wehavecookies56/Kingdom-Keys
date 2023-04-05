@@ -4,39 +4,44 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
-
-import java.util.UUID;
 
 public class CastleOblivionHandler {
 
     //Ticking rooms that players are in, empty rooms should be inactive
     @SubscribeEvent
-    public void tick(TickEvent.WorldTickEvent event) {
-        if (event.world.dimension().getRegistryName().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-            CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(event.world);
+    public void tick(TickEvent.LevelTickEvent event) {
+        if (event.level.dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
+            CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(event.level);
             if (cap != null) {
                 cap.getFloors().forEach(floor -> {
                     if (floor.shouldTick()) {
@@ -50,7 +55,7 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void playerTick(TickEvent.PlayerTickEvent event) {
         if (!event.player.level.isClientSide) {
-            if (event.player.level.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
+            if (event.player.level.dimension().equals(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
                 BlockPos pos = event.player.blockPosition();
                 //Enter interior
                 if (pos.getZ() == 11 && pos.getX() >= -10 && pos.getX() <= -1 && pos.getY() >= 87 && pos.getY() <= 100) {
@@ -58,14 +63,13 @@ public class CastleOblivionHandler {
                         ResourceLocation dimName = new ResourceLocation(KingdomKeys.MODID, "castle_oblivion_interior_" + event.player.getStringUUID());
                         ModCapabilities.getCastleOblivionExterior(event.player.level).addInterior(event.player.getUUID(), dimName);
                         RegistryAccess registryAccess = event.player.level.registryAccess();
-                        ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, dimName);
-                        Holder<DimensionType> type = registryAccess.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getHolderOrThrow(ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")));
+                        ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
+                        Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")));
                         ServerLevel level = DynamicDimensionManager.getOrCreateLevel(event.player.level.getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
                             ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(
-                                    registryAccess.registryOrThrow(Registry.STRUCTURE_SET_REGISTRY),
-                                    registryAccess.registryOrThrow(Registry.BIOME_REGISTRY)
+                            		new FixedBiomeSource(Holder.direct(event.player.level.registryAccess().registryOrThrow(Registries.BIOME).get(ResourceKey.create(Registries.BIOME, new ResourceLocation(KingdomKeys.MODID,Strings.castleOblivionInterior)))))
                             );
-                            return new LevelStem(type, generator, true);
+                            return new LevelStem(type, generator);
                         }));
                         event.player.changeDimension(level, new BaseTeleporter(16, 62, 2));
                     }
@@ -75,7 +79,7 @@ public class CastleOblivionHandler {
                 //Exit from first floor lobby
                 if (pos.getZ() == 1 && pos.getX() >= 13 && pos.getX() <= 19 && pos.getY() >= 60 && pos.getY() <= 70) {
                     if (event.player.level.getServer() != null) {
-                        event.player.changeDimension(event.player.level.getServer().getLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion"))), new BaseTeleporter(-5, 90, 6));
+                        event.player.changeDimension(event.player.level.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion"))), new BaseTeleporter(-5, 90, 6));
                     }
                 }
                 //Set world card for first room and enter
@@ -113,10 +117,10 @@ public class CastleOblivionHandler {
 
     @SubscribeEvent
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getFrom().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
+        if (event.getFrom().equals(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
             if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                SCSyncCastleOblivionInteriorCapability.syncClients(event.getPlayer().level);
-                ServerLevel level = event.getPlayer().level.getServer().getLevel(event.getTo());
+                SCSyncCastleOblivionInteriorCapability.syncClients(event.getEntity().level);
+                ServerLevel level = event.getEntity().level.getServer().getLevel(event.getTo());
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
                 if (cap.getFloors().isEmpty()) {
                     Floor startFloor = new Floor();

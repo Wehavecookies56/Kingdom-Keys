@@ -1,28 +1,28 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
+import java.util.List;
+import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 public class MapCardItem extends Item {
 
     private final Supplier<RoomType> type;
 
     public MapCardItem(Supplier<RoomType> type) {
-        super(new Properties().tab(KingdomKeys.miscGroup).fireResistant());
+        super(new Properties().fireResistant());
         this.type = type;
     }
 
@@ -37,7 +37,7 @@ public class MapCardItem extends Item {
         } else if (pStack.getTag().get("value") == null) {
             generateValue(pStack);
         } else {
-            pStack.setHoverName(new TranslatableComponent("item.mapcard.prefix", getCardValue(pStack), new TranslatableComponent("item." + getRegistryName().getNamespace() + "." + getRegistryName().getPath())).setStyle(Style.EMPTY.withItalic(false)));
+            pStack.setHoverName(Component.translatable("item.mapcard.prefix", getCardValue(pStack), Component.translatable("item." + ForgeRegistries.ITEMS.getKey(this).getNamespace() + "." + ForgeRegistries.ITEMS.getKey(this).getPath())).setStyle(Style.EMPTY.withItalic(false)));
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
@@ -60,8 +60,8 @@ public class MapCardItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (type != null) {
-            pTooltipComponents.add(new TranslatableComponent("Size: " + type.get().getProperties().getSize().ordinal()));
-            pTooltipComponents.add(new TranslatableComponent("Enemies: " + type.get().getProperties().getEnemies().ordinal()));
+            pTooltipComponents.add(Component.translatable("Size: " + type.get().getProperties().getSize().ordinal()));
+            pTooltipComponents.add(Component.translatable("Enemies: " + type.get().getProperties().getEnemies().ordinal()));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

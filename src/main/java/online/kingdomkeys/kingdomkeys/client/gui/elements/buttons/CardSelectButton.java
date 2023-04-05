@@ -40,7 +40,7 @@ public class CardSelectButton extends MenuButtonBase {
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
 		//System.out.println(mouseX+" "+mouseY);
-		isHovered = mouseX > x + 1 && mouseY >= y + 1 && mouseX < x + width - 1 && mouseY < y + height - 1;
+		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
 		active = card.getCardValue(stack) >= parent.te.getNumber();
 		
 		if(isHovered()) {
@@ -50,7 +50,7 @@ public class CardSelectButton extends MenuButtonBase {
 		matrixStack.pushPose();
 		{
 			if(visible) {
-	        	matrixStack.translate(x, y, 0);
+	        	matrixStack.translate(getX(), getY(), 0);
 	        	if(isHovered && active) {
 	        		matrixStack.scale(4,4, 1);
 	            	matrixStack.translate(-2,-2, 20);

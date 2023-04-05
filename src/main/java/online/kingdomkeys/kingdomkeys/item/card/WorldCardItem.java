@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
-import net.minecraft.core.BlockPos;
+import java.util.function.Supplier;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -18,14 +19,12 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Roo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
 
-import java.util.function.Supplier;
-
 public class WorldCardItem extends Item {
 
     private final Supplier<FloorType> floorType;
 
     public WorldCardItem(Supplier<FloorType> floorType) {
-        super(new Properties().tab(KingdomKeys.miscGroup));
+        super(new Properties());
         this.floorType = floorType;
     }
 

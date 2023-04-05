@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
 import com.mojang.serialization.Codec;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationO
 public class ModDimensions {
     public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, Strings.diveToTheHeart));
     public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, Strings.stationOfSorrow));
+    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, Strings.castleOblivion));
 
     public static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNK_GENERATORS = DeferredRegister.create(Registries.CHUNK_GENERATOR,  KingdomKeys.MODID);
 

@@ -1,15 +1,29 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.function.BiFunction;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Lifecycle;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
-import net.minecraft.core.WritableRegistry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.RegistryLayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.progress.ChunkProgressListener;
@@ -17,17 +31,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.BorderChangeListener;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.WorldGenSettings;
+import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.storage.DerivedLevelData;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDimensionLists;
-
-import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.function.BiFunction;
 
 /**
  * Thanks to Commoble for providing this code.
@@ -61,7 +71,7 @@ public class DynamicDimensionManager {
      * To register a static dimension that always exists, make a json dimension instead; minecraft will load and register it automatically
      * <p>
      * To unregister a dynamic dimension level (preventing it from ticking, or from loading at server startup),
-     * use {@link DynamicDimensionManager#markDimensionForUnregistration(MinecraftServer, ResourceKey)}.
+     * use {@link DynamicDimensionManager#unregisterDimensions(MinecraftServer, Set)}.
      */
     public static ServerLevel getOrCreateLevel(final MinecraftServer server, final ResourceKey<Level> levelKey, final BiFunction<MinecraftServer, ResourceKey<LevelStem>, LevelStem> dimensionFactory) {
         // (we're doing the lookup this way because we'll need the map if we need to add a new level)
@@ -129,7 +139,7 @@ public class DynamicDimensionManager {
         // the dimension registry has five sub-collections that need to be cleaned up
         // we should also eject players from the removed worlds or they could get stuck there
 
-        final WorldGenSettings worldGenSettings = server.getWorldData().worldGenSettings();
+        final WorldOptions worldGenSettings = server.getWorldData().worldGenOptions();
         final Set<ResourceKey<Level>> removedLevelKeys = new HashSet<>();
         final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
 
@@ -165,7 +175,7 @@ public class DynamicDimensionManager {
                 removedLevel.save(null, false, removedLevel.noSave());
 
                 // fire world unload event -- when the server stops, this would fire after worlds get saved, so we'll do that here too
-                MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.WorldEvent.Unload(removedLevel));
+                MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.level.LevelEvent.Unload(removedLevel));
 
                 // remove the world border listener if possible
                 final WorldBorder overworldBorder = overworld.getWorldBorder();
@@ -189,21 +199,34 @@ public class DynamicDimensionManager {
 
         if (!removedLevelKeys.isEmpty()) {
             // replace the old dimension registry with a new one containing the dimensions that weren't removed, in the same order
-            final Registry<LevelStem> oldRegistry = worldGenSettings.dimensions();
-            final Registry<LevelStem> newRegistry = new MappedRegistry<>(Registry.LEVEL_STEM_REGISTRY, oldRegistry.lifecycle(), null);
+
+            LayeredRegistryAccess<RegistryLayer> registries = server.registries();
+            RegistryAccess.ImmutableRegistryAccess composite = (RegistryAccess.ImmutableRegistryAccess)registries.compositeAccess();
+
+            // @todo 1.19.3
+//            Map<? extends ResourceKey<?>,? extends Registry<?>> map = composite.registries;
+
+            Map<ResourceKey<?>,Registry<?>> hashMap = new HashMap<>(); // @todo 1.19.3 map
+            ResourceKey<?> key = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation("root")),new ResourceLocation("dimension"));
+
+            final Registry<LevelStem> oldRegistry = (Registry<LevelStem>) hashMap.get(key);
+            Lifecycle oldLifecycle = null; // @todo 1.19.3 AT ((MappedRegistry<LevelStem>)oldRegistry).registryLifecycle;
+            final Registry<LevelStem> newRegistry = new MappedRegistry<>(Registries.LEVEL_STEM, oldLifecycle, false);
 
             for (var entry : oldRegistry.entrySet()) {
                 final ResourceKey<LevelStem> oldKey = entry.getKey();
-                final ResourceKey<Level> oldLevelKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, oldKey.location());
+                final ResourceKey<Level> oldLevelKey = ResourceKey.create(Registries.DIMENSION, oldKey.location());
                 final LevelStem dimension = entry.getValue();
                 if (oldKey != null && dimension != null && !removedLevelKeys.contains(oldLevelKey)) {
 //                    newRegistry.register(oldKey, dimension, oldRegistry.lifecycle(dimension));
                     Registry.register(newRegistry, oldKey, dimension);   // @todo 1.18.2 is this right?
                 }
             }
+            hashMap.replace(key, newRegistry);
 
             // then replace the old registry with the new registry
-            worldGenSettings.dimensions = newRegistry;
+            // @todo 1.19.3
+//            composite.registries = hashMap;
 
             // update the server's levels so dead levels don't get ticked
             server.markWorldsDirty();
@@ -218,7 +241,7 @@ public class DynamicDimensionManager {
         final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
 
         // dimension keys have a 1:1 relationship with level keys, they have the same IDs as well
-        final ResourceKey<LevelStem> dimensionKey = ResourceKey.create(Registry.LEVEL_STEM_REGISTRY, worldKey.location());
+        final ResourceKey<LevelStem> dimensionKey = ResourceKey.create(Registries.LEVEL_STEM, worldKey.location());
         final LevelStem dimension = dimensionFactory.apply(server, dimensionKey);
 
         // the int in create() here is radius of chunks to watch, 11 is what the server uses when it initializes worlds
@@ -226,7 +249,7 @@ public class DynamicDimensionManager {
         final Executor executor = server.executor;
         final LevelStorageSource.LevelStorageAccess anvilConverter = server.storageSource;
         final WorldData worldData = server.getWorldData();
-        final WorldGenSettings worldGenSettings = worldData.worldGenSettings();
+        final WorldOptions worldGenSettings = worldData.worldGenOptions();
         final DerivedLevelData derivedLevelData = new DerivedLevelData(worldData, worldData.overworldData());
 
         // now we have everything we need to create the dimension and the level
@@ -235,13 +258,27 @@ public class DynamicDimensionManager {
         // then instantiate level, add border listener, add to map, fire world load event
 
         // register the actual dimension
-//        Registry.register(worldGenSettings.dimensions(), dimensionKey, dimension);
-        Registry<LevelStem> dimensionRegistry = worldGenSettings.dimensions();
-        if (dimensionRegistry instanceof WritableRegistry<LevelStem> writableRegistry) {
-            writableRegistry.register(dimensionKey, dimension, Lifecycle.stable());
-        } else {
-            throw new IllegalStateException("Unable to register dimension '" + dimensionKey.location() + "'! Registry not writable!");
+        LayeredRegistryAccess<RegistryLayer> registries = server.registries();
+        RegistryAccess.ImmutableRegistryAccess composite = (RegistryAccess.ImmutableRegistryAccess)registries.compositeAccess();
+
+        Map<ResourceKey<? extends Registry<?>>, Registry<?>> regmap = new HashMap<>(composite.registries);
+        ResourceKey<? extends Registry<?>> key = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation("root")),new ResourceLocation("dimension"));
+        MappedRegistry<LevelStem> oldRegistry = (MappedRegistry<LevelStem>) regmap.get(key);
+        Lifecycle oldLifecycle = oldRegistry.registryLifecycle();
+
+        final MappedRegistry<LevelStem> newRegistry = new MappedRegistry<>(Registries.LEVEL_STEM, oldLifecycle, false);
+        for (var entry : oldRegistry.entrySet()) {
+            final ResourceKey<LevelStem> oldKey = entry.getKey();
+            final ResourceKey<Level> oldLevelKey = ResourceKey.create(Registries.DIMENSION, oldKey.location());
+            final LevelStem dim = entry.getValue();
+            if (dim != null && oldLevelKey != worldKey) {
+                Registry.register(newRegistry, oldKey, dim);
+            }
         }
+        Registry.register(newRegistry, dimensionKey, dimension);
+        regmap.replace(key, newRegistry);
+        Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> newmap = (Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>>) regmap;
+        composite.registries = newmap;
 
         // create the world instance
         final ServerLevel newWorld = new ServerLevel(
@@ -250,10 +287,9 @@ public class DynamicDimensionManager {
                 anvilConverter,
                 derivedLevelData,
                 worldKey,
-                dimension.typeHolder(),
+                dimension,
                 chunkProgressListener,
-                dimension.generator(),
-                worldGenSettings.isDebug(),
+                false, // @todo 1.19.3 worldGenSettings.isDebug(),
                 net.minecraft.world.level.biome.BiomeManager.obfuscateSeed(worldGenSettings.seed()),
                 ImmutableList.of(), // "special spawn list"
                 // phantoms, travelling traders, patrolling/sieging raiders, and cats are overworld special spawns
@@ -276,8 +312,8 @@ public class DynamicDimensionManager {
         server.markWorldsDirty();
 
         // fire world load event
-        MinecraftForge.EVENT_BUS.post(new WorldEvent.Load(newWorld));
-
+        MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
+        
         // update clients' dimension lists
         SCSyncDimensionLists.syncClients(ImmutableSet.of(worldKey), ImmutableSet.of());
 

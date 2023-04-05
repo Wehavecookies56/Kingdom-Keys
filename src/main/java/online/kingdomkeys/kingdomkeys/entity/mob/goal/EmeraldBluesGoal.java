@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;

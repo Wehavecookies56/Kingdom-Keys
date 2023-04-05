@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.DeferredRegister;
@@ -8,14 +11,11 @@ import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 public class ModRoomStructures {
 
     public static DeferredRegister<RoomStructure> ROOM_STRUCTURES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "roomstructures"), KingdomKeys.MODID);
 
-    public static Supplier<IForgeRegistry<RoomStructure>> registry = ROOM_STRUCTURES.makeRegistry(RoomStructure.class, RegistryBuilder::new);
+    public static Supplier<IForgeRegistry<RoomStructure>> registry = ROOM_STRUCTURES.makeRegistry(RegistryBuilder::new);
 
     @SuppressWarnings("unchecked")
 	public static final RegistryObject<RoomStructure>

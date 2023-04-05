@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
-import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 
 public class DoorData implements INBTSerializable<CompoundTag> {
 

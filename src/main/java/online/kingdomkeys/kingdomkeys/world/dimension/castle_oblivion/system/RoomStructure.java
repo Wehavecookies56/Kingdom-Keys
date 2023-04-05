@@ -1,16 +1,16 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Size2i;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.util.Size2i;
+
 //metadata for each nbt file for rooms
-public class RoomStructure implements IForgeRegistryEntry<RoomStructure> {
+public class RoomStructure {
 
     //structure path
     String path;
@@ -45,20 +45,14 @@ public class RoomStructure implements IForgeRegistryEntry<RoomStructure> {
         return roomWhitelist.stream().map(Supplier::get).toList();
     }
 
-    @Override
     public RoomStructure setRegistryName(ResourceLocation name) {
         this.registryName = name;
         return this;
     }
 
     @Nullable
-    @Override
     public ResourceLocation getRegistryName() {
         return registryName;
     }
 
-    @Override
-    public Class<RoomStructure> getRegistryType() {
-        return RoomStructure.class;
-    }
 }

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;

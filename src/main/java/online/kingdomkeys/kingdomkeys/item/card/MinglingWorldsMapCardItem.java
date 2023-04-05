@@ -1,17 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class MinglingWorldsMapCardItem extends MapCardItem {
     public MinglingWorldsMapCardItem() {
@@ -26,8 +26,8 @@ public class MinglingWorldsMapCardItem extends MapCardItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(new TranslatableComponent("Size: ?"));
-        pTooltipComponents.add(new TranslatableComponent("Enemies: ?"));
+        pTooltipComponents.add(Component.translatable("Size: ?"));
+        pTooltipComponents.add(Component.translatable("Enemies: ?"));
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 

@@ -1,18 +1,18 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Supplier;
 
 public class SCSyncDimensionLists {
 
@@ -37,12 +37,12 @@ public class SCSyncDimensionLists {
         final int addedSize = buf.readVarInt();
         for (int i = 0; i < addedSize; i++) {
             final ResourceLocation dim = buf.readResourceLocation();
-            addedDims.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, dim));
+            addedDims.add(ResourceKey.create(Registries.DIMENSION, dim));
         }
         final int removedSize = buf.readVarInt();
         for (int i = 0; i < removedSize; i++) {
             final ResourceLocation dim = buf.readResourceLocation();
-            removedDims.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, dim));
+            removedDims.add(ResourceKey.create(Registries.DIMENSION, dim));
         }
         return new SCSyncDimensionLists(addedDims, removedDims);
     }

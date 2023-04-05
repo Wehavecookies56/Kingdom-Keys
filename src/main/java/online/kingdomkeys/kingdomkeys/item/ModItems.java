@@ -864,26 +864,15 @@ public class ModItems {
     		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
     		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
     		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 2, null)),
-			abilityRing = createNewItem(Strings.abilityRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, 0, 0, null)),
-			aquamarineRing = createNewItem(Strings.aquamarineRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 3, 1, 0, null)),
-			cosmicArts = createNewItem(Strings.cosmicArts, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 7, 2, 2, null)),
-			executiveRing = createNewItem(Strings.executiveRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 30, 0, 0, null)),
-			fullBloom = createNewItem(Strings.fullBloom, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 3, 0, null)),
-			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 3, 0, new String[] {Strings.mpHaste})),
-			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, null)),
-			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 0, 3, new String[] {Strings.mpRage})),
-    		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
-    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
-    		starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 5, 2, 2, null)),
 
-			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
-			blizzardArmlet = createNewItem(Strings.blizzardArmlet, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.ice, 20))),
-			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
-			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
-			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
-			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25))),
+			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
+			blizzardArmlet = createNewItem(Strings.blizzardArmlet, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.ice, 20))),
+			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
+			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 2, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
+			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 3, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
+			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25))),
 
-			//map cards
+    		//map cards
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
@@ -910,12 +899,6 @@ public class ModItems {
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
     		netherCard = createWorldCard(Strings.NetherCard, ModFloorTypes.NETHER);
 
-			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
-			blizzardArmlet = createNewItem(Strings.blizzardArmlet, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.ice, 20))),
-			thunderTrinket = createNewItem(Strings.thunderTrinket, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.lightning, 20))),
-			petiteRibbon = createNewItem(Strings.petiteRibbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 2, ImmutableMap.of(KKResistanceType.fire, 10, KKResistanceType.ice, 10, KKResistanceType.lightning, 10, KKResistanceType.darkness, 10))),
-			ribbon = createNewItem(Strings.ribbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 3, ImmutableMap.of(KKResistanceType.fire, 20, KKResistanceType.ice, 20, KKResistanceType.lightning, 20, KKResistanceType.darkness, 20))),
-			grandRibbon = createNewItem(Strings.grandRibbon, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 4, ImmutableMap.of(KKResistanceType.fire, 25, KKResistanceType.ice, 25, KKResistanceType.lightning, 25, KKResistanceType.darkness, 25)));
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 

@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import org.jetbrains.annotations.Nullable;
-
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class FloorType implements IForgeRegistryEntry<FloorType> {
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.resources.ResourceLocation;
+
+public class FloorType {
 
     public String name;
     public int critPathLength;
@@ -30,20 +30,14 @@ public class FloorType implements IForgeRegistryEntry<FloorType> {
         this.roomBlacklist = Arrays.stream(roomBlackList).toList();
     }
 
-    @Override
     public FloorType setRegistryName(ResourceLocation name) {
         registryName = name;
         return this;
     }
 
     @Nullable
-    @Override
     public ResourceLocation getRegistryName() {
         return registryName;
     }
 
-    @Override
-    public Class<FloorType> getRegistryType() {
-        return FloorType.class;
-    }
 }

@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import java.awt.Color;
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.DeferredRegister;
@@ -7,17 +10,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomSize;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomEnemies;
-
-import java.awt.*;
-import java.util.function.Supplier;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomSize;
 
 public class ModRoomTypes {
 
     public static DeferredRegister<RoomType> ROOM_TYPES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "roomtypes"), KingdomKeys.MODID);
 
-    public static Supplier<IForgeRegistry<RoomType>> registry = ROOM_TYPES.makeRegistry(RoomType.class, RegistryBuilder::new);
+    public static Supplier<IForgeRegistry<RoomType>> registry = ROOM_TYPES.makeRegistry(RegistryBuilder::new);
 
     //TODO create modifiers
     public static final RegistryObject<RoomType>

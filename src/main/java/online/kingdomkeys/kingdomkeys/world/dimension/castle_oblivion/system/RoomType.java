@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
-public class RoomType implements IForgeRegistryEntry<RoomType> {
+import net.minecraft.resources.ResourceLocation;
+
+public class RoomType {
 
     ResourceLocation registryName;
     RoomProperties properties;
@@ -17,21 +17,14 @@ public class RoomType implements IForgeRegistryEntry<RoomType> {
         return properties;
     }
 
-    @Override
     public RoomType setRegistryName(ResourceLocation name) {
         registryName = name;
         return this;
     }
 
     @Nullable
-    @Override
     public ResourceLocation getRegistryName() {
         return registryName;
-    }
-
-    @Override
-    public Class<RoomType> getRegistryType() {
-        return RoomType.class;
     }
 
     public String getTranslationKey() {
