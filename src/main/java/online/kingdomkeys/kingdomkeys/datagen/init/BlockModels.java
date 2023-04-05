@@ -54,7 +54,10 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("rod_stone");
 		standardCube("rod_cracked_stone");
 
-		standardCube("castle_oblivion_wall");
+		standardCube("castle_oblivion_wall", "cutout");
+		standardCube("castle_oblivion_wall2", "cutout");
+		standardCube("castle_oblivion_wall3", "cutout");
+		standardCube("castle_oblivion_wall_chiseled", "cutout");
 	}
 
 	public void standardCube(String name) {

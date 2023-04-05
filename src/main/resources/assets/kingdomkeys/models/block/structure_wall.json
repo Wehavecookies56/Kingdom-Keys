@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "kingdomkeys:block/structure_wall",
 		"particle": "kingdomkeys:block/structure_wall"
