@@ -73,10 +73,10 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.STATION_OF_SORROW) {
 			return new BlockPos(0, 26, 0);
 		}
-
 		if (dimension == ModDimensions.CASTLE_OBLIVION) {
 			return new BlockPos(-2, 90, -167);
-
+		}
+		
 		if(dimension.location().toString().contains("realm_of_darkness")) {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();
 

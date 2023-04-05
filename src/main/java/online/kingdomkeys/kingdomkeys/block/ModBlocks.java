@@ -90,7 +90,7 @@ public class ModBlocks {
             castleOblivionWall3 = createNewBlock("castle_oblivion_wall3", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionPillar = createNewBlock("castle_oblivion_pillar", () -> new CastleOblivionPillarBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionStairs = createNewBlock("castle_oblivion_stairs", () -> new CastleOblivionStairBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
-            castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F)))
+            castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
 
             
             rodSand = createNewBlock("rod_sand", Block.Properties.of(Material.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
