@@ -711,7 +711,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkgnawChain, "Darkgnaw Chain");
         addItem(ModItems.dawnTillDuskChain, "Dawn Till Dusk Chain");
         addItem(ModItems.decisivePumpkinChain, "Decisive Pumpkin Chain");
-        addItem(ModItems.destinysEmbraceChain, "Destinys Embrace Chain");
+        addItem(ModItems.destinysEmbraceChain, "Destiny's Embrace Chain");
         addItem(ModItems.diamondDustChain, "Diamond Dust Chain");
         addItem(ModItems.divewingChain, "Divewing Chain");
         addItem(ModItems.divineRoseChain, "Divine Rose Chain");

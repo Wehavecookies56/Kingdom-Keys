@@ -81,6 +81,7 @@ public class ModBlocks {
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
 
+
             cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(-1.0F, 3600000.0F))),
             structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(BlockBehaviour.Properties.of(Material.BARRIER).noOcclusion().strength(-1.0F, 3600000.0F).dropsLike(Blocks.AIR).isValidSpawn((p1, p2, p3, p4) -> false))),
             castleOblivionWall = createNewBlock("castle_oblivion_wall", () -> new CastleOblivionWallBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
@@ -90,6 +91,12 @@ public class ModBlocks {
             castleOblivionPillar = createNewBlock("castle_oblivion_pillar", () -> new CastleOblivionPillarBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionStairs = createNewBlock("castle_oblivion_stairs", () -> new CastleOblivionStairBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(BlockBehaviour.Properties.of(Material.STONE).noOcclusion().strength(-1.0F, 3600000.0F)))
+
+            
+            rodSand = createNewBlock("rod_sand", Block.Properties.of(Material.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
+            rodStone = createNewBlock("rod_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F)),
+            rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F))
+
     ;
 
     /**

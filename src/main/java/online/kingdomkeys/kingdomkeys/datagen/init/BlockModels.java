@@ -49,6 +49,10 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("tranquility_ore");
 		standardCube("twilight_ore");
 		standardCube("twilight_ore_n");
+		
+		standardCube("rod_sand");
+		standardCube("rod_stone");
+		standardCube("rod_cracked_stone");
 	}
 
 	public void standardCube(String name) {

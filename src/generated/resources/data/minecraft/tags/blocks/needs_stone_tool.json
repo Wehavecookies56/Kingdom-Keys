@@ -35,6 +35,8 @@
     "kingdomkeys:moogle_projector",
     "kingdomkeys:gummi_editor",
     "kingdomkeys:sor_core",
-    "kingdomkeys:data_portal"
+    "kingdomkeys:data_portal",
+    "kingdomkeys:rod_stone",
+    "kingdomkeys:rod_cracked_stone"
   ]
 }
