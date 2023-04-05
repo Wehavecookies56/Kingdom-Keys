@@ -1,10 +1,8 @@
 {
   "type": "kingdomkeys:castle_oblivion_lobby",
-  "config": {
-    "start_pool": "kingdomkeys:castle_oblivion/lobby",
-    "size": 3
-  },
+  "step": "surface_structures",
+  "start_pool": "kingdomkeys:castle_oblivion/lobby",
+  "size": 1,
   "biomes": "#kingdomkeys:has_structure/castle_oblivion_interior_biomes",
-  "adapt_noise": false,
   "spawn_overrides": {}
 }

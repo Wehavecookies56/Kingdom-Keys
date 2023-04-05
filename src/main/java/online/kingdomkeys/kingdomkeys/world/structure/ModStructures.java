@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.structure;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -13,13 +12,9 @@ public class ModStructures {
 
     public static final DeferredRegister<StructureType<?>> STRUCTURES = DeferredRegister.create(Registries.STRUCTURE_TYPE, KingdomKeys.MODID);
 
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_0 = STRUCTURES.register("castle_oblivion_0", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_1 = STRUCTURES.register("castle_oblivion_1", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_2 = STRUCTURES.register("castle_oblivion_2", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_3 = STRUCTURES.register("castle_oblivion_3", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_4 = STRUCTURES.register("castle_oblivion_4", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_5 = STRUCTURES.register("castle_oblivion_5", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_6 = STRUCTURES.register("castle_oblivion_6", CastleOblivionStructure::new);
-    public static final RegistryObject<StructureType<FeatureConfiguration>> CASTLE_OBLIVION_LOBBY = STRUCTURES.register("castle_oblivion_lobby", CastleOblivionLobbyStructure::new);
+
+    public static final RegistryObject<StructureType<CastleOblivionStructure>> CASTLE_OBLIVION = STRUCTURES.register("castle_oblivion", () -> () -> CastleOblivionStructure.CODEC);
+
+    public static final RegistryObject<StructureType<CastleOblivionLobbyStructure>> CASTLE_OBLIVION_LOBBY = STRUCTURES.register("castle_oblivion_lobby", () -> () -> CastleOblivionLobbyStructure.CODEC);
 
 }

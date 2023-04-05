@@ -1,4 +1,5 @@
 {
+  "name": "Castle Oblivion",
   "ultrawarm": false,
   "natural": false,
   "coordinate_scale": 1,
@@ -15,5 +16,7 @@
   "bed_works" : false,
   "piglin_safe" : false,
   "fixed_time": 4284,
+  "monster_spawn_block_light_limit": 0,
+  "monster_spawn_light_level": 0,
   "effects": "kingdomkeys:castle_oblivion"
 }

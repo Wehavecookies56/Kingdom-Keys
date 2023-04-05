@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -10,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -17,7 +17,6 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -27,12 +26,7 @@ import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CastleOblivionHandler {
@@ -65,10 +59,9 @@ public class CastleOblivionHandler {
                         RegistryAccess registryAccess = event.player.level.registryAccess();
                         ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
                         Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")));
+                        Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, new ResourceLocation(KingdomKeys.MODID, Strings.castleOblivionInterior)));
                         ServerLevel level = DynamicDimensionManager.getOrCreateLevel(event.player.level.getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
-                            ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(
-                            		new FixedBiomeSource(Holder.direct(event.player.level.registryAccess().registryOrThrow(Registries.BIOME).get(ResourceKey.create(Registries.BIOME, new ResourceLocation(KingdomKeys.MODID,Strings.castleOblivionInterior)))))
-                            );
+                            ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));
                             return new LevelStem(type, generator);
                         }));
                         event.player.changeDimension(level, new BaseTeleporter(16, 62, 2));

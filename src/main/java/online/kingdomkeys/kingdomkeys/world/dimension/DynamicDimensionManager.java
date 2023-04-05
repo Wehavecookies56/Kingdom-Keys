@@ -1,24 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Executor;
-import java.util.function.BiFunction;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Lifecycle;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.LayeredRegistryAccess;
-import net.minecraft.core.MappedRegistry;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -39,8 +25,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.LevelEvent;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDimensionLists;
 
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.function.BiFunction;
+
 /**
- * Thanks to Commoble for providing this code.
+ * Thanks to Commoble and McJty for providing this code.
  * <p>
  * API for creating and uncreating dynamic dimensions during game runtime. This
  * should only be used for creating dynamic dimensions, whose quantity and

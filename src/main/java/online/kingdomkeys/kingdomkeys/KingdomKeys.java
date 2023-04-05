@@ -1,16 +1,8 @@
 package online.kingdomkeys.kingdomkeys;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Suppliers;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -72,10 +64,18 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
+import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -161,6 +161,7 @@ public class KingdomKeys {
 		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModDimensions.CHUNK_GENERATORS.register(modEventBus);
+		ModStructures.STRUCTURES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
@@ -178,6 +179,7 @@ public class KingdomKeys {
 		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
+		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);

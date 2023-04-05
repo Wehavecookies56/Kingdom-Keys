@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.DeferredRegister;
@@ -10,6 +7,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public class ModRoomStructures {
 
@@ -19,12 +19,12 @@ public class ModRoomStructures {
 
     @SuppressWarnings("unchecked")
 	public static final RegistryObject<RoomStructure>
-        LOBBY = ROOM_STRUCTURES.register("lobby", () -> new RoomStructure("lobby", null, RoomProperties.RoomSize.SPECIAL, List.of(RoomProperties.RoomCategory.SPECIAL), new Size2i(33, 69))),
-        TEST_ROOM = ROOM_STRUCTURES.register("test_room", () -> new RoomStructure("test_room", null, RoomProperties.RoomSize.M, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
-        PLAINS_S_1 = ROOM_STRUCTURES.register("plains_s_1", () -> new RoomStructure("plains_s_1", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
-        PLAINS_S_2 = ROOM_STRUCTURES.register("plains_s_2", () -> new RoomStructure("plains_s_2", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32))),
-        BOTTOMLESS_DARKNESS = ROOM_STRUCTURES.register("bottomless_darkness", () -> new RoomStructure("bottomless_darkness", null, RoomProperties.RoomSize.L, List.of(RoomProperties.RoomCategory.ENEMY), new Size2i(64, 64), ModRoomTypes.BOTTOMLESS_DARKNESS)),
-        NETHER_S_1 = ROOM_STRUCTURES.register("nether_s_1", () -> new RoomStructure("nether_s_1", ModFloorTypes.NETHER.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)))
+        LOBBY = ROOM_STRUCTURES.register("lobby", () -> new RoomStructure("lobby", null, RoomProperties.RoomSize.SPECIAL, List.of(RoomProperties.RoomCategory.SPECIAL), new Size2i(33, 69)).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "lobby"))),
+        TEST_ROOM = ROOM_STRUCTURES.register("test_room", () -> new RoomStructure("test_room", null, RoomProperties.RoomSize.M, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "test_room"))),
+        PLAINS_S_1 = ROOM_STRUCTURES.register("plains_s_1", () -> new RoomStructure("plains_s_1", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "plains_s_1"))),
+        PLAINS_S_2 = ROOM_STRUCTURES.register("plains_s_2", () -> new RoomStructure("plains_s_2", ModFloorTypes.PLAINS.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "plains_s_2"))),
+        BOTTOMLESS_DARKNESS = ROOM_STRUCTURES.register("bottomless_darkness", () -> new RoomStructure("bottomless_darkness", null, RoomProperties.RoomSize.L, List.of(RoomProperties.RoomCategory.ENEMY), new Size2i(64, 64), ModRoomTypes.BOTTOMLESS_DARKNESS).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "bottomless_darkness"))),
+        NETHER_S_1 = ROOM_STRUCTURES.register("nether_s_1", () -> new RoomStructure("nether_s_1", ModFloorTypes.NETHER.get(), RoomProperties.RoomSize.S, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)).setRegistryName(new ResourceLocation(KingdomKeys.MODID, "nether_s_1")))
     ;
 
     public static List<RoomStructure> getCompatibleStructures(RoomType type) {

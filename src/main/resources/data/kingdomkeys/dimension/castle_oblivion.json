@@ -1,9 +1,10 @@
 {
   "type": "kingdomkeys:castle_oblivion",
   "generator": {
+    "type": "kingdomkeys:castle_oblivion_generator",
     "biome_source": {
-      "type": "kingdomkeys:castle_oblivion_biome_source"
-    },
-    "type": "kingdomkeys:castle_oblivion_generator"
+      "type": "minecraft:fixed",
+      "biome": "kingdomkeys:castle_oblivion"
+    }
   }
 }
