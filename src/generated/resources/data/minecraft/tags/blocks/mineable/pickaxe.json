@@ -52,6 +52,15 @@
     "kingdomkeys:gummi_editor",
     "kingdomkeys:sor_core",
     "kingdomkeys:data_portal",
+    "kingdomkeys:card_door",
+    "kingdomkeys:structure_wall",
+    "kingdomkeys:castle_oblivion_wall",
+    "kingdomkeys:castle_oblivion_wall_chiseled",
+    "kingdomkeys:castle_oblivion_wall2",
+    "kingdomkeys:castle_oblivion_wall3",
+    "kingdomkeys:castle_oblivion_pillar",
+    "kingdomkeys:castle_oblivion_stairs",
+    "kingdomkeys:castle_oblivion_slab",
     "kingdomkeys:rod_stone",
     "kingdomkeys:rod_cracked_stone"
   ]

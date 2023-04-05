@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -13,27 +10,10 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
-import online.kingdomkeys.kingdomkeys.block.CastleOblivionPillarBlock;
-import online.kingdomkeys.kingdomkeys.block.CastleOblivionSlabBlock;
-import online.kingdomkeys.kingdomkeys.block.CastleOblivionStairBlock;
-import online.kingdomkeys.kingdomkeys.block.CastleOblivionWallBlock;
-import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
-import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
-import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.MoogleProjectorBlock;
-import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
-import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.PedestalBlock;
-import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
-import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
-import online.kingdomkeys.kingdomkeys.block.SoRCore;
-import online.kingdomkeys.kingdomkeys.world.structure.castle_oblivion.CastleOblivionStructure;
+import online.kingdomkeys.kingdomkeys.block.*;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -103,11 +83,11 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof MosaicStainedGlassBlock) {
 				// skip
 			} else if (block instanceof DataPortalBlock) {
-				
+
+			} else if (block instanceof StructureWallBlock) {
+
 			} else if (block instanceof CastleOblivionStairBlock) {
-				
-			} else if (block instanceof CastleOblivionWallBlock) {
-				
+
 			} else if (block instanceof CastleOblivionSlabBlock) {
 				
 			} else if (block instanceof CastleOblivionPillarBlock) {

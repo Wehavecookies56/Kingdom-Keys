@@ -53,6 +53,8 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("rod_sand");
 		standardCube("rod_stone");
 		standardCube("rod_cracked_stone");
+
+		standardCube("castle_oblivion_wall");
 	}
 
 	public void standardCube(String name) {
