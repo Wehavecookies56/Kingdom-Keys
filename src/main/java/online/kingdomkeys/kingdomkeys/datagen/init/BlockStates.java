@@ -13,6 +13,11 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
+import online.kingdomkeys.kingdomkeys.block.CastleOblivionPillarBlock;
+import online.kingdomkeys.kingdomkeys.block.CastleOblivionSlabBlock;
+import online.kingdomkeys.kingdomkeys.block.CastleOblivionStairBlock;
+import online.kingdomkeys.kingdomkeys.block.CastleOblivionWallBlock;
 import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
@@ -28,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.block.SoADoorBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
 import online.kingdomkeys.kingdomkeys.block.SoRCore;
+import online.kingdomkeys.kingdomkeys.world.structure.castle_oblivion.CastleOblivionStructure;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -97,7 +103,17 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof MosaicStainedGlassBlock) {
 				// skip
 			} else if (block instanceof DataPortalBlock) {
-
+				
+			} else if (block instanceof CastleOblivionStairBlock) {
+				
+			} else if (block instanceof CastleOblivionWallBlock) {
+				
+			} else if (block instanceof CastleOblivionSlabBlock) {
+				
+			} else if (block instanceof CastleOblivionPillarBlock) {
+				
+			} else if (block instanceof CardDoorBlock) {
+				
 			} else {
 				simpleBlock(itemRegistryObject);
 			}
@@ -105,14 +121,12 @@ public class BlockStates extends BlockStateProvider {
 
     }
 
-    public void simpleBlock(Supplier<? extends Block> blockSupplier)
-    {
+    public void simpleBlock(Supplier<? extends Block> blockSupplier){
         simpleBlock(blockSupplier.get());
     }
 
     @Override
-    public void simpleBlock(Block block, ModelFile model)
-    {
+    public void simpleBlock(Block block, ModelFile model){
         super.simpleBlock(block, model);
         //create item model for block
         this.simpleBlockItem(block, model);
