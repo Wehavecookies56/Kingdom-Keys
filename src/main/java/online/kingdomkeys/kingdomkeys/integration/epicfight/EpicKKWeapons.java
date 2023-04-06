@@ -35,13 +35,13 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_ROXAS = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KEYBLADE)
+                    .category(CapabilityItem.WeaponCategories.SWORD)
                     .styleProvider(playerpatch -> {
 
                         if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                             return KKStyles.VALOR;
                         else
-                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;            })
+                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;            })
                     .hitSound(EpicFightSounds.BLADE_HIT)
                     .collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
@@ -61,18 +61,16 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH1 = item ->
         WeaponCapability.builder()
-                .category(EpicKKWeaponEnum.KEYBLADE)
-                .styleProvider(playerpatch -> {
-
-                    if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
+                .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch -> {
+                    if (Strings.Form_Valor.equals(ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm())) {
                         return KKStyles.VALOR;
-                    //else if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Master))
-                    //    return KKStyles.MASTER;
-                     else
-                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;            })
-                .hitSound(EpicFightSounds.BLADE_HIT)
-                .collider(ColliderPreset.SWORD)
-                .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
+                    }
+                    return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
+                            == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
+                            CapabilityItem.Styles.ONE_HAND;
+                })
+                .hitSound(EpicFightSounds.BLADE_HIT).collider(ColliderPreset.SWORD)
+                .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                 .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
@@ -90,15 +88,12 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH2 = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KEYBLADE)
+                    .category(CapabilityItem.WeaponCategories.SWORD)
                     .styleProvider(playerpatch -> {
-
-                        if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
+                        if (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                             return KKStyles.VALOR;
-                        else
-                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;                    })
-                    .hitSound(EpicFightSounds.BLADE_HIT)
-                    .collider(ColliderPreset.SWORD)
+                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;                    })
+                    .hitSound(EpicFightSounds.BLADE_HIT).collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
@@ -118,15 +113,12 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH3 = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KEYBLADE)
+                    .category(CapabilityItem.WeaponCategories.SWORD)
                     .styleProvider(playerpatch -> {
-
-                        if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
+                        if (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                             return KKStyles.VALOR;
-                        else
-                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;})
-                    .hitSound(EpicFightSounds.BLADE_HIT)
-                    .collider(ColliderPreset.SWORD)
+                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;})
+                    .hitSound(EpicFightSounds.BLADE_HIT).collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
@@ -146,15 +138,13 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_RIKU = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KEYBLADE)
+                    .category(CapabilityItem.WeaponCategories.SWORD)
                     .styleProvider(playerpatch -> {
-
-                        if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
+                        if (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                             return KKStyles.VALOR;
-                        else
-                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;})
-                    .hitSound(EpicFightSounds.BLADE_HIT)
-                    .collider(ColliderPreset.SWORD)
+                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() ==
+                                CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;})
+                    .hitSound(EpicFightSounds.BLADE_HIT).collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
@@ -173,15 +163,14 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_TERRA = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KEYBLADE)
+                    .category(CapabilityItem.WeaponCategories.SWORD)
                     .styleProvider(playerpatch -> {
-                        if ((Player) playerpatch.getOriginal() != null && ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
+                        if ( ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
                             return KKStyles.VALOR;
-                        else
-                            return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;
+                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() ==
+                                CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;
                     })
-                    .hitSound(EpicFightSounds.BLADE_HIT)
-                    .collider(ColliderPreset.SWORD)
+                    .hitSound(EpicFightSounds.BLADE_HIT).collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
@@ -199,13 +188,13 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
             WeaponCapability.builder()
-                    .category(EpicKKWeaponEnum.KK_SHIELD)
+                    .category(CapabilityItem.WeaponCategories.SHIELD)
                     .hitSound(EpicFightSounds.BLADE_HIT)
                     .collider(ColliderPreset.DAGGER)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, KKAnimations.ROXAS_IDLE)
                     .weaponCombinationPredicator(entityPatch ->
                             EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_SHIELD)
-                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, KKAnimations.KK_SHIELD_AUTO_1, KKAnimations.KK_SHIELD_AUTO_2, Animations.DAGGER_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH);
+                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, KKAnimations.KK_SHIELD_AUTO_1, KKAnimations.KK_SHIELD_AUTO_2, Animations.DAGGER_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH).constructor(ShieldCapabilities::new);
 
     private EpicKKWeapons() {
     }

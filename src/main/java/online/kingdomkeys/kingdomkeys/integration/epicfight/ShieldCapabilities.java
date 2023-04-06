@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ShieldCapabilities extends WeaponCapability {
 
-    protected ShieldCapabilities(CapabilityItem.Builder builder) {
+    public ShieldCapabilities(CapabilityItem.Builder builder) {
         super(builder);
     }
 
