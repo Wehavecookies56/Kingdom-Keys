@@ -32,7 +32,7 @@ public class KKAnimations {
         ROXAS_RUN = new StaticAnimation(true,"biped/living/roxas_run",  Armatures.BIPED);
 
         KH1_SORA_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,Armatures.BIPED.toolR,"biped/combat/kh1_sora_auto_1",  Armatures.BIPED)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F);
 
         KK_SHIELD_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR,"biped/combat/kk_shield_auto_1",  Armatures.BIPED);
         KK_SHIELD_AUTO_2 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,Armatures.BIPED.toolR,"biped/combat/kk_shield_auto_2",  Armatures.BIPED);
