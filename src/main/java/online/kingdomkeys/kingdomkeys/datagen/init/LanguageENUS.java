@@ -329,6 +329,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
+        
+        addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
+        addBlock(ModBlocks.rodSand, "Dark Sand");
+        addBlock(ModBlocks.rodStone, "Dark Stone");
 
         /**KK stuff**/
         //Abilities
