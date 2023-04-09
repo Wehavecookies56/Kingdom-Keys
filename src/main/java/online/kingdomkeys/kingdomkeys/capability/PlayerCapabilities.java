@@ -438,7 +438,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str")) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
+		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
 	}
 
 	@Override

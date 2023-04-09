@@ -295,7 +295,9 @@
 	"ability.ability_curaza.name": "Cura+++",
 	"ability.ability_curaza.desc": "Permite al usuario obtener el comando de reacción Cura+++.",
 	"ability.ability_grand_magic_haste.name": "Gran Prisa Mágica",
-	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor efecto.",
+	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor probabilidad.",
+	"ability.ability_berserk_charge.name": "Carga de Locura",
+	"ability.ability_berserk_charge.desc": "Otorga al usuario +2 de Fuerza durante la Recarga de PM. Cuantas más activas, mayor efecto.",
 
 
 	"_comment": "Limits",

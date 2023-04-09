@@ -14,6 +14,8 @@
   "ability.ability_auto_valor.name": "Auto Valor",
   "ability.ability_auto_wisdom.desc": "Automatically sets the Reaction Command to Wisdom in a pinch, if Wisdom Form is usable.",
   "ability.ability_auto_wisdom.name": "Auto Wisdom",
+  "ability.ability_berserk_charge.desc": "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.",
+  "ability.ability_berserk_charge.name": "Berserk Charge",
   "ability.ability_blizzard_boost.desc": "Increases damage done with blizzard-based attacks.",
   "ability.ability_blizzard_boost.name": "Blizzard Boost",
   "ability.ability_blizzaza.desc": "Allows the user to get the Blizzaza reaction command.",
