@@ -53,6 +53,10 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.savepoint.get());
         standardBlockLoot(ModBlocks.magicalChest.get());
         
+        standardBlockLoot(ModBlocks.rodStone.get());
+        standardBlockLoot(ModBlocks.rodSand.get());
+        standardBlockLoot(ModBlocks.rodCrackedStone.get());
+        
         lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(
 					LootItem.lootTableItem(ModBlocks.prizeBlox.get().asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),

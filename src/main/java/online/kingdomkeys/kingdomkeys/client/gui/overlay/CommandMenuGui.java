@@ -324,9 +324,9 @@ public class CommandMenuGui extends OverlayBase {
 					if (i == DRIVE) {// If it's an org member / in antiform / has no drive unlocked be gray
 						if (playerData.getAlignment() != OrgMember.NONE) {
 							// Checks for limit obtaining in the future?
-							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
-						} else {
-							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2) {
+							color = playerData.getLimitCooldownTicks() <= 0 && playerData.getDP() >= Utils.getMinimumDPForLimit(player) ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
+						} else { //if is antiform and in battle is gray                                                      if has no drive forms unlocked                      if player is in base form AND the DP is not enough to get in a form 
+							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2 || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getDP() < Utils.getMinimumDPForDrive(playerData))) {
 								color = getColor(0x888888, SUB_MAIN);
 							} else {
 								color = getColor(0xFFFFFF, SUB_MAIN);
