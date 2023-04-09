@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
@@ -228,6 +230,8 @@ public class MenuEquipmentButton extends Button {
                         final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
                         strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
+						if(orgWeapon.getAbilities() != null)
+							abilities = Lists.newArrayList(orgWeapon.getAbilities());
                     } else if (stack.getItem() instanceof KKArmorItem) {
                     	KKArmorItem armorItem = (KKArmorItem) stack.getItem();
                         resistances = armorItem.getResList();
@@ -368,7 +372,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
+							drawString(matrixStack, fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
 				                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

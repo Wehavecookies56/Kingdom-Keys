@@ -274,7 +274,8 @@
         "str":1,
         "mag":1,
         "maxmp":4.0,
-        "ap":1
+        "ap":1,
+		"abilities":[ "kingdomkeys:ability_berserk_charge" ]
     },
     "49":{
         "str":1

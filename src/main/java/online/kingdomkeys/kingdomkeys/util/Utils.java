@@ -883,6 +883,31 @@ public class Utils {
 		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 		return lvl;
 	}
+
+	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
+		int minCost = 1000;
+		if(playerData.getDriveFormMap().size() > 2) {
+			for(Entry<String, int[]> e : playerData.getDriveFormMap().entrySet()) {
+				//System.out.println(DriveForm.NONE.toString());
+				if(!e.getKey().equals(DriveForm.NONE.toString()) && !e.getKey().equals(DriveForm.SYNCH_BLADE.toString())) {
+	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e.getKey()));
+	            	minCost = Math.min(minCost, form.getDriveCost());
+				}
+				
+			}
+		}
+		return minCost;
+	}
+	
+	public static double getMinimumDPForLimit(Player player) {
+		int minCost = 1000;
+		if(Utils.getPlayerLimitAttacks(player).size() > 0) {
+			for(Limit limit : Utils.getPlayerLimitAttacks(player)) {
+            	minCost = Math.min(minCost, limit.getCost());
+			}
+		}
+		return minCost;
+	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
 	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
