@@ -30,6 +30,16 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
 	}
     
     @Override
+	public void setAbilities(String[] abilities) {
+		data.abilities = abilities;
+	}
+    
+    @Override
+	public String[] getAbilities() {
+		return data.getAbilities();
+	}
+    
+    @Override
     public void setDescription(String description) {
         data.description = description;
     }
@@ -45,6 +55,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
         data.baseMagic = organizationData.baseMagic;
         data.reach = organizationData.reach;
         data.description = organizationData.description;
+        data.abilities = organizationData.abilities;
     }
     
     @Override

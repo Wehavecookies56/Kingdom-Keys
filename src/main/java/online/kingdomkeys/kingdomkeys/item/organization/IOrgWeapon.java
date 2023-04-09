@@ -22,4 +22,7 @@ public interface IOrgWeapon {
     void setMagic(int mag);
     //Get magic from the data based on level
     int getMagic();
+    
+    void setAbilities(String[] abilities);
+    String[] getAbilities();
 }
