@@ -59,23 +59,24 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH1 = item ->
         WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch -> {
-                    if (Strings.Form_Valor.equals(ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm())) {
-                        return KKStyles.VALOR;
-                    }
-                    return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
+                .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch -> switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                    case Strings.Form_Valor -> KKStyles.VALOR;
+                    case Strings.Form_Master -> KKStyles.MASTER;
+                    case Strings.Form_Wisdom -> CapabilityItem.Styles.ONE_HAND;
+                    case Strings.Form_Final -> CapabilityItem.Styles.TWO_HAND;
+                    default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
                             == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
-                            CapabilityItem.Styles.ONE_HAND;
-                })
+                            CapabilityItem.Styles.ONE_HAND; })
                 .hitSound(EpicFightSounds.BLADE_HIT).collider(KKColiders.KEYBLADE)
                 .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
                 .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
-                //.livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
+                .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN).livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
                 .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
                 .newStyleCombo(KKStyles.VALOR, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND, KKAnimations.KH1_SORA_AUTO_1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND,itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
@@ -87,10 +88,13 @@ public class EpicKKWeapons {
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH2 = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SWORD)
-                    .styleProvider(playerpatch -> {
-                        if (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor))
-                            return KKStyles.VALOR;
-                        return playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND;                    })
+                    .styleProvider(playerpatch ->
+                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                            case Strings.Form_Valor -> KKStyles.VALOR;
+                            case Strings.Form_Master -> KKStyles.MASTER;
+                            default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
+                                    == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
+                                    CapabilityItem.Styles.ONE_HAND; })
                     .hitSound(EpicFightSounds.BLADE_HIT).collider(KKColiders.KEYBLADE)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KEYBLADE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -25,28 +26,23 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>, AM> {
 
-    public PatchedDriveLayerRenderer(AM mesh) {
-        super(mesh);
-
-    }
+    public PatchedDriveLayerRenderer(AM mesh) { super(mesh); }
 
     @Override
     public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float v, float v1, float v2) {
-        if(ModConfigs.showDriveForms && e != null && ModCapabilities.getPlayer((Player) e) != null) {
-            if(!ModCapabilities.getPlayer((Player) e).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+        if(ModConfigs.showDriveForms && e != null && !ModCapabilities.getPlayer((Player) e).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
                 String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
                 DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
                 if (form.getTextureLocation() != null) {
-                    VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(form.getTextureLocation()), true, false);
+                    VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation()), true, false);
                     HumanoidMesh model = getModel(e);
                     model.drawModelWithPose(poseStack, vertexConsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
                 }
-            }
+
         }
     }
 
     public HumanoidMesh getModel(E e) {
-        //boolean firstPerson = Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
         boolean defaultSkin = DefaultPlayerSkin.getSkinModelName(e.getUUID()).equals("default");
             if (defaultSkin) {
                 return Meshes.BIPED;

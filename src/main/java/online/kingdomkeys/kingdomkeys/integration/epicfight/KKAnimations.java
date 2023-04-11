@@ -40,6 +40,6 @@ public class KKAnimations {
 
         CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,Armatures.BIPED.toolR,"biped/combat/chakram_auto_1",  Armatures.BIPED);
 
-        TEST = new StaticAnimation(true,"biped/living/test",  Armatures.BIPED);
+        TEST = new StaticAnimation(true,"biped/living/test1",  Armatures.BIPED);
     }
 }
