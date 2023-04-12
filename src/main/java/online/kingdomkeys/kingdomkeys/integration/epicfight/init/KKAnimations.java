@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import yesman.epicfight.api.animation.property.AnimationProperty;
@@ -10,7 +10,7 @@ import yesman.epicfight.gameasset.Armatures;
 public class KKAnimations {
     public static StaticAnimation TEST, TEST2, CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN,
             KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3, KH1_SORA_AUTO_1, VALOR_IDLE, VALOR_AUTO_1, VALOR_AUTO_2,
-            VALOR_AUTO_3, MASTER_IDLE;
+            VALOR_AUTO_3, MASTER_IDLE, WISDOM_IDLE;
 
 
 
@@ -25,7 +25,13 @@ public class KKAnimations {
     private static void build() {
 
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
+        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED);
+
+
+
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
+
+
 
         ROXAS_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,Armatures.BIPED.toolR,"biped/combat/roxas_auto_1",  Armatures.BIPED);
         ROXAS_IDLE = new StaticAnimation(true,"biped/living/roxas_idle",  Armatures.BIPED);
@@ -40,6 +46,6 @@ public class KKAnimations {
 
         CHAKRAM_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null,Armatures.BIPED.toolR,"biped/combat/chakram_auto_1",  Armatures.BIPED);
 
-        TEST = new StaticAnimation(true,"biped/living/test1",  Armatures.BIPED);
+        TEST = new StaticAnimation(true,"biped/living/test",  Armatures.BIPED);
     }
 }

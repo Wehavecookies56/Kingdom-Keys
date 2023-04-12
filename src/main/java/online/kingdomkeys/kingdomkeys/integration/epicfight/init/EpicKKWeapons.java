@@ -1,9 +1,11 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.KKWeaponCapabilities;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
@@ -59,24 +61,29 @@ public class EpicKKWeapons {
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE_SORA_KH1 = item ->
         WeaponCapability.builder()
-                .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch -> switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
-                    case Strings.Form_Valor -> KKStyles.VALOR;
-                    case Strings.Form_Master -> KKStyles.MASTER;
-                    case Strings.Form_Wisdom -> CapabilityItem.Styles.ONE_HAND;
-                    case Strings.Form_Final -> CapabilityItem.Styles.TWO_HAND;
-                    default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
-                            == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
-                            CapabilityItem.Styles.ONE_HAND; })
+                .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
+                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                            case Strings.Form_Valor -> KKStyles.VALOR;
+                            case Strings.Form_Master -> KKStyles.MASTER;
+                            case Strings.Form_Wisdom -> KKStyles.WISDOM;
+                            case Strings.Form_Final -> CapabilityItem.Styles.TWO_HAND;
+                            default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
+                                    == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
+                                    CapabilityItem.Styles.ONE_HAND;
+
+                })
                 .hitSound(EpicFightSounds.BLADE_HIT).collider(KKColiders.KEYBLADE)
                 .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
                 .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
                 .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
+                .livingMotionModifier(KKStyles.WISDOM, LivingMotions.IDLE, KKAnimations.WISDOM_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN).livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
                 .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
                 .newStyleCombo(KKStyles.VALOR, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                 .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                .newStyleCombo(KKStyles.WISDOM, KKAnimations.KH1_SORA_AUTO_1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.ONE_HAND, KKAnimations.KH1_SORA_AUTO_1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.SWORD_DUAL_COMBO1, Animations.SWORD_DUAL_COMBO2, Animations.SWORD_DUAL_COMBO3, Animations.SWORD_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                 .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND,itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)

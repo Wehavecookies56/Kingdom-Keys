@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.skill.GuardSkill;

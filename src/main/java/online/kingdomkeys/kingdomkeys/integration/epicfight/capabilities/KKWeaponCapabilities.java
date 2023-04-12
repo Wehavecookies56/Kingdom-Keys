@@ -1,5 +1,7 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKStyles;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.skill.GuardSkill;
@@ -14,7 +16,7 @@ public class KKWeaponCapabilities extends WeaponCapability {
 
     private final Map<String, GuardObject> guardMap = new HashMap<>();
 
-    protected KKWeaponCapabilities(CapabilityItem.Builder builder) {
+    public KKWeaponCapabilities(CapabilityItem.Builder builder) {
         super(builder);
         guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
         guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ KKStyles.VALOR, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));

@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import yesman.epicfight.api.animation.LivingMotion;
 

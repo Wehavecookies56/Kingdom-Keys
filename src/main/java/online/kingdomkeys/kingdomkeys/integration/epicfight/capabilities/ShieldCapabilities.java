@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.integration.epicfight;
+package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
