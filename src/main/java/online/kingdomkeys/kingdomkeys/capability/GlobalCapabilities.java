@@ -28,7 +28,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		this.setLevel(properties.getInt("level"));
 	}
 
-	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level;
+	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level, stopModelTicks;
 	float stopDmg;
 	private String stopCaster;
 	private boolean castleOblivionMarker;
@@ -133,5 +133,15 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void setCastleOblivionMarker(boolean marker) {
 		this.castleOblivionMarker = marker;
+	}
+
+	@Override
+	public int getStopModelTicks() {
+		return stopModelTicks;
+	}
+
+	@Override
+	public void setStopModelTicks(int ticks) {
+		this.stopModelTicks = ticks;		
 	}
 }

@@ -35,4 +35,8 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	
 	void setLevel(int lvl);
 	int getLevel();
+	
+	//Ticks to display stop animation
+	int getStopModelTicks();
+	void setStopModelTicks(int ticks);
 }

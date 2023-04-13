@@ -45,6 +45,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -135,7 +136,6 @@ public class ClientSetup {
 		armorModels.put(ModItems.dark_Riku_Leggings.get(), bot);
 		armorModels.put(ModItems.dark_Riku_Boots.get(), top);
 
-
 		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
 		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);
 		armorModels.put(ModItems.antiCoat_Leggings.get(), bot);
@@ -182,10 +182,12 @@ public class ClientSetup {
 		
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
+		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
