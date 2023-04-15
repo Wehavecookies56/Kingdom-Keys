@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -30,6 +31,10 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 
 	public ArrowgunShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
+	}
+	public ArrowgunShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world, double x, double y, double z) {
+		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
+		this.setPos(x,y,z);
 	}
 
 	public ArrowgunShotEntity(Level world) {
