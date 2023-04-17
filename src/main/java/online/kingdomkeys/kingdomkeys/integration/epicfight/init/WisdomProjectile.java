@@ -20,17 +20,16 @@ public class WisdomProjectile {
 
     public static void shoot(LivingEntityPatch ep, Joint joint)
     {
-
         // gets the positions of the bone somehow
         Vec3 playerPos = ep.getOriginal().position();
         Player player = (Player) ep.getOriginal();
         Level world = player.level;
-        OpenMatrix4f tempMatrix = OpenMatrix4f.createTranslation((float) playerPos.x, (float) playerPos.y, (float) playerPos.z)
+        OpenMatrix4f playerMatrix = OpenMatrix4f.createTranslation((float) playerPos.x, (float) playerPos.y, (float) playerPos.z)
                 .mulBack(OpenMatrix4f.createRotatorDeg(180, Vec3f.Y_AXIS)).mulBack(ep.getModelMatrix(1));
-        Vec3 test2 = OpenMatrix4f.transform(Armatures.BIPED.getBindedTransformFor(ep.getArmature().getPose(1)
-                , joint).mulFront(tempMatrix) , Vec3.ZERO);
+        Vec3 bonePosMatrix = OpenMatrix4f.transform(Armatures.BIPED.getBindedTransformFor(ep.getArmature().getPose(1)
+                , joint).mulFront(playerMatrix) , Vec3.ZERO);
 
-        ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.1F,test2.x, test2.y, test2.z );
+        ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.1F,bonePosMatrix.x, bonePosMatrix.y, bonePosMatrix.z );
         shot.setShotType(1);
         shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
         world.addFreshEntity(shot);
