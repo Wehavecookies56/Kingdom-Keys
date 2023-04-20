@@ -231,7 +231,7 @@ public class MenuEquipmentButton extends Button {
                         strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
 						if(orgWeapon.getAbilities() != null)
-							abilities = Lists.newArrayList(orgWeapon.getAbilities());
+						abilities = Lists.newArrayList(orgWeapon.getAbilities());
                     } else if (stack.getItem() instanceof KKArmorItem) {
                     	KKArmorItem armorItem = (KKArmorItem) stack.getItem();
                         resistances = armorItem.getResList();
@@ -372,7 +372,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
+							drawString(matrixStack, fr, ChatFormatting.UNDERLINE+ Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
 				                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
