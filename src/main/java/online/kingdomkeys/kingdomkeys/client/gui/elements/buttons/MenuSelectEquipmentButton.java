@@ -187,7 +187,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
 					String magicStr = String.valueOf(((int) keyblade.getMagic(stack)));
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-					int strength = playerData.getStrength(true) + ((int) keyblade.getStrength(stack));
+					int strength = playerData.getStrength(true) + ((int) keyblade.getStrength(stack)); //TODO a
 					int magic = playerData.getMagic(true) + ((int) keyblade.getMagic(stack));
 					
 					String totalStrengthStr = String.valueOf(strength);
