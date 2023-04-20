@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "kingdomkeys:rod_stone"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

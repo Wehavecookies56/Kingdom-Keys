@@ -378,7 +378,7 @@ public class InputHandler {
 	                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
 	                        	
 	                        } else { //If is in a drive form other than antiform
-	                        	if(!driveFormsMap.isEmpty()) {
+	                        	if(!driveFormsMap.isEmpty() && playerData.getDP() >= Utils.getMinimumDPForDrive(playerData)) {
 	                                CommandMenuGui.driveSelected = 0;
 	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
 	                                mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -399,11 +399,14 @@ public class InputHandler {
 						}
 					} else { // Org member Limits
 						// Accessing Limits Submenu
-                		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
+                		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0 && playerData.getDP() >= Utils.getMinimumDPForLimit(player)) {
 							CommandMenuGui.limitSelected = 0;
 							CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
 							mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							return;
+						} else {
+	                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                			player.level.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 					}

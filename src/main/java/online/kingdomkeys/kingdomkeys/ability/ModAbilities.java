@@ -67,6 +67,7 @@ public class ModAbilities {
 			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
 			GRAND_MAGIC_HASTE = createAbility(Strings.grandMagicHaste, 3, AbilityType.SUPPORT),
+			BERSERK_CHARGE = createAbility(Strings.berserkCharge, 5, AbilityType.SUPPORT),
 			
 			
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
