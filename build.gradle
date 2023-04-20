@@ -4,9 +4,9 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
+def mcver = "1.19.2"
+version = mcver + '-2.2.0.1'
 
-def mcver = "1.19.4"
-version = mcver + '-2.2.0.0'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 
