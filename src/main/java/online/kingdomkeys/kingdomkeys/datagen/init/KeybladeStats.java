@@ -60,7 +60,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.everAfter, Strings.everAfterChain, 4, 6, "", 5.0F, "A Keyblade with an emphasis on Magic.");
 		addStats(Strings.fairyHarp, Strings.fairyHarpChain, 6, 4, "", 5.0F, "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.");
 		addStats(Strings.fairyStars, Strings.fairyStarsChain, 4, 5, "", 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
-		addStats(Strings.fatalCrest, Strings.fatalCrestChain, 5, 7, ModAbilities.BERSERK_CHARGE.get().toString(), 5.0F, "Increases strength during MP Charge and allows unlimited chaining of combos.");
+		addStats(Strings.fatalCrest, Strings.fatalCrestChain, 5, 7, "", 5.0F, "Increases strength during MP Charge and allows unlimited chaining of combos.");
 		addStats(Strings.favoriteDeputy, Strings.favoriteDeputyChain, 5, 3, "", 5.0F, "A Keyblade with an emphasis on Strength.");
 		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, "", 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
 		addStats(Strings.ferrisGear, Strings.ferrisGearChain, 5, 5, "", 5.0F, "A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");

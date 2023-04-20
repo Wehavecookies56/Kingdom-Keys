@@ -671,6 +671,8 @@ public class EntityEvents {
 					double Y = event.getEntity().getY();
 					double Z = event.getEntity().getZ();
 
+					
+
 					for (int t = 1; t < 360; t += 20) {
 						double x = X + (radius * Math.cos(Math.toRadians(t)));
 						double z = Z + (radius * Math.sin(Math.toRadians(t)));

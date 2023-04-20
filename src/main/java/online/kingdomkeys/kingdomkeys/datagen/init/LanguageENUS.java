@@ -329,10 +329,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
-        
-        addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
-        addBlock(ModBlocks.rodSand, "Dark Sand");
-        addBlock(ModBlocks.rodStone, "Dark Stone");
 
         /**KK stuff**/
         //Abilities
@@ -389,7 +385,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
-        addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
         
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");

@@ -295,9 +295,7 @@
 	"ability.ability_curaza.name": "Cura+++",
 	"ability.ability_curaza.desc": "Permite al usuario obtener el comando de reacción Cura+++.",
 	"ability.ability_grand_magic_haste.name": "Gran Prisa Mágica",
-	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor probabilidad.",
-	"ability.ability_berserk_charge.name": "Carga de Locura",
-	"ability.ability_berserk_charge.desc": "Otorga al usuario +2 de Fuerza durante la Recarga de PM. Cuantas más activas, mayor efecto.",
+	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor efecto.",
 
 
 	"_comment": "Limits",
@@ -334,9 +332,6 @@
 	"block.kingdomkeys.gummi_editor": "Editor Gummi",
 	"block.kingdomkeys.sor_core": "Núcleo de Estación del Pesar",
 	"block.kingdomkeys.data_portal": "Portal de Datos",
-	"block.kingdomkeys.rod_cracked_stone": "Piedra Oscura Agrietada",
-	"block.kingdomkeys.rod_sand": "Arena Oscura",
-	"block.kingdomkeys.rod_stone": "Piedra Oscura",
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
 	"block.kingdomkeys.blazing_ore_d": "Mena Ígnea",
