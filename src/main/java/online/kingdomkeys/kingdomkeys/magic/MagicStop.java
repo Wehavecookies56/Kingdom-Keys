@@ -13,12 +13,10 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party; 
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
 
 public class MagicStop extends Magic {
 
@@ -46,14 +44,7 @@ public class MagicStop extends Magic {
 				list.remove(e);
 			}
 		}
-		
-		//Cast stop model to player
-		IGlobalCapabilities casterGlobalData = ModCapabilities.getGlobal(caster);
-		if(casterGlobalData != null) {
-			casterGlobalData.setStopModelTicks(10);
-			PacketHandler.syncToAllAround(caster, casterGlobalData);
-		}
-		
+
 		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
