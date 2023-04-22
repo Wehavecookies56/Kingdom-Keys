@@ -65,8 +65,8 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		upgrade.visible = bagLevel < 2;
 		
 		if(upgrade.visible) {
-			if (x >= upgrade.getX() && x <= upgrade.getX() + upgrade.getWidth()) {
-				if (y >= upgrade.getY() && y <= upgrade.getY() + upgrade.getHeight()) {
+			if (x >= upgrade.x && x <= upgrade.x + upgrade.getWidth()) {
+				if (y >= upgrade.y && y <= upgrade.y + upgrade.getHeight()) {
 					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
 					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {

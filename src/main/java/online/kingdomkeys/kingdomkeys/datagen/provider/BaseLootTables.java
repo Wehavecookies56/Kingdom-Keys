@@ -2,19 +2,19 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.HashMap;
+import java.util.Map;
 
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.CachedOutput;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -32,11 +32,10 @@ public abstract class BaseLootTables extends LootTableProvider {
     protected final Map<Block, LootTable.Builder> lootTables = new HashMap<>();
     private final DataGenerator generator;
 
-    public BaseLootTables(PackOutput pOutput, Set<ResourceLocation> pRequiredTables, List<SubProviderEntry> pSubProviders, DataGenerator generator) {
-        super(pOutput, pRequiredTables, pSubProviders);
+    public BaseLootTables(DataGenerator generator) {
+        super(generator);
         this.generator = generator;
     }
-
     protected abstract void addTables();
 
     protected LootTable.Builder createStandardTable(String name, Block block) {
@@ -47,23 +46,25 @@ public abstract class BaseLootTables extends LootTableProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public void run(CachedOutput cache) {
         addTables();
 
         Map<ResourceLocation, LootTable> tables = new HashMap<>();
         for (Map.Entry<Block, LootTable.Builder> entry : lootTables.entrySet()) {
             tables.put(entry.getKey().getLootTable(), entry.getValue().setParamSet(LootContextParamSets.BLOCK).build());
         }
-        return writeTables(cache, tables);
+        writeTables(cache, tables);
     }
 
-    private CompletableFuture<?> writeTables(CachedOutput cache, Map<ResourceLocation, LootTable> tables) {
-        PackOutput.PathProvider pathProvider = this.generator.getPackOutput().createPathProvider(PackOutput.Target.DATA_PACK, "loot_tables");
-        List<CompletableFuture<?>> list = new ArrayList<>();
+    private void writeTables(CachedOutput cache, Map<ResourceLocation, LootTable> tables) {
+        Path outputFolder = this.generator.getOutputFolder();
         tables.forEach((key, lootTable) -> {
-            Path path = pathProvider.json(key);
-            list.add(DataProvider.saveStable(cache, LootTables.serialize(lootTable), path));
+            Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
+            try {
+                DataProvider.saveStable(cache, LootTables.serialize(lootTable), path);
+            } catch (IOException e) {
+                LOGGER.error("Couldn't write loot table {}", path, e);
+            }
         });
-        return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
 }

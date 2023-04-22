@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "group": "kingdomkeys",
   "key": {
     "B": {
@@ -23,6 +22,5 @@
   ],
   "result": {
     "item": "kingdomkeys:dark_riku_chestplate"
-  },
-  "show_notification": true
+  }
 }

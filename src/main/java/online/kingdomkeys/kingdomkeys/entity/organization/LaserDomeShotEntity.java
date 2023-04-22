@@ -121,7 +121,7 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}
 			}

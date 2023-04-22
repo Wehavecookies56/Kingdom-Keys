@@ -156,7 +156,7 @@ public class LanceEntity extends ThrowableProjectile{
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
 					//target.setFire(5);
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.8F;
 					//stopLance();
 				}

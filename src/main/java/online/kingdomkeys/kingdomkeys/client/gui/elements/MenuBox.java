@@ -41,8 +41,8 @@ public class MenuBox extends AbstractWidget{
             bCenterU = 47, bCenterV = 94,
             mCenterU = 47, mCenterV = 92
             ;
-    @Override
-	public void renderWidget(PoseStack matrixStack, int p_268034_, int p_268009_, float p_268085_) {
+
+    public void draw(PoseStack matrixStack) {
         matrixStack.pushPose();
         RenderSystem.setShaderColor(colour.getRed() / 255F,colour.getGreen() / 255F,colour.getBlue() / 255F, 1.0F);
         
@@ -115,7 +115,7 @@ public class MenuBox extends AbstractWidget{
     }
 
     @Override
-    public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
+    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
 
     }
 }

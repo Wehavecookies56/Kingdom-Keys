@@ -15,14 +15,13 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -48,7 +47,7 @@ public class DimensionCommand extends BaseCommand {
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		String dim = StringArgumentType.getString(context, "dim");
-		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dim));
 
 		if (dimension == null) {
 			context.getSource().sendSuccess(Component.translatable("Invalid dimension " + dim), true);
@@ -79,9 +78,7 @@ public class DimensionCommand extends BaseCommand {
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {
-			Vec3 vec3 = playerData.getReturnLocation();
-			//TODO fix cast
-			return new BlockPos((int)vec3.x, (int)vec3.y, (int)vec3.z);
+			return new BlockPos(playerData.getReturnLocation());
 		}
 		return new BlockPos(0, 64, 0);
 	}

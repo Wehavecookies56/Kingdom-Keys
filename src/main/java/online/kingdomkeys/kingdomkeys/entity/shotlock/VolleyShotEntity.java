@@ -2,8 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import java.awt.Color;
 
-import org.joml.Vector3f;
-
+import com.mojang.math.Vector3f;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -84,7 +83,7 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 					super.remove(RemovalReason.KILLED);
 				}
 			}

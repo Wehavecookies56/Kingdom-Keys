@@ -6,7 +6,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -86,13 +85,13 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	}
 
 	@Override
-	public int getDurabilityForType(ArmorItem.Type slotIn) {
+	public int getDurabilityForSlot(EquipmentSlot slotIn) {
 		return -1;//MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
 	}
 
 	@Override
-	public int getDefenseForType(ArmorItem.Type slotIn) {
-		return this.damageReductionAmountArray[slotIn.ordinal()]; //TODO changed intex to ordinal for 1.19.4, might not be the best way
+	public int getDefenseForSlot(EquipmentSlot slotIn) {
+		return this.damageReductionAmountArray[slotIn.getIndex()];
 	}
 
 	@Override

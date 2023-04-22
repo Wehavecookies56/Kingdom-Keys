@@ -2,11 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Axis;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -44,9 +42,9 @@ public class BlastBloxRenderer extends EntityRenderer<BlastBloxEntity> {
             float f1 = 1.0F + f * 0.3F;
             matrixStack.scale(f1, f1, f1);
         }
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStack.translate(-0.5D, -0.5D, 0.5D);
-        matrixStack.mulPose(Axis.YP.rotationDegrees(90.0F));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
         renderFlash(ModBlocks.blastBlox.get().defaultBlockState(), matrixStack, buffer, packedLight, entity.getFuse() / 5 % 2 == 0);
         matrixStack.popPose();
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);

@@ -200,8 +200,8 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		listBox.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		detailsBox.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+        listBox.draw(matrixStack);
+        detailsBox.draw(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
     

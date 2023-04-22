@@ -67,6 +67,11 @@ public class WeaponTreeSelectionScreen extends Screen {
     }
 
     @Override
+    public void renderBackground(PoseStack matrixStack, int p_renderBackground_1_) {
+        super.renderBackground(matrixStack, p_renderBackground_1_);
+    }
+
+    @Override
     public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         renderBackground(matrixStack);
         String name = "";
@@ -174,21 +179,10 @@ public class WeaponTreeSelectionScreen extends Screen {
 
     @Override
     public void init() {
-    	addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
-    		actionPerformed(CANCEL);
-		}).bounds(0, 0, 50, 20).build());
-    	
-        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
-    		actionPerformed(NEXT);
-		}).bounds(0, 0, 20, 20).build());
-        
-        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
-    		actionPerformed(PREV);
-		}).bounds(0, 0, 20, 20).build());
-
-        addRenderableWidget(select = Button.builder(Component.translatable("Select"), (e) -> {
-    		actionPerformed(SELECT);
-		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(cancel = new Button(0, 0, 50, 20, Component.translatable("Back"), p -> actionPerformed(CANCEL)));
+        addRenderableWidget(next = new Button(0, 0, 20, 20, Component.translatable(">"), p -> actionPerformed(NEXT)));
+        addRenderableWidget(prev = new Button(0, 0, 20, 20, Component.translatable("<"), p -> actionPerformed(PREV)));
+        addRenderableWidget(select = new Button(0, 0, 50, 20, Component.translatable("Select"), p -> actionPerformed(SELECT)));
         updateButtons();
         super.init();
     }
@@ -224,17 +218,17 @@ public class WeaponTreeSelectionScreen extends Screen {
     }
 
     public void updateButtons() {
-    	next.visible = true;
-        next.setX((width / 2) - (next.getWidth() / 2) + 128);
-        next.setY((height / 2) - (next.getHeight() / 2));
+        next.visible = true;
+        next.x = (width / 2) - (next.getWidth() / 2) + 128;
+        next.y = (height / 2) - (next.getHeight() / 2);
         prev.visible = true;
-        prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
-        prev.setY((height / 2) - (prev.getHeight() / 2));
+        prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
+        prev.y = (height / 2) - (prev.getHeight() / 2);
         select.visible = true;
-        select.setX((width / 2) - (select.getWidth() / 2));
-        select.setY((height / 2) - (select.getHeight() / 2) + 90);
+        select.x = (width / 2) - (select.getWidth() / 2);
+        select.y= (height / 2) - (select.getHeight() / 2) + 90;
         cancel.visible = true;
-        cancel.setX((width / 2) - (select.getWidth() / 2));
-        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
+        cancel.x = (width / 2) - (select.getWidth() / 2);
+        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
     }
 }

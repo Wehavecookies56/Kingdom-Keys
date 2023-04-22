@@ -2,11 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.render.org;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Axis;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -35,8 +33,8 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
 		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-    		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
+    		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+    		matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
     		if(entity.getDeltaMovement().equals(new Vec3(0,0,0))) {
     			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
     		} else {

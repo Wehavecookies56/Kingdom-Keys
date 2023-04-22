@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.block.SoRCore;
 public class BlockStates extends BlockStateProvider {
 
     public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen.getPackOutput(), KingdomKeys.MODID,  exFileHelper);
+        super(gen, KingdomKeys.MODID,  exFileHelper);
     }
 
     @Override

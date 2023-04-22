@@ -12,10 +12,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class SynthesisBagContainer extends AbstractContainerMenu {
+
+	@ObjectHolder(registryName = "forge:menu", value = KingdomKeys.MODID + ":synthesis_bag")
+	public static MenuType<SynthesisBagContainer> TYPE;
 
 	public static SynthesisBagContainer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buf) {
 		InteractionHand hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
@@ -25,7 +29,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 	private final ItemStack bag;
 
 	public SynthesisBagContainer(int windowId, Inventory playerInv, ItemStack bag) {
-		super(ModContainers.SYNTHESIS_BAG.get(), windowId);
+		super(TYPE, windowId);
 		this.bag = bag;
 		int i;
 		int j;

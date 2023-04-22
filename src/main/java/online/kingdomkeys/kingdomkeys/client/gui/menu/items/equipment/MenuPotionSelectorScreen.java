@@ -99,8 +99,8 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		details.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		keyblades.draw(matrixStack);
+		details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}

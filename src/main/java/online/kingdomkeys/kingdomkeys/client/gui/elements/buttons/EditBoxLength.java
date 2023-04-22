@@ -409,13 +409,13 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         if (!this.isVisible()) {
             return false;
         } else {
-            boolean flag = pMouseX >= (double)this.getX() && pMouseX < (double)(this.getX() + this.width) && pMouseY >= (double)this.getY() && pMouseY < (double)(this.getY() + this.height);
+            boolean flag = pMouseX >= (double)this.x && pMouseX < (double)(this.x + this.width) && pMouseY >= (double)this.y && pMouseY < (double)(this.y + this.height);
             if (this.canLoseFocus) {
                 this.setFocus(flag);
             }
 
             if (this.isFocused() && flag && pButton == 0) {
-                int i = Mth.floor(pMouseX) - this.getX();
+                int i = Mth.floor(pMouseX) - this.x;
                 if (this.bordered) {
                     i -= 4;
                 }
@@ -436,13 +436,12 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         this.setFocused(pIsFocused);
     }
 
-    @Override
-    public void renderWidget(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.isVisible()) {
             if (this.isBordered()) {
                 int i = this.isFocused() ? -1 : -6250336;
-                fill(pPoseStack, this.getX() - 1, this.getY() - 1, this.getX() + this.width + 1, this.getY() + this.height + 1, i);
-                fill(pPoseStack, this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, -16777216);
+                fill(pPoseStack, this.x - 1, this.y - 1, this.x + this.width + 1, this.y + this.height + 1, i);
+                fill(pPoseStack, this.x, this.y, this.x + this.width, this.y + this.height, -16777216);
             }
 
             int i2 = this.isEditable ? this.textColor : this.textColorUneditable;
@@ -451,8 +450,8 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
             String s = this.font.plainSubstrByWidth(this.value.substring(this.displayPos), this.getInnerWidth());
             boolean flag = j >= 0 && j <= s.length();
             boolean flag1 = this.isFocused() && this.frame / 6 % 2 == 0 && flag;
-            int l = this.bordered ? this.getX() + 4 : this.getX();
-            int i1 = this.bordered ? this.getY() + (this.height - 8) / 2 : this.getY();
+            int l = this.bordered ? this.x + 4 : this.x;
+            int i1 = this.bordered ? this.y + (this.height - 8) / 2 : this.y;
             int j1 = l;
             if (k > s.length()) {
                 k = s.length();
@@ -512,19 +511,19 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
             pEndY = j;
         }
 
-        if (pEndX > this.getX() + this.width) {
-            pEndX = this.getX() + this.width;
+        if (pEndX > this.x + this.width) {
+            pEndX = this.x + this.width;
         }
 
-        if (pStartX > this.getX() + this.width) {
-            pStartX = this.getX() + this.width;
+        if (pStartX > this.x + this.width) {
+            pStartX = this.x + this.width;
         }
 
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tesselator.getBuilder();
         RenderSystem.setShader(GameRenderer::getPositionShader);
         RenderSystem.setShaderColor(0.0F, 0.0F, 1.0F, 1.0F);
-       // RenderSystem.disableTexture();
+        RenderSystem.disableTexture();
         RenderSystem.enableColorLogicOp();
         RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
@@ -535,7 +534,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         tesselator.end();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableColorLogicOp();
-     //   RenderSystem.enableTexture();
+        RenderSystem.enableTexture();
     }
 
     /**
@@ -593,12 +592,12 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         this.textColorUneditable = pColor;
     }
 
-    /*public boolean changeFocus(boolean pFocus) {
+    public boolean changeFocus(boolean pFocus) {
         return this.visible && this.isEditable ? super.changeFocus(pFocus) : false;
-    }*/
+    }
 
     public boolean isMouseOver(double pMouseX, double pMouseY) {
-        return this.visible && pMouseX >= (double)this.getX() && pMouseX < (double)(this.getX() + this.width) && pMouseY >= (double)this.getY() && pMouseY < (double)(this.getY() + this.height);
+        return this.visible && pMouseX >= (double)this.x && pMouseX < (double)(this.x + this.width) && pMouseY >= (double)this.y && pMouseY < (double)(this.y + this.height);
     }
 
     protected void onFocusedChanged(boolean pFocused) {
@@ -682,11 +681,11 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
     }
 
     public int getScreenX(int p_94212_) {
-        return p_94212_ > this.value.length() ? this.getX() : this.getX() + this.font.width(this.value.substring(0, p_94212_));
+        return p_94212_ > this.value.length() ? this.x : this.x + this.font.width(this.value.substring(0, p_94212_));
     }
 
     @Override
-    public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {
+    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
         pNarrationElementOutput.add(NarratedElementType.TITLE, Component.translatable("narration.edit_box", this.getValue()));
     }
 
@@ -695,5 +694,4 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

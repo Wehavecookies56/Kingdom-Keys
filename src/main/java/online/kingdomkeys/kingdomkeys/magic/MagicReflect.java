@@ -18,7 +18,7 @@ public class MagicReflect extends Magic {
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setReflectTicks((int) (40 + (level * 5)), level);
-		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level.playSound(null, player.blockPosition(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swing(InteractionHand.MAIN_HAND);
 	}

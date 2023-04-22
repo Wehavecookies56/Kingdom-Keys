@@ -2,15 +2,17 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Quaternion;
+
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -57,15 +59,15 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			}
 
 			matrixStack.translate(0.5F, height, 0.5F);
-			matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
+			matrixStack.mulPose(new Quaternion(new Vector3f(0, 1, 0), rotation, true));
 			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
 			if(tileEntity.isFlipped()) {
-	        	matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
+	        	matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
 				matrixStack.translate(0, -0.6F, 0);
 
 			}
 			BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
-			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
+			renderItem.render(toRender, TransformType.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
 	}

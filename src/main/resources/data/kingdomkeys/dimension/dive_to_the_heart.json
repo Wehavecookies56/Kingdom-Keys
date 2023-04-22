@@ -1,10 +1,13 @@
 {
   "type": "kingdomkeys:dive_to_the_heart",
   "generator": {
-    "type": "kingdomkeys:dive_to_the_heart_generator",
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "kingdomkeys:dive_to_the_heart"
+      "type": "kingdomkeys:dive_to_the_heart_biome_source"
+    },
+    "type": "kingdomkeys:dive_to_the_heart_generator",
+    "structures": {
+      "structures": {
+      }
     }
   }
 }

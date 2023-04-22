@@ -106,22 +106,10 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
 	
-			addRenderableWidget(togglePriv = Button.builder(Component.translatable(""), (e) -> {
-				action("togglePriv");
-			}).bounds((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20).build());
-			
-			addRenderableWidget(size = Button.builder(Component.translatable(""), (e) -> {
-				action("size");
-			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20).build());
-			
-			addRenderableWidget(toggleFF = Button.builder(Component.translatable(""), (e) -> {
-				action("ff");
-			}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
-			
-			addRenderableWidget(accept = Button.builder(Component.translatable(""), (e) -> {
-				action("accept");
-			}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20).build());
-			
+			addRenderableWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, Component.translatable(""), (e) -> { action("togglePriv"); }));
+			addRenderableWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, Component.translatable(pSize+""), (e) -> { action("size"); }));
+			addRenderableWidget(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, Component.translatable(""), (e) -> { action("ff"); }));
+			addRenderableWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
 		

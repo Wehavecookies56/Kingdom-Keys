@@ -25,7 +25,6 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,7 +36,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
 
@@ -105,7 +103,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!this.level.isClientSide) {
-            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getMsgId().equals(KKResistanceType.fire.toString()))) {
+            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getDirectEntity() instanceof FireEntity)) {
                 explode();
             }
         }
@@ -124,7 +122,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
+            Explosion.BlockInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             this.level.explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);

@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "group": "kingdomkeys",
   "key": {
     "N": {
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "kingdomkeys:normal_blox"
-  },
-  "show_notification": true
+  }
 }

@@ -131,7 +131,6 @@ public class CSAttackOffhandPacket {
 
 	               Vec3 vec3d = targetEntity.getDeltaMovement();
 	               boolean flag5 = targetEntity.hurt(KeybladeDamageSource.causeOffhandKeybladeDamage(player), damage);
-	               
 	               if (flag5) {
 	                  if (i > 0) {
 	                     if (targetEntity instanceof LivingEntity) {

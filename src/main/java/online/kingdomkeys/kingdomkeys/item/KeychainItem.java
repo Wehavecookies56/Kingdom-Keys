@@ -31,7 +31,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	KeybladeItem keyblade;
 	
     public KeychainItem() {
-        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().stacksTo(1));
+        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().tab(KingdomKeys.keybladesGroup).stacksTo(1));
     }
     
     public void setKeyblade(KeybladeItem kb) {

@@ -77,7 +77,6 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 				ability = Utils.translateToLocal(a.getTranslationKey());
 			}
 		}
-
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
 		if(form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
@@ -99,8 +98,8 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		details.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		keyblades.draw(matrixStack);
+		details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}

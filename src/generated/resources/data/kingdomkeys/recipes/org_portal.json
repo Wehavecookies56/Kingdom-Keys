@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "group": "kingdomkeys",
   "key": {
     "C": {
@@ -23,6 +22,5 @@
   ],
   "result": {
     "item": "kingdomkeys:org_portal"
-  },
-  "show_notification": true
+  }
 }

@@ -2,12 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Axis;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -37,7 +35,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 	            matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 	            this.scale(entityIn, matrixStackIn, partialTicks);
 	            matrixStackIn.translate(0.5D, (double) -1.501F, -0.5D);
-	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
+	            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
 	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), 1.0F, 1.0F, 1.0F, entityIn.isFakeMoogle() ? 0.5F : 1.0F);
             }
             matrixStackIn.pushPose();

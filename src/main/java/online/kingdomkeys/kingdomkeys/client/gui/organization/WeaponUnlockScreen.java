@@ -91,21 +91,10 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        
-        addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
-    		actionPerformed(CANCEL);
-		}).bounds(0, 0, 50, 20).build());
-        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
-    		actionPerformed(NEXT);
-		}).bounds(0, 0, 20, 20).build());
-        
-        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
-    		actionPerformed(PREV);
-		}).bounds(0, 0, 20, 20).build());
-
-        addRenderableWidget(select = Button.builder(Component.translatable("Unlock"), (e) -> {
-    		actionPerformed(SELECT);
-		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(cancel = new Button(0, 0, 50, 20, Component.translatable("Back"), p -> actionPerformed(CANCEL)));
+        addRenderableWidget(next = new Button(0, 0, 20, 20, Component.translatable(">"), p -> actionPerformed(NEXT)));
+        addRenderableWidget(prev = new Button(0, 0, 20, 20, Component.translatable("<"), p -> actionPerformed(PREV)));
+        addRenderableWidget(select = new Button(0, 0, 50, 20, Component.translatable("Unlock"), p -> actionPerformed(SELECT)));
         updateButtons();
     }
 
@@ -249,16 +238,16 @@ public class WeaponUnlockScreen extends Screen {
             }
         }
         next.visible = true;
-        next.setX((width / 2) - (next.getWidth() / 2) + 128);
-        next.setY((height / 2) - (next.getHeight() / 2));
+        next.x = (width / 2) - (next.getWidth() / 2) + 128;
+        next.y = (height / 2) - (next.getHeight() / 2);
         prev.visible = true;
-        prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
-        prev.setY((height / 2) - (prev.getHeight() / 2));
+        prev.x = (width / 2) - (prev.getWidth() / 2) - 128;
+        prev.y = (height / 2) - (prev.getHeight() / 2);
         select.visible = true;
-        select.setX((width / 2) - (select.getWidth() / 2));
-        select.setY((height / 2) - (select.getHeight() / 2) + 90);
+        select.x = (width / 2) - (select.getWidth() / 2);
+        select.y = (height / 2) - (select.getHeight() / 2) + 90;
         cancel.visible = true;
-        cancel.setX((width / 2) - (select.getWidth() / 2));
-        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
+        cancel.x = (width / 2) - (select.getWidth() / 2);
+        cancel.y = (height / 2) - (select.getHeight() / 2) + 115;
     }
 }

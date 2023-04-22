@@ -19,6 +19,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -28,7 +29,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -508,8 +508,8 @@ public class ClientUtils {
         drawStringScaled(matrixStack, gui, x, y, text, colour, scaleXY, scaleXY);
     }
 
-    public static void drawSplitString(PoseStack poseStack, Font fontRenderer, String text, int x, int y, int len, int color) {
-        fontRenderer.drawWordWrap(poseStack, FormattedText.of(text), x, y, len, color);
+    public static void drawSplitString(Font fontRenderer, String text, int x, int y, int len, int color) {
+        fontRenderer.drawWordWrap(FormattedText.of(text), x, y, len, color);
     }
 
     public static void drawItemAsIcon(ItemStack itemStack, PoseStack poseStack, int positionX, int positionY, int size) {
@@ -534,7 +534,7 @@ public class ClientUtils {
             Lighting.setupForFlatItems();
         }
 
-        itemRenderer.render(itemStack, ItemDisplayContext.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
+        itemRenderer.render(itemStack, ItemTransforms.TransformType.GUI, false, poseStack, multibuffersource$buffersource, 15728880, OverlayTexture.NO_OVERLAY, itemBakedModel);
         multibuffersource$buffersource.endBatch();
         if (flag) {
             Lighting.setupFor3DItems();

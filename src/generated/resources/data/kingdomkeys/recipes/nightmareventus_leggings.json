@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "group": "kingdomkeys",
   "key": {
     "A": {
@@ -17,6 +16,5 @@
   ],
   "result": {
     "item": "kingdomkeys:nightmareventus_leggings"
-  },
-  "show_notification": true
+  }
 }

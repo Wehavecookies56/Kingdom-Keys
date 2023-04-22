@@ -4,7 +4,7 @@
 	"model": "kingdomkeys:models/block/data_portal.obj",
 	"flip-v" : true,
 	"transform":{
-		"translation": [ -0.9, -1.36, -1.40 ],
+		"translation": [ -0.4, -1, -0.94 ],
 		"scale": [ 0.1, 0.1, 0.079 ]
 	},
 	"textures": {

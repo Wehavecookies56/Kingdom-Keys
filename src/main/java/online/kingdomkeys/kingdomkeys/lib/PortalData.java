@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.lib;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,11 +14,11 @@ public class PortalData {
     String name;
     BlockPos pos;
     ResourceKey<Level> dimKey;
-    //TODO fix casting
+
     public PortalData(UUID id, String name, double x, double y, double z, ResourceKey<Level> dimID, UUID ownerID) {
     	this.uuid = id;
     	this.name = name;
-    	this.pos = new BlockPos((int) x, (int) y, (int) z);
+    	this.pos = new BlockPos(x,y,z);
         this.dimKey = dimID;
         this.ownerID = ownerID;
     }
@@ -81,11 +81,9 @@ public class PortalData {
 	public void read(CompoundTag nbt) {
 		this.setUUID(nbt.getUUID("uuid"));
 		this.setName(nbt.getString("name"));
-
-        //TODO fix casting
-		this.setPos(new BlockPos((int) nbt.getDouble("x"), (int) nbt.getDouble("y"), (int) nbt.getDouble("z")));
+		this.setPos(new BlockPos(nbt.getDouble("x"),nbt.getDouble("y"), nbt.getDouble("z")));
 		ResourceLocation rl = new ResourceLocation(nbt.getString("dim"));
-		this.setDimID(ResourceKey.create(Registries.DIMENSION,rl));
+		this.setDimID(ResourceKey.create(Registry.DIMENSION_REGISTRY,rl));
 		this.setOwnerID(nbt.getUUID("owner"));
 	}
 

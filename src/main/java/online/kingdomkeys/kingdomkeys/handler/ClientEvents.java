@@ -3,14 +3,15 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import com.mojang.math.Axis;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -33,8 +35,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -160,7 +162,7 @@ public class ClientEvents {
 				if(playerData != null) {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
-						event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+						event.getPoseStack().mulPose(Vector3f.YP.rotationDegrees(player.tickCount*80));
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
@@ -209,11 +211,11 @@ public class ClientEvents {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					
 					if(focusingTicks == 5) {
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
 					
@@ -231,11 +233,11 @@ public class ClientEvents {
 	
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									playerData.addShotlockEnemy(ertr.getEntity().getId());
-									event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 	
 									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
-										event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+										event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
 							}
@@ -248,7 +250,7 @@ public class ClientEvents {
 							// Send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
-								event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+								event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 								PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
 								cooldownTicks = 100;
 								focusing = false;
@@ -363,7 +365,7 @@ public class ClientEvents {
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.disableBlend();
-        //RenderSystem.enableTexture(); //TODO disabled dis for 1.19.4, might not be the best way
+        RenderSystem.enableTexture();
         
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);

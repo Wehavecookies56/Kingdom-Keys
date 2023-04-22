@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
 public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 
@@ -58,9 +57,9 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
     public boolean hurt(DamageSource source, float amount) {
         float multiplier = 1;
         if(!this.level.isClientSide) {
-            if(source.getMsgId().equals(KKResistanceType.ice.toString()))
+            if(source instanceof IceDamageSource)
                 multiplier = 2;
-            if(source.getMsgId().equals(KKResistanceType.fire.toString()))
+            if(source instanceof FireDamageSource)
             	return false;
         }
         return super.hurt(source, amount * multiplier);
@@ -134,7 +133,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 							this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
 							for (LivingEntity enemy : EntityHelper.getEntitiesNear(this.mob, 4))
-								enemy.hurt(enemy.damageSources().mobAttack(this.mob), 4);
+								enemy.hurt(DamageSource.mobAttack(this.mob), 4);
 						} else {
 							return;
 						}

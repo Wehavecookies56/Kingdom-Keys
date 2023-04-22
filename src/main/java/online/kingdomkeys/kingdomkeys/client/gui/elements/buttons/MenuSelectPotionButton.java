@@ -65,7 +65,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Font fr = minecraft.font;
-		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
+		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.CONSUMABLE;
@@ -84,11 +84,11 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-			matrixStack.translate(getX() + 0.6F, getY(), 0);
+			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
-				blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
+				blit(matrixStack, 17 + i, 0, 184, 34, 2, 28);
 			}
 			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -100,20 +100,20 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			} else {
 				itemName = stack.getHoverName().getString();
 				String amount = "x"+parent.addedItemsList.get(stack.getItem());
-				drawString(matrixStack, minecraft.font,ChatFormatting.YELLOW+ amount, getX() + width - minecraft.font.width(amount)-3, getY() + 3, 0xFFFFFF);
+				drawString(matrixStack, minecraft.font,ChatFormatting.YELLOW+ amount, x + width - minecraft.font.width(amount)-3, y + 3, 0xFFFFFF);
 			}
-			drawString(matrixStack, minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, itemName, x + 15, y + 3, 0xFFFFFF);
 			if (selected || isHovered) { //Render stuff on the right
 				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					
-					matrixStack.translate(getX() + 0.6F, getY(), 0);
+					matrixStack.translate(x + 0.6F, y, 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-						blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
+						blit(matrixStack, 17 + i, 0, 146, 34, 2, 28);
 					}
 					blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
@@ -168,7 +168,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
 */
-					ClientUtils.drawSplitString(matrixStack, minecraft.font, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
+					ClientUtils.drawSplitString(minecraft.font, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();

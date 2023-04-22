@@ -5,7 +5,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class AssassinGoal extends TargetGoal {
@@ -93,7 +92,7 @@ public class AssassinGoal extends TargetGoal {
 	}
 
 	private void explode() {
-        mob.level.explode(mob, mob.getX(), mob.getY(), mob.getZ(), 6, false, Level.ExplosionInteraction.NONE);
+        mob.level.explode(mob, mob.getX(), mob.getY(), mob.getZ(), 6, false, Explosion.BlockInteraction.NONE);
         mob.remove(Entity.RemovalReason.KILLED);
 	}
 

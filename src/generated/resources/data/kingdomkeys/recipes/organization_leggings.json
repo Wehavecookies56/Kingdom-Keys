@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "group": "kingdomkeys",
   "key": {
     "A": {
@@ -23,6 +22,5 @@
   ],
   "result": {
     "item": "kingdomkeys:organization_leggings"
-  },
-  "show_notification": true
+  }
 }

@@ -4,10 +4,9 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Axis;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -17,7 +16,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -49,7 +47,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
         ItemStack itemstack = entityIn.getItem();
         BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level, null, 1);
         poseStack.translate(0, 0.4, 0);
-        poseStack.mulPose(Axis.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
 
         if(itemstack.getItem() instanceof ChakramItem) {
         	float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
@@ -59,8 +57,8 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
         		poseStack.scale(0.04f, 0.04f, 0.04f);        
 
 	        if(entityIn.getRotationPoint() == 0) {
-	        	poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
-	            poseStack.mulPose(Axis.XN.rotation(rotation));
+	        	poseStack.mulPose(Vector3f.ZP.rotationDegrees(90F));
+	            poseStack.mulPose(Vector3f.XN.rotation(rotation));
 			}
 			
 			if(entityIn.getRotationPoint() == 1) {
@@ -68,26 +66,26 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 			}
 			
 			if(entityIn.getRotationPoint() == 2) {
-	        	poseStack.mulPose(Axis.XP.rotationDegrees(90F));
-	            poseStack.mulPose(Axis.ZP.rotation(rotation));
+	        	poseStack.mulPose(Vector3f.XP.rotationDegrees(90F));
+	            poseStack.mulPose(Vector3f.ZP.rotation(rotation));
 			}
 		} else if (itemstack.getItem() instanceof KeybladeItem) {
 			poseStack.scale(2, 2, 2);
-			poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+			poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 			
 		} else if (itemstack.getItem() instanceof ScytheItem) {
 	        if(entityIn.getRotationPoint() == 0) {
 				poseStack.scale(10, 10, 10);
 
-				poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
-				poseStack.mulPose(Axis.XP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+				poseStack.mulPose(Vector3f.YP.rotationDegrees(-90F));
+				poseStack.mulPose(Vector3f.XP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 	        }
 	        
 	        if(entityIn.getRotationPoint() == 1) {
 				poseStack.scale(2,2,2);
 
-				poseStack.mulPose(Axis.YP.rotationDegrees(0F));
-				poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+				poseStack.mulPose(Vector3f.YP.rotationDegrees(0F));
+				poseStack.mulPose(Vector3f.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 	        }
 	        
 	        switch(ForgeRegistries.ITEMS.getKey(entityIn.getItem().getItem()).getPath()) {
@@ -100,7 +98,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	        }
         }
         
-        itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
+        itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemTransforms.TransformType.NONE : ItemTransforms.TransformType.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
     
         poseStack.popPose();
     

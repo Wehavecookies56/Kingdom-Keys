@@ -2,8 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import java.util.List;
 
-import org.joml.Vector3f;
-
+import com.mojang.math.Vector3f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -175,8 +174,7 @@ public class MarluxiaGoal extends TargetGoal {
 				double pX = mob.getTarget().getX() - 3 + rand.nextDouble() * 6;
 				double pY = mob.getTarget().getY();
 				double pZ = mob.getTarget().getZ() - 3 + rand.nextDouble() * 6;
-				//TODO fix cast
-				mob.level.playSound(null, new BlockPos((int) pX, (int) pY, (int) pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
+				mob.level.playSound(null, new BlockPos(pX,pY,pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
 
 				for(double i=0;i<4;i=i+0.5) {
 					for (int a = 1; a <= 360; a += 7) {
@@ -191,7 +189,7 @@ public class MarluxiaGoal extends TargetGoal {
 	    		list.remove(mob);
 	    		
 	            for(LivingEntity enemy : list) {
-	            	enemy.hurt(enemy.damageSources().magic(), 3);
+	            	enemy.hurt(DamageSource.MAGIC, 3);
 				}						
 			}
 		} else if(chasingTicks >= 300) {
@@ -212,7 +210,7 @@ public class MarluxiaGoal extends TargetGoal {
 			if(this.mob.getTarget() instanceof Player)
 				((Player)this.mob.getTarget()).travel(new Vec3(0,2,0));
 			this.mob.getTarget().setDeltaMovement(0,1.2,0);
-        	mob.getTarget().hurt(mob.getTarget().damageSources().magic(), 2);
+			mob.getTarget().hurt(DamageSource.MAGIC, 2);
 		} else {
 			EntityHelper.setState(mob, 0);
 		}

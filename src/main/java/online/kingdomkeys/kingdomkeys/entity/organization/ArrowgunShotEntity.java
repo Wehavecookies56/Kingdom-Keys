@@ -92,7 +92,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
 						}
 					}*/
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}
 			} else { // Block (not ERTR)

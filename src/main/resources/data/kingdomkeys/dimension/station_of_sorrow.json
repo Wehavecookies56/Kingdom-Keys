@@ -1,10 +1,13 @@
 {
   "type": "kingdomkeys:station_of_sorrow",
   "generator": {
-    "type": "kingdomkeys:station_of_sorrow_generator",
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "kingdomkeys:station_of_sorrow"
+      "type": "kingdomkeys:station_of_sorrow_biome_source"
+    },
+    "type": "kingdomkeys:station_of_sorrow_generator",
+    "structures": {
+      "structures": {
+      }
     }
   }
 }

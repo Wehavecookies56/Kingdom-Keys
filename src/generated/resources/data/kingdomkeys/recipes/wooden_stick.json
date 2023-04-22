@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "group": "kingdomkeys",
   "key": {
     "S": {
@@ -14,6 +13,5 @@
   ],
   "result": {
     "item": "kingdomkeys:wooden_stick"
-  },
-  "show_notification": true
+  }
 }

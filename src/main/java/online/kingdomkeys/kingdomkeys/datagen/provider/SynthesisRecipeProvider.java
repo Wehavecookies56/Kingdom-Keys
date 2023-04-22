@@ -2,11 +2,8 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -18,7 +15,7 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
+import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
@@ -57,28 +54,30 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public void run(CachedOutput cache) throws IOException {
         clear();
         registerRecipe();
-        return generateAll(cache);
+        generateAll(cache);
     }
 
     @Override
     public String getName() {
-        return "Synthesis Recipes";
+        return "Recipes";
     }
 
-    protected CompletableFuture<?> generateAll(CachedOutput cache) {
-        List<CompletableFuture<?>> list = new ArrayList<>();
+    protected void generateAll(CachedOutput cache) {
         for (T model : generatedModels.values()) {
             Path target = getPath(model);
-            list.add(DataProvider.saveStable(cache, model.toJson(), target));
+            try {
+                DataProvider.saveStable(cache, model.toJson(), target);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
 
     private Path getPath(T model) {
         ResourceLocation loc = model.getLocation();
-        return generator.getPackOutput().createPathProvider(PackOutput.Target.DATA_PACK, "synthesis").json(loc);
+        return generator.getOutputFolder().resolve("data/" + loc.getNamespace() + "/synthesis/" + loc.getPath() + ".json");
     }
 }

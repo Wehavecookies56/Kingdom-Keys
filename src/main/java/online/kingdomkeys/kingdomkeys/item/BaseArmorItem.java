@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -24,8 +26,8 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 	String textureName;
 	
-	public BaseArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
-		super(materialIn, slot, new Item.Properties());
+	public BaseArmorItem(KKArmorMaterial materialIn, EquipmentSlot slot, String textureName) {
+		super(materialIn, slot, new Item.Properties().tab(KingdomKeys.miscGroup));
 		this.textureName = textureName;
 	}
 

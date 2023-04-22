@@ -2,19 +2,18 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
-import org.jline.reader.Widget;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.network.chat.Component;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
@@ -151,7 +150,6 @@ public class MenuBackground extends Screen {
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawBars(matrixStack);
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawMunnyTime(matrixStack);
 		drawBiomeDim(matrixStack);
 		drawTip(matrixStack);
@@ -174,7 +172,7 @@ public class MenuBackground extends Screen {
 	}
 
 	private void clearButtons() {
-		for(Renderable btn : renderables) {
+		for(Widget btn : renderables) {
 			if(btn instanceof MenuButtonBase) {
 				((MenuButtonBase) btn).setSelected(false);
 			}
@@ -256,7 +254,7 @@ public class MenuBackground extends Screen {
 	public void drawTip (PoseStack matrixStack) {
 		tip = null;
 
-		for(Renderable btn : renderables) {
+		for(Widget btn : renderables) {
 			if(btn instanceof MenuButtonBase) {
 				if(((MenuButtonBase) btn).isHoveredOrFocused()) {
 					selected = -1;
@@ -272,7 +270,7 @@ public class MenuBackground extends Screen {
 		if(tip != null) {
 			matrixStack.pushPose();
 			{
-				ClientUtils.drawSplitString(matrixStack, font, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
+				ClientUtils.drawSplitString(font, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
 			}
 			matrixStack.popPose();
 		}

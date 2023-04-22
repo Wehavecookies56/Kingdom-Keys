@@ -14,7 +14,7 @@ import java.util.TreeMap;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -244,7 +244,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setSacrifice(SoAState.fromByte(nbt.getByte("soa_sacrifice")));
 		CompoundTag returnCompound = nbt.getCompound("soa_return_pos");
 		this.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
-		this.setReturnDimension(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("soa_return_dim"))));
+		this.setReturnDimension(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(nbt.getString("soa_return_dim"))));
 		CompoundTag choicePedestal = nbt.getCompound("soa_choice_pedestal");
 		this.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));
 		CompoundTag sacrificePedestal = nbt.getCompound("soa_sacrifice_pedestal");
@@ -631,7 +631,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		if(sound)
-			player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
@@ -672,7 +672,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(baseAbility,name);
 		}
 
-		player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+		player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 
 		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}

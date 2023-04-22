@@ -1,12 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.render.org;
 
-import javax.annotation.Nullable;
+import java.util.Random;
 
-import com.mojang.math.Axis;
+import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -53,11 +54,11 @@ public class LanceEntityRenderer extends EntityRenderer<LanceEntity> {
 					float a = 1;
 					float rgb = 1;
 					
-					matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
 					if(entity.getRotationPoint() == 2)
-						matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO) + 270));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO) + 270));
 					else if(entity.getRotationPoint() == 0) {
-						matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO) + 90));
+						matrixStackIn.mulPose(Vector3f.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO) + 90));
 					}
 					for (BakedQuad quad : model.getQuads(null, null, rand, ModelData.EMPTY, RenderType.translucent())) {
 						buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);

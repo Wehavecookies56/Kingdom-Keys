@@ -55,7 +55,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 		float middleHeight = (float) height * 0.6F;
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		buttonsX = box.getX() + 10;
+		buttonsX = box.x + 10;
 		
 		super.init();
 		this.renderables.clear();

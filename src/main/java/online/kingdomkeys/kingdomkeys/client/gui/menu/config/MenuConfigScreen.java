@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -114,7 +113,7 @@ public class MenuConfigScreen extends MenuBackground {
 		float middleHeight = (float) height * 0.6F;
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		buttonsX = box.getX() + 10;
+		buttonsX = box.x + 10;
 		
 		super.init();
 		this.renderables.clear();
@@ -146,6 +145,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initCommandMenu() {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		int pos = 0;
+
 		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -168,12 +168,6 @@ public class MenuConfigScreen extends MenuBackground {
 				super.keyPressed(keyCode, scanCode, modifiers);
 				ModConfigs.setCmXScale(Utils.getInt(getValue()));
 				return true;
-			}
-			
-			@Override
-			public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
 			}
 			
 		});
@@ -256,10 +250,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.translatable(cmHeaderTextVisible+""), (e) -> {
-			 action("textHeaderVisibility");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
-
+		addRenderableWidget(cmHeaderTextVisibleButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(cmHeaderTextVisible+""), (e) -> { action("textHeaderVisibility"); }));
 		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -359,10 +350,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable(hpShowHearts+""), (e) -> {
-			 action("hpShowHearts");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
-		
+		addRenderableWidget(hpShowHeartsButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(hpShowHearts+""), (e) -> { action("hpShowHearts"); }));
 		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -1115,14 +1103,14 @@ public class MenuConfigScreen extends MenuBackground {
 
 		});
 
-		addRenderableWidget(Import = Button.builder(Component.translatable("gui.menu.config.impexp.import"), (e) -> {
+		addRenderableWidget(Import = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20, Component.translatable("gui.menu.config.impexp.import"), (e) -> {
 			readImportCode(importCode.getValue());
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#######")+2, 20).build());
+		}));
 
-		addRenderableWidget(export = Button.builder(Component.translatable("gui.menu.config.impexp.export"), (e) -> {
+		addRenderableWidget(export = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20, Component.translatable("gui.menu.config.impexp.export"), (e) -> {
 			Minecraft.getInstance().keyboardHandler.setClipboard(exportCode());
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("###################")+2, 20).build());
-		
+		}));
+
 		impExpList.add(importCode);
 		impExpList.add(Import);
 		impExpList.add(export);
@@ -1140,7 +1128,7 @@ public class MenuConfigScreen extends MenuBackground {
 		focusButton.active = window != ActualWindow.FOCUS;
 		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
 		
-		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		for(AbstractWidget b : commandMenuList) {
@@ -1191,7 +1179,7 @@ public class MenuConfigScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			int pos = 0;
-			matrixStack.translate(buttonsX, box.getY() + 4, 1);
+			matrixStack.translate(buttonsX, box.y + 4, 1);
 			
 			switch (window) {
 			case COMMAND_MENU:

@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -95,7 +94,7 @@ public class LockOnGui extends OverlayBase {
 
 					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
-					poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F)));
+					poseStack.mulPose(Vector3f.ZP.rotation((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F));
 					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
 					this.blit(poseStack, 0, 0, 0, 0, guiWidth, guiHeight);
 				}

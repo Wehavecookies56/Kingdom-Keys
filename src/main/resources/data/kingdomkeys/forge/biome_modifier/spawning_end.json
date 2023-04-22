@@ -6,7 +6,7 @@
 		{
 			"type": "kingdomkeys:moogle",
 			"weight": 2,
-			"minCount": 1,
+			"minCount": 0,
 			"maxCount": 1
 		},
 		{

@@ -32,11 +32,11 @@ public class MagicCure extends Magic {
 		float amount = playerData.getMaxHP() * getDamageMult(level);
 		switch(level) {
 		case 0:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 			break;
 		case 1:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
@@ -48,14 +48,14 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
-		            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
 			}
 			break;
 		case 2:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
@@ -66,7 +66,7 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
-		            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+		            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
@@ -74,7 +74,7 @@ public class MagicCure extends Magic {
 			}
 			break;
 		case 3:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			player.level.playSound(null, player.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			player.heal(amount);
 			player.getFoodData().eat(20, 10);
 
@@ -89,7 +89,7 @@ public class MagicCure extends Magic {
 			                	e.heal(amount);
 			        			if(e instanceof Player targetPlayer)
 			        				targetPlayer.getFoodData().eat(20, 10);
-			            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			            		player.level.playSound(null, e.blockPosition(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			                }
 		            	}
 		            }

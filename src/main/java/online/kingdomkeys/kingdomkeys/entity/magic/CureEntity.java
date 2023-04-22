@@ -64,7 +64,31 @@ public class CureEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		remove(RemovalReason.KILLED);
+		if (!level.isClientSide) {
+
+			EntityHitResult ertResult = null;
+			BlockHitResult brtResult = null;
+
+			if (rtRes instanceof EntityHitResult) {
+				ertResult = (EntityHitResult) rtRes;
+			}
+
+			if (rtRes instanceof BlockHitResult) {
+				brtResult = (BlockHitResult) rtRes;
+			}
+
+			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
+
+				LivingEntity target = (LivingEntity) ertResult.getEntity();
+				if (target != getOwner()) {
+					target.setSecondsOnFire(10);
+					target.hurt(DamageSource.thrown(this, this.getOwner()), 10);
+					remove(RemovalReason.KILLED);
+				}
+			} else { // Block (not ERTR)
+				remove(RemovalReason.KILLED);
+			}
+		}
 	}
 
 	public int getMaxTicks() {

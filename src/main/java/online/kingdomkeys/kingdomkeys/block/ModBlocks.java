@@ -79,9 +79,9 @@ public class ModBlocks {
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
             
-            rodSand = createNewBlock("rod_sand", Block.Properties.of(Material.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
-            rodStone = createNewBlock("rod_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F)),
-            rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F))
+    		 rodSand = createNewBlock("rod_sand", Block.Properties.of(Material.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
+             rodStone = createNewBlock("rod_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F)),
+             rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F))
     ;
 
     /**
@@ -109,12 +109,12 @@ public class ModBlocks {
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(KingdomKeys.miscGroup));
         ModItems.ITEMS.register(name, item);
     }
 
     private static <T extends Block> void createNewBlockItem(String name, Supplier<? extends T> block, CreativeModeTab tab) {
-        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties());
+        Supplier<BlockItem> item = () -> new BlockItem(Objects.requireNonNull(block.get()), new Item.Properties().tab(tab));
         ModItems.ITEMS.register(name, item);
     }
 }

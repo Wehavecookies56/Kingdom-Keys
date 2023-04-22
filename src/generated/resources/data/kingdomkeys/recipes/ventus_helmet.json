@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "group": "kingdomkeys",
   "key": {
     "A": {
@@ -19,6 +18,5 @@
   ],
   "result": {
     "item": "kingdomkeys:ventus_helmet"
-  },
-  "show_notification": true
+  }
 }

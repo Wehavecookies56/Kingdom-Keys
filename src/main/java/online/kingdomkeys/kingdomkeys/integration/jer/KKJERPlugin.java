@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.jer;
 
-/*
 import jeresources.api.IJERAPI;
 import jeresources.api.IJERPlugin;
 import jeresources.api.JERPlugin;
@@ -21,4 +20,3 @@ public class KKJERPlugin implements IJERPlugin {
         setup(ijerapi);
     }
 }
-*/

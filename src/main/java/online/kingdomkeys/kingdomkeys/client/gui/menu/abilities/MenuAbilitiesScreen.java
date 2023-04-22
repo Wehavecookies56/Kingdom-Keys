@@ -322,15 +322,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
         addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
-        
-        addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
+
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
-		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
-        
-        addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
-			action("prev");
-		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
-        		
+		}));
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+			action("next");
+		}));
+		
 		prev.visible = false;
 		next.visible = false;
 		
@@ -339,7 +338,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		drawAP(matrixStack);
 		
@@ -349,7 +348,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		//Page renderer
 		matrixStack.pushPose();
 		{
-			matrixStack.translate(prev.getX()+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
+			matrixStack.translate(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
@@ -362,7 +361,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (i < abilities.size()) {
 				if (abilities.get(i) != null) {
 					abilities.get(i).visible = true;
-					abilities.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 19 + 2); // 6 = offset
+					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
 			}
@@ -373,12 +372,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
-			renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
+			renderSelectedData(mouseX, mouseY, partialTicks);
 		}
 	}
 
-	protected void renderSelectedData(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-		ClientUtils.drawSplitString(poseStack, font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
+	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
+		ClientUtils.drawSplitString(font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP(PoseStack matrixStack) {

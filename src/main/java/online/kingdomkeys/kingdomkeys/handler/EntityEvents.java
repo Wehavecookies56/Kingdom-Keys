@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -62,7 +62,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
-import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -358,7 +357,7 @@ public class EntityEvents {
 						playerData.setFP(playerData.getFP() - 0.3);
 					} else {
 						playerData.setActiveDriveForm(DriveForm.NONE.toString());
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						event.player.level.playSound(event.player, event.player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						if(!event.player.level.isClientSide) {
 							PacketHandler.syncToAllAround(event.player, playerData);
 						}
@@ -591,7 +590,7 @@ public class EntityEvents {
 						if(!list.isEmpty()) {
 							for(Entity e : list) {
 								if(event.getEntity() instanceof Player)
-									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
+									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.033F);
 							}
 						}
 					}
@@ -602,7 +601,7 @@ public class EntityEvents {
 						if(!list.isEmpty()) {
 							for(Entity e : list) {
 								if(event.getEntity() instanceof Player)
-									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
+									e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player)* 0.066F);
 							}
 						}
 					}
@@ -681,10 +680,10 @@ public class EntityEvents {
 						for (int i = 0; i < list.size(); i++) {
 							Entity e = (Entity) list.get(i);
 							if (e instanceof LivingEntity) {
-								e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
+								e.hurt(DamageSource.playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 							}
 						}
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
+						player.level.playSound(null, player.blockPosition(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 					playerData.setReflectActive(false); // Restart reflect
@@ -815,13 +814,13 @@ public class EntityEvents {
 				damage -= (damage * resistMultiplier);
 			}
 						
-			if(event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
+			if(event.getSource() instanceof FireDamageSource) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.fire.toString())) / 100F;
-			} else if (event.getSource().getMsgId().equals(KKResistanceType.ice.toString())) {
+			} else if (event.getSource() instanceof IceDamageSource) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.ice.toString())) / 100F;
-			} else if (event.getSource().getMsgId().equals(KKResistanceType.lightning.toString())) {
+			} else if (event.getSource() instanceof LightningDamageSource) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString())) / 100F;
-			} else if (event.getSource().getMsgId().equals(KKResistanceType.darkness.toString())) {
+			} else if (event.getSource() instanceof DarknessDamageSource) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;	
 			}
 			//System.out.println(damage);
@@ -879,7 +878,7 @@ public class EntityEvents {
 				
 				if (EntityHelper.getState(event.getEntity()) == 1) { // If marly is armored
 					damage = event.getAmount() * 0.1F;
-					if (event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
+					if (event.getSource() instanceof FireDamageSource) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
 				} else if (EntityHelper.getState(event.getEntity()) == 2) {
@@ -965,9 +964,9 @@ public class EntityEvents {
 		if(event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if(player.level.getLevelData().isHardcore())
-				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
 			else
-				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
+				player.level.playSound(null, player.blockPosition(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 
 		if (!event.getEntity().level.isClientSide) {
@@ -1076,8 +1075,8 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}
-			//TODO check if works
-			if(event.getEntity() instanceof MoogleEntity && event.getSource().getMsgId().equals("anvil")) {
+			
+			if(event.getEntity() instanceof MoogleEntity && event.getSource() == DamageSource.ANVIL) {
 				ItemEntity ie = new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
 				event.getEntity().level.addFreshEntity(ie);
 			}
@@ -1127,7 +1126,7 @@ public class EntityEvents {
 			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
 				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
-				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			}

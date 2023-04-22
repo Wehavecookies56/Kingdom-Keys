@@ -3,12 +3,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -174,7 +172,7 @@ public class PartyHUDGui extends OverlayBase {
 				// Bar
 				matrixStack.pushPose();
 				{
-					matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+					matrixStack.mulPose(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 					matrixStack.translate(-4, -15, 1);
 					matrixStack.scale(scale * 0.66F, (scale * 28) * val / max, 1);
 					this.blit(matrixStack, 0, 0, 0, 78, 12, 1);
@@ -215,7 +213,7 @@ public class PartyHUDGui extends OverlayBase {
 					// Bar
 					matrixStack.pushPose();
 					{
-						matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+						matrixStack.mulPose(Vector3f.ZP.rotation((float) Math.toRadians(180)));
 						matrixStack.translate(-4, -15, 1);
 						matrixStack.scale(scale / 3 * 2, (scale * 28) * val / max, 1);
 						this.blit(matrixStack, 0, 0, 0, 64, 12, 1);

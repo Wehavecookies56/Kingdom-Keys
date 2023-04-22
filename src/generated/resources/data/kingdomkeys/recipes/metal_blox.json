@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "group": "kingdomkeys",
   "key": {
     "H": {
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "kingdomkeys:metal_blox"
-  },
-  "show_notification": true
+  }
 }
