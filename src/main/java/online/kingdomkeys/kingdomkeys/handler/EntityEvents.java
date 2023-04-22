@@ -518,6 +518,14 @@ public class EntityEvents {
 
 		if (globalData != null) {
 			// Stop
+			
+			if (globalData.getStopModelTicks() > 0) {
+				globalData.setStopModelTicks(globalData.getStopModelTicks()-1);
+				if (globalData.getStopModelTicks() <= 0) {
+					PacketHandler.syncToAllAround(event.getEntity(), globalData);
+				}
+
+			}
 			if (globalData.getStoppedTicks() > 0) {
 				globalData.subStoppedTicks(1);
 

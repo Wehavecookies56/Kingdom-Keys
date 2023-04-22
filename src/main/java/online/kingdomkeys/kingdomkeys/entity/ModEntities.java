@@ -53,12 +53,14 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.DragoonModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.DuskModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ElementalMusicalHeartlessModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.LargeBodyModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.MagnetModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MarluxiaModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.NobodyCreeperModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
+import online.kingdomkeys.kingdomkeys.client.model.entity.StopModel;
 import online.kingdomkeys.kingdomkeys.client.render.block.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
@@ -93,6 +95,7 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MPOrbRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.MunnyRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowRainCoreEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.KKThrowableEntityRenderer;
@@ -390,9 +393,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAGA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDAZA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_MAGNET.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_MAGNERA.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_MAGNEGA.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_MAGNEGA.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATERA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATERGA.get(), InvisibleEntityRenderer::new);
@@ -485,6 +488,9 @@ public class ModEntities {
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_BOTTOM, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_TOP, () -> VentusModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_BOTTOM, () -> VentusModel.createBodyLayer(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
+        event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
+
     }
 
     @SubscribeEvent

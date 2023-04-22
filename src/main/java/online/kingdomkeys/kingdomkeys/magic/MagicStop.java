@@ -44,6 +44,13 @@ public class MagicStop extends Magic {
 				list.remove(e);
 			}
 		}
+		
+		//Cast stop model to player
+		IGlobalCapabilities casterGlobalData = ModCapabilities.getGlobal(caster);
+		if(casterGlobalData != null) {
+			casterGlobalData.setStopModelTicks(10);
+			PacketHandler.syncToAllAround(caster, casterGlobalData);
+		}
 
 		player.level.playSound(null, player.blockPosition(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 		if (!list.isEmpty()) {
