@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MagnetModel;
+import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
@@ -41,22 +42,38 @@ public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 
 			float rotation = prevRotationTicks + (ticks - prevRotationTicks) * partialTicks;
 
-			float speed;
-			float scale;
-			//TODO interpolate somehow cuz I forgor how
-			if(entity instanceof MagnetEntity) {
+			float speed = 0;
+			float scale = 0;
+			int maxTicks = 0;
+
+			if(entity instanceof MagnetEntity magnet) {
 				speed = 3;
 				scale = 2;
-			} else if (entity instanceof MagneraEntity){
+				maxTicks = magnet.getMaxTicks();
+			} else if (entity instanceof MagneraEntity magnera){
 				speed = 5;
 				scale = 3;
-			} else {
+				maxTicks = magnera.getMaxTicks();
+
+			} else if (entity instanceof MagnegaEntity magnega){
 				speed = 8;
 				scale = 4;
+				maxTicks = magnega.getMaxTicks();
+
+				System.out.println(entity.tickCount / 10F);
+				if(entity.tickCount < 30) {
+					scale = entity.tickCount / 10F;
+				}
+				if(entity.tickCount > maxTicks - 30) {
+					scale = (maxTicks - entity.tickCount) / 10F;
+				}
 			}
+			
+			
+			
 			//float r = 1, g = 0, b = 0;
 			VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-			matrixStackIn.translate(0, 0.5, 0);
+			matrixStackIn.translate(0, 1, 0);
 			
 			matrixStackIn.scale(scale, scale, scale);
             matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
