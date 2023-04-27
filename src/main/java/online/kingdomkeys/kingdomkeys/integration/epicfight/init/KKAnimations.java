@@ -5,6 +5,7 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
@@ -13,7 +14,7 @@ import yesman.epicfight.gameasset.Armatures;
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN,
             KK_SHIELD_AUTO_1, KK_SHIELD_AUTO_2, KK_SHIELD_AUTO_3, KH1_SORA_COMBO1, VALOR_IDLE, VALOR_AUTO_1, VALOR_AUTO_2,
-            VALOR_AUTO_3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1;
+            VALOR_AUTO_3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER;
 
 
     private KKAnimations() {
@@ -26,31 +27,49 @@ public class KKAnimations {
     }
 
     private static void build() {
-
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
-        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED);
+        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED) .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
-        WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.7F, KKColiders.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/wisdom_combo1", Armatures.BIPED)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.1F).addEvents(
-                        AnimationEvent.TimeStampedEvent.create(.2f, (ep, arr) -> {
-                                    Player player = (Player) ep.getOriginal();
-                                    Level world = player.getLevel();
-                                    if (!world.isClientSide)
-                                        WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
-                                }, AnimationEvent.Side.BOTH),
-                        AnimationEvent.TimeStampedEvent.create(.3f, (ep, arr) -> {
+        WISDOM_COMBO1 = new AttackAnimation(0.16F, 1.0F, 0.0f,  2.0F, 2.0F, null, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
+                        AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                             Player player = (Player) ep.getOriginal();
                             Level world = player.getLevel();
                             if (!world.isClientSide)
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
                         }, AnimationEvent.Side.BOTH),
-                        AnimationEvent.TimeStampedEvent.create(.6f, (ep, arr) -> {
+                        AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) -> {
+                            Player player = (Player) ep.getOriginal();
+                            Level world = player.getLevel();
+                            if (!world.isClientSide)
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
+                        }, AnimationEvent.Side.BOTH),
+                        AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) -> {
                             Player player = (Player) ep.getOriginal();
                             Level world = player.getLevel();
                             if (!world.isClientSide)
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
                         }, AnimationEvent.Side.BOTH));
-
+        WISDOM_FINISHER = new BasicAttackAnimation(0.16F, 1.0F, 2.0F, 2.0F, KKCollider.NO, Armatures.BIPED.toolR, "biped/combat/wisdom_shoot", Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
+                        AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
+                            Player player = (Player) ep.getOriginal();
+                            Level world = player.getLevel();
+                            if (!world.isClientSide)
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
+                        }, AnimationEvent.Side.BOTH),
+                        AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) -> {
+                            Player player = (Player) ep.getOriginal();
+                            Level world = player.getLevel();
+                            if (!world.isClientSide)
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
+                        }, AnimationEvent.Side.BOTH),
+                        AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) -> {
+                            Player player = (Player) ep.getOriginal();
+                            Level world = player.getLevel();
+                            if (!world.isClientSide)
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
+                        }, AnimationEvent.Side.BOTH));
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 
@@ -59,7 +78,7 @@ public class KKAnimations {
         ROXAS_IDLE = new StaticAnimation(true, "biped/living/roxas_idle", Armatures.BIPED);
         ROXAS_RUN = new StaticAnimation(true, "biped/living/roxas_run", Armatures.BIPED);
 
-        KH1_SORA_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.7F, KKColiders.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/kh1_sora_auto_1", Armatures.BIPED);
+        KH1_SORA_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.7F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/kh1_sora_auto_1", Armatures.BIPED);
 
         KK_SHIELD_AUTO_1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_1", Armatures.BIPED);
         KK_SHIELD_AUTO_2 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_2", Armatures.BIPED);

@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
 import yesman.epicfight.api.animation.types.StaticAnimation;
-import yesman.epicfight.skill.GuardSkill;
+import yesman.epicfight.skill.guard.GuardSkill;
 
 public class GuardObject {
     private final StaticAnimation guardHit;
