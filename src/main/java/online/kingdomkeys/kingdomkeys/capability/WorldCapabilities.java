@@ -68,7 +68,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		this.setPortals(portalList);
 	}
 	
-	List<Party> parties = new ArrayList<Party>();
+	private List<Party> parties = new ArrayList<Party>();
 	int heartlessSpawnLevel = 0;
 	Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
 
@@ -197,7 +197,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		String key = Utils.getResourceName(party.getName());
 		boolean found = false;
 		for(Party p : parties) {
-			if(p.getName().equalsIgnoreCase(key)) {
+			if(Utils.getResourceName(p.getName()).equalsIgnoreCase(key)) {
 				found = true;
 			}
 		}
@@ -223,7 +223,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 			CompoundTag partyNBT = parties.getCompound(i);
 			Party party = new Party();
 			party.read(partyNBT);
-			this.parties.add(party);
+			addParty(party);
 		}
 		
 		this.heartlessSpawnLevel = nbt.getInt("heartless");
