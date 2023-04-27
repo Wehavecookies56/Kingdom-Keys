@@ -59,14 +59,13 @@ public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 				speed = 8;
 				scale = 4;
 				maxTicks = magnega.getMaxTicks();
-
-				System.out.println(entity.tickCount / 10F);
-				if(entity.tickCount < 30) {
-					scale = entity.tickCount / 10F;
-				}
-				if(entity.tickCount > maxTicks - 30) {
-					scale = (maxTicks - entity.tickCount) / 10F;
-				}
+			}
+			
+			if(entity.tickCount < scale * 10) {
+				scale = entity.tickCount / 10F;
+			}
+			if(entity.tickCount > maxTicks - scale * 10) {
+				scale = (maxTicks - entity.tickCount) / 10F;
 			}
 			
 			
