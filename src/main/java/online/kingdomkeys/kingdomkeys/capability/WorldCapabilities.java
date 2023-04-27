@@ -197,7 +197,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		String key = Utils.getResourceName(party.getName());
 		boolean found = false;
 		for(Party p : parties) {
-			if(p.getName().equalsIgnoreCase(key)) {
+			if(Utils.getResourceName(p.getName()).equalsIgnoreCase(key)) {
 				found = true;
 			}
 		}
