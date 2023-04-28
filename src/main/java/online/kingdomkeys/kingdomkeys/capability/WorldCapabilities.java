@@ -2,9 +2,11 @@ package online.kingdomkeys.kingdomkeys.capability;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -201,8 +203,10 @@ public class WorldCapabilities implements IWorldCapabilities {
 				found = true;
 			}
 		}
-		if (!found)
+		if (!found) {
+			System.out.println(party.getName());
 			this.parties.add(party);
+		}
 	}
 
 	@Override
@@ -242,9 +246,14 @@ public class WorldCapabilities implements IWorldCapabilities {
 	@Override
 	public CompoundTag write(CompoundTag nbt) {
 		ListTag parties = new ListTag();
+		Set<String> names = new HashSet<String>();
 		for (Party party : this.parties) {
-			parties.add(party.write());
+			if(!names.contains(party.getName())) {
+				parties.add(party.write());
+				names.add(party.getName());
+			}
 		}
+
 		nbt.put("parties", parties);
 		
 		nbt.putInt("heartless", this.heartlessSpawnLevel);
