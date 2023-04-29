@@ -10,6 +10,7 @@ import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.world.entity.eventlistener.BasicAttackEvent;
 
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO_1, ROXAS_AUTO_1, ROXAS_IDLE, ROXAS_RUN,
@@ -30,7 +31,7 @@ public class KKAnimations {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED) .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
-        WISDOM_COMBO1 = new AttackAnimation(0.16F, 1.0F, 0.0f,  2.0F, 2.0F, null, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
+        WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F,0.16F, 0.5F, null, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                             Player player = (Player) ep.getOriginal();
@@ -50,7 +51,7 @@ public class KKAnimations {
                             if (!world.isClientSide)
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR);
                         }, AnimationEvent.Side.BOTH));
-        WISDOM_FINISHER = new BasicAttackAnimation(0.16F, 1.0F, 2.0F, 2.0F, KKCollider.NO, Armatures.BIPED.toolR, "biped/combat/wisdom_shoot", Armatures.BIPED)
+        WISDOM_FINISHER = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.toolR, "biped/combat/wisdom_finisher", Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                             Player player = (Player) ep.getOriginal();
