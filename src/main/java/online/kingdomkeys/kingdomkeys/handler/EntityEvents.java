@@ -714,10 +714,9 @@ public class EntityEvents {
 	
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
-		//System.out.println(event.getSource());
 		if (event.getSource().getEntity() instanceof Player) {
 			Player player = (Player) event.getSource().getEntity();
-			
+
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if(weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;

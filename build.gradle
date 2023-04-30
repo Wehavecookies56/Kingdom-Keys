@@ -103,6 +103,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     implementation fg.deobf("curse.maven:jer-240630:3760449")
+    //implementation fg.deobf("curse.maven:controllable-317269:3707285")
     implementation fg.deobf("epicfight:epicfight:18.5.0.1")
 }
 
