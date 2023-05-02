@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -37,7 +38,7 @@ public class SpawningOrbEntity extends Monster {
 	//Natural
 	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, Level worldIn) {
 		super(type, worldIn);
-		Player player = Utils.getClosestPlayer(this);				
+		Player player = Utils.getClosestPlayer(this, worldIn);
 		
 		if(player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -57,7 +58,12 @@ public class SpawningOrbEntity extends Monster {
 							membersOnline++;
 						}
 					}
-					avgLevel = total / membersOnline;
+					if (membersOnline == 0) {
+						avgLevel = 1;
+						KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + worldIn.dimension().location().toString());
+					} else {
+						avgLevel = total / membersOnline;
+					}
 				}
 				
 				int level = avgLevel - this.level.random.nextInt(6) + 2;
