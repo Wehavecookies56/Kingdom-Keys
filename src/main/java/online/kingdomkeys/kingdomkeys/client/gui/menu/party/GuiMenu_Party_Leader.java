@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -23,8 +20,9 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
 
 public class GuiMenu_Party_Leader extends MenuBackground {
 	
@@ -47,12 +45,10 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			GuiHelper.openMenu();
 			break;
 		case "disband":
-			PacketHandler.sendToServer(new CSPartyDisband(party));
+			if (party != null) {
+				PacketHandler.sendToServer(new CSPartyDisband(party));
+			}
 			GuiHelper.openMenu();
-			break;
-		case "leave":
-			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
-			party = null;
 			break;
 		case "settings":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);

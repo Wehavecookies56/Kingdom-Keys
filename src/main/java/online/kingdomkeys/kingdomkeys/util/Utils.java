@@ -1,22 +1,9 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -38,7 +25,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryManager;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -70,6 +56,9 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -327,32 +316,36 @@ public class Utils {
 		return list;
 	}
 	
-	
-	
 	public static Player getPlayerByName(Level world, String name) {
-		for (Player p : world.players()) {
+		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
+		for (Player p : players) {
 			if (p.getDisplayName().getString().equals(name)) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
-	public static Player getClosestPlayer(Entity e) {
+
+	public static Player getClosestPlayer(Entity e, Level world) {
 		Player nearest = null;
 		if(e.getServer() == null) {
 			return null;
 		}
-		for(Player p : getAllPlayers(e.getServer())){
+		List<? extends Player> players = world == null ? getAllPlayers(e.getServer()) : world.players();
+		for(Player p : players){
 			if(nearest == null) {
 				nearest = p;
 			}
-			
+
 			if(p.distanceTo(e) < nearest.distanceTo(e)) {
 				nearest = p;
 			}
 		}
 		return nearest;
+	}
+
+	public static Player getClosestPlayer(Entity e) {
+		return getClosestPlayer(e, null);
 	}
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
@@ -699,8 +692,7 @@ public class Utils {
 	
 	public static void syncWorldData(Level world, IWorldCapabilities worldData) {
 		world.getServer().getAllLevels().forEach(sw -> {
-			CompoundTag nbt = new CompoundTag();
-			ModCapabilities.getWorld(sw).read(worldData.write(nbt));
+			ModCapabilities.getWorld(sw).read(worldData.write(new CompoundTag()));
 		});
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 	}
