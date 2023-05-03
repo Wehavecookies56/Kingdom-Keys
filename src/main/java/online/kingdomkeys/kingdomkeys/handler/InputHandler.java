@@ -22,11 +22,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
@@ -44,29 +40,19 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.PortalData;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSExtendedReach;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseDriveFormPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUseShortcutPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.*;
 
 public class InputHandler {
 
@@ -550,7 +536,7 @@ public class InputHandler {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
             	if(world.getPlayerByUUID(member.getUUID()) != null && player.distanceTo(world.getPlayerByUUID(member.getUUID())) < ModConfigs.partyRangeLimit) {
             		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
-            		int level = playerData.getMagicLevel(magicName);
+            		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicName, member.getUsername(), level));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -612,7 +598,7 @@ public class InputHandler {
                         return;
             		} else {
                 		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
-                		int level = playerData.getMagicLevel(magicName);
+                		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
             			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;

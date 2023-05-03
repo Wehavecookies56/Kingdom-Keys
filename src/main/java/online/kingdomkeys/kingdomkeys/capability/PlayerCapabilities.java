@@ -1,18 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -61,6 +49,9 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -994,19 +985,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
-	public int getMagicLevel(String name) {
-		return magicList.containsKey(name) ? magicList.get(name)[0] : 0;
+	public int getMagicLevel(ResourceLocation name) {
+		return magicList.containsKey(name.toString()) ? magicList.get(name.toString())[0] : 0;
 	}
 
 	@Override
-	public void setMagicLevel(String name, int level, boolean notification) {
-		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
+	public void setMagicLevel(ResourceLocation name, int level, boolean notification) {
+		Magic magic = ModMagic.registry.get().getValue(name);
 		if(level == -1) {
-			magicList.remove(name);
+			magicList.remove(name.toString());
 		} else {
 			if(level <= magic.getMaxLevel()) {
-				int uses = magicList.containsKey(name) ? getMagicUses(name) : 0;
-				magicList.put(name, new int[] {level, uses});
+				int uses = magicList.containsKey(name.toString()) ? getMagicUses(name) : 0;
+				magicList.put(name.toString(), new int[] {level, uses});
 				
 				if(notification) {
 					messages.add("M_"+magic.getTranslationKey(level));
@@ -1016,26 +1007,26 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getMagicUses(String name) {
-		return magicList.get(name)[1];
+	public int getMagicUses(ResourceLocation name) {
+		return magicList.get(name.toString())[1];
 	}
 
 	@Override
-	public void setMagicUses(String name, int uses) {
-		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
+	public void setMagicUses(ResourceLocation name, int uses) {
+		Magic magic = ModMagic.registry.get().getValue(name);
 		int level = getMagicLevel(name);
 		if(level <= magic.getMaxLevel()) {
-			magicList.put(name, new int[] {level, uses});
+			magicList.put(name.toString(), new int[] {level, uses});
 		}
 	}
 	
 	@Override
-	public void addMagicUses(String name, int uses) {
+	public void addMagicUses(ResourceLocation name, int uses) {
 		setMagicUses(name, getMagicUses(name) + uses);
 	}
 
 	@Override
-	public void remMagicUses(String name, int uses) {
+	public void remMagicUses(ResourceLocation name, int uses) {
 		setMagicUses(name, getMagicUses(name) - uses);
 	}
 		

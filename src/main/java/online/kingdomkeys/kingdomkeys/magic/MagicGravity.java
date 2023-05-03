@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicGravity(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, false, maxLevel, gmAbility, order);
 	}
 

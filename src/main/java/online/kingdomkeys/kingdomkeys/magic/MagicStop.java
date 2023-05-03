@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import java.util.List;
-
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -20,9 +19,11 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
 
+import java.util.List;
+
 public class MagicStop extends Magic {
 
-	public MagicStop(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicStop(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, false, maxLevel,  gmAbility, order);
 	}
 

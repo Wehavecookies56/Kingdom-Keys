@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -11,7 +7,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -27,6 +22,10 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class MagicLevelCommand extends BaseCommand{
 //kk_ <give/take/set> <amount> [player]
@@ -73,7 +72,7 @@ public class MagicLevelCommand extends BaseCommand{
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(magic, level, false);
+				playerData.setMagicLevel(new ResourceLocation(magic), level, false);
 			} else {
 				context.getSource().sendSuccess(Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;

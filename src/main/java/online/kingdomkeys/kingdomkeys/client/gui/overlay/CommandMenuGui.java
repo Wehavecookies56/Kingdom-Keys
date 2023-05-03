@@ -1,15 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import java.awt.Color;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
@@ -35,6 +27,13 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+
+import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
@@ -489,7 +488,7 @@ public class CommandMenuGui extends OverlayBase {
 					}
 
 					String magic = (String) magics.keySet().toArray()[i];
-					int magicLevel = playerData.getMagicLevel(magic);
+					int magicLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 					int[] mag = playerData.getMagicsMap().get(magic);
 					double cost = magicInstance.getCost(mag[0], minecraft.player);

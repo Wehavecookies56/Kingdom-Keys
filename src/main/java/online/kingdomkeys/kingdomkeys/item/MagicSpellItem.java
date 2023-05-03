@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.List;
+
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
 
@@ -44,7 +44,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 					takeItem(player);
 					player.displayClientMessage(Component.translatable("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
-					int actualLevel = playerData.getMagicLevel(magic);
+					int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 					if(actualLevel < magicInstance.getMaxLevel()) {
 						player.displayClientMessage(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
@@ -74,7 +74,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		if(Minecraft.getInstance().player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
 	
-			int actualLevel = playerData.getMagicLevel(magic);
+			int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 			if(!playerData.getMagicsMap().containsKey(magic)) {
 				actualLevel--;
 			}

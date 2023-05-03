@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -13,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicFire extends Magic {
 
-	public MagicFire(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicFire(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, false, maxLevel, gmAbility, order);
 	}
 
