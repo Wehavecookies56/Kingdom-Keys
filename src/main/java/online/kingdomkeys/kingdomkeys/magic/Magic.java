@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public abstract class Magic {
 
-    String name;
+    ResourceLocation name;
     boolean hasTargetSelector;
     int order;
     int maxLevel;
@@ -24,13 +24,13 @@ public abstract class Magic {
     
 	private MagicData data;	
 
-    public Magic(String registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
+    public Magic(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
     	this.name = registryName;
     	this.hasTargetSelector = hasToSelect;
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
     	this.gmAbility = gmAbility;
-        translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
+        translationKey = "magic." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
     }
 
     public String getTranslationKey() {
@@ -124,7 +124,7 @@ public abstract class Magic {
 	private boolean getRCProb(IPlayerCapabilities casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
 
-		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName().toString()) == getMaxLevel()) {
+		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName()) == getMaxLevel()) {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 		}
 		prob += (casterData.getMagicUses(name)-1)*5;
@@ -142,7 +142,7 @@ public abstract class Magic {
 	}
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }

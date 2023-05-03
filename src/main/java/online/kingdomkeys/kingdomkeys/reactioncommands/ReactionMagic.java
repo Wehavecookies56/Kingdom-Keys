@@ -30,7 +30,7 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public String getTranslationKey() {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-		int level = playerData.getMagicLevel(magic);
+		int level = playerData.getMagicLevel(new ResourceLocation(magic));
 		Magic mag = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
 		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
@@ -52,7 +52,7 @@ public class ReactionMagic extends ReactionCommand {
 	public void onUse(Player player, LivingEntity target) {
 		Magic mag = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		int level = playerData.getMagicLevel(getMagicName());
+		int level = playerData.getMagicLevel(new ResourceLocation(getMagicName()));
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level

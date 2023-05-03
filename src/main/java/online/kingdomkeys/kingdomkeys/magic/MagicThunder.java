@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
@@ -10,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicThunder extends Magic {
 
-	public MagicThunder(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicThunder(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, false, maxLevel, gmAbility, order);
 	}
 

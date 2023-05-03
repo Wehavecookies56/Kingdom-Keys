@@ -76,9 +76,9 @@ public class LevelStats {
 					if (magicInstance != null) {
 						if (cap != null && cap.getMagicsMap() != null) {
 							if (!cap.getMagicsMap().containsKey(magic)) {
-								cap.setMagicLevel(magic, cap.getMagicLevel(magic), true);
+								cap.setMagicLevel(new ResourceLocation(magic), cap.getMagicLevel(new ResourceLocation(magic)), true);
 							} else {
-								cap.setMagicLevel(magic, cap.getMagicLevel(magic)+1, true);
+								cap.setMagicLevel(new ResourceLocation(magic), cap.getMagicLevel(new ResourceLocation(magic))+1, true);
 							}
 						}
 					}

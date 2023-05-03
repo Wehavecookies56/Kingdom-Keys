@@ -114,9 +114,9 @@ public enum SoAState {
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (!playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(magic, playerData.getMagicLevel(magic), true);
+								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic)), true);
 							} else {
-								playerData.setMagicLevel(magic, playerData.getMagicLevel(magic) + 1, true);
+								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic)) + 1, true);
 							}
 						}
 					}
@@ -153,7 +153,7 @@ public enum SoAState {
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(magic, playerData.getMagicLevel(magic)-1, true);
+								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic))-1, true);
 							}
 						}
 					}
@@ -188,7 +188,7 @@ public enum SoAState {
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(magic, playerData.getMagicLevel(magic)-1, true);
+								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic))-1, true);
 							}
 						}
 					}

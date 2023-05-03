@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -21,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.*;
 
 public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getLevel();
@@ -173,12 +169,12 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 
 	LinkedHashMap<String, int[]> getMagicsMap();
 	void setMagicsMap(LinkedHashMap<String,int[]> map);
-	int getMagicLevel(String name);
-	void setMagicLevel(String name, int level, boolean notification);
-	int getMagicUses(String name);
-	void setMagicUses(String name, int uses);
-	void addMagicUses(String name, int uses);
-	void remMagicUses(String name, int uses);
+	int getMagicLevel(ResourceLocation name);
+	void setMagicLevel(ResourceLocation name, int level, boolean notification);
+	int getMagicUses(ResourceLocation name);
+	void setMagicUses(ResourceLocation name, int uses);
+	void addMagicUses(ResourceLocation name, int uses);
+	void remMagicUses(ResourceLocation name, int uses);
 	
 	List<String> getShotlockList();
 	void setShotlockList(List<String> list);

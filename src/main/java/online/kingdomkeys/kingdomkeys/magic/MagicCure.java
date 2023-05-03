@@ -1,8 +1,7 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import java.util.List;
-
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -17,9 +16,11 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.List;
+
 public class MagicCure extends Magic {
 
-	public MagicCure(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicCure(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, true, maxLevel, gmAbility, order);
 	}
 
