@@ -253,7 +253,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			} else {
 				array = nbt.getCompound("magics").getIntArray(magicName);
 			}
-			this.getMagicsMap().put(magicName, array);
+			if (ModMagic.registry.get().containsKey(new ResourceLocation(magicName))) {
+				this.getMagicsMap().put(magicName, array);
+			}
 		}
 
 		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
