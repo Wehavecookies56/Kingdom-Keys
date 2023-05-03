@@ -28,7 +28,7 @@ public class KKAnimations {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
-        WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, null, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
+        WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
@@ -36,7 +36,7 @@ public class KKAnimations {
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
-        WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.toolR, "biped/combat/wisdom_finisher", Armatures.BIPED)
+        WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_finisher", Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),

@@ -86,6 +86,8 @@ public class KingdomKeys {
 	public static final String MODVER = "2.1.6.8";
 	public static final String MCVER = "1.18.2";
 
+	public static boolean efmLoaded = false;
+
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
 		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
 		@Override
@@ -148,6 +150,7 @@ public class KingdomKeys {
 		modEventBus.addListener(this::modLoaded);
 
 		if (ModList.get().isLoaded("epicfight")) {
+			efmLoaded = true;
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
 		}
