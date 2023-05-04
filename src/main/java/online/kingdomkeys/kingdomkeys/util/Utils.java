@@ -314,7 +314,7 @@ public class Utils {
 	public static List<String> getSortedShotlocks(List<String> list) {
 		List<String> newList = new ArrayList<>(list);
 		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
-		return list;
+		return newList;
 	}
 	
 	public static Player getPlayerByName(Level world, String name) {
