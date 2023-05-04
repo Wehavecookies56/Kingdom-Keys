@@ -8,6 +8,7 @@ import yesman.epicfight.api.animation.types.BasicAttackAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.gameasset.ColliderPreset;
 
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
@@ -26,7 +27,7 @@ public class KKAnimations {
 
     private static void build() {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
-        ROXAS_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.5F, null, Armatures.BIPED.toolR, "biped/combat/valor_auto1", Armatures.BIPED);
+        VALOR_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
