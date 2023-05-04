@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.ConcurrentModificationException;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,25 +38,29 @@ public class CSDepositMaterials {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				for(int i = 0; i < player.getInventory().getContainerSize();i++) {
-					ItemStack stack = player.getInventory().getItem(i);
-					if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
-						if(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
-							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(stack.getItem()).getPath()));
-							playerData.addMaterial(mat, stack.getCount());
-							player.getInventory().setItem(i, ItemStack.EMPTY);
-						}
-						
-						//Bag
-						if (stack != null && stack.getItem() instanceof SynthesisBagItem) {
-		                    IItemHandler bag = stack.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
-		                    removeMaterial(bag, player, i);
-		    				//PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bag), (ServerPlayerEntity) player);
+				try {
+					for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+						ItemStack stack = player.getInventory().getItem(i);
+						if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
+							if (ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
+								Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
+								playerData.addMaterial(mat, stack.getCount());
+								player.getInventory().setItem(i, ItemStack.EMPTY);
+							}
+
+							//Bag
+							if (stack != null && stack.getItem() instanceof SynthesisBagItem) {
+								IItemHandler bag = stack.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
+								removeMaterial(bag, player, i);
+								//PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bag), (ServerPlayerEntity) player);
+							}
 						}
 					}
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayer) player);
+				} catch (ConcurrentModificationException e) {
+					e.printStackTrace();
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
-	            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayer) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

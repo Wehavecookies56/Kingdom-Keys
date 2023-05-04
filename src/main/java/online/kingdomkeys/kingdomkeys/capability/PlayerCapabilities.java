@@ -244,6 +244,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		for (String key : nbt.getCompound("recipes").getAllKeys()) {
 			this.getKnownRecipeList().add(new ResourceLocation(key));
 		}
+		Collections.sort(recipeList);
 
 		for (String magicName : nbt.getCompound("magics").getAllKeys()) {
 			int[] array;
@@ -1646,7 +1647,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public List<ResourceLocation> getKnownRecipeList() {
-		Collections.sort(recipeList);
 		return recipeList;
 	}
 
@@ -1662,14 +1662,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addKnownRecipe(ResourceLocation recipe) {
-		if(!recipeList.contains(recipe))
+		if(!recipeList.contains(recipe)) {
 			this.recipeList.add(recipe);
+			Collections.sort(recipeList);
+		}
 	}
 	
 	@Override
 	public void removeKnownRecipe(ResourceLocation recipe) {
 		if(this.recipeList.contains(recipe)) {
 			this.recipeList.remove(recipe);
+			Collections.sort(recipeList);
 		}
 	}
 	

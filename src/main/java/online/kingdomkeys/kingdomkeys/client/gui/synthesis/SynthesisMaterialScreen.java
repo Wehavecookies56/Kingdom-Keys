@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -97,17 +94,21 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			
 			LocalPlayer player = minecraft.player;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for(int i = 0; i < player.getInventory().getContainerSize();i++) {
-				ItemStack stack = player.getInventory().getItem(i);
-				
-				if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
-					
-					if(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
-						Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(stack.getItem()).getPath()));
-						playerData.addMaterial(mat, stack.getCount());
-						player.getInventory().setItem(i, ItemStack.EMPTY);
+			try {
+				for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+					ItemStack stack = player.getInventory().getItem(i);
+
+					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
+
+						if (ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
+							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
+							playerData.addMaterial(mat, stack.getCount());
+							player.getInventory().setItem(i, ItemStack.EMPTY);
+						}
 					}
 				}
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
 			}
 			PacketHandler.sendToServer(new CSDepositMaterials());
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
