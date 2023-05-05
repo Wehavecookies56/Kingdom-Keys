@@ -28,8 +28,8 @@ public class KKAnimations {
     private static void build() {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         VALOR_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
-        VALOR_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
-        VALOR_AUTO3 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
+        VALOR_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.7F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
+        VALOR_AUTO3 = new BasicAttackAnimation(0.16F, 0.1F, 0.8F, 1.0F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
