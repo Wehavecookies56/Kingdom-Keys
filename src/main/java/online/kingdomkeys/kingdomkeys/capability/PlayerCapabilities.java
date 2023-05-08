@@ -24,6 +24,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
@@ -180,6 +182,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		storage.putInt("synth_level", synthLevel);
 		storage.putInt("synth_exp", synthExp);
+		storage.putString("single_style", singleStyle.toString());
+		storage.putString("dual_style", dualStyle.toString());
 		
 		return storage;
 	}
@@ -302,6 +306,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
+		this.setSingleStyle(SingleChoices.valueOf(nbt.getString("single_style")));
+		this.setDualStyle(DualChoices.valueOf(nbt.getString("dual_style")));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -353,6 +359,29 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
+
+	private SingleChoices singleStyle = SingleChoices.SORA;
+	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
+
+	@Override
+	public SingleChoices getSingleStyle() {
+		return singleStyle;
+	}
+
+	@Override
+	public void setSingleStyle(SingleChoices singleStyle) {
+		this.singleStyle = singleStyle;
+	}
+
+	@Override
+	public DualChoices getDualStyle() {
+		return dualStyle;
+	}
+
+	@Override
+	public void setDualStyle(DualChoices dualStyle) {
+		this.dualStyle = dualStyle;
+	}
 
 	//region Main stats, level, exp, str, mag, ap
 	@Override

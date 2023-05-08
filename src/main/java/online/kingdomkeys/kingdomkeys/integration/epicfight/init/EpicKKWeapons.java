@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.KKWeaponCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
@@ -45,28 +46,65 @@ public class EpicKKWeapons {
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
                                 case Strings.Form_Final -> CapabilityItem.Styles.TWO_HAND;
                                 default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
-                                        == CapabilityItem.WeaponCategories.SWORD ? CapabilityItem.Styles.TWO_HAND :
-                                        CapabilityItem.Styles.ONE_HAND;
+                                        == CapabilityItem.WeaponCategories.SWORD ?
+                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
+                                            case KH2_ROXAS_DUAL -> KKStyles.KH2_ROXAS_DUAL;
+                                            case DAYS_ROXAS_DUAL -> KKStyles.DAYS_ROXAS_DUAL;
+                                        }
+                                        :
+                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getSingleStyle()) {
+                                            case ROXAS -> KKStyles.ROXAS;
+                                            case SORA -> KKStyles.SORA;
+                                            case RIKU -> KKStyles.RIKU;
+                                            case TERRA -> KKStyles.TERRA;
+                                            case AQUA -> KKStyles.AQUA;
+                                            case VENTUS -> KKStyles.VENTUS;
+                                        };
                             })
                     .hitSound(EpicFightSounds.BLADE_HIT).collider(KKCollider.KEYBLADE)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
+
+                    .livingMotionModifier(KKStyles.SORA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.RIKU, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.ROXAS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.TERRA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.AQUA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.VENTUS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+
+                    .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
+                    .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
+
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
                     .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.IDLE, KKAnimations.WISDOM_IDLE)
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.WALK, KKAnimations.WISDOM_RUN)
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN).livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
+
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
                     .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
-                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
-                    .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+
+                    .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.RIKU, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.ROXAS, Animations.SWORD_DUAL_AUTO3, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.TERRA, Animations.SWORD_DUAL_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.AQUA, Animations.AXE_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+
+
+                    .newStyleCombo(KKStyles.KH2_ROXAS_DUAL, Animations.AXE_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_AIR_SLASH)
+                    .newStyleCombo(KKStyles.DAYS_ROXAS_DUAL, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+
+
+                    .livingMotionModifier(KKStyles.SORA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.ROXAS, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.RIKU, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.TERRA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.AQUA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.VENTUS, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+
+                    .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->

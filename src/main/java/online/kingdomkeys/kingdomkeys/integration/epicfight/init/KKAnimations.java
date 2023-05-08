@@ -57,8 +57,7 @@ public class KKAnimations {
                         AnimationEvent.TimeStampedEvent.create(.75f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.8f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH)
-                        );
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 

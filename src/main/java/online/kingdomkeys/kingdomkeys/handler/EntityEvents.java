@@ -126,7 +126,6 @@ public class EntityEvents {
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
-
 					playerData.addKnownRecipe(ModItems.mythril_shard.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_stone.get().getRegistryName());
 					playerData.addKnownRecipe(ModItems.mythril_gem.get().getRegistryName());
@@ -1135,7 +1134,8 @@ public class EntityEvents {
 		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
-		
+		newPlayerData.setSingleStyle(oldPlayerData.getSingleStyle());
+		newPlayerData.setDualStyle(oldPlayerData.getDualStyle());
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());

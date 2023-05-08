@@ -136,6 +136,8 @@ public class ClientUtils {
                 IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
 
                 playerData.setLevel(message.level);
+                playerData.setSingleStyle(message.singleStyle);
+                playerData.setDualStyle(message.dualStyle);
                 playerData.setExperience(message.exp);
                 playerData.setExperienceGiven(message.expGiven);
                 playerData.setStrengthStat(message.strength);

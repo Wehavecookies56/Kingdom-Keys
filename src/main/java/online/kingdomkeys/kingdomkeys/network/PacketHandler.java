@@ -89,6 +89,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSUseShortcutPacket.class, CSUseShortcutPacket::encode, CSUseShortcutPacket::decode, CSUseShortcutPacket::handle);
 		HANDLER.registerMessage(packetID++, CSExtendedReach.class, CSExtendedReach::encode, CSExtendedReach::decode, CSExtendedReach::handle);
 		HANDLER.registerMessage(packetID++, CSShopBuy.class, CSShopBuy::encode, CSShopBuy::decode, CSShopBuy::handle);
+		HANDLER.registerMessage(packetID++, CSChangeStyle.class, CSChangeStyle::encode, CSChangeStyle::decode, CSChangeStyle::handle);
 
 	}
 
