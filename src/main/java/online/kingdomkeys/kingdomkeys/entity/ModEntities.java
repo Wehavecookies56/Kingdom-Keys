@@ -450,7 +450,7 @@ public class ModEntities {
 			KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
 		}
     	
-		return mobs.get(world.random.nextInt(mobs.size()  ));
+		return mobs.get(world.random. nextInt(mobs.size()  ));
 	}
     
     public static void registerPlacements() {

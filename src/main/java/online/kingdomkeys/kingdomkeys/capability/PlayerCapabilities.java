@@ -306,8 +306,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
-		this.setSingleStyle(SingleChoices.valueOf(nbt.getString("single_style")));
-		this.setDualStyle(DualChoices.valueOf(nbt.getString("dual_style")));
+		String s = nbt.getString("single_style");
+		if(!s.equals(""))
+			this.setSingleStyle(SingleChoices.valueOf(s));
+		s=nbt.getString("dual_style");
+		if(!s.equals(""))
+			this.setDualStyle(DualChoices.valueOf(s));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;

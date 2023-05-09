@@ -8,11 +8,11 @@ import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 
 public class EpicFightRendering {
-
+    private EpicFightRendering() {}
     public static void patchedRenderersEventModify(PatchedRenderersEvent.Modify event) {
         PatchedLivingEntityRenderer playerRenderer = (PatchedLivingEntityRenderer) event.get(EntityType.PLAYER);
         playerRenderer.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
-        ClientEngine.instance.renderEngine.getFirstPersonRenderer().addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
+        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
     }
 
 }

@@ -45,14 +45,14 @@ public class CSChangeStyle {
 
     public static void handle(CSChangeStyle message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
+            ServerPlayer player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            switch (message.handStyle)
-            {
-                case DUAL -> playerData.setDualStyle((DualChoices) message.style);
-                case SINGLE -> playerData.setSingleStyle((SingleChoices) message.style);
-            }
-            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+            if(message.handStyle == HandStyle.DUAL)
+                playerData.setDualStyle((DualChoices) message.style);
+            else
+                playerData.setSingleStyle((SingleChoices) message.style);
+
+            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 
             Utils.RefreshAbilityAttributes(player, playerData);
         });
