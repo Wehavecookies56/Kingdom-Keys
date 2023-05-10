@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_negative_combo",
   "reach": 5.0,
   "keychain": "kingdomkeys:fenrir_chain",
   "base_stats": {

@@ -23,9 +23,13 @@ public class ComboExtender extends Skill {
     private static final UUID EVENT_UUID = UUID.fromString("a42e0198-fdbc-11eb-9a03-0242ac130003");
     private final SkillDataManager.SkillDataKey<Integer> combo = (SkillDataManager.SkillDataKey<Integer>) SkillDataManager.SkillDataKey
             .findById(0);
-    private final int NumberOfComboMinus = 0;
-    private int NumberOfComboPlus = 0;
-    private int TotalComboOffset = 0;
+    private final SkillDataManager.SkillDataKey<Integer> finisherData = SkillDataManager.SkillDataKey.createDataKey(SkillDataManager.ValueType.INTEGER);
+    private int numberOfNegativeCombo = 0;
+    private int numberOfComboPlus = 0;
+    private int numberOfFinishingPlus = 0;
+    private int totalComboOffset = 0;
+    private int finisherPlacement = 0;
+    private final int lastBasicAttackFromEnd = 4;
 
     public ComboExtender(Builder builder) {
         super(builder);
@@ -36,48 +40,66 @@ public class ComboExtender extends Skill {
         super.onInitiate(container);
         PlayerEventListener listener = container.getExecuter().getEventListener();
         listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT_SERVER, EVENT_UUID, (event) -> {
+
             PlayerPatch spp = container.getExecuter();
             Player player = (Player) spp.getOriginal();
             if (player.isOnGround() && !player.isSprinting()) {
-                event.setCanceled(true);
                 IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
-                StaticAnimation attackMotion;
-                this.NumberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
-                this.TotalComboOffset = this.NumberOfComboPlus - this.NumberOfComboMinus;
-                CapabilityItem cap = spp.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-                List<StaticAnimation> combo = cap.getAutoAttckMotion(spp);
-                SkillDataManager dataManager = spp.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager();
-                int comboCounter = dataManager.getDataValue(this.combo);
-                int comboSize = combo.size();
-
-                if (comboCounter == (comboSize - 3) + this.TotalComboOffset)
+                if(playerCapabilities.getActiveDriveForm().equals("kingdomkeys:none"))
                 {
-                    attackMotion = combo.get(comboSize - 3);
-                    comboCounter = 0;
-                }
-                else
-                {
-                    attackMotion = combo.get(comboCounter % (comboSize - 3));
-                    comboCounter++;
+                    event.setCanceled(true);
+                    StaticAnimation attackMotion;
+
+                    this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
+                    this.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.negativeCombo);
+                    this.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.finishingPlus);
+                    this.totalComboOffset = this.numberOfComboPlus - this.numberOfNegativeCombo;
+
+                    CapabilityItem cap = spp.getHoldingItemCapability(InteractionHand.MAIN_HAND);
+                    List<StaticAnimation> combo = cap.getAutoAttckMotion(spp);
+                    SkillDataManager dataManager = spp.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager();
+                    int comboCounter = dataManager.getDataValue(this.combo);
+
+                    int comboSize = combo.size();
+                    if((comboSize - 3) + this.totalComboOffset < 0)
+                        this.totalComboOffset -= (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset;
+
+                    if (comboCounter >= (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset)
+                    {   SkillDataManager finishDataManager = spp.getSkill(this).getDataManager();
+                        if(finishDataManager.getDataValue(finisherData) == null)
+                        {
+                            container.getDataManager().registerData(finisherData);
+                            container.getDataManager().setData(finisherData, 0);
+                        }
+                        finisherPlacement = finishDataManager.getDataValue(finisherData);
+                        int finisher = (finisherPlacement % 2) + (comboSize - lastBasicAttackFromEnd);
+                        if (comboCounter == (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset + numberOfFinishingPlus)
+                        {
+                            comboCounter = 0;
+                            finisherPlacement = 0;
+                        }
+                        else
+                        {
+                            comboCounter++;
+                            finisherPlacement++;
+                        }
+                        attackMotion = combo.get(finisher);
+                        finishDataManager.setData(this.finisherData, finisherPlacement);
+                    }
+                    else
+                    {
+                        attackMotion = combo.get(comboCounter % (comboSize - 4));
+                        comboCounter++;
+                    }
+
+                    if (attackMotion != null) {
+                        spp.playAnimationSynchronized(attackMotion, 0);
+                    }
+                    dataManager.setData(this.combo, comboCounter);
+                    spp.updateEntityState();
+
                 }
 
-                if (attackMotion != null) {
-                    spp.playAnimationSynchronized(attackMotion, 0);
-                }
-                spp.updateEntityState();
-                dataManager.setData(this.combo, comboCounter);
-                //TODO psuedo code
-        /* get combo step
-            get listener for event combo
-            cancel event
-            if combo == totalCombo + list.size
-                play last animation
-            else
-                play animation at list combo % list.size -1
-            combo++
-
-
-        */
             }
         });
     }

@@ -61,7 +61,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.fairyStars, Strings.fairyStarsChain, 4, 5, "", 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
 		addStats(Strings.fatalCrest, Strings.fatalCrestChain, 5, 7, "", 5.0F, "Increases strength during MP Charge and allows unlimited chaining of combos.");
 		addStats(Strings.favoriteDeputy, Strings.favoriteDeputyChain, 5, 3, "", 5.0F, "A Keyblade with an emphasis on Strength.");
-		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, "", 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
+		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, ModAbilities.NEGATIVE_COMBO.get().toString(), 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
 		addStats(Strings.ferrisGear, Strings.ferrisGearChain, 5, 5, "", 5.0F, "A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 		addStats(Strings.followTheWind, Strings.followTheWindChain, 4, 2, ModAbilities.TREASURE_MAGNET.get().toString(), 5.0F, "Draws in nearby orbs.");
 		addStats(Strings.frolicFlame, Strings.frolicFlameChain, 5, 5, "", 5.0F, "A well-balanced Keyblade that provides an extra boost to all of your stats.");
@@ -122,7 +122,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.rainfell, Strings.rainfellChain, 4, 4, "", 5.0F, "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.");
 		addStats(Strings.rejectionOfFate, Strings.rejectionOfFateChain, 5, 2, "", 5.0F, "A weapon that enables your attacks to reach a wide area and deal immense damage.");
 		addStats(Strings.royalRadiance, Strings.royalRadianceChain, 9, 8, "", 5.0F, "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
-		addStats(Strings.rumblingRose, Strings.rumblingRoseChain, 7, 3, "", 5.0F, "Has great strength, allowing finishing combo moves to be unleashed successively.");
+		addStats(Strings.rumblingRose, Strings.rumblingRoseChain, 7, 3, ModAbilities.FINISHING_PLUS.get().toString(), 5.0F, "Has great strength, allowing finishing combo moves to be unleashed successively.");
 		addStats(Strings.shootingStar, Strings.shootingStarChain, 4, 6, "", 5.0F, "A Keyblade with an emphasis on Magic.");
 		addStats(Strings.signOfInnocence, Strings.signOfInnocenceChain, 6, 5, "", 5.0F, "A weapon that boosts your Magic to give it a lot more power.");
 		addStats(Strings.silentDirge, Strings.silentDirgeChain, 6, 6, "", 5.0F, "A weapon that provides versatility by boosting both Strength and Magic. ");

@@ -45,7 +45,7 @@ public class EpicKKWeapons {
                                 case Strings.Form_Valor -> KKStyles.VALOR;
                                 case Strings.Form_Master -> KKStyles.MASTER;
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
-                                case Strings.Form_Final -> CapabilityItem.Styles.TWO_HAND;
+                                case Strings.Form_Final -> KKStyles.FINAL;
                                 default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
                                         == CapabilityItem.WeaponCategories.SWORD ?
                                         switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
@@ -82,16 +82,17 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_RUN)
 
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
-                    .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
-                    .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
-                    .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
+                    .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                    .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
+                    .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                    .newStyleCombo(KKStyles.FINAL, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
 
-                    .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(KKStyles.RIKU, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(KKStyles.ROXAS, Animations.SWORD_DUAL_AUTO3, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(KKStyles.TERRA, Animations.SWORD_DUAL_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(KKStyles.AQUA, Animations.AXE_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.RIKU, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.ROXAS, Animations.SWORD_DUAL_AUTO3, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.TERRA, Animations.SWORD_DUAL_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.AQUA, Animations.AXE_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
 
 
                     .newStyleCombo(KKStyles.KH2_ROXAS_DUAL, Animations.AXE_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_AIR_SLASH)

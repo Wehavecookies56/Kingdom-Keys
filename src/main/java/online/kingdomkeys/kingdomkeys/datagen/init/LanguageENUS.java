@@ -304,6 +304,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ");
+        addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Removes an additional attack to the user's ground attack combo. ");
+        addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Adds an additional finisher attack to the user's ground attack combo. ");
+
 
 
         //Limits
