@@ -7,6 +7,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.KKWeaponCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
@@ -105,7 +106,8 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.VENTUS, LivingMotions.BLOCK, Animations.SWORD_GUARD)
 
                     .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
-                    .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
+                    .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+                    .passiveSkill(KKSkills.comboExtender);
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
             WeaponCapability.builder()

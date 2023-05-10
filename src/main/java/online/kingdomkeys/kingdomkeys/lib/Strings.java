@@ -121,6 +121,7 @@ public class Strings {
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
     		grandMagicHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"grand_magic_haste",
+			comboPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"combo_plus",
 
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",

@@ -127,7 +127,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.signOfInnocence, Strings.signOfInnocenceChain, 6, 5, "", 5.0F, "A weapon that boosts your Magic to give it a lot more power.");
 		addStats(Strings.silentDirge, Strings.silentDirgeChain, 6, 6, "", 5.0F, "A weapon that provides versatility by boosting both Strength and Magic. ");
 		addStats(Strings.skullNoise, Strings.skullNoiseChain, 4, 4, "", 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
-		addStats(Strings.sleepingLion, Strings.sleepingLionChain, 7, 5, "", 5.0F, "Well-balanced with strength and magic, increasing maximum ground-based combos by 1.");
+		addStats(Strings.sleepingLion, Strings.sleepingLionChain, 7, 5, ModAbilities.COMBO_PLUS.get().toString(), 5.0F, "Well-balanced with strength and magic, increasing maximum ground-based combos by 1.");
 		addStats(Strings.soulEater, Strings.soulEaterChain, 4, 1, "", 5.0F, "A sword that swims with darkness. Possesses high Strength.");
 		addStats(Strings.spellbinder, Strings.spellbinderChain, 4, 8, ModAbilities.FULL_MP_BLAST.get().toString(), 5.0F, "Raises max MP by 2, and significantly enhances magic and summon power.");
 		addStats(Strings.starCluster, Strings.starClusterChain, 5, 6, "", 5.0F, "Mickey's Keyblade, also known as Kingdom Key W.");

@@ -303,7 +303,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
-        
+        addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ");
+
+
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");

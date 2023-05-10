@@ -18,6 +18,8 @@
   "ability.ability_blizzard_boost.name": "Blizzard Boost",
   "ability.ability_blizzaza.desc": "Allows the user to get the Blizzaza reaction command.",
   "ability.ability_blizzaza.name": "Blizzaza",
+  "ability.ability_combo_plus.desc": "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ",
+  "ability.ability_combo_plus.name": "Combo Plus",
   "ability.ability_critical_boost.desc": "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.",
   "ability.ability_critical_boost.name": "Critical Boost",
   "ability.ability_curaza.desc": "Allows the user to get the Curaza reaction command.",

@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -153,6 +154,8 @@ public class KingdomKeys {
 			efmLoaded = true;
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
+			KKSkills.register();
+			modEventBus.addListener(KKSkills::buildSkillsEvent);
 		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());

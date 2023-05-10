@@ -27,7 +27,7 @@ public class ModAbilities {
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
-			
+
 			// Growth
 			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),
 			QUICK_RUN = createAbility(Strings.quickRun, 2, AbilityType.GROWTH),
@@ -67,14 +67,15 @@ public class ModAbilities {
 			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
 			GRAND_MAGIC_HASTE = createAbility(Strings.grandMagicHaste, 3, AbilityType.SUPPORT),
-			
-			
+			COMBO_PLUS = createAbility(Strings.comboPlus, 1, AbilityType.SUPPORT),
+
+
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
 			BLIZZAZA = createAbility(Strings.blizzaza,3,AbilityType.SUPPORT),
 			WATERZA = createAbility(Strings.waterza,3,AbilityType.SUPPORT),
 			THUNDAZA = createAbility(Strings.thundaza,3,AbilityType.SUPPORT),
 			CURAZA = createAbility(Strings.curaza,3,AbilityType.SUPPORT);
-		
+
 
 
 	public static RegistryObject<Ability> createAbility(String name, int apCost, AbilityType type) {
