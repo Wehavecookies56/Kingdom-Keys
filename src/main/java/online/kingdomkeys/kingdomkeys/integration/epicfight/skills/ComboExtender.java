@@ -43,7 +43,7 @@ public class ComboExtender extends Skill {
 
             PlayerPatch spp = container.getExecuter();
             Player player = (Player) spp.getOriginal();
-            if (player.isOnGround() && !player.isSprinting()) {
+            if (player.isOnGround() && !player.isSprinting() &&  event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
                 IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
                 if(playerCapabilities.getActiveDriveForm().equals("kingdomkeys:none"))
                 {
