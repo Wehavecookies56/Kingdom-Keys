@@ -61,7 +61,7 @@ public class ComboExtender extends Skill {
                     int comboCounter = dataManager.getDataValue(this.combo);
 
                     int comboSize = combo.size();
-                    if((comboSize - 3) + this.totalComboOffset < 0)
+                    if((comboSize - lastBasicAttackFromEnd) + this.totalComboOffset < 0)
                         this.totalComboOffset -= (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset;
 
                     if (comboCounter >= (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset)

@@ -356,7 +356,10 @@
     },
     "65":{
         "str":1,
-        "maxhp":5
+        "maxhp":5,
+        "abilities":[
+            "kingdomkeys:ability_finishing_plus"
+        ]
     },
     "66":{
         "mag":1,
@@ -394,7 +397,10 @@
         ]
     },
     "73":{
-        "str":1
+        "str":1,
+        "abilities":[
+            "kingdomkeys:ability_negative_combo"
+        ]
     },
     "74":{
         "mag":1,

@@ -252,7 +252,8 @@
         "mag":1,
         "maxmp":4.0,
         "abilities":[
-            "kingdomkeys:ability_jackpot"
+            "kingdomkeys:ability_jackpot",
+            "kingdomkeys:ability_negative_combo"
         ]
     },
     "45":{
@@ -280,7 +281,10 @@
         ]
     },
     "49":{
-        "str":1
+        "str":1,
+        "abilities":[
+            "kingdomkeys:ability_finishing_plus"
+        ]
     },
     "50":{
         "mag":1,
