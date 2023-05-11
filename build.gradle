@@ -6,7 +6,7 @@ plugins {
 }
 
 def mcver = "1.19.4"
-version = mcver + '-2.2.1.1'
+version = mcver + '-2.2.1.2'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 
