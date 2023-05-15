@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.FireModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
@@ -488,6 +489,8 @@ public class ModEntities {
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_BOTTOM, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_TOP, () -> VentusModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_BOTTOM, () -> VentusModel.createBodyLayer(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(TerraModel.LAYER_LOCATION_TOP, () -> TerraModel.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(TerraModel.LAYER_LOCATION_BOTTOM, () -> TerraModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
         event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
 

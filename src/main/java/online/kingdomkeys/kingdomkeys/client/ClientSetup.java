@@ -42,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
@@ -86,11 +87,14 @@ public class ClientSetup {
 
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
+		
+		TerraModel<LivingEntity> tTop = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_TOP));
+		TerraModel<LivingEntity> tBot = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_BOTTOM));
 
-        armorModels.put(ModItems.terra_Helmet.get(), top);
-		armorModels.put(ModItems.terra_Chestplate.get(), top);
-		armorModels.put(ModItems.terra_Leggings.get(), bot);
-		armorModels.put(ModItems.terra_Boots.get(), top);
+        armorModels.put(ModItems.terra_Helmet.get(), tTop);
+		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
+		armorModels.put(ModItems.terra_Leggings.get(), tBot);
+		armorModels.put(ModItems.terra_Boots.get(), tTop);
 
 		armorModels.put(ModItems.aqua_Helmet.get(), top);
 		armorModels.put(ModItems.aqua_Chestplate.get(), top);
