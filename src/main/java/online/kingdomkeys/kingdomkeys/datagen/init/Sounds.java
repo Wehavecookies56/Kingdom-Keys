@@ -1,73 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Music_Dive_Into_The_Heart_Destati;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Music_Lord_Of_The_Castle;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_13th_Dilemma_Saix;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_13th_Reflection;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_13th_Struggle_Luxord;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Anger_Unchained;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Another_Side_Battle_Ver;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Birth_by_Sleep_A_Link_to_the_Future;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Cavern_Of_Remembrance_Days;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Dearly_Beloved_UX;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Destati;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Dream_Drop_Distance_The_Next_Awakening;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Forgotten_Challenge_Recoded;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Hikari_KINGDOM_Instrumental_Version;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Hunter_Of_The_Dark;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_L_Oscurita_Dell_Ignoto;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Musique_pour_la_tristesse_de_Xion;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_No_More_Bugs_Bug_Version;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Organization_XIII;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Passion_Instrumental;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_Rage_Awakened;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.Record_The_Other_Promise;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.aero1;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.aero2;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.alarm;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.antidrive;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.arrowgunReload;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.blizzard;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.cure;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.drive;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.error;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.fire;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.gravity;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.hp_orb;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.invincible_hit;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.itemget;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.kupo;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.kupoliving;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.laser;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.levelup;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.lockon;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.magnet1;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.magnet2;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.menu_back;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.menu_in;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.menu_move;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.menu_select;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.mp_orb;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.munny;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.playerDeath;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.playerDeathHardcore;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.portal;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.potion;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.reflect1;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.reflect2;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.savepoint;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.savespawn;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.sharpshooterbullet;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.shotlock_lockon;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.shotlock_lockon_all;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.shotlock_lockon_idle;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.shotlock_lockon_start;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.shotlock_shot;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.stop;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.strike_raid;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.summon;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.unsummon;
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.wisdom_shot;
+import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
 
 import java.util.function.Supplier;
 
@@ -134,6 +67,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(shotlock_shot);
         add(strike_raid);
         add(wisdom_shot);
+        add(keyblade_armor);
         
         //Music
         //Records

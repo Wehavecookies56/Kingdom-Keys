@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,11 +31,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.event.PlayLevelSoundEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -132,6 +135,27 @@ public class EntityEvents {
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
 	public int ticks;
+	
+	@SubscribeEvent
+	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
+		if(event.getEntity() instanceof Player player && event.getSound().getLocation().getPath().contains("step")) {
+			boolean kbArmor = false;
+			byte index = 0;
+			Iterator<ItemStack> it = player.getArmorSlots().iterator();
+			while(it.hasNext()) {
+				ItemStack a = it.next();
+				if(a.getItem() instanceof ArmorItem armor) {
+					if(index < 3 && armor.getMaterial().getEquipSound() == ModSounds.keyblade_armor.get()){ //If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
+						kbArmor = true;
+					}
+				}
+				index++;
+			}
+			if(kbArmor) {
+				event.getEntity().playSound(ModSounds.keyblade_armor.get());
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
