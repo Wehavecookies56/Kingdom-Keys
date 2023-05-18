@@ -69,6 +69,11 @@
       "kingdomkeys:itemget"
     ]
   },
+  "keyblade_armor": {
+    "sounds": [
+      "kingdomkeys:keyblade_armor","kingdomkeys:keyblade_armor2"
+    ]
+  },
   "kupo": {
     "sounds": [
       "kingdomkeys:kupo"

@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.PartyHUDGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
@@ -84,22 +85,24 @@ public class ClientSetup {
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
-
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 		
 		TerraModel<LivingEntity> tTop = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_TOP));
 		TerraModel<LivingEntity> tBot = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_BOTTOM));
+		
+		AquaModel<LivingEntity> aTop = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_TOP));
+		AquaModel<LivingEntity> aBot = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_BOTTOM));
 
         armorModels.put(ModItems.terra_Helmet.get(), tTop);
 		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
 		armorModels.put(ModItems.terra_Leggings.get(), tBot);
 		armorModels.put(ModItems.terra_Boots.get(), tTop);
 
-		armorModels.put(ModItems.aqua_Helmet.get(), top);
-		armorModels.put(ModItems.aqua_Chestplate.get(), top);
-		armorModels.put(ModItems.aqua_Leggings.get(), bot);
-		armorModels.put(ModItems.aqua_Boots.get(), top);
+		armorModels.put(ModItems.aqua_Helmet.get(), aTop);
+		armorModels.put(ModItems.aqua_Chestplate.get(), aTop);
+		armorModels.put(ModItems.aqua_Leggings.get(), aBot);
+		armorModels.put(ModItems.aqua_Boots.get(), aTop);
 
 		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
 		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
