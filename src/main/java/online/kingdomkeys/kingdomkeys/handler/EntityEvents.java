@@ -138,7 +138,7 @@ public class EntityEvents {
 	
 	@SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
-		if(event.getEntity() instanceof Player player && event.getSound().getLocation().getPath().contains("step")) {
+		if(event.getEntity() instanceof Player player && event.getSound().get().getLocation().getPath().contains("step")) {
 			boolean kbArmor = false;
 			byte index = 0;
 			Iterator<ItemStack> it = player.getArmorSlots().iterator();

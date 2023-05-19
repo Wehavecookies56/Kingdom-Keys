@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.FireModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
