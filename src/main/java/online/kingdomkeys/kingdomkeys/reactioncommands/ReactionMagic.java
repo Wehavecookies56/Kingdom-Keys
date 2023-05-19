@@ -43,8 +43,7 @@ public class ReactionMagic extends ReactionCommand {
 			level = mag.getMaxLevel()+1;
 		}
 		
-		
-        return "magic." + magic.replace(KingdomKeys.MODID+":", "") + level+".name";
+        return "magic." + magic.replace(":", ".") + level+".name";
 	}
 
 	
