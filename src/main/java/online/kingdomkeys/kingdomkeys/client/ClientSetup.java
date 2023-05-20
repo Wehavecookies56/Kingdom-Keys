@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
@@ -93,6 +94,9 @@ public class ClientSetup {
 		
 		AquaModel<LivingEntity> aTop = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_TOP));
 		AquaModel<LivingEntity> aBot = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_BOTTOM));
+		
+		EraqusModel<LivingEntity> eTop = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_TOP));
+		EraqusModel<LivingEntity> eBot = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_BOTTOM));
 
         armorModels.put(ModItems.terra_Helmet.get(), tTop);
 		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
@@ -114,10 +118,10 @@ public class ClientSetup {
 		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
 		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
 
-		armorModels.put(ModItems.eraqus_Helmet.get(), top);
-		armorModels.put(ModItems.eraqus_Chestplate.get(), top);
-		armorModels.put(ModItems.eraqus_Leggings.get(), bot);
-		armorModels.put(ModItems.eraqus_Boots.get(), top);
+		armorModels.put(ModItems.eraqus_Helmet.get(), eTop);
+		armorModels.put(ModItems.eraqus_Chestplate.get(), eTop);
+		armorModels.put(ModItems.eraqus_Leggings.get(), eBot);
+		armorModels.put(ModItems.eraqus_Boots.get(), eTop);
 
 		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
 		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
