@@ -1509,7 +1509,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				if(getEquippedWeapon().getItem() instanceof KeybladeItem) {
 					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(getEquippedWeapon().getItem(), 0);
 					amount += Collections.frequency(abilities, ability);
-				} else { //Org (hopefully)
+				} else if(getEquippedWeapon().getItem() instanceof IOrgWeapon){ //Org (hopefully)
 					String[] abilitiesArray = ((IOrgWeapon)getEquippedWeapon().getItem()).getAbilities();
 					if(abilitiesArray != null) {
 						List<String> a = Lists.newArrayList(abilitiesArray);
