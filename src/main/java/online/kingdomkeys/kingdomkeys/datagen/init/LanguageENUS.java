@@ -1184,6 +1184,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.eraqus_Chestplate, "Eraqus Chestplate");
         addItem(ModItems.eraqus_Leggings, "Eraqus Leggings");
         addItem(ModItems.eraqus_Boots, "Eraqus Boots");
+        
+        addItem(ModItems.xehanort_Helmet, "Xehanort Helmet");
+        addItem(ModItems.xehanort_Chestplate, "Xehanort Chestplate");
+        addItem(ModItems.xehanort_Leggings, "Xehanort Leggings");
+        addItem(ModItems.xehanort_Boots, "Xehanort Boots");
 
         addItem(ModItems.vanitas_Helmet, "Vanitas Helmet");
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");

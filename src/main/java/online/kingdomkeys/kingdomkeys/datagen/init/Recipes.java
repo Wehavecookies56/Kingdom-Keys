@@ -99,7 +99,7 @@ public class Recipes extends RecipeProvider {
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
     	
-    	//NoHeart's friend
+    	//Eraqus
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
@@ -116,22 +116,22 @@ public class Recipes extends RecipeProvider {
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
     	
-    	//NoHeart
-    	/*LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
+    	//Xehanort
+    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
+        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
     	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
+    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
+        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
     	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
+    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
+        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
     	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
+    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));*/
+        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
     	
         // blox
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())
