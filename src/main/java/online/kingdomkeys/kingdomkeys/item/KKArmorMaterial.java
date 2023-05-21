@@ -22,7 +22,10 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 3, 6, 8, 4 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
+	KEYBLADE(KingdomKeys.MODID + ":keyblade", 5, new int[] { 6, 9, 7, 5 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
+		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
+	}),
+	/*TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
 	AQUA(KingdomKeys.MODID + ":aqua", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
@@ -37,6 +40,9 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	ERAQUS(KingdomKeys.MODID + ":eraqus", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
+	XEHANORT(KingdomKeys.MODID + ":xehanort", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
+		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
+	}),*/
 	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 2, 5, 7, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
