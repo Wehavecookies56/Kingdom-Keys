@@ -101,78 +101,24 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(playerData != null) {
 
-			UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
+				UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
 
-			if (Utils.hasArmorID(stack)) {
-				System.out.println(armorUUID);
-				if(Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
-					System.out.println(itemSlot);
-					if(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack) {
+				if (Utils.hasArmorID(stack)) {
+					System.out.println(armorUUID);
+					if(Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
+						System.out.println(itemSlot);
+						if(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack) {
 
-					} else {
+						} else {
+							player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						}
+					} else {//If UUID is different remove
 						player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
 						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					}
-				} else {//If UUID is different remove
-					player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
-					player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+
 				}
-
-			}/*
-
-			if(playerData != null) {
-				ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
-				if (mainChain != null) {
-					ItemStack formChain = null;
-					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-						formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
-					} else {
-						if(playerData.isAbilityEquipped(Strings.synchBlade)) {
-							formChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
-						}
-					}
-					if (formChain == null)
-						formChain = ItemStack.EMPTY;
-					UUID stackID = Utils.getID(stack);
-					if (!ItemStack.matches(mainChain, ItemStack.EMPTY) || !ItemStack.matches(formChain, ItemStack.EMPTY)) {
-						UUID mainChainID = Utils.getID(mainChain);
-						UUID formChainID = Utils.getID(formChain);
-						if (mainChainID == null)
-							mainChainID = new UUID(0, 0);
-						if (formChainID == null)
-							formChainID = new UUID(0, 0);
-
-						if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
-							//This is either not your keychain or from an inactive form, either way it should not be here
-							//System.out.println(formChainID);
-							//if(playerData.isAbilityEquipped(Strings.synchBlade))
-							player.getInventory().setItem(slot, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-						}
-					} else {
-						player.getInventory().setItem(slot, ItemStack.EMPTY);
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					}
-
-					//Check for dupes
-					for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-						slot = itemSlot;
-						if (i == 40) {
-							if (ItemStack.matches(stack, player.getOffhandItem())) {
-								slot = 40;
-							}
-						}
-						if (i != slot) {
-							UUID id = Utils.getID(player.getInventory().getItem(i));
-							if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
-								if (id.equals(stackID) && i != player.getInventory().selected) {
-									player.getInventory().setItem(i, ItemStack.EMPTY);
-									player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-								}
-							}
-						}
-					}
-				}*/
 			}
 		}
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
