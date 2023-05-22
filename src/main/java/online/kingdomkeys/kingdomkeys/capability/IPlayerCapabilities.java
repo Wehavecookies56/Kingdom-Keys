@@ -159,6 +159,13 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void equipAllAccessories(Map<Integer, ItemStack> accessories, boolean force);
 	boolean canEquipAccessory(int slot, ItemStack stack);
 	void setNewAccessory(int slot, ItemStack stack);
+	
+	Map<Integer, ItemStack> getEquippedKBArmors();
+	ItemStack equipKBArmor(int slot, ItemStack stack);
+	ItemStack getEquippedKBArmor(int slot);
+	void equipAllKBArmor(Map<Integer, ItemStack> KBArmories, boolean force);
+	boolean canEquipKBArmor(int slot, ItemStack stack);
+	void setNewKBArmor(int slot, ItemStack stack);
 
 	Map<Integer, ItemStack> getEquippedArmors();
 	ItemStack equipArmor(int slot, ItemStack stack);

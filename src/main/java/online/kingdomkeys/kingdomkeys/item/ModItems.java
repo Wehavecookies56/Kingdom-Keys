@@ -632,7 +632,8 @@ public class ModItems {
 			antiCoat_Chestplate = createArmorItem(Strings.antiCoat+"_"+Strings.chestplate, KKArmorMaterial.ANTICOAT, EquipmentSlot.CHEST, Strings.antiCoat),
 			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, EquipmentSlot.LEGS, Strings.antiCoat),
 			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, EquipmentSlot.FEET, Strings.antiCoat),
-					
+
+			terra_Shoulder = createNewItem(Strings.terra+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.terra)),
 			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.terra),
 			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.terra),
 			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.terra),

@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
@@ -502,6 +503,7 @@ public class ModEntities {
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_BOTTOM, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.25F)));
 
         event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
+        event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
 
     }

@@ -29,10 +29,7 @@ public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T
 
 	public StopLayerRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
 		super(entityRendererIn);
-	    ModelPart modelpart = modelSet.bakeLayer(StopModel.LAYER_LOCATION);
 	    stopModel = new StopModel<>(modelSet.bakeLayer(StopModel.LAYER_LOCATION));
-
-	    this.bb_main = modelpart.getChild("bb_main");
 	}
 
 	@Override

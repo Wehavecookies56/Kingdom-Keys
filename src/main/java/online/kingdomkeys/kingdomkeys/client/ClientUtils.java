@@ -182,6 +182,7 @@ public class ClientUtils {
                 playerData.equipAllKeychains(message.keychains, false);
                 playerData.equipAllItems(message.items, false);
                 playerData.equipAllAccessories(message.accessories, false);
+                playerData.equipAllKBArmor(message.kbArmors, false);
                 playerData.equipAllArmors(message.armors, false);
                 playerData.setActiveDriveForm(message.driveForm);
 

@@ -49,6 +49,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
@@ -204,11 +205,13 @@ public class ClientSetup {
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 

@@ -7,7 +7,8 @@ public enum ItemCategory {
     BUILDING(0, 80),
     MISC(0, 120),
     ACCESSORIES(0, 140),
-    SHOTLOCK(0,160), ;
+    SHOTLOCK(0,160),
+    KBARMOR(0,180);
 
     private int u, v;
     ItemCategory(int u, int v) {

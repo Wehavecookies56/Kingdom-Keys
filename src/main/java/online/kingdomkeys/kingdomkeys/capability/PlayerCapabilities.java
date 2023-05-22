@@ -1,6 +1,18 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+
 import com.google.common.collect.Lists;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
@@ -49,9 +62,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -146,6 +156,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag accessories = new CompoundTag();
 		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.serializeNBT()));
 		storage.put("accessories", accessories);
+		
+		CompoundTag kbArmors = new CompoundTag();
+		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.serializeNBT()));
+		storage.put("kbarmors", kbArmors);
 
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
@@ -281,6 +295,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag accessoriesNBT = nbt.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
+		
+		CompoundTag kbArmorsNBT = nbt.getCompound("kbarmors");
+		kbArmorsNBT.getAllKeys().forEach((slot) -> this.setNewKBArmor(Integer.parseInt(slot), ItemStack.of(kbArmorsNBT.getCompound(slot))));
 
 		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
@@ -308,6 +325,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
+		
+		//this.setArmorName(nbt.getString("armorName"));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -359,7 +378,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
+	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
 
+	//private String armorName = "";
+	
 	//region Main stats, level, exp, str, mag, ap
 	@Override
 	public int getLevel() {
@@ -1242,6 +1264,62 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedAccessories.put(slot, stack);
 		}
 	}
+	
+	//region KBArmor
+	
+	@Override
+	public Map<Integer, ItemStack> getEquippedKBArmors() {
+		return equippedKBArmors;
+	}
+
+	@Override
+	public ItemStack equipKBArmor(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipKBArmor(slot, stack)) {
+			ItemStack previous = getEquippedKBArmor(slot);
+			equippedKBArmors.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getEquippedKBArmor(int slot) {
+		if (equippedKBArmors.containsKey(slot)) {
+			return equippedKBArmors.get(slot);
+		}
+		return null;
+	}
+
+	@Override
+	public void equipAllKBArmor(Map<Integer, ItemStack> KBArmors, boolean force) {
+		//Any KBArmor that cannot be equipped will be removed
+		if(!force)
+			KBArmors.replaceAll((k,v) -> canEquipKBArmor(k,v) ? v : ItemStack.EMPTY);
+		equippedKBArmors = KBArmors;
+	}
+
+	@Override
+	public boolean canEquipKBArmor(int slot, ItemStack stack) {
+		if (getEquippedKBArmor(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof ShoulderArmorItem) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setNewKBArmor(int slot, ItemStack stack) {
+		if (!equippedKBArmors.containsKey(slot)) {
+			equippedKBArmors.put(slot, stack);
+		}
+	}
+	
+	
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {
@@ -1980,4 +2058,5 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		remainingSynthExp = ((int) nextLevel - currentExp);
 		return remainingSynthExp;
 	}
+
 }
