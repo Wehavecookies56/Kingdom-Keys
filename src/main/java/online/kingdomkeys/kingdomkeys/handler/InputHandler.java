@@ -750,9 +750,12 @@ public class InputHandler {
                         } else {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
-                        break;/*
-                         * case SCROLL_ACTIVATOR: break;
-                         */
+                        break;
+                        
+                    case SUMMON_ARMOR:
+                        PacketHandler.sendToServer(new CSSummonArmor());
+                        break;
+                        
                     case ACTION:
                         commandAction();
                         break;
@@ -954,7 +957,7 @@ public class InputHandler {
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
         ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
-        //TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
+        SUMMON_ARMOR("key.kingdomkeys.summonarmor",GLFW.GLFW_KEY_H),
     	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
         private final KeyMapping keybinding;

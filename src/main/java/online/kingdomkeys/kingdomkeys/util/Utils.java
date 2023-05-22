@@ -37,10 +37,12 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -445,7 +447,7 @@ public class Utils {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
 	}
 
-	public static boolean hasID(ItemStack stack) {
+	public static boolean hasKeybladeID(ItemStack stack) {
 		if (stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof IKeychain) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("keybladeID")) {
@@ -457,8 +459,26 @@ public class Utils {
 	}
 
 	public static UUID getID(ItemStack stack) {
-		if (hasID(stack)) {
+		if (hasKeybladeID(stack)) {
 			return stack.getTag().getUUID("keybladeID");
+		}
+		return null;
+	}
+	
+	public static boolean hasArmorID(ItemStack stack) {
+		if (stack.getItem() instanceof ShoulderArmorItem || stack.getItem() instanceof BaseArmorItem) {
+			if (stack.getTag() != null) {
+				if (stack.getTag().hasUUID("armorID")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static UUID getArmorID(ItemStack stack) {
+		if (hasArmorID(stack)) {
+			return stack.getTag().getUUID("armorID");
 		}
 		return null;
 	}
@@ -474,7 +494,7 @@ public class Utils {
 						return i;
 					}
 					// Make sure it has a tag
-					if (hasID(slotStack)) {
+					if (hasKeybladeID(slotStack)) {
 						// Compare the ID with the chain's
 						if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
 							return i;

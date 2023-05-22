@@ -123,7 +123,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (entityIn instanceof Player && !worldIn.isClientSide) {
-			if (Utils.hasID(stack)) {
+			if (Utils.hasKeybladeID(stack)) {
 				Player player = (Player) entityIn;
 				//Stupid workaround for itemSlot being 0 for offhand slot
 				int slot = itemSlot;
