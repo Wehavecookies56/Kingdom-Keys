@@ -34,6 +34,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.PlayerDataStorage;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -289,6 +290,14 @@ public class EntityEvents {
 						map.put(i,ItemStack.EMPTY);
 					}
 					playerData.equipAllAccessories(map, true);
+				}
+				
+				if(playerData.getEquippedKBArmors().size() == 0) {
+					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
+					for(int i = 0 ; i < 1; i++) {
+						map.put(i,ItemStack.EMPTY);
+					}
+					playerData.equipAllKBArmor(map, true);
 				}
 				
 				//System.out.println(playerData.getEquippedArmors());
@@ -1316,10 +1325,15 @@ public class EntityEvents {
 	// Sync drive form on Start Tracking
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
+		if (e.getEntity() instanceof Player) {
+			Player localPlayer = (Player) e.getEntity();
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
+			PacketHandler.syncToAllAround(localPlayer, playerData);
+		}
 		if (e.getTarget() instanceof Player) {
 			Player targetPlayer = (Player) e.getTarget();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(targetPlayer);
-			PacketHandler.syncToAllAround(targetPlayer, playerData);
+			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(targetPlayer);
+			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
 		}
 	}
 

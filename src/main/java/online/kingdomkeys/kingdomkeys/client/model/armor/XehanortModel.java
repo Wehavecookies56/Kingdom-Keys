@@ -383,8 +383,6 @@ public class XehanortModel<T extends LivingEntity> extends HumanoidModel<T> {
             body.copyFrom(super.body);
             leftLeg.copyFrom(super.leftLeg);
             rightLeg.copyFrom(super.rightLeg);
-          //  rightArm2.copyFrom(super.rightArm);
-
             super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         }
     }

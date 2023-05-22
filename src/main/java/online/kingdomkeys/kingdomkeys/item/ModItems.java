@@ -4,8 +4,6 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -28,7 +26,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import org.checkerframework.checker.units.qual.A;
 
 public class ModItems {
 
@@ -635,6 +632,7 @@ public class ModItems {
 			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, ArmorItem.Type.LEGGINGS, Strings.antiCoat),
 			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, ArmorItem.Type.BOOTS, Strings.antiCoat),
 					
+			terra_Shoulder = createNewItem(Strings.terra+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.terra)),
 			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, ArmorItem.Type.HELMET, Strings.terra),
 			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.terra),
 			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.terra),

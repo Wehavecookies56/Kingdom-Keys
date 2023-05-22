@@ -58,6 +58,7 @@ public class SCSyncCapabilityPacket {
 	public Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	public Map<Integer, ItemStack> items = new HashMap<>();
 	public Map<Integer, ItemStack> accessories = new HashMap<>();
+	public Map<Integer, ItemStack> kbArmors = new HashMap<>();
 	public Map<Integer, ItemStack> armors = new HashMap<>();
 	public SoAState soAstate, choice, sacrifice;
 	public BlockPos choicePedestal, sacrificePedestal;
@@ -95,7 +96,7 @@ public class SCSyncCapabilityPacket {
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.fp = capability.getFP();
-		this.antipoints=capability.getAntiPoints();
+		this.antipoints = capability.getAntiPoints();
 		this.munny = capability.getMunny();
 		this.focus = capability.getFocus();
 		this.maxFocus = capability.getMaxFocus();
@@ -111,6 +112,7 @@ public class SCSyncCapabilityPacket {
 		this.keychains = capability.getEquippedKeychains();
 		this.items = capability.getEquippedItems();
 		this.accessories = capability.getEquippedAccessories();
+		this.kbArmors = capability.getEquippedKBArmors();
 		this.armors = capability.getEquippedArmors();
 		
 		this.messages = capability.getMessages();
@@ -214,6 +216,10 @@ public class SCSyncCapabilityPacket {
 		this.accessories.forEach((key, value) -> accessories.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(accessories);
 		
+		CompoundTag kbArmors = new CompoundTag();
+		this.kbArmors.forEach((key, value) -> kbArmors.put(key.toString(), value.serializeNBT()));
+		buffer.writeNbt(kbArmors);
+
 		CompoundTag armors = new CompoundTag();
 		this.armors.forEach((key, value) -> armors.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(armors);
@@ -354,6 +360,9 @@ public class SCSyncCapabilityPacket {
 		CompoundTag accessoriesNBT = buffer.readNbt();
 		accessoriesNBT.getAllKeys().forEach(key -> msg.accessories.put(Integer.parseInt(key), ItemStack.of((CompoundTag) accessoriesNBT.get(key))));
 		
+		CompoundTag kbArmorsNBT = buffer.readNbt();
+		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
+
 		CompoundTag armorsNBT = buffer.readNbt();
 		armorsNBT.getAllKeys().forEach(key -> msg.armors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) armorsNBT.get(key))));
 		

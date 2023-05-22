@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSEquipArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSExtendedReach;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
@@ -143,6 +144,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSEquipShotlock.class, CSEquipShotlock::encode, CSEquipShotlock::decode, CSEquipShotlock::handle);
 		HANDLER.registerMessage(packetID++, CSEquipItems.class, CSEquipItems::encode, CSEquipItems::decode, CSEquipItems::handle);
 		HANDLER.registerMessage(packetID++, CSEquipAccessories.class, CSEquipAccessories::encode, CSEquipAccessories::decode, CSEquipAccessories::handle);
+		HANDLER.registerMessage(packetID++, CSEquipShoulderArmor.class, CSEquipShoulderArmor::encode, CSEquipShoulderArmor::decode, CSEquipShoulderArmor::handle);
 		HANDLER.registerMessage(packetID++, CSEquipArmor.class, CSEquipArmor::encode, CSEquipArmor::decode, CSEquipArmor::handle);
 		HANDLER.registerMessage(packetID++, CSUseItemPacket.class, CSUseItemPacket::encode, CSUseItemPacket::decode, CSUseItemPacket::handle);
 		HANDLER.registerMessage(packetID++, CSUseReactionCommandPacket.class, CSUseReactionCommandPacket::encode, CSUseReactionCommandPacket::decode, CSUseReactionCommandPacket::handle);

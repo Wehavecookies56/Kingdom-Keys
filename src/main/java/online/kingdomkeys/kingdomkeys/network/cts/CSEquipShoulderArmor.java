@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -12,34 +13,39 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
-public class CSEquipShotlock {
+public class CSEquipShoulderArmor {
 
-	String shotlock;
+    int slotToEquipTo;
+    int slotToEquipFrom;
 
-    public CSEquipShotlock() {}
+    public CSEquipShoulderArmor() {}
 
-    public CSEquipShotlock(String shotlock) {
-        this.shotlock = shotlock;
+    public CSEquipShoulderArmor(int slotToEquipTo, int slotToEquipFrom) {
+        this.slotToEquipTo = slotToEquipTo;
+        this.slotToEquipFrom = slotToEquipFrom;
     }
 
     public void encode(FriendlyByteBuf buffer) {
-        buffer.writeUtf(shotlock,100);
+        buffer.writeInt(slotToEquipTo);
+        buffer.writeInt(slotToEquipFrom);
     }
 
-    public static CSEquipShotlock decode(FriendlyByteBuf buffer) {
-        CSEquipShotlock msg = new CSEquipShotlock();
-        msg.shotlock = buffer.readUtf(100);
+    public static CSEquipShoulderArmor decode(FriendlyByteBuf buffer) {
+        CSEquipShoulderArmor msg = new CSEquipShoulderArmor();
+        msg.slotToEquipTo = buffer.readInt();
+        msg.slotToEquipFrom = buffer.readInt();
         return msg;
     }
 
-    public static void handle(CSEquipShotlock message, final Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(CSEquipShoulderArmor message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            if(playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
-            	playerData.setEquippedShotlock(message.shotlock);
-            }
+            ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
+            ItemStack stackPreviouslyEquipped = playerData.equipKBArmor(message.slotToEquipTo, stackToEquip);
+            player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+			PacketHandler.syncToAllAround(player, playerData);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
         });
         ctx.get().setPacketHandled(true);
