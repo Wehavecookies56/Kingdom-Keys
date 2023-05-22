@@ -4,6 +4,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +18,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
@@ -89,7 +92,7 @@ public class CSSummonArmor {
 					System.out.println(stack);
 					if(stack.getItem() != Items.AIR) {
 						System.out.println("Is a helmet");
-						if(stack.getTag().getUUID("armorID") != null) {
+						if(stack.hasTag() && stack.getTag().hasUUID("armorID") && stack.getTag().getUUID("armorID") != null) {
 							System.out.println("Has UUID");
 							if(stack.getTag().getUUID("armorID") == KBArmorUUID){
 								System.out.println("Correct UUID");
@@ -99,7 +102,7 @@ public class CSSummonArmor {
 					} 
 				}
 				
-				if(correctArmor == 4) { //If it's wearing the full correct armor
+				if(correctArmor == 4 || message.forceDesummon) { //If it's wearing the full correct armor or has to remove it
 					//Desummon
 					for(ItemStack stack : armor) {
 						player.getInventory().setItem(39, ItemStack.EMPTY);
@@ -111,53 +114,52 @@ public class CSSummonArmor {
 				} else {
 					//If it's not wearing any armor equip it
 					if(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR) {
-						ItemStack newHelmet = new ItemStack(ModItems.terra_Helmet.get());
-						newHelmet.setTag(new CompoundTag());
-						newHelmet.getTag().putUUID("armorID", KBArmorUUID);
-						System.out.println(newHelmet.getTag().getUUID("armorID"));
-						ItemStack newChestplate = new ItemStack(ModItems.terra_Chestplate.get());
-						newHelmet.setTag(new CompoundTag());
-						newHelmet.getTag().putUUID("armorID", KBArmorUUID);
-						ItemStack newLeggings = new ItemStack(ModItems.terra_Leggings.get());
-						newHelmet.setTag(new CompoundTag());
-						newHelmet.getTag().putUUID("armorID", KBArmorUUID);
-						ItemStack newBoots = new ItemStack(ModItems.terra_Boots.get());
-						newHelmet.setTag(new CompoundTag());
-						newHelmet.getTag().putUUID("armorID", KBArmorUUID);
+						ItemStack newHelmet = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(3), KBArmorUUID);
+						ItemStack newChestplate = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
+						ItemStack newLeggings = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
+						ItemStack newBoots = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
 						
 						player.getInventory().setItem(39, newHelmet);
 						player.getInventory().setItem(38, newChestplate);
 						player.getInventory().setItem(37, newLeggings);
 						player.getInventory().setItem(36, newBoots);
 						
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						spawnArmorParticles(player);
+
 
 					} else {//If it's wearing some other armor despawn all legitimate armor if any, warn and abort
 						System.out.println("now what");
+						boolean unequipped = false;
 						if (Utils.hasArmorID(player.getInventory().getItem(36)) && Utils.getArmorID(player.getInventory().getItem(36)).equals(KBArmorUUID)) {
 							player.getInventory().setItem(36, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							unequipped = true;
 						}
 
 						if (Utils.hasArmorID(player.getInventory().getItem(37)) && Utils.getArmorID(player.getInventory().getItem(37)).equals(KBArmorUUID)) {
 							player.getInventory().setItem(37, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							unequipped = true;						
 						}
 
 						if (Utils.hasArmorID(player.getInventory().getItem(38)) && Utils.getArmorID(player.getInventory().getItem(38)).equals(KBArmorUUID)) {
 							player.getInventory().setItem(38, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							unequipped = true;						
 						}
 
 						if (Utils.hasArmorID(player.getInventory().getItem(39)) && Utils.getArmorID(player.getInventory().getItem(39)).equals(KBArmorUUID)) {
 							player.getInventory().setItem(39, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							unequipped = true;
 						}
 						
+						if(unequipped)
+							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+
+						armor = new ItemStack[]{player.getInventory().getArmor(3),player.getInventory().getArmor(2),player.getInventory().getArmor(1),player.getInventory().getArmor(0)};
+
 						if(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR) {
 							//Fine
 						} else {
-							player.sendSystemMessage(Component.translatable("You should unequip your armor in order to summon the Keyblade Armor"));
+							player.displayClientMessage(Component.translatable("You should fully unequip your armor first"), true);
 						}
 
 					}
@@ -170,6 +172,19 @@ public class CSSummonArmor {
 		ctx.get().setPacketHandled(true);
 	}
 	
+	private static ItemStack getNewItemWithUUID(Item item, UUID uuid) {
+		ItemStack newItem = new ItemStack(item);
+		newItem.setTag(new CompoundTag());
+		newItem.getTag().putUUID("armorID", uuid);
+		return newItem;
+	}
+	
+	private static void spawnArmorParticles(Player summoner) {
+		Vec3 userPos = new Vec3(summoner.getX(), summoner.getY(), summoner.getZ());
+        ((ServerLevel)summoner.level).sendParticles(ParticleTypes.FIREWORK, userPos.x, summoner.getY() + 1, userPos.z, 300, 0,0,0, 0.2);
+        
+	}
+
 	@Mod.EventBusSubscriber
 	public static class Events {
 

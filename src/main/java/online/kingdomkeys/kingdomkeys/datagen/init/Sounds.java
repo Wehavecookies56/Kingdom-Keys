@@ -68,6 +68,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(strike_raid);
         add(wisdom_shot);
         add(keyblade_armor);
+        add(summon_armor);
         
         //Music
         //Records

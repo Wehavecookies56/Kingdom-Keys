@@ -62,6 +62,8 @@ public class ModSounds {
 			wisdom_shot = registerSound("wisdom_shot"),
 					
 			keyblade_armor = registerSound("keyblade_armor"),
+			summon_armor = registerSound("summon_armor"),
+
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
             Record_Dream_Drop_Distance_The_Next_Awakening = registerSound("records/dream_drop_distance_the_next_awakening"),

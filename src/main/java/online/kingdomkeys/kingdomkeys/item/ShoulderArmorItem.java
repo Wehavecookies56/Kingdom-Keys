@@ -28,9 +28,11 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class ShoulderArmorItem extends Item implements IItemCategory {
     String textureName;
 
-    public ShoulderArmorItem(Properties properties, String textureName) {
+    Item[] items;
+    public ShoulderArmorItem(Properties properties, String textureName, Item[] items) {
         super(properties);
         this.textureName = textureName;
+        this.items = items;
     }
     
     @Override
@@ -70,4 +72,8 @@ public class ShoulderArmorItem extends Item implements IItemCategory {
 			}
 		}
     }
+
+	public Item getArmor(int slot) {
+		return items[slot];
+	}
 }

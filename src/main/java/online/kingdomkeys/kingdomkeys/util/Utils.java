@@ -458,7 +458,7 @@ public class Utils {
 		return false;
 	}
 
-	public static UUID getID(ItemStack stack) {
+	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
 			return stack.getTag().getUUID("keybladeID");
 		}

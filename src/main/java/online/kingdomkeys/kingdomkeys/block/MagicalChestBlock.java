@@ -109,7 +109,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 					UUID keyblade = te.getKeyblade();
 					ItemStack held = player.getItemInHand(handIn);
 					if (held.getItem() instanceof KeybladeItem) {
-						UUID heldID = Utils.getID(held);
+						UUID heldID = Utils.getKeybladeID(held);
 						if (heldID != null) {
 							if (keyblade != null) {
 								if (heldID.equals(keyblade)) {
@@ -211,7 +211,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 						MagicalChestTileEntity te = (MagicalChestTileEntity) world.getBlockEntity(pos);
 						if (te != null) {
 							if (te.getKeyblade() != null) {
-								UUID heldID = Utils.getID(held);
+								UUID heldID = Utils.getKeybladeID(held);
 								if (heldID.equals(te.getKeyblade())) {
 									te.setKeyblade(null);
 									player.displayClientMessage(Component.translatable("message.chest.unlocked"), true);

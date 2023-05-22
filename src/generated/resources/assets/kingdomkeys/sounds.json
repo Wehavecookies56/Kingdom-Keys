@@ -400,6 +400,11 @@
       "kingdomkeys:summon"
     ]
   },
+  "summon_armor": {
+    "sounds": [
+      "kingdomkeys:summon_armor"
+    ]
+  },
   "unsummon": {
     "sounds": [
       "kingdomkeys:unsummon"

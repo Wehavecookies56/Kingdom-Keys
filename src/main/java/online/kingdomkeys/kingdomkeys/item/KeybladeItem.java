@@ -146,10 +146,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						}
 						if (formChain == null)
 							formChain = ItemStack.EMPTY;
-						UUID stackID = Utils.getID(stack);
+						UUID stackID = Utils.getKeybladeID(stack);
 						if (!ItemStack.matches(mainChain, ItemStack.EMPTY) || !ItemStack.matches(formChain, ItemStack.EMPTY)) {
-							UUID mainChainID = Utils.getID(mainChain);
-							UUID formChainID = Utils.getID(formChain);
+							UUID mainChainID = Utils.getKeybladeID(mainChain);
+							UUID formChainID = Utils.getKeybladeID(formChain);
 							if (mainChainID == null)
 								mainChainID = new UUID(0, 0);
 							if (formChainID == null)
@@ -176,7 +176,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								}
 							}
 							if (i != slot) {
-								UUID id = Utils.getID(player.getInventory().getItem(i));
+								UUID id = Utils.getKeybladeID(player.getInventory().getItem(i));
 								if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
 									if (id.equals(stackID) && i != player.getInventory().selected) {
 										player.getInventory().setItem(i, ItemStack.EMPTY);
@@ -346,7 +346,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		public static void onItemDropped(EntityJoinLevelEvent event) {
 			if (event.getEntity() instanceof ItemEntity) {
 				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
-				UUID droppedID = Utils.getID(droppedItem);
+				UUID droppedID = Utils.getKeybladeID(droppedItem);
 				if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
 					event.setCanceled(true);
 				}

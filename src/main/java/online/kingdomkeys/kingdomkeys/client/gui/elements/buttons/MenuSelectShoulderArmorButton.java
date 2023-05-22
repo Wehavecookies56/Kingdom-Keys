@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
 
 public class MenuSelectShoulderArmorButton extends MenuButtonBase {
 
@@ -41,6 +42,8 @@ public class MenuSelectShoulderArmorButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					PacketHandler.sendToServer(new CSSummonArmor(true));
+
 					PacketHandler.sendToServer(new CSEquipShoulderArmor(parent.slot, slot));
 					ItemStack stackToEquip = player.getInventory().getItem(slot);
 					ItemStack stackPreviouslyEquipped = playerData.equipKBArmor(parent.slot, stackToEquip);

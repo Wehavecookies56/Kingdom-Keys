@@ -44,7 +44,7 @@ public class UpgradeDriveFormItem extends Item {
 						}
 						int newExp = exp - oldExp;
 						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.sendSystemMessage(Component.translatable(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"));
+						player.displayClientMessage(Component.translatable(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), true);
 						
 						if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 							player.getMainHandItem().shrink(1);
@@ -57,7 +57,7 @@ public class UpgradeDriveFormItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
-					player.sendSystemMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())));
+					player.displayClientMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), true);
 					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 						player.getMainHandItem().shrink(1);
 					} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {

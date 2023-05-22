@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -26,6 +27,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -100,13 +104,10 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 		if (entityIn instanceof Player player && !worldIn.isClientSide) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(playerData != null) {
-
 				UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
 
 				if (Utils.hasArmorID(stack)) {
-					System.out.println(armorUUID);
 					if(Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
-						System.out.println(itemSlot);
 						if(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack) {
 
 						} else {
@@ -127,5 +128,21 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.EQUIPMENT;
+	}
+
+	@Mod.EventBusSubscriber
+	public static class Events {
+
+		@SubscribeEvent
+		public static void onItemDropped(EntityJoinLevelEvent event) {
+			if (event.getEntity() instanceof ItemEntity) {
+				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
+				UUID droppedID = Utils.getArmorID(droppedItem);
+				if (droppedID != null && droppedItem.getItem() instanceof BaseArmorItem) {
+					event.setCanceled(true);
+				}
+			}
+		}
+
 	}
 }
