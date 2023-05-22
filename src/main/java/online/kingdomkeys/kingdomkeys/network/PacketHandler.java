@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
@@ -132,6 +133,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSynthesiseRecipe.class, CSSynthesiseRecipe::encode, CSSynthesiseRecipe::decode, CSSynthesiseRecipe::handle);
 		HANDLER.registerMessage(packetID++, CSLevelUpKeybladePacket.class, CSLevelUpKeybladePacket::encode, CSLevelUpKeybladePacket::decode, CSLevelUpKeybladePacket::handle);
 		HANDLER.registerMessage(packetID++, CSSummonKeyblade.class, CSSummonKeyblade::encode, CSSummonKeyblade::decode, CSSummonKeyblade::handle);
+		HANDLER.registerMessage(packetID++, CSSummonArmor.class, CSSummonArmor::encode, CSSummonArmor::decode, CSSummonArmor::handle);
 		HANDLER.registerMessage(packetID++, CSEquipKeychain.class, CSEquipKeychain::encode, CSEquipKeychain::decode, CSEquipKeychain::handle);
 		HANDLER.registerMessage(packetID++, CSPedestalConfig.class, CSPedestalConfig::encode, CSPedestalConfig::decode, CSPedestalConfig::handle);
 		HANDLER.registerMessage(packetID++, CSTravelToSoA.class, CSTravelToSoA::encode, CSTravelToSoA::decode, CSTravelToSoA::handle);

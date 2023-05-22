@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +32,8 @@ public class KKArmorItem extends Item implements IItemCategory {
     public int getDefense() {
         return defence;
     }
+    
+   
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
@@ -45,6 +48,7 @@ public class KKArmorItem extends Item implements IItemCategory {
 			case darkness -> tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes) + ": " + resistanceType.getValue()+"%"));
 			}
 		}
+		
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

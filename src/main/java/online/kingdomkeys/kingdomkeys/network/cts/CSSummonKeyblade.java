@@ -146,7 +146,7 @@ public class CSSummonKeyblade {
 					offHeldStack = summonedExtraStack;
 				}
 			}
-			if ((message.forceDesummon) || (!ItemStack.matches(offHeldStack, ItemStack.EMPTY) && (Utils.hasID(offHeldStack)))) {
+			if ((message.forceDesummon) || (!ItemStack.matches(offHeldStack, ItemStack.EMPTY) && (Utils.hasKeybladeID(offHeldStack)))) {
 				if (message.forceDesummon || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (ItemStack.matches(heldStack, summonedStack)))) {
 					if (offHeldStack.getItem() instanceof KeybladeItem) {
 						if (offHeldStack.getTag().getUUID("keybladeID").equals(extraChain.getTag().getUUID("keybladeID"))) {
@@ -192,7 +192,7 @@ public class CSSummonKeyblade {
 					}
 				}
 			}
-			if ((message.forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
+			if ((message.forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasKeybladeID(heldStack) || (orgWeapon != null && (heldStack.getItem() instanceof IOrgWeapon || heldStack.getItem() instanceof KeybladeItem))))) {
 				//DESUMMON
 				if (heldStack.getItem() instanceof KeybladeItem && orgWeapon == null) {
 					if (heldStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) { //Keyblade user
@@ -302,7 +302,7 @@ public class CSSummonKeyblade {
 					ItemStack stack = slot.getItem();
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (slot.container != player.getInventory()) {
-						if ((Utils.hasID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof IOrgWeapon || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
+						if ((Utils.hasKeybladeID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof IOrgWeapon || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
 							slot.set(ItemStack.EMPTY);
 							if(stack.getItem() instanceof IOrgWeapon || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
 								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
@@ -347,7 +347,7 @@ public class CSSummonKeyblade {
 							return;
 						}
 					}
-					if ((Utils.hasID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
+					if ((Utils.hasKeybladeID(droppedItem) && droppedItem.getItem() instanceof KeybladeItem)) {
 						player.level.playSound(null, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						event.setCanceled(true);
 					}

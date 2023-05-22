@@ -40,6 +40,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 		String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
 		if(armorName.equals(""))
 			return;
+		
 		texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
 		VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 		switch(armorName) {
