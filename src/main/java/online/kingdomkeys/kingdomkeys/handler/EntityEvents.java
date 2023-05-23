@@ -1221,9 +1221,6 @@ public class EntityEvents {
 		newPlayerData.setStrengthStat(oldPlayerData.getStrengthStat());
 		newPlayerData.setMagicStat(oldPlayerData.getMagicStat());
 		newPlayerData.setDefenseStat(oldPlayerData.getDefenseStat());
-		//newPlayerData.setStrength(oldPlayerData.getStrength(false));
-		//newPlayerData.setMagic(oldPlayerData.getMagic(false));
-		//newPlayerData.setDefense(oldPlayerData.getDefense(false));
 		newPlayerData.setMaxHP(oldPlayerData.getMaxHP());
 		newPlayerData.setMP(oldPlayerData.getMP());
 		newPlayerData.setMaxMP(oldPlayerData.getMaxMP());
@@ -1231,7 +1228,6 @@ public class EntityEvents {
 		newPlayerData.setFP(oldPlayerData.getFP());
 		newPlayerData.setMaxDP(oldPlayerData.getMaxDP());
 		newPlayerData.setMaxAPStat(oldPlayerData.getMaxAPStat());
-		//newPlayerData.setMaxAP(oldPlayerData.getMaxAP(false));
 		newPlayerData.setFocus(oldPlayerData.getFocus());
 		newPlayerData.setMaxFocus(oldPlayerData.getMaxFocus());
 		
@@ -1270,6 +1266,7 @@ public class EntityEvents {
 		newPlayerData.equipAllItems(oldPlayerData.getEquippedItems(), true);
 		newPlayerData.equipAllAccessories(oldPlayerData.getEquippedAccessories(), true);
 		newPlayerData.equipAllArmors(oldPlayerData.getEquippedArmors(), true);
+		newPlayerData.equipAllKBArmor(oldPlayerData.getEquippedKBArmors(), true);
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
