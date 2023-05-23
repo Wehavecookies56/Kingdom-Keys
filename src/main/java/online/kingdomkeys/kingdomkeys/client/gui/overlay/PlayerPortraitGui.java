@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -60,6 +62,21 @@ public class PlayerPortraitGui extends OverlayBase {
 			poseStack.pushPose();
 			{
 				poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
+
+				//3D render
+				float playerHeight = height * 0.23F;
+				float playerPosX = width * 0.95F;
+				float playerPosY = height * 1.2F;
+				poseStack.pushPose();
+				{
+					Player player = minecraft.player;
+				    InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+				}
+				poseStack.popPose();
+				
+				
+				//2D render
+				/*poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
 
 				// HEAD
 				int headWidth = 32;
@@ -219,7 +236,7 @@ public class PlayerPortraitGui extends OverlayBase {
 					}
 					poseStack.popPose();
 
-				}
+				}*/
 			}
 			poseStack.popPose();
 		}

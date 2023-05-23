@@ -92,9 +92,9 @@ public class CSSummonArmor {
 					System.out.println(stack);
 					if(stack.getItem() != Items.AIR) {
 						System.out.println("Is a helmet");
-						if(stack.hasTag() && stack.getTag().hasUUID("armorID") && stack.getTag().getUUID("armorID") != null) {
+						if(Utils.hasArmorID(stack)) {
 							System.out.println("Has UUID");
-							if(stack.getTag().getUUID("armorID") == KBArmorUUID){
+							if(Utils.getArmorID(stack).equals(KBArmorUUID)){
 								System.out.println("Correct UUID");
 								correctArmor++;
 							} 
@@ -104,13 +104,10 @@ public class CSSummonArmor {
 				
 				if(correctArmor == 4 || message.forceDesummon) { //If it's wearing the full correct armor or has to remove it
 					//Desummon
-					for(ItemStack stack : armor) {
-						player.getInventory().setItem(39, ItemStack.EMPTY);
-						player.getInventory().setItem(38, ItemStack.EMPTY);
-						player.getInventory().setItem(37, ItemStack.EMPTY);
-						player.getInventory().setItem(36, ItemStack.EMPTY);
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+					for(int i=36;i<40;i++) {
+						player.getInventory().setItem(i, ItemStack.EMPTY);
 					}
+					player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				} else {
 					//If it's not wearing any armor equip it
 					if(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR) {
@@ -127,38 +124,16 @@ public class CSSummonArmor {
 						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						spawnArmorParticles(player);
 
-
 					} else {//If it's wearing some other armor despawn all legitimate armor if any, warn and abort
 						System.out.println("now what");
-						boolean unequipped = false;
-						if (Utils.hasArmorID(player.getInventory().getItem(36)) && Utils.getArmorID(player.getInventory().getItem(36)).equals(KBArmorUUID)) {
-							player.getInventory().setItem(36, ItemStack.EMPTY);
-							unequipped = true;
-						}
-
-						if (Utils.hasArmorID(player.getInventory().getItem(37)) && Utils.getArmorID(player.getInventory().getItem(37)).equals(KBArmorUUID)) {
-							player.getInventory().setItem(37, ItemStack.EMPTY);
-							unequipped = true;						
-						}
-
-						if (Utils.hasArmorID(player.getInventory().getItem(38)) && Utils.getArmorID(player.getInventory().getItem(38)).equals(KBArmorUUID)) {
-							player.getInventory().setItem(38, ItemStack.EMPTY);
-							unequipped = true;						
-						}
-
-						if (Utils.hasArmorID(player.getInventory().getItem(39)) && Utils.getArmorID(player.getInventory().getItem(39)).equals(KBArmorUUID)) {
-							player.getInventory().setItem(39, ItemStack.EMPTY);
-							unequipped = true;
-						}
 						
-						if(unequipped)
+						if(checkAllArmorSlots(player, KBArmorUUID)) {
 							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						}
 
 						armor = new ItemStack[]{player.getInventory().getArmor(3),player.getInventory().getArmor(2),player.getInventory().getArmor(1),player.getInventory().getArmor(0)};
 
-						if(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR) {
-							//Fine
-						} else {
+						if(armor[0].getItem() != Items.AIR || armor[1].getItem() != Items.AIR || armor[2].getItem() != Items.AIR || armor[3].getItem() != Items.AIR) {
 							player.displayClientMessage(Component.translatable("You should fully unequip your armor first"), true);
 						}
 
@@ -172,6 +147,29 @@ public class CSSummonArmor {
 		ctx.get().setPacketHandled(true);
 	}
 	
+	/**
+	 * Checks all armor slots and if at least one unequips returns true
+	 * @param player
+	 * @param KBArmorUUID
+	 * @return
+	 */
+	private static boolean checkAllArmorSlots(Player player, UUID KBArmorUUID) {
+		boolean unequipped = false;
+		unequipped = checkAndEmptyArmorSlot(36, player, KBArmorUUID) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(37, player, KBArmorUUID) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(38, player, KBArmorUUID) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(39, player, KBArmorUUID) || unequipped;
+		return unequipped;
+	}
+
+	private static boolean checkAndEmptyArmorSlot(int i, Player player, UUID KBArmorUUID) {
+		if (Utils.hasArmorID(player.getInventory().getItem(i)) && Utils.getArmorID(player.getInventory().getItem(i)).equals(KBArmorUUID)) {
+			player.getInventory().setItem(i, ItemStack.EMPTY);
+			return true;
+		}
+		return false;
+	}
+
 	private static ItemStack getNewItemWithUUID(Item item, UUID uuid) {
 		ItemStack newItem = new ItemStack(item);
 		newItem.setTag(new CompoundTag());
