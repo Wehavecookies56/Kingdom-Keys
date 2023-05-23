@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
@@ -49,6 +50,10 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				PacketHandler.sendToServer(new CSPartyDisband(party));
 			}
 			GuiHelper.openMenu();
+			break;
+		case "leave":
+			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
+			party = null;
 			break;
 		case "settings":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -145,7 +150,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
 					matrixStack.pushPose();
-					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				    InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);

@@ -18,6 +18,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
@@ -64,11 +65,17 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientEvents {
 
+	public static Player clonePlayer;
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getEntity().getLevel().isClientSide) {
 				if(ent instanceof Player player) {
+					if(player == Minecraft.getInstance().player) {
+						Minecraft minecraft = Minecraft.getInstance();
+						clonePlayer = new LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
+					}
+					
 					if(e.getEntity() == Minecraft.getInstance().player) {
 						Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
 					}
