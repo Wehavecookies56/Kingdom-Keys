@@ -10,6 +10,7 @@
 	"key.kingdomkeys.openmenu": "Abrir Menú",
 	"key.kingdomkeys.showgui": "Mostrar HUD",
 	"key.kingdomkeys.summonkeyblade": "Invocar Llave Espada",
+	"key.kingdomkeys.summonarmor": "Invocar Armadura",
 	"key.kingdomkeys.lockon": "Fijar",
 	"key.kingdomkeys.reactioncommand": "Comando de Reacción",
 
@@ -137,6 +138,7 @@
 	"gui.synthesis.materials.take": "Sacar",
 	"gui.shop": "Tienda",
 	"gui.shop.cost": "Coste",
+	"gui.summonarmor.notenoughspace": "No tienes suficiente espacio en el inventario",
 
 	"gui.commandmenu.command": "COMANDOS",
 	"gui.commandmenu.attack": "Atacar",
@@ -535,6 +537,7 @@
 	"item.kingdomkeys.terra_chestplate": "Pechera de Terra",
 	"item.kingdomkeys.terra_leggings": "Grebas de Terra",
 	"item.kingdomkeys.terra_boots": "Botas de Terra",
+	"item.kingdomkeys.terra_shoulder": "Hombrera de Terra",
 
 	"item.kingdomkeys.aqua_helmet": "Casco de Aqua",
 	"item.kingdomkeys.aqua_chestplate": "Pechera de Aqua",

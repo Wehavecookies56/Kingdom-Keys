@@ -102,11 +102,11 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			action("togglePriv");
 		}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
 		
-		addRenderableWidget(togglePriv = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
+		addRenderableWidget(accept = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
 			action("accept");
 		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20).build());
 		
-		addRenderableWidget(togglePriv = Button.builder(Component.translatable(Party.PARTY_LIMIT+""), (e) -> {
+		addRenderableWidget(size = Button.builder(Component.translatable(Party.PARTY_LIMIT+""), (e) -> {
 			action("size");
 		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20).build());
 		

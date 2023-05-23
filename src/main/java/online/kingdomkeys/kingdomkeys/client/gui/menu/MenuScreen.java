@@ -156,16 +156,24 @@ public class MenuScreen extends MenuBackground {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		matrixStack.pushPose();
-		{
-			Player player = minecraft.player;
-		    InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, this.minecraft.player);
-		}
-		matrixStack.popPose();
-		matrixStack.pushPose();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		if (playerData != null) {
+			matrixStack.pushPose();
+			{
+				Player clonePlayer = new net.minecraft.client.player.LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
+				IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+				cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+				clonePlayer.getInventory().setItem(39, minecraft.player.getInventory().getArmor(3));
+				clonePlayer.getInventory().setItem(38, minecraft.player.getInventory().getArmor(2));
+				clonePlayer.getInventory().setItem(37, minecraft.player.getInventory().getArmor(1));
+				clonePlayer.getInventory().setItem(36, minecraft.player.getInventory().getArmor(0));
+				InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
+			}
+			matrixStack.popPose();
+			matrixStack.pushPose();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			matrixStack.translate(1, 1, 100);
-			
+
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
@@ -181,15 +189,13 @@ public class MenuScreen extends MenuBackground {
 				blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
 			}
 			blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
-			
+
 			RenderSystem.disableBlend();
-		matrixStack.popPose();
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(2, 2, 100);
-			
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			if (playerData != null) {
+			matrixStack.popPose();
+			matrixStack.pushPose();
+			{
+				matrixStack.translate(2, 2, 100);
+
 				matrixStack.pushPose();
 				{
 					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
@@ -197,13 +203,14 @@ public class MenuScreen extends MenuBackground {
 					drawString(matrixStack, minecraft.font, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
 				}
 				matrixStack.popPose();
-				
-				drawString(matrixStack,minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + ": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP) + ": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP) + ": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+
 			}
+			matrixStack.popPose();
 		}
-		matrixStack.popPose();
 	}
 
 }

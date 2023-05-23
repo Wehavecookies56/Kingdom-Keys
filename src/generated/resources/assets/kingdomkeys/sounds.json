@@ -71,7 +71,8 @@
   },
   "keyblade_armor": {
     "sounds": [
-      "kingdomkeys:keyblade_armor","kingdomkeys:keyblade_armor2"
+      "kingdomkeys:keyblade_armor",
+      "kingdomkeys:keyblade_armor2"
     ]
   },
   "kupo": {
@@ -408,6 +409,11 @@
   "unsummon": {
     "sounds": [
       "kingdomkeys:unsummon"
+    ]
+  },
+  "unsummon_armor": {
+    "sounds": [
+      "kingdomkeys:unsummon_armor"
     ]
   },
   "wisdom_shot": {
