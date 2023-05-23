@@ -3,17 +3,16 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -70,14 +69,17 @@ public class PlayerPortraitGui extends OverlayBase {
 				float playerPosY = height * 1.2F;
 				poseStack.pushPose();
 				{
-					Player clonePlayer = new net.minecraft.client.player.LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
-					IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
-					cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
-					clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
-					clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
-					clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
-					clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
-					InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
+					Player clonePlayer = ClientEvents.clonePlayer;
+					if(clonePlayer != null) {
+						IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+						cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+						cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+						clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
+						clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
+						clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
+						clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
+						InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
+					}
 				}
 				poseStack.popPose();
 				

@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -160,14 +161,17 @@ public class MenuScreen extends MenuBackground {
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{
-				Player clonePlayer = new net.minecraft.client.player.LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
-				IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
-				cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
-				clonePlayer.getInventory().setItem(39, minecraft.player.getInventory().getArmor(3));
-				clonePlayer.getInventory().setItem(38, minecraft.player.getInventory().getArmor(2));
-				clonePlayer.getInventory().setItem(37, minecraft.player.getInventory().getArmor(1));
-				clonePlayer.getInventory().setItem(36, minecraft.player.getInventory().getArmor(0));
-				InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
+				Player clonePlayer = ClientEvents.clonePlayer;
+				if(clonePlayer != null) {
+					IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+					cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+					cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+					clonePlayer.getInventory().setItem(39, minecraft.player.getInventory().getArmor(3));
+					clonePlayer.getInventory().setItem(38, minecraft.player.getInventory().getArmor(2));
+					clonePlayer.getInventory().setItem(37, minecraft.player.getInventory().getArmor(1));
+					clonePlayer.getInventory().setItem(36, minecraft.player.getInventory().getArmor(0));
+					InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
+				}
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

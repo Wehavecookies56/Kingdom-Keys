@@ -88,11 +88,9 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (flagIn.isAdvanced()) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("armorID")) {
-					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("armorID").toString()));
-				}
+			if(Utils.hasArmorID(stack)) {
+				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + Utils.getArmorID(stack).toString()));
 			}
 		}
     }
@@ -106,9 +104,8 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 				if (Utils.hasArmorID(stack)) {		
 					if(Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
-						if(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack) {
-	 
-						} else {
+						//If the armor item is ticking outside an armor slot
+						if(!(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack)) {
 							player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
 							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}

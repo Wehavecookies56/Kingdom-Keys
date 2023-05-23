@@ -204,13 +204,13 @@ public class ClientSetup {
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 

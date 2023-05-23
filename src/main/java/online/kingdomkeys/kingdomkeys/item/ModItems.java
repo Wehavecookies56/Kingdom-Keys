@@ -652,6 +652,7 @@ public class ModItems {
 			aqua_Chestplate = createArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.aqua),
 			aqua_Leggings = createArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.aqua),
 			aqua_Boots = createArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, ArmorItem.Type.BOOTS, Strings.aqua),
+			aqua_Shoulder = createNewItem(Strings.aqua+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.aqua, new Item[]{aqua_Boots.get(),aqua_Leggings.get(),aqua_Chestplate.get(),aqua_Helmet.get()})),
 
 			eraqus_Helmet = createArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, ArmorItem.Type.HELMET, Strings.eraqus),
 			eraqus_Chestplate = createArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.eraqus),

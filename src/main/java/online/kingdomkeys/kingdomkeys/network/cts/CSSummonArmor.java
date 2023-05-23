@@ -58,15 +58,11 @@ public class CSSummonArmor {
 				
 				int correctArmor = 0;
 				
-				//Check if the armor it's wearing it's correct
+				//Check if the armor it's wearing it's correct and count how many
 				for(ItemStack stack : armor) {
-					System.out.println(stack);
 					if(stack.getItem() != Items.AIR) {
-						System.out.println("Is a helmet");
 						if(Utils.hasArmorID(stack)) {
-							System.out.println("Has UUID");
 							if(Utils.getArmorID(stack).equals(KBArmorUUID)){
-								System.out.println("Correct UUID");
 								correctArmor++;
 							} 
 						} 

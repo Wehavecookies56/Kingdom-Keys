@@ -19,39 +19,53 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.model.armor.AquaShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 
 @OnlyIn(Dist.CLIENT)
 public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	TerraShoulderModel<?> shoulderArmorModel;
+	TerraShoulderModel<?> terraShoulderArmorModel;
+	AquaShoulderModel<?> aquaShoulderArmorModel;
 	ResourceLocation texture;
+	boolean steve;
 	
-	public ShoulderLayerRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
+	public ShoulderLayerRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
 		super(entityRendererIn);
-	    shoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
+		this.steve = steve;
+	    terraShoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
+	    aquaShoulderArmorModel = new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION));
+
 	}
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.shoulderArmorModel.leftArm.copyFrom(getParentModel().leftArm);
+		HumanoidModel model = null;
 		if(entitylivingbaseIn instanceof Player player) {
 			ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
 			String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
 			if(armorName.equals("") || !ItemStack.isSame(player.getInventory().getItem(38),ItemStack.EMPTY))
 				return;
-			
+
 			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
 			VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+
 			switch(armorName) {
 			case "terra":
-		        this.shoulderArmorModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+				model = terraShoulderArmorModel;
 		        break;
 			case "aqua":
-				
+				model = aquaShoulderArmorModel;
 				break;
 			}
+		
+			if(model != null) {
+				model.leftArm.copyFrom(getParentModel().leftArm);
+				if(steve)
+					matrixStackIn.translate(0.06, 0, 0);
+	        	model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+			}			
 		}
 	}
 }

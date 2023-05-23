@@ -31,15 +31,9 @@ public class TerraShoulderModel<T extends LivingEntity> extends HumanoidModel<T>
         MeshDefinition meshdefinition = HumanoidModel.createMesh(size, 0);
         PartDefinition partdefinition = meshdefinition.getRoot();
         
-        PartDefinition rightArm = partdefinition.getChild("right_arm");
         PartDefinition leftArm = partdefinition.getChild("left_arm");
-        PartDefinition rightLeg = partdefinition.getChild("right_leg");
-        PartDefinition leftLeg = partdefinition.getChild("left_leg");
-        PartDefinition head = partdefinition.getChild("head");
-        PartDefinition body = partdefinition.getChild("body");
-
         
-        PartDefinition Pauldron = leftArm.addOrReplaceChild("Pauldron", CubeListBuilder.create(), PartPose.offsetAndRotation(3.0512F, -0.2628F, 0.0179F, 0.0F, 0.0F, 0.48F));
+		PartDefinition Pauldron = leftArm.addOrReplaceChild("Pauldron", CubeListBuilder.create(), PartPose.offsetAndRotation(2.0512F, 0.7372F, 0.0179F, 0.0F, 0.0F, 0.48F));
 
 		PartDefinition cube_r1 = Pauldron.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(117, 50).addBox(-0.1032F, -0.324F, -2.05F, 0.2F, 0.3F, 4.1F, new CubeDeformation(0.5F)), PartPose.offsetAndRotation(-3.545F, -1.0817F, 0.0321F, 0.0F, 0.0F, -1.885F));
 
@@ -69,6 +63,7 @@ public class TerraShoulderModel<T extends LivingEntity> extends HumanoidModel<T>
 		PartDefinition cube_r13 = Pauldron.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(117, 50).addBox(-0.25F, -2.5F, -2.35F, 0.4F, 3.1F, 4.7F, new CubeDeformation(0.5F)), PartPose.offsetAndRotation(-0.7118F, -0.8472F, 0.0321F, 0.0F, 0.0F, -1.3963F));
 
 		PartDefinition p2 = Pauldron.addOrReplaceChild("p2", CubeListBuilder.create().texOffs(94, 2).addBox(-2.9F, -2.0F, -2.1F, 2.4F, 1.0F, 4.2F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
 		return LayerDefinition.create(meshdefinition, 128, 128);    
 	}
 
