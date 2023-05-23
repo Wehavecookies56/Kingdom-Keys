@@ -32,8 +32,16 @@ public class Recipes extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-	//Terra
-    	UpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), ModItems.terra_Helmet.get())
+   	//Terra
+        ShapelessRecipeBuilder.shapeless(ModItems.terra_Shoulder.get())
+	        .requires(ModItems.terra_Helmet.get())
+	        .requires(ModItems.terra_Chestplate.get())
+	        .requires(ModItems.terra_Leggings.get())
+	        .requires(ModItems.terra_Boots.get())
+	        .unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+	        .save(consumer);
+
+    	UpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
 
@@ -347,178 +355,7 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Helmet.get())
-                .pattern("LOL")
-                .pattern("DAD")
-                .define('L', Items.LAVA_BUCKET)
-                .define('A', Items.DIAMOND_HELMET)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.terra_Chestplate.get())
-                .pattern("LAL")
-                .pattern("DOD")
-                .pattern("ODO")
-                .define('L', Items.LAVA_BUCKET)
-                .define('A', Items.DIAMOND_CHESTPLATE)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.terra_Leggings.get())
-                .pattern("LDL")
-                .pattern("DAD")
-                .pattern("O O")
-                .define('L', Items.LAVA_BUCKET)
-                .define('A', Items.DIAMOND_LEGGINGS)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.terra_Boots.get())
-                .pattern("D D")
-                .pattern("LAL")
-                .define('L', Items.LAVA_BUCKET)
-                .define('A', Items.DIAMOND_BOOTS)
-                .define('D', Items.DRAGON_BREATH)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Helmet.get())
-                .pattern("WPW")
-                .pattern("DAD")
-                .define('W', Items.WATER_BUCKET)
-                .define('A', Items.DIAMOND_HELMET)
-                .define('D', Items.DRAGON_BREATH)
-                .define('P', Items.PRISMARINE_CRYSTALS)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Chestplate.get())
-                .pattern("WAW")
-                .pattern("DHD")
-                .pattern("PDP")
-                .define('W', Items.WATER_BUCKET)
-                .define('A', Items.DIAMOND_CHESTPLATE)
-                .define('D', Items.DRAGON_BREATH)
-                .define('P', Items.PRISMARINE_CRYSTALS)
-                .define('H', Items.HEART_OF_THE_SEA)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Leggings.get())
-                .pattern("WDW")
-                .pattern("DAD")
-                .pattern("P P")
-                .define('W', Items.WATER_BUCKET)
-                .define('A', Items.DIAMOND_LEGGINGS)
-                .define('D', Items.DRAGON_BREATH)
-                .define('P', Items.PRISMARINE_CRYSTALS)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.aqua_Boots.get())
-                .pattern("D D")
-                .pattern("WAW")
-                .define('W', Items.WATER_BUCKET)
-                .define('A', Items.DIAMOND_BOOTS)
-                .define('D', Items.DRAGON_BREATH)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Helmet.get())
-                .pattern("EAE")
-                .pattern("D D")
-                .define('E', Blocks.EMERALD_BLOCK)
-                .define('A', Items.DIAMOND_HELMET)
-                .define('D', Items.DRAGON_BREATH)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Chestplate.get())
-                .pattern("E E")
-                .pattern("QAQ")
-                .pattern("DQD")
-                .define('E', Items.EMERALD_BLOCK)
-                .define('A', Items.DIAMOND_CHESTPLATE)
-                .define('D', Items.DRAGON_BREATH)
-                .define('Q', Items.QUARTZ_BLOCK)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Leggings.get())
-                .pattern("EDE")
-                .pattern("DAD")
-                .pattern("Q Q")
-                .define('E', Items.EMERALD_BLOCK)
-                .define('A', Items.DIAMOND_LEGGINGS)
-                .define('D', Items.DRAGON_BREATH)
-                .define('Q', Items.QUARTZ_BLOCK)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.ventus_Boots.get())
-                .pattern("D D")
-                .pattern("EAE")
-                .define('E', Items.EMERALD_BLOCK)
-                .define('A', Items.DIAMOND_BOOTS)
-                .define('D', Items.DRAGON_BREATH)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Helmet.get())
-                .pattern("OAO")
-                .pattern("O O")
-                .define('O', Tags.Items.OBSIDIAN)
-                .define('A', ModItems.ventus_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("ventus_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Helmet.get()))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Chestplate.get())
-                .pattern("O O")
-                .pattern("OAO")
-                .pattern("OOO")
-                .define('O', Tags.Items.OBSIDIAN)
-                .define('A', ModItems.ventus_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("ventus_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Chestplate.get()))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Leggings.get())
-                .pattern("OAO")
-                .pattern("O O")
-                .pattern("O O")
-                .define('O', Tags.Items.OBSIDIAN)
-                .define('A', ModItems.ventus_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("ventus_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Leggings.get()))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.nightmareVentus_Boots.get())
-                .pattern("O O")
-                .pattern("OAO")
-                .define('O', Tags.Items.OBSIDIAN)
-                .define('A', ModItems.ventus_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("ventus_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ventus_Boots.get()))
-                .save(consumer);
 
         ShapedRecipeBuilder.shaped(ModItems.xemnas_Helmet.get())
                 .pattern("LWL")

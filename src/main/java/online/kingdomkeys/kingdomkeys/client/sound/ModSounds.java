@@ -63,6 +63,7 @@ public class ModSounds {
 					
 			keyblade_armor = registerSound("keyblade_armor"),
 			summon_armor = registerSound("summon_armor"),
+			unsummon_armor = registerSound("unsummon_armor"),
 
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),

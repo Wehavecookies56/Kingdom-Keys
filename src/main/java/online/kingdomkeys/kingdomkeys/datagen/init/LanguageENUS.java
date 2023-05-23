@@ -1160,6 +1160,8 @@ public class LanguageENUS extends KKLanguageProvider {
         
 
         //Armour
+        add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
+        
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
@@ -1169,6 +1171,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");
         addItem(ModItems.terra_Boots, "Terra Boots");
+        addItem(ModItems.terra_Shoulder, "Terra Shoulder Button");
 
         addItem(ModItems.aqua_Helmet, "Aqua Helmet");
         addItem(ModItems.aqua_Chestplate, "Aqua Chestplate");
@@ -1460,6 +1463,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SCROLL_UP, "Command menu up");
         add(InputHandler.Keybinds.SCROLL_DOWN, "Command menu down");
         add(InputHandler.Keybinds.SUMMON_KEYBLADE, "Summon weapon");
+        add(InputHandler.Keybinds.SUMMON_ARMOR, "Summon armor");
         add(InputHandler.Keybinds.REACTION_COMMAND, "Reaction Command");
         add(InputHandler.Keybinds.LOCK_ON, "Lock-on");
         add(InputHandler.Keybinds.OPENMENU, "Open Menu");

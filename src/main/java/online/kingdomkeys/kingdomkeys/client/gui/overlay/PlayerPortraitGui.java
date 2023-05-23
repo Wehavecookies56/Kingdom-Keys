@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -69,8 +70,14 @@ public class PlayerPortraitGui extends OverlayBase {
 				float playerPosY = height * 1.2F;
 				poseStack.pushPose();
 				{
-					Player player = minecraft.player;
-				    InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+					Player clonePlayer = new net.minecraft.client.player.LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
+					IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+					cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+					clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
+					clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
+					clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
+					clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
+					InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
 				}
 				poseStack.popPose();
 				
