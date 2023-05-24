@@ -49,6 +49,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
@@ -70,6 +71,7 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.StopModel;
+import online.kingdomkeys.kingdomkeys.client.render.UXArmorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.BlastBloxRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.MoogleProjectorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.block.PairBloxRenderer;
@@ -511,10 +513,10 @@ public class ModEntities {
         event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(AquaShoulderModel.LAYER_LOCATION, () -> AquaShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> VentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
-        //event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> NightmareVentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(EraqusShoulderModel.LAYER_LOCATION, () -> EraqusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(XehanortShoulderModel.LAYER_LOCATION, () -> XehanortShoulderModel.createBodyLayer(new CubeDeformation(0)));
-
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
     }
 
     @SubscribeEvent

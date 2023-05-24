@@ -29,12 +29,11 @@ import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 @OnlyIn(Dist.CLIENT)
 public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	TerraShoulderModel<?> terraShoulderArmorModel;
-	AquaShoulderModel<?> aquaShoulderArmorModel;
-	VentusShoulderModel<?> ventusShoulderArmorModel;
-	//NightmareVentusShoulderModel nightmareVentusShoulderArmorModel;
-	EraqusShoulderModel<?> eraqusShoulderArmorModel;
-	XehanortShoulderModel<?> xehanortShoulderArmorModel;
+	HumanoidModel<LivingEntity> terraShoulderArmorModel;
+	HumanoidModel<LivingEntity> aquaShoulderArmorModel;
+	HumanoidModel<LivingEntity> ventusShoulderArmorModel;
+	HumanoidModel<LivingEntity> eraqusShoulderArmorModel;
+	HumanoidModel<LivingEntity> xehanortShoulderArmorModel;
 
 	ResourceLocation texture;
 	boolean steve;
@@ -45,14 +44,13 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 	    terraShoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
 	    aquaShoulderArmorModel = new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION));
 	    ventusShoulderArmorModel = new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION));
-	   // nightmareVentusShoulderArmorModel = new NightmareVentusShoulderModel<>(modelSet.bakeLayer(NightmareVentusShoulderModel.LAYER_LOCATION));
 	    eraqusShoulderArmorModel = new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION));
 	    xehanortShoulderArmorModel = new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION));
 	}
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		HumanoidModel model = null;
+		HumanoidModel<LivingEntity> model = null;
 		if(entitylivingbaseIn instanceof Player player) {
 			ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
 			String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";

@@ -45,12 +45,14 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.UXArmorRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -102,6 +104,10 @@ public class ClientSetup {
 		
 		XehanortModel<LivingEntity> xTop = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_TOP));
 		XehanortModel<LivingEntity> xBot = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_BOTTOM));
+		
+		UXArmorModel<LivingEntity> uxTop = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
+		UXArmorModel<LivingEntity> uxBot = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_BOTTOM));
+
 
         armorModels.put(ModItems.terra_Helmet.get(), tTop);
 		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
@@ -132,6 +138,11 @@ public class ClientSetup {
 		armorModels.put(ModItems.xehanort_Chestplate.get(), xTop);
 		armorModels.put(ModItems.xehanort_Leggings.get(), xBot);
 		armorModels.put(ModItems.xehanort_Boots.get(), xTop);
+		
+		armorModels.put(ModItems.ux_Helmet.get(), uxTop);
+		armorModels.put(ModItems.ux_Chestplate.get(), uxTop);
+		armorModels.put(ModItems.ux_Leggings.get(), uxBot);
+		armorModels.put(ModItems.ux_Boots.get(), uxTop);
 
 		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
 		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
@@ -206,12 +217,14 @@ public class ClientSetup {
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
+		renderer.addLayer(new UXArmorRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
+		renderer.addLayer(new UXArmorRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
