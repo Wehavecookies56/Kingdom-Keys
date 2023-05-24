@@ -286,6 +286,7 @@ public class Strings {
             nightmareVentus = "nightmareventus",
             eraqus = "eraqus",
             xehanort = "xehanort",
+            ux = "ux",
             vanitas = "vanitas",
             vanitasRemnant = "vanitas_remnant",
             darkRiku = "dark_riku",

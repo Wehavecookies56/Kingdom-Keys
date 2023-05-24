@@ -668,6 +668,12 @@ public class ModItems {
 			xehanort_Boots = createArmorItem(Strings.xehanort+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, ArmorItem.Type.BOOTS, Strings.xehanort),
 			xehanort_Shoulder = createNewItem(Strings.xehanort+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.xehanort, new Item[]{xehanort_Boots.get(),xehanort_Leggings.get(),xehanort_Chestplate.get(),xehanort_Helmet.get()})),
 
+			ux_Helmet = createUXArmorItem(Strings.ux+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, ArmorItem.Type.HELMET, Strings.ux),
+			ux_Chestplate = createUXArmorItem(Strings.ux+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.ux),
+			ux_Leggings = createUXArmorItem(Strings.ux+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.ux),
+			ux_Boots = createUXArmorItem(Strings.ux+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, ArmorItem.Type.BOOTS, Strings.ux),
+			ux_Shoulder = createNewItem(Strings.ux+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.ux, new Item[]{ux_Boots.get(),ux_Leggings.get(),ux_Chestplate.get(),ux_Helmet.get()})),
+					
 			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, KKArmorMaterial.VANITAS, ArmorItem.Type.HELMET, Strings.vanitas),
 			vanitas_Chestplate = createArmorItem(Strings.vanitas+"_"+Strings.chestplate, KKArmorMaterial.VANITAS, ArmorItem.Type.CHESTPLATE, Strings.vanitas),
 			vanitas_Leggings = createArmorItem(Strings.vanitas+"_"+Strings.leggings, KKArmorMaterial.VANITAS, ArmorItem.Type.LEGGINGS, Strings.vanitas),
@@ -892,6 +898,10 @@ public class ModItems {
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+	
+	private static RegistryObject<Item> createUXArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {
+		return ITEMS.register(name, () -> new UXArmorItem(material, slot, textureName));
 	}
 
 }
