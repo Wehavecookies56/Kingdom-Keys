@@ -13,7 +13,7 @@ import yesman.epicfight.gameasset.ColliderPreset;
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, KH1_SORA_COMBO1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
-            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER;
+            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1;
 
 
     private KKAnimations() {
@@ -61,6 +61,8 @@ public class KKAnimations {
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 
+        FINAL_IDLE = new StaticAnimation(true, "biped/living/final_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, .8f);
+        FINAL_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.rootJoint, "biped/combat/final_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, .8f) ;
 
         ROXAS_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/roxas_auto_1", Armatures.BIPED);
         ROXAS_IDLE = new StaticAnimation(true, "biped/living/roxas_idle", Armatures.BIPED);

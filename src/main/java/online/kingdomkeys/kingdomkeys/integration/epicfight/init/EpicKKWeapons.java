@@ -76,16 +76,21 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
 
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
-                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.IDLE, KKAnimations.WISDOM_IDLE)
+                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.IDLE, KKAnimations.FINAL_IDLE)
+
                     .livingMotionModifier(KKStyles.WISDOM, LivingMotions.WALK, KKAnimations.WISDOM_RUN)
-                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_RUN)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.WALK, KKAnimations.FINAL_IDLE)
 
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
+                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_RUN)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.RUN, KKAnimations.FINAL_IDLE)
+
                     .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
                     .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
-                    .newStyleCombo(KKStyles.FINAL, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                    .newStyleCombo(KKStyles.FINAL, KKAnimations.FINAL_AUTO1, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
 
                     .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
@@ -94,10 +99,8 @@ public class EpicKKWeapons {
                     .newStyleCombo(KKStyles.TERRA, Animations.SWORD_DUAL_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.AQUA, Animations.AXE_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
 
-
                     .newStyleCombo(KKStyles.KH2_ROXAS_DUAL, Animations.AXE_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.DAYS_ROXAS_DUAL, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
-
 
                     .livingMotionModifier(KKStyles.SORA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(KKStyles.ROXAS, LivingMotions.BLOCK, Animations.SWORD_GUARD)
@@ -108,7 +111,7 @@ public class EpicKKWeapons {
 
                     .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
-                    .passiveSkill(KKSkills.comboExtender).innateSkill(KKStyles.SORA, itemStack -> EpicFightSkills.GIANT_WHIRLWIND);
+                    .passiveSkill(KKSkills.comboExtender);
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
             WeaponCapability.builder()

@@ -39,17 +39,14 @@ public class ComboExtender extends Skill {
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
         PlayerEventListener listener = container.getExecuter().getEventListener();
-        listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT_SERVER, EVENT_UUID, (event) -> {
+        listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT_SERVER, EVENT_UUID, event -> {
 
-            PlayerPatch spp = container.getExecuter();
-            Player player = (Player) spp.getOriginal();
+            PlayerPatch<?> spp = container.getExecuter();
+            Player player = spp.getOriginal();
             if (player.isOnGround() && !player.isSprinting() &&  event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
                 IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
-                if(playerCapabilities.getActiveDriveForm().equals("kingdomkeys:none"))
-                {
                     event.setCanceled(true);
                     StaticAnimation attackMotion;
-
                     this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
                     this.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.negativeCombo);
                     this.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.finishingPlus);
@@ -97,9 +94,6 @@ public class ComboExtender extends Skill {
                     }
                     dataManager.setData(this.combo, comboCounter);
                     spp.updateEntityState();
-
-                }
-
             }
         });
     }
