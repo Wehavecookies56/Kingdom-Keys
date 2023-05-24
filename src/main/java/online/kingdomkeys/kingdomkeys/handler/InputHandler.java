@@ -750,6 +750,10 @@ public class InputHandler {
                         } else {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
+                        
+                        if(ModConfigs.summonTogether)
+                            PacketHandler.sendToServer(new CSSummonArmor());
+
                         break;
                         
                     case SUMMON_ARMOR:

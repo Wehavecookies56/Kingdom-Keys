@@ -59,7 +59,7 @@ public class ModConfigs {
 
     public static int focusXPos, focusYPos, focusXScale, focusYScale;
 
-	public static boolean showDriveForms;
+	public static boolean showDriveForms, summonTogether;
 
     public enum ShowType {
         SHOW, HIDE, WEAPON
@@ -295,6 +295,7 @@ public class ModConfigs {
         focusYScale = CLIENT.focusYScale.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
+        summonTogether = CLIENT.summonTogether.get();
 
         showGuiToggle = CLIENT.showGuiToggle.get();
     }

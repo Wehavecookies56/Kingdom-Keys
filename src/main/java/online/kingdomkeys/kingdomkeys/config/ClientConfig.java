@@ -30,13 +30,16 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue focusXPos, focusYPos, focusXScale, focusYScale;
     
-    public ForgeConfigSpec.BooleanValue showDriveForms;
+    public ForgeConfigSpec.BooleanValue showDriveForms, summonTogether;
 
 	public ForgeConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
-
+        	summonTogether = builder
+                .comment("Summon both Keyblade and Armor with Summon Keyblade key")
+                .translation(KingdomKeys.MODID + ".config.summon_together")
+                .define("summonTogether", false);
         builder.push("gui");
 
 			showGuiToggle = builder

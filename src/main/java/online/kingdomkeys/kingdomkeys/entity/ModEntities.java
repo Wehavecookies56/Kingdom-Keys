@@ -45,10 +45,13 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.AquaShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.AssassinModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
@@ -503,9 +506,13 @@ public class ModEntities {
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_BOTTOM, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.25F)));
 
         event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
+        event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
         event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(AquaShoulderModel.LAYER_LOCATION, () -> AquaShoulderModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
+        event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> VentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
+        //event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> NightmareVentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(EraqusShoulderModel.LAYER_LOCATION, () -> EraqusShoulderModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(XehanortShoulderModel.LAYER_LOCATION, () -> XehanortShoulderModel.createBodyLayer(new CubeDeformation(0)));
 
     }
 

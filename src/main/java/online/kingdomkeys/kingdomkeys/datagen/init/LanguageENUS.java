@@ -239,6 +239,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Title, "Forms");
         add(Gui_CommandMenu_Limit_Title, "Limits");
 
+        add("kingdomkeys.helmet", "Helmet");
+        add("kingdomkeys.chestplate", "Chestplate");
+        add("kingdomkeys.leggings", "Leggings");
+        add("kingdomkeys.boots", "Boots");
+        
         //Synthesis Bag
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
@@ -1166,32 +1171,42 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
         addItem(ModItems.organizationRobe_Boots, "Organization Boots");
-
+        
         addItem(ModItems.terra_Helmet, "Terra Helmet");
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");
         addItem(ModItems.terra_Boots, "Terra Boots");
-        addItem(ModItems.terra_Shoulder, "Terra Shoulder Button");
+        addItem(ModItems.terra_Shoulder, "Terra's Pauldron");
 
         addItem(ModItems.aqua_Helmet, "Aqua Helmet");
         addItem(ModItems.aqua_Chestplate, "Aqua Chestplate");
         addItem(ModItems.aqua_Leggings, "Aqua Leggings");
         addItem(ModItems.aqua_Boots, "Aqua Boots");
+        addItem(ModItems.aqua_Shoulder, "Aqua's Pauldron");
 
         addItem(ModItems.ventus_Helmet, "Ventus Helmet");
         addItem(ModItems.ventus_Chestplate, "Ventus Chestplate");
         addItem(ModItems.ventus_Leggings, "Ventus Leggings");
         addItem(ModItems.ventus_Boots, "Ventus Boots");
+        addItem(ModItems.ventus_Shoulder, "Ventus' Pauldron");
+
+        addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
+        addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");
+        addItem(ModItems.nightmareVentus_Leggings, "Nightmare Ventus Leggings");
+        addItem(ModItems.nightmareVentus_Boots, "Nightmare Ventus Boots");
+        addItem(ModItems.nightmareVentus_Shoulder, "Nightmare Ventus' Pauldron");
 
         addItem(ModItems.eraqus_Helmet, "Eraqus Helmet");
         addItem(ModItems.eraqus_Chestplate, "Eraqus Chestplate");
         addItem(ModItems.eraqus_Leggings, "Eraqus Leggings");
         addItem(ModItems.eraqus_Boots, "Eraqus Boots");
-        
+        addItem(ModItems.eraqus_Shoulder, "Eraqus' Pauldron");
+
         addItem(ModItems.xehanort_Helmet, "Xehanort Helmet");
         addItem(ModItems.xehanort_Chestplate, "Xehanort Chestplate");
         addItem(ModItems.xehanort_Leggings, "Xehanort Leggings");
         addItem(ModItems.xehanort_Boots, "Xehanort Boots");
+        addItem(ModItems.xehanort_Shoulder, "Xehanort' Pauldron");
 
         addItem(ModItems.vanitas_Helmet, "Vanitas Helmet");
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
@@ -1202,11 +1217,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
         addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
         addItem(ModItems.vanitas_Remnant_Boots, "Vanitas Remnant Boots");
-
-        addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
-        addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");
-        addItem(ModItems.nightmareVentus_Leggings, "Nightmare Ventus Leggings");
-        addItem(ModItems.nightmareVentus_Boots, "Nightmare Ventus Boots");
 
         addItem(ModItems.antiCoat_Helmet, "AntiCoat Hood");
         addItem(ModItems.antiCoat_Chestplate, "AntiCoat Coat");
