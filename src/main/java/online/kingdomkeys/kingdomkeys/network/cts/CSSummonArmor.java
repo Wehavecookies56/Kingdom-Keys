@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -123,6 +124,28 @@ public class CSSummonArmor {
 							ItemStack newChestplate = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
 							ItemStack newLeggings = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
 							ItemStack newBoots = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
+							
+							if(kbArmorItem.getTag() != null) {
+								Tag bootsTag = kbArmorItem.getTag().get("boots");
+								Tag legginsTag = kbArmorItem.getTag().get("leggings");
+								Tag chestplateTag = kbArmorItem.getTag().get("chestplate");
+								Tag helmetTag = kbArmorItem.getTag().get("helmet");
+								if(bootsTag != null) {
+									newBoots.getTag().put(ItemStack.TAG_ENCH, bootsTag);
+								}
+								
+								if(legginsTag != null) {
+									newLeggings.getTag().put(ItemStack.TAG_ENCH, legginsTag);
+								}
+								
+								if(chestplateTag != null) {
+									newChestplate.getTag().put(ItemStack.TAG_ENCH, chestplateTag);
+								}
+								
+								if(helmetTag != null) {
+									newHelmet.getTag().put(ItemStack.TAG_ENCH, helmetTag);
+								}
+							}
 							
 							player.getInventory().setItem(39, newHelmet);
 							player.getInventory().setItem(38, newChestplate);

@@ -17,6 +17,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -389,6 +391,23 @@ public class MenuEquipmentButton extends Button {
 						} else if(stack.getItem() instanceof KKPotionItem) {
                             ClientUtils.drawSplitString(fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
+                    } else if(stack.getItem() instanceof ShoulderArmorItem kbArmor){
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", (ListTag) stack.getTag().get("helmet"))) {
+		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+	                    }
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", (ListTag) stack.getTag().get("chestplate"))) {
+		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+	                    }
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", (ListTag) stack.getTag().get("leggings"))) {
+		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+	                    }
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", (ListTag) stack.getTag().get("boots"))) {
+		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+	                    }
                     }
                 } 
                 

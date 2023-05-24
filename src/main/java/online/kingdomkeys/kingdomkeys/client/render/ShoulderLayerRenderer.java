@@ -20,7 +20,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.model.armor.AquaShoulderModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortShoulderModel;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 
 @OnlyIn(Dist.CLIENT)
@@ -28,6 +31,11 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	TerraShoulderModel<?> terraShoulderArmorModel;
 	AquaShoulderModel<?> aquaShoulderArmorModel;
+	VentusShoulderModel<?> ventusShoulderArmorModel;
+	//NightmareVentusShoulderModel nightmareVentusShoulderArmorModel;
+	EraqusShoulderModel<?> eraqusShoulderArmorModel;
+	XehanortShoulderModel<?> xehanortShoulderArmorModel;
+
 	ResourceLocation texture;
 	boolean steve;
 	
@@ -36,7 +44,10 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 		this.steve = steve;
 	    terraShoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
 	    aquaShoulderArmorModel = new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION));
-
+	    ventusShoulderArmorModel = new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION));
+	   // nightmareVentusShoulderArmorModel = new NightmareVentusShoulderModel<>(modelSet.bakeLayer(NightmareVentusShoulderModel.LAYER_LOCATION));
+	    eraqusShoulderArmorModel = new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION));
+	    xehanortShoulderArmorModel = new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION));
 	}
 
 	@Override
@@ -57,6 +68,18 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 		        break;
 			case "aqua":
 				model = aquaShoulderArmorModel;
+				break;
+			case "ventus":
+				model = ventusShoulderArmorModel;
+				break;
+			case "nightmareventus":
+				model = ventusShoulderArmorModel;
+				break;
+			case "eraqus":
+				model = eraqusShoulderArmorModel;
+				break;
+			case "xehanort":
+				model = xehanortShoulderArmorModel;
 				break;
 			}
 		

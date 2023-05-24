@@ -2,7 +2,11 @@ package online.kingdomkeys.kingdomkeys.util;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -922,6 +926,20 @@ public class Utils {
 			}
 		}
 		return minCost;
+	}
+	
+	public static List<String> appendEnchantmentNames(String text, ListTag pStoredEnchantments) {
+		List<String> arrayList = new ArrayList<String>();
+		if (pStoredEnchantments != null) {
+			arrayList.add(Component.translatable(text).getString());
+			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
+				CompoundTag compoundtag = pStoredEnchantments.getCompound(i);
+				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
+					arrayList.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
+				});
+			}
+		}
+		return arrayList;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
