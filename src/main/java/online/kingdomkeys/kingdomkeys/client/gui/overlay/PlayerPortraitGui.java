@@ -37,17 +37,11 @@ public class PlayerPortraitGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ResourceLocation skin = minecraft.player.getSkinTextureLocation();
 		RenderSystem.setShaderTexture(0, skin);
-		float scale = 0.5f;
+		float scale = 0.64f;
 		switch (minecraft.options.guiScale().get()) {
-			case Constants.SCALE_AUTO:
-				scale = 0.85f;
-				break;
-			case Constants.SCALE_NORMAL:
-				scale = 0.85f;
-				break;
-			default:
-				scale = 0.65f;
-				break;
+			case 3 -> scale = 0.48F;
+			case 2 -> scale = 0.32F;
+			case 1 -> scale = 0.16F;
 		}
 
 		if (playerData != null) {
@@ -64,9 +58,9 @@ public class PlayerPortraitGui extends OverlayBase {
 				poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
 
 				//3D render
-				float playerHeight = height * 0.23F;
-				float playerPosX = width * 0.95F;
-				float playerPosY = height * 1.2F;
+				float playerHeight = (height/2F) * scale;
+				float playerPosX = width * (1-(scale/10));
+				float playerPosY = height + (playerHeight*0.95F);
 				poseStack.pushPose();
 				{
 					Player clonePlayer = ClientEvents.clonePlayer;
