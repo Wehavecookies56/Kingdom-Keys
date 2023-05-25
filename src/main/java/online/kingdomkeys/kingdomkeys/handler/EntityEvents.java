@@ -356,6 +356,12 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+				playerData.setArmorColor(6618980);
+				/*if(!event.player.level.isClientSide) {
+					PacketHandler.syncToAllAround(event.player, playerData);
+				}*/
+				
+				
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				
