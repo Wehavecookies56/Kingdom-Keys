@@ -68,6 +68,7 @@ public class PlayerPortraitGui extends OverlayBase {
 						IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
 						cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
 						cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+						cloneCapabilities.setArmorColor(playerData.getArmorColor());
 						clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
 						clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
 						clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
