@@ -83,7 +83,6 @@ public class CSSummonArmor {
 					} else {
 						//If it's wearing any armor unequip it
 						if(!(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR)) {
-							System.out.println("now what");
 							
 							if(checkAllArmorSlots(player, KBArmorUUID)) {
 								player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);

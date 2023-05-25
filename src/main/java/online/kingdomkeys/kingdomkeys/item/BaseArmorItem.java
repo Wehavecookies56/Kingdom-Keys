@@ -50,7 +50,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 
 	@Nonnull
 	@Override
-	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 		if(this.textureName != null) {
 			if (slot == EquipmentSlot.LEGS) {
 				return KingdomKeys.MODID + ":" + "textures/models/armor/"+this.textureName+"2.png";
