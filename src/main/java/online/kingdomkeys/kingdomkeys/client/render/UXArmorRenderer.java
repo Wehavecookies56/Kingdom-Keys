@@ -68,10 +68,13 @@ public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>>
 	    	if(armor.get(3).getItem() == ModItems.ux_Helmet.get()) {
 	    		armorModel.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY);
 	    	}
-			VertexConsumer vertexconsumer2 = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
+
+	    	vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
 			if(armor.get(1).getItem() == ModItems.ux_Leggings.get()) {
-				armorModel.leftLeg.render(matrixStackIn, vertexconsumer2, packedLightIn, OverlayTexture.NO_OVERLAY,1,0,0,1);
-				armorModel.rightLeg.render(matrixStackIn, vertexconsumer2, packedLightIn, OverlayTexture.NO_OVERLAY,1,1,1,1);
+				armorModel.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1,1,1,1);
+				armorModel.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1,0,0,1);
+				armorModel.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1,1,1,1);
+				
 	    	}
 		}
 	}
