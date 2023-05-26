@@ -902,7 +902,7 @@ public class ModItems {
 	}
 	
 	private static RegistryObject<Item> createKeybladeArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
-		return ITEMS.register(name, () -> new UXArmorItem(material, slot, textureName));
+		return ITEMS.register(name, () -> new KeybladeArmorItem(material, slot, textureName));
 	}
 
 }

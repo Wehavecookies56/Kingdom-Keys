@@ -381,7 +381,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
 	
-	private int armorColor = 0;
+	private int armorColor = 16777215;
 
 	//private String armorName = "";
 	
