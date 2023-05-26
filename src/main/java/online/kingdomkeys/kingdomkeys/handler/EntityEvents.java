@@ -1273,7 +1273,8 @@ public class EntityEvents {
 		newPlayerData.equipAllAccessories(oldPlayerData.getEquippedAccessories(), true);
 		newPlayerData.equipAllArmors(oldPlayerData.getEquippedArmors(), true);
 		newPlayerData.equipAllKBArmor(oldPlayerData.getEquippedKBArmors(), true);
-
+		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
+		
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		

@@ -35,10 +35,10 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
         super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
-		this.leftArm = root.getChild("leftArm");
-		this.rightArm = root.getChild("rightArm");
-		this.leftLeg = root.getChild("leftLeg");
-		this.rightLeg = root.getChild("rightLeg");
+		this.leftArm = root.getChild("left_arm");
+		this.rightArm = root.getChild("right_arm");
+		this.leftLeg = root.getChild("left_leg");
+		this.rightLeg = root.getChild("right_leg");
 
     }
 
@@ -179,7 +179,7 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 		PartDefinition Center_r1 = ChestArmor.addOrReplaceChild("Center_r1", CubeListBuilder.create().texOffs(0, 88).addBox(-3.9F, -1.5F, 0.0F, 7.9F, 3.0F, 0.2F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.2F, 0.0524F, 0.0F, 0.0F));
 
-		PartDefinition leftArm = partdefinition.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(5.0F, 2.0F, 0.0F));
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(5.0F, 2.0F, 0.0F));
 
 		PartDefinition Vambrace = leftArm.addOrReplaceChild("Vambrace", CubeListBuilder.create().texOffs(1, 73).addBox(-2.65F, -3.0F, -2.7F, 5.3F, 4.0F, 5.3F, new CubeDeformation(0.0F))
 		.texOffs(25, 74).addBox(-2.85F, -3.5F, -3.0F, 5.75F, 1.0F, 6.0F, new CubeDeformation(0.0F))
@@ -231,7 +231,7 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 		PartDefinition cube_r36 = topSpikes.addOrReplaceChild("cube_r36", CubeListBuilder.create().texOffs(78, 81).addBox(-0.125F, -2.5F, -0.125F, 0.25F, 3.5F, 0.25F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.875F, -5.5F, -0.975F, 0.1249F, -0.0166F, -0.3225F));
 
-		PartDefinition rightArm = partdefinition.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(32, 48).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(32, 48).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
 		PartDefinition Pauldron2 = rightArm.addOrReplaceChild("Pauldron2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -283,7 +283,7 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 		PartDefinition cube_r44 = Vambrace2.addOrReplaceChild("cube_r44", CubeListBuilder.create().texOffs(53, 76).mirror().addBox(0.75F, -1.0F, -1.0F, 0.25F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.5F, -2.5F, 0.0F, 0.7854F, 0.0F, 0.0F));
 
-		PartDefinition leftLeg = partdefinition.addOrReplaceChild("leftLeg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
 
 		PartDefinition Boot1 = leftLeg.addOrReplaceChild("Boot1", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -329,7 +329,7 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 		PartDefinition cube_r47 = Shin.addOrReplaceChild("cube_r47", CubeListBuilder.create().texOffs(83, 119).addBox(-2.55F, -1.25F, -2.7F, 5.1F, 1.4F, 5.2F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.05F, 5.85F, -0.1F, -0.2182F, 0.0F, 0.0F));
 
-		PartDefinition rightLeg = partdefinition.addOrReplaceChild("rightLeg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
 		PartDefinition Boot2 = rightLeg.addOrReplaceChild("Boot2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -380,6 +380,7 @@ public class UXArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    //super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
