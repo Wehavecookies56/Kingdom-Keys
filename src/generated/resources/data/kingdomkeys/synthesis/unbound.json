@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:unbound_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_gem",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:unbound_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

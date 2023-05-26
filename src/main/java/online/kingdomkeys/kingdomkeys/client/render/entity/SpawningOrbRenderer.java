@@ -2,9 +2,11 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -12,7 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
@@ -47,7 +49,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 
 				matrixStackIn.mulPose(Vector3f.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
 				
-				for (BakedQuad quad : model.getQuads(null, null, entity.level.random, EmptyModelData.INSTANCE)) {
+				for (BakedQuad quad : model.getQuads(null, null, entity.level.random, ModelData.EMPTY, RenderType.translucent())) {
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb[0], rgb[1], rgb[2], rgb[3], 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				

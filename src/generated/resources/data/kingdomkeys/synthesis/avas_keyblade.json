@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:avas_keyblade_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_betwixt_gem",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_betwixt_shard",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:avas_keyblade_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

@@ -1,10 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import java.awt.Color;
+import java.util.*;
+import java.util.Map.Entry;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
@@ -28,13 +33,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class SynthesisMaterialScreen extends MenuFilterable {
 		
@@ -96,17 +94,21 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			
 			LocalPlayer player = minecraft.player;
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for(int i = 0; i < player.getInventory().getContainerSize();i++) {
-				ItemStack stack = player.getInventory().getItem(i);
-				
-				if(!ItemStack.matches(stack, ItemStack.EMPTY)) {
-					
-					if(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath())) != null) {
-						Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stack.getItem().getRegistryName().getPath()));
-						playerData.addMaterial(mat, stack.getCount());
-						player.getInventory().setItem(i, ItemStack.EMPTY);
+			try {
+				for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+					ItemStack stack = player.getInventory().getItem(i);
+
+					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
+
+						if (ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
+							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
+							playerData.addMaterial(mat, stack.getCount());
+							player.getInventory().setItem(i, ItemStack.EMPTY);
+						}
 					}
 				}
+			} catch (ConcurrentModificationException e) {
+				e.printStackTrace();
 			}
 			PacketHandler.sendToServer(new CSDepositMaterials());
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
@@ -183,10 +185,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		inventory.forEach(this::addWidget);
 
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int) (height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int) (height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int) (height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> {
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int) (height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> {
 			action("next");
 		}));
 		
@@ -194,7 +196,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		next.visible = false;
 		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, new TranslatableComponent("test")) {
+		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.x+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c)) {
@@ -208,7 +210,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				return super.charTyped(c, i);
 			}
 		});
-		addRenderableWidget(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> { action("take"); }));
+		addRenderableWidget(take = new Button((int) amountBox.x + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> { action("take"); }));
 		take.visible = false;
 		updateButtons();
 	}
@@ -227,7 +229,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
-			take.setMessage(new TranslatableComponent("No empty slot"));
+			take.setMessage(Component.translatable("No empty slot"));
 		}
 		
 		matrixStack.pushPose();

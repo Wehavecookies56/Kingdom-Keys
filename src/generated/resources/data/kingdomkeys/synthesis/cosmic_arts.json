@@ -1,11 +1,5 @@
 {
   "cost": 1600,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:cosmic_arts",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_twilight_stone",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_mythril_gem",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:cosmic_arts",
+    "quantity": 1
+  },
+  "tier": 3
 }

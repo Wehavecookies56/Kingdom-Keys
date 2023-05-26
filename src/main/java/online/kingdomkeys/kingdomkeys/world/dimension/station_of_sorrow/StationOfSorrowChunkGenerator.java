@@ -1,7 +1,14 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.RegistryOps;
@@ -18,17 +25,12 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 	
@@ -104,25 +106,14 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public ChunkGenerator withSeed(long seed) {
-        return new StationOfSorrowChunkGenerator(getStructureSetRegistry(), getBiomeRegistry());
-    }
-
-    @Override
-    public Climate.Sampler climateSampler() {
-        return new Climate.Sampler(DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), DensityFunctions.constant(0.0), Collections.emptyList());
-    }
-
-    @Override
-    public void applyCarvers(WorldGenRegion pLevel, long pSeed, BiomeManager pBiomeManager, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk, GenerationStep.Carving pStep) {
+    public void applyCarvers(WorldGenRegion pLevel, long pSeed, RandomState pRandom, BiomeManager pBiomeManager, StructureManager pStructureManager, ChunkAccess pChunk, GenerationStep.Carving pStep) {
 
     }
 
     enum Corner { TL, TR, BL, BR }
 
     @Override
-    public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk) {
+    public void buildSurface(WorldGenRegion pLevel, StructureManager pStructureManager, RandomState pRandom, ChunkAccess pChunk) {
         BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         ChunkPos cPos = pChunk.getPos();
         int xOffset = 0;
@@ -200,8 +191,8 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess p_187751_) {
-        return CompletableFuture.completedFuture(p_187751_);
+    public CompletableFuture<ChunkAccess> fillFromNoise(Executor pExecutor, Blender pBlender, RandomState pRandom, StructureManager pStructureManager, ChunkAccess pChunk) {
+        return CompletableFuture.completedFuture(pChunk);
     }
 
     @Override
@@ -215,17 +206,17 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public int getBaseHeight(int pX, int pZ, Heightmap.Types pType, LevelHeightAccessor pLevel) {
+    public int getBaseHeight(int pX, int pZ, Heightmap.Types pType, LevelHeightAccessor pLevel, RandomState pRandom) {
         return 0;
     }
 
     @Override
-    public NoiseColumn getBaseColumn(int pX, int pZ, LevelHeightAccessor pLevel) {
+    public NoiseColumn getBaseColumn(int pX, int pZ, LevelHeightAccessor pHeight, RandomState pRandom) {
         return new NoiseColumn(0, new BlockState[0]);
     }
 
     @Override
-    public void addDebugScreenInfo(List<String> p_208054_, BlockPos p_208055_) {
+    public void addDebugScreenInfo(List<String> pInfo, RandomState pRandom, BlockPos pPos) {
 
     }
 

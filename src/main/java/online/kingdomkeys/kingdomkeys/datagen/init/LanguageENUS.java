@@ -1,5 +1,89 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Attack;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Command;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive_Revert;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive_Title;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Items;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Items_Title;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Limit;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Limit_Title;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Magic;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Magic_Title;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Portal;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Portals_Title;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Accept;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Back;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Config;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Customize;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Accessories;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Armor;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Items;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Shotlock;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Weapon;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Stock;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Abilities;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Config;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Customize;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Items;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Journal;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Party;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Status;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Hearts;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Munny;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Synthesis_Tier;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Time;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Time_Spent;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility_Private;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility_Public;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Name;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Join;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Disband;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Invite;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Kick;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Settings;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Member_Leave;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_AP;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Abilities;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Ability;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_BlizzardRes;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_BlizzardResShort;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DarkRes;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DarkResShort;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Defense;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DriveGauge;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FireRes;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FireResShort;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FormGauge;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FormLevel;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_HP;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Level;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_MP;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Magic;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_NextLevel;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Strength;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_ThunderRes;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_ThunderResShort;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_TotalExp;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Shop;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Shop_Buy_Cost;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Forge;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Forge_Upgrade;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials_Deposit;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials_Take;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Synthesise;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Synthesise_Create;
+
 import net.minecraft.data.DataGenerator;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -12,8 +96,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-
-import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 public class LanguageENUS extends KKLanguageProvider {
 
@@ -157,6 +239,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Title, "Forms");
         add(Gui_CommandMenu_Limit_Title, "Limits");
 
+        add("kingdomkeys.helmet", "Helmet");
+        add("kingdomkeys.chestplate", "Chestplate");
+        add("kingdomkeys.leggings", "Leggings");
+        add("kingdomkeys.boots", "Boots");
+
         //Synthesis Bag
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
@@ -248,6 +335,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
 
+        addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
+        addBlock(ModBlocks.rodSand, "Dark Sand");
+        addBlock(ModBlocks.rodStone, "Dark Stone");
+
         /**KK stuff**/
         //Abilities
         addAbilityWithDesc(ModAbilities.AUTO_VALOR, "Auto Valor", "Automatically sets the Reaction Command to Valor in a pinch, if Valor Form is usable.");
@@ -303,12 +394,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ");
         addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Removes an additional attack to the user's ground attack combo. ");
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Adds an additional finisher attack to the user's ground attack combo. ");
-
-
-
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");
@@ -1078,6 +1167,8 @@ public class LanguageENUS extends KKLanguageProvider {
         
 
         //Armour
+        add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
+
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
@@ -1087,21 +1178,37 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");
         addItem(ModItems.terra_Boots, "Terra Boots");
+        addItem(ModItems.terra_Shoulder, "Terra's Pauldron");
 
         addItem(ModItems.aqua_Helmet, "Aqua Helmet");
         addItem(ModItems.aqua_Chestplate, "Aqua Chestplate");
         addItem(ModItems.aqua_Leggings, "Aqua Leggings");
         addItem(ModItems.aqua_Boots, "Aqua Boots");
+        addItem(ModItems.aqua_Shoulder, "Aqua's Pauldron");
 
         addItem(ModItems.ventus_Helmet, "Ventus Helmet");
         addItem(ModItems.ventus_Chestplate, "Ventus Chestplate");
         addItem(ModItems.ventus_Leggings, "Ventus Leggings");
         addItem(ModItems.ventus_Boots, "Ventus Boots");
+        addItem(ModItems.ventus_Shoulder, "Ventus' Pauldron");
+
+        addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
+        addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");
+        addItem(ModItems.nightmareVentus_Leggings, "Nightmare Ventus Leggings");
+        addItem(ModItems.nightmareVentus_Boots, "Nightmare Ventus Boots");
+        addItem(ModItems.nightmareVentus_Shoulder, "Nightmare Ventus' Pauldron");
 
         addItem(ModItems.eraqus_Helmet, "Eraqus Helmet");
         addItem(ModItems.eraqus_Chestplate, "Eraqus Chestplate");
         addItem(ModItems.eraqus_Leggings, "Eraqus Leggings");
         addItem(ModItems.eraqus_Boots, "Eraqus Boots");
+        addItem(ModItems.eraqus_Shoulder, "Eraqus' Pauldron");
+
+        addItem(ModItems.xehanort_Helmet, "Xehanort Helmet");
+        addItem(ModItems.xehanort_Chestplate, "Xehanort Chestplate");
+        addItem(ModItems.xehanort_Leggings, "Xehanort Leggings");
+        addItem(ModItems.xehanort_Boots, "Xehanort Boots");
+        addItem(ModItems.xehanort_Shoulder, "Xehanort' Pauldron");
 
         addItem(ModItems.vanitas_Helmet, "Vanitas Helmet");
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
@@ -1112,11 +1219,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
         addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
         addItem(ModItems.vanitas_Remnant_Boots, "Vanitas Remnant Boots");
-
-        addItem(ModItems.nightmareVentus_Helmet, "Nightmare Ventus Helmet");
-        addItem(ModItems.nightmareVentus_Chestplate, "Nightmare Ventus Chestplate");
-        addItem(ModItems.nightmareVentus_Leggings, "Nightmare Ventus Leggings");
-        addItem(ModItems.nightmareVentus_Boots, "Nightmare Ventus Boots");
 
         addItem(ModItems.antiCoat_Helmet, "AntiCoat Hood");
         addItem(ModItems.antiCoat_Chestplate, "AntiCoat Coat");
@@ -1373,6 +1475,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SCROLL_UP, "Command menu up");
         add(InputHandler.Keybinds.SCROLL_DOWN, "Command menu down");
         add(InputHandler.Keybinds.SUMMON_KEYBLADE, "Summon weapon");
+        add(InputHandler.Keybinds.SUMMON_ARMOR, "Summon armor");
         add(InputHandler.Keybinds.REACTION_COMMAND, "Reaction Command");
         add(InputHandler.Keybinds.LOCK_ON, "Lock-on");
         add(InputHandler.Keybinds.OPENMENU, "Open Menu");

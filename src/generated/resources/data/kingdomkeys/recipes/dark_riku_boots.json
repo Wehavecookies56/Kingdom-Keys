@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "P": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
   "pattern": [
     "P P",
     "C C"
   ],
-  "key": {
-    "P": {
-      "item": "minecraft:phantom_membrane"
-    },
-    "C": {
-      "item": "minecraft:crying_obsidian"
-    }
-  },
   "result": {
     "item": "kingdomkeys:dark_riku_boots"
   }

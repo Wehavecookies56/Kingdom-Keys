@@ -1,15 +1,18 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
+import java.util.ArrayList;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
-
-import java.util.ArrayList;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 

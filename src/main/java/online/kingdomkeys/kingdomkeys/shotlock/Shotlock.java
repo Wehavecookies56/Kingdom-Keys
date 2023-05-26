@@ -1,13 +1,12 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
+import java.util.List;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import java.util.List;
-
-public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {
+public abstract class Shotlock {
 
 	String name;
 	int order;
@@ -50,5 +49,9 @@ public abstract class Shotlock extends ForgeRegistryEntry<Shotlock> {
 	}
 
 	public abstract void onUse(Player player, List<Entity> targetList);
+
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(name);
+	}
 
 }

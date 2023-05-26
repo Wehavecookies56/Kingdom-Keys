@@ -1,8 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.List;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -17,8 +18,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
-
-import java.util.List;
 
 public class GummiShipItem extends Item implements IItemCategory {
 	
@@ -60,7 +59,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 					formatted+=" ";
 				}
 			}*/
-			tooltip.add(new TranslatableComponent(stack.getTag().getString("data")));
+			tooltip.add(Component.translatable(stack.getTag().getString("data")));
 
 			
 		}

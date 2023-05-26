@@ -1,11 +1,23 @@
 package online.kingdomkeys.kingdomkeys.api.item;
 
-import net.minecraft.world.item.*;
+import java.util.HashMap;
+
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ElytraItem;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.HashMap;
 
 public class ItemCategoryRegistry {
 
@@ -44,11 +56,11 @@ public class ItemCategoryRegistry {
     }
 
     public static void register(Item item, ItemCategory category) {
-        categories.put(item.getRegistryName().toString(), category);
+        categories.put(ForgeRegistries.ITEMS.getKey(item).toString(), category);
     }
 
     public static void register(Block block, ItemCategory category) {
-        categories.put(block.getRegistryName().toString(), category);
+        categories.put(ForgeRegistries.BLOCKS.getKey(block).toString(), category);
     }
 
     //TODO work with tags better
@@ -60,11 +72,11 @@ public class ItemCategoryRegistry {
     }**/
 
     public static boolean hasCategory(Item item) {
-        return categories.containsKey(item.getRegistryName().toString());
+        return categories.containsKey(ForgeRegistries.ITEMS.getKey(item).toString());
     }
 
     public static ItemCategory getCategory(Item item) {
-        return categories.get(item.getRegistryName().toString());
+        return categories.get(ForgeRegistries.ITEMS.getKey(item).toString());
     }
 
 }

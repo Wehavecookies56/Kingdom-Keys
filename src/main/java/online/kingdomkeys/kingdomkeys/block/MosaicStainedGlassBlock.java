@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
@@ -8,13 +11,10 @@ import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mod.EventBusSubscriber
 public class MosaicStainedGlassBlock extends StainedGlassBlock {
@@ -50,7 +50,7 @@ public class MosaicStainedGlassBlock extends StainedGlassBlock {
     public static void onExplosion(ExplosionEvent.Detonate event) {
         List<BlockPos> toRemove = new ArrayList<>();
         event.getAffectedBlocks().forEach(block -> {
-            BlockState state = event.getWorld().getBlockState(block);
+            BlockState state = event.getLevel().getBlockState(block);
             if (state.getBlock() == ModBlocks.mosaic_stained_glass.get()) {
                 if (state.getValue(STRUCTURE)) {
                     toRemove.add(block);

@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:maverick_flare_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_wellspring_stone",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_blazing_shard",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:maverick_flare_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

@@ -2,11 +2,10 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -17,8 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseScrollEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -59,6 +58,22 @@ public class InputHandler {
     
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
+
+    @SubscribeEvent
+    public void renderOverlays(RenderGuiOverlayEvent event) {
+        switch (ModConfigs.showGuiToggle) {
+            case HIDE:
+                event.setCanceled(
+                        event.getOverlay() == ClientSetup.COMMAND_MENU ||
+                        event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
+                        event.getOverlay() == ClientSetup.HP_BAR ||
+                        event.getOverlay() == ClientSetup.MP_BAR ||
+                        event.getOverlay() == ClientSetup.DRIVE_BAR ||
+                        event.getOverlay() == ClientSetup.SHOTLOCK
+                );
+                break;
+        }
+    }
 
     public boolean antiFormCheck() { //Only checks if form is not final
         Minecraft mc = Minecraft.getInstance();
@@ -341,7 +356,7 @@ public class InputHandler {
 	                        if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {// && !player.getCapability(ModCapabilities.CHEAT_MODE, null).getCheatMode()) {//If is in antiform
 	                        	
 	                        } else { //If is in a drive form other than antiform
-	                        	if(!driveFormsMap.isEmpty()) {
+	                        	if(!driveFormsMap.isEmpty() && playerData.getDP() >= Utils.getMinimumDPForDrive(playerData)) {
 	                                CommandMenuGui.driveSelected = 0;
 	                                CommandMenuGui.submenu = CommandMenuGui.SUB_DRIVE;
 	                                mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -362,11 +377,14 @@ public class InputHandler {
 						}
 					} else { // Org member Limits
 						// Accessing Limits Submenu
-                		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0) {
+                		if(!limitsList.isEmpty() && playerData.getLimitCooldownTicks() <= 0 && playerData.getDP() >= Utils.getMinimumDPForLimit(player)) {
 							CommandMenuGui.limitSelected = 0;
 							CommandMenuGui.submenu = CommandMenuGui.SUB_LIMIT;
 							mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							return;
+						} else {
+	                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
+                			player.level.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 					}
@@ -403,7 +421,7 @@ public class InputHandler {
                     if (!coords.getPos().equals(new BlockPos(0,0,0))) { //If the portal is not default coords
                         summonPortal(player, coords);
                     } else {
-                        player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "You don't have any portal destination"), Util.NIL_UUID);
+                        player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "You don't have any portal destination"));
                     }
 
                     CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -510,7 +528,7 @@ public class InputHandler {
             	Member member = targetsList.get(CommandMenuGui.targetSelected);
             	if(world.getPlayerByUUID(member.getUUID()) != null && player.distanceTo(world.getPlayerByUUID(member.getUUID())) < ModConfigs.partyRangeLimit) {
             		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
-            		int level = playerData.getMagicLevel(magicName);
+            		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
             		PacketHandler.sendToServer(new CSUseMagicPacket(magicName, member.getUsername(), level));
                 	CommandMenuGui.selected = CommandMenuGui.ATTACK;
                 	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -572,7 +590,7 @@ public class InputHandler {
                         return;
             		} else {
                 		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
-                		int level = playerData.getMagicLevel(magicName);
+                		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
             			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -648,7 +666,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public void handleKeyInputEvent(InputEvent.KeyInputEvent event) {
+    public void handleKeyInputEvent(InputEvent.Key event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
@@ -684,25 +702,7 @@ public class InputHandler {
 
                     case SHOW_GUI:
                         ModConfigs.toggleGui();
-                        player.displayClientMessage(new TranslatableComponent("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
-                        switch (ModConfigs.showGuiToggle) {
-                            case HIDE, WEAPON:
-                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
-                                break;
-                            case SHOW:
-                                OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-                                OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
-                                break;
-                        }
+                        player.displayClientMessage(Component.translatable("message.kingdomkeys.gui_toggle", ModConfigs.showGuiToggle.toString()), true);
                         break;
 
                     case SCROLL_UP:
@@ -742,9 +742,16 @@ public class InputHandler {
                         } else {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
-                        break;/*
-                         * case SCROLL_ACTIVATOR: break;
-                         */
+                        
+                        if(ModConfigs.summonTogether)
+                            PacketHandler.sendToServer(new CSSummonArmor());
+
+                        break;
+                        
+                    case SUMMON_ARMOR:
+                        PacketHandler.sendToServer(new CSSummonArmor());
+                        break;
+                        
                     case ACTION:
                         commandAction();
                         break;
@@ -852,7 +859,7 @@ public class InputHandler {
 
 	
     @SubscribeEvent
-    public void handleMouseInputEvent(InputEvent.RawMouseEvent event) {
+    public void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
     	Minecraft mc = Minecraft.getInstance();
     	if(mc.level != null){
 	        if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
@@ -922,7 +929,7 @@ public class InputHandler {
 	}
 
 	@SubscribeEvent
-    public void OnMouseWheelScroll(MouseScrollEvent event) {
+    public void OnMouseWheelScroll(MouseScrollingEvent event) {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);
@@ -946,7 +953,7 @@ public class InputHandler {
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
         ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
-        //TEST("key.kingdomkeys.test",GLFW.GLFW_KEY_K);
+        SUMMON_ARMOR("key.kingdomkeys.summonarmor",GLFW.GLFW_KEY_H),
     	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
         private final KeyMapping keybinding;

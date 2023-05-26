@@ -1,14 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -18,9 +21,6 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 
@@ -67,10 +67,10 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		if(upgrade.visible) {
 			if (x >= upgrade.x && x <= upgrade.x + upgrade.getWidth()) {
 				if (y >= upgrade.y && y <= upgrade.y + upgrade.getHeight()) {
-					list.add(new TranslatableComponent("gui.synthesisbag.upgrade"));					
-					list.add(new TranslatableComponent(ChatFormatting.YELLOW+ new TranslatableComponent("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
+					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
+					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
-						list.add(new TranslatableComponent(ChatFormatting.RED+ new TranslatableComponent("gui.synthesisbag.notenoughmunny").getString()));
+						list.add(Component.translatable(ChatFormatting.RED+ Component.translatable("gui.synthesisbag.notenoughmunny").getString()));
 					}
 					renderComponentTooltip(matrixStack, list, x, y);
 				}

@@ -1,11 +1,14 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +20,6 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @JeiPlugin
 public class KKJEIPlugin implements IModPlugin {
@@ -38,7 +38,7 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
+        //registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
     }
 
     @Override
@@ -105,11 +105,11 @@ public class KKJEIPlugin implements IModPlugin {
         }
 
         public void addInfo(Item item, String text) {
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, new TranslatableComponent("jei.info.kingdomkeys." + text));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }
 
         public void addInfo(Block item, String text) {
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, new TranslatableComponent("jei.info.kingdomkeys." + text));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }
     }
 

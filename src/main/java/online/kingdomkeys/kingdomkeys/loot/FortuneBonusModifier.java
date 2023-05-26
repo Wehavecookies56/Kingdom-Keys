@@ -1,7 +1,18 @@
 
 package online.kingdomkeys.kingdomkeys.loot;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+
+import com.google.common.base.Suppliers;
 import com.google.gson.JsonObject;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -16,29 +27,27 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.
 
-public class FortuneBonusModifier extends LootModifier
-{
+public class FortuneBonusModifier extends LootModifier {
+    public static final Supplier<Codec<FortuneBonusModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, FortuneBonusModifier::new)));
+
     protected FortuneBonusModifier(LootItemCondition[] conditions)
     {
         super(conditions);
     }
 
-	@Nonnull
-	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+    @Nonnull
+	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
 		final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
 
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
@@ -81,20 +90,8 @@ public class FortuneBonusModifier extends LootModifier
 		return generatedLoot;
 	}
 
-    public static class Serializer extends GlobalLootModifierSerializer<FortuneBonusModifier>
-    {
-        public Serializer()
-        {
-            KingdomKeys.LOGGER.info("LuckyLucky Fortune bonus modifier registered.");
-        }
-
-        public FortuneBonusModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions)
-        {
-            return new FortuneBonusModifier(conditions);
-        }
-
-		public JsonObject write(FortuneBonusModifier instance) {
-			return this.makeConditions(instance.conditions);
-		}
-	}
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return CODEC.get();
+    }
 }

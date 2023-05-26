@@ -1,8 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -32,13 +40,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class SynthesisCreateScreen extends MenuFilterable {
 
@@ -141,7 +142,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(RecipeRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForRecipe).thenComparing(stack -> new ItemStack(RecipeRegistry.getInstance().getValue(stack).getResult()).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(RecipeRegistry.getInstance().getValue(items.get(i)).getResult());
@@ -156,17 +157,17 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addRenderableWidget(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		addRenderableWidget(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
 		}));
 		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 	}
 
@@ -204,9 +205,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
 			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.setMessage(new TranslatableComponent("Not enough space"));
+				create.setMessage(Component.translatable("Not enough space"));
 			} else {
-				create.setMessage(new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
+				create.setMessage(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {

@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -23,7 +24,7 @@ public class DiveToTheHeartDimension{
     //Set the fog density to fade out the bottom of the platform
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    public static void renderFog(ViewportEvent.RenderFog event) {
         Level world = Minecraft.getInstance().level;
         if (world != null) {
             if (world.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
@@ -36,9 +37,9 @@ public class DiveToTheHeartDimension{
     //Prevent taking damage in this dimension
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving() instanceof Player) {
-            if (!((Player)event.getEntityLiving()).isCreative()) {
-                if (event.getEntityLiving().level.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+        if (event.getEntity() instanceof Player) {
+            if (!((Player)event.getEntity()).isCreative()) {
+                if (event.getEntity().level.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                     event.setCanceled(true);
                 }
             }
@@ -68,10 +69,10 @@ public class DiveToTheHeartDimension{
 
     @SubscribeEvent
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
-                if (event.getWorld().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
-                    if (event.getPlayer().isShiftKeyDown()) {
+        if (!event.getEntity().isCreative()) {
+            if (event.getLevel().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+                if (event.getLevel().getBlockState(event.getPos()).getBlock() == ModBlocks.pedestal.get()) {
+                    if (event.getEntity().isShiftKeyDown()) {
                         event.setCanceled(true);
                     }
                 } else {
@@ -83,8 +84,8 @@ public class DiveToTheHeartDimension{
 
     @SubscribeEvent
     public static void useItem(PlayerInteractEvent.RightClickItem event) {
-        if (!event.getPlayer().isCreative()) {
-            if (event.getWorld().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+        if (!event.getEntity().isCreative()) {
+            if (event.getLevel().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                 event.setCanceled(true);
             }
         }

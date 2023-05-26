@@ -2,14 +2,17 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.PlayerModelPart;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -17,8 +20,14 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 //TODO cleanup + comments
 public class PlayerPortraitGui extends OverlayBase {
 
+	public static final PlayerPortraitGui INSTANCE = new PlayerPortraitGui();
+
+	private PlayerPortraitGui() {
+		super();
+	}
+
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		// if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
@@ -29,16 +38,10 @@ public class PlayerPortraitGui extends OverlayBase {
 		ResourceLocation skin = minecraft.player.getSkinTextureLocation();
 		RenderSystem.setShaderTexture(0, skin);
 		float scale = 0.5f;
-		switch (minecraft.options.guiScale) {
-			case Constants.SCALE_AUTO:
-				scale = 0.85f;
-				break;
-			case Constants.SCALE_NORMAL:
-				scale = 0.85f;
-				break;
-			default:
-				scale = 0.65f;
-				break;
+		switch (minecraft.options.guiScale().get()) {
+			case 3 -> scale = 0.48F;
+			case 2 -> scale = 0.32F;
+			case 1 -> scale = 0.16F;
 		}
 
 		if (playerData != null) {
@@ -53,6 +56,31 @@ public class PlayerPortraitGui extends OverlayBase {
 			poseStack.pushPose();
 			{
 				poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
+
+				//3D render
+				float playerHeight = (height/2F) * scale;
+				float playerPosX = width * (1-(scale/10));
+				float playerPosY = height + (playerHeight*0.95F);
+				poseStack.pushPose();
+				{
+					Player clonePlayer = ClientEvents.clonePlayer;
+					if(clonePlayer != null) {
+						IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+						cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+						cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+						cloneCapabilities.setArmorColor(playerData.getArmorColor());
+						clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
+						clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
+						clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
+						clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
+						InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
+					}
+				}
+				poseStack.popPose();
+				
+				
+				//2D render
+				/*poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
 
 				// HEAD
 				int headWidth = 32;
@@ -212,7 +240,7 @@ public class PlayerPortraitGui extends OverlayBase {
 					}
 					poseStack.popPose();
 
-				}
+				}*/
 			}
 			poseStack.popPose();
 		}

@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:stormfall_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_soothing_stone",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:stormfall_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

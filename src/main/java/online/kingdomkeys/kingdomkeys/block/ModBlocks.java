@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -11,9 +14,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.Objects;
-import java.util.function.Supplier;
 
 public class ModBlocks {
 
@@ -77,7 +77,11 @@ public class ModBlocks {
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.of(Material.METAL).lightLevel((state) -> 6).noOcclusion().strength(2F,1F))), //HL 0
             gummiEditor = createNewBlock("gummi_editor", () -> new GummiEditorBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))), //HL 2
-            dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F)))
+            dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of(Material.METAL).strength(2.0F, 1.0F))),
+            
+    		 rodSand = createNewBlock("rod_sand", Block.Properties.of(Material.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
+             rodStone = createNewBlock("rod_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F)),
+             rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of(Material.STONE).strength(1.0F, 10.0F))
     ;
 
     /**

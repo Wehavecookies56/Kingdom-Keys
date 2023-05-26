@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:ultima_weapon_kh1_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_gem",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_lost_illusion",
       "quantity": "1"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:ultima_weapon_kh1_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

@@ -5,9 +5,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand> {
+public abstract class ReactionCommand {
 	String name;
 	//int order;
 	//int cooldown;
@@ -44,6 +43,8 @@ public abstract class ReactionCommand extends ForgeRegistryEntry<ReactionCommand
 	public abstract void onUse(Player player, LivingEntity target);
 	public abstract boolean conditionsToAppear(Player player, LivingEntity target);
 	
-	
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(name);
+	}
 
 }

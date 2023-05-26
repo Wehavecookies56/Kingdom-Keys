@@ -20,7 +20,7 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue mpXPos, mpYPos, mpXScale;
     
-    public ForgeConfigSpec.IntValue dpXPos, dpYPos;
+    public ForgeConfigSpec.IntValue dpXPos, dpYPos, dpXScale, dpYScale;
     
     public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
@@ -28,15 +28,18 @@ public class ClientConfig {
     
     public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
     
-    public ForgeConfigSpec.IntValue focusXPos, focusYPos;
+    public ForgeConfigSpec.IntValue focusXPos, focusYPos, focusXScale, focusYScale;
     
-    public ForgeConfigSpec.BooleanValue showDriveForms;
+    public ForgeConfigSpec.BooleanValue showDriveForms, summonTogether;
 
 	public ForgeConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
     
     ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
-
+        	summonTogether = builder
+                .comment("Summon both Keyblade and Armor with Summon Keyblade key")
+                .translation(KingdomKeys.MODID + ".config.summon_together")
+                .define("summonTogether", false);
         builder.push("gui");
 
 			showGuiToggle = builder
@@ -143,6 +146,16 @@ public class ClientConfig {
 	                .translation(KingdomKeys.MODID + ".config.dp_y_pos")
 	                .defineInRange("dpYPos", 0, -1000, 1000);
 	        
+	        dpXScale = builder
+	                .comment("Drive Bar X Scale")
+	                .translation(KingdomKeys.MODID + ".config.dp_x_scale")
+	                .defineInRange("dpXScale", 100, -1000, 1000);
+	        
+	        dpYScale = builder
+	                .comment("Drive Bar Y Scale")
+	                .translation(KingdomKeys.MODID + ".config.dp_y_scale")
+	                .defineInRange("dpYScale", 100, -1000, 1000);
+	        
 	        builder.pop();
 	        
 	        builder.push("player_skin");
@@ -223,6 +236,16 @@ public class ClientConfig {
 	                .comment("Focus HUD Y Pos")
 	                .translation(KingdomKeys.MODID + ".config.focus_y_pos")
 	                .defineInRange("focusYPos", 0, -1000, 1000);
+	        
+	        focusXScale = builder
+	                .comment("Focus Bar X Scale")
+	                .translation(KingdomKeys.MODID + ".config.focus_x_scale")
+	                .defineInRange("focusXScale", 100, -1000, 1000);
+	        
+	        focusYScale = builder
+	                .comment("Focus Bar Y Scale")
+	                .translation(KingdomKeys.MODID + ".config.focus_y_scale")
+	                .defineInRange("focusYScale", 100, -1000, 1000);
 	        
 	        builder.pop();
         

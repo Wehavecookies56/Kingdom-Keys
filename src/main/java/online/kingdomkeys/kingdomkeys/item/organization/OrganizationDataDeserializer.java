@@ -1,8 +1,15 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import com.google.gson.*;
-
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -42,6 +49,15 @@ public class OrganizationDataDeserializer implements JsonDeserializer<Organizati
                 case "reach":
                 	out.setReach(element.getAsFloat());
                 	break;
+                case "abilities":
+					JsonArray abilities = element.getAsJsonArray();
+					List<String> abilitiesArray = new ArrayList<String>();
+					
+					for(int i= 0; i < abilities.size(); i++) {
+						abilitiesArray.add(abilities.get(i).getAsString());
+					}
+					out.setAbilities(abilitiesArray.toArray(new String[0]));
+					break;
             }
         });
       //  KingdomKeys.LOGGER.info("DESCRIPTION: {}", out.description);

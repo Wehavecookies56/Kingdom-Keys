@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.LivingEntity;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -21,8 +22,18 @@ public class WorldCapabilities implements IWorldCapabilities {
 		storage.putInt("heartless", this.getHeartlessSpawnLevel());
 
 		ListTag parties = new ListTag();
+		List<String> partyNames = new ArrayList<>();
+		int dupeCount = 0;
 		for (Party party : this.getParties()) {
-			parties.add(party.write());
+			if (partyNames.contains(party.getName())) {
+				dupeCount++;
+			} else {
+				partyNames.add(party.getName());
+				parties.add(party.write());
+			}
+		}
+		if (dupeCount > 0) {
+			KingdomKeys.LOGGER.warn("Discarded {} duplicate parties while writing", dupeCount);
 		}
 		storage.put("parties", parties);
 
@@ -37,22 +48,31 @@ public class WorldCapabilities implements IWorldCapabilities {
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		CompoundTag storage = (CompoundTag) nbt;
-		this.setHeartlessSpawnLevel(storage.getInt("heartless"));
+		this.setHeartlessSpawnLevel(nbt.getInt("heartless"));
 
 		List<Party> partiesList = this.getParties();
-		ListTag parties = storage.getList("parties", Tag.TAG_COMPOUND);
+		List<String> partyNames = new ArrayList<>();
+		int dupeCount = 0;
+		ListTag parties = nbt.getList("parties", Tag.TAG_COMPOUND);
 
 		for (int i = 0; i < parties.size(); i++) {
 			CompoundTag partyNBT = parties.getCompound(i);
 			Party party = new Party();
 			party.read(partyNBT);
-			partiesList.add(party);
+			if (partyNames.contains(party.getName())) {
+				dupeCount++;
+			} else {
+				partyNames.add(party.getName());
+				partiesList.add(party);
+			}
+		}
+		if (dupeCount > 0) {
+			KingdomKeys.LOGGER.warn("Discarded {} duplicate parties while reading", dupeCount);
 		}
 		this.setParties(partiesList);
 
 		Map<UUID, PortalData> portalList = this.getPortals();
-		ListTag portals = storage.getList("portals", Tag.TAG_COMPOUND);
+		ListTag portals = nbt.getList("portals", Tag.TAG_COMPOUND);
 
 		for (int i = 0; i < portals.size(); i++) {
 			CompoundTag portalNBT = portals.getCompound(i);
@@ -63,7 +83,7 @@ public class WorldCapabilities implements IWorldCapabilities {
 		this.setPortals(portalList);
 	}
 	
-	List<Party> parties = new ArrayList<Party>();
+	private List<Party> parties = new ArrayList<Party>();
 	int heartlessSpawnLevel = 0;
 	Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
 
@@ -192,12 +212,13 @@ public class WorldCapabilities implements IWorldCapabilities {
 		String key = Utils.getResourceName(party.getName());
 		boolean found = false;
 		for(Party p : parties) {
-			if(p.getName().equalsIgnoreCase(key)) {
+			if(Utils.getResourceName(p.getName()).equalsIgnoreCase(key)) {
 				found = true;
 			}
 		}
-		if (!found)
+		if (!found) {
 			this.parties.add(party);
+		}
 	}
 
 	@Override
@@ -218,11 +239,11 @@ public class WorldCapabilities implements IWorldCapabilities {
 			CompoundTag partyNBT = parties.getCompound(i);
 			Party party = new Party();
 			party.read(partyNBT);
-			this.parties.add(party);
+			addParty(party);
 		}
-		
+
 		this.heartlessSpawnLevel = nbt.getInt("heartless");
-		
+
 		this.portals.clear();
 		ListTag portals = nbt.getList("portals", Tag.TAG_COMPOUND);
 
@@ -237,19 +258,24 @@ public class WorldCapabilities implements IWorldCapabilities {
 	@Override
 	public CompoundTag write(CompoundTag nbt) {
 		ListTag parties = new ListTag();
+		Set<String> names = new HashSet<String>();
 		for (Party party : this.parties) {
-			parties.add(party.write());
+			if(!names.contains(party.getName())) {
+				parties.add(party.write());
+				names.add(party.getName());
+			}
 		}
+
 		nbt.put("parties", parties);
-		
+
 		nbt.putInt("heartless", this.heartlessSpawnLevel);
-		
+
 		ListTag portals = new ListTag();
 		for (Entry<UUID, PortalData> entry : getPortals().entrySet()) {
 			portals.add(entry.getValue().write());
 		}
 		nbt.put("portals", portals);
-		
+
 		return nbt;
 	}
 

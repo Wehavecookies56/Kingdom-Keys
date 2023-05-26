@@ -4,8 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -15,13 +13,10 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKLivingMotions
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import yesman.epicfight.api.client.forgeevent.UpdatePlayerMotionEvent;
-import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 
-public abstract class Magic extends ForgeRegistryEntry<Magic> {
+public abstract class Magic {
 
-    String name;
+    ResourceLocation name;
     boolean hasTargetSelector;
     int order;
     int maxLevel;
@@ -30,13 +25,13 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
     
 	private MagicData data;	
 
-    public Magic(String registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
+    public Magic(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
     	this.name = registryName;
     	this.hasTargetSelector = hasToSelect;
     	this.order = order;
     	this.maxLevel = maxLevel - 1;
     	this.gmAbility = gmAbility;
-        translationKey = "magic." + new ResourceLocation(registryName).getPath() + ".name";
+        translationKey = "magic." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
     }
 
     public String getTranslationKey() {
@@ -131,7 +126,7 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 	private boolean getRCProb(IPlayerCapabilities casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
 
-		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName().toString()) == getMaxLevel()) {
+		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName()) == getMaxLevel()) {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 		}
 		prob += (casterData.getMagicUses(name)-1)*5;
@@ -146,6 +141,10 @@ public abstract class Magic extends ForgeRegistryEntry<Magic> {
 	
 	public int getMaxLevel() {
 		return maxLevel;
+	}
+
+	public ResourceLocation getRegistryName() {
+		return name;
 	}
 
 }

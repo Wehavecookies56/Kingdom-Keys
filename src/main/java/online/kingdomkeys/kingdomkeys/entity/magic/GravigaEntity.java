@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,8 +28,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
 
 public class GravigaEntity extends ThrowableProjectile {
 
@@ -53,8 +54,8 @@ public class GravigaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

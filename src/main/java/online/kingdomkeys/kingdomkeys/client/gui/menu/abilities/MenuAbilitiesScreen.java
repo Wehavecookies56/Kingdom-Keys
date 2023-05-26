@@ -1,10 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.abilities;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -30,11 +36,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
@@ -320,12 +321,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			addRenderableWidget(b);
 		}
 
-        addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
+        addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
 
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
 		
@@ -376,7 +377,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	protected void renderSelectedData(int mouseX, int mouseY, float partialTicks) {
-		ClientUtils.drawSplitString(font, new TranslatableComponent(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
+		ClientUtils.drawSplitString(font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
 	private void drawAP(PoseStack matrixStack) {
@@ -408,7 +409,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					button.active = true;
 				}
 
-				button.setMessage(new TranslatableComponent(text));
+				button.setMessage(Component.translatable(text));
 				button.setAP(ability.getAPCost());
 				if (button.isHovered()) {
 					hoveredAbility = ability;

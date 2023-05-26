@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import java.util.Objects;
+
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-
-import java.util.Objects;
 
 public class BlockTagsGen extends BlockTagsProvider {
 	public BlockTagsGen(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
@@ -24,7 +25,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 		// add(BlockTags.BEACON_BASE_BLOCKS, ModBlocks.metalBlox.get());
         for (RegistryObject<Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
             final Block block = itemRegistryObject.get();
-            String name = Objects.requireNonNull(block.getRegistryName()).getPath();
+            String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
 
             if (block instanceof Block) {
         		add(BlockTags.MINEABLE_WITH_PICKAXE, block);
@@ -46,4 +47,5 @@ public class BlockTagsGen extends BlockTagsProvider {
 	public void add(TagKey<Block> branch, Block... block) {
 		this.tag(branch).add(block);
 	}
+
 }

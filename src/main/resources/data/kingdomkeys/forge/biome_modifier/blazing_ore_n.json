@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": "kingdomkeys:blazing_ore_n",
+  "step": "underground_ores"
+}

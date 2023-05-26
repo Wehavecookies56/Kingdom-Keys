@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -9,8 +11,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-
-import java.util.function.Supplier;
 
 public class CSEquipShotlock {
 
@@ -39,9 +39,6 @@ public class CSEquipShotlock {
             if(playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
             	playerData.setEquippedShotlock(message.shotlock);
             }
-           /* ItemStack stackToEquip = player.inventory.getStackInSlot(message.slotToEquipFrom);
-            ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.shotlock, stackToEquip);
-            player.inventory.setInventorySlotContents(message.slotToEquipFrom, stackPreviouslyEquipped);*/
             PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
         });

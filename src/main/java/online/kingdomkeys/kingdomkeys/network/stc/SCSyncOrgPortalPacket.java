@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,8 +11,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-
-import java.util.function.Supplier;
 
 public class SCSyncOrgPortalPacket {
 

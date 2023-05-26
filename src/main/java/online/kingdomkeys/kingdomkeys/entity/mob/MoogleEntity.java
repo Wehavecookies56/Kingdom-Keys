@@ -1,9 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +16,11 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,8 +34,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
-
-import javax.annotation.Nullable;
 
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob {
@@ -74,7 +77,7 @@ public class MoogleEntity extends PathfinderMob {
 	        		int reward = 500;
 	        		playerData.setMunny(playerData.getMunny() + reward);
 	        		itemstack.shrink(1);
-					player.sendMessage(new TranslatableComponent(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"), Util.NIL_UUID);
+					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
 					return InteractionResult.FAIL;
 	        	} else {
 	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);

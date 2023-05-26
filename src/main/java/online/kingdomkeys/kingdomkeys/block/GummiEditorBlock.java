@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -23,12 +25,10 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
-
-import javax.annotation.Nullable;
 
 public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -74,7 +74,7 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
 			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof GummiEditorTileEntity) {
 				GummiEditorTileEntity te = (GummiEditorTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
-					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+					NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 						packetBuffer.writeBlockPos(pos);
 					});
 				}
@@ -85,7 +85,7 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			world.getBlockEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+			world.getBlockEntity(pos).getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					popResource(world, pos, inv.getStackInSlot(i));
 				}

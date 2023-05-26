@@ -1,15 +1,16 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-import java.awt.*;
 
 /**
  * Widget Class for elements to display on the HUD e.g. Command Menu, HP bar, etc.
@@ -28,7 +29,7 @@ public abstract class HUDElement extends AbstractWidget {
 
     public HUDElement(int anchoredPositionX, int anchoredPositionY, int elementWidth, int elementHeight, HUDAnchorPosition anchor, String name) {
         //Constructed with 0s as the position is later changed, the dimensions should be set manually
-        super(0, 0, elementWidth, elementHeight, new TranslatableComponent(name));
+        super(0, 0, elementWidth, elementHeight, Component.translatable(name));
         this.anchoredPositionX = anchoredPositionX;
         this.anchoredPositionY = anchoredPositionY;
         this.width = elementWidth;

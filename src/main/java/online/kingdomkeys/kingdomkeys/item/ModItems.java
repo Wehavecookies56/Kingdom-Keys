@@ -1,6 +1,10 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.function.Supplier;
+
 import com.google.common.collect.ImmutableMap;
+
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -10,10 +14,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.organization.*;
+import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
+import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
+import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ClaymoreItem;
+import online.kingdomkeys.kingdomkeys.item.organization.EtherealBladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.KnifeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.LanceItem;
+import online.kingdomkeys.kingdomkeys.item.organization.LexiconItem;
+import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
+import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
+import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.util.function.Supplier;
 
 public class ModItems {
 
@@ -620,25 +633,47 @@ public class ModItems {
 			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, EquipmentSlot.LEGS, Strings.antiCoat),
 			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, EquipmentSlot.FEET, Strings.antiCoat),
 					
-			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.TERRA, EquipmentSlot.HEAD, Strings.terra),
-			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.TERRA, EquipmentSlot.CHEST, Strings.terra),
-			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.TERRA, EquipmentSlot.LEGS, Strings.terra),
-			terra_Boots = createArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.TERRA,EquipmentSlot.FEET, Strings.terra),
+			terra_Helmet = createKeybladeArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.terra),
+			terra_Chestplate = createKeybladeArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.terra),
+			terra_Leggings = createKeybladeArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.terra),
+			terra_Boots = createKeybladeArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.KEYBLADE,EquipmentSlot.FEET, Strings.terra),
+			terra_Shoulder = createNewItem(Strings.terra+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.terra, new Item[]{terra_Boots.get(),terra_Leggings.get(),terra_Chestplate.get(),terra_Helmet.get()})),
 
-			ventus_Helmet = createArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.VENTUS, EquipmentSlot.HEAD, Strings.ventus),
-			ventus_Chestplate = createArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.VENTUS, EquipmentSlot.CHEST, Strings.ventus),
-			ventus_Leggings = createArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.VENTUS, EquipmentSlot.LEGS, Strings.ventus),
-			ventus_Boots = createArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.VENTUS, EquipmentSlot.FEET, Strings.ventus),
+			aqua_Helmet = createKeybladeArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.aqua),
+			aqua_Chestplate = createKeybladeArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.aqua),
+			aqua_Leggings = createKeybladeArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.aqua),
+			aqua_Boots = createKeybladeArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.aqua),
+			aqua_Shoulder = createNewItem(Strings.aqua+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.aqua, new Item[]{aqua_Boots.get(),aqua_Leggings.get(),aqua_Chestplate.get(),aqua_Helmet.get()})),
 
-			aqua_Helmet = createArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.AQUA, EquipmentSlot.HEAD, Strings.aqua),
-			aqua_Chestplate = createArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.AQUA, EquipmentSlot.CHEST, Strings.aqua),
-			aqua_Leggings = createArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.AQUA, EquipmentSlot.LEGS, Strings.aqua),
-			aqua_Boots = createArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.AQUA, EquipmentSlot.FEET, Strings.aqua),
+			ventus_Helmet = createKeybladeArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.ventus),
+			ventus_Chestplate = createKeybladeArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.ventus),
+			ventus_Leggings = createKeybladeArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.ventus),
+			ventus_Boots = createKeybladeArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.ventus),
+			ventus_Shoulder = createNewItem(Strings.ventus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.ventus, new Item[]{ventus_Boots.get(),ventus_Leggings.get(),ventus_Chestplate.get(),ventus_Helmet.get()})),
+			
+			nightmareVentus_Helmet = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.nightmareVentus),
+			nightmareVentus_Chestplate = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.nightmareVentus),
+			nightmareVentus_Leggings = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.nightmareVentus),
+			nightmareVentus_Boots = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.nightmareVentus),
+			nightmareVentus_Shoulder = createNewItem(Strings.nightmareVentus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.nightmareVentus, new Item[]{nightmareVentus_Boots.get(),nightmareVentus_Leggings.get(),nightmareVentus_Chestplate.get(),nightmareVentus_Helmet.get()})),
 
-			eraqus_Helmet = createArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.ERAQUS, EquipmentSlot.HEAD, Strings.eraqus),
-			eraqus_Chestplate = createArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.ERAQUS, EquipmentSlot.CHEST, Strings.eraqus),
-			eraqus_Leggings = createArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.ERAQUS, EquipmentSlot.LEGS, Strings.eraqus),
-			eraqus_Boots = createArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.ERAQUS, EquipmentSlot.FEET, Strings.eraqus),
+			eraqus_Helmet = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.eraqus),
+			eraqus_Chestplate = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.eraqus),
+			eraqus_Leggings = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.eraqus),
+			eraqus_Boots = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.eraqus),
+			eraqus_Shoulder = createNewItem(Strings.eraqus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.eraqus, new Item[]{eraqus_Boots.get(),eraqus_Leggings.get(),eraqus_Chestplate.get(),eraqus_Helmet.get()})),
+			
+			xehanort_Helmet = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.xehanort),
+			xehanort_Chestplate = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.xehanort),
+			xehanort_Leggings = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.xehanort),
+			xehanort_Boots = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.xehanort),
+			xehanort_Shoulder = createNewItem(Strings.xehanort+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.xehanort, new Item[]{xehanort_Boots.get(),xehanort_Leggings.get(),xehanort_Chestplate.get(),xehanort_Helmet.get()})),
+
+			ux_Helmet = createKeybladeArmorItem(Strings.ux+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.ux),
+			ux_Chestplate = createKeybladeArmorItem(Strings.ux+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.ux),
+			ux_Leggings = createKeybladeArmorItem(Strings.ux+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.ux),
+			ux_Boots = createKeybladeArmorItem(Strings.ux+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.ux),
+			ux_Shoulder = createNewItem(Strings.ux+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.ux, new Item[]{ux_Boots.get(),ux_Leggings.get(),ux_Chestplate.get(),ux_Helmet.get()})),
 
 			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, KKArmorMaterial.VANITAS, EquipmentSlot.HEAD, Strings.vanitas),
 			vanitas_Chestplate = createArmorItem(Strings.vanitas+"_"+Strings.chestplate, KKArmorMaterial.VANITAS, EquipmentSlot.CHEST, Strings.vanitas),
@@ -649,11 +684,6 @@ public class ModItems {
 			vanitas_Remnant_Chestplate = createArmorItem(Strings.vanitasRemnant+"_"+Strings.chestplate, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.CHEST, Strings.vanitasRemnant),
 			vanitas_Remnant_Leggings = createArmorItem(Strings.vanitasRemnant+"_"+Strings.leggings, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.LEGS, Strings.vanitasRemnant),
 			vanitas_Remnant_Boots = createArmorItem(Strings.vanitasRemnant+"_"+Strings.boots, KKArmorMaterial.VANITASREMNANT, EquipmentSlot.FEET, Strings.vanitasRemnant),
-					
-			nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.HEAD, Strings.nightmareVentus),
-			nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.CHEST, Strings.nightmareVentus),
-			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.LEGS, Strings.nightmareVentus),
-			nightmareVentus_Boots = createArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.NIGHTMAREVEN, EquipmentSlot.FEET, Strings.nightmareVentus),
 			
 			dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, KKArmorMaterial.DARKRIKU, EquipmentSlot.CHEST, Strings.darkRiku),
 			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, KKArmorMaterial.DARKRIKU, EquipmentSlot.LEGS, Strings.darkRiku),
@@ -687,27 +717,27 @@ public class ModItems {
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().tab(KingdomKeys.miscGroup).food(new FoodProperties.Builder().fast().saturationMod(2.0f).nutrition(2).alwaysEat().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties().tab(KingdomKeys.miscGroup))),
 
-			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(1, ModSounds.Record_Birth_by_Sleep_A_Link_to_the_Future, new Item.Properties().tab(KingdomKeys.miscGroup), 7.29F)),
-			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(1, ModSounds.Record_Dream_Drop_Distance_The_Next_Awakening, new Item.Properties().tab(KingdomKeys.miscGroup), 8.56F)),
-			disc_Hikari_KINGDOM_Instrumental_Version = createNewItem(Strings.Disc_Hikari_KINGDOM_Instrumental_Version, () -> new KKRecordItem(1, ModSounds.Record_Hikari_KINGDOM_Instrumental_Version, new Item.Properties().tab(KingdomKeys.miscGroup), 3.42F)),
-			disc_L_Oscurita_Dell_Ignoto = createNewItem(Strings.Disc_L_Oscurita_Dell_Ignoto, () -> new KKRecordItem(1, ModSounds.Record_L_Oscurita_Dell_Ignoto, new Item.Properties().tab(KingdomKeys.miscGroup), 4.33F)),
-			disc_Musique_pour_la_tristesse_de_Xion = createNewItem(Strings.Disc_Musique_pour_la_tristesse_de_Xion, () -> new KKRecordItem(1, ModSounds.Record_Musique_pour_la_tristesse_de_Xion, new Item.Properties().tab(KingdomKeys.miscGroup), 3.57F)),
-			disc_No_More_Bugs_Bug_Version = createNewItem(Strings.Disc_No_More_Bugs_Bug_Version, () -> new KKRecordItem(1, ModSounds.Record_No_More_Bugs_Bug_Version, new Item.Properties().tab(KingdomKeys.miscGroup), 3.17F)),
-			disc_Organization_XIII = createNewItem(Strings.Disc_Organization_XIII, () -> new KKRecordItem(1, ModSounds.Record_Organization_XIII, new Item.Properties().tab(KingdomKeys.miscGroup), 2.32F)),
+			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(1, ModSounds.Record_Birth_by_Sleep_A_Link_to_the_Future, new Item.Properties().tab(KingdomKeys.miscGroup), "7:29")),
+			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(1, ModSounds.Record_Dream_Drop_Distance_The_Next_Awakening, new Item.Properties().tab(KingdomKeys.miscGroup), "8:56")),
+			disc_Hikari_KINGDOM_Instrumental_Version = createNewItem(Strings.Disc_Hikari_KINGDOM_Instrumental_Version, () -> new KKRecordItem(1, ModSounds.Record_Hikari_KINGDOM_Instrumental_Version, new Item.Properties().tab(KingdomKeys.miscGroup), "3:42")),
+			disc_L_Oscurita_Dell_Ignoto = createNewItem(Strings.Disc_L_Oscurita_Dell_Ignoto, () -> new KKRecordItem(1, ModSounds.Record_L_Oscurita_Dell_Ignoto, new Item.Properties().tab(KingdomKeys.miscGroup), "4:33")),
+			disc_Musique_pour_la_tristesse_de_Xion = createNewItem(Strings.Disc_Musique_pour_la_tristesse_de_Xion, () -> new KKRecordItem(1, ModSounds.Record_Musique_pour_la_tristesse_de_Xion, new Item.Properties().tab(KingdomKeys.miscGroup), "3:57")),
+			disc_No_More_Bugs_Bug_Version = createNewItem(Strings.Disc_No_More_Bugs_Bug_Version, () -> new KKRecordItem(1, ModSounds.Record_No_More_Bugs_Bug_Version, new Item.Properties().tab(KingdomKeys.miscGroup), "3:17")),
+			disc_Organization_XIII = createNewItem(Strings.Disc_Organization_XIII, () -> new KKRecordItem(1, ModSounds.Record_Organization_XIII, new Item.Properties().tab(KingdomKeys.miscGroup), "2:32")),
 			
-			disc_Dearly_Beloved_UX = createNewItem(Strings.Disc_Dearly_Beloved_UX, () -> new KKRecordItem(1, ModSounds.Record_Dearly_Beloved_UX, new Item.Properties().tab(KingdomKeys.miscGroup), 4.07F)),
-			disc_Passion_Instrumental = createNewItem(Strings.Disc_Passion_Instrumental, () -> new KKRecordItem(1, ModSounds.Record_Passion_Instrumental, new Item.Properties().tab(KingdomKeys.miscGroup), 3.42F)),
-			disc_Rage_Awakened = createNewItem(Strings.Disc_Rage_Awakened, () -> new KKRecordItem(1, ModSounds.Record_Rage_Awakened, new Item.Properties().tab(KingdomKeys.miscGroup), 3.45F)),
-			disc_The_Other_Promise = createNewItem(Strings.Disc_The_Other_Promise, () -> new KKRecordItem(1, ModSounds.Record_The_Other_Promise, new Item.Properties().tab(KingdomKeys.miscGroup), 4.36F)),
-			disc_13th_Struggle_Luxord = createNewItem(Strings.Disc_13th_Struggle_Luxord, () -> new KKRecordItem(1, ModSounds.Record_13th_Struggle_Luxord, new Item.Properties().tab(KingdomKeys.miscGroup), 6.30F)),
-			disc_13th_Dilemma_Saix = createNewItem(Strings.Disc_13th_Dilemma_Saix, () -> new KKRecordItem(1, ModSounds.Record_13th_Dilemma_Saix, new Item.Properties().tab(KingdomKeys.miscGroup), 6.16F)),
-			disc_13th_Reflection = createNewItem(Strings.Disc_13th_Reflection, () -> new KKRecordItem(1, ModSounds.Record_13th_Reflection, new Item.Properties().tab(KingdomKeys.miscGroup), 3.46F)),
-			disc_Another_Side_Battle_Ver = createNewItem(Strings.Disc_Another_Side_Battle_Ver, () -> new KKRecordItem(1, ModSounds.Record_Another_Side_Battle_Ver, new Item.Properties().tab(KingdomKeys.miscGroup), 3.01F)),
-			disc_Cavern_Of_Remembrance_Days = createNewItem(Strings.Disc_Cavern_Of_Remembrance_Days, () -> new KKRecordItem(1, ModSounds.Record_Cavern_Of_Remembrance_Days, new Item.Properties().tab(KingdomKeys.miscGroup), 3.20F)),
-			disc_Forgotten_Challenge_Recoded = createNewItem(Strings.Disc_Forgotten_Challenge_Recoded, () -> new KKRecordItem(1, ModSounds.Record_Forgotten_Challenge_Recoded, new Item.Properties().tab(KingdomKeys.miscGroup), 2.16F)),
-			disc_Anger_Unchained = createNewItem(Strings.Disc_Anger_Unchained, () -> new KKRecordItem(1, ModSounds.Record_Anger_Unchained, new Item.Properties().tab(KingdomKeys.miscGroup), 3.12F)),
-			disc_Hunter_Of_The_Dark = createNewItem(Strings.Disc_Hunter_Of_The_Dark, () -> new KKRecordItem(1, ModSounds.Record_Hunter_Of_The_Dark, new Item.Properties().tab(KingdomKeys.miscGroup), 2.50F)),
-			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(1, ModSounds.Record_Destati, new Item.Properties().tab(KingdomKeys.miscGroup), 3.42F)),
+			disc_Dearly_Beloved_UX = createNewItem(Strings.Disc_Dearly_Beloved_UX, () -> new KKRecordItem(1, ModSounds.Record_Dearly_Beloved_UX, new Item.Properties().tab(KingdomKeys.miscGroup), "4:07")),
+			disc_Passion_Instrumental = createNewItem(Strings.Disc_Passion_Instrumental, () -> new KKRecordItem(1, ModSounds.Record_Passion_Instrumental, new Item.Properties().tab(KingdomKeys.miscGroup), "3:42")),
+			disc_Rage_Awakened = createNewItem(Strings.Disc_Rage_Awakened, () -> new KKRecordItem(1, ModSounds.Record_Rage_Awakened, new Item.Properties().tab(KingdomKeys.miscGroup), "3:45")),
+			disc_The_Other_Promise = createNewItem(Strings.Disc_The_Other_Promise, () -> new KKRecordItem(1, ModSounds.Record_The_Other_Promise, new Item.Properties().tab(KingdomKeys.miscGroup), "4:36")),
+			disc_13th_Struggle_Luxord = createNewItem(Strings.Disc_13th_Struggle_Luxord, () -> new KKRecordItem(1, ModSounds.Record_13th_Struggle_Luxord, new Item.Properties().tab(KingdomKeys.miscGroup), "6:30")),
+			disc_13th_Dilemma_Saix = createNewItem(Strings.Disc_13th_Dilemma_Saix, () -> new KKRecordItem(1, ModSounds.Record_13th_Dilemma_Saix, new Item.Properties().tab(KingdomKeys.miscGroup), "6:16")),
+			disc_13th_Reflection = createNewItem(Strings.Disc_13th_Reflection, () -> new KKRecordItem(1, ModSounds.Record_13th_Reflection, new Item.Properties().tab(KingdomKeys.miscGroup), "3:46")),
+			disc_Another_Side_Battle_Ver = createNewItem(Strings.Disc_Another_Side_Battle_Ver, () -> new KKRecordItem(1, ModSounds.Record_Another_Side_Battle_Ver, new Item.Properties().tab(KingdomKeys.miscGroup), "3:01")),
+			disc_Cavern_Of_Remembrance_Days = createNewItem(Strings.Disc_Cavern_Of_Remembrance_Days, () -> new KKRecordItem(1, ModSounds.Record_Cavern_Of_Remembrance_Days, new Item.Properties().tab(KingdomKeys.miscGroup), "3:20")),
+			disc_Forgotten_Challenge_Recoded = createNewItem(Strings.Disc_Forgotten_Challenge_Recoded, () -> new KKRecordItem(1, ModSounds.Record_Forgotten_Challenge_Recoded, new Item.Properties().tab(KingdomKeys.miscGroup), "2:16")),
+			disc_Anger_Unchained = createNewItem(Strings.Disc_Anger_Unchained, () -> new KKRecordItem(1, ModSounds.Record_Anger_Unchained, new Item.Properties().tab(KingdomKeys.miscGroup), "3:12")),
+			disc_Hunter_Of_The_Dark = createNewItem(Strings.Disc_Hunter_Of_The_Dark, () -> new KKRecordItem(1, ModSounds.Record_Hunter_Of_The_Dark, new Item.Properties().tab(KingdomKeys.miscGroup), "2:50")),
+			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(1, ModSounds.Record_Destati, new Item.Properties().tab(KingdomKeys.miscGroup), "3:42")),
 
 			blazing_crystal = createNewItem(Strings.SM_BlazingCrystal, () -> new SynthesisItem(new Item.Properties().tab(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 			blazing_gem = createNewItem(Strings.SM_BlazingGem, () -> new SynthesisItem(new Item.Properties().tab(KingdomKeys.miscGroup), Strings.SM_Rank_A)),
@@ -785,18 +815,18 @@ public class ModItems {
 			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties().tab(KingdomKeys.miscGroup), Strings.SM_Rank_S)),
 
 			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire")),
-			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard")),			
+			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard")),
 			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water")),
 			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder")),
 			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure")),
 			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero")),
-			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet")),			
+			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet")),
 			reflectSpell= createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect")),
 			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity")),
 			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop")),
 			
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_valor")),
-			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_wisdom")),			
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_wisdom")),
 			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_limit")),
 			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_master")),
 			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties().tab(KingdomKeys.miscGroup), KingdomKeys.MODID+":form_final")),
@@ -816,10 +846,10 @@ public class ModItems {
 			potion = createNewItem(Strings.potion, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HP, 30, true, false)),
 			hiPotion = createNewItem(Strings.hiPotion, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HP, 60, true, false)),
 			megaPotion = createNewItem(Strings.megaPotion, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HP, 40, true, true)),
-			ether = createNewItem(Strings.ether, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.MP, 30, true, false)), 
+			ether = createNewItem(Strings.ether, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.MP, 30, true, false)),
 			hiEther = createNewItem(Strings.hiEther, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.MP, 60, true, false)),
 			megaEther = createNewItem(Strings.megaEther, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.MP, 40, true, true)),
-			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HPMP, 100, true, false)), 
+			elixir = createNewItem(Strings.elixir, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HPMP, 100, true, false)),
 			megaLixir = createNewItem(Strings.megaLixir, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.HPMP, 100, true, true)),
 			driveRecovery = createNewItem(Strings.driveRecovery, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.DRIVE, 300, false, false)),
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().tab(KingdomKeys.miscGroup).stacksTo(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
@@ -869,6 +899,10 @@ public class ModItems {
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+	
+	private static RegistryObject<Item> createKeybladeArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
+		return ITEMS.register(name, () -> new UXArmorItem(material, slot, textureName));
 	}
 
 }

@@ -2,10 +2,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -20,14 +21,14 @@ public class MenuFilterButton extends Button {
 
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, ItemCategory category) {
-        super(x, y, 26, 15, new TranslatableComponent(""), b -> parent.onClickFilter(category));
+        super(x, y, 26, 15, Component.translatable(""), b -> parent.onClickFilter(category));
         this.parent = parent;
         this.category = category;
     }
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, String text) {
         this(parent, x, y, (ItemCategory) null);
-        this.setMessage(new TranslatableComponent(text));
+        this.setMessage(Component.translatable(text));
     }
 
     @Override

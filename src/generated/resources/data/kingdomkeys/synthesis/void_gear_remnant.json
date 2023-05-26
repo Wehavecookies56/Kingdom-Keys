@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 6,
-  "output": {
-    "item": "kingdomkeys:void_gear_remnant_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_sinister_stone",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_sinister_shard",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:void_gear_remnant_chain",
+    "quantity": 1
+  },
+  "tier": 6
 }

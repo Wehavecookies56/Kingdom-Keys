@@ -1,7 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,9 +20,6 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-
-import java.util.Optional;
-import java.util.UUID;
 
 public class ArrowRainCoreEntity extends ThrowableProjectile {
 
@@ -50,8 +51,8 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

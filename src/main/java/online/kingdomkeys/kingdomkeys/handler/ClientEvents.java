@@ -1,17 +1,29 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -20,15 +32,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.InputEvent.ClickInputEvent;
+import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.client.event.sound.PlaySoundSourceEvent;
+import net.minecraftforge.event.PlayLevelSoundEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -48,18 +62,20 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class ClientEvents {
 
+	public static Player clonePlayer;
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getEntity().getLevel().isClientSide) {
 				if(ent instanceof Player player) {
+					if(player == Minecraft.getInstance().player) {
+						Minecraft minecraft = Minecraft.getInstance();
+						clonePlayer = new LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
+					}
+					
 					if(e.getEntity() == Minecraft.getInstance().player) {
 						Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
 					}
@@ -68,29 +84,31 @@ public class ClientEvents {
 			}
 		}
 	}
+
+	
+	
 	@SubscribeEvent
-	public void onRenderTick(RenderTickEvent event) { //Lock on
+	public void renderOverlays(RenderGuiOverlayEvent event) {
 		Player player = Minecraft.getInstance().player;
 		if (player != null) {
 			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
 				player.getMainHandItem().getItem();
-				if (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, true);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, true);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, true);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, true);
-				} else {
-					OverlayRegistry.enableOverlay(ClientSetup.COMMAND_MENU, false);
-					OverlayRegistry.enableOverlay(ClientSetup.PLAYER_PORTRAIT, false);
-					OverlayRegistry.enableOverlay(ClientSetup.HP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.MP_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.DRIVE_BAR, false);
-					OverlayRegistry.enableOverlay(ClientSetup.SHOTLOCK, false);
+				if (!(player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon)) {
+					event.setCanceled(
+							event.getOverlay() == ClientSetup.COMMAND_MENU ||
+							event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
+							event.getOverlay() == ClientSetup.HP_BAR ||
+							event.getOverlay() == ClientSetup.MP_BAR ||
+							event.getOverlay() == ClientSetup.DRIVE_BAR ||
+							event.getOverlay() == ClientSetup.SHOTLOCK
+					);
 				}
 			}
 		}
+	}
+	@SubscribeEvent
+	public void onRenderTick(RenderTickEvent event) { //Lock on
+		Player player = Minecraft.getInstance().player;
 
 		if(InputHandler.lockOn != null && player != null) {
 			if(InputHandler.lockOn.isRemoved()) {
@@ -124,11 +142,11 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void onLivingUpdate(LivingUpdateEvent event) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntityLiving());
+	public void onLivingUpdate(LivingTickEvent event) {
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				if(event.getEntityLiving().getLevel().isClientSide) {
+				if(event.getEntity().getLevel().isClientSide) {
 					if(Minecraft.getInstance().screen == null)
 						Minecraft.getInstance().setScreen(new StopGui());
 				}
@@ -136,7 +154,7 @@ public class ClientEvents {
 			}
 		}
 		
-		if(event.getEntityLiving() == Minecraft.getInstance().player) {
+		if(event.getEntity() == Minecraft.getInstance().player) {
 			if(InputHandler.qrCooldown > 0) {
 				InputHandler.qrCooldown -= 1;
 			}
@@ -320,7 +338,7 @@ public class ClientEvents {
         float scale = 0.02666667f;
         float iconScale = (0.02666667f);//*5;
         if (distance > 12.0f) {
-            int renderDistance = Minecraft.getInstance().options.renderDistance * 16;
+            int renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance() * 16;
             if (distance > (float) renderDistance) {
                 float scaleFactor = (float) renderDistance /distance;
                 x *= scaleFactor;
@@ -365,7 +383,7 @@ public class ClientEvents {
 		bufferbuilder.vertex(0.5, -0.5, 0.0).uv(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 		
 		RenderSystem.depthMask(true);
 		RenderSystem.enableDepthTest();
@@ -412,7 +430,7 @@ public class ClientEvents {
 				LivingEntity entityIn = event.getEntity();
 
 				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				TranslatableComponent displayNameIn = new TranslatableComponent("o");
+				MutableComponent displayNameIn = Component.translatable("o");
 				float f = entityIn.getBbHeight();
 				matrixStackIn.pushPose();
 				{
@@ -451,11 +469,11 @@ public class ClientEvents {
 		bufferbuilder.vertex(matrix, (float) x1, (float) y1, (float) blitOffset).uv(minU, minV).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableBlend();
-		BufferUploader.end(bufferbuilder);
+		//BufferUploader.end(bufferbuilder);
 	}
 	
 	@SubscribeEvent
-	public void PlayerClick(ClickInputEvent event) {
+	public void PlayerClick(InteractionKeyMappingTriggered event) {
 		if(event.isPickBlock()) {
 			Minecraft mc = Minecraft.getInstance();
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){

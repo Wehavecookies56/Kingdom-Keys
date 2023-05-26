@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(String registryName, int maxLevel, String gmAbility, int order) {
+	public MagicStop(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
 		super(registryName, false, maxLevel,  gmAbility, order);
 	}
 
@@ -43,6 +44,13 @@ public class MagicStop extends Magic {
 			if(e instanceof MarluxiaEntity) {
 				list.remove(e);
 			}
+		}
+		
+		//Cast stop model to player
+		IGlobalCapabilities casterGlobalData = ModCapabilities.getGlobal(caster);
+		if(casterGlobalData != null) {
+			casterGlobalData.setStopModelTicks(10);
+			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
 
 		player.level.playSound(null, player.blockPosition(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);

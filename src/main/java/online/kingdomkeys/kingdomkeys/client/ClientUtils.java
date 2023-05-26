@@ -1,10 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+
+import javax.annotation.Nullable;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -49,16 +58,21 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
-import org.apache.commons.io.IOUtils;
-
-import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
 
 public class ClientUtils {
 
@@ -170,6 +184,7 @@ public class ClientUtils {
                 playerData.equipAllKeychains(message.keychains, false);
                 playerData.equipAllItems(message.items, false);
                 playerData.equipAllAccessories(message.accessories, false);
+                playerData.equipAllKBArmor(message.kbArmors, false);
                 playerData.equipAllArmors(message.armors, false);
                 playerData.setActiveDriveForm(message.driveForm);
 

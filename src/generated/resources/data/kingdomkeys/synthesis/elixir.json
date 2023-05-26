@@ -1,11 +1,5 @@
 {
   "cost": 3000,
-  "tier": 2,
-  "output": {
-    "item": "kingdomkeys:elixir",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_hungry_gem",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:elixir",
+    "quantity": 1
+  },
+  "tier": 2
 }

@@ -1,13 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import java.awt.Color;
+import java.util.List;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,9 +35,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.List;
 
 public class MenuSelectEquipmentButton extends MenuButtonBase {
 
@@ -199,13 +201,13 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						openBracketMag += " ";
 					}
 					
-					drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
+					drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
 					drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
 					drawString(matrixStack, fr, openBracketStr, (int) strNumPosX + fr.width(strengthStr), (int) strPosY, 0xBF6004);
 					drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr), (int) strPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr) + fr.width(totalStrengthStr), (int) strPosY, 0xBF6004);
 
-					drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
+					drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
 					drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
 					drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.width(magicStr), (int) magPosY, 0xBF6004);
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag), (int) magPosY, 0xFBEA21);
@@ -215,7 +217,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
 					if(abilities.size() > 0) {
-						drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+						drawString(matrixStack, fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
 			                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));

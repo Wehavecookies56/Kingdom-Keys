@@ -1,9 +1,17 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -14,12 +22,6 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import org.apache.commons.io.IOUtils;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Map;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
@@ -52,21 +54,21 @@ public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
         String extension = ".json";
 
         ShopListRegistry.getInstance().clearRegistry();
-        for (ResourceLocation file : manager.listResources(folder, n -> n.endsWith(extension))) { //Get all .json files
+        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
             ResourceLocation shopList = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             try {
             	ShopList result;
                 try {
-                    result = GSON_BUILDER.fromJson(new BufferedReader(new InputStreamReader(manager.getResource(file).getInputStream())), ShopList.class);
+                    result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), ShopList.class);
                     result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
                 } catch (JsonParseException e) {
                 	//System.out.println(file+" is having issues "+shopList);
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).getLocation().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
                     continue;
                 }
                 ShopListRegistry.getInstance().register(result);
                 
-                IOUtils.closeQuietly(manager.getResource(file));
+                IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
             } catch (IOException e) {
                 e.printStackTrace();
             }

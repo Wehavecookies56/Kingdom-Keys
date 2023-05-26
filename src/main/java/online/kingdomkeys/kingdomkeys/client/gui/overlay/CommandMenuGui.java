@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -38,6 +38,7 @@ import java.util.UUID;
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
 
+	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
 
 	int TOP_WIDTH = 70;
@@ -55,8 +56,12 @@ public class CommandMenuGui extends OverlayBase {
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu.png");
 
+	private CommandMenuGui() {
+		super();
+	}
+
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 		drawCommandMenu(poseStack, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
@@ -164,9 +169,10 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawHeader(PoseStack matrixStack, String text, int subMenu) {
 		matrixStack.pushPose();
 		{
-
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
 		}
 		matrixStack.popPose();
 		
@@ -181,6 +187,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT+30, TOP_WIDTH, MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -192,6 +201,9 @@ public class CommandMenuGui extends OverlayBase {
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
 			blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
+			RenderSystem.setShaderColor(1,1,1, alpha);
+			blit(matrixStack, 0, 0, TOP_WIDTH, 30, TOP_WIDTH, 0 + MENU_HEIGHT);
+
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
@@ -205,6 +217,10 @@ public class CommandMenuGui extends OverlayBase {
 			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, alpha);
 		}
 		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		RenderSystem.setShaderColor(1,1,1, alpha);
+		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
+
+
 		RenderSystem.disableBlend();
 
 	}
@@ -307,9 +323,9 @@ public class CommandMenuGui extends OverlayBase {
 					if (i == DRIVE) {// If it's an org member / in antiform / has no drive unlocked be gray
 						if (playerData.getAlignment() != OrgMember.NONE) {
 							// Checks for limit obtaining in the future?
-							color = playerData.getLimitCooldownTicks() <= 0 ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
-						} else {
-							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2) {
+							color = playerData.getLimitCooldownTicks() <= 0 && playerData.getDP() >= Utils.getMinimumDPForLimit(player) ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
+						} else { //if is antiform and in battle is gray                                                      if has no drive forms unlocked                      if player is in base form AND the DP is not enough to get in a form 
+							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2 || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getDP() < Utils.getMinimumDPForDrive(playerData))) {
 								color = getColor(0x888888, SUB_MAIN);
 							} else {
 								color = getColor(0xFFFFFF, SUB_MAIN);
@@ -472,7 +488,7 @@ public class CommandMenuGui extends OverlayBase {
 					}
 
 					String magic = (String) magics.keySet().toArray()[i];
-					int magicLevel = playerData.getMagicLevel(magic);
+					int magicLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 					int[] mag = playerData.getMagicsMap().get(magic);
 					double cost = magicInstance.getCost(mag[0], minecraft.player);
@@ -560,7 +576,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(matrixStack, driveMenuColor, alpha);
-							RenderSystem.setShaderTexture(0, texture);
+				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(matrixStack, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);

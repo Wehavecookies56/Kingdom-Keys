@@ -147,7 +147,8 @@
     "27":{
         "str":1,
         "mag":1,
-        "ap":1
+        "ap":1,
+		"abilities":[ "kingdomkeys:ability_berserk_charge" ]
     },
     "28":{
         "mag":1,

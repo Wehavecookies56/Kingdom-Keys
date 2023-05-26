@@ -46,7 +46,9 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			GuiHelper.openMenu();
 			break;
 		case "disband":
-			PacketHandler.sendToServer(new CSPartyDisband(party));
+			if (party != null) {
+				PacketHandler.sendToServer(new CSPartyDisband(party));
+			}
 			GuiHelper.openMenu();
 			break;
 		case "leave":
@@ -148,14 +150,14 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
 					matrixStack.pushPose();
-					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				    InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();
-			matrixStack.scale(scale, scale, 1);
+				matrixStack.scale(scale, scale, 1);
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				matrixStack.translate(1, 20, 100);
 				
@@ -166,14 +168,14 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				int infoBoxPosY = (int) (height * 0.54F);
 				blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
-					blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 2, 22);
+					blit(matrixStack, infoBoxPosX + 10 + i, infoBoxPosY, 136, 67, 2, 22);
 				}
-				blit(matrixStack, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+				blit(matrixStack, infoBoxPosX + 10 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
 				blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 4, 35);
 				for (int i = 0; i < infoBoxWidth + 8; i++) {
-					blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 2, 35);
+					blit(matrixStack, infoBoxPosX + 2 + i, infoBoxPosY + 22, 128, 90, 2, 35);
 				}
-				blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+				blit(matrixStack, infoBoxPosX + 2 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 				
 				RenderSystem.disableBlend();
 			matrixStack.popPose();

@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "LAL",
-    "EBE",
-    "LLL"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_chestplate"
+    },
     "B": {
       "item": "minecraft:clock"
     },
     "E": {
       "item": "minecraft:book"
     },
-    "A": {
-      "item": "minecraft:leather_chestplate"
-    },
     "L": {
       "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "LAL",
+    "EBE",
+    "LLL"
+  ],
   "result": {
     "item": "kingdomkeys:aced_chestplate"
   }

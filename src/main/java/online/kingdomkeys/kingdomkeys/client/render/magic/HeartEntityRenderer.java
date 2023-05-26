@@ -1,10 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -12,18 +16,15 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
 
-import javax.annotation.Nullable;
-import java.util.Random;
-
 @OnlyIn(Dist.CLIENT)
 public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
-	Random rand = new Random();
 	float rotation = 0;
 	
 	public HeartEntityRenderer(EntityRendererProvider.Context context) {
@@ -54,7 +55,7 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 						        
 				matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(ticks*20));
 				
-				for (BakedQuad quad : model.getQuads(null, null, rand, EmptyModelData.INSTANCE)) {
+				for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) { //TODO totally made this up in the 1.19.3 port
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				

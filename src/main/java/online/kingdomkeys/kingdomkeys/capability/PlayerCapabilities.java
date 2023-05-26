@@ -1,5 +1,18 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +42,9 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -48,9 +64,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -146,6 +159,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.serializeNBT()));
 		storage.put("accessories", accessories);
 
+		CompoundTag kbArmors = new CompoundTag();
+		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.serializeNBT()));
+		storage.put("kbarmors", kbArmors);
+
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
 		storage.put("armors", armors);
@@ -156,7 +173,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.put("org_equipped_weapon", this.getEquippedWeapon().serializeNBT());
 
 		CompoundTag unlockedWeapons = new CompoundTag();
-		this.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(weapon.getItem().getRegistryName().toString(), weapon.serializeNBT()));
+		this.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(Utils.getItemRegistryName(weapon.getItem()).toString(), weapon.serializeNBT()));
 		storage.put("org_weapons_unlocked", unlockedWeapons);
 
 		CompoundTag parties = new CompoundTag();
@@ -184,7 +201,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putInt("synth_exp", synthExp);
 		storage.putString("single_style", singleStyle.toString());
 		storage.putString("dual_style", dualStyle.toString());
-		
+
+		storage.putInt("armor_color", armorColor);
 		return storage;
 	}
 
@@ -245,6 +263,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		for (String key : nbt.getCompound("recipes").getAllKeys()) {
 			this.getKnownRecipeList().add(new ResourceLocation(key));
 		}
+		Collections.sort(recipeList);
 
 		for (String magicName : nbt.getCompound("magics").getAllKeys()) {
 			int[] array;
@@ -254,7 +273,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			} else {
 				array = nbt.getCompound("magics").getIntArray(magicName);
 			}
-			this.getMagicsMap().put(magicName, array);
+			if (ModMagic.registry.get().containsKey(new ResourceLocation(magicName))) {
+				this.getMagicsMap().put(magicName, array);
+			}
 		}
 
 		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
@@ -279,6 +300,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag accessoriesNBT = nbt.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
+
+		CompoundTag kbArmorsNBT = nbt.getCompound("kbarmors");
+		kbArmorsNBT.getAllKeys().forEach((slot) -> this.setNewKBArmor(Integer.parseInt(slot), ItemStack.of(kbArmorsNBT.getCompound(slot))));
 
 		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
@@ -306,6 +330,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
+
+		this.setArmorColor(nbt.getInt("armor_color"));
 		String s = nbt.getString("single_style");
 		if(!s.equals(""))
 			this.setSingleStyle(SingleChoices.valueOf(s));
@@ -363,6 +389,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedItems = new HashMap<>();
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
+	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
+
+	private int armorColor = 0;
 
 	private SingleChoices singleStyle = SingleChoices.SORA;
 	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
@@ -386,6 +415,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setDualStyle(DualChoices dualStyle) {
 		this.dualStyle = dualStyle;
 	}
+
+	//private String armorName = "";
 
 	//region Main stats, level, exp, str, mag, ap
 	@Override
@@ -463,7 +494,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str")) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
+		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
 	}
 
 	@Override
@@ -1015,19 +1046,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
-	public int getMagicLevel(String name) {
-		return magicList.containsKey(name) ? magicList.get(name)[0] : 0;
+	public int getMagicLevel(ResourceLocation name) {
+		return magicList.containsKey(name.toString()) ? magicList.get(name.toString())[0] : 0;
 	}
 
 	@Override
-	public void setMagicLevel(String name, int level, boolean notification) {
-		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
+	public void setMagicLevel(ResourceLocation name, int level, boolean notification) {
+		Magic magic = ModMagic.registry.get().getValue(name);
 		if(level == -1) {
-			magicList.remove(name);
+			magicList.remove(name.toString());
 		} else {
 			if(level <= magic.getMaxLevel()) {
-				int uses = magicList.containsKey(name) ? getMagicUses(name) : 0;
-				magicList.put(name, new int[] {level, uses});
+				int uses = magicList.containsKey(name.toString()) ? getMagicUses(name) : 0;
+				magicList.put(name.toString(), new int[] {level, uses});
 				
 				if(notification) {
 					messages.add("M_"+magic.getTranslationKey(level));
@@ -1037,26 +1068,26 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public int getMagicUses(String name) {
-		return magicList.get(name)[1];
+	public int getMagicUses(ResourceLocation name) {
+		return magicList.get(name.toString())[1];
 	}
 
 	@Override
-	public void setMagicUses(String name, int uses) {
-		Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(name));
+	public void setMagicUses(ResourceLocation name, int uses) {
+		Magic magic = ModMagic.registry.get().getValue(name);
 		int level = getMagicLevel(name);
 		if(level <= magic.getMaxLevel()) {
-			magicList.put(name, new int[] {level, uses});
+			magicList.put(name.toString(), new int[] {level, uses});
 		}
 	}
 	
 	@Override
-	public void addMagicUses(String name, int uses) {
+	public void addMagicUses(ResourceLocation name, int uses) {
 		setMagicUses(name, getMagicUses(name) + uses);
 	}
 
 	@Override
-	public void remMagicUses(String name, int uses) {
+	public void remMagicUses(ResourceLocation name, int uses) {
 		setMagicUses(name, getMagicUses(name) - uses);
 	}
 		
@@ -1269,6 +1300,71 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedAccessories.put(slot, stack);
 		}
 	}
+
+	//region KBArmor
+
+	@Override
+	public Map<Integer, ItemStack> getEquippedKBArmors() {
+		return equippedKBArmors;
+	}
+
+	@Override
+	public ItemStack equipKBArmor(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipKBArmor(slot, stack)) {
+			ItemStack previous = getEquippedKBArmor(slot);
+			equippedKBArmors.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	@Override
+	public ItemStack getEquippedKBArmor(int slot) {
+		if (equippedKBArmors.containsKey(slot)) {
+			return equippedKBArmors.get(slot);
+		}
+		return null;
+	}
+
+	@Override
+	public void equipAllKBArmor(Map<Integer, ItemStack> KBArmors, boolean force) {
+		//Any KBArmor that cannot be equipped will be removed
+		if(!force)
+			KBArmors.replaceAll((k,v) -> canEquipKBArmor(k,v) ? v : ItemStack.EMPTY);
+		equippedKBArmors = KBArmors;
+	}
+
+	@Override
+	public boolean canEquipKBArmor(int slot, ItemStack stack) {
+		if (getEquippedKBArmor(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof ShoulderArmorItem) {
+				//If there is more than 1 item in the stack don't handle it
+				if (stack.getCount() <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void setNewKBArmor(int slot, ItemStack stack) {
+		if (!equippedKBArmors.containsKey(slot)) {
+			equippedKBArmors.put(slot, stack);
+		}
+	}
+
+	@Override
+	public int getArmorColor() {
+		return armorColor;
+	}
+
+	@Override
+	public void setArmorColor(int color) {
+		this.armorColor = color;
+	}
+
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {
@@ -1531,10 +1627,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
 				amount += Collections.frequency(abilities, ability);
 			}
-		} else {
+		} else { //Org members
 			if(getEquippedWeapon() != null && !ItemStack.matches(getEquippedWeapon(), ItemStack.EMPTY)) { // Main keyblade)
-				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(getEquippedWeapon().getItem(), 0);
-				amount += Collections.frequency(abilities, ability);
+				if(getEquippedWeapon().getItem() instanceof KeybladeItem) {
+					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(getEquippedWeapon().getItem(), 0);
+					amount += Collections.frequency(abilities, ability);
+				} else if(getEquippedWeapon().getItem() instanceof IOrgWeapon){ //Org (hopefully)
+					String[] abilitiesArray = ((IOrgWeapon)getEquippedWeapon().getItem()).getAbilities();
+					if(abilitiesArray != null) {
+						List<String> a = Lists.newArrayList(abilitiesArray);
+						amount += Collections.frequency(a, ability);
+					}
+				}
 			}
 		}
 		
@@ -1666,7 +1770,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public List<ResourceLocation> getKnownRecipeList() {
-		Collections.sort(recipeList);
 		return recipeList;
 	}
 
@@ -1682,14 +1785,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void addKnownRecipe(ResourceLocation recipe) {
-		if(!recipeList.contains(recipe))
+		if(!recipeList.contains(recipe)) {
 			this.recipeList.add(recipe);
+			Collections.sort(recipeList);
+		}
 	}
 	
 	@Override
 	public void removeKnownRecipe(ResourceLocation recipe) {
 		if(this.recipeList.contains(recipe)) {
 			this.recipeList.remove(recipe);
+			Collections.sort(recipeList);
 		}
 	}
 	
@@ -1997,4 +2103,5 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		remainingSynthExp = ((int) nextLevel - currentExp);
 		return remainingSynthExp;
 	}
+
 }

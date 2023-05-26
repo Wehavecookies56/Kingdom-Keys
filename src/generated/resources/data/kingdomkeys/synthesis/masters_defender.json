@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 5,
-  "output": {
-    "item": "kingdomkeys:masters_defender_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_twilight_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_mythril_crystal",
       "quantity": "4"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:masters_defender_chain",
+    "quantity": 1
+  },
+  "tier": 5
 }

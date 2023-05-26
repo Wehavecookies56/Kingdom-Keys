@@ -1,13 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /**
  * Class to initialise and render all the HUD elements
@@ -32,12 +33,12 @@ public class HUDElementHandler extends OverlayBase {
     }
 
     @SubscribeEvent
-    public void onRenderOverlayPost(RenderGameOverlayEvent.Post event) {
+    public void onRenderOverlayPost(RenderGuiOverlayEvent.Post event) {
 
     }
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+    public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         super.render(gui, poseStack, partialTick, width, height);
         elements.forEach(HUDElement::anchorElement);
         elements.forEach(element -> element.render(poseStack, partialTick));

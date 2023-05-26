@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "L": {
+      "tag": "forge:leather"
+    },
+    "S": {
+      "tag": "forge:string"
+    }
+  },
   "pattern": [
     "LSL",
     "L L",
     "LLL"
   ],
-  "key": {
-    "S": {
-      "tag": "forge:string"
-    },
-    "L": {
-      "tag": "forge:leather"
-    }
-  },
   "result": {
     "item": "kingdomkeys:synthesis_bag"
   }

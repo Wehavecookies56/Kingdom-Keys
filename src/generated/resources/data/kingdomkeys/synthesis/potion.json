@@ -1,11 +1,5 @@
 {
   "cost": 100,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:potion",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_shard",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_soothing_shard",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:potion",
+    "quantity": 1
+  },
+  "tier": 1
 }

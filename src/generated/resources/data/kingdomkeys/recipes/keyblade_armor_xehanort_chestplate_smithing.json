@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "addition": {
+    "item": "minecraft:gray_dye"
+  },
+  "base": {
+    "item": "minecraft:netherite_chestplate"
+  },
+  "result": {
+    "item": "kingdomkeys:xehanort_chestplate"
+  }
+}

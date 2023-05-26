@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -9,13 +11,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-import java.util.function.Supplier;
-
 public class ModLimits {
 
 	public static DeferredRegister<Limit> LIMITS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "limits"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Limit>> registry = LIMITS.makeRegistry(Limit.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Limit>> registry = LIMITS.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 

@@ -2,9 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -13,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
 public class MPGui extends OverlayBase {
+
+	public static final MPGui INSTANCE = new MPGui();
 	int guiWidth = 173;
 	int mpBarWidth;
 	int guiHeight = 10;
@@ -20,8 +23,12 @@ public class MPGui extends OverlayBase {
 	IPlayerCapabilities playerData;
 	int counter = 0;
 
+	private MPGui() {
+		super();
+	}
+
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
@@ -34,7 +41,7 @@ public class MPGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 
 		float scale = 1f;
-		switch (minecraft.options.guiScale) {
+		switch (minecraft.options.guiScale().get()) {
 			case Constants.SCALE_AUTO:
 				scale = 0.85F;
 				break;
@@ -49,7 +56,7 @@ public class MPGui extends OverlayBase {
 		poseStack.pushPose();// MP Background
 		{
 			RenderSystem.enableBlend();
-			poseStack.translate(ModConfigs.mpXPos, ModConfigs.mpYPos, 0);
+			poseStack.translate(ModConfigs.mpXPos-7, ModConfigs.mpYPos, 0);
 
 			poseStack.pushPose();// MP Background
 			{

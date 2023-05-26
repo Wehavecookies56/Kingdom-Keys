@@ -161,6 +161,16 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void equipAllAccessories(Map<Integer, ItemStack> accessories, boolean force);
 	boolean canEquipAccessory(int slot, ItemStack stack);
 	void setNewAccessory(int slot, ItemStack stack);
+	
+	Map<Integer, ItemStack> getEquippedKBArmors();
+	ItemStack equipKBArmor(int slot, ItemStack stack);
+	ItemStack getEquippedKBArmor(int slot);
+	void equipAllKBArmor(Map<Integer, ItemStack> KBArmories, boolean force);
+	boolean canEquipKBArmor(int slot, ItemStack stack);
+	void setNewKBArmor(int slot, ItemStack stack);
+	
+	int getArmorColor();
+	void setArmorColor(int color);
 
 	Map<Integer, ItemStack> getEquippedArmors();
 	ItemStack equipArmor(int slot, ItemStack stack);
@@ -171,12 +181,12 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 
 	LinkedHashMap<String, int[]> getMagicsMap();
 	void setMagicsMap(LinkedHashMap<String,int[]> map);
-	int getMagicLevel(String name);
-	void setMagicLevel(String name, int level, boolean notification);
-	int getMagicUses(String name);
-	void setMagicUses(String name, int uses);
-	void addMagicUses(String name, int uses);
-	void remMagicUses(String name, int uses);
+	int getMagicLevel(ResourceLocation name);
+	void setMagicLevel(ResourceLocation name, int level, boolean notification);
+	int getMagicUses(ResourceLocation name);
+	void setMagicUses(ResourceLocation name, int uses);
+	void addMagicUses(ResourceLocation name, int uses);
+	void remMagicUses(ResourceLocation name, int uses);
 	
 	List<String> getShotlockList();
 	void setShotlockList(List<String> list);

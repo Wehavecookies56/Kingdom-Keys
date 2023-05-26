@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:organization_leggings"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "tag": "forge:leather"
+    },
+    "W": {
+      "tag": "forge:dyes/white"
+    }
+  },
   "pattern": [
     "LWL",
     "EAE",
     "L L"
   ],
-  "key": {
-    "L": {
-      "tag": "forge:leather"
-    },
-    "A": {
-      "item": "kingdomkeys:organization_leggings"
-    },
-    "W": {
-      "tag": "forge:dyes/white"
-    },
-    "E": {
-      "item": "minecraft:end_crystal"
-    }
-  },
   "result": {
     "item": "kingdomkeys:xemnas_leggings"
   }

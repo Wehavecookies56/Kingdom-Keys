@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -11,8 +13,6 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-
-import java.util.function.Supplier;
 
 public class SCOpenChoiceScreen {
 

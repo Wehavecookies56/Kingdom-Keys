@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -43,8 +44,8 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
     		if(ticks >= 10) {
 	    		Player player = (Player)entityLiving;
 	    		float dmgMult = Math.min(ticks, 30) / 20F;
-		    	LanceEntity entity = new LanceEntity(worldIn, player, this.getRegistryName().getPath(), DamageCalculation.getOrgStrengthDamage(player, stack) * dmgMult);
-		    	switch(this.getRegistryName().getPath()) {
+		    	LanceEntity entity = new LanceEntity(worldIn, player, ForgeRegistries.ITEMS.getKey(this).getPath(), DamageCalculation.getOrgStrengthDamage(player, stack) * dmgMult);
+		    	switch(ForgeRegistries.ITEMS.getKey(this).getPath()) {
 		    	case Strings.lindworm:
 		    		entity.setRotationPoint(0);
 		    		break;

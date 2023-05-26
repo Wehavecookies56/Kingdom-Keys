@@ -125,6 +125,8 @@ public class Strings {
 			negativeCombo = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"negative_combo",
 			finishingPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"finishing_plus",
 
+    		berserkCharge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"berserk_charge",
+
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
     		waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
@@ -287,6 +289,8 @@ public class Strings {
             ventus = "ventus",
             nightmareVentus = "nightmareventus",
             eraqus = "eraqus",
+            xehanort = "xehanort",
+            ux = "ux",
             vanitas = "vanitas",
             vanitasRemnant = "vanitas_remnant",
             darkRiku = "dark_riku",

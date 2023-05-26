@@ -1,7 +1,12 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -17,9 +22,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class SoADoorBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -51,7 +53,7 @@ public class SoADoorBlock extends BaseBlock {
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 		// Tried to make animation here but random tick f*cks it all
 		super.animateTick(state, world, pos, random);
 	}

@@ -2,8 +2,13 @@ package online.kingdomkeys.kingdomkeys.util;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -22,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -35,10 +41,12 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -62,6 +70,14 @@ import java.util.Map.Entry;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
+
+	public static ResourceLocation getItemRegistryName(Item item) {
+		return ForgeRegistries.ITEMS.getKey(item);
+	}
+
+	public static ResourceLocation getBlockRegistryName(Block block) {
+		return ForgeRegistries.BLOCKS.getKey(block);
+	}
 
 	public static int getSlotFor(Inventory inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {
@@ -162,7 +178,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocalFormatted(String name, Object... format) {
-		TranslatableComponent translation = new TranslatableComponent(name, format);
+		MutableComponent translation = Component.translatable(name, format);
 		return translation.getString();
 	}
 
@@ -173,7 +189,7 @@ public class Utils {
 	 * @return the translated string
 	 */
 	public static String translateToLocal(String name, Object... args) {
-		TranslatableComponent translation = new TranslatableComponent(name, args);
+		MutableComponent translation = Component.translatable(name, args);
 		return translation.getString();
 	}
 
@@ -271,7 +287,7 @@ public class Utils {
 			list.add(ModMagic.registry.get().getValue(new ResourceLocation(entry)));
 		}
 
-		Collections.sort(list, Comparator.comparingInt(Magic::getOrder));
+		list.sort(Comparator.comparingInt(Magic::getOrder));
 
 		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -283,8 +299,7 @@ public class Utils {
 	
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<Limit>();
-		limits.addAll(ModLimits.registry.get().getValues());
+		List<Limit> limits = new ArrayList<Limit>(ModLimits.registry.get().getValues());
 		//TODO change when we have more member limits
        /* for(Limit val : ModLimits.registry.getValues()) {
         	System.out.println(val.getName());
@@ -297,41 +312,47 @@ public class Utils {
 	}
 	
 	public static List<Limit> getSortedLimits(List<Limit> list) {
-		Collections.sort(list, Comparator.comparingInt(Limit::getOrder));
-		return list;
+		List<Limit> newList = new ArrayList<>(list);
+		newList.sort(Comparator.comparingInt(Limit::getOrder));
+		return newList;
 	}
 
 	public static List<String> getSortedShotlocks(List<String> list) {
-		Collections.sort(list, (Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
-		return list;
+		List<String> newList = new ArrayList<>(list);
+		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
+		return newList;
 	}
 	
-	
-	
 	public static Player getPlayerByName(Level world, String name) {
-		for (Player p : world.players()) {
+		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
+		for (Player p : players) {
 			if (p.getDisplayName().getString().equals(name)) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
-	public static Player getClosestPlayer(Entity e) {
+
+	public static Player getClosestPlayer(Entity e, Level world) {
 		Player nearest = null;
 		if(e.getServer() == null) {
 			return null;
 		}
-		for(Player p : getAllPlayers(e.getServer())){
+		List<? extends Player> players = world == null ? getAllPlayers(e.getServer()) : world.players();
+		for(Player p : players){
 			if(nearest == null) {
 				nearest = p;
 			}
-			
+
 			if(p.distanceTo(e) < nearest.distanceTo(e)) {
 				nearest = p;
 			}
 		}
 		return nearest;
+	}
+
+	public static Player getClosestPlayer(Entity e) {
+		return getClosestPlayer(e, null);
 	}
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
@@ -430,7 +451,7 @@ public class Utils {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
 	}
 
-	public static boolean hasID(ItemStack stack) {
+	public static boolean hasKeybladeID(ItemStack stack) {
 		if (stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof IKeychain) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("keybladeID")) {
@@ -441,9 +462,27 @@ public class Utils {
 		return false;
 	}
 
-	public static UUID getID(ItemStack stack) {
-		if (hasID(stack)) {
+	public static UUID getKeybladeID(ItemStack stack) {
+		if (hasKeybladeID(stack)) {
 			return stack.getTag().getUUID("keybladeID");
+		}
+		return null;
+	}
+	
+	public static boolean hasArmorID(ItemStack stack) {
+		if (stack.getItem() instanceof ShoulderArmorItem || stack.getItem() instanceof BaseArmorItem) {
+			if (stack.getTag() != null) {
+				if (stack.getTag().hasUUID("armorID")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static UUID getArmorID(ItemStack stack) {
+		if (hasArmorID(stack)) {
+			return stack.getTag().getUUID("armorID");
 		}
 		return null;
 	}
@@ -459,7 +498,7 @@ public class Utils {
 						return i;
 					}
 					// Make sure it has a tag
-					if (hasID(slotStack)) {
+					if (hasKeybladeID(slotStack)) {
 						// Compare the ID with the chain's
 						if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
 							return i;
@@ -606,7 +645,7 @@ public class Utils {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);
-			if (itemStack.isEmpty() || !itemStack.getItem().getRegistryName().getPath().startsWith("organization_") && !itemStack.getItem().getRegistryName().getPath().startsWith("xemnas_") && !itemStack.getItem().getRegistryName().getPath().startsWith("anticoat_")) {
+			if (itemStack.isEmpty() || !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("organization_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("xemnas_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("anticoat_")) {
 				wearingOrgCloak = false;
 				break;
 			}
@@ -678,8 +717,7 @@ public class Utils {
 	
 	public static void syncWorldData(Level world, IWorldCapabilities worldData) {
 		world.getServer().getAllLevels().forEach(sw -> {
-			CompoundTag nbt = new CompoundTag();
-			ModCapabilities.getWorld(sw).read(worldData.write(nbt));
+			ModCapabilities.getWorld(sw).read(worldData.write(new CompoundTag()));
 		});
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 	}
@@ -863,6 +901,45 @@ public class Utils {
 		}
 		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 		return lvl;
+	}
+
+	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
+		int minCost = 1000;
+		if(playerData.getDriveFormMap().size() > 2) {
+			for(Entry<String, int[]> e : playerData.getDriveFormMap().entrySet()) {
+				//System.out.println(DriveForm.NONE.toString());
+				if(!e.getKey().equals(DriveForm.NONE.toString()) && !e.getKey().equals(DriveForm.SYNCH_BLADE.toString())) {
+	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e.getKey()));
+	            	minCost = Math.min(minCost, form.getDriveCost());
+				}
+				
+			}
+		}
+		return minCost;
+	}
+	
+	public static double getMinimumDPForLimit(Player player) {
+		int minCost = 1000;
+		if(Utils.getPlayerLimitAttacks(player).size() > 0) {
+			for(Limit limit : Utils.getPlayerLimitAttacks(player)) {
+            	minCost = Math.min(minCost, limit.getCost());
+			}
+		}
+		return minCost;
+	}
+	
+	public static List<String> appendEnchantmentNames(String text, ListTag pStoredEnchantments) {
+		List<String> arrayList = new ArrayList<String>();
+		if (pStoredEnchantments != null) {
+			arrayList.add(Component.translatable(text).getString());
+			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
+				CompoundTag compoundtag = pStoredEnchantments.getCompound(i);
+				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
+					arrayList.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
+				});
+			}
+		}
+		return arrayList;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {

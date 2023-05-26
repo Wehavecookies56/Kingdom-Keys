@@ -1,14 +1,15 @@
 package online.kingdomkeys.kingdomkeys.config;
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
@@ -48,7 +49,7 @@ public class ModConfigs {
 
     public static int mpXPos, mpYPos, mpXScale;
 
-    public static int dpXPos, dpYPos;
+    public static int dpXPos, dpYPos, dpXScale, dpYScale;
 
     public static int playerSkinXPos, playerSkinYPos;
 
@@ -56,9 +57,9 @@ public class ModConfigs {
 
     public static int partyXPos, partyYPos, partyYDistance;
 
-    public static int focusXPos, focusYPos;
+    public static int focusXPos, focusYPos, focusXScale, focusYScale;
 
-	public static boolean showDriveForms;
+	public static boolean showDriveForms, summonTogether;
 
     public enum ShowType {
         SHOW, HIDE, WEAPON
@@ -156,6 +157,16 @@ public class ModConfigs {
         CLIENT.dpYPos.set(value);
         bakeClient();
     }
+    
+    public static void setDpXScale(int value) {
+        CLIENT.dpXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setDpYScale(int value) {
+        CLIENT.dpYScale.set(value);
+        bakeClient();
+    }
 
   //Player Skin
     public static void setPlayerSkinXPos(int value) {
@@ -225,6 +236,16 @@ public class ModConfigs {
         CLIENT.focusYPos.set(value);
         bakeClient();
     }
+    
+    public static void setFocusXScale(int value) {
+        CLIENT.focusXScale.set(value);
+        bakeClient();
+    }
+    
+    public static void setFocusYScale(int value) {
+        CLIENT.focusYScale.set(value);
+        bakeClient();
+    }
 
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
@@ -251,6 +272,8 @@ public class ModConfigs {
 
         dpXPos = CLIENT.dpXPos.get();
         dpYPos = CLIENT.dpYPos.get();
+        dpXScale = CLIENT.dpXScale.get();
+        dpYScale = CLIENT.dpYScale.get();
 
         playerSkinXPos = CLIENT.playerSkinXPos.get();
         playerSkinYPos = CLIENT.playerSkinYPos.get();
@@ -268,8 +291,11 @@ public class ModConfigs {
 
         focusXPos = CLIENT.focusXPos.get();
         focusYPos = CLIENT.focusYPos.get();
+        focusXScale = CLIENT.focusXScale.get();
+        focusYScale = CLIENT.focusYScale.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
+        summonTogether = CLIENT.summonTogether.get();
 
         showGuiToggle = CLIENT.showGuiToggle.get();
     }
@@ -321,7 +347,6 @@ public class ModConfigs {
     public static boolean keybladeOpenDoors;
 
     public static SpawningMode heartlessSpawningMode;
-    public static List<String> moogleSpawnRate;
     public static List<String> mobSpawnRate;
     public static boolean mobLevelingUp;
 
@@ -349,55 +374,9 @@ public class ModConfigs {
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
-        oreGen = COMMON.oreGen.get();
-        bloxGen = COMMON.bloxGen.get();
-
-		
-        
-        twilightOreNetherGen = COMMON.twilightOreNetherGen.get();
-        wellspringOreNetherGen = COMMON.wellspringOreNetherGen.get();
-        writhingOreNetherGen = COMMON.writhingOreNetherGen.get();
-        blazingOreNetherGen = COMMON.blazingOreNetherGen.get();
-        writhingOreEndGen = COMMON.writhingOreEndGen.get();
-        pulsingOreEndGen = COMMON.pulsingOreEndGen.get();
-        betwixtOreGen = COMMON.betwixtOreGen.get();
-        sinisterOreGen = COMMON.sinisterOreGen.get();
-        stormyOreGen = COMMON.stormyOreGen.get();
-        writhingOreGen = COMMON.writhingOreGen.get();
-        hungryOreGen = COMMON.hungryOreGen.get();
-        lightningOreGen = COMMON.lightningOreGen.get();
-        lucidOreGen = COMMON.lucidOreGen.get();
-        remembranceOreGen = COMMON.remembranceOreGen.get();
-        soothingOreGen = COMMON.soothingOreGen.get();
-        tranquilityOreGen = COMMON.tranquilityOreGen.get();
-        twilightOreGen = COMMON.twilightOreGen.get();
-        wellspringOreGen = COMMON.wellspringOreGen.get();
-        blazingOreWarmGen = COMMON.blazingOreWarmGen.get();
-        frostOreColdGen = COMMON.frostOreColdGen.get();
-        pulsingOreColdGen = COMMON.pulsingOreColdGen.get();
-        frostOreColderGen = COMMON.frostOreColderGen.get();
-        pulsingOreWetGen = COMMON.pulsingOreWetGen.get();
-        stormyOreWetGen = COMMON.stormyOreWetGen.get();
-        
-        blazingOreDeepslateGen = COMMON.blazingOreDeepslateGen.get();
-		betwixtOreDeepslateGen = COMMON.betwixtOreDeepslateGen.get();
-		frostOreDeepslateGen = COMMON.frostOreDeepslateGen.get();
-		pulsingOreDeepslateGen = COMMON.pulsingOreDeepslateGen.get();
-		sinisterOreDeepslateGen = COMMON.sinisterOreDeepslateGen.get();
-		soothingOreDeepslateGen = COMMON.soothingOreDeepslateGen.get();
-		stormyOreDeepslateGen = COMMON.stormyOreDeepslateGen.get();
-		twilightOreDeepslateGen = COMMON.twilightOreDeepslateGen.get();
-		writhingOreDeepslateGen = COMMON.writhingOreDeepslateGen.get();
-
-        bloxClusterEndGen = COMMON.bloxClusterEndGen.get();
-        prizeBloxClusterEndGen = COMMON.prizeBloxClusterEndGen.get();
-        bloxClusterGen = COMMON.bloxClusterGen.get();
-        prizeBloxClusterGen = COMMON.prizeBloxClusterGen.get();
-
         debugConsoleOutput = COMMON.debugConsoleOutput.get();
         bombExplodeWithfire = COMMON.bombExplodeWithFire.get();
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
-        moogleSpawnRate = (List<String>) COMMON.moogleSpawnRate.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
 

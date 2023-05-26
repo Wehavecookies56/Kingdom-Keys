@@ -2,15 +2,17 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 
@@ -29,7 +31,7 @@ public class SoAPlatformRenderer implements BlockEntityRenderer<SoAPlatformTileE
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5,0.026,0.5);
             matrixStackIn.scale(1.12F, 0.975F, 1.12F);
-            for (BakedQuad quad : model.getQuads(null, null, tileEntityIn.getLevel().getRandom(), EmptyModelData.INSTANCE)) {
+            for (BakedQuad quad : model.getQuads(null, null, tileEntityIn.getLevel().getRandom(), ModelData.EMPTY, RenderType.translucent())) {
                 buffer.putBulkData(matrixStackIn.last(), quad, 1,1,1,1, combinedOverlayIn, combinedLightIn, true);
             }
             matrixStackIn.popPose();

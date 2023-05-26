@@ -1,9 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,11 +24,6 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class MenuStockScreen extends MenuFilterable {
 
@@ -77,7 +77,7 @@ public class MenuStockScreen extends MenuFilterable {
         } else {
         	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
-                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
+                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents().toString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
             }
         }
         
@@ -117,7 +117,7 @@ public class MenuStockScreen extends MenuFilterable {
 
         filterBar.buttons.forEach(this::addWidget);
         
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -125,7 +125,7 @@ public class MenuStockScreen extends MenuFilterable {
                 items.add(player.getInventory().getItem(i));
             }
         }
-        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents()));
+        items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
         for (int i = 0; i < items.size(); i += 2) {
         	//Left col
             inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), (int)(width * 0.3255F), true));

@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "EBE",
-    "LAL"
-  ],
   "key": {
+    "A": {
+      "item": "minecraft:leather_boots"
+    },
     "B": {
       "item": "minecraft:clock"
     },
     "E": {
       "item": "minecraft:book"
     },
-    "A": {
-      "item": "minecraft:leather_boots"
-    },
     "L": {
       "tag": "forge:leather"
     }
   },
+  "pattern": [
+    "EBE",
+    "LAL"
+  ],
   "result": {
     "item": "kingdomkeys:aced_boots"
   }

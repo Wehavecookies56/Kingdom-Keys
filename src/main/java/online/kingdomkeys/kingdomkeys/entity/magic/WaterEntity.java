@@ -1,9 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,8 +32,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-
-import java.util.List;
 
 public class WaterEntity extends ThrowableProjectile {
 
@@ -60,8 +61,8 @@ public class WaterEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

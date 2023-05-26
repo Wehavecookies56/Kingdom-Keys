@@ -1,21 +1,24 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+
 public class SCSyncCapabilityToAllPacket {
+	public Map<Integer, ItemStack> kbArmors = new HashMap<>();
 
 	private String name, driveForm;
 	private int level = 0,
@@ -38,6 +41,9 @@ public class SCSyncCapabilityToAllPacket {
 
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
+	
+	private int armorColor = 0;
+	
 		
 	public SCSyncCapabilityToAllPacket() {
 	}
@@ -66,6 +72,9 @@ public class SCSyncCapabilityToAllPacket {
 		this.isGliding = capability.getIsGliding();
 		this.aerialDodgeTicks = capability.getAerialDodgeTicks();
 		this.hasJumpedAD = capability.hasJumpedAerialDodge();
+		
+		this.kbArmors = capability.getEquippedKBArmors();
+		this.armorColor = capability.getArmorColor();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -105,6 +114,13 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeBoolean(this.isGliding);
 		buffer.writeInt(this.aerialDodgeTicks);
 		buffer.writeBoolean(this.hasJumpedAD);
+		
+		CompoundTag kbArmors = new CompoundTag();
+		this.kbArmors.forEach((key, value) -> kbArmors.put(key.toString(), value.serializeNBT()));
+		buffer.writeNbt(kbArmors);
+		
+		buffer.writeInt(armorColor);
+
 	}
 
 	public static SCSyncCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -143,6 +159,11 @@ public class SCSyncCapabilityToAllPacket {
 		msg.isGliding = buffer.readBoolean();
 		msg.aerialDodgeTicks = buffer.readInt();
 		msg.hasJumpedAD = buffer.readBoolean();
+		
+		CompoundTag kbArmorsNBT = buffer.readNbt();
+		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
+		
+		msg.armorColor = buffer.readInt();
 		return msg;
 	}
 
@@ -179,6 +200,9 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setIsGliding(message.isGliding);
 				playerData.setAerialDodgeTicks(message.aerialDodgeTicks);
 				playerData.setHasJumpedAerialDodge(message.hasJumpedAD);
+				
+                playerData.equipAllKBArmor(message.kbArmors, false);
+                playerData.setArmorColor(message.armorColor);
 				
 			}
 		});

@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public interface IWorldCapabilities extends INBTSerializable<CompoundTag> {
 	int getHeartlessSpawnLevel();

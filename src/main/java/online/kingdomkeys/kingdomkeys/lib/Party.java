@@ -1,14 +1,15 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.LivingEntity;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class Party {
 

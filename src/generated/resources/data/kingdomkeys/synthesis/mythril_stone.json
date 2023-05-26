@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:mythril_stone",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_twilight_stone",
@@ -27,5 +21,11 @@
       "material": "kingdomkeys:mat_betwixt_shard",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:mythril_stone",
+    "quantity": 1
+  },
+  "tier": 1
 }

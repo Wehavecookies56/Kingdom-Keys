@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
+import java.awt.Color;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -16,8 +19,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
 
 public class GuiMenu_Party_Settings extends MenuBackground {
 
@@ -66,7 +67,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			} else {
 				pSize++;
 			}
-			size.setMessage(new TranslatableComponent(pSize+""));
+			size.setMessage(Component.translatable(pSize+""));
 			break;
 		}
 		
@@ -75,8 +76,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 	private void updateButtons() {
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		togglePriv.setMessage(priv ? new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-		toggleFF.setMessage(new TranslatableComponent(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		toggleFF.setMessage(Component.translatable(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 
 		
 		//TBName
@@ -105,10 +106,10 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
 	
-			addRenderableWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("togglePriv"); }));
-			addRenderableWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, new TranslatableComponent(pSize+""), (e) -> { action("size"); }));
-			addRenderableWidget(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, new TranslatableComponent(""), (e) -> { action("ff"); }));
-			addRenderableWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
+			addRenderableWidget(togglePriv = new Button((int) (width*0.25)-2, button_statsY + (1 * 18), 100, 20, Component.translatable(""), (e) -> { action("togglePriv"); }));
+			addRenderableWidget(size = new Button((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18), (int) 20, 20, Component.translatable(pSize+""), (e) -> { action("size"); }));
+			addRenderableWidget(toggleFF = new Button((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20, Component.translatable(""), (e) -> { action("ff"); }));
+			addRenderableWidget(accept = new Button((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 130, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> { action("accept"); }));
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
 		

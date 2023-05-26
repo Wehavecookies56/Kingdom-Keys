@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,9 +25,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class KKPotionItem extends Item implements IItemCategory {
 	
@@ -219,7 +219,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
     	String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
     	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
-		tooltip.add(new TranslatableComponent(beginning + end));
+		tooltip.add(Component.translatable(beginning + end));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

@@ -1,15 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,16 +27,16 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipArmor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuSelectArmorButton extends MenuButtonBase {
 
@@ -248,7 +253,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showAP) {
-		                    drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
+		                    drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalAP - oldAP)+"", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, oldAP > ap ? 0xFF0000 : oldAP == ap ? 0xFFFF00 : 0x00AAFF);
@@ -257,7 +262,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showStr) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalStrength - oldStr)+"", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, oldStr > strength ? 0xFF0000 : oldStr == strength ? 0xFFFF00 : 0x00AAFF);
@@ -266,7 +271,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    }
 	                    
 	                    if(showMag) {
-							drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
 							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
 							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
 							drawString(matrixStack, fr, (totalMagic - oldMag)+"", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, oldMag > magic ? 0xFF0000 : oldMag == magic ? 0xFFFF00 : 0x00AAFF);
@@ -278,7 +283,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    	int pos = 0;
 	                    	{
 		                    	String resVal = ((KKArmorItem) stack.getItem()).getDefense()+"";
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (playerData.getDefense(true) + ((KKArmorItem) stack.getItem()).getDefense() - oldDefense) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -289,7 +294,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 							if(resistances.containsKey(type)) {
 								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -300,7 +305,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 							if(resistances.containsKey(type)) {
 								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -311,7 +316,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 							if(resistances.containsKey(type)) {
 								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
@@ -322,7 +327,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 							if(resistances.containsKey(type)) {
 								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
 								String resVal = resistances.get(type).toString();
-								drawString(matrixStack, fr, new TranslatableComponent(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								drawString(matrixStack, fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);

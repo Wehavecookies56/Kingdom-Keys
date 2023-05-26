@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,10 +24,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.function.Supplier;
 
 public class CSSynthesiseRecipe {
 

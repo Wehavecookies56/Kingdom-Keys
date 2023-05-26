@@ -2,11 +2,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,7 +26,7 @@ public class MenuStockItem extends Button {
     String customName = null;
 
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
-        super(x, y, width, 14, new TranslatableComponent(""), b -> {
+        super(x, y, width, 14, Component.translatable(""), b -> {
         	parent.action(rl, displayStack);
         });
         this.parent = parent;
@@ -35,11 +36,11 @@ public class MenuStockItem extends Button {
     }
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
-        super(x, y, width, 14, new TranslatableComponent(""), b -> {
-            parent.action(stack.getItem().getRegistryName(), stack);
+        super(x, y, width, 14, Component.translatable(""), b -> {
+            parent.action(ForgeRegistries.ITEMS.getKey(stack.getItem()), stack);
         });
         this.parent = parent;
-        this.rl = stack.getItem().getRegistryName();
+        this.rl = ForgeRegistries.ITEMS.getKey(stack.getItem());
         this.stack = stack;
         this.showAmount = showAmount;
     }
@@ -93,7 +94,7 @@ public class MenuStockItem extends Button {
             drawString(matrixStack, mc.font, customName == null ? stack.getHoverName().getString() : customName, x + 15, y + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
-	            String count = new TranslatableComponent("x%s ", stack.getCount()).getString();
+	            String count = Component.translatable("x%s ", stack.getCount()).getString();
 	            drawString(matrixStack, mc.font, count, x + width - mc.font.width(count), y + 3, 0xF8F711);
             }
         }

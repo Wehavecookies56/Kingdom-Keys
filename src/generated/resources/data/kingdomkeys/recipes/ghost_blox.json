@@ -1,11 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "kingdomkeys",
-  "pattern": [
-    "GNG",
-    "GRG",
-    "GNG"
-  ],
   "key": {
     "G": {
       "tag": "forge:glass"
@@ -17,6 +12,11 @@
       "item": "minecraft:redstone_block"
     }
   },
+  "pattern": [
+    "GNG",
+    "GRG",
+    "GNG"
+  ],
   "result": {
     "item": "kingdomkeys:ghost_blox"
   }

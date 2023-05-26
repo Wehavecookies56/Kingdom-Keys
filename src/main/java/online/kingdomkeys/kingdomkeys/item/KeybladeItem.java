@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -30,7 +36,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -52,12 +58,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.UUID;
 
 public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach {
 
@@ -123,7 +123,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (entityIn instanceof Player && !worldIn.isClientSide) {
-			if (Utils.hasID(stack)) {
+			if (Utils.hasKeybladeID(stack)) {
 				Player player = (Player) entityIn;
 				//Stupid workaround for itemSlot being 0 for offhand slot
 				int slot = itemSlot;
@@ -146,10 +146,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						}
 						if (formChain == null)
 							formChain = ItemStack.EMPTY;
-						UUID stackID = Utils.getID(stack);
+						UUID stackID = Utils.getKeybladeID(stack);
 						if (!ItemStack.matches(mainChain, ItemStack.EMPTY) || !ItemStack.matches(formChain, ItemStack.EMPTY)) {
-							UUID mainChainID = Utils.getID(mainChain);
-							UUID formChainID = Utils.getID(formChain);
+							UUID mainChainID = Utils.getKeybladeID(mainChain);
+							UUID formChainID = Utils.getKeybladeID(formChain);
 							if (mainChainID == null)
 								mainChainID = new UUID(0, 0);
 							if (formChainID == null)
@@ -176,7 +176,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								}
 							}
 							if (i != slot) {
-								UUID id = Utils.getID(player.getInventory().getItem(i));
+								UUID id = Utils.getKeybladeID(player.getInventory().getItem(i));
 								if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
 									if (id.equals(stackID) && i != player.getInventory().selected) {
 										player.getInventory().setItem(i, ItemStack.EMPTY);
@@ -209,7 +209,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 					KKThrowableEntity entity = new KKThrowableEntity(level);
 					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
-					entity.setPos(player.position().x, player.eyeBlockPosition().getY(), player.position().z);
+					entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
 					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, itemstack);
 					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
@@ -302,23 +302,23 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
 			if(getKeybladeLevel(stack) > 0)
-				tooltip.add(new TranslatableComponent(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
-			tooltip.add(new TranslatableComponent(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
+				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
+			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
+			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {
 					Entry<Material, Integer> mat = it.next();
-					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
 				}
 			}
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("keybladeID")) {
-					tooltip.add(new TranslatableComponent(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(new TranslatableComponent(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
+					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
 				}
 			}
 		}
@@ -343,10 +343,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public static class Events {
 
 		@SubscribeEvent
-		public static void onItemDropped(EntityJoinWorldEvent event) {
+		public static void onItemDropped(EntityJoinLevelEvent event) {
 			if (event.getEntity() instanceof ItemEntity) {
 				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
-				UUID droppedID = Utils.getID(droppedItem);
+				UUID droppedID = Utils.getKeybladeID(droppedItem);
 				if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
 					event.setCanceled(true);
 				}

@@ -7,12 +7,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -65,7 +64,7 @@ public class MagicLevelCommand extends BaseCommand{
 		
 		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 		if(magicInstance == null) {
-			context.getSource().sendSuccess(new TranslatableComponent("Unknown magic '"+magic+"'"), true);
+			context.getSource().sendSuccess(Component.translatable("Unknown magic '"+magic+"'"), true);
 			return 1;
 		}
 		
@@ -73,16 +72,16 @@ public class MagicLevelCommand extends BaseCommand{
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(magic, level, false);
+				playerData.setMagicLevel(new ResourceLocation(magic), level, false);
 			} else {
-				context.getSource().sendSuccess(new TranslatableComponent("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
+				context.getSource().sendSuccess(Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 			
 			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
-			context.getSource().sendSuccess(new TranslatableComponent("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
-			player.sendMessage(new TranslatableComponent("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"), Util.NIL_UUID);
+			context.getSource().sendSuccess(Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
+			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"));
 		}
 		return 1;
 	}

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -203,8 +204,8 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 }

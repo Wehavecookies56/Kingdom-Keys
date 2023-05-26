@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -8,13 +10,11 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-import java.util.function.Supplier;
-
 public class ModShotlocks {
 
 	public static DeferredRegister<Shotlock> SHOTLOCKS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "shotlocks"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(Shotlock.class, RegistryBuilder::new);
+	public static Supplier<IForgeRegistry<Shotlock>> registry = SHOTLOCKS.makeRegistry(RegistryBuilder::new);
 
 	static int order = 0;
 	public static final RegistryObject<Shotlock>

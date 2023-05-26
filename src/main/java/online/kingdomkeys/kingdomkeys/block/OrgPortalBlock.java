@@ -1,8 +1,13 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -29,10 +34,6 @@ import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
 
 public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 
@@ -78,13 +79,13 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level.dimension(), player.getUUID()));
 					Utils.syncWorldData(worldIn, worldData);
 	
-					player.displayClientMessage(new TranslatableComponent(ChatFormatting.GREEN + "This is now your portal"), true);
+					player.displayClientMessage(Component.translatable(ChatFormatting.GREEN + "This is now your portal"), true);
 	
 					te.setUUID(portalUUID);
 					te.setChanged();
 					PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer) player);
 				} else {
-					player.displayClientMessage(new TranslatableComponent(ChatFormatting.RED + "You have no empty slots for portals"), true);
+					player.displayClientMessage(Component.translatable(ChatFormatting.RED + "You have no empty slots for portals"), true);
 				}
 			}
 		}		
@@ -109,9 +110,9 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 							}
 						}
 						PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer)player);
-						player.displayClientMessage(new TranslatableComponent(ChatFormatting.YELLOW + "This is your portal " + (i+1)+": "+worldData.getPortalFromUUID(portals.get(i)).getName()), true);
+						player.displayClientMessage(Component.translatable(ChatFormatting.YELLOW + "This is your portal " + (i+1)+": "+worldData.getPortalFromUUID(portals.get(i)).getName()), true);
 					} else {
-						player.displayClientMessage(new TranslatableComponent(ChatFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()), true);
+						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()), true);
 						return InteractionResult.SUCCESS;
 					}
 
@@ -137,7 +138,7 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 					Player player = worldIn.getServer().getPlayerList().getPlayer(ownerUUID);
 					if(player != null) { //Remove from player's menu
 						Utils.syncWorldData(worldIn, worldData);
-						player.displayClientMessage(new TranslatableComponent(ChatFormatting.RED + "Portal destination disappeared"), true);
+						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "Portal destination disappeared"), true);
 					}
 				}
 			}

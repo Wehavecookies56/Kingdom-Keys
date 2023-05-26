@@ -17,8 +17,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -40,14 +38,10 @@ import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.MobSpawnings;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
-import online.kingdomkeys.kingdomkeys.integration.jer.KKJERPlugin;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -70,7 +64,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.biome.ModBiomes;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
-import online.kingdomkeys.kingdomkeys.world.features.OreGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,8 +77,8 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-	public static final String MODVER = "2.1.6.8";
-	public static final String MCVER = "1.18.2";
+	public static final String MODVER = "2.2.1.1";
+	public static final String MCVER = "1.19.2";
 
 	public static boolean efmLoaded = false;
 
@@ -128,6 +121,7 @@ public class KingdomKeys {
 
 		//KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
 		ModMagic.MAGIC.register(modEventBus);
+		//ModMagic.MAGIC2.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);
 		ModAbilities.ABILITIES.register(modEventBus);
 		ModLevels.LEVELS.register(modEventBus);
@@ -144,6 +138,7 @@ public class KingdomKeys {
 
         ModEntities.ENTITIES.register(modEventBus);
 
+		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModBiomes.BIOMES.register(modEventBus);
 
@@ -170,11 +165,6 @@ public class KingdomKeys {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		ModFeatures.registerConfiguredFeatures();
-
-		// Run setup on proxies
-		//ModBiomes.init();
-		//ModDimensions.init();
 		event.enqueueWork(PacketHandler::register);
 		event.enqueueWork(ModEntities::registerPlacements);
 		event.enqueueWork(ModDimensions::setupDimension);
@@ -182,14 +172,11 @@ public class KingdomKeys {
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
-		if (ModList.get().isLoaded("jeresources")) {
-			KKJERPlugin.setup();
-		}
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
 			@Override
 			public void run() {
 				if (ModList.get().isLoaded("epicfight")) {
-					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+					//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
 			}
 		});
@@ -215,18 +202,6 @@ public class KingdomKeys {
 	public void registerCommands(RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 		ModCommands.register(dispatcher);
-	}
-
-	
-	@SubscribeEvent(priority = EventPriority.HIGH)
-	public void addToBiome(BiomeLoadingEvent event) {
-		MobSpawnings.registerSpawns(event);
-		OreGeneration.generateOre(event);
-	}
-
-	@SubscribeEvent(priority = EventPriority.NORMAL)
-	public void removeFromBiome(BiomeLoadingEvent event) {
-		MobSpawnings.removeSpawns(event);
 	}
 
 	@SubscribeEvent

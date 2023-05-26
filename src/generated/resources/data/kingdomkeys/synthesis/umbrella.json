@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:umbrella_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_twilight_shard",
@@ -15,5 +9,11 @@
       "material": "kingdomkeys:mat_mythril_shard",
       "quantity": "10"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:umbrella_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

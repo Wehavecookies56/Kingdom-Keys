@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,12 +10,10 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-import java.util.function.Supplier;
-
 public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
 	int id;
-	private int stopTicks, flatTicks, level, aeroTicks, aeroLevel;
+	private int stopTicks, flatTicks, level, aeroTicks, aeroLevel, stopModelTicks;
 	private float stopDmg;
 	private boolean castleOblivionMarker;
 
@@ -29,6 +29,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		this.aeroLevel = capability.getAeroLevel();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
+		this.stopModelTicks = capability.getStopModelTicks();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -40,6 +41,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		buffer.writeInt(this.aeroLevel);
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
+		buffer.writeInt(this.stopModelTicks);
 	}
 
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -52,6 +54,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		msg.aeroLevel = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
+		msg.stopModelTicks = buffer.readInt();
 		return msg;
 	}
 
@@ -68,6 +71,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 					cap.setAeroTicks(message.aeroTicks, message.aeroLevel);
 					cap.setCastleOblivionMarker(message.castleOblivionMarker);
 					cap.setLevel(message.level);
+					cap.setStopModelTicks(message.stopModelTicks);
 				});
 			}
 		});

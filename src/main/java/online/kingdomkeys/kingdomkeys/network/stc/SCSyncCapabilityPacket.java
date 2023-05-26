@@ -1,5 +1,16 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -19,9 +30,6 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.*;
-import java.util.function.Supplier;
 
 public class SCSyncCapabilityPacket {
 
@@ -55,6 +63,7 @@ public class SCSyncCapabilityPacket {
 	public Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	public Map<Integer, ItemStack> items = new HashMap<>();
 	public Map<Integer, ItemStack> accessories = new HashMap<>();
+	public Map<Integer, ItemStack> kbArmors = new HashMap<>();
 	public Map<Integer, ItemStack> armors = new HashMap<>();
 	public SoAState soAstate, choice, sacrifice;
 	public BlockPos choicePedestal, sacrificePedestal;
@@ -93,7 +102,7 @@ public class SCSyncCapabilityPacket {
 		this.dp = capability.getDP();
 		this.maxDP = capability.getMaxDP();
 		this.fp = capability.getFP();
-		this.antipoints=capability.getAntiPoints();
+		this.antipoints = capability.getAntiPoints();
 		this.munny = capability.getMunny();
 		this.focus = capability.getFocus();
 		this.maxFocus = capability.getMaxFocus();
@@ -109,6 +118,7 @@ public class SCSyncCapabilityPacket {
 		this.keychains = capability.getEquippedKeychains();
 		this.items = capability.getEquippedItems();
 		this.accessories = capability.getEquippedAccessories();
+		this.kbArmors = capability.getEquippedKBArmors();
 		this.armors = capability.getEquippedArmors();
 		
 		this.messages = capability.getMessages();
@@ -212,6 +222,10 @@ public class SCSyncCapabilityPacket {
 		this.accessories.forEach((key, value) -> accessories.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(accessories);
 		
+		CompoundTag kbArmors = new CompoundTag();
+		this.kbArmors.forEach((key, value) -> kbArmors.put(key.toString(), value.serializeNBT()));
+		buffer.writeNbt(kbArmors);
+
 		CompoundTag armors = new CompoundTag();
 		this.armors.forEach((key, value) -> armors.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(armors);
@@ -352,6 +366,9 @@ public class SCSyncCapabilityPacket {
 		CompoundTag accessoriesNBT = buffer.readNbt();
 		accessoriesNBT.getAllKeys().forEach(key -> msg.accessories.put(Integer.parseInt(key), ItemStack.of((CompoundTag) accessoriesNBT.get(key))));
 		
+		CompoundTag kbArmorsNBT = buffer.readNbt();
+		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
+
 		CompoundTag armorsNBT = buffer.readNbt();
 		armorsNBT.getAllKeys().forEach(key -> msg.armors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) armorsNBT.get(key))));
 		

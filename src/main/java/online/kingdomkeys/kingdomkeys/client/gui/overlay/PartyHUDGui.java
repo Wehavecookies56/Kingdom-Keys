@@ -1,14 +1,18 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
@@ -17,15 +21,18 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //TODO cleanup + comments
 public class PartyHUDGui extends OverlayBase {
+
+	public static final PartyHUDGui INSTANCE = new PartyHUDGui();
 	int hpBarWidth;
 	int guiHeight = 10;
 
 	int counter = 0;
+
+	private PartyHUDGui() {
+		super();
+	}
 
 	public ResourceLocation getLocationSkin(Player player) {
 		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
@@ -33,7 +40,7 @@ public class PartyHUDGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
 		super.render(gui, poseStack, partialTick, width, height);
 		Player player = minecraft.player;
 

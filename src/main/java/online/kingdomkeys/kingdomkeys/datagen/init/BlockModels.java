@@ -17,7 +17,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("bounce_blox");
 		standardCube("hard_blox");
 		standardCube("metal_blox");
-		standardCube("ghost_blox_invisible");
+		standardCube("ghost_blox_invisible", "cutout");
 		standardCube("ghost_blox_visible");
 		standardCube("danger_blox");
 		standardCube("normal_blox");
@@ -49,12 +49,19 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("tranquility_ore");
 		standardCube("twilight_ore");
 		standardCube("twilight_ore_n");
-		standardCube("castle_oblivion_wall");
+		
+		standardCube("rod_sand");
+		standardCube("rod_stone");
+		standardCube("rod_cracked_stone");
 
 	}
 
 	public void standardCube(String name) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).texture("all", "block/" + name);
+	}
+
+	public void standardCube(String name, String type) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).renderType(type).texture("all", "block/" + name);
 	}
 
 	@Override

@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 0,
-  "output": {
-    "item": "kingdomkeys:ever_after_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_shard",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_lucid_gem",
       "quantity": "2"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:ever_after_chain",
+    "quantity": 1
+  },
+  "tier": 1
 }

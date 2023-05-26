@@ -1,15 +1,28 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
+
+import org.jline.reader.Widget;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
 import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -18,17 +31,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 @OnlyIn(Dist.CLIENT)
 public class EditBoxLength extends AbstractWidget implements Widget, GuiEventListener {
@@ -100,7 +106,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 
     protected MutableComponent createNarrationMessage() {
         Component component = this.getMessage();
-        return new TranslatableComponent("gui.narrate.editBox", component, this.value);
+        return Component.translatable("gui.narrate.editBox", component, this.value);
     }
 
     /**
@@ -678,11 +684,14 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         return p_94212_ > this.value.length() ? this.x : this.x + this.font.width(this.value.substring(0, p_94212_));
     }
 
-    public void setX(int pX) {
-        this.x = pX;
+    @Override
+    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
+        pNarrationElementOutput.add(NarratedElementType.TITLE, Component.translatable("narration.edit_box", this.getValue()));
     }
 
-    public void updateNarration(NarrationElementOutput pNarrationElementOutput) {
-        pNarrationElementOutput.add(NarratedElementType.TITLE, new TranslatableComponent("narration.edit_box", this.getValue()));
-    }
+	@Override
+	public boolean apply() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -1,11 +1,5 @@
 {
   "cost": 700,
-  "tier": 1,
-  "output": {
-    "item": "kingdomkeys:aquamarine_ring",
-    "quantity": 1,
-    "type": "item"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_writhing_stone",
@@ -19,5 +13,11 @@
       "material": "kingdomkeys:mat_soothing_shard",
       "quantity": "5"
     }
-  ]
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:aquamarine_ring",
+    "quantity": 1
+  },
+  "tier": 1
 }

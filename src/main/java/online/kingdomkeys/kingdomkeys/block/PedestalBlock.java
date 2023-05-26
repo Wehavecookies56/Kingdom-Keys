@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -27,8 +29,6 @@ import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
-
-import javax.annotation.Nullable;
 
 public class PedestalBlock extends BaseEntityBlock {
 
@@ -70,7 +70,7 @@ public class PedestalBlock extends BaseEntityBlock {
 							return InteractionResult.FAIL;
 						}
 					} else {
-						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+						NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 							packetBuffer.writeBlockPos(pos);
 						});
 					}
@@ -82,7 +82,7 @@ public class PedestalBlock extends BaseEntityBlock {
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			world.getBlockEntity(pos).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+			world.getBlockEntity(pos).getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
 				for (int i = 0; i < inv.getSlots(); i++) {
 					popResource(world, pos, inv.getStackInSlot(i));
 				}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.sound;
 
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,7 +20,7 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
    private float pitch = 0.0F;
   
    public AeroSoundInstance(LivingEntity ent) {
-      super(ModSounds.aero2.get(), SoundSource.PLAYERS);
+      super(ModSounds.aero2.get(), SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
       this.ent = ent;
       this.looping = true;
       this.delay = 0;

@@ -1,5 +1,6 @@
 {
 	"parent": "forge:block/default",
+	"render_type": "minecraft:translucent",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/station_of_awakening.obj",
 	"transform":{

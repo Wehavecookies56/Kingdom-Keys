@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -34,54 +33,55 @@
                   "type": "minecraft:item",
                   "functions": [
                     {
-                      "function": "minecraft:apply_bonus",
                       "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops"
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
                     }
                   ],
                   "name": "kingdomkeys:betwixt_crystal"
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 2,
                   "functions": [
                     {
-                      "function": "minecraft:apply_bonus",
                       "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops"
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
                     }
                   ],
-                  "name": "kingdomkeys:betwixt_gem"
+                  "name": "kingdomkeys:betwixt_gem",
+                  "weight": 2
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 3,
                   "functions": [
                     {
-                      "function": "minecraft:apply_bonus",
                       "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops"
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
                     }
                   ],
-                  "name": "kingdomkeys:betwixt_stone"
+                  "name": "kingdomkeys:betwixt_stone",
+                  "weight": 3
                 },
                 {
                   "type": "minecraft:item",
-                  "weight": 4,
                   "functions": [
                     {
-                      "function": "minecraft:apply_bonus",
                       "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops"
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
                     }
                   ],
-                  "name": "kingdomkeys:betwixt_shard"
+                  "name": "kingdomkeys:betwixt_shard",
+                  "weight": 4
                 }
               ]
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

@@ -2,17 +2,20 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class MenuScrollBar extends Button {
 
 	int clickX, clickY, startX, startY, top, bottom;
+	private int scrollY;
+	private int y;
 
 	public MenuScrollBar(int x, int y, int widthIn, String buttonText, Button.OnPress onPress) {
-		super(x, y, 22 + widthIn, 20, new TranslatableComponent(buttonText), onPress);
+		super(x, y, 22 + widthIn, 20, Component.translatable(buttonText), onPress);
 		height = 10;
 		width = 14;
 		
@@ -57,7 +60,7 @@ public class MenuScrollBar extends Button {
 		clickX = (int) mouseX;
 		clickY = (int) mouseY;
 		startX = x;
-		startY = y;
+		startY = scrollY;
 		return false;
 	}
 	

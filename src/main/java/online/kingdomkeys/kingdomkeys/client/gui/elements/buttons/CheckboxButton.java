@@ -2,10 +2,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -15,7 +16,7 @@ public class CheckboxButton extends AbstractButton {
     private boolean checked;
 
     public CheckboxButton(int xIn, int yIn, String msg, boolean checked) {
-        super(xIn, yIn, 10, 10, new TranslatableComponent(msg));
+        super(xIn, yIn, 10, 10, Component.translatable(msg));
         this.checked = checked;
     }
 

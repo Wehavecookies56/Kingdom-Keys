@@ -1,0 +1,21 @@
+{
+  "type": "kingdomkeys:blox",
+  "config": {
+    "discard_chance_on_air_exposure": 0.0,
+    "size": 6,
+    "targets": [
+      {
+        "states": [
+          { "Name": "kingdomkeys:normal_blox" },
+          { "Name": "kingdomkeys:hard_blox" },
+          { "Name": "kingdomkeys:metal_blox" },
+          { "Name": "kingdomkeys:danger_blox" }
+        ],
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:end_stone"
+        }
+      }
+    ]
+  }
+}

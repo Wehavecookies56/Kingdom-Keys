@@ -1,8 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
@@ -32,11 +38,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class ShopScreen extends MenuFilterable {
 
@@ -130,7 +131,7 @@ public class ShopScreen extends MenuFilterable {
 			ResourceLocation itemName = null;
 			ShopItem shopItem = shopList.getList().get(i);
 			if(shopItem != null) {
-				ResourceLocation recipeRL = shopItem.getResult().getRegistryName();
+				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
 				ItemStack stack = new ItemStack(shopItem.getResult());
 	
 				if (shopItem.getResult() instanceof KeychainItem)
@@ -143,7 +144,7 @@ public class ShopScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents()));
+		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(items.get(i)));
@@ -158,17 +159,17 @@ public class ShopScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("<--")), (e) -> {
+		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
 			action("prev");
 		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, new TranslatableComponent(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
 			action("next");
 		}));
-		addRenderableWidget(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, new TranslatableComponent(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		addRenderableWidget(create = new Button((int) (boxM.x+3), (int) (height * 0.67), boxM.getWidth()-5, 20, Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
 		}));
 		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile))));
 
 	}
 
@@ -209,7 +210,7 @@ public class ShopScreen extends MenuFilterable {
 				create.active = enoughMunny && enoughTier;
 				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 					create.active = false;
-					create.setMessage(new TranslatableComponent("No empty slot"));
+					create.setMessage(Component.translatable("No empty slot"));
 				}
 			}
 			create.visible = item != null;

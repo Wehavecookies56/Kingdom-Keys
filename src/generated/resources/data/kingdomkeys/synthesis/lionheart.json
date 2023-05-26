@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 4,
-  "output": {
-    "item": "kingdomkeys:lionheart_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_pulsing_crystal",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_betwixt_crystal",
       "quantity": "3"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:lionheart_chain",
+    "quantity": 1
+  },
+  "tier": 4
 }

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:wet_cold",
+  "features": "kingdomkeys:pulsing_ore",
+  "step": "underground_ores"
+}

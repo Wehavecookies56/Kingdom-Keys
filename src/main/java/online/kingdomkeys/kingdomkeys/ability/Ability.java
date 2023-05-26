@@ -1,9 +1,8 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class Ability extends ForgeRegistryEntry<Ability> {
+public class Ability {
 
 	public static enum AbilityType{
 		ACTION, GROWTH, SUPPORT, WEAPON, ACCESSORY
@@ -54,5 +53,9 @@ public class Ability extends ForgeRegistryEntry<Ability> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public ResourceLocation getRegistryName() {
+		return new ResourceLocation(name);
 	}
 }

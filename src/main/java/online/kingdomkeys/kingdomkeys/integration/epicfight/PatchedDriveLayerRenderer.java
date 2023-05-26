@@ -31,23 +31,23 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
     @Override
     public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float v, float v1, float v2) {
         if(ModConfigs.showDriveForms && e != null && !ModCapabilities.getPlayer((Player) e).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
-                DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
-                if (form.getTextureLocation() != null) {
-                    VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation()), true, false);
-                    HumanoidMesh model = getModel(e);
-                    model.drawModelWithPose(poseStack, vertexConsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
-                }
+            String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
+            DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
+            if (form.getTextureLocation() != null) {
+                VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation()), true, false);
+                HumanoidMesh model = getModel(e);
+                model.drawModelWithPose(poseStack, vertexConsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
+            }
 
         }
     }
 
     public HumanoidMesh getModel(E e) {
         boolean defaultSkin = DefaultPlayerSkin.getSkinModelName(e.getUUID()).equals("default");
-            if (defaultSkin) {
-                return Meshes.BIPED;
-            } else {
-                return Meshes.ALEX;
-            }
+        if (defaultSkin) {
+            return Meshes.BIPED;
+        } else {
+            return Meshes.ALEX;
         }
+    }
 }

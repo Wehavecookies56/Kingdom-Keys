@@ -1,11 +1,5 @@
 {
   "cost": 0,
-  "tier": 3,
-  "output": {
-    "item": "kingdomkeys:lady_luck_chain",
-    "quantity": 1,
-    "type": "keyblade"
-  },
   "ingredients": [
     {
       "material": "kingdomkeys:mat_blazing_gem",
@@ -23,5 +17,11 @@
       "material": "kingdomkeys:mat_pulsing_stone",
       "quantity": "4"
     }
-  ]
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:lady_luck_chain",
+    "quantity": 1
+  },
+  "tier": 3
 }

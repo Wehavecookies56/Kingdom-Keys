@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.common.util.LazyOptional;
@@ -7,11 +9,9 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-import java.util.function.Supplier;
-
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, flatTicks, level, aeroTicks, aeroLevel;
+	private int stoppedTicks, flatTicks, level, aeroTicks, aeroLevel, stopModelTicks;
 	private float stopDmg;
 	private boolean castleOblivionMarker;
 
@@ -26,6 +26,7 @@ public class SCSyncGlobalCapabilityPacket {
 		this.aeroLevel = capability.getAeroLevel();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
+		this.stopModelTicks = capability.getStopModelTicks();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -36,6 +37,7 @@ public class SCSyncGlobalCapabilityPacket {
 		buffer.writeInt(this.aeroLevel);
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
+		buffer.writeInt(this.stopModelTicks);
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -47,6 +49,7 @@ public class SCSyncGlobalCapabilityPacket {
 		msg.aeroLevel = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
+		msg.stopModelTicks = buffer.readInt();
 		return msg;
 	}
 
@@ -60,6 +63,7 @@ public class SCSyncGlobalCapabilityPacket {
 				cap.setAeroTicks(message.aeroTicks, message.aeroLevel);
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
 				cap.setLevel(message.level);
+				cap.setStopModelTicks(message.stopModelTicks);
 			});
 		});
 		ctx.get().setPacketHandled(true);

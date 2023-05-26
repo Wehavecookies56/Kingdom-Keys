@@ -1,8 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
+import java.awt.Color;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -20,12 +27,6 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MenuEquipmentScreen extends MenuScrollScreen {
 
@@ -71,13 +72,13 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, new TranslatableComponent(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
-
+        Map<Integer, ItemStack> kbArmor = playerData.getEquippedKBArmors();
         Map<Integer, ItemStack> armor = playerData.getEquippedArmors();
 
         AtomicInteger offset = new AtomicInteger();
@@ -88,7 +89,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             totalButtons.add(orgWeaponSlot);
             addRenderableWidget(orgWeaponSlot);
 
-            addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, new TranslatableComponent(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
+            addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, Component.translatable(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem)) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
@@ -149,6 +150,16 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             addRenderableWidget(shotlockSlot);
         }
         
+        if(kbArmor != null) {
+        	kbArmor.entrySet().stream().forEachOrdered((entry) -> {
+	           // int slot = entry.getKey();
+	            ItemStack item = entry.getValue();
+	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xFF7200, new MenuShoulderArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, "Keyblade "+Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFF9A3D);
+	            totalButtons.add(kbArmorSlot);
+	            addRenderableWidget(kbArmorSlot);
+        	});
+         }
+        
         if(accessories != null) {
         	accessories.entrySet().stream().forEachOrdered((entry) -> {
                int slot = entry.getKey();
@@ -163,6 +174,9 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                addRenderableWidget(accessorySlot);
             });
         }
+        
+        
+        
         if(armor != null){
             armor.entrySet().stream().forEachOrdered((entry)->{
                 int slot = entry.getKey();
