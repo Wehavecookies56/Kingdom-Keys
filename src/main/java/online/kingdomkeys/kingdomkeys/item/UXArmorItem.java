@@ -42,7 +42,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class UXArmorItem extends BaseArmorItem {
 
 	
-	public UXArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
+	public UXArmorItem(KKArmorMaterial materialIn, EquipmentSlot slot, String textureName) {
 		super(materialIn, slot, textureName);
 	}
 

@@ -41,7 +41,7 @@ public class Recipes extends RecipeProvider {
 	        .unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
 	        .save(consumer);
 
-    	UpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
+    	UpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
 
