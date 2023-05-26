@@ -40,7 +40,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 @OnlyIn(Dist.CLIENT)
 public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	public static final Map<Item, HumanoidModel> armorModels = new HashMap<>();
+	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
 
 	ResourceLocation texture,texture2;
 	boolean steve;
@@ -136,8 +136,23 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 				armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelBoots.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	}
-	    	
+	    	}	    	
+	    	if(armor.get(1).getItem() instanceof BaseArmorItem) {
+				Item item = armor.get(1).getItem();
+				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
+
+				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"2.png");
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+
+				armorModelLeggings.body.copyFrom(getParentModel().body);
+				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
+				armorModelLeggings.leftLeg.copyFrom(getParentModel().leftLeg);
+
+				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
+				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
+				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
+				
+	    	}	    	
 	    	if(armor.get(2).getItem() instanceof BaseArmorItem) {
 	    		Item item = armor.get(2).getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
@@ -166,22 +181,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	    	
 	    	//Change texture
 	    	//vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
-			if(armor.get(1).getItem() instanceof BaseArmorItem) {
-				Item item = armor.get(1).getItem();
-				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
-
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"2.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
-
-				armorModelLeggings.body.copyFrom(getParentModel().body);
-				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
-				armorModelLeggings.leftLeg.copyFrom(getParentModel().leftLeg);
-
-				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-				
-	    	}
+			
 		}
 	}
 }

@@ -37,7 +37,7 @@ public class PlayerPortraitGui extends OverlayBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ResourceLocation skin = minecraft.player.getSkinTextureLocation();
 		RenderSystem.setShaderTexture(0, skin);
-		float scale = 0.64f;
+		float scale = 0.5f;
 		switch (minecraft.options.guiScale().get()) {
 			case 3 -> scale = 0.48F;
 			case 2 -> scale = 0.32F;

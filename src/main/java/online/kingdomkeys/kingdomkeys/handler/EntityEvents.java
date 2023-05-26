@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -356,7 +357,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
-				playerData.setArmorColor(6618980);
+				playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
 				/*if(!event.player.level.isClientSide) {
 					PacketHandler.syncToAllAround(event.player, playerData);
 				}*/
