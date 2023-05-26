@@ -52,7 +52,7 @@ import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.UXArmorRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -217,14 +217,14 @@ public class ClientSetup {
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
-		renderer.addLayer(new UXArmorRenderer<>(renderer, event.getEntityModels(),true));
+		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
-		renderer.addLayer(new UXArmorRenderer<>(renderer, event.getEntityModels(),false));
+		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 

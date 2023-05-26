@@ -33,18 +33,19 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
+import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @OnlyIn(Dist.CLIENT)
-public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
+	public static final Map<Item, HumanoidModel> armorModels = new HashMap<>();
 
 	ResourceLocation texture,texture2;
 	boolean steve;
 	
-	public UXArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
+	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
 		super(entityRendererIn);
 		this.steve = steve;
 		
@@ -66,42 +67,40 @@ public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>>
 		UXArmorModel<LivingEntity> uxTop = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
 		UXArmorModel<LivingEntity> uxBot = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.LAYER_LOCATION_BOTTOM));
 
-        armorModels.put(ModItems.terra_Helmet.get(), tTop);
-		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
-		armorModels.put(ModItems.terra_Leggings.get(), tBot);
-		armorModels.put(ModItems.terra_Boots.get(), tTop);
+        armorModels.put((BaseArmorItem) ModItems.terra_Helmet.get(), tTop);
+		armorModels.put((BaseArmorItem) ModItems.terra_Chestplate.get(), tTop);
+		armorModels.put((BaseArmorItem) ModItems.terra_Leggings.get(), tBot);
+		armorModels.put((BaseArmorItem) ModItems.terra_Boots.get(), tTop);
 
-		armorModels.put(ModItems.aqua_Helmet.get(), aTop);
-		armorModels.put(ModItems.aqua_Chestplate.get(), aTop);
-		armorModels.put(ModItems.aqua_Leggings.get(), aBot);
-		armorModels.put(ModItems.aqua_Boots.get(), aTop);
+		armorModels.put((BaseArmorItem) ModItems.aqua_Helmet.get(), aTop);
+		armorModels.put((BaseArmorItem) ModItems.aqua_Chestplate.get(), aTop);
+		armorModels.put((BaseArmorItem) ModItems.aqua_Leggings.get(), aBot);
+		armorModels.put((BaseArmorItem) ModItems.aqua_Boots.get(), aTop);
 
-		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
-		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
-		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
-		armorModels.put(ModItems.ventus_Boots.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.ventus_Helmet.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.ventus_Chestplate.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.ventus_Leggings.get(), vBot);
+		armorModels.put((BaseArmorItem) ModItems.ventus_Boots.get(), vTop);
 
-		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
-		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Helmet.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Chestplate.get(), vTop);
+		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Leggings.get(), vBot);
+		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Boots.get(), vTop);
 
-		armorModels.put(ModItems.eraqus_Helmet.get(), eTop);
-		armorModels.put(ModItems.eraqus_Chestplate.get(), eTop);
-		armorModels.put(ModItems.eraqus_Leggings.get(), eBot);
-		armorModels.put(ModItems.eraqus_Boots.get(), eTop);
-		
-		armorModels.put(ModItems.xehanort_Helmet.get(), xTop);
-		armorModels.put(ModItems.xehanort_Chestplate.get(), xTop);
-		armorModels.put(ModItems.xehanort_Leggings.get(), xBot);
-		armorModels.put(ModItems.xehanort_Boots.get(), xTop);
-		
-		armorModels.put(ModItems.ux_Helmet.get(), uxTop);
-		armorModels.put(ModItems.ux_Chestplate.get(), uxTop);
-		armorModels.put(ModItems.ux_Leggings.get(), uxBot);
-		armorModels.put(ModItems.ux_Boots.get(), uxTop);
-		
-		//armorModel = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
+		armorModels.put((BaseArmorItem) ModItems.eraqus_Helmet.get(), eTop);
+		armorModels.put((BaseArmorItem) ModItems.eraqus_Chestplate.get(), eTop);
+		armorModels.put((BaseArmorItem) ModItems.eraqus_Leggings.get(), eBot);
+		armorModels.put((BaseArmorItem) ModItems.eraqus_Boots.get(), eTop);
+
+		armorModels.put((BaseArmorItem) ModItems.xehanort_Helmet.get(), xTop);
+		armorModels.put((BaseArmorItem) ModItems.xehanort_Chestplate.get(), xTop);
+		armorModels.put((BaseArmorItem) ModItems.xehanort_Leggings.get(), xBot);
+		armorModels.put((BaseArmorItem) ModItems.xehanort_Boots.get(), xTop);
+
+		armorModels.put((BaseArmorItem) ModItems.ux_Helmet.get(), uxTop);
+		armorModels.put((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTop);
+		armorModels.put((BaseArmorItem) ModItems.ux_Leggings.get(), uxBot);
+		armorModels.put((BaseArmorItem) ModItems.ux_Boots.get(), uxTop);
 	}
 
 	@Override
@@ -121,34 +120,30 @@ public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>>
 			HumanoidModel<LivingEntity> armorModelChestplate = armorModels.get(armor.get(2).getItem());
 			HumanoidModel<LivingEntity> armorModelHelmet = armorModels.get(armor.get(3).getItem());
 
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/ux1.png");
-			texture2 = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/ux2.png");
-
-			VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 
 			if(steve)
 				matrixStackIn.translate(0.06, 0, 0);
 
-	    	//if(armor.get(0).getItem() == ModItems.ux_Boots.get()) {
+	    	if(armor.get(0).getItem() instanceof BaseArmorItem) {
 	    		Item item = armor.get(0).getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-	    		vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 	    		
 	    		armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
 
-	    		armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
+				armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelBoots.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	//}
+	    	}
 	    	
-	    	//if(armor.get(2).getItem() == ModItems.ux_Chestplate.get()) {
-	    		item = armor.get(2).getItem();
-				armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
+	    	if(armor.get(2).getItem() instanceof BaseArmorItem) {
+	    		Item item = armor.get(2).getItem();
+				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-	    		vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 
 	    		armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
@@ -157,26 +152,26 @@ public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>>
 	    		armorModelChestplate.leftArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelChestplate.rightArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelChestplate.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	//}
-	    	//if(armor.get(3).getItem() == ModItems.ux_Helmet.get()) {
-	    		item = armor.get(3).getItem();
-				armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
+	    	}
+	    	if(armor.get(3).getItem() instanceof BaseArmorItem) {
+	    		Item item = armor.get(3).getItem();
+				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-	    		vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 
 	    		armorModelHelmet.head.copyFrom(getParentModel().head);
 	    		armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	//}
+	    	}
 	    	
 	    	//Change texture
 	    	//vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
-			//if(armor.get(1).getItem() == ModItems.ux_Leggings.get()) {
-	    		item = armor.get(1).getItem();
-				armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
+			if(armor.get(1).getItem() instanceof BaseArmorItem) {
+				Item item = armor.get(1).getItem();
+				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"2.png");
-	    		vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -186,7 +181,7 @@ public class UXArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>>
 				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				
-	    	//}
+	    	}
 		}
 	}
 }

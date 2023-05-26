@@ -22,20 +22,34 @@ public class EraqusModel<T extends LivingEntity> extends HumanoidModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "eraqus_top"), "main");
     public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "eraqus_bottom"), "main");
 
+    public final ModelPart head;
+    public final ModelPart body;
+    public final ModelPart leftArm;
+    public final ModelPart rightArm;
+    public final ModelPart leftLeg;
+    public final ModelPart rightLeg;  
+    
     public EraqusModel(ModelPart root) {
         super(root);
+		this.head = root.getChild("head");
+		this.body = root.getChild("body");
+		this.leftArm = root.getChild("left_arm");
+		this.rightArm = root.getChild("right_arm");
+		this.leftLeg = root.getChild("left_leg");
+		this.rightLeg = root.getChild("right_leg");
     }
 
     public static LayerDefinition createBodyLayer(CubeDeformation size) {
         MeshDefinition meshdefinition = HumanoidModel.createMesh(size, 0);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition rightArm = partdefinition.getChild("right_arm");
-        PartDefinition leftArm = partdefinition.getChild("left_arm");
-        PartDefinition rightLeg = partdefinition.getChild("right_leg");
-        PartDefinition leftLeg = partdefinition.getChild("left_leg");
-        PartDefinition head = partdefinition.getChild("head");
-        PartDefinition body = partdefinition.getChild("body");
+        PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition leftArm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(5.0F, 2.0F, 0.0F));
+		PartDefinition rightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(32, 48).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
+		PartDefinition leftLeg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		PartDefinition rightLeg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+
 		
         PartDefinition Visor = head.addOrReplaceChild("Visor", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 

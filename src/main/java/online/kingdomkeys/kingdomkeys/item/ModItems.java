@@ -632,47 +632,47 @@ public class ModItems {
 			antiCoat_Chestplate = createArmorItem(Strings.antiCoat+"_"+Strings.chestplate, KKArmorMaterial.ANTICOAT, EquipmentSlot.CHEST, Strings.antiCoat),
 			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, KKArmorMaterial.ANTICOAT, EquipmentSlot.LEGS, Strings.antiCoat),
 			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, KKArmorMaterial.ANTICOAT, EquipmentSlot.FEET, Strings.antiCoat),
-
-			terra_Helmet = createArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.terra),
-			terra_Chestplate = createArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.terra),
-			terra_Leggings = createArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.terra),
-			terra_Boots = createArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.KEYBLADE,EquipmentSlot.FEET, Strings.terra),
+					
+			terra_Helmet = createKeybladeArmorItem(Strings.terra+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.terra),
+			terra_Chestplate = createKeybladeArmorItem(Strings.terra+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.terra),
+			terra_Leggings = createKeybladeArmorItem(Strings.terra+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.terra),
+			terra_Boots = createKeybladeArmorItem(Strings.terra+"_"+Strings.boots, KKArmorMaterial.KEYBLADE,EquipmentSlot.FEET, Strings.terra),
 			terra_Shoulder = createNewItem(Strings.terra+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.terra, new Item[]{terra_Boots.get(),terra_Leggings.get(),terra_Chestplate.get(),terra_Helmet.get()})),
 
-			aqua_Helmet = createArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.aqua),
-			aqua_Chestplate = createArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.aqua),
-			aqua_Leggings = createArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.aqua),
-			aqua_Boots = createArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.aqua),
+			aqua_Helmet = createKeybladeArmorItem(Strings.aqua+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.aqua),
+			aqua_Chestplate = createKeybladeArmorItem(Strings.aqua+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.aqua),
+			aqua_Leggings = createKeybladeArmorItem(Strings.aqua+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.aqua),
+			aqua_Boots = createKeybladeArmorItem(Strings.aqua+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.aqua),
 			aqua_Shoulder = createNewItem(Strings.aqua+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.aqua, new Item[]{aqua_Boots.get(),aqua_Leggings.get(),aqua_Chestplate.get(),aqua_Helmet.get()})),
 
-			ventus_Helmet = createArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.ventus),
-			ventus_Chestplate = createArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.ventus),
-			ventus_Leggings = createArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.ventus),
-			ventus_Boots = createArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.ventus),
+			ventus_Helmet = createKeybladeArmorItem(Strings.ventus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.ventus),
+			ventus_Chestplate = createKeybladeArmorItem(Strings.ventus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.ventus),
+			ventus_Leggings = createKeybladeArmorItem(Strings.ventus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.ventus),
+			ventus_Boots = createKeybladeArmorItem(Strings.ventus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.ventus),
 			ventus_Shoulder = createNewItem(Strings.ventus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.ventus, new Item[]{ventus_Boots.get(),ventus_Leggings.get(),ventus_Chestplate.get(),ventus_Helmet.get()})),
-
-			nightmareVentus_Helmet = createArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.nightmareVentus),
-			nightmareVentus_Chestplate = createArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.nightmareVentus),
-			nightmareVentus_Leggings = createArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.nightmareVentus),
-			nightmareVentus_Boots = createArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.nightmareVentus),
+			
+			nightmareVentus_Helmet = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.nightmareVentus),
+			nightmareVentus_Chestplate = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.nightmareVentus),
+			nightmareVentus_Leggings = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.nightmareVentus),
+			nightmareVentus_Boots = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.nightmareVentus),
 			nightmareVentus_Shoulder = createNewItem(Strings.nightmareVentus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.nightmareVentus, new Item[]{nightmareVentus_Boots.get(),nightmareVentus_Leggings.get(),nightmareVentus_Chestplate.get(),nightmareVentus_Helmet.get()})),
 
-			eraqus_Helmet = createArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.eraqus),
-			eraqus_Chestplate = createArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.eraqus),
-			eraqus_Leggings = createArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.eraqus),
-			eraqus_Boots = createArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.eraqus),
+			eraqus_Helmet = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.eraqus),
+			eraqus_Chestplate = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.eraqus),
+			eraqus_Leggings = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.eraqus),
+			eraqus_Boots = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.eraqus),
 			eraqus_Shoulder = createNewItem(Strings.eraqus+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.eraqus, new Item[]{eraqus_Boots.get(),eraqus_Leggings.get(),eraqus_Chestplate.get(),eraqus_Helmet.get()})),
-
-			xehanort_Helmet = createArmorItem(Strings.xehanort+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.xehanort),
-			xehanort_Chestplate = createArmorItem(Strings.xehanort+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.xehanort),
-			xehanort_Leggings = createArmorItem(Strings.xehanort+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.xehanort),
-			xehanort_Boots = createArmorItem(Strings.xehanort+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.xehanort),
+			
+			xehanort_Helmet = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.xehanort),
+			xehanort_Chestplate = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.xehanort),
+			xehanort_Leggings = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.xehanort),
+			xehanort_Boots = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.xehanort),
 			xehanort_Shoulder = createNewItem(Strings.xehanort+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.xehanort, new Item[]{xehanort_Boots.get(),xehanort_Leggings.get(),xehanort_Chestplate.get(),xehanort_Helmet.get()})),
 
-			ux_Helmet = createUXArmorItem(Strings.ux+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, ArmorItem.Type.HELMET, Strings.ux),
-			ux_Chestplate = createUXArmorItem(Strings.ux+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.ux),
-			ux_Leggings = createUXArmorItem(Strings.ux+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.ux),
-			ux_Boots = createUXArmorItem(Strings.ux+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, ArmorItem.Type.BOOTS, Strings.ux),
+			ux_Helmet = createKeybladeArmorItem(Strings.ux+"_"+Strings.helmet, KKArmorMaterial.KEYBLADE, EquipmentSlot.HEAD, Strings.ux),
+			ux_Chestplate = createKeybladeArmorItem(Strings.ux+"_"+Strings.chestplate, KKArmorMaterial.KEYBLADE, EquipmentSlot.CHEST, Strings.ux),
+			ux_Leggings = createKeybladeArmorItem(Strings.ux+"_"+Strings.leggings, KKArmorMaterial.KEYBLADE, EquipmentSlot.LEGS, Strings.ux),
+			ux_Boots = createKeybladeArmorItem(Strings.ux+"_"+Strings.boots, KKArmorMaterial.KEYBLADE, EquipmentSlot.FEET, Strings.ux),
 			ux_Shoulder = createNewItem(Strings.ux+"_shoulder", () -> new ShoulderArmorItem(new Item.Properties().stacksTo(1), Strings.ux, new Item[]{ux_Boots.get(),ux_Leggings.get(),ux_Chestplate.get(),ux_Helmet.get()})),
 
 			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, KKArmorMaterial.VANITAS, EquipmentSlot.HEAD, Strings.vanitas),
@@ -900,8 +900,8 @@ public class ModItems {
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
-
-	private static RegistryObject<Item> createUXArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {
+	
+	private static RegistryObject<Item> createKeybladeArmorItem(String name, KKArmorMaterial material, EquipmentSlot slot, String textureName) {
 		return ITEMS.register(name, () -> new UXArmorItem(material, slot, textureName));
 	}
 
