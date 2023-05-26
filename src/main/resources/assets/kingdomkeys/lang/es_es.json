@@ -113,6 +113,7 @@
 	"gui.menu.config.focus": "Barra Tino",
 
 	"gui.menu.config.x_scale": "Escala X",
+	"gui.menu.config.y_scale": "Escala Y",
 	"gui.menu.config.x_pos": "Posición X",
 	"gui.menu.config.selected_x_pos": "Margen X Seleccionado",
 	"gui.menu.config.y_pos": "Posición Y",
@@ -124,6 +125,9 @@
 	"gui.menu.config.icon_scale": "Escala del ícono fijación",
 	"gui.menu.config.icon_rotation": "Velocidad de Rotación del ícono fijación",
 	"gui.menu.config.hp_per_bar": "VT por barra",
+	"gui.menu.config.armor.blue": "Armadura azul",
+	"gui.menu.config.armor.green": "Armadura verde",
+	"gui.menu.config.armor.red": "Armadura roja",
 
 	
 	"gui.menu.config.show_hearts": "Mostrar corazones",
@@ -543,21 +547,31 @@
 	"item.kingdomkeys.aqua_chestplate": "Pechera de Aqua",
 	"item.kingdomkeys.aqua_leggings": "Grebas de Aqua",
 	"item.kingdomkeys.aqua_boots": "Botas de Aqua",
+	"item.kingdomkeys.aqua_shoulder": "Hombrera de Aqua",
 
 	"item.kingdomkeys.ventus_helmet": "Casco de Ventus",
 	"item.kingdomkeys.ventus_chestplate": "Pechera de Ventus",
 	"item.kingdomkeys.ventus_leggings": "Grebas de Ventus",
 	"item.kingdomkeys.ventus_boots": "Botas de Ventus",
+	"item.kingdomkeys.ventus_shoulder": "Hombrera de Ventus",
 
 	"item.kingdomkeys.eraqus_helmet": "Casco de Eraqus",
 	"item.kingdomkeys.eraqus_chestplate": "Pechera de Eraqus",
 	"item.kingdomkeys.eraqus_leggings": "Grebas de Eraqus",
 	"item.kingdomkeys.eraqus_boots": "Botas de Eraqus",
+	"item.kingdomkeys.eraqus_shoulder": "Hombrera de Eraqus",
 	
 	"item.kingdomkeys.xehanort_helmet": "Casco de Xehanort",
 	"item.kingdomkeys.xehanort_chestplate": "Pechera de Xehanort",
 	"item.kingdomkeys.xehanort_leggings": "Grebas de Xehanort",
 	"item.kingdomkeys.xehanort_boots": "Botas de Xehanort",
+	"item.kingdomkeys.xehanort_shoulder": "Hombrera de Xehanort",
+	
+	"item.kingdomkeys.ux_boots": "Botas de Armadura UX",
+	"item.kingdomkeys.ux_chestplate": "Pechera de Armadura UX",
+	"item.kingdomkeys.ux_helmet": "Casco de Armadura UX",
+	"item.kingdomkeys.ux_leggings": "Grebas de Armadura UX",
+	"item.kingdomkeys.ux_shoulder": "Hombrera de Armadura UX",
 
 	"item.kingdomkeys.vanitas_helmet": "Casco de Vanitas",
 	"item.kingdomkeys.vanitas_chestplate": "Pechera de Vanitas",

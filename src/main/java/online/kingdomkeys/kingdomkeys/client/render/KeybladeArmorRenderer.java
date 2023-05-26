@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
@@ -43,11 +41,9 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
 
 	ResourceLocation texture,texture2;
-	boolean steve;
 	
-	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
+	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
 		super(entityRendererIn);
-		this.steve = steve;
 		
 		VentusModel<LivingEntity> vTop = new VentusModel<>(modelSet.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(modelSet.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
@@ -114,15 +110,10 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			float blue = (color & 0xff) / 255F;
 			
 			NonNullList<ItemStack> armor = player.getInventory().armor;
-
 			HumanoidModel<LivingEntity> armorModelBoots = armorModels.get(armor.get(0).getItem());
 			HumanoidModel<LivingEntity> armorModelLeggings = armorModels.get(armor.get(1).getItem());
 			HumanoidModel<LivingEntity> armorModelChestplate = armorModels.get(armor.get(2).getItem());
 			HumanoidModel<LivingEntity> armorModelHelmet = armorModels.get(armor.get(3).getItem());
-
-
-			if(steve)
-				matrixStackIn.translate(0.06, 0, 0);
 
 	    	if(armor.get(0).getItem() instanceof BaseArmorItem) {
 	    		Item item = armor.get(0).getItem();
@@ -151,7 +142,6 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-				
 	    	}	    	
 	    	if(armor.get(2).getItem() instanceof BaseArmorItem) {
 	    		Item item = armor.get(2).getItem();

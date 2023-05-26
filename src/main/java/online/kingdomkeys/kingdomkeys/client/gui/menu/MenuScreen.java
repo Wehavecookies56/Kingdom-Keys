@@ -161,15 +161,8 @@ public class MenuScreen extends MenuBackground {
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{
-				Player clonePlayer = ClientEvents.clonePlayer;
+				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
 				if(clonePlayer != null) {
-					IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
-					cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
-					cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
-					clonePlayer.getInventory().setItem(39, minecraft.player.getInventory().getArmor(3));
-					clonePlayer.getInventory().setItem(38, minecraft.player.getInventory().getArmor(2));
-					clonePlayer.getInventory().setItem(37, minecraft.player.getInventory().getArmor(1));
-					clonePlayer.getInventory().setItem(36, minecraft.player.getInventory().getArmor(0));
 					InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
 				}
 			}

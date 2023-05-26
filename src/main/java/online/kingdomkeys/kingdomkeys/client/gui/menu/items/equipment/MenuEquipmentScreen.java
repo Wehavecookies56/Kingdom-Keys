@@ -154,7 +154,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         	kbArmor.entrySet().stream().forEachOrdered((entry) -> {
 	           // int slot = entry.getKey();
 	            ItemStack item = entry.getValue();
-	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xFF7200, new MenuShoulderArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, "Keyblade "+Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFF9A3D);
+	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xFF7200, new MenuKeybladeArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFF9A3D);
 	            totalButtons.add(kbArmorSlot);
 	            addRenderableWidget(kbArmorSlot);
         	});

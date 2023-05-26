@@ -358,7 +358,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
-				playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
+				//playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
 				/*if(!event.player.level.isClientSide) {
 					PacketHandler.syncToAllAround(event.player, playerData);
 				}*/

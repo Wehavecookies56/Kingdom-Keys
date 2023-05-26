@@ -20,23 +20,23 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShoulderArmorSelectorScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuKeybladeArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
 
-public class MenuSelectShoulderArmorButton extends MenuButtonBase {
+public class MenuSelectKeybladeArmorButton extends MenuButtonBase {
 
 	ItemStack stack;
 	boolean selected;
 	int colour, labelColour;
-	MenuShoulderArmorSelectorScreen parent;
+	MenuKeybladeArmorSelectorScreen parent;
 	int slot;
 	Minecraft minecraft;
 
-	public MenuSelectShoulderArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuShoulderArmorSelectorScreen parent, int colour) {
+	public MenuSelectKeybladeArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuKeybladeArmorSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {

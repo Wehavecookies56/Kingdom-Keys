@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
@@ -940,6 +941,31 @@ public class Utils {
 			}
 		}
 		return arrayList;
+	}
+
+	public static int[] getRGBFromDec(int color) {
+		int[] colors = new int[3];
+		colors[0] = ((color >> 16) & 0xff);
+		colors[1] = ((color >> 8) & 0xff);
+		colors[2] = (color & 0xff);
+		return colors;
+	}
+	
+	public static int getDecFromRGB(int r, int g, int b){
+		return (256 * 256 * r + 256 * g + b);
+	}
+
+	public static Player getClonePlayer(Player player) {
+		Player clonePlayer =  ClientEvents.clonePlayer;
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+		cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+		cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+		clonePlayer.getInventory().setItem(39, player.getInventory().getArmor(3));
+		clonePlayer.getInventory().setItem(38, player.getInventory().getArmor(2));
+		clonePlayer.getInventory().setItem(37, player.getInventory().getArmor(1));
+		clonePlayer.getInventory().setItem(36, player.getInventory().getArmor(0));
+		return clonePlayer;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
