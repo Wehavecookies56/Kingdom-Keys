@@ -39,10 +39,10 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class UXArmorItem extends BaseArmorItem {
+public class KeybladeArmorItem extends BaseArmorItem {
 
 	
-	public UXArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
+	public KeybladeArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
 		super(materialIn, slot, textureName);
 	}
 
@@ -84,7 +84,7 @@ public class UXArmorItem extends BaseArmorItem {
 			if (event.getEntity() instanceof ItemEntity) {
 				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
 				UUID droppedID = Utils.getArmorID(droppedItem);
-				if (droppedID != null && droppedItem.getItem() instanceof UXArmorItem) {
+				if (droppedID != null && droppedItem.getItem() instanceof KeybladeArmorItem) {
 					event.setCanceled(true);
 				}
 			}

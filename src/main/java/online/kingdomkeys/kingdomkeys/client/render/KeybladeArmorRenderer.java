@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @OnlyIn(Dist.CLIENT)
@@ -115,25 +116,27 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			HumanoidModel<LivingEntity> armorModelChestplate = armorModels.get(armor.get(2).getItem());
 			HumanoidModel<LivingEntity> armorModelHelmet = armorModels.get(armor.get(3).getItem());
 
-	    	if(armor.get(0).getItem() instanceof BaseArmorItem) {
-	    		Item item = armor.get(0).getItem();
+			ItemStack itemStack = armor.get(0);
+	    	if(itemStack.getItem() instanceof KeybladeArmorItem) {
+	    		Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
 	    		
 	    		armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
 
 				armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelBoots.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	}	    	
-	    	if(armor.get(1).getItem() instanceof BaseArmorItem) {
-				Item item = armor.get(1).getItem();
+	    	}
+	    	itemStack = armor.get(1);
+	    	if(itemStack.getItem() instanceof KeybladeArmorItem) {
+				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"2.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -142,13 +145,14 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	}	    	
-	    	if(armor.get(2).getItem() instanceof BaseArmorItem) {
-	    		Item item = armor.get(2).getItem();
+	    	}	    
+	    	itemStack = armor.get(2);
+	    	if(itemStack.getItem() instanceof KeybladeArmorItem) {
+	    		Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
 
 	    		armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
@@ -158,12 +162,13 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	    		armorModelChestplate.rightArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    		armorModelChestplate.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
 	    	}
-	    	if(armor.get(3).getItem() instanceof BaseArmorItem) {
-	    		Item item = armor.get(3).getItem();
+	    	itemStack = armor.get(3);
+	    	if(itemStack.getItem() instanceof KeybladeArmorItem) {
+	    		Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
 
 	    		armorModelHelmet.head.copyFrom(getParentModel().head);
 	    		armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
