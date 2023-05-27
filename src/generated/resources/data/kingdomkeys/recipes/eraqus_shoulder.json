@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:eraqus_helmet"
+    },
+    {
+      "item": "kingdomkeys:eraqus_chestplate"
+    },
+    {
+      "item": "kingdomkeys:eraqus_leggings"
+    },
+    {
+      "item": "kingdomkeys:eraqus_boots"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:eraqus_shoulder"
+  }
+}

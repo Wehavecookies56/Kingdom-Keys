@@ -57,6 +57,14 @@ public class Recipes extends RecipeProvider {
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
     	
     	//Aqua
+    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
+        .requires(ModItems.aqua_Helmet.get())
+        .requires(ModItems.aqua_Chestplate.get())
+        .requires(ModItems.aqua_Leggings.get())
+        .requires(ModItems.aqua_Boots.get())
+        .unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+        .save(consumer);
+
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
@@ -74,6 +82,14 @@ public class Recipes extends RecipeProvider {
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
     	
     	//Ventus
+    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
+        .requires(ModItems.ventus_Helmet.get())
+        .requires(ModItems.ventus_Chestplate.get())
+        .requires(ModItems.ventus_Leggings.get())
+        .requires(ModItems.ventus_Boots.get())
+        .unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+        .save(consumer);
+
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
@@ -91,6 +107,14 @@ public class Recipes extends RecipeProvider {
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
     	
     	//Nightmare Ventus
+    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
+        .requires(ModItems.nightmareVentus_Helmet.get())
+        .requires(ModItems.nightmareVentus_Chestplate.get())
+        .requires(ModItems.nightmareVentus_Leggings.get())
+        .requires(ModItems.nightmareVentus_Boots.get())
+        .unlockedBy("nightmareverntus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+        .save(consumer);
+
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
@@ -108,6 +132,14 @@ public class Recipes extends RecipeProvider {
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
     	
     	//Eraqus
+    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
+        .requires(ModItems.eraqus_Helmet.get())
+        .requires(ModItems.eraqus_Chestplate.get())
+        .requires(ModItems.eraqus_Leggings.get())
+        .requires(ModItems.eraqus_Boots.get())
+        .unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+        .save(consumer);
+
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
@@ -125,6 +157,14 @@ public class Recipes extends RecipeProvider {
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
     	
     	//Xehanort
+    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
+        .requires(ModItems.xehanort_Helmet.get())
+        .requires(ModItems.xehanort_Chestplate.get())
+        .requires(ModItems.xehanort_Leggings.get())
+        .requires(ModItems.xehanort_Boots.get())
+        .unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
+        .save(consumer);
+
     	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
