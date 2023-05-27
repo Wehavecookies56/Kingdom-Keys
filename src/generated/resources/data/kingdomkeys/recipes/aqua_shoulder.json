@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:aqua_helmet"
+    },
+    {
+      "item": "kingdomkeys:aqua_chestplate"
+    },
+    {
+      "item": "kingdomkeys:aqua_leggings"
+    },
+    {
+      "item": "kingdomkeys:aqua_boots"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:aqua_shoulder"
+  }
+}

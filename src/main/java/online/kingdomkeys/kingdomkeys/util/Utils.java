@@ -1,10 +1,22 @@
 package online.kingdomkeys.kingdomkeys.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -41,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
@@ -62,9 +75,6 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -934,12 +944,37 @@ public class Utils {
 			arrayList.add(Component.translatable(text).getString());
 			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
 				CompoundTag compoundtag = pStoredEnchantments.getCompound(i);
-				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
+				Registry.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
 					arrayList.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
 				});
 			}
 		}
 		return arrayList;
+	}
+
+	public static int[] getRGBFromDec(int color) {
+		int[] colors = new int[3];
+		colors[0] = ((color >> 16) & 0xff);
+		colors[1] = ((color >> 8) & 0xff);
+		colors[2] = (color & 0xff);
+		return colors;
+	}
+
+	public static int getDecFromRGB(int r, int g, int b){
+		return (256 * 256 * r + 256 * g + b);
+	}
+
+	public static Player getClonePlayer(Player player) {
+		Player clonePlayer =  ClientEvents.clonePlayer;
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
+		cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
+		cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+		clonePlayer.getInventory().setItem(39, player.getInventory().getArmor(3));
+		clonePlayer.getInventory().setItem(38, player.getInventory().getArmor(2));
+		clonePlayer.getInventory().setItem(37, player.getInventory().getArmor(1));
+		clonePlayer.getInventory().setItem(36, player.getInventory().getArmor(0));
+		return clonePlayer;
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {

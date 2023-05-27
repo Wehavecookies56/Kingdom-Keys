@@ -73,7 +73,7 @@ public class PlayerPortraitGui extends OverlayBase {
 						clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
 						clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
 						clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
-						InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
+						InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
 					}
 				}
 				poseStack.popPose();

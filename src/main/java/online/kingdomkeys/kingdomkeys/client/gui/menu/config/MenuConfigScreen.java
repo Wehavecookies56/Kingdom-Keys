@@ -12,8 +12,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.gui.widget.ForgeSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -22,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MenuConfigScreen extends MenuBackground {
@@ -57,6 +64,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Lock On
 	EditBox lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
+	ForgeSlider armorColorRed, armorColorGreen, armorColorBlue;
 
 	//Party
 	EditBox partyXPosBox, partyYPosBox, partyYDistanceBox;
@@ -138,7 +146,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModCapabilities.getPlayer(minecraft.player).getArmorColor())); action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -691,6 +699,52 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 		});
+		
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		int[] armorColors = Utils.getRGBFromDec(playerData.getArmorColor());
+
+		addRenderableWidget(armorColorRed = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[0], 0, 0, false) {
+			@Override
+			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
+				super.onDrag(mouseX, mouseY, dragX, dragY);
+			}
+
+			@Override
+			public void onRelease(double pMouseX, double pMouseY) {
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				super.onRelease(pMouseX, pMouseY);
+			}
+		});
+
+		addRenderableWidget(armorColorGreen = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[1], 0, 0, false) {
+			@Override
+			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
+				super.onDrag(mouseX, mouseY, dragX, dragY);
+			}
+
+			@Override
+			public void onRelease(double pMouseX, double pMouseY) {
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				super.onRelease(pMouseX, pMouseY);
+			}
+		});
+
+		addRenderableWidget(armorColorBlue = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[2], 0, 0, false) {
+			@Override
+			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
+				super.onDrag(mouseX, mouseY, dragX, dragY);
+			}
+
+			@Override
+			public void onRelease(double pMouseX, double pMouseY) {
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				super.onRelease(pMouseX, pMouseY);
+			}
+		});
+
 
 		playerSkinXPosBox.setValue(""+ModConfigs.playerSkinXPos);
 		playerSkinYPosBox.setValue(""+ModConfigs.playerSkinYPos);
@@ -698,7 +752,21 @@ public class MenuConfigScreen extends MenuBackground {
 		playerSkinList.add(playerSkinXPosBox);
 		playerSkinList.add(playerSkinYPosBox);
 
+		playerSkinList.add(armorColorRed);
+		playerSkinList.add(armorColorGreen);
+		playerSkinList.add(armorColorBlue);
 	}
+
+	@Override
+    public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+        if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
+    		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
+			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+        }
+        return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+    }
+
 	
 	private void initLockOn() {
 		int pos = 0;
@@ -1247,10 +1315,18 @@ public class MenuConfigScreen extends MenuBackground {
 					b.active = true;
 					b.visible = true;
 				}
+				
+				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
+				if(clonePlayer != null) {
+					InventoryScreen.renderEntityInInventory((int) (width-width*0.2F), (int) (height*0.65F), (int) 50, 0, 0, clonePlayer);
+				}
 
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 

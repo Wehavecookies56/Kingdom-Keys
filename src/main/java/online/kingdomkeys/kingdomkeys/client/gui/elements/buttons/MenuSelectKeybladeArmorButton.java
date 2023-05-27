@@ -20,23 +20,23 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShoulderArmorSelectorScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuKeybladeArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
 
-public class MenuSelectShoulderArmorButton extends MenuButtonBase {
+public class MenuSelectKeybladeArmorButton extends MenuButtonBase {
 
 	ItemStack stack;
 	boolean selected;
 	int colour, labelColour;
-	MenuShoulderArmorSelectorScreen parent;
+	MenuKeybladeArmorSelectorScreen parent;
 	int slot;
 	Minecraft minecraft;
 
-	public MenuSelectShoulderArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuShoulderArmorSelectorScreen parent, int colour) {
+	public MenuSelectKeybladeArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuKeybladeArmorSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
@@ -66,7 +66,7 @@ public class MenuSelectShoulderArmorButton extends MenuButtonBase {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Font fr = minecraft.font;
-		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
+		isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.KBARMOR;
@@ -85,7 +85,7 @@ public class MenuSelectShoulderArmorButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-			matrixStack.translate(getX() + 0.6F, getY(), 0);
+			matrixStack.translate(x + 0.6F, y, 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			blit(matrixStack, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
@@ -101,16 +101,16 @@ public class MenuSelectShoulderArmorButton extends MenuButtonBase {
 			} else {
 				itemName = stack.getHoverName().getString();
 				String amount = "x"+parent.addedShoulderArmorList.get(stack.getItem());
-				drawString(matrixStack, minecraft.font,ChatFormatting.YELLOW+ amount, getX() + width - minecraft.font.width(amount)-3, getY() + 3, 0xFFFFFF);
+				drawString(matrixStack, minecraft.font,ChatFormatting.YELLOW+ amount, x + width - minecraft.font.width(amount)-3, y + 3, 0xFFFFFF);
 			}
-			drawString(matrixStack, minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
+			drawString(matrixStack, minecraft.font, itemName, x + 15, y + 3, 0xFFFFFF);
 			if (selected || isHovered) { //Render stuff on the right
 				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					
-					matrixStack.translate(getX() + 0.6F, getY(), 0);
+					matrixStack.translate(x + 0.6F, y, 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					blit(matrixStack, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {

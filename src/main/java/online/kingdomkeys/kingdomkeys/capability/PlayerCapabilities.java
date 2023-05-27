@@ -390,8 +390,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
-
-	private int armorColor = 0;
+	
+	private int armorColor = 16777215;
 
 	private SingleChoices singleStyle = SingleChoices.SORA;
 	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;

@@ -19,12 +19,12 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectShoulderArmorButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectKeybladeArmorButton;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class MenuShoulderArmorSelectorScreen extends MenuBackground {
+public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 
 	MenuBox keyblades, details;
     Button back;
@@ -35,8 +35,8 @@ public class MenuShoulderArmorSelectorScreen extends MenuBackground {
 
 	public Map<ShoulderArmorItem,Integer> addedShoulderArmorList = new HashMap<ShoulderArmorItem, Integer>();
 	
-	public MenuShoulderArmorSelectorScreen(int slot, Color colour, int buttonColour) {
-		super("Keyblade "+Strings.Gui_Menu_Items_Equipment_Armor, new Color(0,0,255));
+	public MenuKeybladeArmorSelectorScreen(int slot, Color colour, int buttonColour) {
+		super(Strings.Gui_Menu_Items_Equipment_Armor, new Color(0,0,255));
 		drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.slot = slot;
@@ -73,7 +73,7 @@ public class MenuShoulderArmorSelectorScreen extends MenuBackground {
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedKBArmor, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					addRenderableWidget(new MenuSelectShoulderArmorButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					addRenderableWidget(new MenuSelectKeybladeArmorButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 				}
 			}
 			
@@ -85,7 +85,7 @@ public class MenuShoulderArmorSelectorScreen extends MenuBackground {
 							int amount = addedShoulderArmorList.get(armor);
 							addedShoulderArmorList.replace(armor, amount+1);
 						} else {
-							addRenderableWidget(new MenuSelectShoulderArmorButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							addRenderableWidget(new MenuSelectKeybladeArmorButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 							addedShoulderArmorList.put((ShoulderArmorItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}
@@ -99,8 +99,8 @@ public class MenuShoulderArmorSelectorScreen extends MenuBackground {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		details.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		keyblades.draw(matrixStack);
+		details.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}

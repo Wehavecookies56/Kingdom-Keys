@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:xehanort_helmet"
+    },
+    {
+      "item": "kingdomkeys:xehanort_chestplate"
+    },
+    {
+      "item": "kingdomkeys:xehanort_leggings"
+    },
+    {
+      "item": "kingdomkeys:xehanort_boots"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:xehanort_shoulder"
+  }
+}

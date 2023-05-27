@@ -44,6 +44,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
@@ -154,6 +155,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSUseShortcutPacket.class, CSUseShortcutPacket::encode, CSUseShortcutPacket::decode, CSUseShortcutPacket::handle);
 		HANDLER.registerMessage(packetID++, CSExtendedReach.class, CSExtendedReach::encode, CSExtendedReach::decode, CSExtendedReach::handle);
 		HANDLER.registerMessage(packetID++, CSShopBuy.class, CSShopBuy::encode, CSShopBuy::decode, CSShopBuy::handle);
+		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
 		HANDLER.registerMessage(packetID++, CSChangeStyle.class, CSChangeStyle::encode, CSChangeStyle::decode, CSChangeStyle::handle);
 
 	}

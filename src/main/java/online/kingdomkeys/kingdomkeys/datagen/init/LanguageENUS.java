@@ -195,6 +195,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
+        add(Gui_Menu_Config + ".y_scale", "Y Scale");
         add(Gui_Menu_Config + ".x_pos", "X Position");
         add(Gui_Menu_Config + ".selected_x_pos", "Selected X Offset");
         add(Gui_Menu_Config + ".y_pos", "Y Position");
@@ -211,6 +212,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".impexp", "Import/Export");
         add(Gui_Menu_Config + ".impexp.import", "Import");
         add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
+        add(Gui_Menu_Config+ ".armor.red", "Armor red");
+        add(Gui_Menu_Config+ ".armor.green", "Armor green");
+        add(Gui_Menu_Config+ ".armor.blue", "Armor blue");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -1209,6 +1213,12 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.xehanort_Leggings, "Xehanort Leggings");
         addItem(ModItems.xehanort_Boots, "Xehanort Boots");
         addItem(ModItems.xehanort_Shoulder, "Xehanort' Pauldron");
+        
+        addItem(ModItems.ux_Helmet, "UX Armor Helmet");
+        addItem(ModItems.ux_Chestplate, "UX Armor Chestplate");
+        addItem(ModItems.ux_Leggings, "UX Armor Leggings");
+        addItem(ModItems.ux_Boots, "UX Armor Boots");
+        addItem(ModItems.ux_Shoulder, "UX Armor's Pauldron");
 
         addItem(ModItems.vanitas_Helmet, "Vanitas Helmet");
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
@@ -1220,10 +1230,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
         addItem(ModItems.vanitas_Remnant_Boots, "Vanitas Remnant Boots");
 
-        addItem(ModItems.antiCoat_Helmet, "AntiCoat Hood");
-        addItem(ModItems.antiCoat_Chestplate, "AntiCoat Coat");
-        addItem(ModItems.antiCoat_Leggings, "AntiCoat Leggings");
-        addItem(ModItems.antiCoat_Boots, "AntiCoat Boots");
+        addItem(ModItems.antiCoat_Helmet, "Anticoat Hood");
+        addItem(ModItems.antiCoat_Chestplate, "Anticoat Coat");
+        addItem(ModItems.antiCoat_Leggings, "Anticoat Leggings");
+        addItem(ModItems.antiCoat_Boots, "Anticoat Boots");
 
         addItem(ModItems.xemnas_Helmet, "Xemnas Hood");
         addItem(ModItems.xemnas_Chestplate, "Xemnas Coat");

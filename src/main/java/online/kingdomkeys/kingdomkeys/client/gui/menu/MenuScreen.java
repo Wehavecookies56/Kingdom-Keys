@@ -109,23 +109,24 @@ public class MenuScreen extends MenuBackground {
         drawPlayer(matrixStack);
     }
 
-    public void drawPlayer(PoseStack matrixStack) {
-        float playerHeight = height * 0.45F;
-        float playerPosX = width * 0.5229F;
-        float playerPosY = height * 0.7F;
-        matrixStack.pushPose();
-        {
-            Player player = minecraft.player;
-            // player.getSwingProgress(1);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
-        }
-        matrixStack.popPose();
-        matrixStack.pushPose();
-
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-        matrixStack.translate(1, 1, 100);
+	public void drawPlayer(PoseStack matrixStack) {
+		//PoseStack ps2 = matrixStack;
+		float playerHeight = height * 0.45F;
+		float playerPosX = width * 0.5229F;
+		float playerPosY = height * 0.7F;
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		if (playerData != null) {
+			matrixStack.pushPose();
+			{
+				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
+				if(clonePlayer != null) {
+					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
+				}
+			}
+			matrixStack.popPose();
+			matrixStack.pushPose();
+			RenderSystem.setShaderColor(1, 1, 1, 1);
+			matrixStack.translate(1, 1, 100);
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
