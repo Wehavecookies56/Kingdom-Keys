@@ -110,63 +110,63 @@ public class MenuScreen extends MenuBackground {
     }
 
 	public void drawPlayer(PoseStack matrixStack) {
-		//PoseStack ps2 = matrixStack;
-		float playerHeight = height * 0.45F;
-		float playerPosX = width * 0.5229F;
-		float playerPosY = height * 0.7F;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		if (playerData != null) {
-			matrixStack.pushPose();
-			{
-				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
-				if(clonePlayer != null) {
-					InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
-				}
-			}
-			matrixStack.popPose();
-			matrixStack.pushPose();
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			matrixStack.translate(1, 1, 100);
-
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-        int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-        int infoBoxPosX = (int) (width * 0.4354F);
-        int infoBoxPosY = (int) (height * 0.54F);
-        blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
-        for (int i = 0; i < infoBoxWidth; i++) {
-            blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
-        }
-        blit(matrixStack, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-        blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
-        for (int i = 0; i < infoBoxWidth + 8; i++) {
-            blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
-        }
-        blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
-
-        RenderSystem.disableBlend();
-        matrixStack.popPose();
-        matrixStack.pushPose();
-        {
-            matrixStack.translate(2, 2, 100);
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-            if (playerData != null) {
-                matrixStack.pushPose();
-                {
-                    matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
-                    // matrixStack.scale(0.75F, 0.75F, 1);
-                    drawString(matrixStack, minecraft.font, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
+        //PoseStack ps2 = matrixStack;
+        float playerHeight = height * 0.45F;
+        float playerPosX = width * 0.5229F;
+        float playerPosY = height * 0.7F;
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+        if (playerData != null) {
+            matrixStack.pushPose();
+            {
+                Player clonePlayer = Utils.getClonePlayer(minecraft.player);
+                if (clonePlayer != null) {
+                    InventoryScreen.renderEntityInInventory((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, clonePlayer);
                 }
-                matrixStack.popPose();
-
-                drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + ": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-                drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP) + ": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-                drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP) + ": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
             }
-        }
-        matrixStack.popPose();
-    }
+            matrixStack.popPose();
+            matrixStack.pushPose();
+            RenderSystem.setShaderColor(1, 1, 1, 1);
+            matrixStack.translate(1, 1, 100);
 
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+            int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
+            int infoBoxPosX = (int) (width * 0.4354F);
+            int infoBoxPosY = (int) (height * 0.54F);
+            blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
+            for (int i = 0; i < infoBoxWidth; i++) {
+                blit(matrixStack, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
+            }
+            blit(matrixStack, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+            blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
+            for (int i = 0; i < infoBoxWidth + 8; i++) {
+                blit(matrixStack, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
+            }
+            blit(matrixStack, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+
+            RenderSystem.disableBlend();
+            matrixStack.popPose();
+            matrixStack.pushPose();
+            {
+                matrixStack.translate(2, 2, 100);
+                playerData = ModCapabilities.getPlayer(minecraft.player);
+                if (playerData != null) {
+                    matrixStack.pushPose();
+                    {
+                        matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
+                        // matrixStack.scale(0.75F, 0.75F, 1);
+                        drawString(matrixStack, minecraft.font, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
+                    }
+                    matrixStack.popPose();
+
+                    drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + ": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+                    drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP) + ": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
+                    drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP) + ": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+                }
+            }
+            matrixStack.popPose();
+        }
+    }
     public enum buttons {
         ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES;
     }

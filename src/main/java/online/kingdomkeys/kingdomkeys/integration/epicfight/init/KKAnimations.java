@@ -27,13 +27,13 @@ public class KKAnimations {
 
     private static void build() {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
-        VALOR_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
-        VALOR_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.7F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
-        VALOR_AUTO3 = new BasicAttackAnimation(0.16F, 0.1F, 0.8F, 1.0F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
-        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 0.7F);
+        VALOR_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F);
+        VALOR_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.7F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F);
+        VALOR_AUTO3 = new BasicAttackAnimation(0.16F, 0.1F, 0.8F, 1.0F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F);
+        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) ->
@@ -41,7 +41,7 @@ public class KKAnimations {
                         AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
         WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_finisher", Armatures.BIPED)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, 1.0F).addEvents(
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) ->
@@ -61,8 +61,8 @@ public class KKAnimations {
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 
-        FINAL_IDLE = new StaticAnimation(true, "biped/living/final_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, .8f);
-        FINAL_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.rootJoint, "biped/combat/final_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED, .8f) ;
+        FINAL_IDLE = new StaticAnimation(true, "biped/living/final_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.8f);
+        FINAL_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.rootJoint, "biped/combat/final_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> .8f) ;
 
         ROXAS_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/roxas_auto_1", Armatures.BIPED);
         ROXAS_IDLE = new StaticAnimation(true, "biped/living/roxas_idle", Armatures.BIPED);

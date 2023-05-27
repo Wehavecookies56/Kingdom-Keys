@@ -27,7 +27,7 @@ public class EpicKKWeapons {
             WeaponCapability.builder()
                     .category(EpicKKWeaponEnum.CHAKRAM)
                     .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.CHAKRAM ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
-                    .hitSound(EpicFightSounds.BLADE_HIT)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.CHAKRAM)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH)
@@ -62,7 +62,7 @@ public class EpicKKWeapons {
                                             case VENTUS -> KKStyles.VENTUS;
                                         };
                             })
-                    .hitSound(EpicFightSounds.BLADE_HIT).collider(KKCollider.KEYBLADE)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get()).collider(KKCollider.KEYBLADE)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
 
                     .livingMotionModifier(KKStyles.SORA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
@@ -116,7 +116,7 @@ public class EpicKKWeapons {
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SHIELD)
-                    .hitSound(EpicFightSounds.BLADE_HIT)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .collider(ColliderPreset.SWORD)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, Animations.BIPED_BLOCK)
                     .weaponCombinationPredicator(entityPatch ->
