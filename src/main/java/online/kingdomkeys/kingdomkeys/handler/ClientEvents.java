@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import com.mojang.math.Axis;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -15,6 +13,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -36,14 +35,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.sound.PlaySoundSourceEvent;
-import net.minecraftforge.event.PlayLevelSoundEvent;
+import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -70,23 +69,32 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity ent) {
-			if(e.getEntity().getLevel().isClientSide) {
+			if(e.getLevel().isClientSide) {
+				Minecraft minecraft = Minecraft.getInstance();
+
 				if(ent instanceof Player player) {
-					if(player == Minecraft.getInstance().player) {
-						Minecraft minecraft = Minecraft.getInstance();
+					if(player == minecraft.player) {
 						clonePlayer = new LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
 					}
 					
-					if(e.getEntity() == Minecraft.getInstance().player) {
-						Minecraft.getInstance().getSoundManager().play(new AlarmSoundInstance(player));
+					if(e.getEntity() == minecraft.player) {
+						minecraft.getSoundManager().play(new AlarmSoundInstance(player));
 					}
 				}
-				Minecraft.getInstance().getSoundManager().play(new AeroSoundInstance(ent));
+				minecraft.getSoundManager().play(new AeroSoundInstance(ent));
 			}
 		}
 	}
 
-	
+	@SubscribeEvent
+	public void renderName(RenderNameTagEvent event) {
+		Entity e = event.getEntity();
+		if(e != null && e instanceof LocalPlayer) {
+			if(e == clonePlayer) {
+				event.setResult(Result.DENY);
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	public void renderOverlays(RenderGuiOverlayEvent event) {

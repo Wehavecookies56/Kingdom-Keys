@@ -555,6 +555,12 @@
 	"item.kingdomkeys.ventus_boots": "Botas de Ventus",
 	"item.kingdomkeys.ventus_shoulder": "Hombrera de Ventus",
 
+	"item.kingdomkeys.nightmareventus_helmet": "Casco de Nightmare Ventus",
+	"item.kingdomkeys.nightmareventus_chestplate": "Pechera de Nightmare Ventus",
+	"item.kingdomkeys.nightmareventus_leggings": "Grebas de Nightmare Ventus",
+	"item.kingdomkeys.nightmareventus_boots": "Botas de Nightmare Ventus",
+	"item.kingdomkeys.nightmareventus_shoulder": "Hombrera de Nightmare Ventus",
+	
 	"item.kingdomkeys.eraqus_helmet": "Casco de Eraqus",
 	"item.kingdomkeys.eraqus_chestplate": "Pechera de Eraqus",
 	"item.kingdomkeys.eraqus_leggings": "Grebas de Eraqus",
@@ -577,11 +583,6 @@
 	"item.kingdomkeys.vanitas_chestplate": "Pechera de Vanitas",
 	"item.kingdomkeys.vanitas_leggings": "Grebas de Vanitas",
 	"item.kingdomkeys.vanitas_boots": "Botas de Vanitas",
-
-	"item.kingdomkeys.nightmareventus_helmet": "Casco de Nightmare Ventus",
-	"item.kingdomkeys.nightmareventus_chestplate": "Pechera de Nightmare Ventus",
-	"item.kingdomkeys.nightmareventus_leggings": "Grebas de Nightmare Ventus",
-	"item.kingdomkeys.nightmareventus_boots": "Botas de Nightmare Ventus",
 
 	"item.kingdomkeys.anticoat_helmet": "Capucha de AntiCoat",
 	"item.kingdomkeys.anticoat_chestplate": "Abrigo de AntiCoat",
