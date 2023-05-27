@@ -328,7 +328,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
         
         addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
-			action("prev");
+			action("next");
 		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
         		
 		prev.visible = false;
