@@ -33,16 +33,17 @@ public class EraqusShoulderModel<T extends LivingEntity> extends HumanoidModel<T
         
         PartDefinition leftArm = partdefinition.getChild("left_arm");
         
-		PartDefinition ButtonArmor = leftArm.addOrReplaceChild("ButtonArmor", CubeListBuilder.create().texOffs(1, 30).addBox(7.0F, -20.6F, -1.5F, 0.65F, 3.2F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 20.9F, 0.0F));
+        PartDefinition ShoulderArmor = leftArm.addOrReplaceChild("ShoulderArmor", CubeListBuilder.create().texOffs(46, 52).addBox(4.1F, -3.0F, -1.6F, 0.1F, 7.0F, 4.3F, new CubeDeformation(0.0F))
+		.texOffs(46, 38).addBox(4.0F, -3.1F, -1.7F, 0.1F, 7.2F, 4.5F, new CubeDeformation(0.0F)), PartPose.offset(-1.9F, 0.7F, -0.65F));
 
-		PartDefinition Armor3_r1 = ButtonArmor.addOrReplaceChild("Armor3_r1", CubeListBuilder.create().texOffs(0, 9).addBox(-0.125F, -1.0F, -2.0F, 0.25F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.375F, -14.8F, 0.0F, 0.0F, 0.0F, -0.2618F));
+		PartDefinition cube_r1 = ShoulderArmor.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(39, 59).addBox(-1.0F, -1.0F, -1.0F, 0.5F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 2.0263F, 0.6263F, -0.7854F, 0.0F, 0.0F));
 
-		PartDefinition Armor2_r1 = ButtonArmor.addOrReplaceChild("Armor2_r1", CubeListBuilder.create().texOffs(0, 17).addBox(-0.125F, -1.0F, -2.0F, 0.25F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.375F, -15.9F, 0.0F, 0.0F, 0.0F, -0.2618F));
+		PartDefinition cube_r2 = ShoulderArmor.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(32, 59).addBox(-1.0F, -1.0F, -1.0F, 0.5F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 0.6263F, 0.6263F, -0.7854F, 0.0F, 0.0F));
 
-		PartDefinition Armor1_r1 = ButtonArmor.addOrReplaceChild("Armor1_r1", CubeListBuilder.create().texOffs(0, 9).addBox(-0.125F, -1.0F, -2.0F, 0.25F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.375F, -17.2F, 0.0F, 0.0F, 0.0F, -0.2618F));
+		PartDefinition cube_r3 = ShoulderArmor.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(26, 59).addBox(-1.0F, -1.0F, -1.0F, 0.5F, 2.3F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, -1.0F, 2.2527F, -0.7854F, 0.0F, 0.0F));
 
-		PartDefinition Button_r1 = ButtonArmor.addOrReplaceChild("Button_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, -1.0F, -1.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.5F, -19.0F, 0.0F, -0.7854F, 0.0F, 0.0F));
-		
+		PartDefinition cube_r4 = ShoulderArmor.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(18, 59).addBox(-1.0F, -1.0F, -1.0F, 0.5F, 2.3F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, -1.0F, -1.0F, 0.7854F, 0.0F, 0.0F));
+
 		return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
