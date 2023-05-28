@@ -203,6 +203,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putString("dual_style", dualStyle.toString());
 
 		storage.putInt("armor_color", armorColor);
+		storage.putBoolean("armor_glint", armorGlint);
 		return storage;
 	}
 
@@ -332,6 +333,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setSynthExperience(nbt.getInt("synth_exp"));
 
 		this.setArmorColor(nbt.getInt("armor_color"));
+		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		String s = nbt.getString("single_style");
 		if(!s.equals(""))
 			this.setSingleStyle(SingleChoices.valueOf(s));
@@ -392,6 +394,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
 	
 	private int armorColor = 16777215;
+	private boolean armorGlint = true;
 
 	private SingleChoices singleStyle = SingleChoices.SORA;
 	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
@@ -1365,6 +1368,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.armorColor = color;
 	}
 
+	@Override
+	public boolean getArmorGlint() {
+		return armorGlint;
+	}
+
+	@Override
+	public void setArmorGlint(boolean glint) {
+		this.armorGlint = glint;
+	}
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {

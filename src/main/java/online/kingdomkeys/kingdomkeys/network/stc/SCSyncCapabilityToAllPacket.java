@@ -42,8 +42,8 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-	private int armorColor = 0;
-	
+	private int armorColor = 16777215;
+	private boolean armorGlint = true;
 		
 	public SCSyncCapabilityToAllPacket() {
 	}
@@ -75,6 +75,7 @@ public class SCSyncCapabilityToAllPacket {
 		
 		this.kbArmors = capability.getEquippedKBArmors();
 		this.armorColor = capability.getArmorColor();
+		this.armorGlint = capability.getArmorGlint();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -120,7 +121,7 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeNbt(kbArmors);
 		
 		buffer.writeInt(armorColor);
-
+		buffer.writeBoolean(armorGlint);
 	}
 
 	public static SCSyncCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -164,6 +165,7 @@ public class SCSyncCapabilityToAllPacket {
 		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
 		
 		msg.armorColor = buffer.readInt();
+		msg.armorGlint = buffer.readBoolean();
 		return msg;
 	}
 
@@ -203,7 +205,7 @@ public class SCSyncCapabilityToAllPacket {
 				
                 playerData.equipAllKBArmor(message.kbArmors, false);
                 playerData.setArmorColor(message.armorColor);
-				
+				playerData.setArmorGlint(message.armorGlint);
 			}
 		});
 		ctx.get().setPacketHandled(true);

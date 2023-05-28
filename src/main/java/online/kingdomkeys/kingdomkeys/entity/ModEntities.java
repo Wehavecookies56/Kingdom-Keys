@@ -495,6 +495,9 @@ public class ModEntities {
         event.registerLayerDefinition(ShadowModel.LAYER_LOCATION, ShadowModel::createBodyLayer);
         event.registerLayerDefinition(BlizzardModel.LAYER_LOCATION, BlizzardModel::createBodyLayer);
         event.registerLayerDefinition(FireModel.LAYER_LOCATION, FireModel::createBodyLayer);
+        event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
+        event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
+
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_TOP, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_BOTTOM, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_TOP, () -> VentusModel.createBodyLayer(new CubeDeformation(0.5F)));
@@ -507,16 +510,14 @@ public class ModEntities {
         event.registerLayerDefinition(EraqusModel.LAYER_LOCATION_BOTTOM, () -> EraqusModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_TOP, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_BOTTOM, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
 
-        event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
-        event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
         event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(AquaShoulderModel.LAYER_LOCATION, () -> AquaShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> VentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(EraqusShoulderModel.LAYER_LOCATION, () -> EraqusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(XehanortShoulderModel.LAYER_LOCATION, () -> XehanortShoulderModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
     }
 
     @SubscribeEvent

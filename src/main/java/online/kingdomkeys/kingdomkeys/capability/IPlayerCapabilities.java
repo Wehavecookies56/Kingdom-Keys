@@ -171,6 +171,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	
 	int getArmorColor();
 	void setArmorColor(int color);
+	boolean getArmorGlint();
+	void setArmorGlint(boolean armorGlint);
+
 
 	Map<Integer, ItemStack> getEquippedArmors();
 	ItemStack equipArmor(int slot, ItemStack stack);

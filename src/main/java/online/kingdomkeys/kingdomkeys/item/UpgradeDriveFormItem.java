@@ -51,7 +51,8 @@ public class UpgradeDriveFormItem extends Item {
 						} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
 							player.getOffhandItem().shrink(1);
 						}
-						
+					} else {
+						player.displayClientMessage(Component.translatable(Utils.translateToLocal(form.getTranslationKey()) + " is already at max level"), true);
 					}
 
 				} else {// If you don't have the form unlock it

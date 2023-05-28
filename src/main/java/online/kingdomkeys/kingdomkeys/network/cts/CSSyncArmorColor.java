@@ -14,18 +14,22 @@ public class CSSyncArmorColor {
     public CSSyncArmorColor() {}
 
     int color;
-
-    public CSSyncArmorColor(int color) {
+    boolean glint;
+    
+    public CSSyncArmorColor(int color, boolean armorGlint) {
         this.color = color;
+        this.glint = armorGlint;
     }
 
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(color);
+        buffer.writeBoolean(glint);
     }
 
     public static CSSyncArmorColor decode(FriendlyByteBuf buffer) {
         CSSyncArmorColor msg = new CSSyncArmorColor();
         msg.color = buffer.readInt();
+        msg.glint = buffer.readBoolean();
         return msg;
     }
 
@@ -34,6 +38,7 @@ public class CSSyncArmorColor {
            Player player = ctx.get().getSender();
            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
            playerData.setArmorColor(message.color);
+           playerData.setArmorGlint(message.glint);
            PacketHandler.syncToAllAround(player, playerData);
         });
         ctx.get().setPacketHandled(true);
