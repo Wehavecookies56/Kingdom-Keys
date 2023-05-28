@@ -199,6 +199,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putInt("synth_exp", synthExp);
 		
 		storage.putInt("armor_color", armorColor);
+		storage.putBoolean("armor_glint", armorGlint);
 		return storage;
 	}
 
@@ -328,6 +329,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setSynthExperience(nbt.getInt("synth_exp"));
 		
 		this.setArmorColor(nbt.getInt("armor_color"));
+		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -382,6 +384,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
 	
 	private int armorColor = 16777215;
+	private boolean armorGlint = true;
 
 	//private String armorName = "";
 	
@@ -1331,7 +1334,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setArmorColor(int color) {
 		this.armorColor = color;
 	}
-
+	
+	@Override
+	public boolean getArmorGlint() {
+		return armorGlint;
+	}
+	
+	@Override
+	public void setArmorGlint(boolean glint) {
+		this.armorGlint = glint;
+	}
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {

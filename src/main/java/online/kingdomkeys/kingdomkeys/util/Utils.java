@@ -970,6 +970,7 @@ public class Utils {
 		IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
 		cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
 		cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
+		cloneCapabilities.setArmorGlint(playerData.getArmorGlint());
 		clonePlayer.getInventory().setItem(39, player.getInventory().getArmor(3));
 		clonePlayer.getInventory().setItem(38, player.getInventory().getArmor(2));
 		clonePlayer.getInventory().setItem(37, player.getInventory().getArmor(1));
