@@ -50,6 +50,7 @@ public class XehanortModel<T extends LivingEntity> extends HumanoidModel<T> {
 		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
 		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
+
 		PartDefinition Sides = head.addOrReplaceChild("Sides", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition cube_r1 = Sides.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(137, 54).addBox(-2.25F, -3.4F, -1.3F, 0.85F, 0.6F, 3.9F, new CubeDeformation(0.0F))
@@ -78,13 +79,14 @@ public class XehanortModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 		PartDefinition cube_r7 = Front.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(161, 30).addBox(-2.0F, -0.5F, -2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.124F, -4.6946F, 0.3038F, -0.762F, -0.2132F));
 
-		PartDefinition cube_r8 = Front.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(160, 29).addBox(-2.1F, -1.0F, -2.1F, 4.1F, 2.0F, 4.1F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, -4.7358F, 0.0F, -0.7854F, 0.0F));
+		PartDefinition cube_r8 = Front.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(161, 30).addBox(-2.1F, -1.0F, -2.1F, 4.1F, 2.0F, 4.1F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, -4.7358F, 0.0F, -0.7854F, 0.0F));
 
 		PartDefinition cube_r9 = Front.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(137, 32).addBox(-1.5F, -1.0F, -1.5F, 3.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.0308F, -3.062F, -3.3161F, -0.0592F, 0.7409F, -0.0399F));
 
 		PartDefinition cube_r10 = Front.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(137, 32).addBox(-2.0F, -2.0F, -1.0F, 3.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.75F, -5.5F, -0.8499F, 0.544F, -0.5323F));
 
 		PartDefinition Top = head.addOrReplaceChild("Top", CubeListBuilder.create().texOffs(205, 29).addBox(-4.0F, -14.0F, -4.0F, 8.0F, 5.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
 
 		PartDefinition ChestplateExtras = body.addOrReplaceChild("ChestplateExtras", CubeListBuilder.create().texOffs(69, 0).addBox(-4.5F, -24.0F, -2.75F, 9.0F, 12.5F, 0.25F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
