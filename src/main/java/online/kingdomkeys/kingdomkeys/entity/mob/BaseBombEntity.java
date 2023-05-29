@@ -54,7 +54,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
+    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @OnlyIn(Dist.CLIENT)

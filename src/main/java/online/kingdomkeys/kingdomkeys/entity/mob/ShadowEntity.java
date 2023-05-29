@@ -39,7 +39,7 @@ public class ShadowEntity extends BaseKHEntity {
     
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
+    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     @Override
