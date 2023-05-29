@@ -65,18 +65,11 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientEvents {
 
-	public static Player clonePlayer;
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity ent) {
 			if(e.getLevel().isClientSide) {
 				Minecraft minecraft = Minecraft.getInstance();
-
-				if(ent instanceof Player player) {
-					if(player == minecraft.player) {
-						clonePlayer = new LocalPlayer(minecraft, minecraft.level, minecraft.player.connection, minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
-					}
-					
 					if(e.getEntity() == minecraft.player) {
 						minecraft.getSoundManager().play(new AlarmSoundInstance(player));
 					}
@@ -90,9 +83,9 @@ public class ClientEvents {
 	public void renderName(RenderNameTagEvent event) {
 		Entity e = event.getEntity();
 		if(e != null && e instanceof LocalPlayer) {
-			if(e == clonePlayer) {
-				event.setResult(Result.DENY);
-			}
+			//if(e == clonePlayer) {
+			//	event.setResult(Result.DENY);
+			//}
 		}
 	}
 	

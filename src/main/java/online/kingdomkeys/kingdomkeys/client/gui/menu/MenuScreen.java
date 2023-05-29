@@ -161,10 +161,8 @@ public class MenuScreen extends MenuBackground {
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{
-				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
-				if(clonePlayer != null) {
-					InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight/2, 0, 0, clonePlayer);
-				}
+				Player player = minecraft.player;
+				Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

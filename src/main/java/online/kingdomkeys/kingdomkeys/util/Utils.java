@@ -2,9 +2,19 @@ package online.kingdomkeys.kingdomkeys.util;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -41,13 +51,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -955,17 +959,61 @@ public class Utils {
 		return (256 * 256 * r + 256 * g + b);
 	}
 
-	public static Player getClonePlayer(Player player) {
-		Player clonePlayer =  ClientEvents.clonePlayer;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
-		cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
-		cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
-		clonePlayer.getInventory().setItem(39, player.getInventory().getArmor(3));
-		clonePlayer.getInventory().setItem(38, player.getInventory().getArmor(2));
-		clonePlayer.getInventory().setItem(37, player.getInventory().getArmor(1));
-		clonePlayer.getInventory().setItem(36, player.getInventory().getArmor(0));
-		return clonePlayer;
+	//Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
+	public static void renderPlayerNoAnims(int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
+		float f = (float)Math.atan((double)(pMouseX / 40.0F));
+		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
+		renderPlayerNoAnimsRaw(pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
+	}
+
+	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
+	public static void renderPlayerNoAnimsRaw(int pPosX, int pPosY, int pScale, float angleXComponent, float angleYComponent, Player pLivingEntity) {
+		float f = angleXComponent;
+		float f1 = angleYComponent;
+		PoseStack posestack = RenderSystem.getModelViewStack();
+		posestack.pushPose();
+		posestack.translate((double)pPosX, (double)pPosY, 1050.0D);
+		posestack.scale(1.0F, 1.0F, -1.0F);
+		RenderSystem.applyModelViewMatrix();
+		PoseStack posestack1 = new PoseStack();
+		posestack1.translate(0.0D, 0.0D, 1000.0D);
+		posestack1.scale((float)pScale, (float)pScale, (float)pScale);
+		Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
+		Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+		quaternion.mul(quaternion1);
+		posestack1.mulPose(quaternion);
+		float f2 = pLivingEntity.yBodyRot;
+		float f3 = pLivingEntity.getYRot();
+		float f4 = pLivingEntity.getXRot();
+		float f5 = pLivingEntity.yHeadRotO;
+		float f6 = pLivingEntity.yHeadRot;
+		pLivingEntity.yBodyRot = 180.0F + f * 20.0F;
+		pLivingEntity.setYRot(180.0F + f * 40.0F);
+		pLivingEntity.setXRot(-f1 * 20.0F);
+		pLivingEntity.yHeadRot = pLivingEntity.getYRot();
+		pLivingEntity.yHeadRotO = pLivingEntity.getYRot();
+		Lighting.setupForEntityInInventory();
+		EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+		quaternion1.conj();
+		entityrenderdispatcher.overrideCameraOrientation(quaternion1);
+		entityrenderdispatcher.setRenderShadow(false);
+		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+		RenderSystem.runAsFancy(() -> {
+			LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)pLivingEntity);
+			((IDisabledAnimations)renderer).setDisabled(true);
+			renderer.render((AbstractClientPlayer) pLivingEntity, 0, 1, posestack1, multibuffersource$buffersource, 15728880);
+			((IDisabledAnimations)renderer).setDisabled(false);
+		});
+		multibuffersource$buffersource.endBatch();
+		entityrenderdispatcher.setRenderShadow(true);
+		pLivingEntity.yBodyRot = f2;
+		pLivingEntity.setYRot(f3);
+		pLivingEntity.setXRot(f4);
+		pLivingEntity.yHeadRotO = f5;
+		pLivingEntity.yHeadRot = f6;
+		posestack.popPose();
+		RenderSystem.applyModelViewMatrix();
+		Lighting.setupFor3DItems();
 	}
 	
 	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {

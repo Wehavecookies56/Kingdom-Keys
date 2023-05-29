@@ -1328,11 +1328,9 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				Player clonePlayer = Utils.getClonePlayer(minecraft.player);
-				if(clonePlayer != null) {
-					InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) buttonsX*2, (int) (height*0.45F), (int) 50, 0, 0, clonePlayer);
-				}
-				
+				Player player = Minecraft.getInstance().player;
+				Utils.renderPlayerNoAnims((int) (width-width*0.2F), (int) (height*0.65F), (int) 50, 0, 0, player);
+
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);

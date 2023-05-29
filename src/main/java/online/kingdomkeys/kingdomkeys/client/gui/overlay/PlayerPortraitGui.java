@@ -3,11 +3,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -63,18 +66,14 @@ public class PlayerPortraitGui extends OverlayBase {
 				float playerPosY = height + (playerHeight*0.95F);
 				poseStack.pushPose();
 				{
-					Player clonePlayer = ClientEvents.clonePlayer;
-					if(clonePlayer != null) {
-						IPlayerCapabilities cloneCapabilities = ModCapabilities.getPlayer(clonePlayer);
-						cloneCapabilities.setActiveDriveForm(playerData.getActiveDriveForm());
-						cloneCapabilities.equipAllKBArmor(playerData.getEquippedKBArmors(), false);
-						cloneCapabilities.setArmorColor(playerData.getArmorColor());
-						clonePlayer.getInventory().setItem(39,minecraft.player.getInventory().getArmor(3));
-						clonePlayer.getInventory().setItem(38,minecraft.player.getInventory().getArmor(2));
-						clonePlayer.getInventory().setItem(37,minecraft.player.getInventory().getArmor(1));
-						clonePlayer.getInventory().setItem(36,minecraft.player.getInventory().getArmor(0));
-						InventoryScreen.renderEntityInInventoryFollowsMouse(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, clonePlayer);
-					}
+					if(minecraft.player == null)
+						return;
+
+					Player player = Minecraft.getInstance().player;
+					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
+					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
+					Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();
 				
