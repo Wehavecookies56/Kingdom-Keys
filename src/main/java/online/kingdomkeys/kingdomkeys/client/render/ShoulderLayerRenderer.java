@@ -83,9 +83,11 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 		
 			if(model != null) {
 				model.leftArm.copyFrom(getParentModel().leftArm);
-				if(steve)
-					matrixStackIn.translate(0.06, 0, 0);
-	        	model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+				matrixStackIn.pushPose();
+					if(steve)
+						matrixStackIn.translate(0.06, 0, 0);
+		        	model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+	        	matrixStackIn.popPose();
 			}			
 		}
 	}
