@@ -34,8 +34,7 @@ public class EpicKKWeapons {
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, KKAnimations.CHAKRAM_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
-                    .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD).constructor(KKWeaponCapabilities::new);
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
@@ -90,7 +89,7 @@ public class EpicKKWeapons {
                     .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
                     .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
-                    .newStyleCombo(KKStyles.FINAL, KKAnimations.FINAL_AUTO1, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+                    .newStyleCombo(KKStyles.FINAL, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
 
                     .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
@@ -108,9 +107,13 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.TERRA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(KKStyles.AQUA, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(KKStyles.VENTUS, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.BLOCK, Animations.SWORD_GUARD)
 
                     .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+                    .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .passiveSkill(KKSkills.comboExtender);
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
