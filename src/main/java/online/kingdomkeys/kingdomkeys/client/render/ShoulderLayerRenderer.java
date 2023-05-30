@@ -26,26 +26,27 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortShoulderModel;
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	HumanoidModel<LivingEntity> terraShoulderArmorModel;
-	HumanoidModel<LivingEntity> aquaShoulderArmorModel;
-	HumanoidModel<LivingEntity> ventusShoulderArmorModel;
-	HumanoidModel<LivingEntity> eraqusShoulderArmorModel;
-	HumanoidModel<LivingEntity> xehanortShoulderArmorModel;
-
 	ResourceLocation texture;
 	boolean steve;
-	
+
+	public static Map<String, HumanoidModel<LivingEntity>> models = new HashMap<>();
+
 	public ShoulderLayerRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
 		super(entityRendererIn);
 		this.steve = steve;
-	    terraShoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
-	    aquaShoulderArmorModel = new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION));
-	    ventusShoulderArmorModel = new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION));
-	    eraqusShoulderArmorModel = new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION));
-	    xehanortShoulderArmorModel = new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION));
+		models.put("terra", new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION)));
+	    models.put("aqua", new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION)));
+	    models.put("ventus", new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION)));
+		models.put("nightmareventus", new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION)));
+	    models.put("eraqus", new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION)));
+	    models.put("xehanort", new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION)));
+
 	}
 
 	@Override
@@ -59,27 +60,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 
 			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
 			VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
-
-			switch(armorName) {
-			case "terra":
-				model = terraShoulderArmorModel;
-		        break;
-			case "aqua":
-				model = aquaShoulderArmorModel;
-				break;
-			case "ventus":
-				model = ventusShoulderArmorModel;
-				break;
-			case "nightmareventus":
-				model = ventusShoulderArmorModel;
-				break;
-			case "eraqus":
-				model = eraqusShoulderArmorModel;
-				break;
-			case "xehanort":
-				model = xehanortShoulderArmorModel;
-				break;
-			}
+			model = models.get(armorName);
 		
 			if(model != null) {
 				model.leftArm.copyFrom(getParentModel().leftArm);
