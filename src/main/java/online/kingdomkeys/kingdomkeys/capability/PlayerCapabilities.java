@@ -1063,7 +1063,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 	@Override
 	public List<String> getShotlockList() {
-		return Utils.getSortedShotlocks(shotlockList);
+		return shotlockList;
 	}
 
 	@Override
