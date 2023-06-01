@@ -78,16 +78,6 @@ public class ClientEvents {
 			}
 		}
 	}
-
-	@SubscribeEvent
-	public void renderName(RenderNameTagEvent event) {
-		Entity e = event.getEntity();
-		if(e != null && e instanceof LocalPlayer) {
-			//if(e == clonePlayer) {
-			//	event.setResult(Result.DENY);
-			//}
-		}
-	}
 	
 	@SubscribeEvent
 	public void renderOverlays(RenderGuiOverlayEvent event) {
