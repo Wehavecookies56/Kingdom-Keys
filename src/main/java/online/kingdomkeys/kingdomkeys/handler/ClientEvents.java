@@ -68,13 +68,14 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity ent) {
-			Minecraft minecraft = Minecraft.getInstance();
 			if (e.getLevel().isClientSide) {
+				Minecraft minecraft = Minecraft.getInstance();
 				if (e.getEntity() == minecraft.player) {
 					minecraft.getSoundManager().play(new AlarmSoundInstance(minecraft.player));
 				}
+				minecraft.getSoundManager().play(new AeroSoundInstance(ent));
+
 			}
-			minecraft.getSoundManager().play(new AeroSoundInstance(ent));
 		}
 	}
 
