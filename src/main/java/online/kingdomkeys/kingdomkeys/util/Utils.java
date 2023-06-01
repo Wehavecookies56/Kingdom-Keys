@@ -1,19 +1,20 @@
 package online.kingdomkeys.kingdomkeys.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -51,7 +52,12 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -67,9 +73,6 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -958,216 +961,4 @@ public class Utils {
 	public static int getDecFromRGB(int r, int g, int b){
 		return (256 * 256 * r + 256 * g + b);
 	}
-
-	//Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-	public static void renderPlayerNoAnims(int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
-		float f = (float)Math.atan((double)(pMouseX / 40.0F));
-		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
-		renderPlayerNoAnimsRaw(pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
-	}
-
-	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
-	public static void renderPlayerNoAnimsRaw(int pPosX, int pPosY, int pScale, float angleXComponent, float angleYComponent, Player pLivingEntity) {
-		float f = angleXComponent;
-		float f1 = angleYComponent;
-		PoseStack posestack = RenderSystem.getModelViewStack();
-		posestack.pushPose();
-		posestack.translate((double)pPosX, (double)pPosY, 1050.0D);
-		posestack.scale(1.0F, 1.0F, -1.0F);
-		RenderSystem.applyModelViewMatrix();
-		PoseStack posestack1 = new PoseStack();
-		posestack1.translate(0.0D, 0.0D, 1000.0D);
-		posestack1.scale((float)pScale, (float)pScale, (float)pScale);
-		Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-		Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
-		quaternion.mul(quaternion1);
-		posestack1.mulPose(quaternion);
-		float f2 = pLivingEntity.yBodyRot;
-		float f3 = pLivingEntity.getYRot();
-		float f4 = pLivingEntity.getXRot();
-		float f5 = pLivingEntity.yHeadRotO;
-		float f6 = pLivingEntity.yHeadRot;
-		pLivingEntity.yBodyRot = 180.0F + f * 20.0F;
-		pLivingEntity.setYRot(180.0F + f * 40.0F);
-		pLivingEntity.setXRot(-f1 * 20.0F);
-		pLivingEntity.yHeadRot = pLivingEntity.getYRot();
-		pLivingEntity.yHeadRotO = pLivingEntity.getYRot();
-		Lighting.setupForEntityInInventory();
-		EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-		quaternion1.conj();
-		entityrenderdispatcher.overrideCameraOrientation(quaternion1);
-		entityrenderdispatcher.setRenderShadow(false);
-		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-		RenderSystem.runAsFancy(() -> {
-			LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)pLivingEntity);
-			((IDisabledAnimations)renderer).setDisabled(true);
-			renderer.render((AbstractClientPlayer) pLivingEntity, 0, 1, posestack1, multibuffersource$buffersource, 15728880);
-			((IDisabledAnimations)renderer).setDisabled(false);
-		});
-		multibuffersource$buffersource.endBatch();
-		entityrenderdispatcher.setRenderShadow(true);
-		pLivingEntity.yBodyRot = f2;
-		pLivingEntity.setYRot(f3);
-		pLivingEntity.setXRot(f4);
-		pLivingEntity.yHeadRotO = f5;
-		pLivingEntity.yHeadRot = f6;
-		posestack.popPose();
-		RenderSystem.applyModelViewMatrix();
-		Lighting.setupFor3DItems();
-	}
-	
-	/*public void attackTargetEntityWithHandItem(PlayerEntity player, Entity targetEntity, Hand hand) {
-	      if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
-	      if (targetEntity.canBeAttackedWithItem()) {
-	         if (!targetEntity.hitByEntity(player)) {
-	            float f = (float)player.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	            float f1;
-	            if (targetEntity instanceof LivingEntity) {
-	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItem(hand), ((LivingEntity)targetEntity).getCreatureAttribute());
-	            } else {
-	               f1 = EnchantmentHelper.getModifierForCreature(player.getHeldItem(hand), CreatureAttribute.UNDEFINED);
-	            }
-
-	            float f2 = player.getCooledAttackStrength(0.5F);
-	            f = f * (0.2F + f2 * f2 * 0.8F);
-	            f1 = f1 * f2;
-	            player.resetCooldown();
-	            if (f > 0.0F || f1 > 0.0F) {
-	               boolean flag = f2 > 0.9F;
-	               boolean flag1 = false;
-	               int i = 0;
-	               i = i + EnchantmentHelper.getKnockbackModifier(player);
-	               if (player.isSprinting() && flag) {
-	                  player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
-	                  ++i;
-	                  flag1 = true;
-	               }
-
-	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
-	               flag2 = flag2 && !player.isSprinting();
-	               net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, targetEntity, flag2, flag2 ? 1.5F : 1.0F);
-	               flag2 = hitResult != null;
-	               if (flag2) {
-	                  f *= hitResult.getDamageModifier();
-	               }
-
-	               f = f + f1;
-	               boolean flag3 = false;
-	               double d0 = (double)(player.distanceWalkedModified - player.prevDistanceWalkedModified);
-	               if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getAIMoveSpeed()) {
-	                  ItemStack itemstack = player.getHeldItem(hand);
-	                  if (itemstack.getItem() instanceof SwordItem) {
-	                     flag3 = true;
-	                  }
-	               }
-
-	               float f4 = 0.0F;
-	               boolean flag4 = false;
-	               int j = EnchantmentHelper.getFireAspectModifier(player);
-	               if (targetEntity instanceof LivingEntity) {
-	                  f4 = ((LivingEntity)targetEntity).getHealth();
-	                  if (j > 0 && !targetEntity.isBurning()) {
-	                     flag4 = true;
-	                     targetEntity.setFire(1);
-	                  }
-	               }
-
-	               Vector3d vector3d = targetEntity.getMotion();
-	               boolean flag5 = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), f);
-	               if (flag5) {
-	                  if (i > 0) {
-	                     if (targetEntity instanceof LivingEntity) {
-	                        ((LivingEntity)targetEntity).applyKnockback((float)i * 0.5F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
-	                     } else {
-	                        targetEntity.addVelocity((double)(-MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F)) * (float)i * 0.5F));
-	                     }
-
-	                     player.setMotion(player.getMotion().mul(0.6D, 1.0D, 0.6D));
-	                     player.setSprinting(false);
-	                  }
-
-	                  if (flag3) {
-	                     float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * f;
-
-	                     for(LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
-	                        if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity)livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-	                           livingentity.applyKnockback(0.4F, (double)MathHelper.sin(player.rotationYaw * ((float)Math.PI / 180F)), (double)(-MathHelper.cos(player.rotationYaw * ((float)Math.PI / 180F))));
-	                           livingentity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
-	                        }
-	                     }
-
-	                     player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
-	                     player.spawnSweepParticles();
-	                  }
-
-	                  if (targetEntity instanceof ServerPlayerEntity && targetEntity.velocityChanged) {
-	                     ((ServerPlayerEntity)targetEntity).connection.sendPacket(new SEntityVelocityPacket(targetEntity));
-	                     targetEntity.velocityChanged = false;
-	                     targetEntity.setMotion(vector3d);
-	                  }
-
-	                  if (flag2) {
-	                     player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), 1.0F, 1.0F);
-	                     player.onCriticalHit(targetEntity);
-	                  }
-
-	                  if (!flag2 && !flag3) {
-	                     if (flag) {
-	                        player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
-	                     } else {
-	                        player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
-	                     }
-	                  }
-
-	                  if (f1 > 0.0F) {
-	                     player.onEnchantmentCritical(targetEntity);
-	                  }
-
-	                  player.setLastAttackedEntity(targetEntity);
-	                  if (targetEntity instanceof LivingEntity) {
-	                     EnchantmentHelper.applyThornEnchantments((LivingEntity)targetEntity, player);
-	                  }
-
-	                  EnchantmentHelper.applyArthropodEnchantments(player, targetEntity);
-	                  ItemStack itemstack1 = player.getHeldItem(hand);
-	                  Entity entity = targetEntity;
-	                  if (targetEntity instanceof net.minecraftforge.entity.PartEntity) {
-	                     entity = ((net.minecraftforge.entity.PartEntity<?>) targetEntity).getParent();
-	                  }
-
-	                  if (!player.world.isRemote && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
-	                     ItemStack copy = itemstack1.copy();
-	                     itemstack1.hitEntity((LivingEntity)entity, player);
-	                     if (itemstack1.isEmpty()) {
-	                        net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, Hand.MAIN_HAND);
-	                        player.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
-	                     }
-	                  }
-
-	                  if (targetEntity instanceof LivingEntity) {
-	                     float f5 = f4 - ((LivingEntity)targetEntity).getHealth();
-	                     player.addStat(Stats.DAMAGE_DEALT, Math.round(f5 * 10.0F));
-	                     if (j > 0) {
-	                        targetEntity.setFire(j * 4);
-	                     }
-
-	                     if (player.world instanceof ServerWorld && f5 > 2.0F) {
-	                        int k = (int)((double)f5 * 0.5D);
-	                        ((ServerWorld)player.world).spawnParticle(ParticleTypes.DAMAGE_INDICATOR, targetEntity.getPosX(), targetEntity.getPosYHeight(0.5D), targetEntity.getPosZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
-	                     }
-	                  }
-
-	                  player.addExhaustion(0.1F);
-	               } else {
-	                  player.world.playSound((PlayerEntity)null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, player.getSoundCategory(), 1.0F, 1.0F);
-	                  if (flag4) {
-	                     targetEntity.extinguish();
-	                  }
-	               }
-	            }
-
-	         }
-	      }
-	   }*/
-	
 }

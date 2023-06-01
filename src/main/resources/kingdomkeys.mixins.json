@@ -4,10 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "kingdomkeys.refmap.json",
   "mixins": [
-    "LivingEntityRendererMixin",
-    "PlayerRendererMixin"
+   
   ],
   "client": [
+  	"LivingEntityRendererMixin",
+  	"PlayerRendererMixin"
   ],
   "minVersion": "0.8"
 }

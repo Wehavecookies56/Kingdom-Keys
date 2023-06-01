@@ -4,9 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,9 +11,8 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -72,7 +68,7 @@ public class PlayerPortraitGui extends OverlayBase {
 					Player player = Minecraft.getInstance().player;
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
-					Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+					ClientUtils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
 					player.getInventory().setItem(player.getInventory().selected, stack);
 
 				}
