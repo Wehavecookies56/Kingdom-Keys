@@ -162,7 +162,7 @@ public class MenuScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				Player player = minecraft.player;
-				Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				Utils.renderPlayerNoAnims(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

@@ -72,7 +72,7 @@ public class PlayerPortraitGui extends OverlayBase {
 					Player player = Minecraft.getInstance().player;
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
-					Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+					Utils.renderPlayerNoAnims(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();
