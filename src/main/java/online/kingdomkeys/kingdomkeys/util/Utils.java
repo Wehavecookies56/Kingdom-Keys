@@ -1023,7 +1023,7 @@ public class Utils {
 	      RenderSystem.runAsFancy(() -> {
 				LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)p_275689_);
 				((IDisabledAnimations)renderer).setDisabled(true);
-	         entityrenderdispatcher.render(p_275689_, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, p_275396_, multibuffersource$buffersource, 15728880);
+	         	renderer.render((AbstractClientPlayer) p_275689_, 0,  1, p_275396_, multibuffersource$buffersource, 15728880);
 				renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)p_275689_);
 				((IDisabledAnimations)renderer).setDisabled(false);
 	      });
