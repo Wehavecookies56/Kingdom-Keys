@@ -2,26 +2,16 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import java.awt.Color;
 
-import javax.annotation.Nullable;
-
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -34,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
-import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -162,7 +151,7 @@ public class MenuScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				Player player = minecraft.player;
-				Utils.renderPlayerNoAnims(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				ClientUtils.renderPlayerNoAnims(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

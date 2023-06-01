@@ -11,24 +11,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -976,70 +962,4 @@ public class Utils {
 		return (256 * 256 * r + 256 * g + b);
 	}
 
-	//Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
-		float f = (float)Math.atan((double)(pMouseX / 40.0F));
-		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
-		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
-	}
-	
-	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
-	//public static void renderPlayerNoAnimsRaw(PoseStack p_275613_, int p_275470_, int p_275319_, int p_275605_, Quaternionf p_275229_, @Nullable Quaternionf p_275230_, LivingEntity p_275237_) {
-	public static void renderPlayerNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
-	      float f = angleXComponent;
-	      float f1 = angleYComponent;
-	      Quaternionf quaternionf = (new Quaternionf()).rotateZ((float)Math.PI);
-	      Quaternionf quaternionf1 = (new Quaternionf()).rotateX(f1 * 20.0F * ((float)Math.PI / 180F));
-	      quaternionf.mul(quaternionf1);
-	      float f2 = p_275689_.yBodyRot;
-	      float f3 = p_275689_.getYRot();
-	      float f4 = p_275689_.getXRot();
-	      float f5 = p_275689_.yHeadRotO;
-	      float f6 = p_275689_.yHeadRot;
-	      p_275689_.yBodyRot = 180.0F + f * 20.0F;
-	      p_275689_.setYRot(180.0F + f * 40.0F);
-	      p_275689_.setXRot(-f1 * 20.0F);
-	      p_275689_.yHeadRot = p_275689_.getYRot();
-	      p_275689_.yHeadRotO = p_275689_.getYRot();
-
-	      double d0 = 1000.0D;
-	      PoseStack posestack = RenderSystem.getModelViewStack();
-	      posestack.pushPose();
-	      posestack.translate(0.0D, 0.0D, 1000.0D);
-	      RenderSystem.applyModelViewMatrix();
-	      p_275396_.pushPose();
-	      p_275396_.translate((double)p_275688_, (double)p_275245_, -950.0D);
-	      p_275396_.mulPoseMatrix((new Matrix4f()).scaling((float)p_275535_, (float)p_275535_, (float)(-p_275535_)));
-	      p_275396_.mulPose(quaternionf);
-	      Lighting.setupForEntityInInventory();
-	      EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-	      if (quaternionf1 != null) {
-	    	  quaternionf1.conjugate();
-	         entityrenderdispatcher.overrideCameraOrientation(quaternionf1);
-	      }
-
-	      entityrenderdispatcher.setRenderShadow(false);
-	      MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-	      RenderSystem.runAsFancy(() -> {
-				LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)p_275689_);
-				((IDisabledAnimations)renderer).setDisabled(true);
-	         	renderer.render((AbstractClientPlayer) p_275689_, 0,  1, p_275396_, multibuffersource$buffersource, 15728880);
-				renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)p_275689_);
-				((IDisabledAnimations)renderer).setDisabled(false);
-	      });
-	      
-	      multibuffersource$buffersource.endBatch();
-	      entityrenderdispatcher.setRenderShadow(true);
-	      p_275396_.popPose();
-	      Lighting.setupFor3DItems();
-	      posestack.popPose();
-	      RenderSystem.applyModelViewMatrix();
-	   
-	      p_275689_.yBodyRot = f2;
-	      p_275689_.setYRot(f3);
-	      p_275689_.setXRot(f4);
-	      p_275689_.yHeadRotO = f5;
-	      p_275689_.yHeadRot = f6;
-	   }
-	
 }
