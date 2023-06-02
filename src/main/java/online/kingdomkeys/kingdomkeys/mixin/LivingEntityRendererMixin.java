@@ -40,6 +40,12 @@ public abstract class LivingEntityRendererMixin<T extends Entity> implements IDi
                 model.head.resetPose();
                 model.leftLeg.resetPose();
                 model.rightLeg.resetPose();
+                model.jacket.resetPose();
+                model.leftSleeve.resetPose();
+                model.rightSleeve.resetPose();
+                model.rightPants.resetPose();
+                model.leftPants.resetPose();
+                model.hat.resetPose();
             }
         } else {
             instance.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
