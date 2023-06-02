@@ -54,8 +54,6 @@ public class PlayerPortraitGui extends OverlayBase {
 
 			poseStack.pushPose();
 			{
-				poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);
-
 				//3D render
 				float playerHeight = (height/2F) * scale;
 				float playerPosX = width * (1-(scale/10));
@@ -68,7 +66,7 @@ public class PlayerPortraitGui extends OverlayBase {
 					Player player = Minecraft.getInstance().player;
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
-					ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX, (int) playerPosY, (int) playerHeight, 0,0, player);
+					ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();

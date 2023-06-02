@@ -215,6 +215,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config+ ".armor.red", "Armor red");
         add(Gui_Menu_Config+ ".armor.green", "Armor green");
         add(Gui_Menu_Config+ ".armor.blue", "Armor blue");
+        add(Gui_Menu_Config+ ".armor.glint", "Armor glint");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
