@@ -202,8 +202,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
 			if (itemstack != null && !playerData.getRecharge()) {
-				playerData.remMP(10);
-
+				int cost = 10;
+	    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+				playerData.remMP(cost);
+				
 				if (!level.isClientSide) {
 					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
 
