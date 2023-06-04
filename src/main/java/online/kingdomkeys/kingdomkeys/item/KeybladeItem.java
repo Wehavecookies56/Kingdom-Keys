@@ -204,7 +204,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			if (itemstack != null && !playerData.getRecharge()) {
 				int cost = 10;
 	    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
-				playerData.remMP(cost);
+				playerData.remMP(Math.max(1, cost));
 				
 				if (!level.isClientSide) {
 					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);

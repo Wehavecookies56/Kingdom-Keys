@@ -184,7 +184,7 @@ public class ClientEvents {
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 						if (!((IDisabledAnimations) renderer).isDisabled()) {
-							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+							event.getPoseStack().mulPose(Vector3f.YP.rotationDegrees(player.tickCount*80));
 						}
 					}
 					

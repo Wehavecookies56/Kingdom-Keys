@@ -56,24 +56,22 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 			if (globalData.getAeroTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 
-		         for(int i = 1; i <= globalData.getAeroLevel() + 1; ++i) {
-		        	matrixStackIn.pushPose();
-		            float f = ageInTicks*20;
-		            if(i %2 == 0)
-		            	f*=-1;
-		            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
-		            float scale = 1;
-		            switch(globalData.getAeroLevel()) {
-		            case 0:
-			            if(entitylivingbaseIn instanceof Player) {
-			            	scale = 0.75F*i;
-				            matrixStackIn.scale(scale,scale*1.2F,scale);
-				            matrixStackIn.translate(0.0D, (double)(-0.4F + 0.8F * (float)i), 0.0D);
-		            	} else {
-			            	scale = 0.35F*i;
-		            		matrixStackIn.scale(scale,scale,scale);
-
-
+				for (int i = 1; i <= globalData.getAeroLevel() + 1; ++i) {
+					matrixStackIn.pushPose();
+					float f = ageInTicks * 20;
+					if (i % 2 == 0)
+						f *= -1;
+					matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f));
+					float scale = 1;
+					switch (globalData.getAeroLevel()) {
+					case 0:
+						if (entitylivingbaseIn instanceof Player) {
+							scale = 0.75F * i;
+							matrixStackIn.scale(scale, scale * 1.2F, scale);
+							matrixStackIn.translate(0.0D, (double) (-0.4F + 0.8F * (float) i), 0.0D);
+						} else {
+							scale = 0.35F * i;
+							matrixStackIn.scale(scale, scale, scale);
 						}
 						break;
 					case 1:
