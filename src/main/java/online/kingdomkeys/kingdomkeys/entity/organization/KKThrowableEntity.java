@@ -53,11 +53,10 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	}
 	
 	public void setData(float damage, UUID ownerUUID, int slot, ItemStack stack) {
-		this.ownerUUID = ownerUUID;
-		this.originalItem = stack;
-		this.slot = slot;
 		this.dmg = damage;
-
+		this.ownerUUID = ownerUUID;
+		this.slot = slot;
+		this.originalItem = stack;
 	}
 
 	public Player getProjOwner() {
