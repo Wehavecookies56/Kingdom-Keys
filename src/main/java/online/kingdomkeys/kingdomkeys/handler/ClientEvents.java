@@ -18,9 +18,12 @@ import com.mojang.math.Axis;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -61,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
+import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientEvents {
@@ -162,7 +166,10 @@ public class ClientEvents {
 				if(playerData != null) {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
-						event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+						if (!((IDisabledAnimations) renderer).isDisabled()) {
+							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+						}
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {

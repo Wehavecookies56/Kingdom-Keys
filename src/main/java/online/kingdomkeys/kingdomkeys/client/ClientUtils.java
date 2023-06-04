@@ -561,8 +561,8 @@ public class ClientUtils {
   	}
   	
   	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
-  	//public static void renderPlayerNoAnimsRaw(PoseStack p_275613_, int p_275470_, int p_275319_, int p_275605_, Quaternionf p_275229_, @Nullable Quaternionf p_275230_, LivingEntity p_275237_) {
-  	public static void renderPlayerNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
+  	@SuppressWarnings({ "deprecation", "unchecked" })
+	public static void renderPlayerNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
   	      float f = angleXComponent;
   	      float f1 = angleYComponent;
   	      Quaternionf quaternionf = (new Quaternionf()).rotateZ((float)Math.PI);
