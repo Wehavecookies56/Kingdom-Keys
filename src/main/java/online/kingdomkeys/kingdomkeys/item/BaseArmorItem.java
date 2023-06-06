@@ -126,7 +126,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	}
 	
 	@Mod.EventBusSubscriber
-	public static class Events {
+	public static class BaseArmorItemEvents {
 
 		@SubscribeEvent
 		public static void onItemDropped(EntityJoinLevelEvent event) {
@@ -138,6 +138,5 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 				}
 			}
 		}
-
 	}
 }

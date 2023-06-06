@@ -80,8 +80,8 @@ public class KingdomKeys {
 
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
-
-	public static final String MODVER = "2.3.0.1";
+	
+	public static final String MODVER = "2.3.0.2";
 	public static final String MCVER = "1.19.4";
 
 	@SubscribeEvent

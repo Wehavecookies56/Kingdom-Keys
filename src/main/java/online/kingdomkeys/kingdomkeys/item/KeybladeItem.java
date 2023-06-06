@@ -342,7 +342,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 	
 	@Mod.EventBusSubscriber
-	public static class Events {
+	public static class KeybladeEvents {
 
 		@SubscribeEvent
 		public static void onItemDropped(EntityJoinLevelEvent event) {
@@ -354,6 +354,5 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				}
 			}
 		}
-
 	}
 }

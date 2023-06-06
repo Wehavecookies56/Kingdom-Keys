@@ -59,8 +59,10 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
         
         names.clear();
         dataList.clear();
-
+        
+        System.out.print("Loading Organization weapons: ");
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
+        	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
             ResourceLocation organizationDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(organizationDataID);
             try {
@@ -87,5 +89,7 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
                 e.printStackTrace();
             }
         }
+        System.out.println("");
+
     }
 }
