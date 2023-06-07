@@ -170,6 +170,23 @@ public class EntityEvents {
 					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
 					mob.heal(mob.getMaxHealth());
+					return;
+				}
+			}
+			
+			if(e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
+				if(ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
+					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
+					int level = (int)Math.min(dist / 10F, 200);
+					mobData.setLevel(level);
+
+					if(!mob.hasCustomName()) {
+						mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
+						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
+						mob.heal(mob.getMaxHealth());
+						return;
+					}
 				}
 			}
 		}
@@ -1216,6 +1233,9 @@ public class EntityEvents {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		Player oPlayer = event.getOriginal();
 		Player nPlayer = event.getEntity();
+		
+		
+		
 		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
@@ -1286,11 +1306,14 @@ public class EntityEvents {
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);
 		oPlayer.invalidateCaps();
+		
+		
 	}
 	
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player nPlayer = event.getEntity();
+		
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.level);
 		final IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
 		nPlayer.setHealth(playerData.getMaxHP());
@@ -1298,6 +1321,18 @@ public class EntityEvents {
 
 		if(!nPlayer.level.isClientSide)		
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayer)nPlayer);
+		
+		/*if(!event.isEndConquered()) {
+			if(nPlayer.level.dimension().location().getPath().equals("realm_of_darkness")) {
+				System.out.println("died in ROD");
+					
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("kingdomkeys:realm_of_darkness"));
+				BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
+				nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+				nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
+							
+			}
+		}*/
 	}
 	
 	@SubscribeEvent
