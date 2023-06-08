@@ -1,13 +1,18 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,10 +36,13 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class SpawningOrbEntity extends Monster {
 
 	Monster mob;
+	boolean portal;
+	
 	//Natural
 	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, Level worldIn) {
 		super(type, worldIn);
@@ -74,9 +82,6 @@ public class SpawningOrbEntity extends Monster {
 					mobData.setLevel(level);
 					PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
 				}
-				/*this.mob.setCustomName(Component.translatable(this.mob.getDisplayName().getString()+" Lv."+level));
-				this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-				this.mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(this.mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), this.mob.getMaxHealth()));*/
 			}
 		}
 	}
@@ -104,6 +109,9 @@ public class SpawningOrbEntity extends Monster {
 	public void tick() {
 		//System.out.println(getPosition());
 		if(tickCount == 1 && !level.isClientSide && this.mob != null) {
+			if(getLevel().random.nextDouble() < 0.1) {
+				setPortal(true);
+			}
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 		}
 		SimpleParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;
@@ -144,6 +152,25 @@ public class SpawningOrbEntity extends Monster {
 		}
 
 		super.tick();
+	}
+	
+	public void setPortal(boolean portal) {
+		this.portal = portal;
+	}
+	
+	public boolean getPortal() {
+		return portal;
+	}
+	
+	@Override
+	public void playerTouch(Player nPlayer) {
+		if(getPortal()) {
+			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("kingdomkeys:realm_of_darkness"));
+			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
+			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
+		}
+		super.playerTouch(nPlayer);
 	}
 	
 	public static AttributeSupplier.Builder registerAttributes() {
