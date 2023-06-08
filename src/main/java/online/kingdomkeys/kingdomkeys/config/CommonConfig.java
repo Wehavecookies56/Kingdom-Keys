@@ -18,6 +18,8 @@ public class CommonConfig {
     public ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
+    public ForgeConfigSpec.IntValue rodHeartlessLevelScale;
+    public ForgeConfigSpec.IntValue rodHeartlessMaxLevel;
     public ForgeConfigSpec.BooleanValue mobLevelingUp;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
@@ -112,6 +114,16 @@ public class CommonConfig {
                 .comment("Allow heartless and nobodies to spawn with levels according to players")
                 .translation(KingdomKeys.MODID + ".config.player_mob_leveling_up")
                 .define("mobLevelingUp", true);
+        
+        rodHeartlessLevelScale = builder
+                .comment("Heartless spawning in the ROD will increase 1 level every X blocks")
+                .translation(KingdomKeys.MODID + ".config.rod_heartless_level_scale")
+                .defineInRange("rodHeartlessLevelScale",10,1,1000);
+        
+        rodHeartlessMaxLevel = builder
+                .comment("Max level for heartless spawning in ROD")
+                .translation(KingdomKeys.MODID + ".config.rod_heartless_max_level")
+                .defineInRange("rodHeartlessMaxLevel",200,1,10000);
 
         playerSpawnHeartlessData = builder
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")

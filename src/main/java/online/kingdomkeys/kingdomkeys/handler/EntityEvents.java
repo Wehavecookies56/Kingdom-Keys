@@ -177,15 +177,17 @@ public class EntityEvents {
 			if(e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
 				if(ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
-					int level = (int)Math.min(dist / 10F, 200);
+					int level = (int)Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
 					mobData.setLevel(level);
 
-					if(!mob.hasCustomName()) {
-						mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
-						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
-						mob.heal(mob.getMaxHealth());
-						return;
+					if(level > 0) {
+						if(!mob.hasCustomName()) {
+							mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
+							mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
+							mob.heal(mob.getMaxHealth());
+							return;
+						}
 					}
 				}
 			}
