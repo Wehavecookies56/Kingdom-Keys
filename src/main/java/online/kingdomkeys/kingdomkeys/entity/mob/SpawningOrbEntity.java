@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -165,7 +165,7 @@ public class SpawningOrbEntity extends Monster {
 	@Override
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {
-			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("kingdomkeys:realm_of_darkness"));
+			ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("kingdomkeys:realm_of_darkness"));
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
 			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
