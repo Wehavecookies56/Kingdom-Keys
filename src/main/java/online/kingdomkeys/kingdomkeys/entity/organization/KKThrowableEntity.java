@@ -166,7 +166,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 				if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
 					hitSet.add(target);
-					target.hurt(DamageSource.thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					setDeltaMovement(getDeltaMovement().scale(0.5));
 					dmg *= 0.9;
 				}
