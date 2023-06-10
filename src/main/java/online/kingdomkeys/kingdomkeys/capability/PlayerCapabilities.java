@@ -1616,6 +1616,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 					if(abilitiesArray != null) {
 						List<String> a = Lists.newArrayList(abilitiesArray);
 						amount += Collections.frequency(a, ability);
+						if(abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0) { //Org synch blade
+							amount *= 2;
+						}
 					}
 				}
 			}
