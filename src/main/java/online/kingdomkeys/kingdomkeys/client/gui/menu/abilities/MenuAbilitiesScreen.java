@@ -186,15 +186,30 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						}
 					}
 				}
-			} else {
-				if(!ItemStack.matches(playerData.getEquippedWeapon(), ItemStack.EMPTY)){
-					List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedWeapon().getItem(), 0);
-					for(String a : abilitiesList) {
+			} else {// If org member
+				if (!ItemStack.matches(playerData.getEquippedWeapon(), ItemStack.EMPTY)) {
+					List<String> abilitiesList;
+					if (playerData.getAlignment() == OrgMember.ROXAS) {
+						abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedWeapon().getItem(), 0);
+					} else { //any member but roxas or none
+						abilitiesList = Utils.getOrgWeaponAbilities(playerData.getEquippedWeapon().getItem());
+					}
+				
+					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(a));
-						if(ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+						if (ability != null) { //Add weapon ability display
+							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+							});
 							abilities.add(aa);
 							aa.visible = false;
+							
+							//If synch blade do it again
+							if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0) { //Org synch blade
+								MenuAbilitiesButton aaa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								});
+								abilities.add(aaa);
+								aaa.visible = false;
+							}
 						}
 					}
 				}
