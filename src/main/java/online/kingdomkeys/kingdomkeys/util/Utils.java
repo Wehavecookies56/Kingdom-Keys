@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -814,6 +815,19 @@ public class Utils {
 					abilities.add(a);
 				}
 			}
+		}
+		return abilities;
+	}
+	
+	public static List<String> getOrgWeaponAbilities(Item item) {
+		ArrayList<String> abilities = new ArrayList<String>();
+		KeybladeItem keyblade = null;
+		if(item instanceof IOrgWeapon org) {
+			String[] a = org.getOrganizationData().getAbilities();
+			if(a != null) {
+				abilities.addAll(Arrays.asList(a));
+			}
+			
 		}
 		return abilities;
 	}

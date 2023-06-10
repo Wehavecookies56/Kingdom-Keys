@@ -378,6 +378,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
 				//playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
 				/*if(!event.player.level.isClientSide) {
 					PacketHandler.syncToAllAround(event.player, playerData);
@@ -849,10 +850,7 @@ public class EntityEvents {
 		
 		LivingEntity target = event.getEntity();
 		
-		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity) {
-			target.invulnerableTime = 0;
-		}
-		if(event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
+		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
 			target.invulnerableTime = 0;
 		}
 
