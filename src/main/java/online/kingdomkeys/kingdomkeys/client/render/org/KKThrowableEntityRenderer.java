@@ -4,12 +4,10 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -26,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
+import online.kingdomkeys.kingdomkeys.item.organization.LanceItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -51,7 +50,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
         poseStack.translate(0, 0.4, 0);
         poseStack.mulPose(Axis.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
 
-        if(itemstack.getItem() instanceof ChakramItem) {
+        if(itemstack.getItem() instanceof ChakramItem) { //Chakrams rotation
         	float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
         	if(itemstack.getItem() == ModItems.pizzaCut.get())
         		poseStack.scale(1,1,1);
@@ -71,11 +70,11 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	        	poseStack.mulPose(Axis.XP.rotationDegrees(90F));
 	            poseStack.mulPose(Axis.ZP.rotation(rotation));
 			}
-		} else if (itemstack.getItem() instanceof KeybladeItem) {
+		} else if (itemstack.getItem() instanceof KeybladeItem) { //Strike raid rotation
 			poseStack.scale(2, 2, 2);
 			poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 			
-		} else if (itemstack.getItem() instanceof ScytheItem) {
+		} else if (itemstack.getItem() instanceof ScytheItem) { //Scythes rotation
 	        if(entityIn.getRotationPoint() == 0) {
 				poseStack.scale(10, 10, 10);
 
@@ -90,7 +89,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 				poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 	        }
 	        
-	        switch(ForgeRegistries.ITEMS.getKey(entityIn.getItem().getItem()).getPath()) {
+	        switch(ForgeRegistries.ITEMS.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
 	    	case Strings.quietBelladonna:
 			case Strings.loftyGerbera:
 			case Strings.solemnMagnolia:
@@ -98,9 +97,28 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 				poseStack.scale(0.1F,0.1F,0.1F);
 				break;
 	        }
-        }
+		} else if (itemstack.getItem() instanceof LanceItem) { //Lance rotation
+			if(entityIn.getRotationPoint() == 0) {
+	        	//poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
+	           // poseStack.mulPose(Axis.XN.rotation(rotation));
+				//poseStack.mulPose(Axis.XP.rotationDegrees(entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
+				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+
+			}
+			
+			if(entityIn.getRotationPoint() == 1) {
+				
+			}
+			
+			if(entityIn.getRotationPoint() == 2) {
+				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+
+	        	//poseStack.mulPose(Axis.XP.rotationDegrees(90F));
+	            //poseStack.mulPose(Axis.ZP.rotation(rotation));
+			}		
+		}
         
-        itemRenderer.render(itemstack, itemstack.getItem() instanceof ChakramItem ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
+        itemRenderer.render(itemstack, (itemstack.getItem() instanceof ChakramItem) ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
     
         poseStack.popPose();
     

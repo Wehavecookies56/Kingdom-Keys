@@ -48,11 +48,11 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	int rotationPoint;
 
 	public KKThrowableEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_CHAKRAM.get(), world);
+		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 	}
 
 	public KKThrowableEntity(Level world) {
-		super(ModEntities.TYPE_CHAKRAM.get(), world);
+		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 		this.blocksBuilding = true;
 	}
 	
