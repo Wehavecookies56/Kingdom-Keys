@@ -110,7 +110,6 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.ArrowRainCoreEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.KKThrowableEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.org.LanceEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserCircleEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRenderer;
@@ -240,7 +239,7 @@ public class ModEntities {
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     
    // public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
-    public static final RegistryObject<EntityType<KKThrowableEntity>> TYPE_CHAKRAM = ENTITIES.register("entity_chakram",
+    public static final RegistryObject<EntityType<KKThrowableEntity>> TYPE_KK_THROWABLE = ENTITIES.register("entity_chakram",
     		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
                     .build("entity_chakram"));
 
@@ -446,9 +445,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
-        EntityRenderers.register(ModEntities.TYPE_CHAKRAM.get(), KKThrowableEntityRenderer::new);
+        EntityRenderers.register(TYPE_KK_THROWABLE.get(), KKThrowableEntityRenderer::new);
 
-        event.registerEntityRenderer(TYPE_LANCE.get(), LanceEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LANCE.get(), KKThrowableEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_SEED_BULLET.get(), SeedBulletRenderer::new);
         event.registerEntityRenderer(TYPE_ARROWGUN_SHOT.get(), ArrowgunShotEntityRenderer::new);

@@ -28,7 +28,9 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 		if (stack != null && !playerData.getRecharge() && playerData.isAbilityEquipped(Strings.strikeRaid)) {
-			playerData.remMP(10);
+			int cost = 10;
+    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+			playerData.remMP(Math.max(1, cost));
 			player.swing(hand);
 
 			if(!level.isClientSide) {
