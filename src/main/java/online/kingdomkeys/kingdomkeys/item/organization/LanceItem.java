@@ -39,6 +39,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		if (!level.isClientSide && stack != null) {
 			//player.setItemInHand(hand, ItemStack.EMPTY);
+			player.getCooldowns().addCooldown(this, 10);
 			LanceEntity entity = new LanceEntity(level);
 			
 			switch(ForgeRegistries.ITEMS.getKey(this).getPath()) {
