@@ -15,8 +15,8 @@
   "respawn_anchor_works": false,
   "bed_works" : false,
   "piglin_safe" : false,
-  "fixed_time": 22000,
+  "fixed_time": 22900,
   "monster_spawn_block_light_limit": 15,
   "monster_spawn_light_level": 15,
-  "effects": "minecraft:overworld"
+  "effects": "kingdomkeys:realm_of_darkness"
 }
