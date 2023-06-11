@@ -86,11 +86,12 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
             }
 
             Matrix4f matrix4f = poseStack.last().pose();
+            int r = 100, g = 100, b = 160;
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(80, 80, 130, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, 100.0F).uv(0.0F, 1.0F).color(80, 80, 130, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, 100.0F).uv(1.0F, 1.0F).color(80, 80, 130, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, -100.0F).uv(1.0F, 0.0F).color(80, 80, 130, 255).endVertex();
+            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(r, g, b, 255).endVertex();
+            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, 100.0F).uv(0.0F, 1.0F).color(r, g, b, 255).endVertex();
+            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, 100.0F).uv(1.0F, 1.0F).color(r, g, b, 255).endVertex();
+            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, -100.0F).uv(1.0F, 0.0F).color(r, g, b, 255).endVertex();
             tesselator.end();
             poseStack.popPose();
         }
@@ -99,7 +100,7 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         poseStack.pushPose();
         float f11 = 1.0F - level.getRainLevel(partialTick);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(135.0F));
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
         poseStack.mulPose(Vector3f.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
         Matrix4f matrix4f1 = poseStack.last().pose();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
