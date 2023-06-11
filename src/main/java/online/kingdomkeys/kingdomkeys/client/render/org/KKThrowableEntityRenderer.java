@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -100,7 +101,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	        	//poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
 	           // poseStack.mulPose(Axis.XN.rotation(rotation));
 				//poseStack.mulPose(Axis.XP.rotationDegrees(entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
-				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+				poseStack.mulPose(Vector3f.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
 
 			}
 			
@@ -109,7 +110,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 			}
 			
 			if(entityIn.getRotationPoint() == 2) {
-				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+				poseStack.mulPose(Vector3f.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
 
 	        	//poseStack.mulPose(Axis.XP.rotationDegrees(90F));
 	            //poseStack.mulPose(Axis.ZP.rotation(rotation));
