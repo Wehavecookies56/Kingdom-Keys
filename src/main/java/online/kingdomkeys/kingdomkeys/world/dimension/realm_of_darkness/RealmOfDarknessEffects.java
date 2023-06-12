@@ -1,10 +1,18 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.realm_of_darkness;
 
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -13,11 +21,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
-import net.minecraftforge.client.extensions.IForgeDimensionSpecialEffects;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import org.jetbrains.annotations.Nullable;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealmOfDarknessEffects extends DimensionSpecialEffects {
@@ -60,31 +66,31 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
             //north
             if (i == 1) {
-                poseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
             }
 
             //south
             if (i == 2) {
-                poseStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
-                poseStack.mulPose(Vector3f.XP.rotationDegrees(-90.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
             }
 
             //up
             if (i == 3) {
-                poseStack.mulPose(Vector3f.XP.rotationDegrees(180.0F));
-                poseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
             }
 
             //east
             if (i == 4) {
-                poseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
-                poseStack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(90.0F));
             }
 
             //west
             if (i == 5) {
-                poseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
-                poseStack.mulPose(Vector3f.ZP.rotationDegrees(-90.0F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(-90.0F));
             }
 
             Matrix4f matrix4f = poseStack.last().pose();
@@ -96,13 +102,12 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
             tesselator.end();
             poseStack.popPose();
         }
-        RenderSystem.enableTexture();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         poseStack.pushPose();
         float f11 = 1.0F - level.getRainLevel(partialTick);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
-        poseStack.mulPose(Vector3f.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
         Matrix4f matrix4f1 = poseStack.last().pose();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         float f12 = 20.0F;
@@ -120,12 +125,10 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         bufferbuilder.vertex(matrix4f1, f12, -100.0F, -f12).uv(f13, f14).endVertex();
         bufferbuilder.vertex(matrix4f1, -f12, -100.0F, -f12).uv(f15, f14).endVertex();
         BufferUploader.drawWithShader(bufferbuilder.end());
-        RenderSystem.disableTexture();
 
         poseStack.popPose();
 
         RenderSystem.depthMask(true);
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         return true;
     }

@@ -1330,7 +1330,7 @@ public class EntityEvents {
 			if(playerData.getRespawnROD() && ModConfigs.respawnROD) {
 				System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
 				ServerPlayer sPlayer = (ServerPlayer) nPlayer;
-				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
+				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
 				ServerLevel serverlevel = ((ServerLevel) sPlayer.level).getServer().getLevel(dimension);
 				BlockPos pos = serverlevel.getSharedSpawnPos();
 				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));							

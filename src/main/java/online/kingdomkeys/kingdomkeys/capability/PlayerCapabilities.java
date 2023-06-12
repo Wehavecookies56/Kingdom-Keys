@@ -1340,6 +1340,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.armorColor = color;
 	}
 
+	@Override
+	public boolean getArmorGlint() {
+		return armorGlint;
+	}
+	
+	@Override
+	public void setArmorGlint(boolean glint) {
+		this.armorGlint = glint;
+	}
 
 	@Override
 	public Map<Integer, ItemStack> getEquippedArmors() {
