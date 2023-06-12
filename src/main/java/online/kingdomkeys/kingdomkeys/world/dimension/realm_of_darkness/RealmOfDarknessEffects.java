@@ -22,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
+    static final int r = 100, g = 100, b = 160;
+
     public RealmOfDarknessEffects(float pCloudLevel, boolean pHasGround, SkyType pSkyType, boolean pForceBrightLightmap, boolean pConstantAmbientLight) {
         super(pCloudLevel, pHasGround, pSkyType, pForceBrightLightmap, pConstantAmbientLight);
     }
@@ -86,7 +88,6 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
             }
 
             Matrix4f matrix4f = poseStack.last().pose();
-            int r = 100, g = 100, b = 160;
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
             bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(r, g, b, 255).endVertex();
             bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, 100.0F).uv(0.0F, 1.0F).color(r, g, b, 255).endVertex();

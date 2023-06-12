@@ -19,6 +19,7 @@ public class CommonConfig {
 
     public ForgeConfigSpec.IntValue rodHeartlessLevelScale;
     public ForgeConfigSpec.IntValue rodHeartlessMaxLevel;
+    public ForgeConfigSpec.BooleanValue respawnROD;
     public ForgeConfigSpec.BooleanValue mobLevelingUp;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
@@ -128,6 +129,11 @@ public class CommonConfig {
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
                 .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
                 .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
+        
+        respawnROD = builder
+                .comment("Force players who die in the Realm of Darkness to respawn there")
+                .translation(KingdomKeys.MODID + ".config.respawn_rod")
+                .define("respawnROD", false);
 
         mobLevelStats = builder
                 .comment("Mob base stats multiplier out of 100% (default 10)")

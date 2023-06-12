@@ -301,4 +301,7 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getSynthExperience();
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
+	
+	boolean getRespawnROD();
+	void setRespawnROD(boolean respawn);
 }
