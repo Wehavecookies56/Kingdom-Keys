@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "kingdomkeys:entity/models/heart"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "kingdomkeys:entity/models/portal"
+    }
+  ]
+}

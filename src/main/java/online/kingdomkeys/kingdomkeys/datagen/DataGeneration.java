@@ -39,6 +39,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new Recipes(generator));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new AtlasProvider(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockModels(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new LootTables(generator, Collections.emptySet(), Collections.emptyList()));
