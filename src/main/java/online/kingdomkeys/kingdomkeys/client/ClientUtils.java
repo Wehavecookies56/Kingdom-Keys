@@ -214,6 +214,8 @@ public class ClientUtils {
                 
                 playerData.setSynthLevel(message.synthLevel);
                 playerData.setSynthExperience(message.synthExp);
+                
+                playerData.setRespawnROD(message.respawnROD);
 
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }

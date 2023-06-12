@@ -200,6 +200,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		storage.putInt("armor_color", armorColor);
 		storage.putBoolean("armor_glint", armorGlint);
+		
+		storage.putBoolean("respawn_rod", respawnROD);
 		return storage;
 	}
 
@@ -330,6 +332,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
+		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -385,6 +388,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
+	
+	private boolean respawnROD = false;
 
 	//private String armorName = "";
 	
@@ -2084,6 +2089,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25));
 		remainingSynthExp = ((int) nextLevel - currentExp);
 		return remainingSynthExp;
+	}
+
+	@Override
+	public boolean getRespawnROD() {
+		return respawnROD;
+	}
+
+	@Override
+	public void setRespawnROD(boolean respawn) {
+		this.respawnROD = respawn;
+		
 	}
 
 }

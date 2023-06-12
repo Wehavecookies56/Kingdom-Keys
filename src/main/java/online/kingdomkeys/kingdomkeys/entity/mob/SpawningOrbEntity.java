@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +36,8 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
@@ -165,6 +168,12 @@ public class SpawningOrbEntity extends Monster {
 	@Override
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
+			playerData.setRespawnROD(true);
+			if(!nPlayer.level.isClientSide()) {
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)nPlayer);
+			}
+			
 			ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("kingdomkeys:realm_of_darkness"));
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
 			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));

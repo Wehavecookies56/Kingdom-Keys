@@ -56,6 +56,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -1237,9 +1238,7 @@ public class EntityEvents {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		Player oPlayer = event.getOriginal();
 		Player nPlayer = event.getEntity();
-		
-		
-		
+				
 		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
@@ -1298,6 +1297,7 @@ public class EntityEvents {
 		newPlayerData.equipAllKBArmor(oldPlayerData.getEquippedKBArmors(), true);
 		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
 		newPlayerData.setArmorGlint(oldPlayerData.getArmorGlint());
+		newPlayerData.setRespawnROD(oldPlayerData.getRespawnROD());
 		
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
@@ -1310,8 +1310,6 @@ public class EntityEvents {
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);
 		oPlayer.invalidateCaps();
-		
-		
 	}
 	
 	@SubscribeEvent
@@ -1325,18 +1323,17 @@ public class EntityEvents {
 
 		if(!nPlayer.level.isClientSide)		
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayer)nPlayer);
-		
-		/*if(!event.isEndConquered()) {
-			if(nPlayer.level.dimension().location().getPath().equals("realm_of_darkness")) {
-				System.out.println("died in ROD");
-					
-				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("kingdomkeys:realm_of_darkness"));
-				BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
-				nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-				nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
-							
+
+		if(!event.isEndConquered() && !nPlayer.level.isClientSide()) {
+			if(playerData.getRespawnROD() && ModConfigs.respawnROD) {
+				System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
+				ServerPlayer sPlayer = (ServerPlayer) nPlayer;
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
+				ServerLevel serverlevel = ((ServerLevel) sPlayer.level).getServer().getLevel(dimension);
+				BlockPos pos = serverlevel.getSharedSpawnPos();
+				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));							
 			}
-		}*/
+		}
 	}
 	
 	@SubscribeEvent
