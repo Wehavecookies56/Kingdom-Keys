@@ -25,7 +25,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+        return UseAnim.SPEAR;
      }
 
    /* public int getUseDuration(ItemStack stack) {
