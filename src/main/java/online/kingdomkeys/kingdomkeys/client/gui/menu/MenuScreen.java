@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -20,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -116,7 +118,7 @@ public class MenuScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				Player player = minecraft.player;
-				Utils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				ClientUtils.renderPlayerNoAnims((int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

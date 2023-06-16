@@ -18,11 +18,11 @@ public class KKWeaponCapabilities extends WeaponCapability {
 
     public KKWeaponCapabilities(CapabilityItem.Builder builder) {
         super(builder);
-        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
-        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ KKStyles.VALOR, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
-        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_GUARD_HIT));
-        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_DUAL_GUARD_HIT));
-        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.COMMON_GUARD_BREAK, Animations.SWORD_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ KKStyles.VALOR, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KEYBLADE.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.CHAKRAM.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
 
 
     }
