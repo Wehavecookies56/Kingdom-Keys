@@ -484,52 +484,6 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("organization_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Boots.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Helmet.get())
-                .pattern("LOL")
-                .pattern("DAD")
-                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
-                .define('A', Items.DIAMOND_HELMET)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Tags.Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_HELMET))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Chestplate.get())
-                .pattern("LAL")
-                .pattern("DOD")
-                .pattern("ODO")
-                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
-                .define('A', Items.DIAMOND_CHESTPLATE)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Tags.Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_CHESTPLATE))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Leggings.get())
-                .pattern("LDL")
-                .pattern("DAD")
-                .pattern("O O")
-                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
-                .define('A', Items.DIAMOND_LEGGINGS)
-                .define('D', Items.DRAGON_BREATH)
-                .define('O', Tags.Items.OBSIDIAN)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_LEGGINGS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.eraqus_Boots.get())
-                .pattern("DTD")
-                .pattern("LAL")
-                .define('L', Tags.Items.STORAGE_BLOCKS_IRON)
-                .define('A', Items.DIAMOND_BOOTS)
-                .define('D', Items.DRAGON_BREATH)
-                .define('T', Items.TOTEM_OF_UNDYING)
-                .group("kingdomkeys")
-                .unlockedBy("diamond_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIAMOND_BOOTS))
-                .save(consumer);
-
         ShapedRecipeBuilder.shaped(ModItems.vanitas_Helmet.get())
                 .pattern("LBL")
                 .pattern("EAE")

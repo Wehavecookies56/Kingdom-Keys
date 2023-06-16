@@ -202,8 +202,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
 			if (itemstack != null && !playerData.getRecharge()) {
-				playerData.remMP(10);
-
+				int cost = 10;
+	    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+				playerData.remMP(Math.max(1, cost));
+				
 				if (!level.isClientSide) {
 					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
 
@@ -251,7 +253,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					player.swing(hand);
 					if(!world.isClientSide) {
-						System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
+						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
@@ -340,7 +342,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 	
 	@Mod.EventBusSubscriber
-	public static class Events {
+	public static class KeybladeEvents {
 
 		@SubscribeEvent
 		public static void onItemDropped(EntityJoinLevelEvent event) {
@@ -352,6 +354,5 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				}
 			}
 		}
-
 	}
 }

@@ -13,20 +13,27 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -73,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
+import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 public class ClientUtils {
 
@@ -208,6 +216,8 @@ public class ClientUtils {
                 
                 playerData.setSynthLevel(message.synthLevel);
                 playerData.setSynthExperience(message.synthExp);
+                
+                playerData.setRespawnROD(message.respawnROD);
 
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }
@@ -546,6 +556,63 @@ public class ClientUtils {
         poseStack.popPose();
         RenderSystem.applyModelViewMatrix();
     }
+    
+  //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
+  	public static void renderPlayerNoAnims(int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
+  		float f = (float)Math.atan((double)(pMouseX / 40.0F));
+  		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
+  		renderPlayerNoAnimsRaw(pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
+  	}
+
+  	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
+  	public static void renderPlayerNoAnimsRaw(int pPosX, int pPosY, int pScale, float angleXComponent, float angleYComponent, Player pLivingEntity) {
+  		float f = angleXComponent;
+  		float f1 = angleYComponent;
+  		PoseStack posestack = RenderSystem.getModelViewStack();
+  		posestack.pushPose();
+  		posestack.translate((double)pPosX, (double)pPosY, 1050.0D);
+  		posestack.scale(1.0F, 1.0F, -1.0F);
+  		RenderSystem.applyModelViewMatrix();
+  		PoseStack posestack1 = new PoseStack();
+  		posestack1.translate(0.0D, 0.0D, 1000.0D);
+  		posestack1.scale((float)pScale, (float)pScale, (float)pScale);
+  		Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
+  		Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+  		quaternion.mul(quaternion1);
+  		posestack1.mulPose(quaternion);
+  		float f2 = pLivingEntity.yBodyRot;
+  		float f3 = pLivingEntity.getYRot();
+  		float f4 = pLivingEntity.getXRot();
+  		float f5 = pLivingEntity.yHeadRotO;
+  		float f6 = pLivingEntity.yHeadRot;
+  		pLivingEntity.yBodyRot = 180.0F + f * 20.0F;
+  		pLivingEntity.setYRot(180.0F + f * 40.0F);
+  		pLivingEntity.setXRot(-f1 * 20.0F);
+  		pLivingEntity.yHeadRot = pLivingEntity.getYRot();
+  		pLivingEntity.yHeadRotO = pLivingEntity.getYRot();
+  		Lighting.setupForEntityInInventory();
+  		EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+  		quaternion1.conj();
+  		entityrenderdispatcher.overrideCameraOrientation(quaternion1);
+  		entityrenderdispatcher.setRenderShadow(false);
+  		MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+  		RenderSystem.runAsFancy(() -> {
+  			LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer)pLivingEntity);
+  			((IDisabledAnimations)renderer).setDisabled(true);
+  			renderer.render((AbstractClientPlayer) pLivingEntity, 0, 1, posestack1, multibuffersource$buffersource, 15728880);
+  			((IDisabledAnimations)renderer).setDisabled(false);
+  		});
+  		multibuffersource$buffersource.endBatch();
+  		entityrenderdispatcher.setRenderShadow(true);
+  		pLivingEntity.yBodyRot = f2;
+  		pLivingEntity.setYRot(f3);
+  		pLivingEntity.setXRot(f4);
+  		pLivingEntity.yHeadRotO = f5;
+  		pLivingEntity.yHeadRot = f6;
+  		posestack.popPose();
+  		RenderSystem.applyModelViewMatrix();
+  		Lighting.setupFor3DItems();
+  	}
 
 	
 }

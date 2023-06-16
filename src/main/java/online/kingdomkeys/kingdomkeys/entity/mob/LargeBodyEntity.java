@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -130,7 +131,10 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-    	if(source.getEntity() instanceof LivingEntity) {
+    	if(ModCapabilities.getGlobal(this) == null) {
+    		KingdomKeys.LOGGER.warn("For some reason "+this+" doesn't have globaldata");
+    	}
+    	if(source.getEntity() instanceof LivingEntity && ModCapabilities.getGlobal(this) != null) {
     		Entity attacker = source.getDirectEntity();
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();

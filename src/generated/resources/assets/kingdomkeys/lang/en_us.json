@@ -237,6 +237,7 @@
   "gui.menu.back.desc": "Go back to the previous menu.",
   "gui.menu.config": "Config",
   "gui.menu.config.armor.blue": "Armor blue",
+  "gui.menu.config.armor.glint": "Armor glint",
   "gui.menu.config.armor.green": "Armor green",
   "gui.menu.config.armor.red": "Armor red",
   "gui.menu.config.bg": "Background",

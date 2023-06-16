@@ -61,7 +61,9 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
         names.clear();
         dataList.clear();
         
+        System.out.print("Loading Keyblades: ");
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
+        	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
@@ -90,5 +92,6 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
                 e.printStackTrace();
             }
         }
+        System.out.println();
     }
 }

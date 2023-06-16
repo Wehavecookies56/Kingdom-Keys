@@ -53,6 +53,10 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	public void tick() {
+		if(tickCount > 600) {
+			this.remove(RemovalReason.KILLED);
+		}
+		
 		super.tick();
 		if (this.delayBeforeCanPickup > 0) {
 			--this.delayBeforeCanPickup;

@@ -56,6 +56,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -93,6 +94,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
@@ -170,6 +172,25 @@ public class EntityEvents {
 					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
 					mob.heal(mob.getMaxHealth());
+					return;
+				}
+			}
+
+			if(e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
+				if(ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
+					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
+					int level = (int)Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
+					mobData.setLevel(level);
+
+					if(level > 0) {
+						if(!mob.hasCustomName()) {
+							mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
+							mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
+							mob.heal(mob.getMaxHealth());
+							return;
+						}
+					}
 				}
 			}
 		}
@@ -357,6 +378,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
 				//playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
 				/*if(!event.player.level.isClientSide) {
 					PacketHandler.syncToAllAround(event.player, playerData);
@@ -826,7 +848,7 @@ public class EntityEvents {
 		
 		LivingEntity target = event.getEntity();
 		
-		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity) {
+		if(event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
 			target.invulnerableTime = 0;
 		}
 
@@ -1215,6 +1237,7 @@ public class EntityEvents {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		Player oPlayer = event.getOriginal();
 		Player nPlayer = event.getEntity();
+
 		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
@@ -1274,6 +1297,7 @@ public class EntityEvents {
 		newPlayerData.equipAllKBArmor(oldPlayerData.getEquippedKBArmors(), true);
 		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
 		newPlayerData.setArmorGlint(oldPlayerData.getArmorGlint());
+		newPlayerData.setRespawnROD(oldPlayerData.getRespawnROD());
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
@@ -1291,6 +1315,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player nPlayer = event.getEntity();
+
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.level);
 		final IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
 		nPlayer.setHealth(playerData.getMaxHP());
@@ -1298,6 +1323,17 @@ public class EntityEvents {
 
 		if(!nPlayer.level.isClientSide)		
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayer)nPlayer);
+
+		if(!event.isEndConquered() && !nPlayer.level.isClientSide()) {
+			if(playerData.getRespawnROD() && ModConfigs.respawnROD) {
+				System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
+				ServerPlayer sPlayer = (ServerPlayer) nPlayer;
+				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
+				ServerLevel serverlevel = ((ServerLevel) sPlayer.level).getServer().getLevel(dimension);
+				BlockPos pos = serverlevel.getSharedSpawnPos();
+				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));
+			}
+		}
 	}
 	
 	@SubscribeEvent

@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
@@ -33,6 +35,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);
 
+	Set<LivingEntity> hitSet = new HashSet<>();
+	
 	public ItemStack originalItem;
 	public int slot;
 	public UUID ownerUUID;
@@ -44,20 +48,19 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	int rotationPoint;
 
 	public KKThrowableEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_CHAKRAM.get(), world);
+		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 	}
 
 	public KKThrowableEntity(Level world) {
-		super(ModEntities.TYPE_CHAKRAM.get(), world);
+		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 		this.blocksBuilding = true;
 	}
 	
 	public void setData(float damage, UUID ownerUUID, int slot, ItemStack stack) {
-		this.ownerUUID = ownerUUID;
-		this.originalItem = stack;
-		this.slot = slot;
 		this.dmg = damage;
-
+		this.ownerUUID = ownerUUID;
+		this.slot = slot;
+		this.originalItem = stack;
 	}
 
 	public Player getProjOwner() {
@@ -118,6 +121,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	}
 
 	public void setReturn() {
+		hitSet.clear();
 		if(originalItem.getItem() instanceof KeybladeItem) {
 			this.remove(RemovalReason.KILLED);
 			return;
@@ -159,18 +163,15 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getProjOwner()) {
-					// target.setFire(5);
+				if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
+					hitSet.add(target);
 					target.hurt(DamageSource.thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
-					// setReturn();
 					setDeltaMovement(getDeltaMovement().scale(0.5));
 					dmg *= 0.9;
 				}
 			} else { // Block (not ERTR)
 				if (brtResult != null) {
-
 					if (level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
-
 					} else {
 						setReturn();
 					}

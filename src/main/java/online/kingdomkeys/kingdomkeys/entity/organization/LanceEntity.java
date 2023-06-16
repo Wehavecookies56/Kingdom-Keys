@@ -13,7 +13,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,34 +24,29 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class LanceEntity extends ThrowableProjectile{
+public class LanceEntity extends KKThrowableEntity{
 
 	int maxTicks = 100;
-	String model;
 	boolean stopped = false;
-	int rotationPoint; //0 = x, 1 = y, 2 = z
-	float dmg = 0;
 	
-	public LanceEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
-		super(type, world);
+	public LanceEntity(EntityType<? extends KKThrowableEntity> type, Level world) {
+		super(world);
 		this.blocksBuilding = true;
 	}
 
 	public LanceEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_LANCE.get(), world);
+		super(world);
 	}
 
 	public LanceEntity(Level world) {
-		super(ModEntities.TYPE_LANCE.get(), world);
+		super(world);
 		this.blocksBuilding = true;
 	}
 
-	public LanceEntity(Level world, Player player, String model, float dmg) {
-		super(ModEntities.TYPE_LANCE.get(), player, world);
+	public LanceEntity(Level world, Player player, float dmg) {
+		super(world);
 		setOwner(player);
-		setModel(model);
 		this.dmg = dmg;
 	}
 
@@ -135,7 +129,7 @@ public class LanceEntity extends ThrowableProjectile{
 	
 	public void stopLance(){
 		setStopped(true);
-		this.setDeltaMovement(0, 0, 0);
+		this.setDeltaMovement(this.getDeltaMovement().scale(0.001));
 	}
 	
 	@Override
@@ -155,10 +149,8 @@ public class LanceEntity extends ThrowableProjectile{
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 				if (target != getOwner()) {
-					//target.setFire(5);
 					target.hurt(DamageSource.thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
-					dmg *= 0.8F;
-					//stopLance();
+					dmg *= 0.9F;
 				}
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
@@ -183,18 +175,7 @@ public class LanceEntity extends ThrowableProjectile{
 		this.maxTicks = maxTicks;
 	}
 	
-	private static final EntityDataAccessor<String> MODEL = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> STOPPED = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(LanceEntity.class, EntityDataSerializers.INT);
-	
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String name) {
-		this.entityData.set(MODEL, name);
-		this.model = name;
-	}
 
 	public boolean isStopped() {
 		return stopped;
@@ -204,60 +185,37 @@ public class LanceEntity extends ThrowableProjectile{
 		this.entityData.set(STOPPED, stopped);
 		this.stopped = stopped;
 	}
-
-	public int getRotationPoint() {
-		return rotationPoint;
-	}
-	
-	public void setRotationPoint(int rotations) {
-		this.entityData.set(ROTATION_POINT, rotations);
-		this.rotationPoint = rotations;
-	}
 	
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-		if (key.equals(MODEL)) {
-			this.model = this.getModelDataManager();
-		}
 		if (key.equals(STOPPED)) {
 			this.stopped = this.getStoppedDataManager();
 		}
-		if (key.equals(ROTATION_POINT)) {
-			this.rotationPoint = this.getRotationPointDataManager();
-		}
+		super.onSyncedDataUpdated(key);
 	}
 	
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		compound.putString("Model", this.getModel());
 		compound.putBoolean("Stopped", this.isStopped());
-		compound.putInt("Rotation", this.getRotationPoint());
-
+		super.addAdditionalSaveData(compound);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
-		this.setModel(compound.getString("Model"));
 		this.setStopped(compound.getBoolean("Stopped"));
-		this.setRotationPoint(compound.getInt("Rotation"));
-	}
-	
+		this.readAdditionalSaveData(compound);
+	}	
 
 	@Override
 	protected void defineSynchedData() {
-		this.entityData.define(MODEL, "");
 		this.entityData.define(STOPPED, false);
-		this.entityData.define(ROTATION_POINT, 0);
+		super.defineSynchedData();
 	}
 
-	public String getModelDataManager() {
-		return this.entityData.get(MODEL);
-	}
+	
 	public boolean getStoppedDataManager() {
 		return this.entityData.get(STOPPED);
 	}
-	public int getRotationPointDataManager() {
-		return this.entityData.get(ROTATION_POINT);
-	}
+	
 	
 }

@@ -215,6 +215,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config+ ".armor.red", "Armor red");
         add(Gui_Menu_Config+ ".armor.green", "Armor green");
         add(Gui_Menu_Config+ ".armor.blue", "Armor blue");
+        add(Gui_Menu_Config+ ".armor.glint", "Armor glint");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -1363,8 +1364,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_GRAVITY, "Gravity");
         addEntityType(ModEntities.TYPE_MAGNET, "Magnet");
         addEntityType(ModEntities.TYPE_WATER, "Water");
-        addEntityType(ModEntities.TYPE_CHAKRAM, "Chakram");
-        addEntityType(ModEntities.TYPE_LANCE, "Lance");
+        addEntityType(ModEntities.TYPE_KK_THROWABLE, "Chakram");
         addEntityType(ModEntities.TYPE_ORG_PORTAL, "Organization Portal");
         addEntityType(ModEntities.TYPE_HPORB, "HP Orb");
         addEntityType(ModEntities.TYPE_MPORB, "MP Orb");

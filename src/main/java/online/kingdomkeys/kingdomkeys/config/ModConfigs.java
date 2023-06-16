@@ -366,10 +366,10 @@ public class ModConfigs {
 
     public static boolean playerSpawnHeartless;
     public static boolean blizzardChangeBlocks;
-    public static int mobLevelStats;
+    public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
 
-    public static boolean bossDespawnIfNoTarget;
+    public static boolean bossDespawnIfNoTarget, respawnROD;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -398,6 +398,9 @@ public class ModConfigs {
         blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
 
         mobLevelStats = COMMON.mobLevelStats.get();
+        rodHeartlessLevelScale = COMMON.rodHeartlessLevelScale.get();
+        rodHeartlessMaxLevel = COMMON.rodHeartlessMaxLevel.get();
+        respawnROD = COMMON.respawnROD.get();
         bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
     }
 

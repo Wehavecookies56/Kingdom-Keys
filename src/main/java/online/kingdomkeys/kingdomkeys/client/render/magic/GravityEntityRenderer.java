@@ -45,7 +45,7 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 		public static void RenderEntity(RenderLivingEvent.Pre event) {
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 			if (globalData != null) {
-				if (globalData.getFlatTicks() > 0 ){//|| event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+				if (globalData.getFlatTicks() > 0){/// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
 					PoseStack mat = event.getPoseStack();
 					mat.scale(1.5F, 0.01F, 1.5F);
 				}

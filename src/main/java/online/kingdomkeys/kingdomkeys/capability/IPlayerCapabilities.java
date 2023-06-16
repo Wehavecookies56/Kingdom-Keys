@@ -311,4 +311,7 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	public DualChoices getDualStyle();
 	public void setDualStyle(DualChoices dualStyle);
 
+
+	boolean getRespawnROD();
+	void setRespawnROD(boolean respawn);
 }

@@ -80,6 +80,8 @@ public class SCSyncCapabilityPacket {
 	public LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
 	
 	public int synthLevel,synthExp;
+	
+	public boolean respawnROD;
 
 	
 	public SCSyncCapabilityPacket() {
@@ -145,6 +147,8 @@ public class SCSyncCapabilityPacket {
 		
 		this.synthLevel = capability.getSynthLevel();
 		this.synthExp = capability.getSynthExperience();
+		
+		this.respawnROD = capability.getRespawnROD();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -295,6 +299,7 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.synthLevel);
 		buffer.writeInt(this.synthExp);
 		
+		buffer.writeBoolean(this.respawnROD);
 	}
 
 	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -436,6 +441,8 @@ public class SCSyncCapabilityPacket {
 		
 		msg.synthLevel = buffer.readInt();
 		msg.synthExp = buffer.readInt();
+		
+		msg.respawnROD = buffer.readBoolean();
 		return msg;
 	}
 
