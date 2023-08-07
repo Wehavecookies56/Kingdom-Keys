@@ -6,6 +6,7 @@ import java.util.Map;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,12 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
@@ -39,13 +35,16 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 @OnlyIn(Dist.CLIENT)
 public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
+	public static final Map<Item, ArmorBaseModel<LivingEntity>> armorModels = new HashMap<>();
 
 	ResourceLocation texture,texture2;
+
+	UXArmorModel<LivingEntity> uxTopSlim;
+	UXArmorModel<LivingEntity> uxBotSlim;
 	
 	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
 		super(entityRendererIn);
-		
+
 		VentusModel<LivingEntity> vTop = new VentusModel<>(modelSet.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(modelSet.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
 		
@@ -60,9 +59,17 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		
 		XehanortModel<LivingEntity> xTop = new XehanortModel<>(modelSet.bakeLayer(XehanortModel.LAYER_LOCATION_TOP));
 		XehanortModel<LivingEntity> xBot = new XehanortModel<>(modelSet.bakeLayer(XehanortModel.LAYER_LOCATION_BOTTOM));
-		
+
 		UXArmorModel<LivingEntity> uxTop = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
 		UXArmorModel<LivingEntity> uxBot = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.LAYER_LOCATION_BOTTOM));
+
+		uxTopSlim = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.SLIM_LAYER_LOCATION_TOP));
+		uxBotSlim = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.SLIM_LAYER_LOCATION_BOTTOM));
+
+		armorModels.put((BaseArmorItem) ModItems.ux_Helmet.get(), uxTop);
+		armorModels.put((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTop);
+		armorModels.put((BaseArmorItem) ModItems.ux_Leggings.get(), uxBot);
+		armorModels.put((BaseArmorItem) ModItems.ux_Boots.get(), uxTop);
 
         armorModels.put((BaseArmorItem) ModItems.terra_Helmet.get(), tTop);
 		armorModels.put((BaseArmorItem) ModItems.terra_Chestplate.get(), tTop);
@@ -93,17 +100,21 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		armorModels.put((BaseArmorItem) ModItems.xehanort_Chestplate.get(), xTop);
 		armorModels.put((BaseArmorItem) ModItems.xehanort_Leggings.get(), xBot);
 		armorModels.put((BaseArmorItem) ModItems.xehanort_Boots.get(), xTop);
-
-		armorModels.put((BaseArmorItem) ModItems.ux_Helmet.get(), uxTop);
-		armorModels.put((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTop);
-		armorModels.put((BaseArmorItem) ModItems.ux_Leggings.get(), uxBot);
-		armorModels.put((BaseArmorItem) ModItems.ux_Boots.get(), uxTop);
 	}
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(entitylivingbaseIn instanceof Player player) {
-			
+
+			if (Minecraft.getInstance().player.getModelName().equals("slim")) {
+				if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
+					armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
+					armorModels.replace((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTopSlim);
+					armorModels.replace((BaseArmorItem) ModItems.ux_Leggings.get(), uxBotSlim);
+					armorModels.replace((BaseArmorItem) ModItems.ux_Boots.get(), uxTopSlim);
+				}
+			}
+
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			int color = playerData.getArmorColor();
 			float red = ((color >> 16) & 0xff) / 255F;
@@ -111,10 +122,10 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			float blue = (color & 0xff) / 255F;
 			
 			NonNullList<ItemStack> armor = player.getInventory().armor;
-			HumanoidModel<LivingEntity> armorModelBoots = armorModels.get(armor.get(0).getItem());
-			HumanoidModel<LivingEntity> armorModelLeggings = armorModels.get(armor.get(1).getItem());
-			HumanoidModel<LivingEntity> armorModelChestplate = armorModels.get(armor.get(2).getItem());
-			HumanoidModel<LivingEntity> armorModelHelmet = armorModels.get(armor.get(3).getItem());
+			ArmorBaseModel<LivingEntity> armorModelBoots = armorModels.get(armor.get(0).getItem());
+			ArmorBaseModel<LivingEntity> armorModelLeggings = armorModels.get(armor.get(1).getItem());
+			ArmorBaseModel<LivingEntity> armorModelChestplate = armorModels.get(armor.get(2).getItem());
+			ArmorBaseModel<LivingEntity> armorModelHelmet = armorModels.get(armor.get(3).getItem());
 
 			ItemStack itemStack = armor.get(0);
 	    	if(itemStack.getItem() instanceof KeybladeArmorItem) {
@@ -168,7 +179,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(texture), false, itemStack.isEnchanted());
 
 	    		armorModelHelmet.head.copyFrom(getParentModel().head);
 	    		armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);

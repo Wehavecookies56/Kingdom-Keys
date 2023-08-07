@@ -41,13 +41,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.PartyHUDGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
-import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
@@ -63,7 +57,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
 
-	public static final Map<Item, HumanoidModel<LivingEntity>> armorModels = new HashMap<>();
+	public static final Map<Item, ArmorBaseModel<LivingEntity>> armorModels = new HashMap<>();
 
 	public static NamedGuiOverlay
 			COMMAND_MENU,
