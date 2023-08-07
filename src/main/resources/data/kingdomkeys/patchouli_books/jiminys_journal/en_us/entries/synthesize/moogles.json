@@ -22,7 +22,7 @@
 		{
             "type": "image",
             "images": [
-                "kingdomkeys:journal/moogle.png"
+                "patchouli:moogle.png"
             ],
             "title": ":c",
             "border": true

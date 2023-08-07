@@ -1,0 +1,41 @@
+{
+	"name": "Prize & Rare Prize Blox",
+	"icon": "kingdomkeys:prize_blox",
+	"sortnum": 8,
+	"priority": true,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These can be found all over the overworld and will carry many different kinds of goodies including Spells, Form orbs, Synthesis Materials and Munny. They however are the only kind of Blox that cannot be crafted, but you should break these whenever you see them."
+		},
+		{
+      "type": "multiblock",
+	  "name": "Prize Blox",
+	  "enable_visualize": false,
+      "multiblock": {
+    "pattern": [
+        [" 0 "]
+    ],
+    "mapping": {
+        "0": "kingdomkeys:prize_blox"
+    },
+      "symmetrical": true
+}
+    },
+		{
+      "type": "multiblock",
+	  "name": "Rare Prize Blox",
+	  "enable_visualize": false,
+      "multiblock": {
+    "pattern": [
+        [" 0 "]
+    ],
+    "mapping": {
+        "0": "kingdomkeys:rare_prize_blox"
+    },
+      "symmetrical": true
+}
+    }
+	]
+}

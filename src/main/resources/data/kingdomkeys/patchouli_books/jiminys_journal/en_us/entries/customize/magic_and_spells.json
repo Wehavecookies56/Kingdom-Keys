@@ -1,0 +1,13 @@
+{
+	"name": "Magic and Spells",
+	"icon": "kingdomkeys:spellfire",
+	"category": "kingdomkeys:commands",
+	"read_by_default": false,
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "As you explore the world, you should find these Blue and Yellow cubes with stars in the middle of them. These cubes can be mined with your fist and have the chance to drop new spells for you to learn. When you learn these spells, they can be cast from your $(thing)Magic$() command menu tab, as long as you have the MP to cast them. If you run out of MP, it will take some time to recharge."
+		}
+	]
+}

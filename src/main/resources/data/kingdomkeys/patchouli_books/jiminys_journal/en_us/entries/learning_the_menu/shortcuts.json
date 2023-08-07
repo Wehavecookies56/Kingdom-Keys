@@ -12,7 +12,7 @@
         {
             "type": "image",
             "images": [
-                "kingdomkeys:journal/shortcut.png"
+                "patchouli:shortcut.png"
             ],
             "title": "Shortcuts",
             "border": true

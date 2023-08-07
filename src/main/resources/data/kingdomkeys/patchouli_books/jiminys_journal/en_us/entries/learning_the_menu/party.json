@@ -12,7 +12,7 @@
         {
             "type": "image",
             "images": [
-                "kingdomkeys:journal/party.png"
+                "patchouli:party.png"
             ],
             "title": "Party Menu",
             "border": true

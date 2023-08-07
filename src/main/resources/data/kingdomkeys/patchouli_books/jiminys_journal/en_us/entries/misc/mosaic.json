@@ -1,0 +1,17 @@
+{
+	"name": "Mosaic Stained Glass",
+	"icon": "kingdomkeys:mosaic_stained_glass",
+	"sortnum": 3,
+	"priority": true,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A decorative glass block to help give your homes that classic Kingdom Hearts feel. The recipe is as follows."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:mosaic_stained_glass"
+		}
+	]
+}

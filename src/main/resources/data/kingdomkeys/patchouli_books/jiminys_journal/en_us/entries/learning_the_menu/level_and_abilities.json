@@ -1,0 +1,17 @@
+{
+	"name": "Leveling up and Abilities",
+	"icon": "kingdomkeys:apboost",
+	"sortnum": 2,
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+		"pages": [
+		{
+			"type": "text",
+			"text": "As you play the $(thing)Kingdom Keys$(), you'll gain XP toward your levels in Kingdom Keys by killing any hostile mob. Everytime you level up, you'll recieve stat increases and new abilities. These abilities can be equipped in the $(thing)Abilities$() tab in your menu. "
+		},
+		{
+			"type": "text",
+			"text": "These abilities will cost AP to equip, you'll never be able to go over your max AP. You can increase your max AP by leveling up, putting on accessories that increase AP or synthesizing AP Boosts and using them on yourself. New abilities can give you different movement options, combat capabilities or many other useful effects. Always read new abilities you earn and test them as you go."
+		}
+	]
+}

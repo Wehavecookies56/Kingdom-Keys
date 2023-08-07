@@ -92,6 +92,12 @@ mixin {
 
 repositories {
     maven {
+		url 'https://maven.blamejared.com'
+	}
+
+
+
+    maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
@@ -150,6 +156,9 @@ dependencies {
     implementation fg.deobf("epicfight:epicfight:19.5.0.19")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+	
+	implementation fg.deobf("curse.maven:patchouli-306770:4636289")
+
 }
 
 jar {
