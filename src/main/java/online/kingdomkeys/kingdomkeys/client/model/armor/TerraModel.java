@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
-public class TerraModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class TerraModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
     public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "terra_top"), "main");
     public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "terra_bottom"), "main");
@@ -40,7 +40,7 @@ public class TerraModel<T extends LivingEntity> extends HumanoidModel<T> {
     }
 
     public static LayerDefinition createBodyLayer(CubeDeformation size) {
-        MeshDefinition meshdefinition = HumanoidModel.createMesh(size, 0);
+        MeshDefinition meshdefinition = new MeshDefinition(); //HumanoidModel.createMesh(size, 0);
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));

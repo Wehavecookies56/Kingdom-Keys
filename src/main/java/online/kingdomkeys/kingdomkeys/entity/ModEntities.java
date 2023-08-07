@@ -513,8 +513,10 @@ public class ModEntities {
         event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> VentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(EraqusShoulderModel.LAYER_LOCATION, () -> EraqusShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(XehanortShoulderModel.LAYER_LOCATION, () -> XehanortShoulderModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0)));
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0), false));
+        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0), false));
+        event.registerLayerDefinition(UXArmorModel.SLIM_LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0), true));
+        event.registerLayerDefinition(UXArmorModel.SLIM_LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0), true));
     }
 
     @SubscribeEvent

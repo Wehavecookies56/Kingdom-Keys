@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -68,18 +69,17 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 			@Nullable
 			@Override
 			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-				HumanoidModel armorModel = ClientSetup.armorModels.get(itemStack.getItem());
+				ArmorBaseModel<LivingEntity> armorModel = ClientSetup.armorModels.get(itemStack.getItem());
 
 				if (armorModel != null) {
 					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;
-					armorModel.hat.visible = false;
 					armorModel.body.visible = armorSlot == EquipmentSlot.CHEST || armorSlot == EquipmentSlot.LEGS;
 					armorModel.rightArm.visible = armorSlot == EquipmentSlot.CHEST;
 					armorModel.leftArm.visible = armorSlot == EquipmentSlot.CHEST;
-					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.FEET || armorSlot == EquipmentSlot.FEET;
+					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
 					armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
 				}
-				return armorModel;
+				return _default;
 			}
 		});
 	}
