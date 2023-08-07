@@ -1,0 +1,21 @@
+{
+	"name": "Kingdom Keys Configuration",
+	"icon": "kingdomkeys:spellbinder_chain",
+	"sortnum": 6,
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+		"pages": [
+		{
+			"type": "text",
+			"text": "The $(thing)Config$() tab allows you to edit HUD placement of every single HUD element included in the mod."
+		},
+        {
+            "type": "image",
+            "images": [
+                "patchouli:config.png"
+            ],
+            "title": "Configuration",
+            "border": true
+        }
+	]
+}

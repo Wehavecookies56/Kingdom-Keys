@@ -1,0 +1,6 @@
+{
+	"name": "Nobodies",
+	"description": "The $(thing)Nobody$() Registry keeps track of all the different $(thing)Nobody$() type of mobs you have encountered.",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 8
+}

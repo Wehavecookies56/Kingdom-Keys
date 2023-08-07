@@ -1,0 +1,26 @@
+{
+	"name": "Choose your Path",
+	"icon": "kingdomkeys:kingdom_key_chain",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:dive_to_the_heart",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Let's start with the most simple step. You should take a Dive into your Heart and decide your path, to do so press the $(thing)[M] $()key."
+		},
+        {
+            "type": "image",
+            "images": [
+                "patchouli:dream.png"
+            ],
+            "title": "Dive to the Heart",
+            "border": true,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 256,
+			"texture_width": 256
+        }
+	]
+}

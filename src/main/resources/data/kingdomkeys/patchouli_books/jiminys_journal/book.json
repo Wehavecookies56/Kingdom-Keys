@@ -1,0 +1,17 @@
+{
+	"name": "Jiminy's Journal",
+	"book_texture": "patchouli:textures/gui/book_red.png",
+	"model": "patchouli:journal",
+	"landing_text": "Welcome Keyblade wielder to the $(thing)Kingdom Key's $()Mod.$(br2)In this book, you'll find all info you need to get started.",
+	"open_sound": "patchouli:journal_open.ogg",
+	"flip_sound": "patchouli:journal_flip.ogg",
+	"version": "0",
+	"subtitle": "Thank Naminé.",
+	"show_progress": false,
+	"pause_game": true,
+	"filler_texture": "patchouli:pagefiller.png",
+	"creative_tab": "tools",
+	"macros": {
+		"$(lissa)": "$(#fe84a3)"
+	}
+}

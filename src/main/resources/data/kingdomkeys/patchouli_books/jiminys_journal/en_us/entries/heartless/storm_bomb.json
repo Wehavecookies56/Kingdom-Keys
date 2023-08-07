@@ -1,0 +1,16 @@
+{
+	"name": "Storm Bomb",
+	"icon": "kingdomkeys:storm_bomb_spawn_egg",
+	"category": "kingdomkeys:heartless",
+	"read_by_default": false,
+	"sortnum": 8,
+	"pages": [{
+			"type": "text",
+			"text": "These mid-sized Heartless begin a countdown to self-detonation if you deflect their head-butts with a block. Avoid being sucked in by the whirlwind they produce during the countdown by jumping or gliding away."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:storm_bomb"
+		}
+	]
+}

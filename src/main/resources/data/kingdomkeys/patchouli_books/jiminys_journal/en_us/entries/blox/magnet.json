@@ -1,0 +1,17 @@
+{
+	"name": "Magnet Blox",
+	"icon": "kingdomkeys:magnet_blox",
+	"sortnum": 9,
+	"priority": true,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Magnet Blox can be used to attract items towards it and you when you're in the Blox range. It's range can be set from 1-10 blocks away and it finds itself extremely useful in farms and grinders. Magnet Blox can be crafted using a Normal Blox, Iron ingots, Gold ingots and redstone dust, the recipe is as follows."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:magnet_blox"
+		}
+	]
+}
