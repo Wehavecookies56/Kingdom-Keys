@@ -758,19 +758,17 @@ public class EntityEvents {
 		
 	@SubscribeEvent
 	public void entityPickup(EntityItemPickupEvent event) {
-		if(event.getEntity().getInventory().contains(new ItemStack(ModItems.synthesisBag.get()))) {
-			if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
-				for (int i = 0; i < event.getEntity().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getEntity().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.synthesisBag.get()) {
-							IItemHandler inv = bag.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
-							addSynthesisMaterialToBag(inv, event, bag);
-						}
+		if(event.getItem().getItem() != null && event.getItem().getItem().getItem() instanceof SynthesisItem) {
+			for (int i = 0; i < event.getEntity().getInventory().getContainerSize(); i++) {
+				ItemStack bag = event.getEntity().getInventory().getItem(i);
+				if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+					if (bag.getItem() == ModItems.synthesisBag.get()) {
+						IItemHandler inv = bag.getCapability(ForgeCapabilities.ITEM_HANDLER, null).orElse(null);
+						addSynthesisMaterialToBag(inv, event, bag);
 					}
 				}
 			}
-		}
+		}		
 	}
 	
 	public void addSynthesisMaterialToBag(IItemHandler inv, EntityItemPickupEvent event, ItemStack bag) {
