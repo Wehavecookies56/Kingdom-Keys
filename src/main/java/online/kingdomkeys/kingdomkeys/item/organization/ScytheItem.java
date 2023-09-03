@@ -36,31 +36,11 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 			if(!level.isClientSide) {
 				player.setItemInHand(hand, ItemStack.EMPTY);
 				KKThrowableEntity entity = new KKThrowableEntity(level);
-				
-				switch (ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath()) {
-				case Strings.gracefulDahlia:
-				case Strings.proudAmaryllis:
-				case Strings.madSafflower:
-				case Strings.tragicAllium:
-				case Strings.mournfulCineria:
-				case Strings.pseudoSilene:
-				case Strings.faithlessDigitalis:
-				case Strings.grimMuscari:
-				case Strings.docileVallota:
-				case Strings.partingIpheion:
-				case Strings.gallantAchillea:
-				case Strings.noblePeony:
-				case Strings.fearsomeAnise:
-				case Strings.vindictiveThistle:
-				case Strings.fairHelianthus:
-				case Strings.stirringLadle:
-				case Strings.daintyBellflowers:
+
+				if(stack.getItem() instanceof ScytheItem)
 					entity.setRotationPoint(1);
-					break;				
-				default:
+				else
 					entity.setRotationPoint(0);
-				}
-				
 				
 				entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
 				entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
