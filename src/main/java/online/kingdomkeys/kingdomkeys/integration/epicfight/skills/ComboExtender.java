@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.EpicFightSkills;
 import yesman.epicfight.skill.Skill;
@@ -44,6 +45,10 @@ public class ComboExtender extends Skill {
             PlayerPatch<?> spp = container.getExecuter();
             Player player = spp.getOriginal();
             if (player.isOnGround() && !player.isSprinting() &&  event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
+            	if (!this.isExecutableState(spp)) {
+            		return;
+            	}
+            	
                 IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
                     event.setCanceled(true);
                     StaticAnimation attackMotion;
@@ -109,6 +114,13 @@ public class ComboExtender extends Skill {
     @Override
     public void executeOnServer(ServerPlayerPatch executer, FriendlyByteBuf args) {
         super.executeOnServer(executer, args);
-
     }
+    
+    @Override
+	public boolean isExecutableState(PlayerPatch<?> executer) {
+		EntityState playerState = executer.getEntityState();
+		Player player = executer.getOriginal();
+		
+		return !(player.isSpectator() || executer.isUnstable() || !playerState.canBasicAttack());
+	}
 }
