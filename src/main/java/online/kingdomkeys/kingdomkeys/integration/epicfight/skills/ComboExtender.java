@@ -75,7 +75,7 @@ public class ComboExtender extends Skill {
                         }
                         finisherPlacement = finishDataManager.getDataValue(finisherData);
                         int finisher = (finisherPlacement % 2) + (comboSize - lastBasicAttackFromEnd);
-                        if (comboCounter == (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset + numberOfFinishingPlus)
+                        if (comboCounter >= (comboSize - lastBasicAttackFromEnd) + this.totalComboOffset + numberOfFinishingPlus)
                         {
                             comboCounter = 0;
                             finisherPlacement = 0;
