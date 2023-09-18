@@ -27,6 +27,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -682,16 +683,22 @@ public class InputHandler {
         if (player != null) {
             if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
                 IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
-                }
+    			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+    			if (globalData != null && globalData.getStoppedTicks() <= 0) {
+    				if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+                        PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
+                    }    		
+    			}                
             }
 
             if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
                 IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
-                }
+    			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+    			if (globalData != null && globalData.getStoppedTicks() <= 0) {
+	                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+	                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
+	                }
+    			}
                 return;
             }
 

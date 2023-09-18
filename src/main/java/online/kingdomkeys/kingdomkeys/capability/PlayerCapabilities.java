@@ -469,7 +469,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? (strength.getStat() + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
+		return combined ? ((ModConfigs.allowBoosts ? strength.getStat() : strength.get()) + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
 	}
 
 	@Override
@@ -479,7 +479,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMagic(boolean combined) {
-		return combined ? (magic.getStat() + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get();
+		return combined ? ((ModConfigs.allowBoosts ? magic.getStat() : magic.get()) + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get();
 	}
 
 	@Override
@@ -489,7 +489,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? (defense.getStat() + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get();
+		return combined ? ((ModConfigs.allowBoosts ? defense.getStat() : defense.get()) + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get();
 	}
 
 	@Override

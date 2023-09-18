@@ -12,7 +12,7 @@
         {
             "type": "image",
             "images": [
-                "patchouli:config.png"
+                "kingdomkeys:journal/config.png"
             ],
             "title": "Configuration",
             "border": true

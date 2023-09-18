@@ -15,9 +15,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class BaseShotlockShotEntity extends ThrowableProjectile{
 	
@@ -70,6 +74,19 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		this.maxTicks = maxTicks;
 	}
 
+	@Override
+	protected void onHit(HitResult pResult) {
+		if(!level.isClientSide) {
+			if(getOwner() != null && getOwner() instanceof Player owner) {
+	    		IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
+	    		if(playerData != null) {
+	    			if(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain) > 0) {
+	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain)*2);
+	    			}
+	    		}
+	    	}
+		}
+	}
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);

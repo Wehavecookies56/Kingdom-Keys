@@ -25,6 +25,7 @@ public class ServerConfig {
         
     public ForgeConfigSpec.BooleanValue projectorHasShop;
     public ForgeConfigSpec.BooleanValue orgEnabled;
+    public ForgeConfigSpec.BooleanValue allowBoosts;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -53,6 +54,11 @@ public class ServerConfig {
                 .comment("If true the organization system will be enabled, if false will be disabled")
                 .translation(KingdomKeys.MODID + ".config.org_enabled")
                 .define("orgEnabled", true);
+        
+        allowBoosts = builder
+                .comment("If true then boosts like Power Boost, Magic Boost and Defense Boost will be enabled, if false they won't add stats")
+                .translation(KingdomKeys.MODID + ".config.allow_boosts")
+                .define("allowBoosts", true);
 
         builder.pop();
 

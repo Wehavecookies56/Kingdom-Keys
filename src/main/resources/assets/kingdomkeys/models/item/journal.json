@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": { 
-		"layer0": "patchouli:items/journal"
+		"layer0": "kingdomkeys:item/journal"
 	}
 }

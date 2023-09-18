@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public class MagicCure extends Magic {
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
 
 		float amount = playerData.getMaxHP() * getDamageMult(level);
+		if(playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
+			player.invulnerableTime = 40;
+
 		switch(level) {
 		case 0:
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);

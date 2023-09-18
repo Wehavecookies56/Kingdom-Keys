@@ -40,7 +40,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.chaosRipper, Strings.chaosRipperChain, 9, 0, "", 6.5F, "A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength.");
 		addStats(Strings.circleOfLife, Strings.circleOfLifeChain, 6, 2, ModAbilities.MP_HASTE.get().toString(), 5.0F, "Has great strength, increasing MP restoration speed after MP is consumed.");
 		addStats(Strings.classicTone, Strings.classicToneChain, 6, 9, ModAbilities.MP_HASTE.get().toString(), 5.0F, "A Keyblade with an emphasis on Magic.");
-		addStats(Strings.counterpoint, Strings.counterpointChain, 7, 7, "", 6.0F, "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.");
+		addStats(Strings.counterpoint, Strings.counterpointChain, 7, 7, ModAbilities.ENDLESS_MAGIC.get().toString(), 6.0F, "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.");
 		addStats(Strings.crabclaw, Strings.crabclawChain, 5, 3, ModAbilities.WATER_BOOST.get().toString(), 5.0F, "Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.");
 		addStats(Strings.crownOfGuilt, Strings.crownOfGuiltChain, 6, 7, "", 5.0F, "A weapon that boosts your Magic to give it incredible power.");
 		addStats(Strings.crystalSnow, Strings.crystalSnowChain, 3, 6, "", 5.0F, "A Keyblade with an emphasis on Magic.");
@@ -57,9 +57,9 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.elementalEncoder, Strings.elementalEncoderChain, 4, 4, ModAbilities.GRAND_MAGIC_HASTE.get().toString(), 5.0F, "A Keyblade that courses with mystic power.");
 		addStats(Strings.endOfPain, Strings.endOfPainChain, 8, 8, "", 5.0F, "A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.");
 		addStats(Strings.endsOfTheEarth, Strings.endsOfTheEarthChain, 6, 5, "", 5.0F, "A well-balanced Keyblade that provides an extra boost to all your stats.");
-		addStats(Strings.everAfter, Strings.everAfterChain, 4, 6, "", 5.0F, "A Keyblade with an emphasis on Magic.");
+		addStats(Strings.everAfter, Strings.everAfterChain, 4, 6, ModAbilities.LEAF_BRACER.get().toString(), 5.0F, "A Keyblade with an emphasis on Magic.");
 		addStats(Strings.fairyHarp, Strings.fairyHarpChain, 6, 4, "", 5.0F, "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.");
-		addStats(Strings.fairyStars, Strings.fairyStarsChain, 4, 5, "", 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
+		addStats(Strings.fairyStars, Strings.fairyStarsChain, 4, 5, ModAbilities.ENDLESS_MAGIC.get().toString(), 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
 		addStats(Strings.fatalCrest, Strings.fatalCrestChain, 5, 7, ModAbilities.BERSERK_CHARGE.get().toString(), 5.0F, "Increases strength during MP Charge and allows unlimited chaining of combos.");
 		addStats(Strings.favoriteDeputy, Strings.favoriteDeputyChain, 5, 3, "", 5.0F, "A Keyblade with an emphasis on Strength.");
 		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, "", 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
@@ -118,11 +118,11 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.painOfSolitude, Strings.painOfSolitudeChain, 4, 5, "", 5.0F, "A weapon that boosts your Magic to give it more power.");
 		addStats(Strings.phantomGreen, Strings.phantomGreenChain, 4, 4, "", 5.0F, "A Keyblade imbued with wondrous power.");
 		addStats(Strings.photonDebugger, Strings.photonDebuggerChain, 5, 3, ModAbilities.THUNDER_BOOST.get().toString(), 5.0F, "Increases damage done by thunder-based attacks.");
-		addStats(Strings.pixiePetal, Strings.pixiePetalChain, 4, 8, "", 5.0F, "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.");
+		addStats(Strings.pixiePetal, Strings.pixiePetalChain, 4, 8, ModAbilities.LEAF_BRACER.get().toString(), 5.0F, "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.");
 		addStats(Strings.pumpkinhead, Strings.pumpkinheadChain, 6, 2, ModAbilities.CRITICAL_BOOST.get().toString(), 6.0F, "Has a long reach and the ability to deal a string of critical blows.");
 		addStats(Strings.rainfell, Strings.rainfellChain, 4, 4, "", 5.0F, "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.");
 		addStats(Strings.rejectionOfFate, Strings.rejectionOfFateChain, 5, 2, "", 5.0F, "A weapon that enables your attacks to reach a wide area and deal immense damage.");
-		addStats(Strings.royalRadiance, Strings.royalRadianceChain, 9, 8, "", 5.0F, "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
+		addStats(Strings.royalRadiance, Strings.royalRadianceChain, 9, 8, ModAbilities.ENDLESS_MAGIC.get().toString(), 5.0F, "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
 		addStats(Strings.rumblingRose, Strings.rumblingRoseChain, 7, 3, "", 5.0F, "Has great strength, allowing finishing combo moves to be unleashed successively.");
 		addStats(Strings.shootingStar, Strings.shootingStarChain, 4, 6, "", 5.0F, "A Keyblade with an emphasis on Magic.");
 		addStats(Strings.signOfInnocence, Strings.signOfInnocenceChain, 6, 5, "", 5.0F, "A weapon that boosts your Magic to give it a lot more power.");
