@@ -14,7 +14,7 @@
 			"texture_height": 20,
 			"texture_width": 300,
             "images": [
-                "patchouli:status.png"
+                "kingdomkeys:journal/status.png"
             ],
             "title": "Status GUI",
             "border": true

@@ -12,7 +12,7 @@
         {
             "type": "image",
             "images": [
-                "patchouli:dream.png"
+                "kingdomkeys:journal/dream.png"
             ],
             "title": "Dive to the Heart",
             "border": true,
