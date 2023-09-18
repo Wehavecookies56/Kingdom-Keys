@@ -216,6 +216,7 @@ public class EntityEvents {
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
+					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_shard.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_stone.get()));
@@ -379,6 +380,8 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+//				playerData.setDriveFormLevel(KingdomKeys.MODID+":"+ Strings.DF_Prefix + "anti", 1);
+
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
 				//playerData.setArmorColor(Color.decode("#FF00FF").getRGB());
 				/*if(!event.player.level.isClientSide) {

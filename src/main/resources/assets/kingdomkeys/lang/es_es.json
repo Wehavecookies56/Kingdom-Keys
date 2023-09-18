@@ -311,6 +311,8 @@
 	"ability.ability_hp_gain.desc": "Recuperas VT cuando impacta un Tiro Certero. Cuantas más activas, mayor efecto.",
 	"ability.ability_endless_magic.name": "Combo ahorramagia",
 	"ability.ability_endless_magic.desc": "Reduce el tiempo de descanso entre magia y magia. Cuantas más activas, mayor efecto.",
+	"ability.ability_endless_magic.name": "Dominio Oscuro",
+	"ability.ability_endless_magic.desc": "Permite al usuario controlar la Antiforma a voluntad.",
 
 
 	"_comment": "Limits",
@@ -425,6 +427,7 @@
 	"form.form_limit.name": "Suma",
 	"form.form_master.name": "Maestra",
 	"form.form_final.name": "Final",
+	"form.form_anti.name": "Antiforma",
 
 	"_comment": "Reaction Commands",
 	"reactioncommand.rc_auto_valor.name": "Auto-valiente",

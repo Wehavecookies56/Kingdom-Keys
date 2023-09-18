@@ -71,6 +71,7 @@ public class ModAbilities {
 			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
 			GRAND_MAGIC_HASTE = createAbility(Strings.grandMagicHaste, 3, AbilityType.SUPPORT),
 			BERSERK_CHARGE = createAbility(Strings.berserkCharge, 5, AbilityType.SUPPORT),
+			DARK_DOMINATION = createAbility(Strings.darkDomination, 5, AbilityType.SUPPORT),
 			
 			
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),

@@ -403,6 +403,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Leaf Bracer", "Casting Cure on yourself will continue even when attacked.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.DARK_DOMINATION, "Dark Domination", "Allows the user to control Antiform at will.");
         
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
@@ -434,7 +435,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addDriveForm(ModDriveForms.LIMIT, "Limit");
         addDriveForm(ModDriveForms.MASTER, "Master");
         addDriveForm(ModDriveForms.FINAL, "Final");
-
+        addDriveForm(ModDriveForms.ANTI, "Antiform");
+        
         //Reaction Commands
         addReactionCommand(ModReactionCommands.AUTO_VALOR, "Auto Valor");
         addReactionCommand(ModReactionCommands.AUTO_WISDOM, "Auto Wisdom");

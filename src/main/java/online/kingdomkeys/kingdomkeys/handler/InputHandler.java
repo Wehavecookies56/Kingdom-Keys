@@ -90,6 +90,10 @@ public class InputHandler {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
         Level world = mc.level;
 
+		if(playerData.isAbilityEquipped(Strings.darkDomination)) {
+			return false;
+		}
+
         if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
         	PacketHandler.sendToServer(new CSSummonKeyblade(true));
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
@@ -377,7 +381,7 @@ public class InputHandler {
 	                        }
 	                	} else {//REVERT
 	                		
-	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) {
+	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
 	                			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		} else {
 			                	PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
@@ -1048,6 +1052,9 @@ public class InputHandler {
 
         if(playerData != null && worldData != null) {
 	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+	        if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
+	        	this.driveFormsMap.remove(Strings.Form_Anti);
+			}
 	        this.driveFormsMap.remove(DriveForm.NONE.toString());
 	        this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
 	        this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
