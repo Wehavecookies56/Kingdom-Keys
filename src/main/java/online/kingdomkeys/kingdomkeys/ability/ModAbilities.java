@@ -73,11 +73,10 @@ public class ModAbilities {
 			COMBO_PLUS = createAbility(Strings.comboPlus, 1, AbilityType.SUPPORT),
 			NEGATIVE_COMBO = createAbility(Strings.negativeCombo, 1, AbilityType.SUPPORT),
 			FINISHING_PLUS = createAbility(Strings.finishingPlus, 1, AbilityType.SUPPORT),
-
 			BERSERK_CHARGE = createAbility(Strings.berserkCharge, 5, AbilityType.SUPPORT),
-
-
-			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
+			DARK_DOMINATION = createAbility(Strings.darkDomination, 5, AbilityType.SUPPORT),
+			
+						FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),
 			BLIZZAZA = createAbility(Strings.blizzaza,3,AbilityType.SUPPORT),
 			WATERZA = createAbility(Strings.waterza,3,AbilityType.SUPPORT),
 			THUNDAZA = createAbility(Strings.thundaza,3,AbilityType.SUPPORT),

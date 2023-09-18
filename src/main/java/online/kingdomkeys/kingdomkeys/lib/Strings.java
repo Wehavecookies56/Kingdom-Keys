@@ -127,9 +127,9 @@ public class Strings {
 			comboPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"combo_plus",
 			negativeCombo = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"negative_combo",
 			finishingPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"finishing_plus",
-
     		berserkCharge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"berserk_charge",
-
+    		darkDomination = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dark_domination",
+    		
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
     		waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",

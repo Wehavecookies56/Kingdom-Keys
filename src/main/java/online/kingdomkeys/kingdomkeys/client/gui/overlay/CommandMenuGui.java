@@ -325,7 +325,7 @@ public class CommandMenuGui extends OverlayBase {
 							// Checks for limit obtaining in the future?
 							color = playerData.getLimitCooldownTicks() <= 0 && playerData.getDP() >= Utils.getMinimumDPForLimit(player) ? getColor(0xFFFFFF, SUB_MAIN) : getColor(0x888888, SUB_MAIN);
 						} else { //if is antiform and in battle is gray                                                      if has no drive forms unlocked                      if player is in base form AND the DP is not enough to get in a form 
-							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= 2 || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getDP() < Utils.getMinimumDPForDrive(playerData))) {
+							if ((playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) || playerData.getDriveFormMap().size() <= (playerData.isAbilityEquipped(Strings.darkDomination) ? 2 : 3) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getDP() < Utils.getMinimumDPForDrive(playerData))) {
 								color = getColor(0x888888, SUB_MAIN);
 							} else {
 								color = getColor(0xFFFFFF, SUB_MAIN);
@@ -566,6 +566,9 @@ public class CommandMenuGui extends OverlayBase {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
 		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+		if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
+			forms.remove(Strings.Form_Anti);
+		}
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
 		
