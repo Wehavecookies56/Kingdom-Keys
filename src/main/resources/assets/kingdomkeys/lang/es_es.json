@@ -305,6 +305,12 @@
 	"ability.ability_grand_magic_haste.desc": "Otorga al usuario una probabilidad más alta para invocar una magia mejorada. Cuantas más activas, mayor probabilidad.",
 	"ability.ability_berserk_charge.name": "Carga de Locura",
 	"ability.ability_berserk_charge.desc": "Otorga al usuario +2 de Fuerza durante la Recarga de PM. Cuantas más activas, mayor efecto.",
+	"ability.ability_leaf_bracer.name": "Hoja Sana",
+	"ability.ability_leaf_bracer.desc": "Utilizar Cura continuará aún que te ataquen.",
+	"ability.ability_hp_gain.name": "Saqueo VT",
+	"ability.ability_hp_gain.desc": "Recuperas VT cuando impacta un Tiro Certero. Cuantas más activas, mayor efecto.",
+	"ability.ability_endless_magic.name": "Combo ahorramagia",
+	"ability.ability_endless_magic.desc": "Reduce el tiempo de descanso entre magia y magia. Cuantas más activas, mayor efecto.",
 
 
 	"_comment": "Limits",

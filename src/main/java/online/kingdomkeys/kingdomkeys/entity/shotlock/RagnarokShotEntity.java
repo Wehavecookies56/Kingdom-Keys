@@ -88,6 +88,8 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
+
 		if (!level.isClientSide) {
 
 			EntityHitResult ertResult = null;

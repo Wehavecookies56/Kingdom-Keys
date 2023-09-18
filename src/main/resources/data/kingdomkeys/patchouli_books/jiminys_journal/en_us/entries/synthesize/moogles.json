@@ -1,0 +1,31 @@
+{
+	"name": "Moogles",
+	"icon": "kingdomkeys:moogle_o_glory_chain",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:synthesize",
+	"read_by_default": false,
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "These little guys are here to help you with your Synthesis! They can make anything you desire as long as you know the recipe and bring them the materials. They will also sometimes sell you useful items such as Potions. If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:moogle",
+			"scale": 0.9
+		},
+		{
+			"type": "text",
+			"text": "If you're having trouble finding them in the wild, You should consider keeping an Anvil on you. Dropping one on a $(thing)Moogle's'$() head can help you make them your permanent friend."
+		},
+		{
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/moogle.png"
+            ],
+            "title": ":c",
+            "border": true
+        }
+	]
+}

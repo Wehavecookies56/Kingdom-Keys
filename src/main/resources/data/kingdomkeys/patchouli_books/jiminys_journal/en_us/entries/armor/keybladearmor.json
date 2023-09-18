@@ -1,0 +1,17 @@
+{
+	"name": "Keyblade Armors",
+	"icon": "kingdomkeys:terra_helmet",
+	"sortnum": 3,
+	"priority": true,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These are Armor sets worn by the Warriors of light in Birth by Sleep. The armor once protected its wearer from the darkness surrounding the lanes between, now it protects you in combat."
+		},
+		{
+			"type": "text",
+			"text": "These armor sets can be crafted in the style of Terra, Ventus, Aqua, Eraqus, Xehanort and Ventus' Nightmare form. Get in a Smithing Table and combine them with an orange, blue, lime green, black, white or gray dye."
+		}
+	]
+}

@@ -403,6 +403,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ");
         addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Removes an additional attack to the user's ground attack combo. ");
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Adds an additional finisher attack to the user's ground attack combo. ");
+        addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Leaf Bracer", "Casting Cure on yourself will continue even when attacked.");
+        addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
+        
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");
