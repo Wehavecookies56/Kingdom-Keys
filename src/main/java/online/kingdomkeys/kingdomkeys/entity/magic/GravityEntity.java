@@ -107,21 +107,21 @@ public class GravityEntity extends ThrowableProjectile {
 				}
 				
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						Entity e = (Entity) list.get(i);
+					for (Entity entity : list) {
+						Entity e = entity;
 						if (e instanceof LivingEntity) {
 							IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
 							globalData.setFlatTicks(100);
-							
-							if(Utils.isHostile(e)) {
-								float dmg = this.getOwner() instanceof Player ? ((LivingEntity)e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
+
+							if (Utils.isHostile(e)) {
+								float dmg = this.getOwner() instanceof Player ? ((LivingEntity) e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
 								dmg = Math.min(dmg, 99);
 								e.hurt(DamageSource.thrown(this, this.getOwner()), dmg * dmgMult);
 							}
 							if (e instanceof LivingEntity)
 								PacketHandler.syncToAllAround((LivingEntity) e, globalData);
-	
-							if(e instanceof ServerPlayer)
+
+							if (e instanceof ServerPlayer)
 								PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
 						}
 					}

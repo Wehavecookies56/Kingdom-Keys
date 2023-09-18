@@ -1,18 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.config;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
@@ -31,6 +23,12 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MenuConfigScreen extends MenuBackground {
 		
@@ -757,7 +755,7 @@ public class MenuConfigScreen extends MenuBackground {
 				super.onRelease(pMouseX, pMouseY);
 			}
 		});
-		
+
 		addRenderableWidget(armorGlintButton = new Button(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20, Component.translatable(armorGlint+""), (e) -> { action("armorGlint"); }));
 
 

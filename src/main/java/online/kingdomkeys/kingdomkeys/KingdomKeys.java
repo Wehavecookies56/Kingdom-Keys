@@ -40,6 +40,10 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -77,6 +81,8 @@ public class KingdomKeys {
 	public static final String MODNAME = "Kingdom Keys";
 	public static final String MODVER = "2.3.1.0";
 	public static final String MCVER = "1.19.2";
+
+	public static boolean efmLoaded = false;
 
 	public static CreativeModeTab orgWeaponsGroup = new CreativeModeTab(Strings.organizationGroup) {
 		private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IOrgWeapon).map(ItemStack::new).toList());
@@ -142,8 +148,11 @@ public class KingdomKeys {
 		modEventBus.addListener(this::modLoaded);
 
 		if (ModList.get().isLoaded("epicfight")) {
-			//modEventBus.addListener(KKAnimations::register);
-			//modEventBus.addListener(EpicKKWeapons::register);
+			efmLoaded = true;
+			modEventBus.addListener(KKAnimations::register);
+			modEventBus.addListener(EpicKKWeapons::register);
+			KKSkills.register();
+			//modEventBus.addListener(KKSkills::buildSkillsEvent);
 		}
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
@@ -169,7 +178,7 @@ public class KingdomKeys {
 			@Override
 			public void run() {
 				if (ModList.get().isLoaded("epicfight")) {
-					//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
 			}
 		});

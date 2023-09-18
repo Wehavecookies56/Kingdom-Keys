@@ -150,7 +150,7 @@ public class EntityEvents {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof LivingEntity mob) {
@@ -166,7 +166,7 @@ public class EntityEvents {
 					return;
 				}
 			}
-			
+
 			if(e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
 				if(ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
@@ -177,7 +177,7 @@ public class EntityEvents {
 						if(!mob.hasCustomName()) {
 							mob.setCustomName(Component.translatable(mob.getDisplayName().getString()+" Lv."+level));
 							mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));	
+							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
 							mob.heal(mob.getMaxHealth());
 							return;
 						}
@@ -211,7 +211,7 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_stone.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_gem.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_crystal.get()));
-					
+
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.potion.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiPotion.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaPotion.get()));
@@ -311,7 +311,7 @@ public class EntityEvents {
 					}
 					playerData.equipAllKBArmor(map, true);
 				}
-				
+
 				//System.out.println(playerData.getEquippedArmors());
 				if(playerData.getEquippedArmors().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
@@ -374,8 +374,8 @@ public class EntityEvents {
 				/*if(!event.player.level.isClientSide) {
 					PacketHandler.syncToAllAround(event.player, playerData);
 				}*/
-				
-				
+
+
 				//Check if rc conditions match
 				List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
 				
@@ -571,7 +571,7 @@ public class EntityEvents {
 
 		if (globalData != null) {
 			// Stop
-			
+
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks()-1);
 				if (globalData.getStopModelTicks() <= 0) {
@@ -810,10 +810,9 @@ public class EntityEvents {
 	
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
-		//System.out.println(event.getSource());
 		if (event.getSource().getEntity() instanceof Player) {
 			Player player = (Player) event.getSource().getEntity();
-			
+
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if(weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -1229,11 +1228,12 @@ public class EntityEvents {
 	public void onPlayerClone(PlayerEvent.Clone event) {
 		Player oPlayer = event.getOriginal();
 		Player nPlayer = event.getEntity();
-				
+
 		oPlayer.reviveCaps();
 		IPlayerCapabilities oldPlayerData = ModCapabilities.getPlayer(oPlayer);
 		IPlayerCapabilities newPlayerData = ModCapabilities.getPlayer(nPlayer);
-		
+		newPlayerData.setSingleStyle(oldPlayerData.getSingleStyle());
+		newPlayerData.setDualStyle(oldPlayerData.getDualStyle());
 		newPlayerData.setLevel(oldPlayerData.getLevel());
 		newPlayerData.setExperience(oldPlayerData.getExperience());
 		newPlayerData.setExperienceGiven(oldPlayerData.getExperienceGiven());
@@ -1289,7 +1289,7 @@ public class EntityEvents {
 		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
 		newPlayerData.setArmorGlint(oldPlayerData.getArmorGlint());
 		newPlayerData.setRespawnROD(oldPlayerData.getRespawnROD());
-		
+
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
 		
@@ -1306,7 +1306,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player nPlayer = event.getEntity();
-		
+
 		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.level);
 		final IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
 		nPlayer.setHealth(playerData.getMaxHP());
@@ -1322,7 +1322,7 @@ public class EntityEvents {
 				ResourceKey<Level> dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
 				ServerLevel serverlevel = ((ServerLevel) sPlayer.level).getServer().getLevel(dimension);
 				BlockPos pos = serverlevel.getSharedSpawnPos();
-				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));							
+				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));
 			}
 		}
 	}
@@ -1341,10 +1341,10 @@ public class EntityEvents {
 					te.setUUID(player.getUUID());
 				}
 			}
-			
+
 			IWorldCapabilities fromWorldData = ModCapabilities.getWorld(player.getServer().getLevel(e.getFrom()));
 			IWorldCapabilities toWorldData = ModCapabilities.getWorld(world);
-			
+
 			toWorldData.deserializeNBT(fromWorldData.serializeNBT());
 
 			Utils.RefreshAbilityAttributes(player, playerData);

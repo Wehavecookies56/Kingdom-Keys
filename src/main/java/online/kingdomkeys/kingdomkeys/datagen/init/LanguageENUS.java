@@ -248,7 +248,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.chestplate", "Chestplate");
         add("kingdomkeys.leggings", "Leggings");
         add("kingdomkeys.boots", "Boots");
-        
+
         //Synthesis Bag
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
@@ -339,7 +339,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
-        
+
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
         addBlock(ModBlocks.rodStone, "Dark Stone");
@@ -400,7 +400,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
-        
+        addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Adds an additional attack to the user's ground attack combo. Equipping multiple Combo Plus abilities adds additional attacks to the combo. ");
+        addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Removes an additional attack to the user's ground attack combo. ");
+        addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Adds an additional finisher attack to the user's ground attack combo. ");
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");
@@ -1171,12 +1173,12 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Armour
         add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
-        
+
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
         addItem(ModItems.organizationRobe_Boots, "Organization Boots");
-        
+
         addItem(ModItems.terra_Helmet, "Terra Helmet");
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");

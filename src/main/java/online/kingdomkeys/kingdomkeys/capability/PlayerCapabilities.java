@@ -37,6 +37,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
@@ -156,7 +158,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag accessories = new CompoundTag();
 		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.serializeNBT()));
 		storage.put("accessories", accessories);
-		
+
 		CompoundTag kbArmors = new CompoundTag();
 		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.serializeNBT()));
 		storage.put("kbarmors", kbArmors);
@@ -197,10 +199,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		storage.putInt("synth_level", synthLevel);
 		storage.putInt("synth_exp", synthExp);
-		
+		storage.putString("single_style", singleStyle.toString());
+		storage.putString("dual_style", dualStyle.toString());
+
 		storage.putInt("armor_color", armorColor);
 		storage.putBoolean("armor_glint", armorGlint);
-		
+		storage.putBoolean("armor_glint", armorGlint);
+
 		storage.putBoolean("respawn_rod", respawnROD);
 		return storage;
 	}
@@ -299,7 +304,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag accessoriesNBT = nbt.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.of(accessoriesNBT.getCompound(slot))));
-		
+
 		CompoundTag kbArmorsNBT = nbt.getCompound("kbarmors");
 		kbArmorsNBT.getAllKeys().forEach((slot) -> this.setNewKBArmor(Integer.parseInt(slot), ItemStack.of(kbArmorsNBT.getCompound(slot))));
 
@@ -329,8 +334,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
-		
+
 		this.setArmorColor(nbt.getInt("armor_color"));
+		this.setArmorGlint(nbt.getBoolean("armor_glint"));
+		String s = nbt.getString("single_style");
+		if(!s.equals(""))
+			this.setSingleStyle(SingleChoices.valueOf(s));
+		s=nbt.getString("dual_style");
+		if(!s.equals(""))
+			this.setDualStyle(DualChoices.valueOf(s));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 	}
@@ -388,11 +400,34 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
-	
+
+	private SingleChoices singleStyle = SingleChoices.SORA;
+	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
+
+	@Override
+	public SingleChoices getSingleStyle() {
+		return singleStyle;
+	}
+
+	@Override
+	public void setSingleStyle(SingleChoices singleStyle) {
+		this.singleStyle = singleStyle;
+	}
+
+	@Override
+	public DualChoices getDualStyle() {
+		return dualStyle;
+	}
+
+	@Override
+	public void setDualStyle(DualChoices dualStyle) {
+		this.dualStyle = dualStyle;
+	}
+
 	private boolean respawnROD = false;
 
 	//private String armorName = "";
-	
+
 	//region Main stats, level, exp, str, mag, ap
 	@Override
 	public int getLevel() {
@@ -1275,9 +1310,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedAccessories.put(slot, stack);
 		}
 	}
-	
+
 	//region KBArmor
-	
+
 	@Override
 	public Map<Integer, ItemStack> getEquippedKBArmors() {
 		return equippedKBArmors;
@@ -1329,22 +1364,22 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedKBArmors.put(slot, stack);
 		}
 	}
-	
+
 	@Override
 	public int getArmorColor() {
 		return armorColor;
 	}
-	
+
 	@Override
 	public void setArmorColor(int color) {
 		this.armorColor = color;
 	}
-	
+
 	@Override
 	public boolean getArmorGlint() {
 		return armorGlint;
 	}
-	
+
 	@Override
 	public void setArmorGlint(boolean glint) {
 		this.armorGlint = glint;
@@ -2099,7 +2134,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setRespawnROD(boolean respawn) {
 		this.respawnROD = respawn;
-		
+
 	}
 
 }

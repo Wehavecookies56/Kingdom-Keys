@@ -12,7 +12,7 @@ public class Strings {
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
 		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
-    
+
     //Dimensions
     public static final String
     		twilightTown = "twilight_town",
@@ -35,8 +35,8 @@ public class Strings {
 			Magic_Reflect = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect",
 			Magic_Gravity = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity",
 			Magic_Stop = KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop";
-																
-    
+
+
     // Drive Forms
     public static final String
     		DF_Prefix = "form_",
@@ -46,7 +46,7 @@ public class Strings {
             Form_Master = KingdomKeys.MODID+":"+DF_Prefix+"master",
             Form_Final = KingdomKeys.MODID+":"+DF_Prefix+"final",
             Form_Anti = KingdomKeys.MODID+":"+DF_Prefix+"anti";
-            
+
     // Limits
        public static final String
 			LaserCircle = "laser_circle",
@@ -54,14 +54,14 @@ public class Strings {
        		ArrowRain = "arrow_rain",
 			SlowThunderTrail = "slow_thunder_trail",
 			FastThunderTrail = "fast_thunder_trail";
-       
+
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
        		SonicBlade = "sonic_blade",
-       		PrismRain = "prism_rain";       
-    
+       		PrismRain = "prism_rain";
+
     // Reaction Commands
        public static final String
        		autoValorRC = "rc_auto_valor",
@@ -70,7 +70,7 @@ public class Strings {
        		autoMasterRC = "rc_auto_master",
        		autoFinalRC = "rc_auto_final",
        		firazaRC = "rc_firaga";
-       
+
     // Abilities
     public static final String
     		AB_Prefix = "ability_",
@@ -81,14 +81,14 @@ public class Strings {
     		autoMaster = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_master",
     		autoFinal = KingdomKeys.MODID+":"+Strings.AB_Prefix +"auto_final",
     		strikeRaid = KingdomKeys.MODID+":"+Strings.AB_Prefix +"strike_raid",
-    		
+
     		//Growth
     		highJump = KingdomKeys.MODID+":"+Strings.AB_Prefix +"high_jump",
     		quickRun = KingdomKeys.MODID+":"+Strings.AB_Prefix +"quick_run",
     		dodgeRoll = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dodge_roll",
     		aerialDodge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"aerial_dodge",
     		glide = KingdomKeys.MODID+":"+Strings.AB_Prefix +"glide",
-    		
+
     		//Support
     		zeroExp = KingdomKeys.MODID+":"+Strings.AB_Prefix +"zero_exp",
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
@@ -121,15 +121,19 @@ public class Strings {
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
     		grandMagicHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"grand_magic_haste",
+			comboPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"combo_plus",
+			negativeCombo = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"negative_combo",
+			finishingPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"finishing_plus",
+
     		berserkCharge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"berserk_charge",
-    		
+
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"blizzaza",
     		waterza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"waterza",
     		thundaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"thundaza",
    			curaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"curaza";
 
-    
+
     // Synthesis Materials
     public static final String
             SM_Prefix = "mat_",
@@ -269,14 +273,14 @@ public class Strings {
 
             SM_EvanescentCrystal = "evanescent" + SM_Crystal,
             SM_IllusoryCrystal = "illusory" + SM_Crystal;
-    
+
     //Armors
     public static final String
     		helmet = "helmet",
     		chestplate = "chestplate",
     		leggings = "leggings",
     		boots = "boots",
-    		
+
     		organization = "organization",
     		xemnas = "xemnas",
             antiCoat = "anticoat",
@@ -354,7 +358,7 @@ public class Strings {
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
             Gui_CommandMenu_Drive_Revert = Gui_CommandMenu + ".revert",
-          
+
             // Submenus
 			Gui_CommandMenu_Items_Title = Gui_CommandMenu_Items + ".title",
             Gui_CommandMenu_Magic_Title = Gui_CommandMenu_Magic + ".title",
@@ -377,25 +381,25 @@ public class Strings {
             Gui_Menu_Main_Button_Status = Gui_Menu_Main_Button + ".status",
             Gui_Menu_Main_Button_Journal = Gui_Menu_Main_Button + ".journal",
             Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
-            
+			Gui_Menu_Main_Button_Style = Gui_Menu_Main_Button + ".style",
             Gui_Menu_Main_Synthesis_Tier = Gui_Menu_Main + ".synthesis_tier",
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",
-            
+
             Gui_Menu_Items = Gui_Menu + ".items",
             Gui_Menu_Items_Equipment = Gui_Menu_Items + ".equipment",
             Gui_Menu_Items_Stock = Gui_Menu_Items + ".stock",
-            
+
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
             Gui_Menu_Items_Equipment_Accessories = Gui_Menu_Items_Equipment + ".accessories",
             Gui_Menu_Items_Equipment_Armor = Gui_Menu_Items_Equipment + ".armor",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
-            
+
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
-            
+
             Gui_Menu_Customize = Gui_Menu + ".customize",
 
             Gui_Menu_Party = Gui_Menu + ".party",
@@ -409,9 +413,9 @@ public class Strings {
 			Gui_Menu_Party_Leader_Kick = Gui_Menu_Party+".kick",
 			Gui_Menu_Party_Leader_Disband = Gui_Menu_Party+".disband",
 			Gui_Menu_Party_Member_Leave = Gui_Menu_Party+".leave",
-            
+
             Gui_Menu_Party_Join = Gui_Menu_Party + ".join",
-            
+
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
             Gui_Menu_Status_Level = Gui_Menu_Status + ".level",
@@ -440,8 +444,9 @@ public class Strings {
 
 			Gui_Menu_Journal = Gui_Menu + ".journal",
 
-            
+
             Gui_Menu_Config = Gui_Menu + ".config",
+			Gui_Menu_Style = Gui_Menu + ".style",
             Gui_Menu_Config_Title = Gui_Menu_Config + ".title",
             Gui_Menu_Config_Colour = Gui_Menu_Config + ".colour",
             Gui_Menu_Config_Colour_Desc = Gui_Menu_Config_Colour + ".desc",
@@ -467,13 +472,13 @@ public class Strings {
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
-            
+
             Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
             Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise+".create",
-            
+
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
             Gui_Synthesis_Forge_Upgrade = Gui_Synthesis_Forge+".upgrade",
-            
+
             Gui_Synthesis_Materials = Gui_Synthesis + ".materials",
             Gui_Synthesis_Materials_Deposit = Gui_Synthesis_Materials + ".deposit",
             Gui_Synthesis_Materials_Take = Gui_Synthesis_Materials + ".take",
@@ -502,11 +507,11 @@ public class Strings {
         megaLixir = "mega_lixir",
         refocuser = "refocuser",
         hiRefocuser = "hi_refocuser",
-        driveRecovery = "drive_recovery",   
+        driveRecovery = "drive_recovery",
         hiDriveRecovery = "hi_drive_recovery",
-        
+
         synthesisBag = "synthesis_bag",
-        
+
         SpellFire = "spellfire",
         SpellBlizzard = "spellblizzard",
         SpellWater = "spellwater",
@@ -517,20 +522,20 @@ public class Strings {
         SpellReflect = "spellreflect",
         SpellGravity = "spellgravity",
         SpellStop = "spellstop",
-        
+
         LevelUpValor = "levelupdrivevalor",
         LevelUpWisdom = "levelupdrivewisdom",
         LevelUpLimit = "levelupdrivelimit",
         LevelUpMaster = "levelupdrivemaster",
         LevelUpFinal = "levelupdrivefinal",
-        
+
         gummiShip = "gummiship",
-        
+
         powerBoost = "powerboost",
         magicBoost = "magicboost",
         defenseBoost = "defenseboost",
         apBoost = "apboost",
-        
+
         abilityRing = "ability_ring",
         aquamarineRing = "aquamarine_ring",
 		cosmicArts = "cosmic_arts",
@@ -548,8 +553,8 @@ public class Strings {
     	petiteRibbon = "petite_ribbon",
     	ribbon = "ribbon",
     	grandRibbon = "grand_ribbon";
-    	
-    
+
+
     // Music Discs
     public static final String
 	    Disc_Birth_by_Sleep_A_Link_to_the_Future = "disc_0",
@@ -571,7 +576,7 @@ public class Strings {
 		Disc_Forgotten_Challenge_Recoded = "disc_16",
 		Disc_Anger_Unchained = "disc_17",
 		Disc_Hunter_Of_The_Dark = "disc_18",
-		Disc_Destati = "disc_19"		
+		Disc_Destati = "disc_19"
     ;
 
     //Keyblades

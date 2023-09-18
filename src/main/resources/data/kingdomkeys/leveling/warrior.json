@@ -37,7 +37,10 @@
     },
     "9":{
         "str":1,
-        "ap":1
+        "ap":1,
+        "abilities":[
+            "kingdomkeys:ability_combo_plus"
+        ]
     },
     "10":{
         "mag":1,
@@ -250,7 +253,8 @@
         "mag":1,
         "maxmp":4.0,
         "abilities":[
-            "kingdomkeys:ability_jackpot"
+            "kingdomkeys:ability_jackpot",
+            "kingdomkeys:ability_negative_combo"
         ]
     },
     "45":{
@@ -278,7 +282,10 @@
         ]
     },
     "49":{
-        "str":1
+        "str":1,
+        "abilities":[
+            "kingdomkeys:ability_finishing_plus"
+        ]
     },
     "50":{
         "mag":1,
@@ -389,7 +396,8 @@
         "maxmp":4.0,
         "ap":1,
         "abilities":[
-            "kingdomkeys:ability_jackpot"
+            "kingdomkeys:ability_jackpot",
+            "kingdomkeys:ability_combo_plus"
         ]
     },
     "73":{
@@ -438,7 +446,10 @@
     "84":{
         "mag":1,
         "maxmp":4.0,
-        "ap":1
+        "ap":1,
+        "abilities":[
+            "kingdomkeys:ability_combo_plus"
+        ]
     },
     "85":{
         "str":1,
@@ -487,7 +498,10 @@
     "96":{
         "mag":1,
         "maxmp":4.0,
-        "ap":1
+        "ap":1,
+        "abilities":[
+            "kingdomkeys:ability_combo_plus"
+        ]
     },
     "97":{
         "str":1

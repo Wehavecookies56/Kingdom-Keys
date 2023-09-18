@@ -1,20 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -53,12 +40,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -74,6 +57,9 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -818,7 +804,7 @@ public class Utils {
 		}
 		return abilities;
 	}
-	
+
 	public static List<String> getOrgWeaponAbilities(Item item) {
 		ArrayList<String> abilities = new ArrayList<String>();
 		KeybladeItem keyblade = null;
@@ -827,7 +813,7 @@ public class Utils {
 			if(a != null) {
 				abilities.addAll(Arrays.asList(a));
 			}
-			
+
 		}
 		return abilities;
 	}

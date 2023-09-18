@@ -25,6 +25,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -45,6 +47,9 @@ public class SCSyncCapabilityPacket {
 
 	public List<String> messages, dfMessages;
 	public String driveForm;
+
+	public SingleChoices singleStyle = SingleChoices.SORA;
+	public DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
 
 	public List<ResourceLocation> recipeList = new ArrayList<>();
 	public LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<>();
@@ -90,7 +95,8 @@ public class SCSyncCapabilityPacket {
 		this.magic = capability.getMagicStat();
 		this.defense = capability.getDefenseStat();
 		this.maxAP = capability.getMaxAPStat();
-
+		this.singleStyle = capability.getSingleStyle();
+		this.dualStyle = capability.getDualStyle();
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
