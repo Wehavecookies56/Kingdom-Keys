@@ -311,8 +311,8 @@
 	"ability.ability_hp_gain.desc": "Recuperas VT cuando impacta un Tiro Certero. Cuantas más activas, mayor efecto.",
 	"ability.ability_endless_magic.name": "Combo ahorramagia",
 	"ability.ability_endless_magic.desc": "Reduce el tiempo de descanso entre magia y magia. Cuantas más activas, mayor efecto.",
-	"ability.ability_endless_magic.name": "Dominio Oscuro",
-	"ability.ability_endless_magic.desc": "Permite al usuario controlar la Antiforma a voluntad.",
+	"ability.ability_dark_domination.name": "Dominio Oscuro",
+	"ability.ability_dark_domination.desc": "Permite al usuario controlar la Antiforma a voluntad.",
 
 
 	"_comment": "Limits",
