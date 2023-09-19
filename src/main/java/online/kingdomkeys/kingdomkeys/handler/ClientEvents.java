@@ -189,7 +189,7 @@ public class ClientEvents {
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-						player.level.addParticle(ParticleTypes.SMOKE, player.getX()+player.level.random.nextDouble() - 0.5D, player.getY()+player.level.random.nextDouble() *2D, player.getZ()+player.level.random.nextDouble() - 0.5D, 0, 0, 0);
+						player.level.addParticle(ParticleTypes.SMOKE, player.getX()+player.level.random.nextDouble() - 0.5D, player.getY()+player.level.random.nextDouble() *2D, player.getZ()+player.level.random.nextDouble() - 0.5D, (player.level.random.nextDouble() - 0.5D)*0.2, 0.1, (player.level.random.nextDouble() - 0.5D)*0.2);
 					}
 				}
 			}
