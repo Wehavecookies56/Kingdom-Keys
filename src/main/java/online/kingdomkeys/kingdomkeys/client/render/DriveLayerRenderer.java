@@ -38,7 +38,7 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
 				
 				if (form.getTextureLocation() != null) {
-					VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(form.getTextureLocation()), false, false);
+					VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(form.getTextureLocation()), false, false);
 					renderPlayer.getModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1.0F);
 				}
 			}
