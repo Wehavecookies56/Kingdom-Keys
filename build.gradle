@@ -135,6 +135,7 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
+    implementation fg.deobf("curse.maven:patchouli-306770:4031402")
     implementation fg.deobf("curse.maven:jer-240630:3951643")
     implementation fg.deobf("curse.maven:controllable-317269:4445137")
     //implementation fg.deobf("curse.maven:epicfight-405076:3990391")
