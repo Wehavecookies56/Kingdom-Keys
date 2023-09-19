@@ -139,7 +139,8 @@
         "maxmp":4.0,
         "ap":1,
         "abilities":[
-            "kingdomkeys:ability_drive_converter"
+			"kingdomkeys:ability_drive_converter",
+			"kingdomkeys:ability_endless_magic"
         ]
     },
     "25":{
@@ -234,7 +235,10 @@
     "40":{
         "mag":1,
         "maxhp":5,
-        "maxmp":4.0
+        "maxmp":4.0,
+		"abilities":[
+            "kingdomkeys:ability_leaf_bracer"
+        ]
     },
     "41":{
         "str":1

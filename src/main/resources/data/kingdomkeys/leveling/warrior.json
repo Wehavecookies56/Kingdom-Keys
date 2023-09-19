@@ -139,7 +139,10 @@
     },
     "26":{
         "mag":1,
-        "def":1
+        "def":1,
+		"abilities":[
+            "kingdomkeys:ability_leaf_bracer"
+        ]
     },
     "27":{
         "str":1,
@@ -256,7 +259,10 @@
     "45":{
         "str":1,
         "maxhp":5,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_endless_magic"
+        ]
     },
     "46":{
         "mag":1,
