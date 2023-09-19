@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -67,8 +68,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                 }
                 ItemStack itemStack = armor.get(i);
                 if (itemStack.getItem() instanceof KeybladeArmorItem item) {
-                    HumanoidModel<LivingEntity> model = armorModels.get(item);
-                    AnimatedMesh modelAnimated = CustomModelBakery.bakeBipedCustomArmorModel(model, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), debuggingMode);
+                    ArmorBaseModel<LivingEntity> model = armorModels.get(item);
+                    HumanoidModel<LivingEntity> humanoidModel = new HumanoidModel<>(model.root);
+                    AnimatedMesh modelAnimated = CustomModelBakery.bakeBipedCustomArmorModel(humanoidModel, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), debuggingMode);
                     String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
                     String textureIndex = i == 1 ? "2" : "1";
                     texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");

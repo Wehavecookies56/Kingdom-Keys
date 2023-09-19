@@ -509,8 +509,6 @@ public class ModEntities {
         event.registerLayerDefinition(EraqusModel.LAYER_LOCATION_BOTTOM, () -> EraqusModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_TOP, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(XehanortModel.LAYER_LOCATION_BOTTOM, () -> XehanortModel.createBodyLayer(new CubeDeformation(0.25F)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_TOP, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
-        event.registerLayerDefinition(UXArmorModel.LAYER_LOCATION_BOTTOM, () -> UXArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
 
         event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(AquaShoulderModel.LAYER_LOCATION, () -> AquaShoulderModel.createBodyLayer(new CubeDeformation(0)));
