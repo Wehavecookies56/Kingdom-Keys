@@ -255,6 +255,10 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.defenseBoost.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
 				}
+				
+				if(!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
+					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+				}
 
 				//Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {

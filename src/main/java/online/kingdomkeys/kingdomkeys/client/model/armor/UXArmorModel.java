@@ -56,6 +56,7 @@ public class UXArmorModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 		} else {
 		}*/
 		head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition hat = partdefinition.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(0, 0, 0, 0, 0, 0, new CubeDeformation(0)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Helmet = head.addOrReplaceChild("Helmet", CubeListBuilder.create(), PartPose.offset(0.0F, -2.2504F, -4.6043F));
 

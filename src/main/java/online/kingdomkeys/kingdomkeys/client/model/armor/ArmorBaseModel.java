@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class ArmorBaseModel<T extends LivingEntity> extends EntityModel<T> {
 
+    public final ModelPart root;
     public final ModelPart head;
     public final ModelPart body;
     public final ModelPart leftArm;
@@ -23,6 +24,7 @@ public class ArmorBaseModel<T extends LivingEntity> extends EntityModel<T> {
         this.rightArm = part.getChild("right_arm");
         this.leftLeg = part.getChild("left_leg");
         this.rightLeg = part.getChild("right_leg");
+        this.root = part;
     }
 
     @Override

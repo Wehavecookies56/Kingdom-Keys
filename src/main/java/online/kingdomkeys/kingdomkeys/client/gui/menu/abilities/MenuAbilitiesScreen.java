@@ -323,6 +323,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
+		forms.remove(Strings.Form_Anti);
 
 		int k = 0;
 		for (k = 0; k < forms.size(); k++) {
