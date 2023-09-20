@@ -87,7 +87,10 @@
         "maxmp":8
     },
     "17":{
-        "str":1
+        "str":1,
+		"abilities":[
+            "kingdomkeys:ability_leaf_bracer"
+        ]
     },
     "18":{
         "mag":1,
@@ -192,7 +195,10 @@
     "32":{
         "str":1,
         "mag":1,
-        "maxmp":4.0
+        "maxmp":4.0,
+		"abilities":[
+			"kingdomkeys:ability_endless_magic"
+        ]
 
     },
     "33":{

@@ -83,7 +83,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.irasKeyblade, Strings.irasKeybladeChain, 8, 7, "", 5.0F, "The Keyblade owned by Unicornis' Foreteller.");
 		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, "", 6.0F, "Has a long reach, but seldom deals critical blows.");
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, "", 5.0F, "A keyblade with the ability to unlock a person's heart, releasing the darkness within.");
-		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, "", 5.0F, "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
+		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.get().toString(), 5.0F, "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.get().toString(), 5.0F, "The key chain attached draws out the Keyblade's true form and power.");
 		addStats(Strings.kingdomKeyD, Strings.kingdomKeyDChain, 4, 1, "", 5.0F, "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.");
 		addStats(Strings.knockoutPunch, Strings.knockoutPunchChain, 7, 5, "", 5.0F, "A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.");
