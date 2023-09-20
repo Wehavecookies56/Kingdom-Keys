@@ -9,11 +9,8 @@ import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillCategories;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus= Mod.EventBusSubscriber.Bus.FORGE)
 public class KKSkills {
     public static Skill comboExtender;
-
-    private KKSkills() {}
 
     public static void register()
     {
@@ -21,7 +18,7 @@ public class KKSkills {
     }
 
     @SubscribeEvent
-    public static void buildSkillsEvent(SkillBuildEvent event)
+    public void buildSkillsEvent(SkillBuildEvent event)
     {
         comboExtender = event.build(KingdomKeys.MODID, "combo_extender");
     }
