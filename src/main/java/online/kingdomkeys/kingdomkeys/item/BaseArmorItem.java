@@ -75,6 +75,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 					armorModel.leftArm.visible = armorSlot == EquipmentSlot.CHEST;
 					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
 					armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
+					return new HumanoidModel<>(armorModel.root);
 				}
 				return _default;
 			}
