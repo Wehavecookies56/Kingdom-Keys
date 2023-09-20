@@ -42,38 +42,38 @@ public class StylesMenu extends MenuBackground {
         addRenderableWidget(backButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (36), (int) buttonWidth, Utils.translateToLocal("gui.menu.back"), MenuButton.ButtonType.BUTTON, e -> GuiHelper.openMenu()));
     }
 
-    private void initSingle() {
+    private void initSingle(){
         int pos = 0;
         IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(minecraft.player);
         addRenderableWidget(sora = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.sora"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.SORA, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.SORA);
+        	playerCapabilities.setSingleStyle(SingleChoices.SORA);
+        	PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.SORA.toString(), HandStyle.SINGLE.toString()));
         }));
         addRenderableWidget(roxas = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18* ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.roxas"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.ROXAS, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.ROXAS);
+        	playerCapabilities.setSingleStyle(SingleChoices.ROXAS);
+            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.ROXAS.toString(), HandStyle.SINGLE.toString()));
         }));
         addRenderableWidget(riku = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18* ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.riku"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.RIKU, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.RIKU);
+        	playerCapabilities.setSingleStyle(SingleChoices.RIKU);
+            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.RIKU.toString(), HandStyle.SINGLE.toString()));
         }));
         addRenderableWidget(terra = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18* ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.terra"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.TERRA, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.TERRA);
+        	playerCapabilities.setSingleStyle(SingleChoices.TERRA);
+            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.TERRA.toString(), HandStyle.SINGLE.toString()));
         } ));
         addRenderableWidget(aqua = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18* ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.aqua"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.AQUA, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.AQUA);
+        	playerCapabilities.setSingleStyle(SingleChoices.AQUA);
+            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.AQUA.toString(), HandStyle.SINGLE.toString()));
         }));
         addRenderableWidget(ventus = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18* ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.ventus"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.VENTUS, HandStyle.SINGLE));
-            playerCapabilities.setSingleStyle(SingleChoices.VENTUS);
+        	playerCapabilities.setSingleStyle(SingleChoices.VENTUS);
+            PacketHandler.sendToServer(new CSChangeStyle(SingleChoices.VENTUS.toString(), HandStyle.SINGLE.toString()));
         }));
 
         singleStyleList.add(sora);
@@ -82,23 +82,21 @@ public class StylesMenu extends MenuBackground {
         singleStyleList.add(terra);
         singleStyleList.add(aqua);
         singleStyleList.add(ventus);
-
     }
 
-    private void initDualStyle()
-    {
+    private void initDualStyle(){
         int pos = 0;
 
         IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(minecraft.player);
         addRenderableWidget(kh2RoxasDual = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.kh2roxasdual"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(DualChoices.KH2_ROXAS_DUAL, HandStyle.DUAL));
             playerCapabilities.setDualStyle(DualChoices.KH2_ROXAS_DUAL);
+            PacketHandler.sendToServer(new CSChangeStyle(DualChoices.KH2_ROXAS_DUAL.toString(), HandStyle.DUAL.toString()));
         }));
         addRenderableWidget(daysRoxasDual = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5 + 18 * ++pos, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.daysroxasdual"), MenuButton.ButtonType.BUTTON, e ->
         {
-            PacketHandler.sendToServer(new CSChangeStyle(DualChoices.DAYS_ROXAS_DUAL, HandStyle.DUAL));
             playerCapabilities.setDualStyle(DualChoices.DAYS_ROXAS_DUAL);
+            PacketHandler.sendToServer(new CSChangeStyle(DualChoices.DAYS_ROXAS_DUAL.toString(), HandStyle.DUAL.toString()));
         }));
 
         dualStyleList.add(kh2RoxasDual);

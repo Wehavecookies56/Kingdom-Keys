@@ -62,15 +62,11 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
-	{
-		if (delta > 0 && prev.visible)
-		{
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		if (delta > 0 && prev.visible) {
 			action("prev");
 			return true;
-		}
-		else if  (delta < 0 && next.visible)
-		{
+		} else if (delta < 0 && next.visible) {
 			action("next");
 			return true;
 		}
@@ -323,6 +319,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
+		forms.remove(Strings.Form_Anti);
 
 		int k = 0;
 		for (k = 0; k < forms.size(); k++) {

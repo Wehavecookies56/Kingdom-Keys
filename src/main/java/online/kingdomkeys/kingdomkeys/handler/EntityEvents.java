@@ -246,6 +246,10 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
 				}
 
+				if(!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
+					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+				}
+				
 				//Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {
 					switch(playerData.getChosen()) {
@@ -370,6 +374,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+				System.out.println(event.player.level.isClientSide+" "+playerData.getDualStyle());
 //				playerData.setDriveFormLevel(KingdomKeys.MODID+":"+ Strings.DF_Prefix + "anti", 1);
 
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
