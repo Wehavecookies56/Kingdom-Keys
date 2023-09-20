@@ -374,7 +374,6 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
-				System.out.println(event.player.level.isClientSide+" "+playerData.getDualStyle());
 //				playerData.setDriveFormLevel(KingdomKeys.MODID+":"+ Strings.DF_Prefix + "anti", 1);
 
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
