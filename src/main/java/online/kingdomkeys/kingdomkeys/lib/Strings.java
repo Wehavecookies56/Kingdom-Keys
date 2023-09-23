@@ -92,6 +92,7 @@ public class Strings {
     		//Support
     		zeroExp = KingdomKeys.MODID+":"+Strings.AB_Prefix +"zero_exp",
     		scan = KingdomKeys.MODID+":"+Strings.AB_Prefix +"scan",
+    		magicLockOn = KingdomKeys.MODID+":"+Strings.AB_Prefix +"magic_lock_on",
     		leafBracer = KingdomKeys.MODID+":"+Strings.AB_Prefix +"leaf_bracer",
     		hpGain = KingdomKeys.MODID+":"+Strings.AB_Prefix +"hp_gain",
     		mpSafety = KingdomKeys.MODID+":"+Strings.AB_Prefix +"mp_safety",

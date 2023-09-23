@@ -40,7 +40,7 @@ public abstract class ReactionCommand {
 		return translationKey;
 	}
 
-	public abstract void onUse(Player player, LivingEntity target);
+	public abstract void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity);
 	public abstract boolean conditionsToAppear(Player player, LivingEntity target);
 	
 	public ResourceLocation getRegistryName() {

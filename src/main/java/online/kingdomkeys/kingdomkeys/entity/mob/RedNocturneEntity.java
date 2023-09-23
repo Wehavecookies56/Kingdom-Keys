@@ -122,7 +122,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                         double d1 = this.mob.getTarget().getX() - this.mob.getX();
                         double d2 = this.mob.getTarget().getBoundingBox().minY + (double) (this.mob.getTarget().getBbHeight() / 2.0F) - (this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F));
                         double d3 = this.mob.getTarget().getZ() - this.mob.getZ();
-                        FireEntity esfb = new FireEntity(this.mob.level, this.mob, (float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
+                        FireEntity esfb = new FireEntity(this.mob.level, this.mob, (float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue(), null);
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPos(esfb.getX(), this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F) + 0.5D, esfb.getZ());
 						this.mob.level.addFreshEntity(esfb);
