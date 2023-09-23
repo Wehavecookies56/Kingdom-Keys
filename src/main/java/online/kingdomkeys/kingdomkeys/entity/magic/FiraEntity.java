@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -26,11 +27,13 @@ import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FiraEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
+	LivingEntity lockOnEntity;
 
 	public FiraEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -46,9 +49,11 @@ public class FiraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public FiraEntity(Level world, LivingEntity player, float dmgMult) {
+	public FiraEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRA.get(), player, world);
 		this.dmgMult = dmgMult;
+		this.lockOnEntity = lockOnEntity;
+
 	}
 
 	@Override
@@ -67,6 +72,13 @@ public class FiraEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
+		if(this.lockOnEntity != null && tickCount > 1) {
+			double x = (this.lockOnEntity.getX() - this.getX());
+			double y = (this.lockOnEntity.getY() - this.getY());
+			double z = (this.lockOnEntity.getZ() - this.getZ());
+			shoot(getDeltaMovement().x + x/100, getDeltaMovement().y + y/100, getDeltaMovement().z + z/100, 2F, 0);
+		}
+		
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2) {
 			float radius = 0.4F;

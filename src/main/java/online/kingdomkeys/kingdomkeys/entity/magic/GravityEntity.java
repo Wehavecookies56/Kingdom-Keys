@@ -80,7 +80,6 @@ public class GravityEntity extends ThrowableProjectile {
 		if (!level.isClientSide) {
 			float radius = 2F;
 			double X = getX();
-			
 			double Y = getY();
 			double Z = getZ();
 	

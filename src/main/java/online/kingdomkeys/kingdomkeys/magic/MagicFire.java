@@ -32,13 +32,13 @@ public class MagicFire extends Magic {
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.fire.get(), SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 1:
-			ThrowableProjectile fira = new FiraEntity(player.level, player, dmgMult);
+			ThrowableProjectile fira = new FiraEntity(player.level, player, dmgMult, lockOnEntity);
 			player.level.addFreshEntity(fira);
 			fira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.fire.get(), SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			ThrowableProjectile firaga = new FiragaEntity(player.level, player, dmgMult);
+			ThrowableProjectile firaga = new FiragaEntity(player.level, player, dmgMult, lockOnEntity);
 			player.level.addFreshEntity(firaga);
 			firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.fire.get(), SoundSource.PLAYERS, 1F, 1F);
