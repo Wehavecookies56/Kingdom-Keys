@@ -8,8 +8,6 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class KKIceCreamItem extends Item implements IItemCategory {
 
 	protected KKIceCreamItem(Properties builder) {

@@ -18,8 +18,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 import java.util.List;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class DriveOrbEntity extends ItemDropEntity {
 
 	public DriveOrbEntity(Level worldIn, double x, double y, double z, int expValue) {

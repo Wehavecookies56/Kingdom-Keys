@@ -30,7 +30,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -343,7 +343,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public static class Events {
 
 		@SubscribeEvent
-		public static void onItemDropped(EntityJoinLevelEvent event) {
+		public static void onItemDropped(EntityJoinWorldEvent event) {
 			if (event.getEntity() instanceof ItemEntity) {
 				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
 				UUID droppedID = Utils.getID(droppedItem);

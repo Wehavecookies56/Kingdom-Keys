@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -26,9 +26,9 @@ public class DriveFormMaster extends DriveForm {
 	//Hehe you won't find it here, it's in DriveOrbEntity#onPickup
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingTickEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
+	public static void onLivingUpdate(LivingUpdateEvent event) {
+		if(event.getEntityLiving() instanceof Player) {
+			Player player = (Player) event.getEntityLiving();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	
 			if (playerData != null) {

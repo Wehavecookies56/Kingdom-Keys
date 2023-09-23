@@ -13,9 +13,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import net.minecraft.world.entity.Entity.MovementEmission;
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class PairBloxEntity extends Entity {
 
 	private static final EntityDataAccessor<Integer> PAIR = SynchedEntityData.defineId(PairBloxEntity.class, EntityDataSerializers.INT);

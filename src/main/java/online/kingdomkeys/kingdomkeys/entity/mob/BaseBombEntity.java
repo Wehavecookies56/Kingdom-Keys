@@ -30,8 +30,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
 
     public int ticksToExplode;

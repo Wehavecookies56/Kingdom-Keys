@@ -28,8 +28,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class KKThrowableEntity extends ThrowableItemProjectile {
 	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);

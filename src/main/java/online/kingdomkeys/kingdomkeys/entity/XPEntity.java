@@ -17,8 +17,6 @@ import net.minecraftforge.network.PlayMessages;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class XPEntity extends Entity {
 
 	public final static int MAX_TICKS = 30;

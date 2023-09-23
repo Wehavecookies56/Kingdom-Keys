@@ -20,8 +20,6 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock {
 
     public static final BooleanProperty STRUCTURE = BooleanProperty.create("structure");

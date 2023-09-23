@@ -22,8 +22,6 @@ import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class PairBloxBlock extends BaseBlock {
 
 	public static final IntegerProperty PAIR = IntegerProperty.create("pair", 0, 2);

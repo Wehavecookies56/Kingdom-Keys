@@ -32,8 +32,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
 
     private static int min = 1, max = 10;

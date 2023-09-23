@@ -30,8 +30,6 @@ import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
@@ -76,7 +74,7 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
 			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof GummiEditorTileEntity) {
 				GummiEditorTileEntity te = (GummiEditorTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
-					NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+					NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
 						packetBuffer.writeBlockPos(pos);
 					});
 				}

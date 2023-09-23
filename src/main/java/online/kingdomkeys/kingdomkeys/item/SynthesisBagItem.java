@@ -25,8 +25,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 import java.util.List;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class SynthesisBagItem extends Item implements IItemCategory {
 
 	public SynthesisBagItem(Properties properties) {
@@ -41,7 +39,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 		if (!world.isClientSide) {
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer)player);
 			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new SynthesisBagContainer(w, p, stack), stack.getHoverName());
-			NetworkHooks.openScreen((ServerPlayer) player, container, buf -> {
+			NetworkHooks.openGui((ServerPlayer) player, container, buf -> {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 			});
 		}

@@ -14,8 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class DangerBloxBlock extends BaseBlock {
 
     /** Smaller collision box otherwise {@link #entityInside(BlockState, Level, BlockPos, Entity)} doesn't trigger */

@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -43,8 +43,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class MagicalChestBlock extends BaseEntityBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -115,7 +113,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 						if (heldID != null) {
 							if (keyblade != null) {
 								if (heldID.equals(keyblade)) {
-									NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+									NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, buf -> {
 										buf.writeBlockPos(pos);
 									});
 								} else {
@@ -129,13 +127,13 @@ public class MagicalChestBlock extends BaseEntityBlock {
 							}
 						} else if (keyblade == null) {
 							//Chest is not locked and keyblade has no ID
-							NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+							NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, buf -> {
 								buf.writeBlockPos(pos);
 							});
 						}
 					} else if (keyblade == null) {
 						//Chest is not locked so just open it
-						NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+						NetworkHooks.openGui(serverPlayerEntity, namedContainerProvider, buf -> {
 							buf.writeBlockPos(pos);
 						});
 						return InteractionResult.SUCCESS;
@@ -188,7 +186,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 		public static void onBlockBreak(BlockEvent.BreakEvent event) {
 			if (event.getState().getBlock() == ModBlocks.magicalChest.get()) {
 				if (event.getState().hasBlockEntity()) {
-					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getLevel().getBlockEntity(event.getPos());
+					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getWorld().getBlockEntity(event.getPos());
 					if (te != null) {
 						//If player is not the same as the owner AND the chest has any keyblade assigned AND the player is in survival
 						if (!te.getOwner().equals(event.getPlayer().getGameProfile().getId()) && te.getKeyblade() != null && (event.getPlayer() != null && !event.getPlayer().isCreative())) {
@@ -202,12 +200,12 @@ public class MagicalChestBlock extends BaseEntityBlock {
 		//For sneaking interaction
 		@SubscribeEvent
 		public static void onBlockRightClick(PlayerInteractEvent.RightClickBlock event) {
-			Player player = event.getEntity();
+			Player player = event.getPlayer();
 			if (player.isCrouching()) {
 				ItemStack held = player.getItemInHand(event.getHand());
 				if (held.getItem() instanceof KeybladeItem) {
 					BlockPos pos = event.getPos();
-					Level world = event.getLevel();
+					Level world = event.getWorld();
 					BlockState state = world.getBlockState(pos);
 					if (state.getBlock() == ModBlocks.magicalChest.get()) {
 						MagicalChestTileEntity te = (MagicalChestTileEntity) world.getBlockEntity(pos);

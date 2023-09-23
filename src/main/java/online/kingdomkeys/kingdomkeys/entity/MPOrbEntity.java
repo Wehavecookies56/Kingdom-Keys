@@ -12,8 +12,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 import java.util.List;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class MPOrbEntity extends ItemDropEntity {
 
 	public MPOrbEntity(Level worldIn, double x, double y, double z, int expValue) {

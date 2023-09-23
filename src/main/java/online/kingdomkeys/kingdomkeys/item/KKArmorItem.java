@@ -18,8 +18,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class KKArmorItem extends Item implements IItemCategory {
     private final int defence;
     private final ImmutableMap<KKResistanceType, Integer> resList;

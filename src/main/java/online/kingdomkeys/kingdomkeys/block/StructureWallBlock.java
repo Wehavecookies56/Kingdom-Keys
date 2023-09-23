@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class StructureWallBlock extends BaseBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;

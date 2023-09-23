@@ -3,13 +3,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.IIngameOverlay;
 
-public abstract class OverlayBase implements IGuiOverlay {
+public abstract class OverlayBase implements IIngameOverlay {
 
     Minecraft minecraft;
-    ForgeGui gui;
+    ForgeIngameGui gui;
     PoseStack poseStack;
     Font font;
 
@@ -31,7 +31,7 @@ public abstract class OverlayBase implements IGuiOverlay {
     }
 
     @Override
-    public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
+    public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
          this.gui = gui;
          this.poseStack = poseStack;
     }

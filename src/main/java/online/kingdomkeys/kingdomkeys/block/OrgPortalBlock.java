@@ -34,8 +34,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 
 	public OrgPortalBlock(Properties properties) {

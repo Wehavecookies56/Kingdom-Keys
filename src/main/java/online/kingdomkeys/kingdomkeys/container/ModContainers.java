@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
 //NOTE: they call containers menus in mojang mappings
 
 public class ModContainers {
-    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, KingdomKeys.MODID);
+    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, KingdomKeys.MODID);
 
     public static final RegistryObject<MenuType<?>>
         SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),

@@ -18,8 +18,6 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class ArrowgunShotEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;

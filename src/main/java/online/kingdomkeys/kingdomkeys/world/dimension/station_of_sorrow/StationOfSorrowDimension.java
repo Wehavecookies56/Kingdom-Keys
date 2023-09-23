@@ -6,10 +6,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
@@ -22,7 +22,7 @@ public class StationOfSorrowDimension{
     //Set the fog density to fade out the bottom of the platform
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void renderFog(ViewportEvent.RenderFog event) {
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         Level world = Minecraft.getInstance().level;
         if (world != null) {
             if (world.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
@@ -34,9 +34,9 @@ public class StationOfSorrowDimension{
 
     //Prevent player from falling off the platform
     @SubscribeEvent
-    public static void entityTick(LivingTickEvent event) {
-        if (event.getEntity().level.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-        	if(event.getEntity() instanceof Player player) {
+    public static void entityTick(LivingUpdateEvent event) {
+        if (event.getEntityLiving().level.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+        	if(event.getEntityLiving() instanceof Player player) {
     			if (!player.isCreative()) {
 	                if (player.getY() < 10) {
 	                    player.teleportTo(0, 25, 0);
@@ -44,7 +44,7 @@ public class StationOfSorrowDimension{
 	            }
 	        }
         	
-        	if(event.getEntity() instanceof MarluxiaEntity marluxia) {
+        	if(event.getEntityLiving() instanceof MarluxiaEntity marluxia) {
 	            if (marluxia.getY() < 10) {
 	            	marluxia.teleportTo(0, 25, 0);
 	            }
@@ -63,10 +63,10 @@ public class StationOfSorrowDimension{
 
     @SubscribeEvent
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getEntity().isCreative()) {
-            if (event.getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-                if (event.getLevel().getBlockEntity(event.getPos()) != null) { //If is a TE
-                    if (event.getEntity().isShiftKeyDown()) { //If the player is shifting cancel it (places blocks)
+        if (!event.getPlayer().isCreative()) {
+            if (event.getWorld().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+                if (event.getWorld().getBlockEntity(event.getPos()) != null) { //If is a TE
+                    if (event.getPlayer().isShiftKeyDown()) { //If the player is shifting cancel it (places blocks)
                         event.setCanceled(true);
                     }
                 } else {

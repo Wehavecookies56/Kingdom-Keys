@@ -26,8 +26,6 @@ import online.kingdomkeys.kingdomkeys.util.SetBlockStateFlags;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 /**
  * Some parts copied from {@link net.minecraft.world.level.block.TntBlock}
  */

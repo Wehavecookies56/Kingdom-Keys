@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class ThunderBoltEntity extends ThrowableProjectile {
 	private int lightningState;
 	public long boltVertex;

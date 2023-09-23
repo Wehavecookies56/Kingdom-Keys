@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.world.entity.Entity.RemovalReason;
-
 public class MagnegaEntity extends ThrowableProjectile {
 
 	int maxTicks = 160;

@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TranslatableComponent;
 
-import net.minecraft.client.gui.components.Button.OnPress;
-
 public class MenuButtonBase extends Button {
 
 	boolean selected = false;

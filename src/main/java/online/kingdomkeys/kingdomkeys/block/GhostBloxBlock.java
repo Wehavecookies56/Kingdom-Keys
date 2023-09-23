@@ -25,8 +25,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
 public class GhostBloxBlock extends BaseBlock implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
