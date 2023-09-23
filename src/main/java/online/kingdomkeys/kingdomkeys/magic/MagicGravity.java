@@ -28,16 +28,27 @@ public class MagicGravity extends Magic {
 				ThrowableProjectile gravity = new GravityEntity(player.level, player, dmg * 1F);
 				player.level.addFreshEntity(gravity);
 				gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
+				if(lockOnEntity != null) {
+					gravity.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
+				}
 			}
 			case 1 -> {
 				ThrowableProjectile gravira = new GraviraEntity(player.level, player, dmg * 1.1F);
 				player.level.addFreshEntity(gravira);
 				gravira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.3F, 0);
+				if(lockOnEntity != null) {
+					gravira.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
+				}
+
 			}
 			case 2 -> {
 				ThrowableProjectile graviga = new GravigaEntity(player.level, player, dmg * 1.2F);
 				player.level.addFreshEntity(graviga);
 				graviga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.6F, 0);
+				if(lockOnEntity != null) {
+					graviga.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
+				}
+
 			}
 		}
 		player.swing(InteractionHand.MAIN_HAND);
