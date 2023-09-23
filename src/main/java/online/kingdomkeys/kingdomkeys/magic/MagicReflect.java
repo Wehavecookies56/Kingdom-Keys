@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,7 +17,7 @@ public class MagicReflect extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
+	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setReflectTicks((int) (40 + (level * 5)), level);
 		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -71,7 +72,7 @@ public abstract class Magic {
     	this.data = data;
     }
    
-    protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
+    protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 
     }
     
@@ -80,7 +81,8 @@ public abstract class Magic {
      * @param player
      * @param caster
      */
-    public final void onUse(Player player, Player caster, int level) {
+    public final void onUse(Player player, Player caster, int level, LivingEntity lockOnEntity) {
+    	System.out.println("Final: "+lockOnEntity);
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
@@ -115,7 +117,11 @@ public abstract class Magic {
 			}
 		}
 		
-    	magicUse(player, caster, level, fullMPBlastMult);
+		if(!casterData.isAbilityEquipped(Strings.magicLockOn)) {
+			lockOnEntity = null;
+		}
+		System.out.println("Finalisima: "+lockOnEntity);
+    	magicUse(player, caster, level, fullMPBlastMult, lockOnEntity);
     	caster.swing(InteractionHand.MAIN_HAND, true);
 		//MinecraftForge.EVENT_BUS.post(new UpdatePlayerMotionEvent.BaseLayer((LocalPlayerPatch) player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null), KKLivingMotionsEnum.SPELL));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);

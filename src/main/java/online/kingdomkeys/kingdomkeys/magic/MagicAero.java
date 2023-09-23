@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,8 +17,8 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult) {
-		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.aero1.get(), SoundSource.PLAYERS, 1F, 1F);
+	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		player.level.playSound(null, player.blockPosition(), ModSounds.aero1.get(), SoundSource.PLAYERS, 1F, 1F);
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		globalData.setAeroTicks(time, level);

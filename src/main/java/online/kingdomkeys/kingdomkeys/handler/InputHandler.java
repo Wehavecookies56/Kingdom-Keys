@@ -601,10 +601,10 @@ public class InputHandler {
                         CommandMenuGui.submenu = CommandMenuGui.SUB_TARGET;
     	                world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
-            		} else {
+            		} else { //Cast Magic
                 		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
                 		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
-            			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level));
+            			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level, lockOn));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
             		}
@@ -690,7 +690,7 @@ public class InputHandler {
     			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
     			if (globalData != null && globalData.getStoppedTicks() <= 0) {
     				if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-                        PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321));
+                        PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                     }    		
     			}                
             }
@@ -700,7 +700,7 @@ public class InputHandler {
     			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
     			if (globalData != null && globalData.getStoppedTicks() <= 0) {
 	                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-	                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49));
+	                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
 	                }
     			}
                 return;
@@ -941,7 +941,7 @@ public class InputHandler {
     	if(!reactionList.isEmpty()) {
     		Minecraft mc = Minecraft.getInstance();
     		Player player = mc.player;
-			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected));
+			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
 			CommandMenuGui.reactionSelected = 0;
 			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		}
