@@ -1,0 +1,16 @@
+{
+	"name": "Shadow",
+	"icon": "kingdomkeys:shadow_spawn_egg",
+	"category": "kingdomkeys:heartless",
+	"read_by_default": false,
+	"sortnum": 1,
+	"pages": [{
+			"type": "text",
+			"text": "Heartless that emerge from various places. They sneak up to their enemies with sharp claws. They are extremely tenacious, often chasing their prey to the end."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:shadow"
+		}
+	]
+}

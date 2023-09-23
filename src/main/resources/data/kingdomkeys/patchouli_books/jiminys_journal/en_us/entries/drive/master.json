@@ -1,0 +1,13 @@
+{
+	"name": "Master Form",
+	"icon": "kingdomkeys:levelupdrivemaster",
+	"sortnum": 4,
+	"priority": true,
+	"category": "kingdomkeys:drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "This form gains XP for every Drive Orb (The Black and Yellow orbs dropped by hostile mobs.) picked up while in the form. Leveling this form will reward you with permenant access to the Aerial Dodge ability."
+		}
+	]
+}

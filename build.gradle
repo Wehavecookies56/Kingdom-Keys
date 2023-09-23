@@ -97,13 +97,15 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.10'
 
     //JEI
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     implementation fg.deobf("curse.maven:jer-240630:3760449")
     implementation fg.deobf("curse.maven:epicfight-405076:3990391")
+	
+	implementation fg.deobf("curse.maven:patchouli-306770:3846086")
 }
 
 jar {
