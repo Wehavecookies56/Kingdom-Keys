@@ -23,27 +23,25 @@ public class MagicThunder extends Magic {
 
 		switch(level) {
 		case 0:
-			ThunderEntity thunderController = new ThunderEntity(player.level, player, dmgMult);
+			ThunderEntity thunderController = new ThunderEntity(player.level, player, dmgMult, lockOnEntity);
 			thunderController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thunderController);
 			break;
 		case 1:
-			ThundaraEntity thundaraController = new ThundaraEntity(player.level, player, dmgMult);
+			ThundaraEntity thundaraController = new ThundaraEntity(player.level, player, dmgMult, lockOnEntity);
 			thundaraController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundaraController);
 			break;
 		case 2:
-			ThundagaEntity thundagaController = new ThundagaEntity(player.level, player, dmgMult);
+			ThundagaEntity thundagaController = new ThundagaEntity(player.level, player, dmgMult, lockOnEntity);
 			thundagaController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundagaController);
 			break;
 		case 3:
-			ThundazaEntity thundazaController = new ThundazaEntity(player.level, player, dmgMult);
+			ThundazaEntity thundazaController = new ThundazaEntity(player.level, player, dmgMult, lockOnEntity);
 			thundazaController.setCaster(player.getUUID());
 			player.level.addFreshEntity(thundazaController);
 			break;
 		}
-		
 	}
-
 }

@@ -26,7 +26,6 @@ public class CSUseMagicPacket {
 		this.name = name;
 		this.allyTarget = "";
 		this.level = level;
-		System.out.println("Magic P: "+lockedTarget);
 
 		this.lockedTarget = lockedTarget == null ? -1 : lockedTarget.getId();
 	}

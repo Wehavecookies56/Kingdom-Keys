@@ -26,7 +26,6 @@ public class CSUseShortcutPacket {
 
 	public CSUseShortcutPacket(int index, LivingEntity lockOnTarget) {
 		this.index = index;
-		System.out.println("Shortcut P: "+lockOnTarget);
 		this.lockOnTarget = lockOnTarget == null ? -1 : lockOnTarget.getId();
 	}
 

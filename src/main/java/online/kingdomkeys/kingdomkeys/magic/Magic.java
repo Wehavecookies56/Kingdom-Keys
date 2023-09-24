@@ -63,6 +63,10 @@ public abstract class Magic {
     	return hasTargetSelector;
     }
     
+    public boolean getMagicLockOn(int lvl) {
+    	return data.getMagicLockOn(lvl);
+    }
+    
     public Ability getGMAbility() {
     	if(gmAbility == null)
     		return null;
@@ -87,7 +91,6 @@ public abstract class Magic {
      * @param caster
      */
     public final void onUse(Player player, Player caster, int level, LivingEntity lockOnEntity) {
-    	System.out.println("Final: "+lockOnEntity);
     	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
@@ -125,7 +128,6 @@ public abstract class Magic {
 		if(!casterData.isAbilityEquipped(Strings.magicLockOn)) {
 			lockOnEntity = null;
 		}
-		System.out.println("Finalisima: "+lockOnEntity);
     	magicUse(player, caster, level, fullMPBlastMult, lockOnEntity);
     	caster.swing(InteractionHand.MAIN_HAND, true);
 		//TODO magic efm

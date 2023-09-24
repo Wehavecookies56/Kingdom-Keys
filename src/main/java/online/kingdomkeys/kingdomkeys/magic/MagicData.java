@@ -1,22 +1,24 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 /**
- * Stores the data loaded from the driveforms datapack
+ * Stores the data loaded from the magics datapack
  */
 public class MagicData {
 
     float[] dmgMult = new float[4];
     int[] cost = new int[4];
     int[] cd = new int[4];
+    boolean[] magicLockOn = new boolean[4];
     
     public MagicData() {
 
     }
 
-    public MagicData(int level, int cost, int cd, float dmgMult, float magMult) {
+    public MagicData(int level, int cost, int cd, float dmgMult, float magMult, boolean magicLockOn) {
     	this.cost[level] = cost;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
+		this.magicLockOn[level] = magicLockOn;
 	}
 
     public int getCost(int lvl) {
@@ -41,5 +43,13 @@ public class MagicData {
 
 	public void setDmgMult(int lvl, float dmgMult) {
 		this.dmgMult[lvl] = dmgMult;
+	}
+	
+	public boolean getMagicLockOn(int lvl) {
+		return magicLockOn[lvl];
+	}
+
+	public void setMagicLockon(int lvl, boolean lockOn) {
+		this.magicLockOn[lvl] = lockOn;
 	}
 }
