@@ -2,21 +2,25 @@
 	"0": {
 		"cost":15,
 		"cooldown":3,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"magic_lock_on":false
 	},
 	"1": {
 		"cost":15,
 		"cooldown":3,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"magic_lock_on":false
 	},
 	"2": {
 		"cost":15,
 		"cooldown":3,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"magic_lock_on":false
 	},
 	"3": {
 		"cost":15,
 		"cooldown":3,
-		"dmg_mult":1.0
+		"dmg_mult":1.0,
+		"magic_lock_on":false
 	}
 }

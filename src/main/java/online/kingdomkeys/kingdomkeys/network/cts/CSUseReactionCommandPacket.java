@@ -25,7 +25,6 @@ public class CSUseReactionCommandPacket {
 	
 	public CSUseReactionCommandPacket(int level, LivingEntity lockedOnEntity) {
 		this.index = level;
-		System.out.println("RC P: "+lockedOnEntity);
 		this.lockedOnEntity = lockedOnEntity == null ? -1 : lockedOnEntity.getId();
 	}
 

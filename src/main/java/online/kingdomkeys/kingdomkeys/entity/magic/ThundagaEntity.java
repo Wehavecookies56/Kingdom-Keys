@@ -34,6 +34,7 @@ public class ThundagaEntity extends ThrowableProjectile {
 
 	int maxTicks = 40;
 	float dmgMult = 1;
+	LivingEntity lockedOnEntity;
 	
 	public ThundagaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -49,10 +50,12 @@ public class ThundagaEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThundagaEntity(Level world, Player player, float dmgMult) {
+	public ThundagaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAGA.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
+		this.lockedOnEntity = lockedOnEntity;
+
 	}
 
 	@Override
@@ -112,7 +115,11 @@ public class ThundagaEntity extends ThrowableProjectile {
 
 		if (!level.isClientSide && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
-				list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
+				if(lockedOnEntity != null) {
+					list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), lockedOnEntity, radius, radius, radius);
+				} else {
+					list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
+				}
 				list.remove(this);
 			}
 
@@ -136,9 +143,14 @@ public class ThundagaEntity extends ThrowableProjectile {
 						this.level.addFreshEntity(lightningBoltEntity);
 					}
 				} else {
-					int x = (int) getCaster().getX();
-					int z = (int) getCaster().getZ();
-
+					int x,z;
+					if(lockedOnEntity != null) {
+						x = (int) lockedOnEntity.getX();
+						z = (int) lockedOnEntity.getZ();
+					} else {
+						x = (int) getCaster().getX();
+						z = (int) getCaster().getZ();
+					}
 					int posX = (int) (x + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
 
