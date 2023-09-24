@@ -23,25 +23,41 @@ public class MagicMagnet extends Magic {
 
 		switch(level) {
 		case 0:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1.1F);
-			MagnetEntity magent = new MagnetEntity(player.level, player, dmg);
-			magent.setCaster(player.getUUID());
-			player.level.addFreshEntity(magent);
-			magent.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+			player.level.playSound(null, player.blockPosition(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1.1F);
+			MagnetEntity magnet = new MagnetEntity(player.level, player, dmg);
+			magnet.setCaster(player.getUUID());
+			if(lockOnEntity != null) {
+				magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
+				magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
+			} else {
+				magnet.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+			}
+			player.level.addFreshEntity(magnet);
+
 			break;
 		case 1:
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			MagneraEntity magnera = new MagneraEntity(player.level, player, dmg);
 			magnera.setCaster(player.getUUID());
+			if(lockOnEntity != null) {
+				magnera.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
+				magnera.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
+			} else {
+				magnera.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+			}			
 			player.level.addFreshEntity(magnera);
-			magnera.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
 			break;
 		case 2:
 			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 0.8F);
 			MagnegaEntity magnega = new MagnegaEntity(player.level, player, dmg);
 			magnega.setCaster(player.getUUID());
+			if(lockOnEntity != null) {
+				magnega.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
+				magnega.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
+			} else {
+				magnega.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+			}
 			player.level.addFreshEntity(magnega);
-			magnega.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
 			break;
 		}
 		
