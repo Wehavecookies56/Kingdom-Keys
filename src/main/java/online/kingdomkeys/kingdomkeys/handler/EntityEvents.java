@@ -987,11 +987,12 @@ public class EntityEvents {
 								
 				if (target instanceof Player) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer((Player) target);
-	
-					if (playerData.getReflectTicks() > 0) { // If is casting reflect
-						if (!playerData.getReflectActive()) // If has been hit while casting reflect
-							playerData.setReflectActive(true);
-						event.setCanceled(true);
+					if (playerData != null) {
+						if (playerData.getReflectTicks() > 0) { // If is casting reflect
+							if (!playerData.getReflectActive()) // If has been hit while casting reflect
+								playerData.setReflectActive(true);
+							event.setCanceled(true);
+						}
 					}
 				}
 	
