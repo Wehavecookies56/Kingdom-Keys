@@ -111,11 +111,7 @@ public class DarkballEntity extends BaseKHEntity {
     protected void customServerAiStep() {
        // LivingEntity target = this.getAttackTarget();
 
-        if(EntityHelper.getState(this) == 3)
-            this.setInvulnerable(true);
-        else
-            this.setInvulnerable(false);
-
+        this.setInvulnerable(false);
         super.customServerAiStep();
     }
 
