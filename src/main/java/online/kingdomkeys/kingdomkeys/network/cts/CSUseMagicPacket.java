@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -16,29 +17,33 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSUseMagicPacket {
 	
-	String name, target;
-	int level;
+	String name, allyTarget;
+	int level, lockedTarget;
 	
 	public CSUseMagicPacket() {}
 
-	public CSUseMagicPacket(String name, int level) {
+	public CSUseMagicPacket(String name, int level, LivingEntity lockedTarget) {
 		this.name = name;
-		this.target = "";
+		this.allyTarget = "";
 		this.level = level;
+
+		this.lockedTarget = lockedTarget == null ? -1 : lockedTarget.getId();
 	}
 	
 	public CSUseMagicPacket(String name, String target, int level) {
 		this.name = name;
-		this.target = target;
+		this.allyTarget = target;
 		this.level = level;
+		this.lockedTarget = -1;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
 		buffer.writeUtf(this.name);
-		buffer.writeInt(this.target.length());
-		buffer.writeUtf(this.target);
+		buffer.writeInt(this.allyTarget.length());
+		buffer.writeUtf(this.allyTarget);
 		buffer.writeInt(this.level);
+		buffer.writeInt(this.lockedTarget);
 	}
 
 	public static CSUseMagicPacket decode(FriendlyByteBuf buffer) {
@@ -46,8 +51,9 @@ public class CSUseMagicPacket {
 		int length = buffer.readInt();
 		msg.name = buffer.readUtf(length);
 		length = buffer.readInt();
-		msg.target = buffer.readUtf(length);
+		msg.allyTarget = buffer.readUtf(length);
 		msg.level = buffer.readInt();
+		msg.lockedTarget = buffer.readInt();
 		return msg;
 	}
 
@@ -58,11 +64,16 @@ public class CSUseMagicPacket {
 				if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 					
-					if(message.target.equals("")) {
-		            	ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level);
-					} else {
-						Player targetEntity = Utils.getPlayerByName(player.level, message.target);
-		            	ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(targetEntity, player, message.level);
+					if(message.allyTarget.equals("")) { // Direct magic
+						if(message.lockedTarget > -1) {
+							ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level, (LivingEntity) player.level.getEntity(message.lockedTarget));
+						} else {
+							ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level, null);
+
+						}
+					} else { // On party member
+						Player allyTargetEntity = Utils.getPlayerByName(player.level, message.allyTarget);
+		            	ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(allyTargetEntity, player, message.level, null);
 					}
 				}
 				

@@ -19,7 +19,7 @@ apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemappe
 
 
 def mcver = "1.19.2"
-version = mcver + '-2.3.2.0'
+version = mcver + '-2.3.2.1'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 
@@ -133,14 +133,14 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.21'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.3.0'
 
     //JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     implementation fg.deobf("curse.maven:jer-240630:3951643")
-    implementation fg.deobf("curse.maven:controllable-317269:4445137")
+    //implementation fg.deobf("curse.maven:controllable-317269:4445137")
     //implementation fg.deobf("curse.maven:epicfight-405076:3990391")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
@@ -151,8 +151,6 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
     implementation fg.deobf("epicfight:epicfight:19.5.0.19")
-
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 	
 	implementation fg.deobf("curse.maven:patchouli-306770:4031402")
 

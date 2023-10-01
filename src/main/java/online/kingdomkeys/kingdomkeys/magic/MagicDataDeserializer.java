@@ -39,6 +39,9 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				case "dmg_mult":
 					out.setDmgMult(level, element2.getAsFloat());
 					break;
+				case "magic_lock_on":
+					out.setMagicLockon(level, element2.getAsBoolean());
+					break;
 				}
 			});
 

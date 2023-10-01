@@ -95,8 +95,6 @@ public class SCSyncCapabilityPacket {
 		this.magic = capability.getMagicStat();
 		this.defense = capability.getDefenseStat();
 		this.maxAP = capability.getMaxAPStat();
-		this.singleStyle = capability.getSingleStyle();
-		this.dualStyle = capability.getDualStyle();
 		this.MP = capability.getMP();
 		this.maxMP = capability.getMaxMP();
 		this.recharge = capability.getRecharge();
@@ -149,6 +147,10 @@ public class SCSyncCapabilityPacket {
 		this.synthExp = capability.getSynthExperience();
 		
 		this.respawnROD = capability.getRespawnROD();
+		
+		this.singleStyle = capability.getSingleStyle();
+		this.dualStyle = capability.getDualStyle();
+
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -300,6 +302,10 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.synthExp);
 		
 		buffer.writeBoolean(this.respawnROD);
+		
+		buffer.writeUtf(singleStyle.toString(), 20);
+		buffer.writeUtf(dualStyle.toString(), 20);
+
 	}
 
 	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -443,6 +449,10 @@ public class SCSyncCapabilityPacket {
 		msg.synthExp = buffer.readInt();
 		
 		msg.respawnROD = buffer.readBoolean();
+		
+		msg.singleStyle = SingleChoices.valueOf(buffer.readUtf(20));
+		msg.dualStyle = DualChoices.valueOf(buffer.readUtf(20));
+
 		return msg;
 	}
 

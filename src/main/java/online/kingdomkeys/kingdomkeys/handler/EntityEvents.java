@@ -246,6 +246,10 @@ public class EntityEvents {
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
 				}
 
+				if(!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
+					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+				}
+				
 				//Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {
 					switch(playerData.getChosen()) {
@@ -971,11 +975,12 @@ public class EntityEvents {
 								
 				if (target instanceof Player) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer((Player) target);
-	
-					if (playerData.getReflectTicks() > 0) { // If is casting reflect
-						if (!playerData.getReflectActive()) // If has been hit while casting reflect
-							playerData.setReflectActive(true);
-						event.setCanceled(true);
+					if (playerData != null) {
+						if (playerData.getReflectTicks() > 0) { // If is casting reflect
+							if (!playerData.getReflectActive()) // If has been hit while casting reflect
+								playerData.setReflectActive(true);
+							event.setCanceled(true);
+						}
 					}
 				}
 	

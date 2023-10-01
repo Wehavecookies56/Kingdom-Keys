@@ -38,6 +38,7 @@ public class ModAbilities {
 			// Support
 			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
 			SCAN = createAbility(Strings.scan, 1, AbilityType.SUPPORT),
+			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT), 
 			LEAF_BRACER = createAbility(Strings.leafBracer, 1, AbilityType.SUPPORT),
 			HP_GAIN = createAbility(Strings.hpGain,6,AbilityType.SUPPORT),
 			MP_SAFETY = createAbility(Strings.mpSafety, 0, AbilityType.SUPPORT),

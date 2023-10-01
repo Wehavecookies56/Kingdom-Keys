@@ -26,12 +26,14 @@ import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FireEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
-	
+	LivingEntity lockOnEntity;
+		
 	public FireEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
@@ -46,9 +48,10 @@ public class FireEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public FireEntity(Level world, LivingEntity player, float dmgMult) {
+	public FireEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRE.get(), player, world);
 		this.dmgMult = dmgMult;
+		this.lockOnEntity = lockOnEntity;
 	}
 
 	@Override
@@ -60,13 +63,19 @@ public class FireEntity extends ThrowableProjectile {
 	protected float getGravity() {
 		return 0F;
 	}
-
+		
 	@Override
 	public void tick() {
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
 
+		if(this.lockOnEntity != null && tickCount > 1) {
+			double x = (this.lockOnEntity.getX() - this.getX());
+			double y = (this.lockOnEntity.getY() - this.getY());
+			double z = (this.lockOnEntity.getZ() - this.getZ());
+			shoot(getDeltaMovement().x + x/100, getDeltaMovement().y + y/100, getDeltaMovement().z + z/100, 2F, 0);
+		}
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2)
 			level.addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);

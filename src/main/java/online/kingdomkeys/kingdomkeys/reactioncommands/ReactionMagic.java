@@ -19,7 +19,7 @@ public class ReactionMagic extends ReactionCommand {
 
 	public ReactionMagic(String registryName) {
 		super(registryName, false);
-		this.magic = registryName;
+		this.magic = registryName;		
 	}
 	
 	public String getMagicName() {
@@ -48,7 +48,7 @@ public class ReactionMagic extends ReactionCommand {
 
 	
 	@Override
-	public void onUse(Player player, LivingEntity target) {
+	public void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity) {
 		Magic mag = ModMagic.registry.get().getValue(new ResourceLocation(getMagicName()));
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		int level = playerData.getMagicLevel(new ResourceLocation(getMagicName()));
@@ -62,7 +62,7 @@ public class ReactionMagic extends ReactionCommand {
 			level = mag.getMaxLevel()+1;
 		}
 		
-		mag.onUse(player, player, level);
+		mag.onUse(player, player, level, lockedOnEntity);
 		playerData.removeReactionCommand(getRegistryName().toString());
 	}
 

@@ -44,7 +44,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	}
 	
 	@Override
-	public void onUse(Player player, LivingEntity target) {
+	public void onUse(Player player, LivingEntity target, LivingEntity lockOnEntity) {
 		if(conditionsToAppear(player,target)) {
 			player.level.playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
