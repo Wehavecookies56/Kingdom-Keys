@@ -236,11 +236,8 @@ public class Utils {
 	}
 
 	public static LinkedHashMap<Material, Integer> getSortedMaterials(Map<Material, Integer> materials) {
-		ArrayList<Material> list = new ArrayList<>();
 
-		for (Material m : materials.keySet()) {
-			list.add(m);
-		}
+		ArrayList<Material> list = new ArrayList<>(materials.keySet());
 		list.sort(Comparator.comparing(Material::getMaterialName));
 
 		LinkedHashMap<Material, Integer> map = new LinkedHashMap<>();
@@ -259,7 +256,7 @@ public class Utils {
 			list.add(ModAbilities.registry.get().getValue(new ResourceLocation(entry)));
 		}
 
-		Collections.sort(list, Comparator.comparingInt(Ability::getOrder));
+		list.sort(Comparator.comparingInt(Ability::getOrder));
 
 		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -277,7 +274,7 @@ public class Utils {
 			list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
 		}
 
-		Collections.sort(list, Comparator.comparingInt(DriveForm::getOrder));
+		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
 		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
 		for (int i = 0; i < list.size(); i++) {

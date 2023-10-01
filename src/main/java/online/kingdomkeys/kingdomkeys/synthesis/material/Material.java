@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 //TODO Should be an API thing
 
@@ -16,13 +17,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class Material {
 
     Supplier<Item> material;
-    private String registryName;
+    private ResourceLocation registryName;
 
     public Material(Supplier<Item> material) {
         this.material = material;
     }
 
-    public Material(String registryName, Supplier<Item> material) {
+    public Material(ResourceLocation registryName, Supplier<Item> material) {
         this(material);
         this.registryName = registryName;
     }
@@ -32,7 +33,7 @@ public class Material {
     }
 
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(registryName);
+        return registryName;
     }
 
 }

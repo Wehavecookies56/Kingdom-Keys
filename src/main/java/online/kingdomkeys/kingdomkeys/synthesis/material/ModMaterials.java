@@ -26,7 +26,7 @@ public class ModMaterials {
     public static class Registry {
 
         public static Material createMaterial(Supplier<Item> item, String name) {
-            return new Material(KingdomKeys.MODID + ":" + Strings.SM_Prefix + name, item);
+            return new Material(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + name), item);
         }
 
         @SubscribeEvent

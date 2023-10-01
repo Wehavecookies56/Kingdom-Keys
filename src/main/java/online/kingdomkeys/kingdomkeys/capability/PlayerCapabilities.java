@@ -58,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -278,17 +279,23 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
-			this.getShotlockList().add(key);
+			if (ModShotlocks.registry.get().containsKey(new ResourceLocation(key))) {
+				this.getShotlockList().add(key);
+			}
 		}
 
 		this.setEquippedShotlock(nbt.getString("equipped_shotlock"));
 
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
-			this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
+			if (ModDriveForms.registry.get().containsKey(new ResourceLocation(driveFormName))) {
+				this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
+			}
 		}
 
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
-			this.getAbilityMap().put(abilityName, nbt.getCompound("abilities").getIntArray(abilityName));
+			if (ModAbilities.registry.get().containsKey(new ResourceLocation(abilityName))) {
+				this.getAbilityMap().put(abilityName, nbt.getCompound("abilities").getIntArray(abilityName));
+			}
 		}
 
 		CompoundTag keychainsNBT = nbt.getCompound("keychains");
@@ -317,7 +324,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
-			this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
+			if (ModMaterials.registry.get().containsKey(new ResourceLocation(mat))) {
+				this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
+			}
 		}
 
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));

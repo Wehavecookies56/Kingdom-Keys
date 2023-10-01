@@ -27,7 +27,7 @@ public abstract class DriveForm {
 	public static final float[] FINAL_GLIDE = { 0, -0.12F, -0.12F, -0.08F, -0.08F, -0.04F, -0.04F, -0.01F };
 	public static final float[] FINAL_GLIDE_SPEED = { 0, 0.4F, 0.4F, 0.5F, 0.5F, 0.6F, 0.6F, 0.7F };
 	
-	String name;
+	ResourceLocation name;
 	int maxLevel;
 	int order;
 	float[] color;
@@ -40,7 +40,7 @@ public abstract class DriveForm {
 	private DriveFormData data;	
 
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain) {
-		this.name = registryName.toString();
+		this.name = registryName;
 		this.maxLevel = 7;
 		this.order = order;
 		this.hasKeychain = hasKeychain;
@@ -64,7 +64,7 @@ public abstract class DriveForm {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 
 	public String getTranslationKey() {
@@ -199,7 +199,7 @@ public abstract class DriveForm {
 	}
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }
