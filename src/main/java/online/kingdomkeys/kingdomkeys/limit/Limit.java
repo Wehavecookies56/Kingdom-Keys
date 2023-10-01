@@ -3,11 +3,12 @@ package online.kingdomkeys.kingdomkeys.limit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public abstract class Limit {
 
-	String name;
+	ResourceLocation name;
 	int order;
 
 	String translationKey;
@@ -17,7 +18,7 @@ public abstract class Limit {
 
 
 	public Limit(ResourceLocation registryName, int order, OrgMember owner) {
-		this.name = registryName.toString();
+		this.name = registryName;
 		this.order = order;
 		this.owner = owner;
 		translationKey = "limit." + registryName.getPath() + ".name";
@@ -28,7 +29,7 @@ public abstract class Limit {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 
 	public String getTranslationKey() {
@@ -62,7 +63,7 @@ public abstract class Limit {
 	}
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }

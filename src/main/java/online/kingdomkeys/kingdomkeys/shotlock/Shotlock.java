@@ -5,10 +5,11 @@ import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public abstract class Shotlock {
 
-	String name;
+	ResourceLocation name;
 	int order;
 	int cooldown;
 	int max;
@@ -17,7 +18,7 @@ public abstract class Shotlock {
 
 
 	public Shotlock(ResourceLocation registryName, int order, int cooldown, int max) {
-		this.name = registryName.toString();
+		this.name = registryName;
 		this.cooldown = cooldown;
 		this.max = max;
 		this.order = order;
@@ -29,7 +30,7 @@ public abstract class Shotlock {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 	
 	public String getTranslationKey() {
@@ -51,7 +52,7 @@ public abstract class Shotlock {
 	public abstract void onUse(Player player, List<Entity> targetList);
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }

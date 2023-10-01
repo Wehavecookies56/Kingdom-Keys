@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ReactionCommand {
-	String name;
+	ResourceLocation name;
 	//int order;
 	//int cooldown;
 	//int max;
@@ -17,7 +17,7 @@ public abstract class ReactionCommand {
 
 
 	public ReactionCommand(ResourceLocation registryName, boolean constantCheck) {
-		this.name = registryName.toString();
+		this.name = registryName;
 		//this.max = max;
 		this.constantCheck = constantCheck;
 		translationKey = "reactioncommand." + registryName.getPath() + ".name";
@@ -28,9 +28,9 @@ public abstract class ReactionCommand {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
-	
+
 	public boolean needsConstantCheck() {
 		return constantCheck;
 	}
@@ -44,7 +44,7 @@ public abstract class ReactionCommand {
 	public abstract boolean conditionsToAppear(Player player, LivingEntity target);
 	
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }

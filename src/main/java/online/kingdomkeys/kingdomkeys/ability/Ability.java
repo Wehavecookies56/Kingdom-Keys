@@ -8,18 +8,18 @@ public class Ability {
 		ACTION, GROWTH, SUPPORT, WEAPON, ACCESSORY
 	}
 	
-    String name;
+    ResourceLocation name;
     int apCost;
     AbilityType type;
     int order;
     String translationKey;
 
-    public Ability(String registryName, int apCost, AbilityType type, int order) {
+    public Ability(ResourceLocation registryName, int apCost, AbilityType type, int order) {
     	this.name = registryName;
     	this.apCost = apCost;
     	this.type = type;
     	this.order = order;
-        translationKey = "ability." + new ResourceLocation(registryName).getPath() + ".name";
+        translationKey = "ability." + registryName.getPath() + ".name";
     }
 
     public String getTranslationKey() {
@@ -52,10 +52,10 @@ public class Ability {
 
 	@Override
 	public String toString() {
-		return name;
+		return name.toString();
 	}
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 }

@@ -2,10 +2,11 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class Level {
 
-	String name;
+	ResourceLocation name;
 	int maxLevel;
 
 	// String translationKey;
@@ -13,7 +14,7 @@ public class Level {
 	private LevelingData data;
 
 	public Level(ResourceLocation registryName) {
-		this.name = registryName.toString();
+		this.name = registryName;
 		this.maxLevel = 100;
 	}
 
@@ -30,7 +31,7 @@ public class Level {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 
 	public int getStr(int level) {
@@ -70,7 +71,7 @@ public class Level {
 	}
 
 	public ResourceLocation getRegistryName() {
-		return new ResourceLocation(name);
+		return name;
 	}
 
 }

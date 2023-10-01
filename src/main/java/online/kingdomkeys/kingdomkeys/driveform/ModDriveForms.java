@@ -16,7 +16,7 @@ public class ModDriveForms {
 
 	public static Supplier<IForgeRegistry<DriveForm>> registry = DRIVE_FORMS.makeRegistry(RegistryBuilder::new);
 
-	static int order = 0;
+	public static int order = 0;
 
 	public static final RegistryObject<DriveForm>
 			NONE = DRIVE_FORMS.register(DriveForm.NONE.getPath(), () -> new DriveFormNone(DriveForm.NONE.toString(), order++, true)),

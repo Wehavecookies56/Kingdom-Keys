@@ -17,7 +17,7 @@ public class ModAbilities {
 
 	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(RegistryBuilder::new);
 
-	static int order = 0;
+	public static int order = 0;
 
 	public static final RegistryObject<Ability>
 			//Action
@@ -85,6 +85,6 @@ public class ModAbilities {
 
 
 	public static RegistryObject<Ability> createAbility(String name, int apCost, AbilityType type) {
-		return ABILITIES.register(name.substring(12), () -> new Ability(name, apCost, type, order++));
+		return ABILITIES.register(name.substring(12), () -> new Ability(new ResourceLocation(name), apCost, type, order++));
 	}
 }
