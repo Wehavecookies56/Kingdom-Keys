@@ -260,6 +260,10 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 				}
 
+				if(!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
+					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+				}
+				
 				//Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {
 					switch(playerData.getChosen()) {

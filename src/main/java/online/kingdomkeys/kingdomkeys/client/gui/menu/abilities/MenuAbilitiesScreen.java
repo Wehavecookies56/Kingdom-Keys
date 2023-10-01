@@ -62,15 +62,11 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
-	{
-		if (delta > 0 && prev.visible)
-		{
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		if (delta > 0 && prev.visible) {
 			action("prev");
 			return true;
-		}
-		else if  (delta < 0 && next.visible)
-		{
+		} else if (delta < 0 && next.visible) {
 			action("next");
 			return true;
 		}
