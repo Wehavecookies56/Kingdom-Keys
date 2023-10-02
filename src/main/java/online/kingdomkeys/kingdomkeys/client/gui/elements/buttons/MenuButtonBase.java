@@ -14,6 +14,5 @@ public class MenuButtonBase extends Button {
 	public void setSelected(boolean b) {
 		selected = b;
 	}
-
 	
 }

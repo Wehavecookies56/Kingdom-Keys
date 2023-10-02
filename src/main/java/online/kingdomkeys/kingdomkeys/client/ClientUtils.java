@@ -3,9 +3,12 @@ package online.kingdomkeys.kingdomkeys.client;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedHashMap;
 
 import javax.annotation.Nullable;
 
+import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.JsonParseException;
@@ -65,24 +68,21 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 public class ClientUtils {
+
+    public static DistExecutor.SafeRunnable openMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Minecraft.getInstance().setScreen(new MenuCustomizeMagicScreen(knownMagic));
+            }
+        };
+    }
 
     public static DistExecutor.SafeRunnable openAlignment() {
         return new DistExecutor.SafeRunnable() {

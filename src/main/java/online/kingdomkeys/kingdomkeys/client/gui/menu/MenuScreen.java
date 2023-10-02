@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.gui.menu.abilities.MenuAbilitiesScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
@@ -26,9 +27,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.awt.*;
-
-import javax.swing.text.Style;
 import java.awt.*;
 
 public class MenuScreen extends MenuBackground {

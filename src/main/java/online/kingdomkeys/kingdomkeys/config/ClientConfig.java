@@ -1,7 +1,10 @@
 package online.kingdomkeys.kingdomkeys.config;
 
+import com.google.common.collect.Lists;
 import net.minecraftforge.common.ForgeConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.List;
 
 /**
  * Config file for client only config options
@@ -33,8 +36,10 @@ public class ClientConfig {
     public ForgeConfigSpec.BooleanValue showDriveForms, summonTogether;
 
 	public ForgeConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
-    
-    ClientConfig(final ForgeConfigSpec.Builder builder) {
+
+	public ForgeConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
+
+	ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         	summonTogether = builder
                 .comment("Summon both Keyblade and Armor with Summon Keyblade key")
@@ -53,6 +58,11 @@ public class ClientConfig {
                 .define("showDriveForms", true);
         
 	        builder.push("command_menu");
+
+			magicDisplayedInCommandMenu = builder
+					.comment("The Magic to display in the Magic menu within the Command Menu")
+					.translation(KingdomKeys.MODID + ".config.cm_magic_display")
+					.defineList("magicDisplayedInCommandMenu", Lists.newArrayList("kingdomkeys:magic_fire", "kingdomkeys:magic_blizzard", "kingdomkeys:magic_water", "kingdomkeys:magic_thunder", "kingdomkeys:magic_cure", "kingdomkeys:magic_aero", "kingdomkeys:magic_magnet", "kingdomkeys:magic_reflect", "kingdomkeys:magic_gravity", "kingdomkeys:magic_stop"), o -> o instanceof String);
 	        
 	        cmTextXOffset = builder
 	                .comment("Command Menu Text X Offset")

@@ -140,7 +140,7 @@ public class InputHandler {
                 CommandMenuGui.magicSelected--;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
             } else if (CommandMenuGui.magicSelected <= 1)
-                CommandMenuGui.magicSelected = this.magicsMap.size() - 1;
+                CommandMenuGui.magicSelected = ModConfigs.magicDisplayedInCommandMenu.size() - 1;
         }
         // InsideItems
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_ITEMS) {
@@ -212,10 +212,10 @@ public class InputHandler {
         }
         // InsideMagic
         else if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (CommandMenuGui.magicSelected < this.magicsMap.size() - 1) {
+            if (CommandMenuGui.magicSelected < ModConfigs.magicDisplayedInCommandMenu.size() - 1) {
                 CommandMenuGui.magicSelected++;
                 CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
-            } else if (CommandMenuGui.magicSelected >= this.magicsMap.size() - 1)
+            } else if (CommandMenuGui.magicSelected >= ModConfigs.magicDisplayedInCommandMenu.size() - 1)
                 CommandMenuGui.magicSelected = 0;
         }
         // InsideItems
@@ -576,9 +576,9 @@ public class InputHandler {
         
         // Magic Submenu
         if (CommandMenuGui.selected == CommandMenuGui.MAGIC && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-            if (this.magicsMap.isEmpty()) {
+            if (ModConfigs.magicDisplayedInCommandMenu.isEmpty()) {
             } else {
-				String magic = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
+				String magic = ModConfigs.magicDisplayedInCommandMenu.get(CommandMenuGui.magicSelected);
 				int[] mag = magicsMap.get(magic);
 				double cost = ModMagic.registry.get().getValue(new ResourceLocation(magic)).getCost(mag[0], player);
 
@@ -594,7 +594,7 @@ public class InputHandler {
     	                world.playSound(player, player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
                         return;
             		} else { //Cast Magic
-                		String magicName = (String) magicsMap.keySet().toArray()[CommandMenuGui.magicSelected];
+                		String magicName = ModConfigs.magicDisplayedInCommandMenu.get(CommandMenuGui.magicSelected);
                 		int level = playerData.getMagicLevel(new ResourceLocation(magicName));
             			PacketHandler.sendToServer(new CSUseMagicPacket(magicName, level, lockOn));
                         CommandMenuGui.selected = CommandMenuGui.ATTACK;

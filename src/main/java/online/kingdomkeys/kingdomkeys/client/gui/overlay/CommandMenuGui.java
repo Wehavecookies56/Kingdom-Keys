@@ -29,11 +29,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 import java.awt.*;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
@@ -455,7 +453,8 @@ public class CommandMenuGui extends OverlayBase {
 	private void drawSubMagic(PoseStack matrixStack, int width, int height) {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		LinkedHashMap<String, int[]> magics = Utils.getSortedMagics(playerData.getMagicsMap());
+		//LinkedHashMap<String, int[]> magics = Utils.getSortedMagics(playerData.getMagicsMap());
+		List<String> magics = ModConfigs.magicDisplayedInCommandMenu;
 
 		if (playerData != null && magics != null && !magics.isEmpty()) {
 			// MAGIC TOP
@@ -487,7 +486,7 @@ public class CommandMenuGui extends OverlayBase {
 						drawUnselectedSlot(matrixStack);
 					}
 
-					String magic = (String) magics.keySet().toArray()[i];
+					String magic = magics.get(i);
 					int magicLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 					int[] mag = playerData.getMagicsMap().get(magic);
