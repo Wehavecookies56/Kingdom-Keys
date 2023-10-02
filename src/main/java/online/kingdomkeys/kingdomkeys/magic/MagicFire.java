@@ -15,8 +15,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicFire extends Magic {
 
-	public MagicFire(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicFire(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

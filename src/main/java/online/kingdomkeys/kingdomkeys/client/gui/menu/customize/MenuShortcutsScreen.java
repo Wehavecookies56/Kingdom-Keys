@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -73,9 +74,10 @@ public class MenuShortcutsScreen extends MenuBackground {
 			int magicType = 0;
 			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
-			for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
-				int level = entry.getValue()[0];
-				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(entry.getKey()));
+			//for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
+			for (String entry : ModConfigs.magicDisplayedInCommandMenu) {
+				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(entry));
+				int level = playerData.getMagicLevel(new ResourceLocation(entry));
 				while(level >= 0) {
 					int lvl = level;
 					addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));

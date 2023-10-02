@@ -269,25 +269,6 @@ public class Utils {
 
 		return map;
 	}
-
-	public static LinkedHashMap<String, int[]> getSortedMagics(LinkedHashMap<String, int[]> magicsMap) {
-		List<Magic> list = new ArrayList<>();
-
-		Iterator<String> it = magicsMap.keySet().iterator();
-		while (it.hasNext()) {
-			String entry = it.next();
-			list.add(ModMagic.registry.get().getValue(new ResourceLocation(entry)));
-		}
-
-		list.sort(Comparator.comparingInt(Magic::getOrder));
-
-		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
-		for (int i = 0; i < list.size(); i++) {
-			map.put(list.get(i).getRegistryName().toString(), magicsMap.get(list.get(i).getRegistryName().toString()));
-		}
-
-		return map;
-	}
 	
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

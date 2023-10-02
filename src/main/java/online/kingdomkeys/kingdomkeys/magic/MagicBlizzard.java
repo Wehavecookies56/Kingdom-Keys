@@ -13,8 +13,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicBlizzard extends Magic {
 
-	public MagicBlizzard(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicBlizzard(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

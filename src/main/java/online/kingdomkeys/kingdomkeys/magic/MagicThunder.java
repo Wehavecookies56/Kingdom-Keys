@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicThunder extends Magic {
 
-	public MagicThunder(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicThunder(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override
