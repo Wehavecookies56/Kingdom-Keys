@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -45,7 +46,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
 	MenuBox box;
-	Button prev, next;
+	//Button prev, next;
 	MenuButton back, playerButton;
 	
 	List<MenuButton> driveSelector = new ArrayList<>();
@@ -56,6 +57,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	Ability hoveredAbility;
 	int hoveredIndex;
 	AbilityType hoveredType;
+
+	float scrollOffset = 0;
+	MenuScrollBar scrollBar;
 	
 	public MenuAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
@@ -63,33 +67,17 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (delta > 0 && prev.visible) {
-			action("prev");
-			return true;
-		} else if (delta < 0 && next.visible) {
-			action("next");
-			return true;
-		}
-
+		scrollBar.mouseScrolled(mouseX, mouseY, delta);
 		return false;
 	}
 
 	protected void action(String string) {
 		switch (string) {
-		case "prev":
-			page--;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
-		case "next":
-			page++;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
 		case "back":
 			GuiHelper.openMenu();
 			break;
 		default:
 			form = string;
-			page = 0;
 			init();
 			break;
 		}
@@ -125,6 +113,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	}
 
+	int scrollTop, scrollBot;
+
 	@Override
 	public void init() {
 		super.width = width;
@@ -144,7 +134,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int buttonPosX = (int) (boxPosX * 1.4F);
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = (int) (boxWidth * 0.46F);
-		
+
+		scrollTop = (int) topBarHeight;
+		scrollBot = (int) (scrollTop + middleHeight);
+
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth), scrollTop, 14, 1, scrollTop, scrollBot);
+
 		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 
 		if (form.equals(DriveForm.NONE.toString())) {			
@@ -335,15 +330,17 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
         addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
 
-		addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
-			action("prev");
-		}));
-		addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
-			action("next");
-		}));
+		//addRenderableWidget(prev = new Button((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("<--")), (e) -> {
+		//	action("prev");
+		//}));
+		//addRenderableWidget(next = new Button((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20, Component.translatable(Utils.translateToLocal("-->")), (e) -> { //MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) 100, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { //
+		//	action("next");
+		//}));
+
+		addRenderableWidget(scrollBar);
 		
-		prev.visible = false;
-		next.visible = false;
+		//prev.visible = false;
+		//next.visible = false;
 		
 		updateButtons();
 	}
@@ -353,34 +350,63 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		box.draw(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		drawAP(matrixStack);
-		
-		prev.visible = page > 0;
-		next.visible = page < abilities.size() / itemsPerPage;
+
+		for (int i = 0; i < abilities.size(); i++) {
+			if (abilities.get(i) != null) {
+				abilities.get(i).visible = true;
+				abilities.get(i).active = false;
+				abilities.get(i).y = (int) (topBarHeight) + (i) * 19 + 2; // 6 = offset
+			}
+		}
+
+		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
+		int listHeight = (abilities.get(abilities.size()-1).y+20) - abilities.get(0).y;
+		if (scrollBarHeight >= listHeight) {
+			scrollBar.visible = false;
+			scrollBar.active = false;
+		} else {
+			scrollBar.visible = true;
+			scrollBar.active = true;
+		}
+		float buttonRelativeToBar = scrollBar.y - (scrollBar.top-1);
+		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
+		scrollOffset = scrollPos*(listHeight-scrollBarHeight);
+
+		//prev.visible = page > 0;
+		//next.visible = page < abilities.size() / itemsPerPage;
 
 		//Page renderer
+		/*
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(prev.x+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
 			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
+		 */
+
+		//for (int i = 0; i < abilities.size(); i++) {
+		//	abilities.get(i).visible = false;
+		//}
+		double scale = Minecraft.getInstance().getWindow().getGuiScale();
+
+		int scissorY = (int) (Minecraft.getInstance().getWindow().getHeight() * 0.23F);
+
+		RenderSystem.enableScissor(0, scissorY, Minecraft.getInstance().getWindow().getWidth(), (int) (Minecraft.getInstance().getWindow().getHeight() * 0.6F));
 
 		for (int i = 0; i < abilities.size(); i++) {
-			abilities.get(i).visible = false;
-		}
-
-		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
-			if (i < abilities.size()) {
-				if (abilities.get(i) != null) {
-					abilities.get(i).visible = true;
-					abilities.get(i).y = (int) (topBarHeight) + (i % itemsPerPage) * 19 + 2; // 6 = offset
+			if (abilities.get(i) != null) {
+				abilities.get(i).y -= scrollOffset;
+				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
+					abilities.get(i).active = true;
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
 			}
 		}
-		
-		prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		next.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		RenderSystem.disableScissor();
+
+		//prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		//next.render(matrixStack, mouseX,  mouseY,  partialTicks);
 		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
@@ -540,9 +566,24 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
 			GuiHelper.openMenu();
 		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+
 }
