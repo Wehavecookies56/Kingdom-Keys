@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 import java.awt.*;
 
@@ -120,11 +121,15 @@ public class MenuScrollBar extends Button {
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
 		if (visible) {
 			int scrollFactor = 5;
+			int oldY = y;
 			if (scrollDelta > 0) {
 				y = (int) Math.max(y - (scrollDelta * scrollFactor), top);
 			}
 			if (scrollDelta < 0) {
 				y = (int) Math.min(y - (scrollDelta * scrollFactor), bottom);
+			}
+			if(oldY != y) {
+				Minecraft.getInstance().player.playSound(ModSounds.menu_move.get(), 1, 1);
 			}
 		}
 		return super.mouseScrolled(mouseX, mouseY, scrollDelta);
