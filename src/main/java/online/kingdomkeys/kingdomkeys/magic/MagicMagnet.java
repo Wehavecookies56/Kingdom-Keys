@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 public class MagicMagnet extends Magic {
 
-	public MagicMagnet(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicMagnet(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicReflect extends Magic {
 
-	public MagicReflect(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicReflect(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

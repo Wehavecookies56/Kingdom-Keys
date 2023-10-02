@@ -18,17 +18,15 @@ public abstract class Magic {
 
     ResourceLocation name;
     boolean hasTargetSelector;
-    int order;
     int maxLevel;
     String translationKey;
     String gmAbility;
     
 	private MagicData data;	
 
-    public Magic(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility, int order) {
+    public Magic(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility) {
     	this.name = registryName;
     	this.hasTargetSelector = hasToSelect;
-    	this.order = order;
     	this.maxLevel = maxLevel - 1;
     	this.gmAbility = gmAbility;
         translationKey = "magic." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
@@ -139,10 +137,6 @@ public abstract class Magic {
 		//System.out.println(prob);
 		double num = Math.random()*100;
 		return num <= prob;
-	}
-
-	public int getOrder() {
-		return order;
 	}
 	
 	public int getMaxLevel() {

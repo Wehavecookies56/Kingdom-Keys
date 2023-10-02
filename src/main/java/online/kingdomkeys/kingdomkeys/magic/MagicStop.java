@@ -23,8 +23,8 @@ import java.util.List;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel,  gmAbility, order);
+	public MagicStop(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel,  gmAbility);
 	}
 
 	@Override

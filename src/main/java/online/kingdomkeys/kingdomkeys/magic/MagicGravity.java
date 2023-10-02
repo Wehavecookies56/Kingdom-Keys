@@ -13,8 +13,8 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicGravity(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

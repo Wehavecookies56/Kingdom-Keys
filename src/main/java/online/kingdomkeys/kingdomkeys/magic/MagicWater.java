@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicWater extends Magic {
 
-	public MagicWater(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, false, maxLevel, gmAbility, order);
+	public MagicWater(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, false, maxLevel, gmAbility);
 	}
 
 	@Override

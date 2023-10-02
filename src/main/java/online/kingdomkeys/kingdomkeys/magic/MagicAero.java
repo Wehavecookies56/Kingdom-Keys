@@ -12,8 +12,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicAero extends Magic {
 
-	public MagicAero(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, true, maxLevel, gmAbility, order);
+	public MagicAero(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, true, maxLevel, gmAbility);
 	}
 
 	@Override

@@ -21,8 +21,8 @@ import java.util.List;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(ResourceLocation registryName, int maxLevel, String gmAbility, int order) {
-		super(registryName, true, maxLevel, gmAbility, order);
+	public MagicCure(ResourceLocation registryName, int maxLevel, String gmAbility) {
+		super(registryName, true, maxLevel, gmAbility);
 	}
 
 	@Override
