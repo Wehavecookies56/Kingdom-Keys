@@ -138,7 +138,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		scrollTop = (int) topBarHeight;
 		scrollBot = (int) (scrollTop + middleHeight);
 
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth), scrollTop, 14, 1, scrollTop, scrollBot);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, 14, 1, scrollTop, scrollBot);
 
 		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 
@@ -389,10 +389,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		//	abilities.get(i).visible = false;
 		//}
 		double scale = Minecraft.getInstance().getWindow().getGuiScale();
+		
+		float scissorOffset = 0.0036F;
 
-		int scissorY = (int) (Minecraft.getInstance().getWindow().getHeight() * 0.23F);
+		int scissorY = (int) (Minecraft.getInstance().getWindow().getHeight() * (0.23F + scissorOffset));
 
-		RenderSystem.enableScissor(0, scissorY, Minecraft.getInstance().getWindow().getWidth(), (int) (Minecraft.getInstance().getWindow().getHeight() * 0.6F));
+		RenderSystem.enableScissor(0, scissorY, Minecraft.getInstance().getWindow().getWidth(), (int) (Minecraft.getInstance().getWindow().getHeight() * (0.6F-scissorOffset)));
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
