@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.gui.menu.abilities.MenuAbilitiesScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;

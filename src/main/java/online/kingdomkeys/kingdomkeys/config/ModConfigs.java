@@ -39,6 +39,7 @@ public class ModConfigs {
         }
     }
 
+    public static List<String> magicDisplayedInCommandMenu;
     public static boolean cmHeaderTextVisible;
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
 
@@ -75,6 +76,11 @@ public class ModConfigs {
     }
 
     //Command Menu
+    public static void setMagicDisplayedInCommandMenu(List<String> value) {
+        CLIENT.magicDisplayedInCommandMenu.set(value);
+        bakeClient();
+    }
+
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
         bakeClient();
@@ -253,6 +259,7 @@ public class ModConfigs {
     }
 
     public static void bakeClient() {
+        magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmXScale = CLIENT.cmXScale.get();
@@ -299,48 +306,6 @@ public class ModConfigs {
 
         showGuiToggle = CLIENT.showGuiToggle.get();
     }
-
-    public static boolean oreGen;
-    public static boolean bloxGen;
-    public static String twilightOreNetherGen;
-    public static String wellspringOreNetherGen;
-    public static String writhingOreNetherGen;
-    public static String blazingOreNetherGen;
-    public static String writhingOreEndGen;
-    public static String pulsingOreEndGen;
-    public static String betwixtOreGen;
-    public static String sinisterOreGen;
-    public static String stormyOreGen;
-    public static String writhingOreGen;
-    public static String hungryOreGen;
-    public static String lightningOreGen;
-    public static String lucidOreGen;
-    public static String remembranceOreGen;
-    public static String soothingOreGen;
-    public static String tranquilityOreGen;
-    public static String twilightOreGen;
-    public static String wellspringOreGen;
-    public static String blazingOreWarmGen;
-    public static String frostOreColdGen;
-    public static String pulsingOreColdGen;
-    public static String frostOreColderGen;
-    public static String pulsingOreWetGen;
-    public static String stormyOreWetGen;
-    
-    public static String blazingOreDeepslateGen;
-    public static String betwixtOreDeepslateGen;
-    public static String frostOreDeepslateGen;
-    public static String pulsingOreDeepslateGen;
-    public static String sinisterOreDeepslateGen;
-    public static String soothingOreDeepslateGen;
-    public static String stormyOreDeepslateGen;
-    public static String twilightOreDeepslateGen;
-    public static String writhingOreDeepslateGen;
-    
-    public static String bloxClusterEndGen;
-    public static String prizeBloxClusterEndGen;
-    public static String bloxClusterGen;
-    public static String prizeBloxClusterGen;
 
     public static boolean debugConsoleOutput;
     public static boolean bombExplodeWithfire;

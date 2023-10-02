@@ -403,6 +403,9 @@ public class Strings {
             
             Gui_Menu_Customize = Gui_Menu + ".customize",
 
+			Gui_Menu_Customize_Shortcuts = Gui_Menu_Customize + ".shortcuts",
+			Gui_Menu_Customize_Magic = Gui_Menu_Customize + ".magic",
+
             Gui_Menu_Party = Gui_Menu + ".party",
             Gui_Menu_Party_Create = Gui_Menu_Party + ".create",
             Gui_Menu_Party_Create_Name = Gui_Menu_Party_Create + ".name",

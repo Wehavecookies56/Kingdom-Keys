@@ -167,5 +167,9 @@ public class MenuButton extends MenuButtonBase {
 		soundHandlerIn.play(SimpleSoundInstance.forUI(ModSounds.menu_select.get(), 1.0F, 1.0F));
 	}
 
-
+	@Override
+	public void setWidth(int pWidth) {
+		super.setWidth(pWidth);
+		middleWidth = pWidth;
+	}
 }
