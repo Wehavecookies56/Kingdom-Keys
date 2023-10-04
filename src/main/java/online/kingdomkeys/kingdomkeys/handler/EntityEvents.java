@@ -1398,7 +1398,9 @@ public class EntityEvents {
 			if (event.getDamageSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getDamageSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
+				if (playerData != null) {
+					event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
+				}
 			}
 		}
 	}
