@@ -53,23 +53,25 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		HumanoidModel<LivingEntity> model = null;
 		if(entitylivingbaseIn instanceof Player player) {
-			ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
-			String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
-			if(armorName.equals("") || !ItemStack.isSame(player.getInventory().getItem(38),ItemStack.EMPTY))
-				return;
+			if (ModCapabilities.getPlayer(player) != null) {
+				ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
+				String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
+				if (armorName.equals("") || !ItemStack.isSame(player.getInventory().getItem(38), ItemStack.EMPTY))
+					return;
 
-			texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
-			VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
-			model = models.get(armorName);
-		
-			if(model != null) {
-				model.leftArm.copyFrom(getParentModel().leftArm);
-				matrixStackIn.pushPose();
-					if(steve)
+				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "_shoulder.png");
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
+				model = models.get(armorName);
+
+				if (model != null) {
+					model.leftArm.copyFrom(getParentModel().leftArm);
+					matrixStackIn.pushPose();
+					if (steve)
 						matrixStackIn.translate(0.06, 0, 0);
-		        	model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
-	        	matrixStackIn.popPose();
-			}			
+					model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+					matrixStackIn.popPose();
+				}
+			}
 		}
 	}
 }
