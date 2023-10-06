@@ -29,7 +29,7 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
     public PatchedDriveLayerRenderer(AM mesh) { super(mesh); }
 
     @Override
-    public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float v, float v1, float v2) {
+    public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         if(ModConfigs.showDriveForms && e != null && !ModCapabilities.getPlayer((Player) e).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
             String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
             DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));

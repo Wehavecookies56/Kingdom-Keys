@@ -38,7 +38,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     ResourceLocation texture;
 
     @Override
-    protected void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float v, float v1, float v2) {
+    protected void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
             ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
@@ -52,7 +52,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
             boolean steve = DefaultPlayerSkin.getSkinModelName(e.getUUID()).equals("default");;
             boolean debuggingMode = ClientEngine.getInstance().isArmorModelDebuggingMode();
             //Item doesn't matter
-            AnimatedMesh modelAnimated = CustomModelBakery.bakeBipedCustomArmorModel(model, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST, debuggingMode);
+            AnimatedMesh modelAnimated = CustomModelBakery.bakeHumanoidModel(model, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST, debuggingMode);
 
             poseStack.pushPose();
             if(steve)
