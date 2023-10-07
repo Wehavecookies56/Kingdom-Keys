@@ -142,8 +142,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
         addRenderableWidget(leftScroll = new MenuScrollBar((int) (boxLeftPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
         updateMagicButtons(true);
-        addRenderableWidget(save = new MenuButton((int) buttonPosX, (int) topBarHeight + (3 * 18), (int) buttonWidth, Utils.translateToLocal("Save"), MenuButton.ButtonType.BUTTON, (e) -> action("save")));
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(save = new MenuButton((int) buttonPosX, (int) topBarHeight + (0 * 18), (int) buttonWidth, Utils.translateToLocal("Save"), MenuButton.ButtonType.BUTTON, (e) -> action("save")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 

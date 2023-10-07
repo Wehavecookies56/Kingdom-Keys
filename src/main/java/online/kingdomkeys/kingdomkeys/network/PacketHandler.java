@@ -93,6 +93,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSExtendedReach.class, CSExtendedReach::encode, CSExtendedReach::decode, CSExtendedReach::handle);
 		HANDLER.registerMessage(packetID++, CSShopBuy.class, CSShopBuy::encode, CSShopBuy::decode, CSShopBuy::handle);
 		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
+		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
+
 
 	}
 
