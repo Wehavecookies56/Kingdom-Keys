@@ -136,7 +136,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
 
         boxLeft = new MenuBox((int) boxLeftPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
         boxRight = new MenuBox((int) boxRightPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-        buttonsX = boxLeft.x + 10;
+        buttonsX = boxLeft.getX() + 10;
 
         super.init();
         addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
@@ -152,16 +152,16 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         for (int i = 0; i < displayedMagic.size(); i++) {
             ResourceLocation key = displayedMagic.keySet().stream().toList().get(i);
             MenuButton button = displayedMagic.get(key).button;
-            button.x = (int) boxRightPosX;
-            button.y = (int) (topBarHeight - rightScrollOffset + 15 + (i * 20));
+            button.setX((int) boxRightPosX);
+            button.setY((int) (topBarHeight - rightScrollOffset + 15 + (i * 20)));
             button.setWidth((int) boxWidth - 22 - 14);
             addRenderableWidget(button);
         }
         for (int i = 0; i < allMagic.size(); i++) {
             ResourceLocation key = allMagic.keySet().stream().toList().get(i);
             MenuButton button = allMagic.get(key).button;
-            button.x = (int) boxLeftPosX;
-            button.y = (int) (topBarHeight - leftScrollOffset + 15 + (i * 20));
+            button.setX((int) boxLeftPosX);
+            button.setY((int) (topBarHeight - leftScrollOffset + 15 + (i * 20)));
             button.setWidth((int) boxWidth - 22 - 14);
             addRenderableWidget(button);
         }
@@ -175,17 +175,17 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
 
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        boxLeft.draw(matrixStack);
-        boxRight.draw(matrixStack);
+        boxLeft.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+        boxRight.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
         //same for both
         int scrollBarHeight = rightScroll.getBottom() - rightScroll.top;
         int rightListHeight = 0;
         int leftListHeight = 0;
         if (!displayedMagic.isEmpty()) {
-            rightListHeight = displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[displayedMagic.size()-1]).button.y+20 - displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[0]).button.y;
+            rightListHeight = displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[displayedMagic.size()-1]).button.getY()+20 - displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[0]).button.getY();
         }
         if (!allMagic.isEmpty()) {
-            leftListHeight = (allMagic.get((ResourceLocation) allMagic.keySet().toArray()[allMagic.size() - 1]).button.y + 20) - allMagic.get((ResourceLocation) allMagic.keySet().toArray()[0]).button.y;
+            leftListHeight = (allMagic.get((ResourceLocation) allMagic.keySet().toArray()[allMagic.size() - 1]).button.getY() + 20) - allMagic.get((ResourceLocation) allMagic.keySet().toArray()[0]).button.getY();
         }
         if (scrollBarHeight >= rightListHeight + 15) {
             rightScroll.visible = false;
@@ -201,8 +201,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
             leftScroll.visible = true;
             leftScroll.active = true;
         }
-        float buttonRelativeToRightBar = rightScroll.y - (rightScroll.top-1);
-        float buttonRelativeToLeftBar = leftScroll.y - (leftScroll.top-1);
+        float buttonRelativeToRightBar = rightScroll.getY() - (rightScroll.top-1);
+        float buttonRelativeToLeftBar = leftScroll.getY() - (leftScroll.top-1);
         float rightScrollPos = Math.min(buttonRelativeToRightBar != 0 ? buttonRelativeToRightBar / (scrollBarHeight) : 0, 1);
         float leftScrollPos = Math.min(buttonRelativeToLeftBar != 0 ? buttonRelativeToLeftBar / (scrollBarHeight) : 0, 1);
         rightScrollOffset = rightScrollPos*(rightListHeight-scrollBarHeight);

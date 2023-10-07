@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -29,11 +32,7 @@ import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 @OnlyIn(Dist.CLIENT)
 public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
-	HumanoidModel<LivingEntity> terraShoulderArmorModel;
-	HumanoidModel<LivingEntity> aquaShoulderArmorModel;
-	HumanoidModel<LivingEntity> ventusShoulderArmorModel;
-	HumanoidModel<LivingEntity> eraqusShoulderArmorModel;
-	HumanoidModel<LivingEntity> xehanortShoulderArmorModel;
+	public static Map<String, HumanoidModel<LivingEntity>> models = new HashMap<>();
 
 	ResourceLocation texture;
 	boolean steve;
@@ -41,12 +40,12 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 	public ShoulderLayerRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet, boolean steve) {
 		super(entityRendererIn);
 		this.steve = steve;
-	    terraShoulderArmorModel = new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION));
-	    aquaShoulderArmorModel = new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION));
-	    ventusShoulderArmorModel = new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION));
-	    eraqusShoulderArmorModel = new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION));
-	    xehanortShoulderArmorModel = new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION));
-	}
+		models.put("terra", new TerraShoulderModel<>(modelSet.bakeLayer(TerraShoulderModel.LAYER_LOCATION)));
+	    models.put("aqua", new AquaShoulderModel<>(modelSet.bakeLayer(AquaShoulderModel.LAYER_LOCATION)));
+	    models.put("ventus", new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION)));
+		models.put("nightmareventus", new VentusShoulderModel<>(modelSet.bakeLayer(VentusShoulderModel.LAYER_LOCATION)));
+	    models.put("eraqus", new EraqusShoulderModel<>(modelSet.bakeLayer(EraqusShoulderModel.LAYER_LOCATION)));
+	    models.put("xehanort", new XehanortShoulderModel<>(modelSet.bakeLayer(XehanortShoulderModel.LAYER_LOCATION)));	}
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {

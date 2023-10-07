@@ -217,9 +217,6 @@ public class ClientUtils {
                 
                 playerData.setRespawnROD(message.respawnROD);
                 
-				playerData.setSingleStyle(message.singleStyle);
-				playerData.setDualStyle(message.dualStyle);
-
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }
         };

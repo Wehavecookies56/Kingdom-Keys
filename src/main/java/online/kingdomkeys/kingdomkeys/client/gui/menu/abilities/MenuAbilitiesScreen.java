@@ -355,12 +355,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (abilities.get(i) != null) {
 				abilities.get(i).visible = true;
 				abilities.get(i).active = false;
-				abilities.get(i).y = (int) (topBarHeight) + (i) * 19 + 2; // 6 = offset
+				abilities.get(i).setY((int) (topBarHeight) + (i) * 19 + 2); // 6 = offset
 			}
 		}
 
 		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
-		int listHeight = (abilities.get(abilities.size()-1).y+20) - abilities.get(0).y;
+		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
 		if (scrollBarHeight >= listHeight) {
 			scrollBar.visible = false;
 			scrollBar.active = false;
@@ -368,7 +368,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			scrollBar.visible = true;
 			scrollBar.active = true;
 		}
-		float buttonRelativeToBar = scrollBar.y - (scrollBar.top-1);
+		float buttonRelativeToBar = scrollBar.getY() - (scrollBar.top-1);
 		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
 		scrollOffset = scrollPos*(listHeight-scrollBarHeight);
 
@@ -398,8 +398,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).y -= scrollOffset;
-				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active = true;
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
