@@ -160,7 +160,10 @@
     "27":{
         "str":1,
         "mag":1,
-        "ap":1
+        "ap":1,
+		"abilities":[
+            "kingdomkeys:ability_magic_lock_on"
+        ]
     },
     "28":{
         "mag":1,

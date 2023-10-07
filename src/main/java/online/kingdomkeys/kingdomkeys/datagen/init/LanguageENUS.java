@@ -145,7 +145,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Armor, "Armor");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");
+        add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
+        add(Gui_Menu_Customize + ".magic", "Magics");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");
@@ -407,6 +409,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.DARK_DOMINATION, "Dark Domination", "Allows the user to control Antiform at will.");
+        addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magics at the locked entity's position.");
         
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");

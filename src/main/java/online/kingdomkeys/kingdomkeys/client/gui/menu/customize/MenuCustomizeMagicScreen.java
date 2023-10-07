@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -61,7 +62,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
 
     LinkedHashMap<ResourceLocation, MagicButton> displayedMagic, allMagic;
 
-    MenuButton back, save;
+    MenuButton back;
 
     MenuScrollBar leftScroll, rightScroll;
 
@@ -105,15 +106,16 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
             displayedMagic.remove(magic);
         }
         updateMagicButtons(false);
+        ModConfigs.setMagicDisplayedInCommandMenu(displayedMagic.keySet().stream().map(ResourceLocation::toString).toList());
+        if(displayedMagic.size() < 1 && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
+        	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+        }
     }
 
     protected void action(String string) {
         switch(string) {
             case "back":
                 Minecraft.getInstance().setScreen(new MenuCustomizeScreen());
-                break;
-            case "save":
-                ModConfigs.setMagicDisplayedInCommandMenu(displayedMagic.keySet().stream().map(ResourceLocation::toString).toList());
                 break;
         }
     }
@@ -142,8 +144,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
         addRenderableWidget(leftScroll = new MenuScrollBar((int) (boxLeftPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
         updateMagicButtons(true);
-        addRenderableWidget(save = new MenuButton((int) buttonPosX, (int) topBarHeight + (3 * 18), (int) buttonWidth, Utils.translateToLocal("Save"), MenuButton.ButtonType.BUTTON, (e) -> action("save")));
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 
@@ -168,9 +169,9 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         if (!init) {
             addRenderableWidget(rightScroll);
             addRenderableWidget(leftScroll);
-            addRenderableWidget(save);
             addRenderableWidget(back);
         }
+
     }
 
     @Override

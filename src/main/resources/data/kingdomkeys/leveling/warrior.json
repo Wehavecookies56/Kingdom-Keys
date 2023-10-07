@@ -270,7 +270,10 @@
     },
     "46":{
         "mag":1,
-        "def":1
+        "def":1,
+		"abilities":[
+            "kingdomkeys:ability_magic_lock_on"
+        ]
     },
     "47":{
         "str":1,

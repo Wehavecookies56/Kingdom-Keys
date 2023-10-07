@@ -217,7 +217,10 @@
     },
     "35":{
         "str":1,
-        "maxhp":5
+        "maxhp":5,
+		"abilities":[
+            "kingdomkeys:ability_magic_lock_on"
+        ]
     },
     "36":{
         "mag":1,
