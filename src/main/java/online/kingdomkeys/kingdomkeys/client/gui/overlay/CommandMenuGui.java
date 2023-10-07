@@ -454,7 +454,7 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		//LinkedHashMap<String, int[]> magics = Utils.getSortedMagics(playerData.getMagicsMap());
-		List<String> magics = ModConfigs.magicDisplayedInCommandMenu;
+		List<String> magics = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsMap().containsKey(magic)).toList();
 
 		if (playerData != null && magics != null && !magics.isEmpty()) {
 			// MAGIC TOP
@@ -492,17 +492,17 @@ public class CommandMenuGui extends OverlayBase {
 					int[] mag = playerData.getMagicsMap().get(magic);
 					double cost = magicInstance.getCost(mag[0], minecraft.player);
 					int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
-										
+
 					if(playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
 						colour = 0xFFFFFF;
 					}
-					
+
 					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || playerData.getMagicCooldownTicks() > 0) {
 						colour = 0x888888;
 					}
-					
+
 					magic = magicInstance.getTranslationKey(magicLevel);
-					
+
 					drawString(matrixStack, minecraft.font, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));
 				}
 				matrixStack.popPose();
