@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -24,8 +27,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.List;
-
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
 
@@ -36,14 +37,14 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+
 		if (!world.isClientSide) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 			if (playerData != null && playerData.getMagicsMap() != null) {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
 					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
-					ModConfigs.magicDisplayedInCommandMenu.add(magicInstance.getRegistryName().toString());
 					player.displayClientMessage(Component.translatable("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
@@ -57,7 +58,17 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			}
+		} else { //For the client side
+			System.out.println(magic);
+			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
+				if(!ModConfigs.magicDisplayedInCommandMenu.contains(magic)) {
+					List<String> list = new ArrayList<>(ModConfigs.magicDisplayedInCommandMenu);
+					list.add(magic);
+					ModConfigs.setMagicDisplayedInCommandMenu(list);
+				}
+			}
 		}
+			
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 

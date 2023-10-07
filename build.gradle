@@ -19,7 +19,7 @@ apply from: 'https://raw.githubusercontent.com/SizableShrimp/ForgeUpdatesRemappe
 
 
 def mcver = "1.19.2"
-version = mcver + '-2.3.2.1'
+version = mcver + '-2.3.3.0'
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
 
