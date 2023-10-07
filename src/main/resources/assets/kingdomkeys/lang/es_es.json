@@ -62,7 +62,9 @@
 	"gui.menu.items.equipment.armor": "Armadura",
 	"gui.menu.items.equipment.items": "Objetos",
 	"gui.menu.customize": "Configuración",
+	"gui.menu.customize.magics": "Magias",
 	"gui.menu.customize.shortcut": "Atajo",
+	"gui.menu.customize.shortcuts": "Atajos",
 	"gui.menu.customize.unequip": "Desequipar",
 	"gui.menu.party": "Grupo",
 	"gui.menu.party.create": "Crear Grupo",
@@ -313,6 +315,8 @@
 	"ability.ability_endless_magic.desc": "Reduce el tiempo de descanso entre magia y magia. Cuantas más activas, mayor efecto.",
 	"ability.ability_dark_domination.name": "Dominio Oscuro",
 	"ability.ability_dark_domination.desc": "Permite al usuario controlar la Antiforma a voluntad.",
+	"ability.ability_magic_lock_on.desc": "Permite al usuario invocar magias en la posición de la entidad fijada.",
+	"ability.ability_magic_lock_on.name": "Blanco Fijo Mágico",
 
 
 	"_comment": "Limits",
