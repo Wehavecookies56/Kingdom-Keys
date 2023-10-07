@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -42,6 +43,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
 					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
+					ModConfigs.magicDisplayedInCommandMenu.add(magicInstance.getRegistryName().toString());
 					player.displayClientMessage(Component.translatable("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
