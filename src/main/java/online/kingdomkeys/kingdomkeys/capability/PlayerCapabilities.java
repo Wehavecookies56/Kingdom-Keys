@@ -329,7 +329,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
-			if (ModMaterials.registry.get().containsKey(new ResourceLocation(mat))) {
+			ResourceLocation loc = new ResourceLocation(mat);
+			if (ModMaterials.registry.get().containsKey(new ResourceLocation(loc.getNamespace(), Strings.SM_Prefix + loc.getPath()))) {
 				this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
 			}
 		}
