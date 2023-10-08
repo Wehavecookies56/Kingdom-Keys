@@ -259,6 +259,8 @@
 	"ability.ability_fire_boost.desc": "Aumenta el daño de los ataques Piro. Cuantos más activas, mayor efecto.",
 	"ability.ability_blizzard_boost.name": "Extrahielo",
 	"ability.ability_blizzard_boost.desc": "Aumenta el daño de los ataques Hielo. Cuantos más activas, mayor efecto.",
+	"ability.ability_water_boost.name": "Extraaqua",
+	"ability.ability_water_boost.desc": "Aumenta el daño de los ataques Aqua. Cuantos más activas, mayor efecto.",
 	"ability.ability_thunder_boost.name": "Extraelectro",
 	"ability.ability_thunder_boost.desc": "Aumenta el daño de los ataques Electro. Cuantos más activas, mayor efecto.",
 	"ability.ability_treasure_magnet.name": "Atracción",
