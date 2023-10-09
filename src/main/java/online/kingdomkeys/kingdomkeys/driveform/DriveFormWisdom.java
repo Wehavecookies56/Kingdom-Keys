@@ -19,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormWisdom extends DriveForm {
 
-	public DriveFormWisdom(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
-		super(registryName, order, hasKeychain);
+	public DriveFormWisdom(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 0F, 0F, 1F };
 		this.skinRL = skinRL;
 	}

@@ -20,8 +20,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormValor extends DriveForm {
 
-	public DriveFormValor(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
-		super(registryName, order, hasKeychain);
+	public DriveFormValor(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 1F, 0F, 0F };
 		this.skinRL = skinRL;
 	}
@@ -64,6 +64,10 @@ public class DriveFormValor extends DriveForm {
 		if (playerData.getActiveDriveForm().equals(Strings.Form_Valor) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0)) {
 			return true;
 		}
+		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+		if (form.getBaseGrowthAbilities() || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0)) {
+			return true;
+		}
 		return false;
 	}
 
@@ -75,11 +79,13 @@ public class DriveFormValor extends DriveForm {
 
 		if (j) {
 			if (player.getDeltaMovement().y > 0) {
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+
 				if (playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Valor)], 0));
 				} else {
 					if (playerData.getActiveDriveForm() != null) {
-						int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Valor) - 2 : playerData.getDriveFormLevel(Strings.Form_Valor);// TODO eventually replace it with the skill
+						int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities() ? playerData.getDriveFormLevel(Strings.Form_Valor) - 2 : playerData.getDriveFormLevel(Strings.Form_Valor);// TODO eventually replace it with the skill
 						player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
 					}
 				}
