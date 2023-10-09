@@ -29,11 +29,13 @@ public class CSTravelToSoA {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            playerData.setReturnDimension(player);
-            playerData.setReturnLocation(player);
-            playerData.setSoAState(SoAState.CHOICE);
-            ServerLevel dimension = player.level.getServer().getLevel(ModDimensions.DIVE_TO_THE_HEART);
-            player.changeDimension(dimension, new BaseTeleporter(0, 28, 0));
+            if (playerData.getSoAState() != SoAState.COMPLETE) {
+                playerData.setReturnDimension(player);
+                playerData.setReturnLocation(player);
+                playerData.setSoAState(SoAState.CHOICE);
+                ServerLevel dimension = player.level.getServer().getLevel(ModDimensions.DIVE_TO_THE_HEART);
+                player.changeDimension(dimension, new BaseTeleporter(0, 28, 0));
+            }
         });
         ctx.get().setPacketHandled(true);
     }
