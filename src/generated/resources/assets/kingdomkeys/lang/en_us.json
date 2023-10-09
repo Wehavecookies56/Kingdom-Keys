@@ -112,6 +112,8 @@
   "ability.ability_thunder_boost.name": "Thunder Boost",
   "ability.ability_treasure_magnet.desc": "Automatically draw in and collect nearby prizes. Stack the ability to increase the effect.",
   "ability.ability_treasure_magnet.name": "Treasure Magnet",
+  "ability.ability_water_boost.desc": "Increases damage done with water-based attacks.",
+  "ability.ability_water_boost.name": "Water Boost",
   "ability.ability_waterza.desc": "Allows the user to get the Waterza reaction command.",
   "ability.ability_waterza.name": "Waterza",
   "ability.ability_wizards_ruse.desc": "Potentially recover HP proportionate to the MP you should expend. Stack the ability to increase the odds.",
