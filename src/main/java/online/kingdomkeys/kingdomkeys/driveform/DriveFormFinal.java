@@ -27,8 +27,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormFinal extends DriveForm {
 
-	public DriveFormFinal(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
-		super(registryName, order, hasKeychain);
+	public DriveFormFinal(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 0.9F, 0.9F, 0.9F };
 		this.skinRL = skinRL;
 	}
@@ -61,9 +61,11 @@ public class DriveFormFinal extends DriveForm {
 					handleHighJump(player, playerData);
 				}
 
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
 					handleGlide(player, playerData);
 				}
+				
 				
 				//Check if the player has the ability to cancel the variable
 				if(playerData.getIsGliding()) {

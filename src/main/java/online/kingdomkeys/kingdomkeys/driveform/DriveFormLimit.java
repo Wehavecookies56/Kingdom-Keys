@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormLimit extends DriveForm {
 
-	public DriveFormLimit(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
-		super(registryName, order, hasKeychain);
+	public DriveFormLimit(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 0.6F, 0.3F, 1F };
 		this.skinRL = skinRL;
 	}

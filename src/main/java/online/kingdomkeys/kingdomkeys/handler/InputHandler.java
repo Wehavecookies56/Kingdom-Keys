@@ -812,6 +812,8 @@ public class InputHandler {
 					int wisdomLevel = playerData.getDriveFormLevel(Strings.Form_Wisdom);
 
 					double power = 0;
+					DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+
 					// Wisdom Form
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						power = Constants.WISDOM_QR[wisdomLevel];
@@ -819,7 +821,7 @@ public class InputHandler {
 							player.push(motionX * power / 2, 0, motionZ * power / 2);
 							qrCooldown = 20;
 						}
-					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
+					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
 						if (wisdomLevel > 2) {
 							power = Constants.WISDOM_QR[wisdomLevel - 2];
 						}
@@ -834,9 +836,11 @@ public class InputHandler {
 				if (playerData.isAbilityEquipped(Strings.dodgeRoll) || playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
 					int limitLevel = playerData.getDriveFormLevel(Strings.Form_Limit);
 					double power = 0;
+					DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
 						power = Constants.LIMIT_DR[limitLevel];
-					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {//Base
+					} else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
 						if (limitLevel > 2) {
 							power = Constants.LIMIT_DR[limitLevel - 2];
 						}

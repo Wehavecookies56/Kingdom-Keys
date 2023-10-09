@@ -17,8 +17,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormMaster extends DriveForm {
 
-	public DriveFormMaster(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain) {
-		super(registryName, order, hasKeychain);
+	public DriveFormMaster(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 1F, 0.7F, 0.1F };
 		this.skinRL = skinRL;
 	}
@@ -33,7 +33,8 @@ public class DriveFormMaster extends DriveForm {
 	
 			if (playerData != null) {
 				// Drive Form abilities								
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+				if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
 					handleAerialDodge(player, playerData);
 				}
 			}

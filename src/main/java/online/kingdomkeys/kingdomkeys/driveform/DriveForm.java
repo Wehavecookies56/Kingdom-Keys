@@ -32,6 +32,7 @@ public abstract class DriveForm {
 	int order;
 	float[] color;
 	ResourceLocation skinRL;
+	boolean baseGrowth;
 	
 	String translationKey;
 
@@ -39,16 +40,17 @@ public abstract class DriveForm {
 
 	private DriveFormData data;	
 
-	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain) {
+	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this.name = registryName;
 		this.maxLevel = 7;
 		this.order = order;
 		this.hasKeychain = hasKeychain;
 		translationKey = "form." + registryName.getPath() + ".name";
+		this.baseGrowth = baseGrowth;
 	}
 
-	public DriveForm(String registryName, int order, boolean hasKeychain) {
-		this(new ResourceLocation(registryName), order, hasKeychain);
+	public DriveForm(String registryName, int order, boolean hasKeychain, boolean baseGrowth) {
+		this(new ResourceLocation(registryName), order, hasKeychain, baseGrowth);
 	}
 	
 	public void setDriveFormData(DriveFormData data) {
@@ -129,6 +131,14 @@ public abstract class DriveForm {
 
 	public int getMaxLevel() {
 		return maxLevel;
+	}
+	
+	public boolean getBaseGrowthAbilities() {
+		return baseGrowth;
+	}
+	
+	public void setBaseGrowthAbilities(boolean growthAbilities) {
+		this.baseGrowth = growthAbilities;
 	}
 
 	public void initDrive(Player player) {
