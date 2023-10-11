@@ -131,7 +131,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		float middleHeight = (float) height * 0.6F;
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
-		int buttonPosX = (int) (boxPosX * 1.4F);
+		int buttonPosX = (int) (boxPosX * 1.3F);
 		int buttonPosY = (int) topBarHeight + 5;
 		int buttonWidth = (int) (boxWidth * 0.46F);
 
@@ -360,7 +360,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
 		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
-		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
+		int listHeight = (abilities.get(abilities.size()-1).getY()+24) - abilities.get(0).getY();
 		if (scrollBarHeight >= listHeight) {
 			scrollBar.visible = false;
 			scrollBar.active = false;
@@ -368,7 +368,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			scrollBar.visible = true;
 			scrollBar.active = true;
 		}
-		float buttonRelativeToBar = scrollBar.getY() - (scrollBar.top-1);
+		float buttonRelativeToBar = scrollBar.getY() - (scrollBar.top);
 		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
 		scrollOffset = scrollPos*(listHeight-scrollBarHeight);
 
