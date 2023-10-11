@@ -73,7 +73,7 @@ public class MenuScrollBar extends Button {
 			ClientUtils.blitScaled(stack, this, x, y+scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(stack, this, x, getBottom()+3, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(stack, this, getX(), getBottom()+4, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 
@@ -86,8 +86,7 @@ public class MenuScrollBar extends Button {
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		if (clickX >= x && clickX <= x + width) {
 			if (active) {
-				if (startY - (clickY - mouseY) >= bottom) {
-					this.y = bottom;
+				this.setY(bottom+1);
 				} else if (startY - (clickY - mouseY) <= top) {
 					this.y = top;
 				} else {
@@ -125,7 +124,7 @@ public class MenuScrollBar extends Button {
 				y = (int) Math.max(y - (scrollDelta * scrollFactor), top);
 			}
 			if (scrollDelta < 0) {
-				y = (int) Math.min(y - (scrollDelta * scrollFactor), bottom);
+				setY((int) Math.min(getY() - (scrollDelta * scrollFactor), bottom+1));
 			}
 			if(oldY != y) {
 				Minecraft.getInstance().player.playSound(ModSounds.menu_move.get(), 1, 1);
