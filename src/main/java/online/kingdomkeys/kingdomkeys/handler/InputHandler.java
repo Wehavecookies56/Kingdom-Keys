@@ -797,7 +797,7 @@ public class InputHandler {
         }
 	}
 
-	private void commandAction() {
+	public void commandAction() {
 		Minecraft mc = Minecraft.getInstance();
 		Player player = mc.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
