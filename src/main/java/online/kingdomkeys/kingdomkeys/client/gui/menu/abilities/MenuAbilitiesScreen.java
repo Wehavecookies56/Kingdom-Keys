@@ -410,15 +410,23 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (abilities.get(i) != null) {
 				abilities.get(i).y -= scrollOffset;
 				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
-					abilities.get(i).active =true;;
+					abilities.get(i).active = true;
+					String abilityName = abilities.get(i).getText();
+					Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilityName));
+
+					if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
+						abilities.get(i).active = abilities.get(i).equipped;
+					}
+					
+					if (abilities.get(i).abilityType == AbilityType.WEAPON || abilities.get(i).abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
+						abilities.get(i).active = true;
+					}
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
 			}
 		}
 		RenderSystem.disableScissor();
 
-		//prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		//next.render(matrixStack, mouseX,  mouseY,  partialTicks);
 		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
 		back.render(matrixStack, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
@@ -452,13 +460,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (abilities.get(i) instanceof MenuAbilitiesButton) {
 				MenuAbilitiesButton button = (MenuAbilitiesButton) abilities.get(i);
 
-				if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
+				/*if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
 					button.active = button.equipped;
 				}
 				
 				if (button.abilityType == AbilityType.WEAPON || button.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
 					button.active = true;
-				}
+				}*/
 
 				button.setMessage(Component.translatable(text));
 				button.setAP(ability.getAPCost());
