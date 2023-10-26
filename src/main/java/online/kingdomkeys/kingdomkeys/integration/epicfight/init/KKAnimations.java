@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeprateClassToAvoidLoadingIssuesExtendedReach;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -9,11 +10,12 @@ import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.gameasset.ColliderPreset;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class KKAnimations {
     public static StaticAnimation TEST, CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, KH1_SORA_COMBO1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
-            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1;
+            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1, Summon_Test;
 
 
     private KKAnimations() {
@@ -26,6 +28,10 @@ public class KKAnimations {
     }
 
     private static void build() {
+        Summon_Test = new StaticAnimation(false, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
+                        SeprateClassToAvoidLoadingIssuesExtendedReach.SummonKeyblade((PlayerPatch) ep), AnimationEvent.Side.BOTH));
+
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         VALOR_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.4F, 0.7F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F);
         VALOR_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.7F, 0.9F, ColliderPreset.DUAL_SWORD, Armatures.BIPED.torso, "biped/combat/valor_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F);

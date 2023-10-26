@@ -95,6 +95,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
 		HANDLER.registerMessage(packetID++, CSChangeStyle.class, CSChangeStyle::encode, CSChangeStyle::decode, CSChangeStyle::handle);
 		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
+		HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
 
 	}
 

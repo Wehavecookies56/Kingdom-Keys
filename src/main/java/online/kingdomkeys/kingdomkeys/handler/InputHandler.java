@@ -32,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeprateClassToAvoidLoadingIssuesExtendedReach;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -749,7 +750,12 @@ public class InputHandler {
 
                     case SUMMON_KEYBLADE:
                         if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                            if(SeprateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player))
+                            {
+                                PacketHandler.sendToServer(new CSPlayAnimation());
+                            }
+                            else
+                                PacketHandler.sendToServer(new CSSummonKeyblade());
                         } else {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
