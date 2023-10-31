@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:keyblade_armor_eraqus_leggings_smithing"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

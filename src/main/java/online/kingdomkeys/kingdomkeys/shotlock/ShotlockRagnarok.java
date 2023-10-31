@@ -28,8 +28,8 @@ public class ShotlockRagnarok extends Shotlock {
 		playerData.setLimitCooldownTicks(cooldown);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 		float damage = (float) (DamageCalculation.getMagicDamage(player) * ModConfigs.shotlockMult);
-		RagnarokCoreEntity core = new RagnarokCoreEntity(player.level, player, targetList, damage);
+		RagnarokCoreEntity core = new RagnarokCoreEntity(player.level(), player, targetList, damage);
 		core.setPos(player.getX(), player.getY(), player.getZ());
-		player.level.addFreshEntity(core);
+		player.level().addFreshEntity(core);
 	}
 }

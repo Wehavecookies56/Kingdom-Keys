@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -58,9 +59,9 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX()+1 && mouseY >= getY()+1 && mouseX < getX() + width-1 && mouseY < getY() + height-1;
-		
+		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
 			renderColor();
@@ -69,26 +70,26 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderTexture(0, texture);
 			if (isHovered && active) { //Hovered button
-				drawButton(matrixStack, isHovered);
-				drawString(matrixStack, minecraft.font, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
+				drawButton(gui, isHovered);
+				gui.drawString(minecraft.font, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 				if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-					drawString(matrixStack, minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
-					drawString(matrixStack, minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
+					gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+					gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 				}
 			} else {
 				if(active) {//Not hovered but fully visible
-					drawButton(matrixStack, isHovered);
-					drawString(matrixStack, minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
+					drawButton(gui, isHovered);
+					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-						drawString(matrixStack, minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
-						drawString(matrixStack, minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
+						gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+						gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 					}
 				} else {//Not hovered and selected (not fully visible)
-					drawButton(matrixStack, isHovered);
-					drawString(matrixStack, minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(100,100,100).hashCode());
+					drawButton(gui, isHovered);
+					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(100,100,100).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-						drawString(matrixStack, minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
-						drawString(matrixStack, minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
+						gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+						gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 					}
 				}
 			}
@@ -117,26 +118,27 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		}
 	}
 
-	private void drawButton(PoseStack matrixStack, boolean hovered) {
+	private void drawButton(GuiGraphics gui, boolean hovered) {
 		//Ability name
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			blit(matrixStack, getX(), getY(), leftU, vPos, endWidth, height);
+			gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
 			for (int i = 0; i < middleWidth; i++) {
-				blit(matrixStack, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
+				gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
 			}
-			blit(matrixStack, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
+			gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 		}
 		matrixStack.popPose();
 		
 		if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 			//AP Cost
 			RenderSystem.setShaderColor(0.3F, 0.24F, 0, 1.0F);
-			blit(matrixStack, getX()+middleWidth+endWidth+10, getY()-1, 72, 117, endWidth, height);
+			gui.blit(texture, getX()+middleWidth+endWidth+10, getY()-1, 72, 117, endWidth, height);
 			for (int i = 0; i < apMiddleWidth; i++) {
-				blit(matrixStack, getX() +middleWidth+ i + endWidth+19, getY(), middleU, vPos, 1, height);
+				gui.blit(texture, getX() +middleWidth+ i + endWidth+19, getY(), middleU, vPos, 1, height);
 			}
-			blit(matrixStack, getX() + endWidth + middleWidth+apMiddleWidth +19, getY(), rightU, vPos, endWidth, height);
+			gui.blit(texture, getX() + endWidth + middleWidth+apMiddleWidth +19, getY(), rightU, vPos, endWidth, height);
 		}
 		//Equipped/Unequipped icon
 		matrixStack.pushPose();
@@ -145,9 +147,9 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			//System.out.println(index);
 			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-				blit(matrixStack, getX()+6, getY()+4, 74, 102, 12, 12);
+				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
 			} else {
-				blit(matrixStack, getX()+6, getY()+4, 87, 102, 12, 12);
+				gui.blit(texture, getX()+6, getY()+4, 87, 102, 12, 12);
 			}
 		}
 		matrixStack.popPose();
@@ -157,10 +159,10 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				blit(matrixStack, getX(), getY(), leftU, selectedVPos, endWidth, height);
+				gui.blit(texture, getX(), getY(), leftU, selectedVPos, endWidth, height);
 				for (int i = 0; i < middleWidth; i++)
-					blit(matrixStack, getX() + i + endWidth, getY(), middleU, selectedVPos, 1, height);
-				blit(matrixStack, getX() + endWidth + middleWidth, getY(), rightU, selectedVPos, endWidth, height);
+					gui.blit(texture, getX() + i + endWidth, getY(), middleU, selectedVPos, 1, height);
+				gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, selectedVPos, endWidth, height);
 			}
 			matrixStack.popPose();
 		}

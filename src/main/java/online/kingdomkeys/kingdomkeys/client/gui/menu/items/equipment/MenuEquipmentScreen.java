@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuEquipmentScreen extends MenuScrollScreen {
 
@@ -211,11 +213,11 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		listBox.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		detailsBox.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		listBox.renderWidget(gui, mouseX, mouseY, partialTicks);
+		detailsBox.renderWidget(gui, mouseX, mouseY, partialTicks);
+        super.render(gui, mouseX, mouseY, partialTicks);
     }
     
    

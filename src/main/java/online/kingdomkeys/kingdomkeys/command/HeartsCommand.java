@@ -66,7 +66,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setHearts(value);
 		
-			context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been set to "+value));
 		return 1;
@@ -85,7 +85,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addHearts(value);
 		
-			context.getSource().sendSuccess(Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been increased by "+value));
 		return 1;
@@ -105,7 +105,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.removeHearts(value);
 		
-			context.getSource().sendSuccess(Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been decreased by "+value));
 		return 1;

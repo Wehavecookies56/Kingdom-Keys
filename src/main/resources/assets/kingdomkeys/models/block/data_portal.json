@@ -2,7 +2,7 @@
 	"parent": "forge:block/default",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/data_portal.obj",
-	"flip-v" : true,
+	"flip_v" : true,
 	"transform":{
 		"translation": [ -0.9, -1.36, -1.40 ],
 		"scale": [ 0.1, 0.1, 0.079 ]

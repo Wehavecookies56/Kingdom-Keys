@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.Builder;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -25,6 +26,8 @@ public class MenuStockItem extends Button {
     ItemStack stack;
     boolean selected, showAmount;
     String customName = null;
+
+    final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
     	super(new Builder(Component.literal(""), b -> {
@@ -59,12 +62,12 @@ public class MenuStockItem extends Button {
     }
 
 	@Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        PoseStack matrixStack = gui.pose();
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
-            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
     		if (parent.selectedItemStack == null) {
                 parent.selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(parent.selectedRL));
             }
@@ -76,11 +79,11 @@ public class MenuStockItem extends Button {
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
-                    blit(matrixStack, 0, 0, 27, 0, 18, 28);
+                    gui.blit(texture, 0, 0, 27, 0, 18, 28);
                     for (int i = 0; i < (width * (1 / scale)) - (17 * (1 / scale)); i++) {
-                        blit(matrixStack, 16 + i, 0, 46, 0, 2, 28);
+                        gui.blit(texture, 16 + i, 0, 46, 0, 2, 28);
                     }
-                    blit(matrixStack, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
+                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
                 }
                 matrixStack.popPose();
             }
@@ -91,14 +94,14 @@ public class MenuStockItem extends Button {
                 float scale = 0.5F;
                 int categorySize = 20;
                 matrixStack.scale(scale, scale, 1);
-                blit(matrixStack, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
+                gui.blit(texture, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
-            drawString(matrixStack, mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+            gui.drawString(mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();
-	            drawString(matrixStack, mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
+	            gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
             }
         }
     }

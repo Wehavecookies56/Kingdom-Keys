@@ -51,7 +51,7 @@ public class CSUseReactionCommandPacket {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			String reactionName = playerData.getReactionCommands().get(message.index);
 			ReactionCommand reaction = ModReactionCommands.registry.get().getValue(new ResourceLocation(reactionName));
-			reaction.onUse(player, player, (LivingEntity) player.level.getEntity(message.lockedOnEntity));
+			reaction.onUse(player, player, (LivingEntity) player.level().getEntity(message.lockedOnEntity));
 			
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			

@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -31,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuConfigScreen extends MenuBackground {
 			
@@ -179,9 +181,9 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 			@Override
-			public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+			public void render(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+				super.render(gui, pMouseX, pMouseY, pPartialTick);
 			}
 			
 		});
@@ -1197,7 +1199,8 @@ public class MenuConfigScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrixStack = gui.pose();
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
 		hpButton.active = window != ActualWindow.HP;
 		mpButton.active = window != ActualWindow.MP;
@@ -1208,8 +1211,8 @@ public class MenuConfigScreen extends MenuBackground {
 		focusButton.active = window != ActualWindow.FOCUS;
 		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
 		
-		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		box.renderWidget(gui, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
 
 		for(AbstractWidget b : commandMenuList) {
 			b.active = false;
@@ -1268,13 +1271,13 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1284,12 +1287,12 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1299,10 +1302,10 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 
 
 				break;
@@ -1313,11 +1316,11 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.dp"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.dp"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
 
 
 				break;
@@ -1331,12 +1334,12 @@ public class MenuConfigScreen extends MenuBackground {
 				Player player = Minecraft.getInstance().player;
 				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width-width*0.2F), (int) (height*0.65F), (int) 50, 0, 0, player);
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 
 
 				break;
@@ -1347,13 +1350,13 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1363,10 +1366,10 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
 
 				break;
 
@@ -1376,11 +1379,11 @@ public class MenuConfigScreen extends MenuBackground {
 					b.visible = true;
 				}
 
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.focus"), 20, 0, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.focus"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
 
 
 				break;

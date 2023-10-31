@@ -62,24 +62,24 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.setSharedFlag(6, this.isCurrentlyGlowing());
 		}
 
 		this.baseTick();
 
-		HitResult raytraceresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
+		HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 		boolean flag = false;
 		if (raytraceresult.getType() == HitResult.Type.BLOCK) {
 			BlockPos blockpos = ((BlockHitResult) raytraceresult).getBlockPos();
-			BlockState blockstate = this.level.getBlockState(blockpos);
+			BlockState blockstate = this.level().getBlockState(blockpos);
 			if (blockstate.is(Blocks.NETHER_PORTAL)) {
 				this.handleInsidePortal(blockpos);
 				flag = true;
 			} else if (blockstate.is(Blocks.END_GATEWAY)) {
-				BlockEntity tileentity = this.level.getBlockEntity(blockpos);
+				BlockEntity tileentity = this.level().getBlockEntity(blockpos);
 				if (tileentity instanceof TheEndGatewayBlockEntity && TheEndGatewayBlockEntity.canEntityTeleport(this)) {
-					((TheEndGatewayBlockEntity) tileentity).teleportEntity(level, blockpos, blockstate, this, (TheEndGatewayBlockEntity) tileentity);
+					((TheEndGatewayBlockEntity) tileentity).teleportEntity(level(), blockpos, blockstate, this, (TheEndGatewayBlockEntity) tileentity);
 				}
 
 				flag = true;
@@ -106,7 +106,7 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 

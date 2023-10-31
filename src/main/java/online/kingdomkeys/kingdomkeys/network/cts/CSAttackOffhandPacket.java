@@ -51,7 +51,7 @@ public class CSAttackOffhandPacket {
 	public static void handle(CSAttackOffhandPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			 Entity entity = player.level.getEntity(message.entityId);
+			 Entity entity = player.level().getEntity(message.entityId);
 		        if (entity != null) {
 		        	if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
 			            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getOffhandItem().getItem();
@@ -95,12 +95,12 @@ public class CSAttackOffhandPacket {
 	               int i = 0;
 	               i = i + EnchantmentHelper.getKnockbackBonus(player);
 	               if (player.isSprinting() && flag) {
-	                  player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
+	                  player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
 	                  ++i;
 	                  flag1 = true;
 	               }
 
-	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
+	               boolean flag2 = flag && player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger() && targetEntity instanceof LivingEntity;
 	               flag2 = flag2 && !player.isSprinting();
 	               net.minecraftforge.event.entity.player.CriticalHitEvent hitResult = net.minecraftforge.common.ForgeHooks.getCriticalHit(player, targetEntity, flag2, flag2 ? 1.5F : 1.0F);
 	               flag2 = hitResult != null;
@@ -111,7 +111,7 @@ public class CSAttackOffhandPacket {
 	               damage = damage + f1;
 	               boolean flag3 = false;
 	               double d0 = (double)(player.walkDist - player.walkDistO);
-	               if (flag && !flag2 && !flag1 && player.isOnGround() && d0 < (double)player.getSpeed()) {
+	               if (flag && !flag2 && !flag1 && player.onGround() && d0 < (double)player.getSpeed()) {
 	                  ItemStack itemstack = player.getItemInHand(InteractionHand.OFF_HAND);
 	                  if (itemstack.getItem() instanceof KeybladeItem) {
 	                     flag3 = true;
@@ -147,14 +147,14 @@ public class CSAttackOffhandPacket {
 	                  if (flag3) {
 	                     float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * damage;
 
-	                     for(LivingEntity livingentity : player.level.getEntitiesOfClass(LivingEntity.class, targetEntity.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
+	                     for(LivingEntity livingentity : player.level().getEntitiesOfClass(LivingEntity.class, targetEntity.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
 	                        if (livingentity != player && livingentity != targetEntity && !player.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStand) || !((ArmorStand)livingentity).isMarker()) && player.distanceToSqr(livingentity) < 9.0D) {
 	                           livingentity.knockback(0.4F, (double)Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
 	                           livingentity.hurt(KeybladeDamageSource.causeOffhandKeybladeDamage(player), f3);
 	                        }
 	                     }
 
-	                     player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
 	                     player.sweepAttack();
 	                  }
 
@@ -165,15 +165,15 @@ public class CSAttackOffhandPacket {
 	                  }
 
 	                  if (flag2) {
-	                     player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
 	                     player.crit(targetEntity);
 	                  }
 
 	                  if (!flag2 && !flag3) {
 	                     if (flag) {
-	                        player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+	                        player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
 	                     } else {
-	                        player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
+	                        player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
 	                     }
 	                  }
 
@@ -193,7 +193,7 @@ public class CSAttackOffhandPacket {
 	                     entity = ((EnderDragonPart)targetEntity).parentMob;
 	                  }
 
-	                  if (!player.level.isClientSide && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
+	                  if (!player.level().isClientSide && !itemstack1.isEmpty() && entity instanceof LivingEntity) {
 	                     ItemStack copy = itemstack1.copy();
 	                     itemstack1.hurtEnemy((LivingEntity)entity, player);
 	                     if (itemstack1.isEmpty()) {
@@ -209,15 +209,15 @@ public class CSAttackOffhandPacket {
 	                        targetEntity.setSecondsOnFire(j * 4);
 	                     }
 
-	                     if (player.level instanceof ServerLevel && f5 > 2.0F) {
+	                     if (player.level() instanceof ServerLevel && f5 > 2.0F) {
 	                        int k = (int)((double)f5 * 0.5D);
-	                        ((ServerLevel)player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, targetEntity.getX(), targetEntity.getY(0.5D), targetEntity.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+	                        ((ServerLevel)player.level()).sendParticles(ParticleTypes.DAMAGE_INDICATOR, targetEntity.getX(), targetEntity.getY(0.5D), targetEntity.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
 	                     }
 	                  }
 
 	                  player.causeFoodExhaustion(0.1F);
 	               } else {
-	                  player.level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
+	                  player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
 	                  if (flag4) {
 	                     targetEntity.clearFire();
 	                  }

@@ -32,7 +32,7 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 
 	private static int spawn(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		ServerPlayer player = context.getSource().getPlayerOrException();
-		if(player.level.dimension() == ModDimensions.STATION_OF_SORROW) {
+		if(player.level().dimension() == ModDimensions.STATION_OF_SORROW) {
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
@@ -42,9 +42,9 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
-			MarluxiaEntity marluxia = new MarluxiaEntity(player.level);
-			marluxia.finalizeSpawn((ServerLevel)player.level, player.level.getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
-			player.level.addFreshEntity(marluxia);
+			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
+			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
+			player.level().addFreshEntity(marluxia);
 			marluxia.setPos(player.getX(), player.getY(), player.getZ() - 6);
 		}
 		return 1;

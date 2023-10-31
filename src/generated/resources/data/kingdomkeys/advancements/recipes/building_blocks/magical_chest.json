@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:magical_chest"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

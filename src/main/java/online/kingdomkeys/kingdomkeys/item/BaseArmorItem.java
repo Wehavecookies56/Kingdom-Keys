@@ -108,11 +108,11 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 						//If the armor item is ticking outside an armor slot
 						if(!(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack)) {
 							player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 					} else {//If UUID is different remove
 						player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					}
 					
 				}

@@ -50,12 +50,12 @@ public class CSOrgPortalTPPacket {
 	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			ServerLevel serverWorld = player.level.getServer().getLevel(message.dim);
+			ServerLevel serverWorld = player.level().getServer().getLevel(message.dim);
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
     		//If destination is the ROD lock the player there, otherwise unlock
 			playerData.setRespawnROD(message.dim.location().getPath().equals("realm_of_darkness"));
 			
-            if(player.level.dimension().equals(message.dim)) { //Seemless tp
+            if(player.level().dimension().equals(message.dim)) { //Seemless tp
 				ServerPlayer playerMP = (ServerPlayer) player;
 				playerMP.teleportTo(message.x+0.5, message.y, message.z+0.5);
 				playerMP.setDeltaMovement(0, 0, 0);

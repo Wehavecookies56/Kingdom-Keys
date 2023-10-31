@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -19,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuStatusScreen extends MenuBackground {
 
@@ -172,10 +174,10 @@ public class MenuStatusScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		fill(matrixStack, 125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		gui.fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
 	
 	}
 	

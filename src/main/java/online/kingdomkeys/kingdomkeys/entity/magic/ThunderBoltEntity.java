@@ -99,8 +99,8 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 		}
 
 		if (this.lightningState >= 0 && getOwner() != null) {
-			if (this.level.isClientSide) {
-				this.level.setSkyFlashTime(2);
+			if (this.level().isClientSide) {
+				this.level().setSkyFlashTime(2);
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
 				List<LivingEntity> list;
@@ -115,9 +115,9 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 					entity.hurt(LightningDamageSource.getLightningDamage(this, this.getOwner()), dmg * dmgMult);
 
 					if (entity instanceof Pig) {
-						if (level.getDifficulty() != Difficulty.PEACEFUL) {
+						if (level().getDifficulty() != Difficulty.PEACEFUL) {
 							Pig pig = (Pig) entity;
-							ZombifiedPiglin zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(level);
+							ZombifiedPiglin zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(level());
 							zombifiedpiglinentity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
 							zombifiedpiglinentity.moveTo(pig.getX(), pig.getY(), pig.getZ(), pig.getYRot(), pig.getXRot());
 							zombifiedpiglinentity.setNoAi(pig.isNoAi());
@@ -128,18 +128,18 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 							}
 
 							zombifiedpiglinentity.setPersistenceRequired();
-							level.addFreshEntity(zombifiedpiglinentity);
+							level().addFreshEntity(zombifiedpiglinentity);
 							pig.remove(RemovalReason.KILLED);
 						}
 					}
 
 					if (entity instanceof Villager) {
-						if (level.getDifficulty() != Difficulty.PEACEFUL) {
+						if (level().getDifficulty() != Difficulty.PEACEFUL) {
 							Villager villager = (Villager) entity;
 
-							Witch witchentity = EntityType.WITCH.create(level);
+							Witch witchentity = EntityType.WITCH.create(level());
 							witchentity.moveTo(villager.getX(), villager.getY(), villager.getZ(), villager.getYRot(), villager.getXRot());
-							witchentity.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
+							witchentity.finalizeSpawn((ServerLevel) level(), level().getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
 							witchentity.setNoAi(villager.isNoAi());
 							if (villager.hasCustomName()) {
 								witchentity.setCustomName(villager.getCustomName());
@@ -147,16 +147,16 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 							}
 
 							witchentity.setPersistenceRequired();
-							level.addFreshEntity(witchentity);
+							level().addFreshEntity(witchentity);
 							villager.remove(RemovalReason.KILLED);
 						}
 					}
 
 					if (entity instanceof Creeper) {
-						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(entity.blockPosition()));
 						lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
-						this.level.addFreshEntity(lightningBoltEntity);
+						this.level().addFreshEntity(lightningBoltEntity);
 					}
 				}
 
@@ -202,7 +202,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	}
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {

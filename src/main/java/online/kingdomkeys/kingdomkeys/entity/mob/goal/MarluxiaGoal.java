@@ -60,7 +60,7 @@ public class MarluxiaGoal extends TargetGoal {
 		if (this.mob.getTarget() != null) {
 			//Set AI to use
 			if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) {
-				int n = mob.level.random.nextInt()*100;
+				int n = mob.level().random.nextInt()*100;
 				if(n < 50) { // Armored?
 					if(mob.getHealth() < mob.getMaxHealth() * 0.80 && !isArmored()) {
 						useArmor((MarluxiaEntity) mob, false);
@@ -139,11 +139,11 @@ public class MarluxiaGoal extends TargetGoal {
             for (int a = 1; a <= 360; a += 7) {
                 double x = posX + (r * Math.cos(Math.toRadians(a)));
                 double z = posZ + (r * Math.sin(Math.toRadians(a)));
-                ((ServerLevel)mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F,0.9F,0.9F),1F), x, posY + 0.2D, z,1, 0.0D, 0.0D, 0.0D,0);
+                ((ServerLevel)mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,0.9F,0.9F),1F), x, posY + 0.2D, z,1, 0.0D, 0.0D, 0.0D,0);
             }
             
             AABB aabb = new AABB(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).inflate(r, 0, r);
-    		List<LivingEntity> list = mob.level.getEntitiesOfClass(LivingEntity.class, aabb);
+    		List<LivingEntity> list = mob.level().getEntitiesOfClass(LivingEntity.class, aabb);
     		list.remove(mob);
     		
             for(LivingEntity enemy : list) {
@@ -167,8 +167,8 @@ public class MarluxiaGoal extends TargetGoal {
 		} else if(chasingTicks < 300) {
 			mob.absMoveTo(mob.getTarget().getX(), mob.getTarget().getY(), mob.getTarget().getZ(), mob.getTarget().getYRot(), mob.getTarget().getYRot());
 			//goalOwner.faceEntity(goalOwner.getAttackTarget(), 0, 0);
-			RandomSource rand = ((ServerLevel) mob.level).getRandom();
-			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
+			RandomSource rand = ((ServerLevel) mob.level()).getRandom();
+			((ServerLevel) mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 			if(chasingTicks % 10 == 0) {
 				int r = 1;
@@ -176,18 +176,18 @@ public class MarluxiaGoal extends TargetGoal {
 				double pY = mob.getTarget().getY();
 				double pZ = mob.getTarget().getZ() - 3 + rand.nextDouble() * 6;
 				//TODO fix cast
-				mob.level.playSound(null, new BlockPos((int) pX, (int) pY, (int) pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
+				mob.level().playSound(null, new BlockPos((int) pX, (int) pY, (int) pZ), ModSounds.portal.get(), SoundSource.MASTER, 1, 1);
 
 				for(double i=0;i<4;i=i+0.5) {
 					for (int a = 1; a <= 360; a += 7) {
 		                double x = pX + (r * Math.cos(Math.toRadians(a)));
 		                double z = pZ + (r * Math.sin(Math.toRadians(a)));
-						((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 0.5F), 1F), x, pY + i, z, 1, 0.0D, 0.0D, 0.0D, 0);
+						((ServerLevel) mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 0.5F), 1F), x, pY + i, z, 1, 0.0D, 0.0D, 0.0D, 0);
 		            }
 				}
 				
 				AABB aabb = new AABB(pX, pY, pZ, pX + 1, pY + 1, pZ + 1).inflate(r, 4, r);
-	    		List<LivingEntity> list = mob.level.getEntitiesOfClass(LivingEntity.class, aabb);
+	    		List<LivingEntity> list = mob.level().getEntitiesOfClass(LivingEntity.class, aabb);
 	    		list.remove(mob);
 	    		
 	            for(LivingEntity enemy : list) {
@@ -202,9 +202,9 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 
 	private void attackWithTP() {
-		RandomSource rand = mob.level.getRandom();
+		RandomSource rand = mob.level().getRandom();
 		for(int i=0;i<10;i++)
-			((ServerLevel) mob.level).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 2 + rand.nextDouble() * 4, mob.getY() + rand.nextDouble() * 4, mob.getZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
+			((ServerLevel) mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 2 + rand.nextDouble() * 4, mob.getY() + rand.nextDouble() * 4, mob.getZ() - 2 + rand.nextDouble() * 4, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 		mob.teleportTo(this.mob.getTarget().getX(), this.mob.getTarget().getY()+1, this.mob.getTarget().getZ());
 		

@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -13,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuItemsScreen extends MenuBackground {
 
@@ -50,7 +52,7 @@ public class MenuItemsScreen extends MenuBackground {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        super.render(gui, mouseX, mouseY, partialTicks);
     }
 }

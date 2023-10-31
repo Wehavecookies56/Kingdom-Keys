@@ -1,6 +1,6 @@
 {
 	"parent": "forge:item/default",
-	"loader": "forge:separate-perspective",
+	"loader": "forge:separate_transforms",
 	"textures": {
 
 	},
@@ -8,7 +8,7 @@
 		"parent": "forge:item/default",
 		"loader": "forge:obj",
 		"model": "kingdomkeys:models/item/keyblade/kiblade.obj",
-		"flip-v" : true,
+		"flip_v" : true,
 		"textures": {
 	
 		},

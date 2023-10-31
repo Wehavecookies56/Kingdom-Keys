@@ -39,7 +39,7 @@ public class DiveToTheHeartDimension{
     public static void onHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player) {
             if (!((Player)event.getEntity()).isCreative()) {
-                if (event.getEntity().level.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+                if (event.getEntity().level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                     event.setCanceled(true);
                 }
             }
@@ -50,7 +50,7 @@ public class DiveToTheHeartDimension{
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (!event.player.isCreative()) {
-            if (event.player.level.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+            if (event.player.level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                 if (event.player.getY() < 10) {
                     event.player.teleportTo(0, 25, 0);
                 }
@@ -61,7 +61,7 @@ public class DiveToTheHeartDimension{
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getPlayer().level.dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+            if (event.getPlayer().level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                 event.setCanceled(true);
             }
         }

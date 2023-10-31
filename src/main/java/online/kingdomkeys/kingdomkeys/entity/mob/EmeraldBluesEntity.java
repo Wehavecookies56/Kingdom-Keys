@@ -50,7 +50,7 @@ public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(!this.level.isClientSide()) {
+        if(!this.level().isClientSide()) {
             if(source instanceof MagicDamageSource)
             	return false;
         }

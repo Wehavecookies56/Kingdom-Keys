@@ -70,9 +70,9 @@ public class DataPortalBlock extends BaseBlock {
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
-			MarluxiaEntity marluxia = new MarluxiaEntity(player.level);
-			marluxia.finalizeSpawn((ServerLevel)player.level, player.level.getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
-			player.level.addFreshEntity(marluxia);
+			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
+			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
+			player.level().addFreshEntity(marluxia);
 			marluxia.setPos(player.getX(), player.getY(), player.getZ() - 6);
 		}
 		return super.use(state, worldIn, pos, player, handIn, hit);

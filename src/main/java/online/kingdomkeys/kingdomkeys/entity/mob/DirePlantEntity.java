@@ -121,45 +121,45 @@ public class DirePlantEntity extends BaseKHEntity {
                 double d2 = this.mob.getTarget().getY() - this.mob.getY();//getBoundingBox().minY + (double)(this.goalOwner.getAttackTarget().getHeight() / 2.0F) - (this.goalOwner.getPosY() + (double)(this.goalOwner.getHeight() / 2.0F));
                 double d3 = this.mob.getTarget().getZ() - this.mob.getZ();
                 
-                int num = level.random.nextInt(100) + 1;
+                int num = level().random.nextInt(100) + 1;
                 
                 if(num < 30) { //Single
-                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
                     seed.shoot(d1, d2, d3, 1.2F, 0);
-                    level.addFreshEntity(seed);
+                    level().addFreshEntity(seed);
                     
                 } else if(num < 60) { //Vertical
-                	SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
+                	SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2+1, d3, 1F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2+2, d3, 1F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2, d3, 1F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
                     
                 } else { //Triple
-                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    SeedBulletEntity seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2, d3, 1.2F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2, d3, 0.7F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
 
-                    seed = new SeedBulletEntity(this.mob, this.mob.level);
+                    seed = new SeedBulletEntity(this.mob, this.mob.level());
                     seed.shoot(d1, d2, d3, 0.5F, 0);
                     seed.setPos(seed.getX(), this.mob.getY() + (double)(this.mob.getBbHeight() / 2.0F) + 0.3D, seed.getZ());
-                    mob.level.addFreshEntity(seed);
+                    mob.level().addFreshEntity(seed);
                     
 
                 }

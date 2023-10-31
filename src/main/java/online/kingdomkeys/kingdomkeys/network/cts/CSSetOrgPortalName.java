@@ -44,11 +44,11 @@ public class CSSetOrgPortalName {
     public static void handle(CSSetOrgPortalName message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            if(player.level.getBlockEntity(message.pos) != null && player.level.getBlockEntity(message.pos) instanceof OrgPortalTileEntity) {
-            	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level.getBlockEntity(message.pos);
+            if(player.level().getBlockEntity(message.pos) != null && player.level().getBlockEntity(message.pos) instanceof OrgPortalTileEntity) {
+            	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(message.pos);
             	UUID portalUUID = te.getUUID();
-            	ModCapabilities.getWorld(player.level).getPortalFromUUID(portalUUID).setName(message.name);
-				PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(player.level)), (ServerPlayer) player);            	
+            	ModCapabilities.getWorld(player.level()).getPortalFromUUID(portalUUID).setName(message.name);
+				PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(player.level())), (ServerPlayer) player);
             }
         });
         ctx.get().setPacketHandled(true);

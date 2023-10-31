@@ -26,7 +26,7 @@ public class ShadowGoal extends TargetGoal {
 
 		if (this.mob.getTarget() != null && this.mob.distanceToSqr(this.mob.getTarget()) < MAX_DISTANCE_FOR_AI) {
 		
-			if (this.mob.isOnGround()) {
+			if (this.mob.onGround()) {
 				if (!isInShadow()) {
 					shadowTicks-=2;
 					if (shadowTicks <= 0) {
@@ -53,7 +53,7 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			EntityHelper.Dir dir = EntityHelper.get8Directions(this.mob);
-			int currentAi = this.mob.level.random.nextInt(2);
+			int currentAi = this.mob.level().random.nextInt(2);
 
 			if (!canUseNextAttack) {
 				ticksUntilNextAttack-=2;
@@ -71,7 +71,7 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			// Leaping
-			if (this.mob.isOnGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
+			if (this.mob.onGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_LEAP && currentAi == 0 && canUseNextAttack) {
 				oldAi = 0;
 
 				this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.5, 0));
@@ -103,7 +103,7 @@ public class ShadowGoal extends TargetGoal {
 					break;
 				}
 
-				if (this.mob.level.random.nextInt(2) == 0) {
+				if (this.mob.level().random.nextInt(2) == 0) {
 					EntityHelper.setState(this.mob, 0);
 					this.mob.setInvulnerable(false);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
@@ -117,7 +117,7 @@ public class ShadowGoal extends TargetGoal {
 			}
 
 			// Dash
-			if (this.mob.isOnGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
+			if (this.mob.onGround() && this.mob.distanceToSqr(this.mob.getTarget()) <= MAX_DISTANCE_FOR_DASH && currentAi == 1 && canUseNextAttack) {
 				oldAi = 1;
 
 				this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.2, 0));
@@ -149,7 +149,7 @@ public class ShadowGoal extends TargetGoal {
 					break;
 				}
 
-				if (this.mob.level.random.nextInt(2) == 0) {
+				if (this.mob.level().random.nextInt(2) == 0) {
 					EntityHelper.setState(this.mob, 0);
 					this.mob.setInvulnerable(false);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);

@@ -3,7 +3,7 @@
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/item/keyblade/eternalflames.obj",
 	"detectCullableFaces":false,
-	"flip-v": true,
+	"flip_v": true,
 	"textures": {
 
 	},

@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:org_portal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -33,6 +33,11 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
 	}
 
+	public ArrowgunShotEntity(Level world, LivingEntity player,float damage, double x, double y, double z) {
+		this(world, player,  damage);
+		this.setPos(x,y,z);
+	}
+
 	public ArrowgunShotEntity(Level world) {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
 		this.blocksBuilding = true;
@@ -60,14 +65,14 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		}
 
 		if(tickCount > 1 && getShotType() == 1)
-			level.addParticle(ParticleTypes.ENCHANTED_HIT, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.ENCHANTED_HIT, getX(), getY(), getZ(), 0, 0, 0);
 
 		super.tick();
 	}
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -42,8 +43,8 @@ public class PartyHUDGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		Player player = minecraft.player;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -65,26 +66,29 @@ public class PartyHUDGui extends OverlayBase {
 			}
 		}
 
+		PoseStack poseStack = guiGraphics.pose();
+
 		poseStack.pushPose();
 		{
 			poseStack.translate(ModConfigs.partyXPos, ModConfigs.partyYPos - 100, 0);
 			for (int i = 0; i < allies.size(); i++) {
 				Member member = allies.get(i);
-				Player playerAlly = player.level.getPlayerByUUID(member.getUUID());
-				renderFace(poseStack, playerAlly, screenWidth, screenHeight, scale, i);
+				Player playerAlly = player.level().getPlayerByUUID(member.getUUID());
+				renderFace(guiGraphics, playerAlly, screenWidth, screenHeight, scale, i);
 			}
 		}
 		poseStack.popPose();
 	}
 
-	public void renderFace(PoseStack matrixStack, Player playerAlly, float screenWidth, float screenHeight, float scale, int i) {
+	public void renderFace(GuiGraphics gui, Player playerAlly, float screenWidth, float screenHeight, float scale, int i) {
 		ResourceLocation skin;
 		if (playerAlly != null) {
 			skin = getLocationSkin(playerAlly);
 		} else {
 			skin = new ResourceLocation("minecraft", "textures/entity/steve.png");
 		}
-		RenderSystem.setShaderTexture(0, skin);
+
+		PoseStack matrixStack = gui.pose();
 
 		matrixStack.pushPose();
 		{			
@@ -109,7 +113,7 @@ public class PartyHUDGui extends OverlayBase {
 					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 				}
 
-				this.blit(matrixStack, 0, 0, 32, 32, headWidth, headHeight);
+				this.blit(gui, skin, 0, 0, 32, 32, headWidth, headHeight);
 			}
 			matrixStack.popPose();
 
@@ -125,7 +129,7 @@ public class PartyHUDGui extends OverlayBase {
 			{
 				matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
 				matrixStack.scale(scale, scale, scale);
-				this.blit(matrixStack, 0, 0, 160, 32, hatWidth, hatHeight);
+				this.blit(gui, skin, 0, 0, 160, 32, hatWidth, hatHeight);
 			}
 			matrixStack.popPose();
 
@@ -135,8 +139,8 @@ public class PartyHUDGui extends OverlayBase {
 				matrixStack.scale(scale, scale, scale);
 				String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
 				if (playerAlly != null && minecraft.player.distanceTo(playerAlly) >= ModConfigs.partyRangeLimit)
-					drawCenteredString(matrixStack, minecraft.font, "Out of range", 16, -20, 0xFFFFFF);
-				drawCenteredString(matrixStack, minecraft.font, name, 16, -10, 0xFFFFFF);
+					drawCenteredString(gui, minecraft.font, "Out of range", 16, -20, 0xFFFFFF);
+				drawCenteredString(gui, minecraft.font, name, 16, -10, 0xFFFFFF);
 			}
 			matrixStack.popPose();
 
@@ -145,13 +149,13 @@ public class PartyHUDGui extends OverlayBase {
 				// HP
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
-				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+				ResourceLocation hptexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png");
 				matrixStack.translate(-4, 0, 1);
 				// Top
 				matrixStack.pushPose();
 				{
 					matrixStack.scale(scale / 3 * 2, scale, 1);
-					this.blit(matrixStack, 0, 0, 0, 72, 12, 2);
+					this.blit(gui, hptexture, 0, 0, 0, 72, 12, 2);
 				}
 				matrixStack.popPose();
 				// Middle
@@ -159,7 +163,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					matrixStack.translate(0, 1, 1);
 					matrixStack.scale(scale / 3 * 2, scale * 28, 1);
-					this.blit(matrixStack, 0, 0, 0, 74, 12, 1);
+					this.blit(gui, hptexture, 0, 0, 0, 74, 12, 1);
 				}
 				matrixStack.popPose();
 				// Bottom
@@ -167,7 +171,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					matrixStack.translate(0, 30, 1);
 					matrixStack.scale(scale / 3 * 2, scale, 1);
-					this.blit(matrixStack, 0, -30, 0, 72, 12, 2);
+					this.blit(gui, hptexture, 0, -30, 0, 72, 12, 2);
 				}
 				matrixStack.popPose();
 
@@ -177,7 +181,7 @@ public class PartyHUDGui extends OverlayBase {
 					matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
 					matrixStack.translate(-4, -15, 1);
 					matrixStack.scale(scale * 0.66F, (scale * 28) * val / max, 1);
-					this.blit(matrixStack, 0, 0, 0, 78, 12, 1);
+					this.blit(gui, hptexture, 0, 0, 0, 78, 12, 1);
 				}
 				matrixStack.popPose();
 
@@ -186,13 +190,13 @@ public class PartyHUDGui extends OverlayBase {
 				if (playerData != null) {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
-					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+					ResourceLocation mptexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png");
 					matrixStack.translate(20, 0, 1);
 					// Top
 					matrixStack.pushPose();
 					{
 						matrixStack.scale(scale / 3 * 2, scale, 1);
-						this.blit(matrixStack, 0, 0, 0, 58, 12, 2);
+						this.blit(gui, mptexture, 0, 0, 0, 58, 12, 2);
 					}
 					matrixStack.popPose();
 					// Middle
@@ -200,7 +204,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						matrixStack.translate(0, 1, 1);
 						matrixStack.scale(scale / 3 * 2, scale * 28, 1);
-						this.blit(matrixStack, 0, 0, 0, 60, 12, 1);
+						this.blit(gui, mptexture, 0, 0, 0, 60, 12, 1);
 					}
 					matrixStack.popPose();
 					// Bottom
@@ -208,7 +212,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						matrixStack.translate(0, 30, 1);
 						matrixStack.scale(scale / 3 * 2, scale, 1);
-						this.blit(matrixStack, 0, -30, 0, 58, 12, 2);
+						this.blit(gui, mptexture, 0, -30, 0, 58, 12, 2);
 					}
 					matrixStack.popPose();
 
@@ -218,7 +222,7 @@ public class PartyHUDGui extends OverlayBase {
 						matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
 						matrixStack.translate(-4, -15, 1);
 						matrixStack.scale(scale / 3 * 2, (scale * 28) * val / max, 1);
-						this.blit(matrixStack, 0, 0, 0, 64, 12, 1);
+						this.blit(gui, mptexture, 0, 0, 0, 64, 12, 1);
 					}
 					matrixStack.popPose();
 				}

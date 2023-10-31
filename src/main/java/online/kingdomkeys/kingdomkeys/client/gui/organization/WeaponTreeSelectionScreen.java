@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class WeaponTreeSelectionScreen extends Screen {
     public WeaponTreeSelectionScreen() {
@@ -67,8 +69,9 @@ public class WeaponTreeSelectionScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
-        renderBackground(matrixStack);
+    public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
+        PoseStack matrixStack = gui.pose();
+        renderBackground(gui);
         String name = "";
         String weapon = "";
         int weapon_w = 128;
@@ -153,23 +156,21 @@ public class WeaponTreeSelectionScreen extends Screen {
                 weapon_h = 68;
                 break;
         }
-        renderBackground(matrixStack);
+        renderBackground(gui);
         matrixStack.pushPose();
-        RenderSystem.setShaderTexture(0, GLOW);
         RenderSystem.enableBlend();
-        blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+        gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
         matrixStack.popPose();
         matrixStack.pushPose();
-        RenderSystem.setShaderTexture(0, icons[current.ordinal()-1]);
         RenderSystem.enableBlend();
-        blit(matrixStack, (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
+        gui.blit(icons[current.ordinal()-1], (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
         matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
         matrixStack.scale(0.5F, 0.5F, 0.5F);
-        blit(matrixStack, 0, 0, 0, 0, icon_width, icon_height);
+        gui.blit(icons[current.ordinal()-1], 0, 0, 0, 0, icon_width, icon_height);
         matrixStack.popPose();
-        drawString(matrixStack, font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
-        drawString(matrixStack, font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
-        super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
+        gui.drawString(font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
+        gui.drawString(font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
+        super.render(gui, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override

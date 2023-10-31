@@ -76,7 +76,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 
 	@Override
 	protected void onHit(HitResult pResult) {
-		if(!level.isClientSide) {
+		if(!level().isClientSide) {
 			if(getOwner() != null && getOwner() instanceof Player owner) {
 	    		IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
 	    		if(playerData != null) {
@@ -110,7 +110,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -118,7 +118,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	}
 
 	public Entity getTarget() {
-		return this.level.getEntity(this.getEntityData().get(TARGET));
+		return this.level().getEntity(this.getEntityData().get(TARGET));
 	}
 
 	public void setTarget(int i) {

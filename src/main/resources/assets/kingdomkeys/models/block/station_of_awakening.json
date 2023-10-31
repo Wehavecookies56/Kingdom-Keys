@@ -7,8 +7,8 @@
 		"translation": [ 0, 1, 0 ],
 		"scale": [ 1.0, 1.0, 1.0 ]
 	},
-	"detectCullableFaces":false,
-	"flip-v": true,
+	"automatic_culling":false,
+	"flip_v": true,
 	"textures": {
 	},
 	"visibility": {

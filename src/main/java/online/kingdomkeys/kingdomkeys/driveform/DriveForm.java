@@ -152,14 +152,14 @@ public abstract class DriveForm {
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
 			// Summon Keyblades
-			player.level.playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level().playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
 	private void pushEntities(Player player) {
-		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
+		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
@@ -191,8 +191,8 @@ public abstract class DriveForm {
 	public void endDrive(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
-		player.level.playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-		if(!player.level.isClientSide) {
+		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}

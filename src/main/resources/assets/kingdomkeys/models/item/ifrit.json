@@ -2,7 +2,7 @@
 	"parent": "forge:item/default",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/item/keyblade/ifrit.obj",
-	"flip-v" : true,
+	"flip_v" : true,
 	"textures": {
 
 	},

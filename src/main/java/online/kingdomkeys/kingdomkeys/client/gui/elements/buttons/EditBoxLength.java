@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.jline.reader.Widget;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -21,7 +23,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -437,12 +438,12 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
     }
 
     @Override
-    public void renderWidget(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.isVisible()) {
             if (this.isBordered()) {
                 int i = this.isFocused() ? -1 : -6250336;
-                fill(pPoseStack, this.getX() - 1, this.getY() - 1, this.getX() + this.width + 1, this.getY() + this.height + 1, i);
-                fill(pPoseStack, this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, -16777216);
+                gui.fill(this.getX() - 1, this.getY() - 1, this.getX() + this.width + 1, this.getY() + this.height + 1, i);
+                gui.fill(this.getX(), this.getY(), this.getX() + this.width, this.getY() + this.height, -16777216);
             }
 
             int i2 = this.isEditable ? this.textColor : this.textColorUneditable;
@@ -460,7 +461,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 
             if (!s.isEmpty()) {
                 String s1 = flag ? s.substring(0, j) : s;
-                j1 = this.font.drawShadow(pPoseStack, this.formatter.apply(s1, this.displayPos), (float)l, (float)i1, i2);
+                j1 = gui.drawString(this.font, this.formatter.apply(s1, this.displayPos), (float)l, (float)i1, i2, true);
             }
 
             boolean flag2 = this.cursorPos < this.value.length() || this.value.length() >= this.getMaxLength();
@@ -473,18 +474,18 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
             }
 
             if (!s.isEmpty() && flag && j < s.length()) {
-                this.font.drawShadow(pPoseStack, this.formatter.apply(s.substring(j), this.cursorPos), (float)j1, (float)i1, i2);
+                gui.drawString(this.font, this.formatter.apply(s.substring(j), this.cursorPos), (float)j1, (float)i1, i2, true);
             }
 
             if (!flag2 && this.suggestion != null) {
-                this.font.drawShadow(pPoseStack, this.suggestion, (float)(k1 - 1), (float)i1, -8355712);
+                gui.drawString(this.font, this.suggestion, (float)(k1 - 1), (float)i1, -8355712, true);
             }
 
             if (flag1) {
                 if (flag2) {
-                    GuiComponent.fill(pPoseStack, k1, i1 - 1, k1 + 1, i1 + 1 + 9, -3092272);
+                    gui.fill(k1, i1 - 1, k1 + 1, i1 + 1 + 9, -3092272);
                 } else {
-                    this.font.drawShadow(pPoseStack, "_", (float)k1, (float)i1, i2);
+                    gui.drawString(this.font,  "_", (float)k1, (float)i1, i2, true);
                 }
             }
 

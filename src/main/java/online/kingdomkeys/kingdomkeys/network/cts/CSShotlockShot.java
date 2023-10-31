@@ -58,7 +58,7 @@ public class CSShotlockShot {
 			List<Entity> targets = new ArrayList<Entity>();
 			
 			for(int enemyID : message.shotlockEnemies) {
-				Entity target = player.level.getEntity(enemyID);
+				Entity target = player.level().getEntity(enemyID);
 				targets.add(target);
 			}
 			

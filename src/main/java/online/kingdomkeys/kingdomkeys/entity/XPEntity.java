@@ -81,7 +81,7 @@ public class XPEntity extends Entity {
 	}
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {

@@ -75,7 +75,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(abilityName));
 			playerData.addAbility(abilityName, true);
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -91,7 +91,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeAbility(ability);
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
@@ -126,7 +126,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			playerData.clearAbilities();
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);

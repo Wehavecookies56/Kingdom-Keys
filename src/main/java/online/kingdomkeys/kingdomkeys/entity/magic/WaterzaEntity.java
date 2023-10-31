@@ -75,7 +75,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		for (Player playerFromList : level.players()) {
+		for (Player playerFromList : level().players()) {
 			if(playerFromList.getDisplayName().getString().equals(getCaster())) {
 				player = playerFromList;
 				break;
@@ -106,9 +106,9 @@ public class WaterzaEntity extends ThrowableProjectile {
 			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
 			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
 
-			if(!level.isClientSide) {
-				((ServerLevel) level).sendParticles(ParticleTypes.DRIPPING_WATER, x,  (cy+0.5) - a / 1080D, z, 1, 0,0,0, 0.5);
-				((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
+			if(!level().isClientSide) {
+				((ServerLevel) level()).sendParticles(ParticleTypes.DRIPPING_WATER, x,  (cy+0.5) - a / 1080D, z, 1, 0,0,0, 0.5);
+				((ServerLevel) level()).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
 			}
 			
 			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
@@ -126,7 +126,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 
 		} else { //Projectile
 			shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-			player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);
 
 			hurtMarked = true;
 			float radius = 0.4F;
@@ -135,8 +135,8 @@ public class WaterzaEntity extends ThrowableProjectile {
 					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					if(!level.isClientSide)
-						((ServerLevel) level).sendParticles(ParticleTypes.DOLPHIN, x, y, z, 1, 0,0,0, 0.5);
+					if(!level().isClientSide)
+						((ServerLevel) level()).sendParticles(ParticleTypes.DOLPHIN, x, y, z, 1, 0,0,0, 0.5);
 				}
 			}
 
@@ -147,7 +147,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -169,7 +169,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 					if (target != getOwner()) {
 						Party p = null;
 						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
+							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.3F : 2;
@@ -188,14 +188,14 @@ public class WaterzaEntity extends ThrowableProjectile {
 					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
 						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
 							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level.getBlockState(blockpos);
+							BlockState blockstate = level().getBlockState(blockpos);
 							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
 							if(blockstate.getBlock() == Blocks.FIRE) {
-								level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+								level().setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
 							}
 							if(blockstate.getBlock() == Blocks.SPONGE) {
-								level.setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
+								level().setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
 							}
 						}
 					}
@@ -211,12 +211,12 @@ public class WaterzaEntity extends ThrowableProjectile {
 							double x = getX() + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 							double z = getZ() + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 							double y = getY() + (r * Math.cos(Math.toRadians(t)));
-							((ServerLevel) level).sendParticles(ParticleTypes.DRIPPING_WATER, x, y, z, 1, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.5);
+							((ServerLevel) level()).sendParticles(ParticleTypes.DRIPPING_WATER, x, y, z, 1, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.5);
 						}
 					}
 				}
 
-				Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+				Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {

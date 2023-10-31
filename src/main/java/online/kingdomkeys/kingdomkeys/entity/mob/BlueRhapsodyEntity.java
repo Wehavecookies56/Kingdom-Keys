@@ -58,7 +58,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         float multiplier = 1;
-        if(!this.level.isClientSide) {
+        if(!this.level().isClientSide) {
             if(source.getMsgId().equals(KKResistanceType.fire.toString()))
                 multiplier = 2;
             if(source.getMsgId().equals(KKResistanceType.ice.toString()))
@@ -100,7 +100,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 20 + level.random.nextInt(5);
+            attackTimer = 20 + level().random.nextInt(5);
             EntityHelper.setState(mob, 0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
@@ -115,7 +115,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                 if (EntityHelper.getState(mob) == 0) {
                     this.mob.getLookControl().setLookAt(target, 30F, 30F);
 
-                    if (level.random.nextInt(100) + level.random.nextDouble() <= 75) {
+                    if (level().random.nextInt(100) + level().random.nextDouble() <= 75) {
                         EntityHelper.setState(this.mob, 1);
 
                         this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
@@ -126,10 +126,10 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                         double d1 = this.mob.getTarget().getX() - this.mob.getX();
                         double d2 = this.mob.getTarget().getBoundingBox().minY + (double) (this.mob.getTarget().getBbHeight() / 2.0F) - (this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F));
                         double d3 = this.mob.getTarget().getZ() - this.mob.getZ();
-                        BlizzardEntity esfb = new BlizzardEntity(this.mob.level, mob, (float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
+                        BlizzardEntity esfb = new BlizzardEntity(this.mob.level(), mob, (float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
                         esfb.shoot(d1, d2, d3, 1, 0);
                         esfb.setPos(esfb.getX(), this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F) + 0.5D, esfb.getZ());
-                        this.mob.level.addFreshEntity(esfb);
+                        this.mob.level().addFreshEntity(esfb);
                     } else {
                         if (mob.distanceTo(mob.getTarget()) < 8) {
                             EntityHelper.setState(this.mob, 2);

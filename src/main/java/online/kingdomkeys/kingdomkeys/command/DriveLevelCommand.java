@@ -87,7 +87,7 @@ public class DriveLevelCommand extends BaseCommand{
 			ExpCommand.fix(playerData, player); //Mainly here to remove given abilities in case form is going to be lower
 			
 			DriveForm formInstance = ModDriveForms.registry.get().getValue(new ResourceLocation(form));
-			context.getSource().sendSuccess(Component.translatable("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
 			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level));
 		}
 		return 1;

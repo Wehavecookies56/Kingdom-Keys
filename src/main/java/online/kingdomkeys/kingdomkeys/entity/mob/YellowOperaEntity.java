@@ -55,7 +55,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(!this.level.isClientSide) {
+        if(!this.level().isClientSide) {
             if(source instanceof LightningDamageSource)
             	return false;
         }
@@ -96,7 +96,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 25 + level.random.nextInt(5);
+            attackTimer = 25 + level().random.nextInt(5);
             EntityHelper.setState(mob, 0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
@@ -111,19 +111,19 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
                 if (EntityHelper.getState(mob) == 0) {
                     this.mob.getLookControl().setLookAt(target, 30F, 30F);
-                    if (level.random.nextInt(100) + level.random.nextDouble() <= 45 && this.mob.distanceTo(target) < 10) {
+                    if (level().random.nextInt(100) + level().random.nextDouble() <= 45 && this.mob.distanceTo(target) < 10) {
                         EntityHelper.setState(this.mob, 1);
 
                         this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.mob.getLookControl().setLookAt(target, 0F, 0F);
-                        if(!level.isClientSide) {
-                            LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level);
+                        if(!level().isClientSide) {
+                            LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level());
                             lightningboltentity.moveTo(target.position());
-                            level.addFreshEntity(lightningboltentity);
+                            level().addFreshEntity(lightningboltentity);
                             this.mob.doHurtTarget(target);
                         }
                     } else {
-                        if (level.random.nextInt(100) + level.random.nextDouble() <= 50) {
+                        if (level().random.nextInt(100) + level().random.nextDouble() <= 50) {
                             if (mob.distanceTo(mob.getTarget()) < 8) {
                                 EntityHelper.setState(this.mob, 2);
 

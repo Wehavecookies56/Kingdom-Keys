@@ -24,7 +24,7 @@ public class LimitLaserDome extends Limit {
 	@Override
 	public void onUse(Player player, LivingEntity target) {
 		ItemStack stack = player.getMainHandItem();
-		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
@@ -35,8 +35,8 @@ public class LimitLaserDome extends Limit {
 
 		damage *= getLimitData().getDmgMult();
 
-		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.level, player, target, damage);
+		LaserDomeCoreEntity dome = new LaserDomeCoreEntity(player.level(), player, target, damage);
 		dome.setPos(target.getX(), target.getY(), target.getZ());
-		player.level.addFreshEntity(dome);
+		player.level().addFreshEntity(dome);
 	}
 }

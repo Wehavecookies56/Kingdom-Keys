@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
@@ -58,8 +59,8 @@ public class DriveGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		/*
 		 * if (!MainConfig.displayGUI()) return; if
 		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
@@ -90,13 +91,13 @@ public class DriveGui extends OverlayBase {
 			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-			RenderSystem.setShaderTexture(0, texture);
-
 			float rawScale = 0.85f;
 			float scaleX = rawScale * ModConfigs.dpXScale/100F;
 			float scaleY = rawScale * ModConfigs.dpYScale/100F;
 			float posX = 52 * scaleX;
 			float posY = 20 * scaleY + 2;
+
+			PoseStack poseStack = guiGraphics.pose();
 
 			poseStack.pushPose();
 			{
@@ -112,12 +113,12 @@ public class DriveGui extends OverlayBase {
 
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							this.blit(poseStack, 15, 6, 0, 0, guiWidth, guiHeight);
+							this.blit(guiGraphics, texture, 15, 6, 0, 0, guiWidth, guiHeight);
 						} else {
-							this.blit(poseStack, 15, 6, 98, 0, guiWidth, guiHeight);
+							this.blit(guiGraphics, texture, 15, 6, 98, 0, guiWidth, guiHeight);
 						}
 					} else {
-						this.blit(poseStack, 15, 6, 0, 68, guiWidth, guiHeight);
+						this.blit(guiGraphics, texture, 15, 6, 0, 68, guiWidth, guiHeight);
 					}
 				}
 				poseStack.popPose();
@@ -129,12 +130,12 @@ public class DriveGui extends OverlayBase {
 					poseStack.scale(scaleX, scaleY, 1);
 					if(playerData.getAlignment() == OrgMember.NONE) {
 						if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							this.blit(poseStack, 14, 6, 0, 18, (int) currDrive, guiHeight);
+							this.blit(guiGraphics, texture, 14, 6, 0, 18, (int) currDrive, guiHeight);
 						} else {
-							this.blit(poseStack, 14, 6, 98, 18, (int) currForm, guiHeight);
+							this.blit(guiGraphics, texture, 14, 6, 98, 18, (int) currForm, guiHeight);
 						}
 					} else {
-						this.blit(poseStack, 14, 6, 0, 86, (int) currDrive, guiHeight);
+						this.blit(guiGraphics, texture, 14, 6, 0, 86, (int) currDrive, guiHeight);
 					}
 
 					poseStack.popPose();
@@ -148,9 +149,9 @@ public class DriveGui extends OverlayBase {
 						int numPos = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10 : 100 + getCurrBar(fp, Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2) * 10;//(getCurrBar(fp, playerData.getFormGaugeLevel(playerData.getActiveDriveForm())) * 10);
 						// int numPos = getCurrBar(dp, 9) * 10;
 						if(playerData.getAlignment() == OrgMember.NONE) {
-							blit(poseStack, 14, 6, numPos, 38, 10, guiHeight);
+							blit(guiGraphics, texture, 14, 6, numPos, 38, 10, guiHeight);
 						} else {
-							blit(poseStack, 14, 6, numPos, 106, 10, guiHeight);
+							blit(guiGraphics, texture, 14, 6, numPos, 106, 10, guiHeight);
 						}
 
 					}
@@ -168,7 +169,7 @@ public class DriveGui extends OverlayBase {
 
 							poseStack.translate(((screenWidth - guiWidth * scaleX) + (10 * scaleX)), ((screenHeight - guiHeight * scaleY) - (10 * scaleY)), 0);
 							poseStack.scale(scaleX, scaleY, 1);
-							blit(poseStack, 0, -3, 0, 57, 30, guiHeight);
+							blit(guiGraphics, texture, 0, -3, 0, 57, 30, guiHeight);
 							RenderSystem.setShaderColor(1, 1, 1, 1);
 						}
 						poseStack.popPose();

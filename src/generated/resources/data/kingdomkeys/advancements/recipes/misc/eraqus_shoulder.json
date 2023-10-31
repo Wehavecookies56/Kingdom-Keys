@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:eraqus_shoulder"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

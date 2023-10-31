@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:normal_blox"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

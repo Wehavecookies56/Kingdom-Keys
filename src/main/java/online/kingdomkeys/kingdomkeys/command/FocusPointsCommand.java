@@ -67,7 +67,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setFocus(value);
-		context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" focus to "+value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" focus to "+value), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been set to "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
@@ -85,7 +85,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addFocus(value);
-		context.getSource().sendSuccess(Component.translatable("Added "+value+" focus to "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" focus to "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been increased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
@@ -104,7 +104,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.remFocus(value);
-		context.getSource().sendSuccess(Component.translatable("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been decreased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;

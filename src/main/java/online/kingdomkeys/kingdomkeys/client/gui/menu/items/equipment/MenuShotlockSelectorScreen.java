@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
@@ -80,11 +82,10 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
 		//details.draw(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 }

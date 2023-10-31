@@ -84,25 +84,25 @@ public class BlastBloxEntity extends Entity {
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.98D));
-        if (this.onGround) {
+        if (this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
         }
 
         --this.fuse;
         if (this.fuse <= 0) {
             this.remove(RemovalReason.KILLED);
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.explode();
             }
         } else {
             //this.handleWaterMovement();
-            this.level.addParticle(ParticleTypes.FLAME, this.blockPosition().getX(), this.blockPosition().getY() + 0.5D, this.blockPosition().getZ(), 0.0D, 0.0D, 0.0D);
+            this.level().addParticle(ParticleTypes.FLAME, this.blockPosition().getX(), this.blockPosition().getY() + 0.5D, this.blockPosition().getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode() {
         float explosionSize = 4.0F;
-        this.level.explode(this, this.blockPosition().getX(), this.blockPosition().getY() + (double)(this.getBbHeight() / 16.0F), this.blockPosition().getZ(), explosionSize, true, ExplosionInteraction.TNT);
+        this.level().explode(this, this.blockPosition().getX(), this.blockPosition().getY() + (double)(this.getBbHeight() / 16.0F), this.blockPosition().getZ(), explosionSize, true, ExplosionInteraction.TNT);
     }
 
     @Override

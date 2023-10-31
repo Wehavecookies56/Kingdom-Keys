@@ -71,7 +71,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 				float speedFactor = 0.4F;
 				getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() - getCaster().getY()) * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
 	
-				if (level.isClientSide) {
+				if (level().isClientSide) {
 					getCaster().hurtMarked = true;
 				}
 	
@@ -92,13 +92,13 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 		
 		if(tickCount > 1) {
 			Color color = new Color(255,255,255);
-			level.addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getOwner().getX(), getOwner().getY()+1, getOwner().getZ(), 1,1,1);
+			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getOwner().getX(), getOwner().getY()+1, getOwner().getZ(), 1,1,1);
 		}
 		
 		if(tickCount % 4 == 0) {
 			double r = 1.5D;
             AABB aabb = new AABB(getOwner().position().x, getOwner().position().y, getOwner().position().z, getOwner().position().x + 1, getOwner().position().y + 1, getOwner().position().z + 1).inflate(r, 0, r);
-    		List<LivingEntity> list = getOwner().level.getEntitiesOfClass(LivingEntity.class, aabb);
+    		List<LivingEntity> list = getOwner().level().getEntitiesOfClass(LivingEntity.class, aabb);
     		list.remove(getOwner());
     		
             for(LivingEntity enemy : list) {
@@ -149,7 +149,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	private static final EntityDataAccessor<Integer> ACTUAL_TARGET_INDEX = SynchedEntityData.defineId(SonicBladeCoreEntity.class, EntityDataSerializers.INT);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -170,7 +170,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 		
 		for(String id : ids) {
 			if(!id.equals(""))
-				list.add(level.getEntity(Integer.parseInt(id)));
+				list.add(level().getEntity(Integer.parseInt(id)));
 		}
 		return list;
 	}

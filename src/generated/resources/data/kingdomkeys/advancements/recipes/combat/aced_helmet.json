@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:aced_helmet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

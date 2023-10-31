@@ -4,14 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import org.jetbrains.annotations.NotNull;
 
 
 public class CheckboxButton extends AbstractButton {
+
+    final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID + ":textures/gui/checkbox.png");
 
     private boolean checked;
 
@@ -26,14 +30,13 @@ public class CheckboxButton extends AbstractButton {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
-            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID + ":textures/gui/checkbox.png"));
-            blit(matrixStack, getX(), getY(), 0, 0, 10, 10);
+            gui.blit(TEXTURE, getX(), getY(), 0, 0, 10, 10);
             if (checked) {
-                blit(matrixStack, getX(), getY(), 10, 0, 10, 10);
+                gui.blit(TEXTURE, getX(), getY(), 10, 0, 10, 10);
             }
-            Minecraft.getInstance().font.draw(matrixStack, getMessage().getString(), getX() + width + 3, getY() + 2, 4210752);
+            gui.drawString(Minecraft.getInstance().font, getMessage().getString(), getX() + width + 3, getY() + 2, 4210752);
         }
     }
 

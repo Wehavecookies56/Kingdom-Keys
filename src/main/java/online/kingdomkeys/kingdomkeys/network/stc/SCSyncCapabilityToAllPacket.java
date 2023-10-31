@@ -16,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 
 public class SCSyncCapabilityToAllPacket {
 	public Map<Integer, ItemStack> kbArmors = new HashMap<>();
@@ -43,7 +45,10 @@ public class SCSyncCapabilityToAllPacket {
 	private boolean isGliding = false, hasJumpedAD = false;
 	
 	private int armorColor = 0;
-	
+	private boolean armorGlint = true;
+
+	private SingleChoices singleStyle;
+	private DualChoices dualStyle;
 		
 	public SCSyncCapabilityToAllPacket() {
 	}
@@ -75,6 +80,10 @@ public class SCSyncCapabilityToAllPacket {
 		
 		this.kbArmors = capability.getEquippedKBArmors();
 		this.armorColor = capability.getArmorColor();
+		this.armorGlint = capability.getArmorGlint();
+
+		this.singleStyle = capability.getSingleStyle();
+		this.dualStyle = capability.getDualStyle();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -120,7 +129,10 @@ public class SCSyncCapabilityToAllPacket {
 		buffer.writeNbt(kbArmors);
 		
 		buffer.writeInt(armorColor);
+		buffer.writeBoolean(armorGlint);
 
+		buffer.writeUtf(singleStyle.toString(), 20);
+		buffer.writeUtf(dualStyle.toString(), 20);
 	}
 
 	public static SCSyncCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -164,6 +176,10 @@ public class SCSyncCapabilityToAllPacket {
 		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
 		
 		msg.armorColor = buffer.readInt();
+		msg.armorGlint = buffer.readBoolean();
+
+		msg.singleStyle = SingleChoices.valueOf(buffer.readUtf(20));
+		msg.dualStyle = DualChoices.valueOf(buffer.readUtf(20));
 		return msg;
 	}
 
@@ -203,7 +219,10 @@ public class SCSyncCapabilityToAllPacket {
 				
                 playerData.equipAllKBArmor(message.kbArmors, false);
                 playerData.setArmorColor(message.armorColor);
-				
+				playerData.setArmorGlint(message.armorGlint);
+
+				playerData.setSingleStyle(message.singleStyle);
+				playerData.setDualStyle(message.dualStyle);
 			}
 		});
 		ctx.get().setPacketHandled(true);

@@ -70,7 +70,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.addMaterial(material, amount);
 
-			context.getSource().sendSuccess(Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -88,7 +88,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.removeMaterial(material, amount);
 
-			context.getSource().sendSuccess(Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -106,7 +106,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 				playerData.addMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -121,7 +121,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.clearMaterials();
 
-			context.getSource().sendSuccess(Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -139,7 +139,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setMaterial(material, amount);
 
-			context.getSource().sendSuccess(Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -157,7 +157,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 				playerData.setMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
 
 			player.sendSystemMessage(Component.translatable("You have been set all the materials to " + amount));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);

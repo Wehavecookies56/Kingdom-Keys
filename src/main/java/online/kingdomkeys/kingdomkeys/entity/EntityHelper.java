@@ -115,7 +115,7 @@ public class EntityHelper {
 
 	public static List<LivingEntity> getEntitiesNear(Entity e, double radius) {
 		AABB aabb = new AABB(e.getX(), e.getY(), e.getZ(), e.getX() + 1, e.getY() + 1, e.getZ() + 1).inflate(radius, radius, radius);
-		List<LivingEntity> list = e.level.getEntitiesOfClass(LivingEntity.class, aabb);
+		List<LivingEntity> list = e.level().getEntitiesOfClass(LivingEntity.class, aabb);
 		list.remove(e);
 		return list;
 	}

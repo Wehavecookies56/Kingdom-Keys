@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:blast_blox"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

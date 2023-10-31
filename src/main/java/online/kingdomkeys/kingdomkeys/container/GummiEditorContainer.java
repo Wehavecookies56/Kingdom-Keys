@@ -62,7 +62,7 @@ public class GummiEditorContainer extends AbstractContainerMenu {
 	}
 
 	private static GummiEditorTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
-		final BlockEntity te = playerInventory.player.level.getBlockEntity(buf.readBlockPos());
+		final BlockEntity te = playerInventory.player.level().getBlockEntity(buf.readBlockPos());
 		if (te instanceof GummiEditorTileEntity) {
 			return (GummiEditorTileEntity) te;
 		}

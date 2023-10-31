@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,15 +25,16 @@ public class HPGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastPlayerHealth;
 
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png");
+
 	private HPGui() {
 		super();
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		Player player = minecraft.player;
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -64,6 +66,8 @@ public class HPGui extends OverlayBase {
 
 		missingHpBarWidth = Math.max(((lastPlayerHealth - player.getHealth()) * scaleFactor),0);
 
+		PoseStack poseStack = guiGraphics.pose();
+
 		poseStack.pushPose();
 		{
 //			poseStack.scale(scale, 1, 1);
@@ -74,7 +78,7 @@ public class HPGui extends OverlayBase {
 			{
 				poseStack.translate((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
 				poseStack.scale(scale, scale, scale);
-				drawHPBarBack(poseStack, 0, 0, hpBarMaxWidth, scale, player);
+				drawHPBarBack(guiGraphics, 0, 0, hpBarMaxWidth, scale, player);
 			}
 			poseStack.popPose();
 
@@ -82,14 +86,14 @@ public class HPGui extends OverlayBase {
 			{
 				poseStack.translate((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
 				poseStack.scale(scale, scale, scale);
-				drawHPBarTop(poseStack, 0, 0, hpBarWidth, scale, player);
+				drawHPBarTop(guiGraphics, 0, 0, hpBarWidth, scale, player);
 			}
 			poseStack.popPose();
 			poseStack.pushPose(); // Red portion of the bar
 			{
 				poseStack.translate((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
 				poseStack.scale(scale, scale, scale);
-				drawDamagedHPBarTop(poseStack, 0, 0, missingHpBarWidth, scale, player);
+				drawDamagedHPBarTop(guiGraphics, 0, 0, missingHpBarWidth, scale, player);
 			}
 			poseStack.popPose();
 			RenderSystem.disableBlend();
@@ -97,8 +101,8 @@ public class HPGui extends OverlayBase {
 		poseStack.popPose();
 	}
 
-	public void drawHPBarBack(PoseStack matrixStack, int posX, int posY, float width, float scale, Player player) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawHPBarBack(GuiGraphics gui, int posX, int posY, float width, float scale, Player player) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			// Left
@@ -106,7 +110,7 @@ public class HPGui extends OverlayBase {
 			{
 				matrixStack.translate(scale * posX, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 0, 0, 2, 12);
+				blit(gui, texture, 0, 0, 0, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -116,7 +120,7 @@ public class HPGui extends OverlayBase {
 				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
 				matrixStack.scale(width, scale, 0);
 				int v = Utils.isPlayerLowHP(player) ? 8 : 2;
-				blit(matrixStack, 0, 0, v, 0, 1, 12);
+				blit(gui, texture, 0, 0, v, 0, 1, 12);
 			}
 			matrixStack.popPose();
 
@@ -125,7 +129,7 @@ public class HPGui extends OverlayBase {
 			{
 				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 3, 0, 2, 12);
+				blit(gui, texture, 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.popPose();
 		}
@@ -133,25 +137,25 @@ public class HPGui extends OverlayBase {
 
 	}
 
-	public void drawHPBarTop(PoseStack matrixStack, int posX, int posY, float width, float scale, Player player) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale, Player player) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
-			blit(matrixStack, 0, -1, 2, 12, 1, 8);
+			blit(gui, texture, 0, -1, 2, 12, 1, 8);
 		}
 		matrixStack.popPose();
 
 	}
 	
-	public void drawDamagedHPBarTop(PoseStack matrixStack, int posX, int posY, float width, float scale, LivingEntity player) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawDamagedHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale, LivingEntity player) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
-			blit(matrixStack,0, -1, 2, 22, 1, 8);
+			blit(gui, texture,0, -1, 2, 22, 1, 8);
 		}
 		matrixStack.popPose();
 	}

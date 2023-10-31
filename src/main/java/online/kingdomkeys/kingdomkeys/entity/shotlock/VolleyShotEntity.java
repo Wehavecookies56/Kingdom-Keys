@@ -45,7 +45,7 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		
 		if(tickCount > 1) {
 			Color color = new Color(getColor());
-			level.addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
+			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
 			//world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 		
@@ -70,7 +70,7 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 	@Override
 	protected void onHit(HitResult rtRes) {
 		super.onHit(rtRes);
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 

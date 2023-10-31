@@ -55,7 +55,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		        
 				matrixStackIn.mulPose(Axis.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
 				
-				for (BakedQuad quad : model.getQuads(null, null, entity.level.random, ModelData.EMPTY, RenderType.translucent())) {
+				for (BakedQuad quad : model.getQuads(null, null, entity.level().random, ModelData.EMPTY, RenderType.translucent())) {
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb[0], rgb[1], rgb[2], rgb[3], 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				

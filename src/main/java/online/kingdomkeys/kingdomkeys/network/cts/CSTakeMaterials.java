@@ -43,7 +43,7 @@ public class CSTakeMaterials {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(!ItemStack.isSame(message.stack, ItemStack.EMPTY)) {
+			if(!ItemStack.isSameItem(message.stack, ItemStack.EMPTY)) {
 				Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(message.stack.getItem()).getPath()));
 				
 				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {

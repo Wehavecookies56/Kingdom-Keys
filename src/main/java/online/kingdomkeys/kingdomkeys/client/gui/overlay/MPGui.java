@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
@@ -28,13 +29,11 @@ public class MPGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		Player player = minecraft.player;
-
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -53,6 +52,9 @@ public class MPGui extends OverlayBase {
 
 		mpBarWidth = (int) (playerData.getMP() * scaleactor);
 		int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleactor);
+
+		PoseStack poseStack = guiGraphics.pose();
+
 		poseStack.pushPose();// MP Background
 		{
 			RenderSystem.enableBlend();
@@ -62,7 +64,7 @@ public class MPGui extends OverlayBase {
 			{
 				poseStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
 				poseStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarBack(poseStack, 0, 0, mpBarMaxWidth, scale);
+				drawMPBarBack(guiGraphics, 0, 0, mpBarMaxWidth, scale);
 			}
 			poseStack.popPose();
 
@@ -70,7 +72,7 @@ public class MPGui extends OverlayBase {
 			{
 				poseStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
 				poseStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarTop(poseStack, 0, 0, (int) Math.ceil(mpBarWidth), scale);
+				drawMPBarTop(guiGraphics, 0, 0, (int) Math.ceil(mpBarWidth), scale);
 			}
 			poseStack.popPose();
 			RenderSystem.disableBlend();
@@ -78,8 +80,8 @@ public class MPGui extends OverlayBase {
 		poseStack.popPose();
 	}
 
-	public void drawMPBarBack(PoseStack matrixStack, int posX, int posY, int width, float scale) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+	public void drawMPBarBack(GuiGraphics gui, int posX, int posY, int width, float scale) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			// Left Margin
@@ -87,7 +89,7 @@ public class MPGui extends OverlayBase {
 			{
 				matrixStack.translate(scale * posX, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 0, 0, 2, 12);
+				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -97,7 +99,7 @@ public class MPGui extends OverlayBase {
 				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
 				matrixStack.scale(width, scale, 0);
 				int v = playerData.getRecharge() ? 8 : 2;
-				blit(matrixStack, 0, 0, v, 0, 1, 12);
+				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, v, 0, 1, 12);
 
 			}
 			matrixStack.popPose();
@@ -107,7 +109,7 @@ public class MPGui extends OverlayBase {
 			{
 				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 3, 0, 2, 12);
+				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -117,7 +119,7 @@ public class MPGui extends OverlayBase {
 				int v = playerData.getRecharge() ? 45 : 32;
 				matrixStack.translate((posX + 2) * scale + width + 1, scale * posY, 0);
 				matrixStack.scale(scale * 0.8F, scale, 1);
-				blit(matrixStack, 0, 0, 0, v, 23, 12);
+				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, v, 23, 12);
 			}
 			matrixStack.popPose();
 		}
@@ -125,14 +127,14 @@ public class MPGui extends OverlayBase {
 
 	}
 
-	public void drawMPBarTop(PoseStack matrixStack, int posX, int posY, int width, float scale) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"));
+	public void drawMPBarTop(GuiGraphics gui, int posX, int posY, int width, float scale) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
 			int v = playerData.getRecharge() ? 22 : 12;
-			blit(matrixStack, 0, 0, 2, v, 1, 8);
+			blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 2, v, 1, 8);
 		}
 		matrixStack.popPose();
 

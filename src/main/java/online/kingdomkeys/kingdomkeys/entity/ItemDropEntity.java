@@ -71,18 +71,18 @@ public abstract class ItemDropEntity extends Entity {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
 		}
 		//TODO fix the vec3 to Vec3i
-		if (this.level.getFluidState(new BlockPos((int)this.position().x, (int)this.position().y, (int)this.position().z)).is(FluidTags.LAVA)) {
+		if (this.level().getFluidState(new BlockPos((int)this.position().x, (int)this.position().y, (int)this.position().z)).is(FluidTags.LAVA)) {
 			this.setDeltaMovement(((this.random.nextFloat() - this.random.nextFloat()) * 0.2F), 0.2F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F));
 			this.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + this.random.nextFloat() * 0.4F);
 		}
 
-		if (!this.level.noCollision(this.getBoundingBox())) {
+		if (!this.level().noCollision(this.getBoundingBox())) {
 			this.moveTowardsClosestSpace(this.getX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getZ());
 		}
 
 		double maxDist = 8.0D;
 		if (this.closestPlayer == null || this.closestPlayer.distanceToSqr(this) > Math.pow(maxDist,2)) {
-			this.closestPlayer = this.level.getNearestPlayer(this, maxDist);
+			this.closestPlayer = this.level().getNearestPlayer(this, maxDist);
 		}
 
 		if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
@@ -100,13 +100,13 @@ public abstract class ItemDropEntity extends Entity {
 
 		this.move(MoverType.SELF, this.getDeltaMovement());
 		float f = 0.98F;
-		if (this.onGround) {
+		if (this.onGround()) {
 			BlockPos pos = new BlockPos(((int) this.getX()), (int)(this.getY() - 1.0D), (int)this.getZ());
-			f = this.level.getBlockState(pos).getFriction(this.level, pos, this) * 0.98F;
+			f = this.level().getBlockState(pos).getFriction(this.level(), pos, this) * 0.98F;
 		}
 
 		this.setDeltaMovement(this.getDeltaMovement().multiply((double) f, 0.98D, (double) f));
-		if (this.onGround) {
+		if (this.onGround()) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, -0.9D, 1.0D));
 		}
 
@@ -125,7 +125,7 @@ public abstract class ItemDropEntity extends Entity {
 	 * Called when the entity is attacked.
 	 */
 	public boolean hurt(DamageSource source, float amount) {
-		if (this.level.isClientSide || this.isRemoved())
+		if (this.level().isClientSide || this.isRemoved())
 			return false; // Forge: Fixes MC-53850
 		if (this.isInvulnerableTo(source)) {
 			return false;
@@ -150,7 +150,7 @@ public abstract class ItemDropEntity extends Entity {
 	 * Called by a player entity when they collide with an entity
 	 */
 	public void playerTouch(Player entityIn) {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			if (this.delayBeforeCanPickup == 0) {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);

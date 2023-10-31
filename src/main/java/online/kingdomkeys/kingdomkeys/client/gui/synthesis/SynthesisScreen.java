@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -15,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class SynthesisScreen extends MenuBackground {
 		
@@ -81,10 +83,10 @@ public class SynthesisScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

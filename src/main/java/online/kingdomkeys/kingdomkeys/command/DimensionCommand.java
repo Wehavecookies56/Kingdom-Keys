@@ -51,13 +51,13 @@ public class DimensionCommand extends BaseCommand {
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(dim));
 
 		if (dimension == null) {
-			context.getSource().sendSuccess(Component.translatable("Invalid dimension " + dim), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Invalid dimension " + dim), true);
 			return 1;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
-			context.getSource().sendSuccess(Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
 		}
 		return 1;

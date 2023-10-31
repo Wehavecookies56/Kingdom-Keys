@@ -84,20 +84,20 @@ public class KKPotionItem extends Item implements IItemCategory {
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
         	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
         	player.heal(hpAmount);
-    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level.getPlayerByUUID(m.getUUID());
+    						Player target = player.level().getPlayerByUUID(m.getUUID());
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    						target.heal(hpAmount);
-	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     					}
     				}
@@ -107,20 +107,20 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case MP:
         	float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		playerData.addMP(mpAmount);
-    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level.getPlayerByUUID(m.getUUID());
+    						Player target = player.level().getPlayerByUUID(m.getUUID());
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    			        	targetData.addMP(mpAmount);
-	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -135,15 +135,15 @@ public class KKPotionItem extends Item implements IItemCategory {
         	
     		playerData.addMP(mpAmount);
     		player.heal(hpAmount);
-    		player.level.playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level.getPlayerByUUID(m.getUUID());
+    						Player target = player.level().getPlayerByUUID(m.getUUID());
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
@@ -152,7 +152,7 @@ public class KKPotionItem extends Item implements IItemCategory {
 
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
-	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -163,20 +163,20 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case DRIVE:
     		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
     		playerData.addDP(dpAmount);
-    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level.getPlayerByUUID(m.getUUID());
+    						Player target = player.level().getPlayerByUUID(m.getUUID());
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
 	    			        	targetData.addDP(dpAmount);
-	    			    		player.level.playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -187,20 +187,20 @@ public class KKPotionItem extends Item implements IItemCategory {
     	case FOCUS:
     		float focusAmount = (float) (percentage ? playerData.getMaxFocus() * amount / 100 : amount);
     		playerData.addFocus(focusAmount);
-    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level.getPlayerByUUID(m.getUUID());
+    						Player target = player.level().getPlayerByUUID(m.getUUID());
     						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
 	    			        	targetData.addFocus(focusAmount);
-	    			    		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}

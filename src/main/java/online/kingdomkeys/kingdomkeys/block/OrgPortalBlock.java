@@ -76,7 +76,7 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock {
 				if (portals.size() < 3) {
 					UUID portalUUID = UUID.randomUUID();
 	
-					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level.dimension(), player.getUUID()));
+					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level().dimension(), player.getUUID()));
 					Utils.syncWorldData(worldIn, worldData);
 	
 					player.displayClientMessage(Component.translatable(ChatFormatting.GREEN + "This is now your portal"), true);

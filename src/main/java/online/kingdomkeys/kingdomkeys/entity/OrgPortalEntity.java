@@ -61,9 +61,9 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
-		level.addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
+		level().addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
 
-		List<Entity> tempList = level.getEntities(this, getBoundingBox().inflate(radius, radius, radius));
+		List<Entity> tempList = level().getEntities(this, getBoundingBox().inflate(radius, radius, radius));
 		for (Entity t : tempList) {
 			if(shouldTeleport && !(t instanceof OrgPortalEntity)) {
 		        if(!this.isAlive())
@@ -73,7 +73,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
 		                	double yOffset = t.getY() - this.getY();
 		                	t.setPos(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
-		                	if(t instanceof Player && level.isClientSide)
+		                	if(t instanceof Player && level().isClientSide)
 		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5));
 		                }
 		            }

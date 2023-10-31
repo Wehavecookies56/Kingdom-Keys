@@ -47,13 +47,13 @@ public class CSPartySettings {
 	public static void handle(CSPartySettings message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 			Party p = worldData.getPartyFromName(message.name);
 			p.setPriv(message.priv);
 			p.setSize(message.size);
 			p.setFriendlyFire(message.friendlyFire);
 			
-			Utils.syncWorldData(player.level, worldData);
+			Utils.syncWorldData(player.level(), worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

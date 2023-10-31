@@ -66,7 +66,7 @@ public class PairBloxEntity extends Entity {
 		this.move(MoverType.SELF, this.getDeltaMovement().add(0, -1, 0));
 		//this.handleWaterMovement();
 		if(tickCount >= 5) {
-			this.level.setBlockAndUpdate(this.blockPosition(), ModBlocks.pairBlox.get().defaultBlockState().setValue(PairBloxBlock.PAIR, getPair()));
+			this.level().setBlockAndUpdate(this.blockPosition(), ModBlocks.pairBlox.get().defaultBlockState().setValue(PairBloxBlock.PAIR, getPair()));
 			this.remove(RemovalReason.KILLED);
 		}
 	}

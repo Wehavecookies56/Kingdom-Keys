@@ -28,8 +28,8 @@ public class ShotlockPrismRain extends Shotlock {
 		playerData.setLimitCooldownTicks(cooldown);
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 		float damage = (float) (DamageCalculation.getMagicDamage(player) * ModConfigs.shotlockMult);
-		PrismRainCoreEntity core = new PrismRainCoreEntity(player.level, player, targetList, damage);
+		PrismRainCoreEntity core = new PrismRainCoreEntity(player.level(), player, targetList, damage);
 		core.setPos(player.getX(), player.getY(), player.getZ());
-		player.level.addFreshEntity(core);
+		player.level().addFreshEntity(core);
 	}
 }

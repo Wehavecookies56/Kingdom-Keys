@@ -48,12 +48,12 @@ public class CSPartyInvite {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			
-			Player target = player.level.getPlayerByUUID(message.playerUUID);
+			Player target = player.level().getPlayerByUUID(message.playerUUID);
 			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(target);
 			if(!targetPlayerData.getPartiesInvited().contains(message.name)) {
 				targetPlayerData.addPartiesInvited(message.name);
 				
-				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 				Party p = worldData.getPartyFromName(message.name);
 				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
 			}

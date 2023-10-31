@@ -46,7 +46,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	public void render(KKThrowableEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
 		poseStack.pushPose();
         ItemStack itemstack = entityIn.getItem();
-        BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level, null, 1);
+        BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level(), null, 1);
         poseStack.translate(0, 0.4, 0);
         poseStack.mulPose(Axis.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,10 +17,11 @@ import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
+import org.jetbrains.annotations.NotNull;
 
 public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
 
-	private static final String texture = KingdomKeys.MODID+":textures/gui/pedestal.png";
+	private static final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/pedestal.png");
 
     public PedestalScreen(PedestalContainer container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -80,33 +82,32 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
-    	 this.renderBackground(matrixStack);
-         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
-         this.renderTooltip(matrixStack, p_render_1_, p_render_2_);
+    public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
+    	 this.renderBackground(gui);
+         super.render(gui, p_render_1_, p_render_2_, p_render_3_);
+         this.renderTooltip(gui, p_render_1_, p_render_2_);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, "Scale " + String.format("%.2f", scaleSlider.getValue()) + "x", 60.0F, 31.0F, 4210752);
-        this.font.draw(matrixStack, "Height " + String.format("%.2f", heightSlider.getValue()), 60.0F, 43.0F, 4210752);
-        this.font.draw(matrixStack, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752);
-        this.font.draw(matrixStack, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752);
-        this.font.draw(matrixStack, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 96 + 2), 4210752);
+    protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
+        gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
+        gui.drawString(font, "Scale " + String.format("%.2f", scaleSlider.getValue()) + "x", 60.0F, 31.0F, 4210752, false);
+        gui.drawString(font, "Height " + String.format("%.2f", heightSlider.getValue()), 60.0F, 43.0F, 4210752, false);
+        gui.drawString(font, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752, false);
+        gui.drawString(font, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752, false);
+        gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 96 + 2), 4210752, false);
        // super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
     	Minecraft mc = Minecraft.getInstance();
        // RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, new ResourceLocation(texture));
 
         int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
-		blit(matrixStack, xPos, yPos, 0, 0, imageWidth, imageHeight);
+		gui.blit(texture, xPos, yPos, 0, 0, imageWidth, imageHeight);
     }
     
     @Override

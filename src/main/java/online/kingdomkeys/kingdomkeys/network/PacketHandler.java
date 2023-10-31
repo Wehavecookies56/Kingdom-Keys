@@ -92,10 +92,10 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSUseShortcutPacket.class, CSUseShortcutPacket::encode, CSUseShortcutPacket::decode, CSUseShortcutPacket::handle);
 		HANDLER.registerMessage(packetID++, CSExtendedReach.class, CSExtendedReach::encode, CSExtendedReach::decode, CSExtendedReach::handle);
 		HANDLER.registerMessage(packetID++, CSShopBuy.class, CSShopBuy::encode, CSShopBuy::decode, CSShopBuy::handle);
+		HANDLER.registerMessage(packetID++, CSChangeStyle.class, CSChangeStyle::encode, CSChangeStyle::decode, CSChangeStyle::handle);
 		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
 		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
-
-
+		HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {
@@ -125,16 +125,16 @@ public class PacketHandler {
 	}
 
 	public static void syncToAllAround(Player player, IPlayerCapabilities playerData) {
-		if (!player.level.isClientSide) {
-			for (Player playerFromList : player.level.players()) {
+		if (!player.level().isClientSide) {
+			for (Player playerFromList : player.level().players()) {
 				sendTo(new SCSyncCapabilityToAllPacket(player.getDisplayName().getString(), playerData), (ServerPlayer) playerFromList);
 			}
 		}
 	}
 	
 	public static void syncToAllAround(LivingEntity entity, IGlobalCapabilities globalData) {
-		if (!entity.level.isClientSide) {
-			for (Player playerFromList : entity.level.players()) {
+		if (!entity.level().isClientSide) {
+			for (Player playerFromList : entity.level().players()) {
 				sendTo(new SCSyncGlobalCapabilityToAllPacket(entity.getId(), globalData), (ServerPlayer) playerFromList);
 			}
 		}

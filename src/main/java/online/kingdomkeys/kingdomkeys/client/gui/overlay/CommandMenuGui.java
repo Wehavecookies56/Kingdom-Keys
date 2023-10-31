@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -59,10 +60,10 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-		drawCommandMenu(poseStack, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
+		drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 	}
 
 	float alpha = 1F;
@@ -88,7 +89,7 @@ public class CommandMenuGui extends OverlayBase {
 		}
 	}
 	
-	private void paintWithColorArray(PoseStack matrixStack, float[] array, float alpha) {
+	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
 		if (EntityEvents.isHostiles) { //Red
 			if(submenu == array[3]) {
 				RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
@@ -112,30 +113,30 @@ public class CommandMenuGui extends OverlayBase {
 		}
 	}
 
-	public void drawCommandMenu(PoseStack matrixStack, int width, int height) {
+	public void drawCommandMenu(GuiGraphics gui, int width, int height) {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
-			matrixStack.pushPose();
+			gui.pose().pushPose();
 			{
-				matrixStack.translate(ModConfigs.cmXPos, 0, 0);
-				drawMain(matrixStack, width, height);
+				gui.pose().translate(ModConfigs.cmXPos, 0, 0);
+				drawMain(gui, width, height);
 			
 				if (submenu == SUB_PORTALS) {
-					drawSubPortals(matrixStack, width, height);
+					drawSubPortals(gui, width, height);
 				}
 				if (submenu == SUB_MAGIC || submenu == SUB_TARGET && selected == MAGIC) {
-					drawSubMagic(matrixStack, width, height);
+					drawSubMagic(gui, width, height);
 				}
 				if (submenu == SUB_ITEMS || submenu == SUB_TARGET && selected == ITEMS) {
-					drawSubItems(matrixStack, width, height);
+					drawSubItems(gui, width, height);
 				}
 				if (submenu == SUB_DRIVE) {
-					drawSubDrive(matrixStack, width, height);
+					drawSubDrive(gui, width, height);
 				}
 				if (submenu == SUB_LIMIT) {
-					drawSubLimits(matrixStack, width, height);
+					drawSubLimits(gui, width, height);
 				}
 				if (submenu == SUB_TARGET) {
-					drawSubTargetSelector(matrixStack, width, height);
+					drawSubTargetSelector(gui, width, height);
 				}
 				if (submenu == SUB_MAIN && KeyboardHelper.isScrollActivatorDown()) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -154,69 +155,72 @@ public class CommandMenuGui extends OverlayBase {
 							colour = 0x888888;
 						}
 
-						drawString(matrixStack, minecraft.font, "ALT + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
+						drawString(guiGraphics, minecraft.font, "ALT + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
 						i++;
 					}
 
 				}
 			}
-			matrixStack.popPose();
+			gui.pose().popPose();
 		}
 	}
 		
-	private void drawHeader(PoseStack matrixStack, String text, int subMenu) {
+	private void drawHeader(GuiGraphics gui, String text, int subMenu) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
-			blit(matrixStack, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
+			blit(gui, texture, 0, 0, 0, 0, TOP_WIDTH, TOP_HEIGHT);
 			RenderSystem.setShaderColor(1,1,1, alpha);
-			blit(matrixStack, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
+			blit(gui, texture, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
 		}
 		matrixStack.popPose();
 		
 		if(ModConfigs.cmHeaderTextVisible) {
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(text), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, getColor(0xFFFFFF,subMenu));
+			drawString(gui, minecraft.font, Utils.translateToLocal(text), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, getColor(0xFFFFFF,subMenu));
 		}
 	}
 	
-	private void drawSelectedSlot(PoseStack matrixStack) {
+	private void drawSelectedSlot(GuiGraphics gui) {
 		RenderSystem.enableBlend();
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
-			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
+			blit(gui, texture, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT, TOP_WIDTH, MENU_HEIGHT);
 			RenderSystem.setShaderColor(1,1,1, alpha);
-			blit(matrixStack, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT+30, TOP_WIDTH, MENU_HEIGHT);
+			blit(gui, texture, ModConfigs.cmSelectedXOffset, 0, TOP_WIDTH, MENU_HEIGHT+30, TOP_WIDTH, MENU_HEIGHT);
 
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
 	}
 
-	private void drawUnselectedSlot(PoseStack matrixStack) {
+	private void drawUnselectedSlot(GuiGraphics gui) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		matrixStack.pushPose();
 		{
 			matrixStack.scale(ModConfigs.cmXScale / 100F, 1, 1);
-			blit(matrixStack, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
+			blit(gui, texture, 0, 0, TOP_WIDTH, 0, TOP_WIDTH, 0 + MENU_HEIGHT);
 			RenderSystem.setShaderColor(1,1,1, alpha);
-			blit(matrixStack, 0, 0, TOP_WIDTH, 30, TOP_WIDTH, 0 + MENU_HEIGHT);
+			blit(gui, texture, 0, 0, TOP_WIDTH, 30, TOP_WIDTH, 0 + MENU_HEIGHT);
 
 		}
 		matrixStack.popPose();	
 		RenderSystem.disableBlend();
 	}
 
-	private void drawIcon(PoseStack matrixStack, int selected, int subMenu) {
+	private void drawIcon(GuiGraphics gui, int selected, int subMenu) {
 		RenderSystem.enableBlend();
 		if(subMenu == submenu) {
 			RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 		} else {
 			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, alpha);
 		}
-		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
+		blit(gui, texture, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 		RenderSystem.setShaderColor(1,1,1, alpha);
-		blit(matrixStack, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
+		blit(gui, texture, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
 
 
 		RenderSystem.disableBlend();
@@ -242,17 +246,17 @@ public class CommandMenuGui extends OverlayBase {
 		return "";
 	}
 	
-	public void drawMain(PoseStack matrixStack, int width, int height) {
+	public void drawMain(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		//Header
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
-			RenderSystem.setShaderTexture(0, texture);
 			matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP), 0);
 			matrixStack.scale(scale, scale, scale);
-			paintWithColorArray(matrixStack, normalModeColor, alpha);
-			drawHeader(matrixStack, Strings.Gui_CommandMenu_Command, SUB_MAIN);
+			paintWithColorArray(gui, normalModeColor, alpha);
+			drawHeader(gui, Strings.Gui_CommandMenu_Command, SUB_MAIN);
 		}
 		matrixStack.popPose();
 		
@@ -268,18 +272,17 @@ public class CommandMenuGui extends OverlayBase {
 				} else {
 					RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, alpha);
 				}
-				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 0);
 				matrixStack.scale(scale, scale, scale);
 				matrixStack.pushPose();
 				{
 					matrixStack.scale(ModConfigs.cmXScale / 75F, 1, 1);
-					blit(matrixStack, 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
+					blit(gui, texture, 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
 				}
 				matrixStack.popPose();
 				
 				ReactionCommand command = ModReactionCommands.registry.get().getValue(new ResourceLocation(list.get(i)));
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);	
+				drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 			}
 			matrixStack.popPose();
 		}
@@ -291,24 +294,23 @@ public class CommandMenuGui extends OverlayBase {
 			for(int i = 1; i <= ATTACK; i++) {
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * i), 0);
 					matrixStack.scale(scale, scale, scale);
 		
-					paintWithColorArray(matrixStack, normalModeColor, alpha);
+					paintWithColorArray(gui, normalModeColor, alpha);
 					LocalPlayer player = minecraft.player;
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 					if (selected == i) { // Selected
 						textX += ModConfigs.cmSelectedXOffset;
-						drawSelectedSlot(matrixStack);
+						drawSelectedSlot(gui);
 						if (selected == ATTACK && ModCapabilities.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
-							drawIcon(matrixStack, selected+1, SUB_MAIN);
+							drawIcon(gui, selected+1, SUB_MAIN);
 						} else {
-							drawIcon(matrixStack, selected, SUB_MAIN);
+							drawIcon(gui, selected, SUB_MAIN);
 						}
 					} else { // Not selected
-						drawUnselectedSlot(matrixStack);
+						drawUnselectedSlot(gui);
 					}
 		
 					int color = getColor(0xFFFFFF,SUB_MAIN);
@@ -331,14 +333,14 @@ public class CommandMenuGui extends OverlayBase {
 						}
 					}
 					
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);
+					drawString(gui, minecraft.font, Utils.translateToLocal(getCommandMenuName(i)), textX, 4, color);
 					
 					if(i == ATTACK) {
 						if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof ArrowgunItem) {
 							ItemStack weapon = player.getMainHandItem();
 							if (weapon.hasTag() && weapon.getTag().contains("ammo")) {
 								int ammo = weapon.getTag().getInt("ammo");
-								drawString(matrixStack, minecraft.font, ammo + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, 0xFFFFFF);
+								drawString(gui, minecraft.font, ammo + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) + (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.10), 4, 0xFFFFFF);
 							}
 						}
 					}
@@ -352,9 +354,10 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 
-	public void drawSubPortals(PoseStack matrixStack, int width, int height) {
+	public void drawSubPortals(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
-		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.level);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.player.level());
 
         List<UUID> portals = worldData.getAllPortalsFromOwnerID(minecraft.player.getUUID());
         
@@ -363,36 +366,34 @@ public class CommandMenuGui extends OverlayBase {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				paintWithColorArray(matrixStack, portalMenuColor, alpha);
-				RenderSystem.setShaderTexture(0, texture);
+				paintWithColorArray(gui, portalMenuColor, alpha);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
-				drawHeader(matrixStack, Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
+				drawHeader(gui, Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
 			}
 			matrixStack.popPose();
 			if (submenu == SUB_PORTALS) {
 				for (int i = 0; i < portals.size(); i++) {
 					matrixStack.pushPose();
 					{
-						RenderSystem.setShaderTexture(0, texture);
 						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
-						paintWithColorArray(matrixStack, portalMenuColor, alpha);
+						paintWithColorArray(gui, portalMenuColor, alpha);
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 						if (portalSelected == i) {
 							//System.out.println(textX);
 							textX += ModConfigs.cmSelectedXOffset;
-							drawSelectedSlot(matrixStack);
-							drawIcon(matrixStack, selected, SUB_PORTALS);
+							drawSelectedSlot(gui);
+							drawIcon(gui, selected, SUB_PORTALS);
 						} else { // Not selected
-							drawUnselectedSlot(matrixStack);
+							drawUnselectedSlot(gui);
 						}
 						//System.out.println(textX);
 						UUID portalUUID = portals.get(i);
 						PortalData portal = worldData.getPortalFromUUID(portalUUID);
 						if(portal != null)
-							drawString(matrixStack, minecraft.font, Utils.translateToLocal(portal.getName()), textX, 4, 0xFFFFFF);
+							drawString(gui, minecraft.font, Utils.translateToLocal(portal.getName()), textX, 4, 0xFFFFFF);
 						}
 					matrixStack.popPose();
 				}
@@ -401,7 +402,8 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawSubTargetSelector(PoseStack matrixStack, int width, int height) {
+	private void drawSubTargetSelector(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
 		if(worldData == null || worldData.getPartyFromMember(minecraft.player.getUUID()) == null) {
@@ -413,35 +415,33 @@ public class CommandMenuGui extends OverlayBase {
 		//Title
 		matrixStack.pushPose();
 		{
-			paintWithColorArray(matrixStack, targetModeColor, alpha);
-			RenderSystem.setShaderTexture(0, texture);
+			paintWithColorArray(gui, targetModeColor, alpha);
 			matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() + 1)), 0);
 			matrixStack.scale(scale, scale, scale);
-			drawHeader(matrixStack, "TARGET", SUB_TARGET);
+			drawHeader(gui, "TARGET", SUB_TARGET);
 		}
 		matrixStack.popPose();
 
 		for (int i = 0; i < worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size(); i++) {
 			matrixStack.pushPose();
 			{
-				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() - i)), 0);
 				matrixStack.scale(scale, scale, scale);
 				if (submenu == SUB_TARGET) {
-					paintWithColorArray(matrixStack, targetModeColor, alpha);
+					paintWithColorArray(gui, targetModeColor, alpha);
 					if (targetSelected == i) {
 						textX += ModConfigs.cmSelectedXOffset;
-						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected, SUB_TARGET);
+						drawSelectedSlot(gui);
+						drawIcon(gui, selected, SUB_TARGET);
 					} else { // Not selected
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-						drawUnselectedSlot(matrixStack);
+						drawUnselectedSlot(gui);
 					}
 					Member member = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().get(i);
 	            	if(minecraft.level.getPlayerByUUID(member.getUUID()) != null && minecraft.player.distanceTo(minecraft.level.getPlayerByUUID(member.getUUID())) < ModConfigs.partyRangeLimit) {
-						drawString(matrixStack, minecraft.font, member.getUsername(), textX, 4, 0xFFFFFF);
+						drawString(gui, minecraft.font, member.getUsername(), textX, 4, 0xFFFFFF);
 					} else {
-						drawString(matrixStack, minecraft.font, member.getUsername(), textX, 4, 0x888888);
+						drawString(gui, minecraft.font, member.getUsername(), textX, 4, 0x888888);
 					}
 				}
 			}
@@ -450,7 +450,8 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 
-	private void drawSubMagic(PoseStack matrixStack, int width, int height) {
+	private void drawSubMagic(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		//LinkedHashMap<String, int[]> magics = Utils.getSortedMagics(playerData.getMagicsMap());
@@ -461,29 +462,27 @@ public class CommandMenuGui extends OverlayBase {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
-				paintWithColorArray(matrixStack, magicMenuColor, alpha);
-				drawHeader(matrixStack, Strings.Gui_CommandMenu_Magic_Title, SUB_MAGIC);				
+				paintWithColorArray(gui, magicMenuColor, alpha);
+				drawHeader(gui, Strings.Gui_CommandMenu_Magic_Title, SUB_MAGIC);
 			}
 			matrixStack.popPose();
 			
 			for (int i = 0; i < magics.size(); i++) {
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
-					paintWithColorArray(matrixStack, magicMenuColor, alpha);
+					paintWithColorArray(gui, magicMenuColor, alpha);
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 					if (magicSelected == i) {
 						textX += ModConfigs.cmSelectedXOffset;
-						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected, SUB_MAGIC);
+						drawSelectedSlot(gui);
+						drawIcon(gui, selected, SUB_MAGIC);
 					} else { // Not selected
-						drawUnselectedSlot(matrixStack);
+						drawUnselectedSlot(gui);
 					}
 
 					String magic = magics.get(i);
@@ -503,7 +502,7 @@ public class CommandMenuGui extends OverlayBase {
 
 					magic = magicInstance.getTranslationKey(magicLevel);
 
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));
+					drawString(gui, minecraft.font, Utils.translateToLocal(magic), textX, 4, getColor(colour, SUB_MAGIC));
 				}
 				matrixStack.popPose();
 			}
@@ -511,7 +510,8 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawSubItems(PoseStack matrixStack, int width, int height) {
+	private void drawSubItems(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
@@ -523,11 +523,10 @@ public class CommandMenuGui extends OverlayBase {
 			// DRIVE TOP
 			matrixStack.pushPose();
 			{
-				paintWithColorArray(matrixStack, itemsMenuColor, alpha);
-				RenderSystem.setShaderTexture(0, texture);
+				paintWithColorArray(gui, itemsMenuColor, alpha);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
-				drawHeader(matrixStack, Strings.Gui_CommandMenu_Items_Title, SUB_ITEMS);
+				drawHeader(gui, Strings.Gui_CommandMenu_Items_Title, SUB_ITEMS);
 			}
 			matrixStack.popPose();
 			
@@ -537,20 +536,19 @@ public class CommandMenuGui extends OverlayBase {
 
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size() - c)), 0);
 					matrixStack.scale(scale, scale, scale);
-					paintWithColorArray(matrixStack, itemsMenuColor, alpha);
+					paintWithColorArray(gui, itemsMenuColor, alpha);
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 					if (itemSelected == c) {
 						textX += ModConfigs.cmSelectedXOffset;
-						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected, SUB_ITEMS);
+						drawSelectedSlot(gui);
+						drawIcon(gui, selected, SUB_ITEMS);
 					} else { // Not selected
-						drawUnselectedSlot(matrixStack);
+						drawUnselectedSlot(gui);
 					}
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(itemStack.getDescriptionId()), textX, 4, 0xFFFFFF);
+					drawString(gui, minecraft.font, Utils.translateToLocal(itemStack.getDescriptionId()), textX, 4, 0xFFFFFF);
 					
 				}
 				matrixStack.popPose();
@@ -560,7 +558,8 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 
-	private void drawSubDrive(PoseStack matrixStack, int width, int height) {
+	private void drawSubDrive(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
@@ -577,11 +576,10 @@ public class CommandMenuGui extends OverlayBase {
 			// DRIVE TOP
 			matrixStack.pushPose();
 			{
-				paintWithColorArray(matrixStack, driveMenuColor, alpha);
-				RenderSystem.setShaderTexture(0, texture);
+				paintWithColorArray(gui, driveMenuColor, alpha);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
 				matrixStack.scale(scale, scale, scale);
-				drawHeader(matrixStack, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
+				drawHeader(gui, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
 			}
 			matrixStack.popPose();
 
@@ -595,25 +593,24 @@ public class CommandMenuGui extends OverlayBase {
 
 					matrixStack.pushPose();
 					{
-						RenderSystem.setShaderTexture(0, texture);
 						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
 						matrixStack.scale(scale, scale, scale);
 
 						if (submenu == SUB_DRIVE) {
 							textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
-							paintWithColorArray(matrixStack, driveMenuColor, alpha);
+							paintWithColorArray(gui, driveMenuColor, alpha);
 							if (driveSelected == i) {
 								textX += ModConfigs.cmSelectedXOffset;
-								drawSelectedSlot(matrixStack);
-								drawIcon(matrixStack, selected, SUB_DRIVE);
+								drawSelectedSlot(gui);
+								drawIcon(gui, selected, SUB_DRIVE);
 							} else { // Not selected
-								drawUnselectedSlot(matrixStack);
+								drawUnselectedSlot(gui);
 							}
 						}
 					
 						if (submenu == SUB_DRIVE) {
-							drawString(matrixStack, minecraft.font, Utils.translateToLocal(formName), textX, 4, color);
+							drawString(gui, minecraft.font, Utils.translateToLocal(formName), textX, 4, color);
 						}
 					}
 					matrixStack.popPose();
@@ -623,7 +620,8 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawSubLimits(PoseStack matrixStack, int width, int height) {
+	private void drawSubLimits(GuiGraphics gui, int width, int height) {
+		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
@@ -635,30 +633,28 @@ public class CommandMenuGui extends OverlayBase {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				RenderSystem.setShaderTexture(0, texture);
 				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 0);
 				matrixStack.scale(scale, scale, scale);
-				paintWithColorArray(matrixStack, limitMenuColor, alpha);
-				drawHeader(matrixStack, Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
+				paintWithColorArray(gui, limitMenuColor, alpha);
+				drawHeader(gui, Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
 			}
 			matrixStack.popPose();
 			
 			for (int i = 0; i < limits.size(); i++) {
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, texture);
 					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);
 					matrixStack.scale(scale, scale, scale);
 
-					paintWithColorArray(matrixStack, limitMenuColor, alpha);
+					paintWithColorArray(gui, limitMenuColor, alpha);
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 					if (limitSelected == i) {
 						textX += ModConfigs.cmSelectedXOffset;
-						drawSelectedSlot(matrixStack);
-						drawIcon(matrixStack, selected, SUB_LIMIT);
+						drawSelectedSlot(gui);
+						drawIcon(gui, selected, SUB_LIMIT);
 					} else { // Not selected
-						drawUnselectedSlot(matrixStack);
+						drawUnselectedSlot(gui);
 					}
 
 					int limitCost = limits.get(i).getCost();
@@ -666,9 +662,9 @@ public class CommandMenuGui extends OverlayBase {
 
 					String name = limits.get(i).getTranslationKey();
 					matrixStack.scale(scale*0.7F, scale*0.9F, scale);
-					drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), (int)(textX * scale * 1.3F), 4, getColor(color, SUB_LIMIT));
+					drawString(gui, minecraft.font, Utils.translateToLocal(name), (int)(textX * scale * 1.3F), 4, getColor(color, SUB_LIMIT));
 					matrixStack.scale(scale*1.3F, scale*1.1F, scale);
-					drawString(matrixStack, minecraft.font, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D)  + textX), 4, getColor(0x00FFFF, SUB_LIMIT));
+					drawString(gui, minecraft.font, limitCost/100 + "", (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D)  + textX), 4, getColor(0x00FFFF, SUB_LIMIT));
 
 				}
 				matrixStack.popPose();

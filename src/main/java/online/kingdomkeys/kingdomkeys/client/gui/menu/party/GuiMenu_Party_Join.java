@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -19,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class GuiMenu_Party_Join extends MenuBackground {
 
@@ -131,8 +133,8 @@ public class GuiMenu_Party_Join extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		refreshParties();
 	}

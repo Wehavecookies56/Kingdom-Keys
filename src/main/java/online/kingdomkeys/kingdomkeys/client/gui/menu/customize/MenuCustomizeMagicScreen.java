@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
@@ -175,9 +176,9 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        boxLeft.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-        boxRight.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        boxLeft.renderWidget(gui, mouseX, mouseY, partialTicks);
+        boxRight.renderWidget(gui, mouseX, mouseY, partialTicks);
         //same for both
         int scrollBarHeight = rightScroll.getBottom() - rightScroll.top;
         int rightListHeight = 0;
@@ -211,10 +212,10 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
 
         updateMagicButtons(false);
         drawSeparately = true;
-        drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-        drawCenteredString(matrixStack, Minecraft.getInstance().font, "Hidden", (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
-        drawCenteredString(matrixStack, Minecraft.getInstance().font, "Command Menu", (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+        gui.drawCenteredString(Minecraft.getInstance().font, "Hidden", (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
+        gui.drawCenteredString(Minecraft.getInstance().font, "Command Menu", (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
+        super.render(gui, mouseX, mouseY, partialTicks);
   }
 
     @Override

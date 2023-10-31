@@ -53,14 +53,14 @@ public class SpawningOrbEntity extends Monster {
 		
 		if(player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level);
+			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level());
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 			
 			if(ModConfigs.mobLevelingUp) {
 				int avgLevel = playerData.getLevel();
 				
-				if(ModCapabilities.getWorld(level).getPartyFromMember(player.getUUID())!= null) {
-					Party p = ModCapabilities.getWorld(level).getPartyFromMember(player.getUUID());
+				if(ModCapabilities.getWorld(level()).getPartyFromMember(player.getUUID())!= null) {
+					Party p = ModCapabilities.getWorld(level()).getPartyFromMember(player.getUUID());
 					int total = 0;
 					int membersOnline = 0;
 					for(Party.Member m : p.getMembers()) {
@@ -77,7 +77,7 @@ public class SpawningOrbEntity extends Monster {
 					}
 				}
 				
-				int level = avgLevel - this.level.random.nextInt(6) + 2;
+				int level = avgLevel - this.level().random.nextInt(6) + 2;
 				level = Utils.clamp(level, 1, 100);
 				
 				IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
@@ -111,8 +111,8 @@ public class SpawningOrbEntity extends Monster {
 	@Override
 	public void tick() {
 		//System.out.println(getPosition());
-		if(tickCount == 1 && !level.isClientSide && this.mob != null) {
-			if(getLevel().random.nextDouble() < 0.1) {
+		if(tickCount == 1 && !level().isClientSide && this.mob != null) {
+			if(level().random.nextDouble() < 0.1) {
 				setPortal(true);
 			}
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
@@ -120,18 +120,18 @@ public class SpawningOrbEntity extends Monster {
 		SimpleParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;
 
 		if(tickCount > 10 && tickCount < 60) {
-			double x = getX() + (level.random.nextDouble() - 0.5) * 2;
-			double y = getY() + (level.random.nextDouble() - 0.5) * 2 + 1;
-			double z = getZ() + (level.random.nextDouble() - 0.5) * 2;
-			level.addParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D);
+			double x = getX() + (level().random.nextDouble() - 0.5) * 2;
+			double y = getY() + (level().random.nextDouble() - 0.5) * 2 + 1;
+			double z = getZ() + (level().random.nextDouble() - 0.5) * 2;
+			level().addParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D);
 		}
 		
 		if(tickCount == 70) {
-			if(!level.isClientSide) {
+			if(!level().isClientSide) {
 				if(this.mob != null) {
 					this.mob.setPos(this.getX(),this.getY(),this.getZ());
 					this.mob.heal(this.mob.getMaxHealth());
-					level.addFreshEntity(this.mob);
+					level().addFreshEntity(this.mob);
 				}
 			} else {
 				float radius = 0.5F;
@@ -144,7 +144,7 @@ public class SpawningOrbEntity extends Monster {
 						double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double y = Y + (radius * Math.cos(Math.toRadians(t))) +1;
-						level.addParticle(particle, x, y, z, (level.random.nextDouble()-0.5) / 4,  (level.random.nextDouble()-0.5) / 4,  (level.random.nextDouble()-0.5) / 4);
+						level().addParticle(particle, x, y, z, (level().random.nextDouble()-0.5) / 4,  (level().random.nextDouble()-0.5) / 4,  (level().random.nextDouble()-0.5) / 4);
 					}
 				}
 			}
@@ -171,7 +171,7 @@ public class SpawningOrbEntity extends Monster {
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("kingdomkeys:realm_of_darkness"));
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
 			playerData.setRespawnROD(true);
-			if(!nPlayer.level.isClientSide()) {
+			if(!nPlayer.level().isClientSide()) {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)nPlayer);
 			}
 			

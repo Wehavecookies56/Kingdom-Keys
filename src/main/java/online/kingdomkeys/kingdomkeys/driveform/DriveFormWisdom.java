@@ -27,7 +27,7 @@ public class DriveFormWisdom extends DriveForm {
 
 	@SubscribeEvent
 	public static void getWisdomFormXP(LivingDeathEvent event) { // Check if it's a heartless
-		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof IKHMob) {
+		if (!event.getEntity().level().isClientSide && event.getEntity() instanceof IKHMob) {
 			if (((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 				if (event.getSource().getEntity() instanceof Player) {
 					Player player = (Player) event.getSource().getEntity();

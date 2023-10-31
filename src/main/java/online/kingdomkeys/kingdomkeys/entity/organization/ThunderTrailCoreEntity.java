@@ -74,15 +74,15 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 		
 		if (getCaster() != null) {
 			if(tickCount % 3 == 0) {
-				ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level, getCaster(), getX(), getY()-1, getZ(), dmg);
+				ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), getX(), getY()-1, getZ(), dmg);
 				shot.setCaster(getCaster().getUUID());
-				level.addFreshEntity(shot);
+				level().addFreshEntity(shot);
 
-				LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+				LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 				lightningBoltEntity.setVisualOnly(true);
 				lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(blockPosition().below()));
 				lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
-				this.level.addFreshEntity(lightningBoltEntity);
+				this.level().addFreshEntity(lightningBoltEntity);
 			}
 		}
 		super.tick();
@@ -127,7 +127,7 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 	private static final EntityDataAccessor<BlockPos> OGPOS = SynchedEntityData.defineId(ThunderTrailCoreEntity.class, EntityDataSerializers.BLOCK_POS);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -143,7 +143,7 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 	}
 	
 	public Player getTarget() {
-		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
+		return this.getEntityData().get(TARGET).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
 
 	public void setTarget(UUID uuid) {

@@ -29,11 +29,11 @@ public class EtherealBladeItem extends OrgSwordItem implements IOrgWeapon {
     		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
 			playerData.remMP(Math.max(1, cost));
 
-			ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.08F);
+			ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.08F);
 			shot.setShotType(0);
 			shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 			world.addFreshEntity(shot);
-			player.level.playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 		return super.use(world, player, hand);
 	}

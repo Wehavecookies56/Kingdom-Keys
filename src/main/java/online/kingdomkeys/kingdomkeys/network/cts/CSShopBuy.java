@@ -62,7 +62,7 @@ public class CSShopBuy {
 						it = ((KeychainItem)it).getKeyblade();
 					}
 					
-					if(ItemStack.isSame(new ItemStack(it,shopItem.getAmount()), message.itemStack)) {
+					if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), message.itemStack)) {
 						item = shopItem;
 						break;
 					}
@@ -81,7 +81,7 @@ public class CSShopBuy {
 					player.getInventory().add(new ItemStack(i,amount));
 					
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
-						IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+						IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 					}

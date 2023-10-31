@@ -76,7 +76,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY();
@@ -87,14 +87,14 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 				
 				Entity target = getTargets().get(i++);
 				if(target != null) {
-					VolleyShotEntity bullet = new VolleyShotEntity(level, getCaster(), target, dmg);
+					VolleyShotEntity bullet = new VolleyShotEntity(level(), getCaster(), target, dmg);
 					bullet.setColor(4921675);
 					bullet.setPos(Utils.randomWithRange(this.getX()-2, this.getX()+2), Utils.randomWithRange(this.getY()-2, this.getY()+2)+1F, Utils.randomWithRange(this.getZ()-2, this.getZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 					list.add(bullet);
-					level.addFreshEntity(bullet);
-					level.playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
+					level().addFreshEntity(bullet);
+					level().playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				}
 			}
 			
@@ -138,7 +138,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.STRING);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -152,7 +152,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		for(String id : ids) {
 		
 			if(!id.equals(""))
-				list.add(level.getEntity(Integer.parseInt(id)));
+				list.add(level().getEntity(Integer.parseInt(id)));
 		}
 		return list;
 	}

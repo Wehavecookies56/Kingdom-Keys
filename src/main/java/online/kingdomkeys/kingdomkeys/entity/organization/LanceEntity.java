@@ -67,25 +67,25 @@ public class LanceEntity extends KKThrowableEntity{
 
 		if (!isStopped()) {
 			if (tickCount > 2)
-				level.addParticle(ParticleTypes.CRIT, getX(), getY(), getZ(), 0, 0, 0);
+				level().addParticle(ParticleTypes.CRIT, getX(), getY(), getZ(), 0, 0, 0);
 
-			if (this.isOnGround()) {
+			if (this.onGround()) {
 				this.setOnGround(false);
 				this.setDeltaMovement(this.getDeltaMovement().multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
 			}
 
-			HitResult raytraceresult = ProjectileUtil.getHitResult(this, this::canHitEntity);
+			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
 			boolean flag = false;
 			if (raytraceresult.getType() == HitResult.Type.BLOCK) {
 				BlockPos blockpos = ((BlockHitResult) raytraceresult).getBlockPos();
-				BlockState blockstate = this.level.getBlockState(blockpos);
+				BlockState blockstate = this.level().getBlockState(blockpos);
 				if (blockstate.is(Blocks.NETHER_PORTAL)) {
 					this.handleInsidePortal(blockpos);
 					flag = true;
 				} else if (blockstate.is(Blocks.END_GATEWAY)) {
-					BlockEntity tileentity = this.level.getBlockEntity(blockpos);
+					BlockEntity tileentity = this.level().getBlockEntity(blockpos);
 					if (tileentity instanceof TheEndGatewayBlockEntity && TheEndGatewayBlockEntity.canEntityTeleport(this)) {
-						((TheEndGatewayBlockEntity) tileentity).teleportEntity(this.level, blockpos, blockstate, this, (TheEndGatewayBlockEntity) tileentity);
+						((TheEndGatewayBlockEntity) tileentity).teleportEntity(this.level(), blockpos, blockstate, this, (TheEndGatewayBlockEntity) tileentity);
 					}
 
 					flag = true;
@@ -106,7 +106,7 @@ public class LanceEntity extends KKThrowableEntity{
 				float f1;
 				if (this.isInWater()) {
 					for (int i = 0; i < 4; ++i) {
-						this.level.addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
+						this.level().addParticle(ParticleTypes.BUBBLE, d0 - vec3d.x * 0.25D, d1 - vec3d.y * 0.25D, d2 - vec3d.z * 0.25D, vec3d.x, vec3d.y, vec3d.z);
 					}
 
 					f1 = 0.8F;
@@ -133,7 +133,7 @@ public class LanceEntity extends KKThrowableEntity{
 	
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 
@@ -154,7 +154,7 @@ public class LanceEntity extends KKThrowableEntity{
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
 					
-					if(level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
+					if(level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
 					
 					} else {
 						stopLance();	

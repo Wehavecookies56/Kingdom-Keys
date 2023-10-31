@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.player.LocalPlayer;
@@ -34,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class SynthesisMaterialScreen extends MenuFilterable {
 		
@@ -120,7 +122,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 
-			if(!ItemStack.isSame(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
+			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
 					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue())));
@@ -223,11 +225,12 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		boxL.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		boxR.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrixStack = gui.pose();
+		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
@@ -241,7 +244,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 		
@@ -254,22 +257,23 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
 					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
-					inventory.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
+					inventory.get(i).render(gui, mouseX, mouseY, partialTicks);
 					inventory.get(i).active = true;
 				}
 			}
 		}
 		
-		prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		next.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		deposit.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		back.render(matrixStack, mouseX,  mouseY,  partialTicks);
+		prev.render(gui, mouseX,  mouseY,  partialTicks);
+		next.render(gui, mouseX,  mouseY,  partialTicks);
+		deposit.render(gui, mouseX,  mouseY,  partialTicks);
+		back.render(gui, mouseX,  mouseY,  partialTicks);
 	}
 
 	@Override
-	protected void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		amountBox.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		take.render(matrixStack, mouseX, mouseY, partialTicks);
+	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrixStack = gui.pose();
+		amountBox.render(gui, mouseX,  mouseY,  partialTicks);
+		take.render(gui, mouseX, mouseY, partialTicks);
 		
 		//amountBox.setWidth(minecraft.fontRenderer.getStringWidth(amountBox.getText()));
 		
@@ -282,7 +286,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		{
 			String name = selectedItemStack.getHoverName().getString();
 			matrixStack.translate(boxR.getX() + (boxR.getWidth() / 2) - minecraft.font.width(name)/2, boxR.getY()+3, 1);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(name), 0, 0, 0xFF9900);
 		}
 		matrixStack.popPose();
 
@@ -292,7 +296,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			matrixStack.translate(iconPosX + offset/2, iconPosY, 1);
 			matrixStack.scale((float)(boxR.getWidth() / 16 - offset / 16), (float)(boxR.getWidth()/16 - offset / 16), 1);
 			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 1, 0, 16);
-
 		}
 		matrixStack.popPose();
 

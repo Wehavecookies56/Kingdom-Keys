@@ -125,7 +125,10 @@ public class Strings {
     		jackpot = KingdomKeys.MODID+":"+Strings.AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+Strings.AB_Prefix +"lucky_lucky",
     		grandMagicHaste = KingdomKeys.MODID+":"+Strings.AB_Prefix +"grand_magic_haste",
-    		berserkCharge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"berserk_charge",
+			comboPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"combo_plus",
+			negativeCombo = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"negative_combo",
+			finishingPlus = KingdomKeys.MODID + ":" + Strings.AB_Prefix +"finishing_plus",
+			berserkCharge = KingdomKeys.MODID+":"+Strings.AB_Prefix +"berserk_charge",
     		darkDomination = KingdomKeys.MODID+":"+Strings.AB_Prefix +"dark_domination",
     		
     		firaza = KingdomKeys.MODID+":"+Strings.AB_Prefix +"firaza",
@@ -382,7 +385,7 @@ public class Strings {
             Gui_Menu_Main_Button_Status = Gui_Menu_Main_Button + ".status",
             Gui_Menu_Main_Button_Journal = Gui_Menu_Main_Button + ".journal",
             Gui_Menu_Main_Button_Config = Gui_Menu_Main_Button + ".config",
-            
+			Gui_Menu_Main_Button_Style = Gui_Menu_Main_Button + ".style",
             Gui_Menu_Main_Synthesis_Tier = Gui_Menu_Main + ".synthesis_tier",
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
@@ -450,6 +453,7 @@ public class Strings {
 
             
             Gui_Menu_Config = Gui_Menu + ".config",
+			Gui_Menu_Style = Gui_Menu + ".style",
             Gui_Menu_Config_Title = Gui_Menu_Config + ".title",
             Gui_Menu_Config_Colour = Gui_Menu_Config + ".colour",
             Gui_Menu_Config_Colour_Desc = Gui_Menu_Config_Colour + ".desc",

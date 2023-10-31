@@ -35,7 +35,7 @@ public class DriveFormFinal extends DriveForm {
 
 	@SubscribeEvent
 	public static void getFinalFormXP(LivingDeathEvent event) {
-		if (!event.getEntity().level.isClientSide && (event.getEntity() instanceof EnderMan) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getKHMobType() == MobType.NOBODY) {
+		if (!event.getEntity().level().isClientSide && (event.getEntity() instanceof EnderMan) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getKHMobType() == MobType.NOBODY) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -81,7 +81,7 @@ public class DriveFormFinal extends DriveForm {
 
 	private static void handleHighJump(Player player, IPlayerCapabilities playerData) {
 		boolean j = false;
-		if (player.level.isClientSide) {
+		if (player.level().isClientSide) {
 			j = Minecraft.getInstance().options.keyJump.isDown();
 		}
 
@@ -97,12 +97,12 @@ public class DriveFormFinal extends DriveForm {
 	private static void handleGlide(Player player, IPlayerCapabilities playerData) {
 		if (player.isInWater() || player.isInLava())
 			return;
-		if (player.level.isClientSide) {// Need to check if it's clientside for the keyboard key detection
+		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection
 			Minecraft mc = Minecraft.getInstance();
 			if (mc.player == player) { // Only the local player will send the packets
-				if (!player.isOnGround() && player.fallDistance > 0) { // Glide only when falling
+				if (!player.onGround() && player.fallDistance > 0) { // Glide only when falling
 					if (mc.options.keyJump.isDown()) {
-						if (!playerData.getIsGliding() && !(player.level.getBlockState(player.blockPosition()).getBlock() instanceof LiquidBlock) && !(player.level.getBlockState(player.blockPosition().below()).getBlock() instanceof LiquidBlock)) {
+						if (!playerData.getIsGliding() && !(player.level().getBlockState(player.blockPosition()).getBlock() instanceof LiquidBlock) && !(player.level().getBlockState(player.blockPosition().below()).getBlock() instanceof LiquidBlock)) {
 							player.jumpFromGround();
 
 							playerData.setIsGliding(true);// Set playerData clientside

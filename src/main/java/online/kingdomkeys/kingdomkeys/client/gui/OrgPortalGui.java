@@ -38,11 +38,11 @@ public class OrgPortalGui extends Screen {
 			action();
 		}).bounds(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20).build());
 
-		if (minecraft.player.level.getBlockEntity(pos) != null && minecraft.player.level.getBlockEntity(pos) instanceof OrgPortalTileEntity) {
-			OrgPortalTileEntity te = (OrgPortalTileEntity) minecraft.player.level.getBlockEntity(pos);
+		if (minecraft.player.level().getBlockEntity(pos) != null && minecraft.player.level().getBlockEntity(pos) instanceof OrgPortalTileEntity) {
+			OrgPortalTileEntity te = (OrgPortalTileEntity) minecraft.player.level().getBlockEntity(pos);
 			UUID portalUUID = te.getUUID();
 			if(portalUUID != null) {
-				String text = ModCapabilities.getWorld(minecraft.player.level).getPortalFromUUID(portalUUID).getName();
+				String text = ModCapabilities.getWorld(minecraft.player.level()).getPortalFromUUID(portalUUID).getName();
 				nameBox.setValue(text);
 			}
 		}

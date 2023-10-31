@@ -23,7 +23,7 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
     @Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		Level level = player.level;
+		Level level = player.level();
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 

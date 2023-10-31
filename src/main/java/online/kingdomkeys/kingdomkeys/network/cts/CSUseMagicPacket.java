@@ -66,13 +66,13 @@ public class CSUseMagicPacket {
 					
 					if(message.allyTarget.equals("")) { // Direct magic
 						if(message.lockedTarget > -1) {
-							ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level, (LivingEntity) player.level.getEntity(message.lockedTarget));
+							ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level, (LivingEntity) player.level().getEntity(message.lockedTarget));
 						} else {
 							ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(player, player, message.level, null);
 
 						}
 					} else { // On party member
-						Player allyTargetEntity = Utils.getPlayerByName(player.level, message.allyTarget);
+						Player allyTargetEntity = Utils.getPlayerByName(player.level(), message.allyTarget);
 		            	ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(allyTargetEntity, player, message.level, null);
 					}
 				}

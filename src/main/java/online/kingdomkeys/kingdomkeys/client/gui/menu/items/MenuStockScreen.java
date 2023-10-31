@@ -8,6 +8,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuStockScreen extends MenuFilterable {
 
@@ -40,18 +42,18 @@ public class MenuStockScreen extends MenuFilterable {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		box.renderWidget(gui, mouseX, mouseY, partialTicks);
 
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        inventory.forEach(i -> i.render(matrixStack, mouseX, mouseY, partialTicks));
-        back.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(gui, mouseX, mouseY, partialTicks);
+        inventory.forEach(i -> i.render(gui, mouseX, mouseY, partialTicks));
+        back.render(gui, mouseX, mouseY, partialTicks);
     }
     
     @Override
-	protected void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-
+	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        PoseStack matrixStack = gui.pose();
         float iconPosX = width * 0.335F;
         float iconPosY = height * 0.8283F;
         float iconWidth = width * 0.1015F;
@@ -66,18 +68,18 @@ public class MenuStockScreen extends MenuFilterable {
         }
         matrixStack.popPose();
         
-        drawString(matrixStack, minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (minecraft.font.lineHeight * 0), 0xFFFFFF);
+        gui.drawString(minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (minecraft.font.lineHeight * 0), 0xFFFFFF);
 
         if(selectedItemstack.getItem() instanceof KeybladeItem || selectedItemstack.getItem() instanceof KeychainItem) {
         	KeybladeItem kb = selectedItemstack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemstack.getItem()).getKeyblade() : (KeybladeItem) selectedItemstack.getItem();
 
-            ClientUtils.drawSplitString(matrixStack, font, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
+            ClientUtils.drawSplitString(gui, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
         } else {
         	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
             for (int i = 0; i < tooltip.size(); i++) {
-                drawString(matrixStack, minecraft.font, tooltip.get(i).getContents().toString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
+                gui.drawString(minecraft.font, tooltip.get(i).getContents().toString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
             }
         }
         

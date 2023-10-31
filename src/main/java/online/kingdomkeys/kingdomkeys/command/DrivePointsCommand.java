@@ -67,7 +67,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setDP(value);
-		context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" dp to "+value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" dp to "+value), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been set to "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
@@ -86,7 +86,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addDP(value);
-		context.getSource().sendSuccess(Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been increased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
@@ -107,7 +107,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.remDP(value);
 		
-			context.getSource().sendSuccess(Component.translatable("Taken "+value+" dp from "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" dp from "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been decreased by "+value));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);

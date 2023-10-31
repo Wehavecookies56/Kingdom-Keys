@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:gula_boots"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

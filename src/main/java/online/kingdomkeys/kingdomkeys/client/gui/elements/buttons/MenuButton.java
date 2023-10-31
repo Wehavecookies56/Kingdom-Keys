@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -72,13 +73,13 @@ public class MenuButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		//if(!isSelected())
 			isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
 		/*if(isHovered()) {
 			selected = false;
 		}*/
-
+		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
@@ -88,22 +89,22 @@ public class MenuButton extends MenuButtonBase {
 			RenderSystem.setShaderTexture(0, texture);
 			if (isHovered && active) { // Hovered button
 				setX(getX() + 10);
-				drawButton(matrixStack, true);
-				drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
+				drawButton(gui, true);
+				gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
 				setX(getX() - 10);
 			} else {
 				if (active) {// Not hovered but fully visible
-					drawButton(matrixStack, false);
-					drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
+					drawButton(gui, false);
+					gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
 				} else {// Not hovered and selected (not fully visible)
 					if (selected) {
 						setX(getX() + 10);
-						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
+						drawButton(gui, false);
+						gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
 						setX(getX() - 10);
 					} else {
-						drawButton(matrixStack, false);
-						drawString(matrixStack, Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
+						drawButton(gui, false);
+						gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
 					}
 				}
 			}
@@ -112,7 +113,7 @@ public class MenuButton extends MenuButtonBase {
 		}
 	}
 
-	private void drawButton(PoseStack matrixStack, boolean hovered) {
+	private void drawButton(GuiGraphics gui, boolean hovered) {
 		int leftU = 0, middleU = 0, rightU = 0;
 		int vPos = 0, selVPos = 0;
 		switch (type) { // Set the local values to the corresponding fields
@@ -135,10 +136,10 @@ public class MenuButton extends MenuButtonBase {
 
 		vPos = hovered || selected ? selVPos : vPos;
 
-		blit(matrixStack, getX(), getY(), leftU, vPos, endWidth, height);
+		gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
 		for (int i = 0; i < middleWidth; i++)
-			blit(matrixStack, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
-		blit(matrixStack, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
+			gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
+		gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
 	}
 

@@ -104,7 +104,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(!this.level.isClientSide) {
+        if(!this.level().isClientSide) {
             if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getMsgId().equals(KKResistanceType.fire.toString()))) {
                 explode();
             }
@@ -124,8 +124,8 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
+            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);
             this.remove(RemovalReason.KILLED);

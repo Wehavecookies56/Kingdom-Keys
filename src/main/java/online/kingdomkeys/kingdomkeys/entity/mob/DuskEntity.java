@@ -118,7 +118,7 @@ public class DuskEntity extends BaseKHEntity {
 		@Override
 		public void start() {
 			canUseAttack = true;
-			attackTimer = 40 + level.random.nextInt(10);
+			attackTimer = 40 + level().random.nextInt(10);
 			EntityHelper.setState(theEntity, 0);
 			LivingEntity target = this.theEntity.getTarget();
 

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -86,11 +88,11 @@ public abstract class MenuPopup extends Screen {
         Arrays.fill(alpha, 0);
     }
 
-    protected void renderTextBackground(PoseStack matrixStack, Font fontRendererIn, int yIn, int stringWidthIn) {
+    protected void renderTextBackground(GuiGraphics gui, int yIn, int stringWidthIn) {
         int i = Minecraft.getInstance().options.getBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
-            fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
+            gui.fill(j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
         }
 
     }
@@ -99,9 +101,10 @@ public abstract class MenuPopup extends Screen {
     int scaledHeight;
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        super.render(gui, mouseX, mouseY, partialTicks);
         float startY = -10.0F;
+        PoseStack matrixStack = gui.pose();
         matrixStack.pushPose();
         matrixStack.translate((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.lineHeight + 3))) / 2F), 0.0F);
         RenderSystem.enableBlend();
@@ -120,8 +123,8 @@ public abstract class MenuPopup extends Screen {
             if (alpha[i] > 8) {
                 int l1 = alpha[i] << 24 & -16777216;
                 int i2 = font.width(Utils.translateToLocal(getTextToDisplay().get(i)));
-                this.renderTextBackground(matrixStack, font, (int) (startY + (i * (font.lineHeight + 3))), i2);
-                font.drawShadow(matrixStack, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.lineHeight + 3)), 16777215 | l1);
+                this.renderTextBackground(gui, (int) (startY + (i * (font.lineHeight + 3))), i2);
+                gui.drawString(Minecraft.getInstance().font, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.lineHeight + 3)), 16777215 | l1, true);
             }
         }
 

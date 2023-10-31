@@ -59,7 +59,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(value);
 
-		context.getSource().sendSuccess(Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been set to " + value));
 		return 1;
@@ -79,7 +79,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() + value);
 
-		context.getSource().sendSuccess(Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been increased by " + value));
 		return 1;
@@ -99,7 +99,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() - value);
 
-		context.getSource().sendSuccess(Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been decreased by " + value));
 		return 1;

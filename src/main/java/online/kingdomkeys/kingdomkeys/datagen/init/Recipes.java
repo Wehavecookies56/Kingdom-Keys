@@ -4,12 +4,7 @@ import java.util.function.Consumer;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.LegacyUpgradeRecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -40,19 +35,19 @@ public class Recipes extends RecipeProvider {
 	        .unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
 	        .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
+    	SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
     	
@@ -65,19 +60,19 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
         .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
     	
@@ -90,19 +85,19 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
         .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
     	
@@ -115,19 +110,19 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("nightmareverntus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
         .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
     	
@@ -140,19 +135,19 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
         .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
     	
@@ -165,19 +160,19 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
         .save(consumer);
 
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
-    	
-    	LegacyUpgradeRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
+
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
     	

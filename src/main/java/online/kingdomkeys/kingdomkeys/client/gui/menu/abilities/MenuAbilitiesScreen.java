@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -57,6 +58,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	float scrollOffset = 0;
 	MenuScrollBar scrollBar;
+
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	
 	public MenuAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
@@ -354,10 +357,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		box.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		drawAP(matrixStack);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		box.renderWidget(gui, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
+		drawAP(gui);
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
@@ -370,7 +373,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
 		if(abilities.size() <= 0)
 			return;
-		int listHeight = (abilities.get(abilities.size()-1).y+20) - abilities.get(0).y;
+		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
 		if (scrollBarHeight >= listHeight) {
 			scrollBar.visible = false;
 			scrollBar.active = false;
@@ -408,10 +411,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).y -= scrollOffset;
-				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active =true;;
-					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
+					abilities.get(i).render(gui, mouseX, mouseY, partialTicks);
 				}
 			}
 		}
@@ -419,18 +422,19 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		//prev.render(matrixStack, mouseX,  mouseY,  partialTicks);
 		//next.render(matrixStack, mouseX,  mouseY,  partialTicks);
-		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
-		back.render(matrixStack, mouseX, mouseY, partialTicks);
+		playerButton.render(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
-			renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
+			renderSelectedData(gui, mouseX, mouseY, partialTicks);
 		}
 	}
 
-	protected void renderSelectedData(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-		ClientUtils.drawSplitString(poseStack, font, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
+	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		ClientUtils.drawSplitString(gui, Component.translatable(hoveredAbility.getTranslationKey().replace(".name", ".desc")).getString(), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x00FFFF);
 	}
 	
-	private void drawAP(PoseStack matrixStack) {
+	private void drawAP(GuiGraphics gui) {
+		PoseStack matrixStack = gui.pose();
 		int consumedAP = Utils.getConsumedAP(playerData);
 		int maxAP = playerData.getMaxAP(true);
 		hoveredAbility = null;
@@ -477,8 +481,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int posX = screenWidth - barWidth;
 		int posY = screenHeight - 100;
 		float scale = 1F;
-		
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 
 		// Global
 		matrixStack.pushPose();
@@ -489,7 +491,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				blit(matrixStack, 0, 0, 143, 67, 7, 25);
+				gui.blit(texture, 0, 0, 143, 67, 7, 25);
 			}
 			matrixStack.popPose();
 
@@ -498,14 +500,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					blit(matrixStack, 7 + j, 0, 151, 67, 1, 25);
+					gui.blit(texture, 7 + j, 0, 151, 67, 1, 25);
 			}
 			matrixStack.popPose();
 			// Right
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				blit(matrixStack, 7 + barWidth, 0, 153, 67, 7, 25);
+				gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25);
 			}
 			matrixStack.popPose();
 
@@ -514,7 +516,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					blit(matrixStack, j + 7, 17, 161, 67, 1, 25);
+					gui.blit(texture, j + 7, 17, 161, 67, 1, 25);
 			}
 			matrixStack.popPose();
 
@@ -531,7 +533,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						matrixStack.pushPose();
 						// RenderSystem.color(1, 1, 1,);
 						for (int j = 0; j < percent; j++)
-							blit(matrixStack, j + 7, 17, 165, 67, 1, 5);
+							gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
 						matrixStack.popPose();
 	
 					}
@@ -544,7 +546,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							int percent = (consumedAP + requiredAP) * barWidth / maxAP;
 							matrixStack.pushPose();
 							for (int j = 0; j < percent; j++)
-								blit(matrixStack, j + 7, 17, 167, 67, 1, 5);
+								gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
 							matrixStack.popPose();
 						}
 						matrixStack.popPose();
@@ -561,7 +563,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					percent = (consumedAP + requiredAP) * barWidth / maxAP;
 				
 				for (int j = 0; j < percent; j++)
-					blit(matrixStack, j + 7, 17, 163, 67, 1, 5);
+					gui.blit(texture, j + 7, 17, 163, 67, 1, 5);
 			}
 			matrixStack.popPose();
 
@@ -569,7 +571,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(scale * 1.3F, scale * 1.1F, 0);
-				drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
 			matrixStack.popPose();
 			

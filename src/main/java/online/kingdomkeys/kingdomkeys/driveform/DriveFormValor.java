@@ -28,7 +28,7 @@ public class DriveFormValor extends DriveForm {
 
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().level.isClientSide && event.getEntity() instanceof Monster) {
+		if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Monster) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -73,7 +73,7 @@ public class DriveFormValor extends DriveForm {
 
 	private static void handleHighJump(Player player, IPlayerCapabilities playerData) {
 		boolean j = false;
-		if (player.level.isClientSide) {
+		if (player.level().isClientSide) {
 			j = Minecraft.getInstance().options.keyJump.isDown();
 		}
 

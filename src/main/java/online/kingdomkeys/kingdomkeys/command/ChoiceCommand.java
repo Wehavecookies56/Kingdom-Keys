@@ -74,7 +74,7 @@ public class ChoiceCommand extends BaseCommand {
             targetData.setSacrifice(SoAState.NONE);
             PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
             if (players.size() > 1) {
-                context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
+                context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
             }
             target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been reset"));
 
@@ -108,7 +108,7 @@ public class ChoiceCommand extends BaseCommand {
                     }
                     PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
                     if (players.size() > 1) {
-                        context.getSource().sendSuccess(Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
+                        context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
                     }
                     target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr));
                 }

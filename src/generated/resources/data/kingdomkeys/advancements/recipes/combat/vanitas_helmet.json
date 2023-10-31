@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:vanitas_helmet"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

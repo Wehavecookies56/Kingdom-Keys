@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -49,6 +50,8 @@ public class LockOnGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastTargetHealth;
 
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png");
+
 	private LockOnGui() {
 		super();
 	}
@@ -61,8 +64,8 @@ public class LockOnGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		Player player = minecraft.player;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		if (playerData != null) {
@@ -78,30 +81,27 @@ public class LockOnGui extends OverlayBase {
 
 				float size = 6;
 
-				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"));
-
 				int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 				int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 				lockOnScale = ModConfigs.lockOnIconScale/100F;
 				hpBarScale = ModConfigs.lockOnHPScale/100F;
 
+				PoseStack poseStack = guiGraphics.pose();
+
 				// Icon
 				poseStack.pushPose();
 				{
 					poseStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
 					poseStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
-					this.blit(poseStack, 0, 0, 0, 0, guiWidth, guiHeight);
+					this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 
-					RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"));
 					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
 					poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F)));
 					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
-					this.blit(poseStack, 0, 0, 0, 0, guiWidth, guiHeight);
+					this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 				}
 				poseStack.popPose();
-
-				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 				poseStack.pushPose();
 
@@ -110,8 +110,8 @@ public class LockOnGui extends OverlayBase {
 					{
 						RenderSystem.enableBlend();
 						poseStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
-						drawString(poseStack, minecraft.font, target.getName().getString(), screenWidth - minecraft.font.width(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
-						drawHPBar(poseStack, (LivingEntity) target);
+						drawString(guiGraphics, minecraft.font, target.getName().getString(), screenWidth - minecraft.font.width(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
+						drawHPBar(guiGraphics, (LivingEntity) target);
 						RenderSystem.disableBlend();
 					}
 					poseStack.popPose();
@@ -123,10 +123,8 @@ public class LockOnGui extends OverlayBase {
 		}
 	}
 
-	public void drawHPBar(PoseStack matrixStack, LivingEntity target) {
+	public void drawHPBar(GuiGraphics gui, LivingEntity target) {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
 
 		hpPerBar = ModConfigs.lockOnHpPerBar;
 		float widthMultiplier = 10 * hpBarScale;
@@ -190,20 +188,19 @@ public class LockOnGui extends OverlayBase {
 			hpBarMaxWidth = (target.getMaxHealth() % hpPerBar) * widthMultiplier;
 		}
 
-		matrixStack.pushPose();
+		gui.pose().pushPose();
 		{
-			drawHPBarBack(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
-			drawHPBarTop(matrixStack, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
-			drawDamagedHPBarTop(matrixStack, (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
-			drawHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
-			drawDamagedHPBars(matrixStack, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
+			drawHPBarBack(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
+			drawHPBarTop(gui, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
+			drawDamagedHPBarTop(gui, (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
+			drawHPBars(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
+			drawDamagedHPBars(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
 		}
-		matrixStack.popPose();
+		gui.pose().popPose();
 	}
 
-	public void drawHPBarBack(PoseStack matrixStack, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
-		
+	public void drawHPBarBack(GuiGraphics gui, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(posX, posY, 0);
@@ -216,7 +213,7 @@ public class LockOnGui extends OverlayBase {
 				matrixStack.pushPose();
 				{
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 0, 0, 0, 0, 2, 12);
+					blit(gui, texture, 0, 0, 0, 0, 2, 12);
 				}
 				matrixStack.popPose();
 
@@ -225,7 +222,7 @@ public class LockOnGui extends OverlayBase {
 				{
 					matrixStack.translate(2*scale, 0, 0);
 					matrixStack.scale(bgHPBarMaxWidth, scale, 0);
-					blit(matrixStack, 0, 0, 14, 0, 1, 12);
+					blit(gui, texture, 0, 0, 14, 0, 1, 12);
 				}
 				matrixStack.popPose();
 
@@ -234,7 +231,7 @@ public class LockOnGui extends OverlayBase {
 				{
 					matrixStack.translate(2 * scale + bgHPBarMaxWidth, 0, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 0, 0, 3, 0, 2, 12);
+					blit(gui, texture, 0, 0, 3, 0, 2, 12);
 				}
 				matrixStack.popPose();
 			}
@@ -245,7 +242,7 @@ public class LockOnGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 0, 0, 2, 12);
+				blit(gui, texture, 0, 0, 0, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -254,7 +251,7 @@ public class LockOnGui extends OverlayBase {
 			{
 				matrixStack.translate(2*scale, 0, 0);
 				matrixStack.scale(width, scale, 0);
-				blit(matrixStack, 0, 0, 2, 0, 1, 12);
+				blit(gui, texture, 0, 0, 2, 0, 1, 12);
 			}
 			matrixStack.popPose();
 
@@ -263,7 +260,7 @@ public class LockOnGui extends OverlayBase {
 			{
 				matrixStack.translate(2 * scale + width, 0, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 0, 0, 3, 0, 2, 12);
+				blit(gui, texture, 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.popPose();
 			
@@ -272,7 +269,7 @@ public class LockOnGui extends OverlayBase {
 			{
 				matrixStack.translate(width - 20*scale, 12*scale, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(matrixStack, 1, 0, 0, 32, 23, 12);
+				blit(gui, texture, 1, 0, 0, 32, 23, 12);
 			}
 			matrixStack.popPose();
 
@@ -282,7 +279,7 @@ public class LockOnGui extends OverlayBase {
 				{
 					matrixStack.translate(width - 19*scale - (17*scale * (i + 1)), 12*scale, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 0, 0, 0, 46, 17, 12);
+					blit(gui, texture, 0, 0, 0, 46, 17, 12);
 				}
 				matrixStack.popPose();
 			}
@@ -291,19 +288,20 @@ public class LockOnGui extends OverlayBase {
 
 	}
 
-	public void drawHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	public void drawHPBarTop(GuiGraphics gui, float posX, float posY, float width, float scale) {
+		PoseStack matrixStack = gui.pose();
 		// HP Bar
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(posX, posY, 0);
 			matrixStack.scale(width, scale, 0);
-			blit(matrixStack, 0, 0, 2, 12, 1, 8);
+			blit(gui, texture, 0, 0, 2, 12, 1, 8);
 		}
 		matrixStack.popPose();
 	}
 	
-	private void drawHPBars(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
+	private void drawHPBars(GuiGraphics gui, float posX, float posY, float width, float scale, LivingEntity target) {
+		PoseStack matrixStack = gui.pose();
 		// HP Bars
 		if(target.isAlive()) {
 			// HP Bars
@@ -312,15 +310,15 @@ public class LockOnGui extends OverlayBase {
 				{
 					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 0, 0, 0, 60, 17, 12);
+					blit(gui, texture, 0, 0, 0, 60, 17, 12);
 				}
 				matrixStack.popPose();
 			}
 		}
 	}
 	
-	private void drawDamagedHPBarTop(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png"));
+	private void drawDamagedHPBarTop(GuiGraphics gui, float posX, float posY, float width, float scale, LivingEntity target) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			// HP Bar
@@ -328,7 +326,7 @@ public class LockOnGui extends OverlayBase {
 			{				
 				matrixStack.translate(posX, posY, 0);
 				matrixStack.scale(width, scale, 0);
-				blit(matrixStack, 0, 0, 2, 22, 1, 8);
+				blit(gui, texture, 0, 0, 2, 22, 1, 8);
 			}
 			matrixStack.popPose();
 			
@@ -336,7 +334,8 @@ public class LockOnGui extends OverlayBase {
 		matrixStack.popPose();
 	}
 	
-	private void drawDamagedHPBars(PoseStack matrixStack, float posX, float posY, float width, float scale, LivingEntity target) {
+	private void drawDamagedHPBars(GuiGraphics gui, float posX, float posY, float width, float scale, LivingEntity target) {
+		PoseStack matrixStack = gui.pose();
 		// HP Bars
 		if(target.isAlive()) {
 			for (int i = currentBar; i < oldBar; i++) {
@@ -344,7 +343,7 @@ public class LockOnGui extends OverlayBase {
 				{
 					matrixStack.translate(posX + width - 17 * scale - (17 * scale * i) - 2 * scale, posY + 12 * scale, 0);
 					matrixStack.scale(scale, scale, 0);
-					blit(matrixStack, 0, 0, 17, 60, 17, 12);
+					blit(gui, texture, 0, 0, 17, 60, 17, 12);
 				}
 				matrixStack.popPose();
 			}

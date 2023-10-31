@@ -51,7 +51,7 @@ public class SoldierGoal extends TargetGoal {
 			
 			double r = 1.5D;
             AABB aabb = new AABB(mob.position().x, mob.position().y, mob.position().z, mob.position().x + 1, mob.position().y + 1, mob.position().z + 1).inflate(r, 0, r);
-    		List<LivingEntity> list = mob.level.getEntitiesOfClass(LivingEntity.class, aabb);
+    		List<LivingEntity> list = mob.level().getEntitiesOfClass(LivingEntity.class, aabb);
     		list.remove(mob);
     		
             for(LivingEntity enemy : list) {

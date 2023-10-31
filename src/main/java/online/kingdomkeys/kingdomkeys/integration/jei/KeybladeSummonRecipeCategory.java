@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -50,8 +51,8 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     }
 
     @Override
-    public void draw(KeychainItem recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        new TextDrawable(Component.translatable("jei.category.kingdomkeys.keyblade_summon.info")).draw(stack, 0, 32);
+    public void draw(KeychainItem recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        new TextDrawable(Component.translatable("jei.category.kingdomkeys.keyblade_summon.info")).draw(guiGraphics, 0, 32);
     }
 
     @Override

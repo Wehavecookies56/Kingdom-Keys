@@ -77,12 +77,12 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 		if (getCaster() != null) {
 			if (tickCount == 1) {
-				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
+				LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 				bullet.setPos(X, Y, Z);
 				bullet.setMaxTicks(30);
 				bullet.shoot(0, 255, 0, 1f, 0);
-				level.addFreshEntity(bullet);
-				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 0.6F);
+				level().addFreshEntity(bullet);
+				level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 0.6F);
 
 			} else if (tickCount > 40 && tickCount % 2 == 0) { // Get all targets right before starting to shoot
 				radius = Math.min((tickCount-34) / 10F, 20);
@@ -90,14 +90,14 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 				for (int s = 1; s < 360; s += space) {
 					double x = X + (radius * Math.cos(Math.toRadians(s)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 					bullet.setPos(X, Y + 27, Z);
 					bullet.setMaxTicks(20);
 					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);
 					//list.add(bullet);
-					level.addFreshEntity(bullet);
+					level().addFreshEntity(bullet);
 				}
-				level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);	
+				level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
 		}
 		super.tick();
@@ -136,7 +136,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(ArrowRainCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -144,7 +144,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 	}
 
 	public Player getTarget() {
-		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
+		return this.getEntityData().get(TARGET).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
 
 	public void setTarget(UUID uuid) {

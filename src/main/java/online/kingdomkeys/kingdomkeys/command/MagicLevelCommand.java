@@ -64,7 +64,7 @@ public class MagicLevelCommand extends BaseCommand{
 		
 		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 		if(magicInstance == null) {
-			context.getSource().sendSuccess(Component.translatable("Unknown magic '"+magic+"'"), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Unknown magic '"+magic+"'"), true);
 			return 1;
 		}
 		
@@ -74,13 +74,13 @@ public class MagicLevelCommand extends BaseCommand{
 			if(level <= magicInstance.getMaxLevel()) {
 				playerData.setMagicLevel(new ResourceLocation(magic), level, false);
 			} else {
-				context.getSource().sendSuccess(Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
+				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 			
 			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
-			context.getSource().sendSuccess(Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
+			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
 			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"));
 		}
 		return 1;

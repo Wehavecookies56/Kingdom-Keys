@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 
@@ -89,8 +88,7 @@ public class PairBloxBlock extends BaseBlock {
 
 	public static boolean canFallThrough(BlockState state) {
 		Block block = state.getBlock();
-		Material material = state.getMaterial();
-		return state.isAir() || block == Blocks.FIRE || material.isLiquid() || material.isReplaceable();
+		return state.isAir() || block == Blocks.FIRE || state.liquid() || state.canBeReplaced();
 	}
 
 	@Override

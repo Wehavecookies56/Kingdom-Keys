@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:recipe_c"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

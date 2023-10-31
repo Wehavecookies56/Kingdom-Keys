@@ -36,7 +36,7 @@ public class StationOfSorrowDimension{
     //Prevent player from falling off the platform
     @SubscribeEvent
     public static void entityTick(LivingTickEvent event) {
-        if (event.getEntity().level.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+        if (event.getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
         	if(event.getEntity() instanceof Player player) {
     			if (!player.isCreative()) {
 	                if (player.getY() < 10) {
@@ -56,7 +56,7 @@ public class StationOfSorrowDimension{
     @SubscribeEvent
     public static void breakBlock(BlockEvent.BreakEvent event) {
         if (!event.getPlayer().isCreative()) {
-            if (event.getPlayer().level.dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+            if (event.getPlayer().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
                 event.setCanceled(true);
             }
         }

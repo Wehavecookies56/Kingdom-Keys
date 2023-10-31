@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MenuFilterable extends MenuBackground {
 
@@ -38,13 +40,13 @@ public abstract class MenuFilterable extends MenuBackground {
 	}
     
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         if(filterBar != null)
-        	filterBar.render(matrixStack, this, mouseX, mouseY, partialTicks);
+        	filterBar.render(gui, mouseX, mouseY, partialTicks);
         //scrollBar.render(mouseX, mouseY, partialTicks);
         if (selectedItemStack == null) selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 	    if (!ItemStack.matches(selectedItemStack, ItemStack.EMPTY)) {
-	        renderSelectedData(matrixStack, mouseX, mouseY, partialTicks);
+	        renderSelectedData(gui, mouseX, mouseY, partialTicks);
 	    }
         
         
@@ -58,7 +60,7 @@ public abstract class MenuFilterable extends MenuBackground {
     	super.init();
     }
     
-    protected abstract void renderSelectedData(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks);
+    protected abstract void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks);
 
 	public abstract void initItems();
     

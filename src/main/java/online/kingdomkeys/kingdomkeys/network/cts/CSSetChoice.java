@@ -57,7 +57,7 @@ public class CSSetChoice {
                 if (message.confirm) {
                     //travel back
                     playerData.setSoAState(SoAState.COMPLETE);
-                    ServerLevel dimension = player.level.getServer().getLevel(playerData.getReturnDimension());
+                    ServerLevel dimension = player.level().getServer().getLevel(playerData.getReturnDimension());
                     player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
                     SoAState.applyStatsForChoices(player, playerData, false);
                 } else {

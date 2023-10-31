@@ -51,17 +51,17 @@ public class CSSpawnOrgPortalPacket {
 	public static void handle(CSSpawnOrgPortalPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			player.level.playSound(null, message.pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
-			player.level.playSound(null, message.destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
+			player.level().playSound(null, message.pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
+			player.level().playSound(null, message.destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.remMP(300);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
-			OrgPortalEntity portal = new OrgPortalEntity(player.level, player, message.pos, message.destPos, message.dimension, true);
-			player.level.addFreshEntity(portal);
+			OrgPortalEntity portal = new OrgPortalEntity(player.level(), player, message.pos, message.destPos, message.dimension, true);
+			player.level().addFreshEntity(portal);
 
-			OrgPortalEntity destPortal = new OrgPortalEntity(player.level, player, message.destPos.above(), message.destPos, message.dimension, false);
-			player.level.addFreshEntity(destPortal);
+			OrgPortalEntity destPortal = new OrgPortalEntity(player.level(), player, message.destPos.above(), message.destPos, message.dimension, false);
+			player.level().addFreshEntity(destPortal);
 			
 			PacketHandler.sendToAllPlayers(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension));
 

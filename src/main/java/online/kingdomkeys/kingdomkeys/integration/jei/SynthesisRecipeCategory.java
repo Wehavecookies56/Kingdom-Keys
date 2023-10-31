@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -51,16 +52,16 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
     }
 
     @Override
-    public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+    public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         if (recipe.getCost() > 0) {
-            munny.draw(stack, 5, 57);
-            new TextDrawable(Component.translatable(String.valueOf(recipe.getCost())), 0xFFFF55).draw(stack, 5, 57);
+            munny.draw(guiGraphics, 5, 57);
+            new TextDrawable(Component.translatable(String.valueOf(recipe.getCost())), 0xFFFF55).draw(guiGraphics, 5, 57);
         }
         Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES).ifPresent(cap -> {
             if (cap.hasKnownRecipe(recipe.getRegistryName())) {
-                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(stack, 5, 72);
+                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(guiGraphics, 5, 72);
             } else {
-                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.locked"), 0xFF5555).draw(stack, 5, 72);
+                new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.locked"), 0xFF5555).draw(guiGraphics, 5, 72);
             }
         });
     }

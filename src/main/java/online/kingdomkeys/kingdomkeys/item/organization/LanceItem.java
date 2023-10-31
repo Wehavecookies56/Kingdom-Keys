@@ -25,7 +25,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+        return UseAnim.SPEAR;
      }
 
    /* public int getUseDuration(ItemStack stack) {
@@ -35,7 +35,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		Level level = player.level;
+		Level level = player.level();
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		if (!level.isClientSide && stack != null) {
 			//player.setItemInHand(hand, ItemStack.EMPTY);

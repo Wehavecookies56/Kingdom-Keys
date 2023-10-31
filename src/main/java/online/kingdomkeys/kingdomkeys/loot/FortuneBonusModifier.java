@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.loot.LootParams;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.base.Suppliers;
@@ -72,11 +74,11 @@ public class FortuneBonusModifier extends LootModifier {
 
 					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
 
-                    LootContext.Builder builder = new LootContext.Builder(context);
+                    LootParams.Builder builder = new LootParams.Builder((ServerLevel) player.level());
                     builder.withParameter(LootContextParams.TOOL, fakeTool);
 
-                    LootContext newContext = builder.create(LootContextParamSets.BLOCK);
-                    LootTable lootTable = context.getLevel().getServer().getLootTables().get(blockState.getBlock().getLootTable());
+                    LootParams newContext = builder.create(LootContextParamSets.BLOCK);
+                    LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
 
                     return lootTable.getRandomItems(newContext);
                 }

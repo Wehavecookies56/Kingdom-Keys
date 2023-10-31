@@ -30,7 +30,7 @@ public class DragoonGoal extends TargetGoal {
 			if (this.mob.getTarget() != null) {
 				//Set AI to use
 				if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) { //No random since it has only one attack
-                    if(mob.level.random.nextInt(100) + mob.level.random.nextDouble() <= 40) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
+                    if(mob.level().random.nextInt(100) + mob.level().random.nextDouble() <= 40) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
                     	setBall(mob);
 						ticksToChooseAI = 120;
                     } else {
@@ -114,8 +114,8 @@ public class DragoonGoal extends TargetGoal {
 		public void setFall(Mob mob) {
 			fallTicks = 0;
 			EntityHelper.setState(mob, 2);
-			mob.level.playSound(null, mob.blockPosition(), ModSounds.portal.get(), SoundSource.HOSTILE, 1F, 2F);
-			mob.level.playSound(null, mob.getTarget().blockPosition(), ModSounds.portal.get(), SoundSource.HOSTILE, 1F, 2F);
+			mob.level().playSound(null, mob.blockPosition(), ModSounds.portal.get(), SoundSource.HOSTILE, 1F, 2F);
+			mob.level().playSound(null, mob.getTarget().blockPosition(), ModSounds.portal.get(), SoundSource.HOSTILE, 1F, 2F);
 
 			mob.teleportTo(mob.getTarget().getX(), mob.getTarget().getY() + 5, mob.getTarget().getZ());
             mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);

@@ -73,7 +73,7 @@ public class BounceBloxBlock extends BaseBlock {
 		double z = entity.getDeltaMovement().z;
 		float force = 1;
 
-		if (entity instanceof LivingEntity && entity.isOnGround()) {
+		if (entity instanceof LivingEntity && entity.onGround()) {
 			force = 3;
 		}
 

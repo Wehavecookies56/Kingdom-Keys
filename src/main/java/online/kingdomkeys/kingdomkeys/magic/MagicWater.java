@@ -25,28 +25,28 @@ public class MagicWater extends Magic {
 
 		switch(level) {
 		case 0:
-			WaterEntity water = new WaterEntity(player.level, player, dmgMult);
+			WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
 			water.setCaster(player.getDisplayName().getString());
-			player.level.addFreshEntity(water);
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
+			player.level().addFreshEntity(water);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 1:
-			WateraEntity watera = new WateraEntity(player.level, player, dmgMult);
+			WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
 			watera.setCaster(player.getDisplayName().getString());
-			player.level.addFreshEntity(watera);
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
+			player.level().addFreshEntity(watera);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
-			WatergaEntity waterga = new WatergaEntity(player.level, player, dmgMult);
+			WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
 			waterga.setCaster(player.getDisplayName().getString());
-			player.level.addFreshEntity(waterga);
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
+			player.level().addFreshEntity(waterga);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 3:
-			WaterzaEntity waterza = new WaterzaEntity(player.level, player, dmgMult);
+			WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
 			waterza.setCaster(player.getDisplayName().getString());
-			player.level.addFreshEntity(waterza);
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
+			player.level().addFreshEntity(waterza);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		}
 		

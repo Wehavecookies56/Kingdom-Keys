@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:ira_chestplate"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

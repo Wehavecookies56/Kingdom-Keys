@@ -26,7 +26,7 @@ public class TeleporterOrgPortal extends PortalForcer {
         ServerPlayer playerMP = (ServerPlayer) player;
         playerMP.teleportTo(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
         playerMP.setDeltaMovement(0, 0, 0);
-        if (player.level.dimension() != dimension) {
+        if (player.level().dimension() != dimension) {
             ServerLevel destinationWorld = playerMP.getServer().getLevel(dimension);
             playerMP.changeDimension(destinationWorld);
         }

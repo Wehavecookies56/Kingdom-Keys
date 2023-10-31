@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:bounce_blox"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

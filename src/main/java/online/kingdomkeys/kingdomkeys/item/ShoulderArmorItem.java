@@ -54,7 +54,7 @@ public class ShoulderArmorItem extends Item implements IItemCategory {
     	for(int i=0;i<4;i++) {
     		ItemStack armorPieceStack = playerIn.getInventory().getItem(36+i);
     		
-    		if(!ItemStack.isSame(armorPieceStack, ItemStack.EMPTY)) {
+    		if(!ItemStack.isSameItem(armorPieceStack, ItemStack.EMPTY)) {
     			if(armorPieceStack.isEnchanted() && !Utils.hasArmorID(armorPieceStack)) {
 	    			switch(i) {
 	    			case 0:

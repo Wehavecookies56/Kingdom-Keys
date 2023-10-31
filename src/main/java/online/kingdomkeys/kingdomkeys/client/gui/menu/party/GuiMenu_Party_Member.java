@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -34,6 +36,8 @@ public class GuiMenu_Party_Member extends MenuBackground {
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	Party party;
+
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	
 	public GuiMenu_Party_Member() {
 		super(Strings.Gui_Menu_Party, new Color(0,0,255));
@@ -83,9 +87,9 @@ public class GuiMenu_Party_Member extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrixStack = gui.pose();
+		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 
@@ -97,21 +101,22 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(1.5F,1.5F, 1);
-				drawString(matrixStack, minecraft.font, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+				gui.drawString(minecraft.font, "["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName(), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
 			}
 			matrixStack.popPose();
-			drawParty(matrixStack);
+			drawParty(gui);
 		}
 	}
 	
-	public void drawParty(PoseStack matrixStack) {
+	public void drawParty(GuiGraphics gui) {
 		for(int i=0;i<party.getMembers().size();i++) {
 			Member member = party.getMembers().get(i);
-			drawPlayer(matrixStack, i,member);
+			drawPlayer(gui, i,member);
 		}
 	}
 	
-	public void drawPlayer(PoseStack matrixStack, int order, Member member) {
+	public void drawPlayer(GuiGraphics gui, int order, Member member) {
+		PoseStack matrixStack = gui.pose();
 		float playerHeight = height * 0.45F;
 		float playerPosX = 140F+ (0.18F * (order) * width);
 		float playerPosY = height * 0.7F;
@@ -126,7 +131,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				if(member != null && player != null) {
 					matrixStack.pushPose();
 					matrixStack.scale(0.9F, 0.9F, 1.0F);
-				    InventoryScreen.renderEntityInInventoryFollowsMouse(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, player);
+				    InventoryScreen.renderEntityInInventoryFollowsMouse(gui, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
@@ -138,20 +143,19 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				matrixStack.translate(1, 20, 100);
 				
 				RenderSystem.enableBlend();
-				RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
 				int infoBoxPosX = (int) (105F+ (0.18F * (order) * width));
 				int infoBoxPosY = (int) (height * 0.54F);
-				blit(matrixStack, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
+				gui.blit(texture, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
-					blit(matrixStack, infoBoxPosX + 10 + i, infoBoxPosY, 136, 67, 2, 22);
+					gui.blit(texture, infoBoxPosX + 10 + i, infoBoxPosY, 136, 67, 2, 22);
 				}
-				blit(matrixStack, infoBoxPosX + 10 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-				blit(matrixStack, infoBoxPosX, infoBoxPosY + 22, 123, 90, 4, 35);
+				gui.blit(texture, infoBoxPosX + 10 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
+				gui.blit(texture, infoBoxPosX, infoBoxPosY + 22, 123, 90, 4, 35);
 				for (int i = 0; i < infoBoxWidth + 8; i++) {
-					blit(matrixStack, infoBoxPosX + 2 + i, infoBoxPosY + 22, 128, 90, 2, 35);
+					gui.blit(texture, infoBoxPosX + 2 + i, infoBoxPosY + 22, 128, 90, 2, 35);
 				}
-				blit(matrixStack, infoBoxPosX + 2 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+				gui.blit(texture, infoBoxPosX + 2 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
 				
 				RenderSystem.disableBlend();
 			matrixStack.popPose();
@@ -164,15 +168,15 @@ public class GuiMenu_Party_Member extends MenuBackground {
 				{
 					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
 					// matrixStack.scale(0.75F, 0.75F, 1);
-					drawString(matrixStack, minecraft.font, member.getUsername(), 0, 0, 0xFFFFFF);
+					gui.drawString(minecraft.font, member.getUsername(), 0, 0, 0xFFFFFF);
 				}
 				matrixStack.popPose();
 				if(player != null) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null) {
-						drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-						drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-						drawString(matrixStack, minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
+						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
 					}
 				}
 			}

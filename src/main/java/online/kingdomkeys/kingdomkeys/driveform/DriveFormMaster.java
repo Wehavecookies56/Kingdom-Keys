@@ -43,11 +43,11 @@ public class DriveFormMaster extends DriveForm {
 
 	private static void handleAerialDodge(Player player, IPlayerCapabilities playerData) {
 		if (playerData.getAerialDodgeTicks() <= 0) {
-			if (player.isOnGround()) {
+			if (player.onGround()) {
 				playerData.setHasJumpedAerialDodge(false);
 				playerData.setAerialDodgeTicks(0);
 			} else {
-				if (player.level.isClientSide) {
+				if (player.level().isClientSide) {
 					if (player.getDeltaMovement().y < 0 && Minecraft.getInstance().options.keyJump.isDown() && !player.isShiftKeyDown()) {
 						if (!playerData.hasJumpedAerialDodge()) {
 							playerData.setHasJumpedAerialDodge(true);

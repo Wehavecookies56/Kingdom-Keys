@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectKeyb
 import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 
@@ -97,11 +99,10 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		drawMenuBackground(matrixStack, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		details.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
+		details.renderWidget(gui, mouseX, mouseY, partialTicks);
+		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 }

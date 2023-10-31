@@ -129,9 +129,9 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 		public void start() {
 			canUseAttack = true;
 			if (EntityHelper.getState(theEntity) > 2)
-				attackTimer = 10 + level.random.nextInt(5);
+				attackTimer = 10 + level().random.nextInt(5);
 			else
-				attackTimer = 20 + level.random.nextInt(5);
+				attackTimer = 20 + level().random.nextInt(5);
 			EntityHelper.setState(theEntity, 0);
 			this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
 			whileAttackTimer = 0;
@@ -149,9 +149,9 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                 if(EntityHelper.getState(theEntity) == 0) { // if the state of the entity is 0 (meaning it does not executes any attack)
                     this.theEntity.getLookControl().setLookAt(target, 30F, 30F); // we turn the entity to face the target
 
-                    if(level.random.nextInt(100) + level.random.nextDouble() <= 75) { // some sort of primitive (could've looked better) percentage system..but if the random number is under or equal with 75 (so a 75% chance)
+                    if(level().random.nextInt(100) + level().random.nextDouble() <= 75) { // some sort of primitive (could've looked better) percentage system..but if the random number is under or equal with 75 (so a 75% chance)
                         //MORPHING PHASE
-                        if(level.random.nextInt(100) + level.random.nextDouble() <= 50) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
+                        if(level().random.nextInt(100) + level().random.nextDouble() <= 50) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
                             //SWORD
                             if(theEntity.distanceTo(theEntity.getTarget()) < 8) { // for the sword one we need to check if the target is 4 blocks or less away from the entity (just because it wouldn't make much sense for a close-ranged attack to occur when the target is 5 miles away)
                                 EntityHelper.setState(theEntity, 1); // setting the state to 1 (sword morphing)

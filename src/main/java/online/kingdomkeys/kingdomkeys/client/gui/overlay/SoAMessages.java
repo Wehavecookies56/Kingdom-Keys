@@ -9,7 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
@@ -61,10 +61,10 @@ public class SoAMessages extends OverlayBase {
     }
 
     @Override
-    public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-        super.render(gui, poseStack, partialTick, width, height);
+    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+        super.render(gui, guiGraphics, partialTick, width, height);
         if (!messages.isEmpty() || titlesTimer != 0) {
-            draw(poseStack, partialTick);
+            draw(guiGraphics, partialTick);
         }
     }
 
@@ -118,7 +118,7 @@ public class SoAMessages extends OverlayBase {
         }
     }
 
-    public void draw(PoseStack matrixStack, float partialTicks) {
+    public void draw(GuiGraphics guiGraphics, float partialTicks) {
         this.scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         this.scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
@@ -136,6 +136,7 @@ public class SoAMessages extends OverlayBase {
 
             j1 = Mth.clamp(j1, 0, 255);
             if (j1 > 8) {
+                PoseStack matrixStack = guiGraphics.pose();
                 matrixStack.pushPose();
                 matrixStack.translate(this.scaledWidth / 2, this.scaledHeight / 2, 0.0F);
                 RenderSystem.enableBlend();
@@ -144,15 +145,15 @@ public class SoAMessages extends OverlayBase {
                 matrixStack.scale(4.0F, 4.0F, 4.0F);
                 int l1 = j1 << 24 & -16777216;
                 int i2 = font.width(Utils.translateToLocal(this.displayedTitle));
-                this.renderTextBackground(matrixStack, font, -10, i2);
-                font.drawShadow(matrixStack, Utils.translateToLocal(this.displayedTitle), (float)(-i2 / 2), -10.0F, 16777215 | l1);
+                this.renderTextBackground(guiGraphics, -10, i2);
+                guiGraphics.drawString(Minecraft.getInstance().font, Utils.translateToLocal(this.displayedTitle), (float)(-i2 / 2), -10.0F, 16777215 | l1, true);
                 matrixStack.popPose();
                 if (!this.displayedSubTitle.isEmpty()) {
                     matrixStack.pushPose();
                     matrixStack.scale(2.0F, 2.0F, 2.0F);
                     int k = font.width(Utils.translateToLocal(this.displayedSubTitle));
-                    this.renderTextBackground(matrixStack, font, 5, k);
-                    font.drawShadow(matrixStack, Utils.translateToLocal(this.displayedSubTitle), (float)(-k / 2), 5.0F, 16777215 | l1);
+                    this.renderTextBackground(guiGraphics, 5, k);
+                    guiGraphics.drawString(Minecraft.getInstance().font, Utils.translateToLocal(this.displayedSubTitle), (float)(-k / 2), 5.0F, 16777215 | l1, true);
                     matrixStack.popPose();
                 }
                 RenderSystem.disableBlend();
@@ -160,11 +161,11 @@ public class SoAMessages extends OverlayBase {
             }
         }
     }
-    protected void renderTextBackground(PoseStack matrixStack, Font fontRendererIn, int yIn, int stringWidthIn) {
+    protected void renderTextBackground(GuiGraphics guiGraphics, int yIn, int stringWidthIn) {
         int i = Minecraft.getInstance().options.getBackgroundColor(0.0F);
         if (i != 0) {
             int j = -stringWidthIn / 2;
-            GuiComponent.fill(matrixStack, j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
+            guiGraphics.fill(j - 2, yIn - 2, j + stringWidthIn + 2, yIn + 9 + 2, i);
         }
 
     }

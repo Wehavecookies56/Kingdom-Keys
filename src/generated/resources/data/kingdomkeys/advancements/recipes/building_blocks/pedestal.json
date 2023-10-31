@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:pedestal"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

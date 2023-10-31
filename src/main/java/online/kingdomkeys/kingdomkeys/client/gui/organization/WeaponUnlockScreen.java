@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class WeaponUnlockScreen extends Screen {
 
@@ -61,21 +63,21 @@ public class WeaponUnlockScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+    public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
+        PoseStack matrixStack = gui.pose();
         int cost = (int) (startCost + ((0.1 * startCost) * current));
-        renderBackground(matrixStack);
+        renderBackground(gui);
         String name = "";
         String weapon = "";
         int weapon_w = 128;
         int weapon_h = 128;
-        renderBackground(matrixStack);
+        renderBackground(gui);
         matrixStack.pushPose();
-        RenderSystem.setShaderTexture(0, GLOW);
         RenderSystem.enableBlend();
-        blit(matrixStack, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        drawString(matrixStack, font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
-        drawString(matrixStack, font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
-        drawString(matrixStack, font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
+        gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+        gui.drawString(font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
+        gui.drawString(font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
+        gui.drawString(font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
         matrixStack.popPose();
         matrixStack.pushPose();
         matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
@@ -85,7 +87,7 @@ public class WeaponUnlockScreen extends Screen {
         ClientUtils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0,0,16);
 
         matrixStack.popPose();
-        super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
+        super.render(gui, p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override

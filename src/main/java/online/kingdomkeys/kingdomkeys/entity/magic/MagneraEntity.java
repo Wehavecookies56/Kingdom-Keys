@@ -69,11 +69,11 @@ public class MagneraEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if(level == null || ModCapabilities.getWorld(level) == null || getCaster() == null)
+		if(level() == null || ModCapabilities.getWorld(level()) == null || getCaster() == null)
 			return;
 		
 		
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		if (tickCount >= 3) {
 			float radius = 2.5F;
@@ -92,7 +92,7 @@ public class MagneraEntity extends ThrowableProjectile {
 					double x = X + (radius * Math.cos(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
 					double y = Y + (radius * Math.cos(Math.toRadians(t+tickCount)));
-					level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
+					level().addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 				}
 			}
 
@@ -100,7 +100,7 @@ public class MagneraEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 
 
-			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
+			List<Entity> list = level().getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
 			list = Utils.removePartyMembersFromList(getCaster(), list);
 
 			if (!list.isEmpty()) {
@@ -126,7 +126,7 @@ public class MagneraEntity extends ThrowableProjectile {
 		}
 		
 		if(tickCount == maxTicks-25) {
-			getCaster().level.playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			getCaster().level().playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 0.9F);
 		}
 
 		super.tick();
@@ -162,7 +162,7 @@ public class MagneraEntity extends ThrowableProjectile {
 	}
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {

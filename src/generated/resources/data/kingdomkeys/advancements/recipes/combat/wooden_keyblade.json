@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:wooden_keyblade"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -355,7 +355,7 @@ public class Utils {
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
-		List<Entity> list = entity.level.getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
+		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
 			if (e instanceof LivingEntity) {
@@ -367,11 +367,11 @@ public class Utils {
 	}
 	
 	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list){
-		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for(Member m : casterParty.getMembers()) {
-				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		} else {
 			list.remove(player);
@@ -380,12 +380,12 @@ public class Utils {
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
-		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
-		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		} else {
 			list.remove(player);
@@ -411,12 +411,12 @@ public class Utils {
 	 * @return
 	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
-		List<Entity> list = player.level.getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
-		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
+		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		} else {
 			list.remove(player);
@@ -612,7 +612,7 @@ public class Utils {
 	}
 
 	public static void RefreshAbilityAttributes(Player player, IPlayerCapabilities playerData){
-		if (player.level.isClientSide)
+		if (player.level().isClientSide)
 			return;
 
 		Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
@@ -893,10 +893,10 @@ public class Utils {
 
 	public static int getLootingLevel(Player player) {
 		int lvl = 0;
-		if(!ItemStack.isSame(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
+		if(!ItemStack.isSameItem(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
             lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
 		}
-		if(!ItemStack.isSame(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
+		if(!ItemStack.isSameItem(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
             lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
 		}
 		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);

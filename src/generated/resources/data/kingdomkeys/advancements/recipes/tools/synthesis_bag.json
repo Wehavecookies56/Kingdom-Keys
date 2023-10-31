@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:synthesis_bag"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

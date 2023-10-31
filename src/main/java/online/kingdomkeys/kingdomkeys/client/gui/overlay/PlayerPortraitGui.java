@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,8 +27,8 @@ public class PlayerPortraitGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		// if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -51,6 +52,8 @@ public class PlayerPortraitGui extends OverlayBase {
 			if(Utils.isPlayerLowHP(minecraft.player)) {
 				RenderSystem.setShaderColor(1F, 0.5F, 0.5F, 1F);
 			}
+
+			PoseStack poseStack = guiGraphics.pose();
 
 			poseStack.pushPose();
 			{

@@ -89,7 +89,7 @@ public class CSSynthesiseRecipe {
 							player.getInventory().add(new ItemStack(i, remainder));
 						}
 						if (i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
-							IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+							IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 							worldData.setHeartlessSpawnLevel(1);
 							PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 						}

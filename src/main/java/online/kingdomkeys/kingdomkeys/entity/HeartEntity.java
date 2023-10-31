@@ -43,7 +43,7 @@ public class HeartEntity extends Entity {
 			//this.posY += 0.15;
 		} else {
 			//KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY(), getPosZ(), 0, 0, 0, 0.1F);
-			level.addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 		}
 		
 		if(this.tickCount >= MAX_TICKS) {

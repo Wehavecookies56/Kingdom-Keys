@@ -70,14 +70,14 @@ public class GraviraEntity extends ThrowableProjectile {
 		}
 
 		if (tickCount > 2)
-			level.addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 
 		super.tick();
 	}
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			float radius = 2.5F;
 			double X = getX();
 			double Y = getY();
@@ -88,18 +88,18 @@ public class GraviraEntity extends ThrowableProjectile {
 					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = Y + (radius * Math.cos(Math.toRadians(t)));
-					((ServerLevel) level).sendParticles(ParticleTypes.DRAGON_BREATH, x, y+1, z, 1, 0,0,0, 0);
+					((ServerLevel) level()).sendParticles(ParticleTypes.DRAGON_BREATH, x, y+1, z, 1, 0,0,0, 0);
 				}
 			}
 			
-			IWorldCapabilities worldData = ModCapabilities.getWorld(level);
-			if (!level.isClientSide && getOwner() != null && worldData != null) {
-				List<Entity> list = level.getEntities(getOwner(), getBoundingBox().inflate(radius));
+			IWorldCapabilities worldData = ModCapabilities.getWorld(level());
+			if (!level().isClientSide && getOwner() != null && worldData != null) {
+				List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 				Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
 	
 				if(casterParty != null && !casterParty.getFriendlyFire()) {
 					for(Member m : casterParty.getMembers()) {
-						list.remove(level.getPlayerByUUID(m.getUUID()));
+						list.remove(level().getPlayerByUUID(m.getUUID()));
 					}
 				} else {
 					list.remove(getOwner());

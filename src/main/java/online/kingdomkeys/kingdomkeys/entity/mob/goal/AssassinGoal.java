@@ -64,7 +64,7 @@ public class AssassinGoal extends TargetGoal {
 			}
 			
 			if(this.mob.distanceTo(this.mob.getTarget()) < 5) { //If target is in range
-				if (this.mob.isOnGround()) {
+				if (this.mob.onGround()) {
 					if (!isUnderground()) {
 						undergroundTicks-=2;
 						if (undergroundTicks <= 0) {
@@ -93,7 +93,7 @@ public class AssassinGoal extends TargetGoal {
 	}
 
 	private void explode() {
-        mob.level.explode(mob, mob.getX(), mob.getY(), mob.getZ(), 6, false, Level.ExplosionInteraction.NONE);
+        mob.level().explode(mob, mob.getX(), mob.getY(), mob.getZ(), 6, false, Level.ExplosionInteraction.NONE);
         mob.remove(Entity.RemovalReason.KILLED);
 	}
 

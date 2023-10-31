@@ -77,7 +77,7 @@ public class FirazaEntity extends ThrowableProjectile {
 					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+					level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
 				}
 			}
 		}
@@ -86,7 +86,7 @@ public class FirazaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide && getOwner() != null) {
+		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 
@@ -104,7 +104,7 @@ public class FirazaEntity extends ThrowableProjectile {
 				if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
-						p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
+						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 					}
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setSecondsOnFire(30);
@@ -123,12 +123,12 @@ public class FirazaEntity extends ThrowableProjectile {
 					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
 						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
 							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level.getBlockState(blockpos);
+							BlockState blockstate = level().getBlockState(blockpos);
 							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-								level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 							}
 							if(blockstate.hasProperty(BlockStateProperties.LIT)) {
-								level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
 							}
 						}
 					}
@@ -138,7 +138,7 @@ public class FirazaEntity extends ThrowableProjectile {
 			if(getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty((Player) getOwner(), radius);
 	
-				((ServerLevel)level).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
+				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
 				
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {

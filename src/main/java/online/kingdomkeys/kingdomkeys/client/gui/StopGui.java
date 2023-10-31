@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -32,7 +34,7 @@ public class StopGui extends Screen {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
+	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
 		if(minecraft.player != null) {
 
 			if(ModCapabilities.getGlobal(minecraft.player) != null) {

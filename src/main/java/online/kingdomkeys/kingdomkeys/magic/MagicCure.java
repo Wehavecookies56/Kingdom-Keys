@@ -27,9 +27,9 @@ public class MagicCure extends Magic {
 
 	@Override
 	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		((ServerLevel) player.level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY()+2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
+		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY()+2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 
 		float amount = playerData.getMaxHP() * getDamageMult(level);
 		if(playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
@@ -37,11 +37,11 @@ public class MagicCure extends Magic {
 
 		switch(level) {
 		case 0:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 			break;
 		case 1:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
@@ -53,14 +53,14 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
-		            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+		            		player.level().playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
 			}
 			break;
 		case 2:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			player.heal(amount);
 
 			if(worldData.getPartyFromMember(player.getUUID()) != null) {
@@ -71,7 +71,7 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
-		            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
+		            		player.level().playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
 		        }
@@ -79,7 +79,7 @@ public class MagicCure extends Magic {
 			}
 			break;
 		case 3:
-			player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			player.heal(amount);
 			player.getFoodData().eat(20, 10);
 
@@ -88,13 +88,13 @@ public class MagicCure extends Magic {
 				List<Member> list = party.getMembers();
 		        if (!list.isEmpty()) { //Heal everyone in the party within reach
 		            for (int i = 0; i < list.size(); i++) {
-		            	if(player.level.getPlayerByUUID(list.get(i).getUUID()) != null && player.distanceTo(player.level.getPlayerByUUID(list.get(i).getUUID())) < ModConfigs.partyRangeLimit) {
-			                LivingEntity e = player.level.getPlayerByUUID(list.get(i).getUUID());
+		            	if(player.level().getPlayerByUUID(list.get(i).getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(list.get(i).getUUID())) < ModConfigs.partyRangeLimit) {
+			                LivingEntity e = player.level().getPlayerByUUID(list.get(i).getUUID());
 			                if (e != null && Utils.isEntityInParty(party, e) && e != player) {
 			                	e.heal(amount);
 			        			if(e instanceof Player targetPlayer)
 			        				targetPlayer.getFoodData().eat(20, 10);
-			            		player.level.playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
+			            		player.level().playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			                }
 		            	}
 		            }

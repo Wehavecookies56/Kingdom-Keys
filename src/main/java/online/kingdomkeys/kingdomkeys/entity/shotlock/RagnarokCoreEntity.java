@@ -73,7 +73,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY()+1;
@@ -81,11 +81,11 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 		
 		if (getCaster() != null && getTargets() != null) {
 			if (tickCount == 1) {
-				level.playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
+				level().playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				for(int i = 0; i< getTargets().size();i++) {
 					Entity target = getTargets().get(i);
 					if(target != null) {
-						RagnarokShotEntity bullet = new RagnarokShotEntity(level, getCaster(), target, dmg);
+						RagnarokShotEntity bullet = new RagnarokShotEntity(level(), getCaster(), target, dmg);
 						bullet.setColor(16757273);
 						float r = 0.3F;
 						double offset_amount = -1.5;
@@ -99,7 +99,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 						bullet.setMaxTicks(maxTicks + 20);
 						//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
 						list.add(bullet);
-						level.addFreshEntity(bullet);
+						level().addFreshEntity(bullet);
 					}
 				}
 			} else if(tickCount > 4 && tickCount < 10) {
@@ -154,7 +154,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(RagnarokCoreEntity.class, EntityDataSerializers.STRING);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -168,7 +168,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 		for(String id : ids) {
 		
 			if(!id.equals(""))
-				list.add(level.getEntity(Integer.parseInt(id)));
+				list.add(level().getEntity(Integer.parseInt(id)));
 		}
 		return list;
 	}

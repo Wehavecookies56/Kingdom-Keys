@@ -93,12 +93,12 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = Y + (radius * Math.cos(Math.toRadians(t)));
-					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level, getCaster(), dmg);
+					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 					bullet.setPos(x, y, z);
 					bullet.setMaxTicks(maxTicks - 20);
 					bullet.shoot(this.getX() - bullet.getX(), this.getY() - bullet.getY(), this.getZ() - bullet.getZ(), 0.001f, 0);
 					list.add(bullet);
-					level.addFreshEntity(bullet);
+					level().addFreshEntity(bullet);
 				}
 
 				this.setDeltaMovement(0, 0, 0);
@@ -125,8 +125,8 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
-						bullet.shoot(target.getX() - (bullet.getX() + level.random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level.random.nextDouble() - 0.5D), 2f, 0);
-						level.playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+						bullet.shoot(target.getX() - (bullet.getX() + level().random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level().random.nextDouble() - 0.5D), 2f, 0);
+						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 
 				}
@@ -145,12 +145,12 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	}
 
 	private void updateList() {
-		List<Entity> tempList = level.getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(level).getPartyFromMember(getCaster().getUUID());
+		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
+		Party casterParty = ModCapabilities.getWorld(level()).getPartyFromMember(getCaster().getUUID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(level.getPlayerByUUID(m.getUUID()));
+				tempList.remove(level().getPlayerByUUID(m.getUUID()));
 			}
 		} else {
 			tempList.remove(getOwner());
@@ -197,7 +197,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(LaserDomeCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -205,7 +205,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	}
 
 	public Player getTarget() {
-		return this.getEntityData().get(TARGET).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
+		return this.getEntityData().get(TARGET).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(TARGET).get()) : null;
 	}
 
 	public void setTarget(UUID uuid) {

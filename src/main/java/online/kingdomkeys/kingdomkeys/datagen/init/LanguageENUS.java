@@ -1,89 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Attack;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Command;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive_Revert;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Drive_Title;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Items;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Items_Title;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Limit;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Limit_Title;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Magic;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Magic_Title;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Portal;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_CommandMenu_Portals_Title;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Accept;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Back;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Config;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Customize;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Accessories;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Armor;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Items;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Shotlock;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Weapon;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Items_Stock;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Abilities;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Config;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Customize;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Items;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Journal;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Party;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Button_Status;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Hearts;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Munny;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Synthesis_Tier;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Time;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Main_Time_Spent;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility_Private;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Accessibility_Public;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Create_Name;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Join;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Disband;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Invite;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Kick;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Leader_Settings;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Party_Member_Leave;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_AP;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Abilities;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Ability;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_BlizzardRes;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_BlizzardResShort;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DarkRes;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DarkResShort;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Defense;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_DriveGauge;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FireRes;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FireResShort;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FormGauge;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_FormLevel;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_HP;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Level;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_MP;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Magic;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_NextLevel;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_Strength;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_ThunderRes;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_ThunderResShort;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Menu_Status_TotalExp;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Shop;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Shop_Buy_Cost;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Forge;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Forge_Upgrade;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials_Deposit;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Materials_Take;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Synthesise;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.Gui_Synthesis_Synthesise_Create;
-
 import net.minecraft.data.DataGenerator;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -96,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+
+import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 public class LanguageENUS extends KKLanguageProvider {
 
@@ -128,6 +46,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Journal + ".desc", "");
         add(Gui_Menu_Main_Button_Config, "Config");
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
+        add(Gui_Menu_Main_Button_Style, "Combat Style");
+        add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight");
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
@@ -218,6 +138,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config+ ".armor.green", "Armor green");
         add(Gui_Menu_Config+ ".armor.blue", "Armor blue");
         add(Gui_Menu_Config+ ".armor.glint", "Armor glint");
+        add(Gui_Menu_Style, "Combat Style");
+        add(Gui_Menu_Style+ ".single", "Single");
+        add(Gui_Menu_Style+ ".dual", "Dual");
+        add(Gui_Menu_Style+ ".sora", "Sora");
+        add(Gui_Menu_Style+ ".roxas", "Roxas");
+        add(Gui_Menu_Style+ ".riku", "Riku");
+        add(Gui_Menu_Style+ ".terra", "Terra");
+        add(Gui_Menu_Style+ ".aqua", "Aqua");
+        add(Gui_Menu_Style+ ".ventus", "Ventus");
+        add(Gui_Menu_Style+ ".kh2roxasdual", "Roxas (KH2)");
+        add(Gui_Menu_Style+ ".daysroxasdual", "Roxas (358/2 Days)");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -408,7 +339,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.DARK_DOMINATION, "Dark Domination", "Allows the user to control Antiform at will.");
         addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magics at the locked entity's position.");
-        
+        addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Increases maximum combo by 1 when on the ground. Equip more to enable more combos");
+        addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Decreases maximum combo on the ground and in midair by 1. Equip more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
+
+
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "Laser Circle");
         addLimit(ModLimits.LASER_DOME, "Laser Dome");

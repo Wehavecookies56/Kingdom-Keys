@@ -42,11 +42,11 @@ public class CSPartyLeave {
 	public static void handle(CSPartyLeave message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 			Party p = worldData.getPartyFromName(message.name);
 			p.removeMember(message.playerUUID);
 			
-			Utils.syncWorldData(player.level, worldData);
+			Utils.syncWorldData(player.level(), worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

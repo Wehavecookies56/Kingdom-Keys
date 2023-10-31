@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraftforge.registries.DeferredRegister;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +30,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -81,34 +86,33 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 	
-	public static final String MODVER = "2.3.3.1";
-	public static final String MCVER = "1.19.4";
+	public static final String MODVER = "2.3.3.2";
+	public static final String MCVER = "1.20.1";
 
-	@SubscribeEvent
-	public void creativeTabRegistry(CreativeModeTabEvent.Register event) {
-		final List<ItemStack> kkItems = ModItems.ITEMS.getEntries().stream().map(RegistryObject::get).map(ItemStack::new).toList();
-		final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
-		final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
-		final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
-		final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KeychainItem)).toList());
+	public static boolean efmLoaded = false;
 
-		//Keyblades
-		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.keybladesGroup), builder -> {
-			builder
-					.title(Component.translatable("itemGroup." + Strings.keybladesGroup))
-					.icon(() -> {
-						List<ItemStack> keybladesList = keyblades.get();
-						return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
-					})
-					.displayItems(((params, output) -> {
-						keyblades.get().forEach(output::accept);
-						keychains.get().forEach(output::accept);
-					}));
-		});
+	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-		//Org weapons
-		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.organizationGroup), builder -> {
-			builder
+	private static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(RegistryObject::get).map(ItemStack::new).toList());
+	private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
+	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
+	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
+	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KeychainItem)).toList());
+
+	public static final RegistryObject<CreativeModeTab>
+			keyblades_tab = TABS.register(Strings.keybladesGroup, () -> CreativeModeTab.builder()
+				.title(Component.translatable("itemGroup." + Strings.keybladesGroup))
+				.icon(() -> {
+					List<ItemStack> keybladesList = keyblades.get();
+					return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
+				})
+				.displayItems(((params, output) -> {
+					keyblades.get().forEach(output::accept);
+					keychains.get().forEach(output::accept);
+				}))
+				.build()),
+
+			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup." + Strings.organizationGroup))
 					.icon(() -> {
 						List<ItemStack> orgWeaponsList = orgWeapons.get();
@@ -116,19 +120,16 @@ public class KingdomKeys {
 					})
 					.displayItems(((params, output) -> {
 						orgWeapons.get().forEach(output::accept);
-					}));
-		});
+					}))
+					.build()),
 
-		//Misc
-		event.registerCreativeModeTab(new ResourceLocation(MODID, Strings.miscGroup), builder -> {
-			builder
+			misc_tab = TABS.register(Strings.miscGroup, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup." + Strings.miscGroup))
 					.icon(() -> new ItemStack(ModBlocks.normalBlox.get()))
 					.displayItems(((params, output) -> {
 						misc.get().forEach(output::accept);
-					}));
-		});
-	}
+					}))
+					.build());
 
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
@@ -150,6 +151,7 @@ public class KingdomKeys {
 		ModEntities.TILE_ENTITIES.register(modEventBus);
         ModContainers.CONTAINERS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
+		TABS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);
 
@@ -159,12 +161,15 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
-		modEventBus.addListener(this::creativeTabRegistry);
 
 		if (ModList.get().isLoaded("epicfight")) {
-			//modEventBus.addListener(KKAnimations::register);
-			//modEventBus.addListener(EpicKKWeapons::register);
+			efmLoaded = true;
+			modEventBus.addListener(KKAnimations::register);
+			modEventBus.addListener(EpicKKWeapons::register);
+			MinecraftForge.EVENT_BUS.register(new KKSkills());
+			KKSkills.register();
 		}
+
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 
@@ -187,7 +192,7 @@ public class KingdomKeys {
 			@Override
 			public void run() {
 				if (ModList.get().isLoaded("epicfight")) {
-					//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
 			}
 		});

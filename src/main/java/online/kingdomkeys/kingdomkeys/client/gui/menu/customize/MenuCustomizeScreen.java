@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Map;
@@ -68,7 +70,7 @@ public class MenuCustomizeScreen extends MenuBackground {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        super.render(gui, mouseX, mouseY, partialTicks);
     }
 }

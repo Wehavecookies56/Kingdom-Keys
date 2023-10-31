@@ -69,10 +69,10 @@ public class MoogleEntity extends PathfinderMob {
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
         	if(!player.isCrouching()) {
 	        	ItemStack itemstack = player.getItemInHand(hand);
-	        	if(!ItemStack.isSame(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
+	        	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
 	        		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 	        		int reward = 500;
 	        		playerData.setMunny(playerData.getMunny() + reward);
@@ -86,7 +86,7 @@ public class MoogleEntity extends PathfinderMob {
 	        return super.interactAt(player, vec, hand);
         }
     	ItemStack itemstack = player.getItemInHand(hand);
-    	if(!ItemStack.isSame(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
+    	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
     		return InteractionResult.SUCCESS;
     	} else {
 	        return super.interactAt(player, vec, hand);

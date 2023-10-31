@@ -56,7 +56,7 @@ public class CSPedestalConfig {
 
     public static void handle(CSPedestalConfig message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Level world = ctx.get().getSender().level;
+            Level world = ctx.get().getSender().level();
             PedestalTileEntity tileEntity = (PedestalTileEntity) world.getBlockEntity(message.tileEntityPos);
             tileEntity.setSpeed(message.rotationSpeed, message.bobSpeed);
             tileEntity.saveTransforms(message.savedRotation, message.savedHeight);

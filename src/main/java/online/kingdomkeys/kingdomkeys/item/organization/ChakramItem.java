@@ -31,7 +31,7 @@ public class ChakramItem extends OrgSwordItem implements IOrgWeapon {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		Level level = player.level;
+		Level level = player.level();
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		if (!level.isClientSide && stack != null) {
 			player.setItemInHand(hand, ItemStack.EMPTY);

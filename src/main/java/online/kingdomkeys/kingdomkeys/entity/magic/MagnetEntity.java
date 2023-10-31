@@ -68,14 +68,14 @@ public class MagnetEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if(level == null || ModCapabilities.getWorld(level) == null || getCaster() == null)
+		if(level() == null || ModCapabilities.getWorld(level()) == null || getCaster() == null)
 			return;
 		
-		level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 		float radius = 2F;
 
 		if (tickCount >= 3) {
-			if(!level.isClientSide) {
+			if(!level().isClientSide) {
 				if(tickCount < 20) {
 					radius = tickCount / 10F;
 				}
@@ -91,7 +91,7 @@ public class MagnetEntity extends ThrowableProjectile {
 						double x = X + (radius * Math.cos(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
 						double z = Z + (radius * Math.sin(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
 						double y = Y + (radius * Math.cos(Math.toRadians(t+tickCount)));
-						((ServerLevel) level).sendParticles(ParticleTypes.BUBBLE_POP, x, y+1, z, 1, 0,0,0, 0);
+						((ServerLevel) level()).sendParticles(ParticleTypes.BUBBLE_POP, x, y+1, z, 1, 0,0,0, 0);
 						//level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 					}
 				}
@@ -100,7 +100,7 @@ public class MagnetEntity extends ThrowableProjectile {
 			this.hurtMarked = true;
 			
 			
-			List<Entity> list = level.getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
+			List<Entity> list = level().getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
 			list = Utils.removePartyMembersFromList(getCaster(), list);
 
 			if (!list.isEmpty()) {
@@ -117,7 +117,7 @@ public class MagnetEntity extends ThrowableProjectile {
 		}
 		
 		if(tickCount == maxTicks-20) {
-			getCaster().level.playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 1.1F);
+			getCaster().level().playSound(null, getCaster().blockPosition(), ModSounds.magnet2.get(), SoundSource.PLAYERS, 1F, 1.1F);
 		}
 
 		super.tick();
@@ -153,7 +153,7 @@ public class MagnetEntity extends ThrowableProjectile {
 	}
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {

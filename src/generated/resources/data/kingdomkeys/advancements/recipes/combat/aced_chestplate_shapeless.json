@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:aced_chestplate_shapeless"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

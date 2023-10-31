@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
@@ -44,8 +45,8 @@ public class GuiOverlay extends OverlayBase {
 	ResourceLocation menuTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	@Override
-	public void render(ForgeGui gui, PoseStack poseStack, float partialTick, int width, int height) {
-		super.render(gui, poseStack, partialTick, width, height);
+	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+		super.render(gui, guiGraphics, partialTick, width, height);
 		this.width = minecraft.getWindow().getGuiScaledWidth();
 		sHeight = minecraft.getWindow().getGuiScaledHeight();
 
@@ -53,22 +54,22 @@ public class GuiOverlay extends OverlayBase {
 		if(playerData != null) {
 			// Experience
 			if (showExp) {
-				showExp(poseStack);
+				showExp(guiGraphics);
 			}
 
 			// Munny
 			if (showMunny) {
-				showMunny(poseStack);
+				showMunny(guiGraphics);
 			}
 
 			// Level Up
 			if (showLevelUp) {
-				showLevelUp(poseStack, partialTick);
+				showLevelUp(guiGraphics, partialTick);
 			}
 
 			// Drive form level up
 			if (showDriveLevelUp) {
-				showDriveLevelUp(poseStack, partialTick);
+				showDriveLevelUp(guiGraphics, partialTick);
 			}
 
 			/*if(teleport != null) {
@@ -88,35 +89,37 @@ public class GuiOverlay extends OverlayBase {
 		GlStateManager.pop();
 	}*/
 
-	private void showExp(PoseStack matrixStack) {
+	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
-			minecraft.font.draw(matrixStack, "Next LV", 5, 5, 0xFFFFFF);
-			minecraft.font.draw(matrixStack, reqExp, 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+			drawString(gui, minecraft.font, "Next LV", 5, 5, 0xFFFFFF);
+			drawString(gui, minecraft.font, reqExp, 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
 				showExp = false;
 		}
 	}
 
-	private void showMunny(PoseStack matrixStack) {
+	private void showMunny(GuiGraphics gui) {
+		PoseStack matrixStack = gui.pose();
 		if (!showExp) { // If no exp is being display print it at the top
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(1, 1, 0);
-				minecraft.font.draw(matrixStack, "Munny Get!", 5, 5, 0xFFFFFF);
-				minecraft.font.draw(matrixStack, munnyGet + "", 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+				drawString(guiGraphics, minecraft.font, "Munny Get!", 5, 5, 0xFFFFFF);
+				drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 			}
 			matrixStack.popPose();
 		} else { // If exp is being displayed print it below it
-			minecraft.font.draw(matrixStack, "Munny Get!", 5, 5 + minecraft.font.lineHeight + 10, 0xFFFFFF);
-			minecraft.font.draw(matrixStack, munnyGet + "", 5, 5 + (minecraft.font.lineHeight * 2) + 10, 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, "Munny Get!", 5, 5 + minecraft.font.lineHeight + 10, 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + (minecraft.font.lineHeight * 2) + 10, 0xFFFFFF);
 		}
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
 	}
 
-	private void showLevelUp(PoseStack matrixStack, float partialTick) {
+	private void showLevelUp(GuiGraphics gui, float partialTick) {
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			float notifXPos = prevNotifTicks + (notifTicks - prevNotifTicks) * partialTick;
@@ -131,12 +134,11 @@ public class GuiOverlay extends OverlayBase {
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 			// Top
-			RenderSystem.setShaderTexture(0, levelUpTexture);
 			matrixStack.pushPose();
 			{
 				matrixStack.translate((width - 153.6f - 2), 0, 0);
 				matrixStack.scale(0.6f, 0.6f, 1);
-				blit(matrixStack, 0, 0, 0, 0, 256, 36);
+				blit(gui, levelUpTexture, 0, 0, 0, 0, 256, 36);
 			}
 			matrixStack.popPose();
 
@@ -152,10 +154,9 @@ public class GuiOverlay extends OverlayBase {
 
 			matrixStack.pushPose();
 			{
-				RenderSystem.setShaderTexture(0, levelUpTexture);
 				matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
 				matrixStack.scale(0.6f, height, 1);
-				blit(matrixStack, 0, 0, 0, 36, 256, 1);
+				blit(gui, levelUpTexture, 0, 0, 0, 36, 256, 1);
 			}
 			matrixStack.popPose();
 
@@ -165,10 +166,9 @@ public class GuiOverlay extends OverlayBase {
 
 			matrixStack.pushPose();
 			{
-				RenderSystem.setShaderTexture(0, levelUpTexture);
 				matrixStack.translate((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
 				matrixStack.scale(0.6f, 0.6f, 1);
-				blit(matrixStack, 0, 0, 0, 37, 256, 14);
+				blit(gui, levelUpTexture, 0, 0, 0, 37, 256, 14);
 			}
 			matrixStack.popPose();
 
@@ -180,22 +180,19 @@ public class GuiOverlay extends OverlayBase {
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
-					RenderSystem.setShaderTexture(0, menuTexture);
-					blit(matrixStack, (int)x, (int)y-2, 74, 102, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);
 					message = message.replace("A_", "");
 					x += 13;
 				}
 				
 				if(message.startsWith("S_")) {
-					RenderSystem.setShaderTexture(0, menuTexture);
-					blit(matrixStack, (int)x, (int)y-2, 100, 102, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-2, 100, 102, 12, 12);
 					message = message.replace("S_", "");
 					x += 13;
 				}
 				
 				if(message.startsWith("M_")) {
-					RenderSystem.setShaderTexture(0, menuTexture);
-					blit(matrixStack, (int)x, (int)y-2, 87, 115, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-2, 87, 115, 12, 12);
 					message = message.replace("M_", "");
 					x += 13;
 				}
@@ -210,7 +207,8 @@ public class GuiOverlay extends OverlayBase {
 			showLevelUp = false;
 	}
 
-	private void showDriveLevelUp(PoseStack matrixStack, float partialTick) {
+	private void showDriveLevelUp(GuiGraphics gui, float partialTick) {
+		PoseStack matrixStack = gui.pose();
 		if(playerData == null || driveForm == null)
 			return;
 
@@ -233,13 +231,12 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				// Top
-				RenderSystem.setShaderTexture(0, levelUpTexture);
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
 					matrixStack.translate(2, sHeight / 3, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 51, 256, 36);
+					blit(gui, levelUpTexture, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.popPose();
 	
@@ -249,10 +246,9 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 21, 0);
 					matrixStack.scale(0.6f, heightBase+1, 1);
-					blit(matrixStack, 0, 0, 0, 51+36, 256, 1);
+					blit(gui, levelUpTexture, 0, 0, 0, 51+36, 256, 1);
 				}
 				matrixStack.popPose();
 	
@@ -260,10 +256,9 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 22 + heightBase, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 51+37, 256, 14);
+					blit(gui, levelUpTexture, 0, 0, 0, 51+37, 256, 14);
 				}
 				matrixStack.popPose();
 				
@@ -275,8 +270,7 @@ public class GuiOverlay extends OverlayBase {
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-						RenderSystem.setShaderTexture(0, menuTexture);
-						blit(matrixStack, (int)x, (int)y-3, 74, 102, 12, 12);
+						blit(gui, levelUpTexture, (int)x, (int)y-3, 74, 102, 12, 12);
 						message = message.replace("A_", "");
 						x += 13;
 					}
@@ -288,10 +282,9 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(0.8F, 0.8F, 0.8F, 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(4.5F, sHeight / 3+6, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 102, 43, 36);
+					blit(gui, levelUpTexture, 0, 0, 0, 102, 43, 36);
 				}
 				matrixStack.popPose();
 			}
@@ -301,13 +294,12 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				// Top
-				RenderSystem.setShaderTexture(0, levelUpTexture);
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
 					matrixStack.translate(2, sHeight / 3 + 29 + heightBase, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 51, 256, 36);
+					blit(gui, levelUpTexture, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.popPose();
 				
@@ -320,10 +312,9 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 50 + heightBase, 0);
 					matrixStack.scale(0.6f, heightDF, 1);
-					blit(matrixStack, 0, 0, 0, 51+36, 256, 1);
+					blit(gui, levelUpTexture, 0, 0, 0, 51+36, 256, 1);
 				}
 				matrixStack.popPose();
 				
@@ -331,17 +322,15 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(2, sHeight / 3 + 50 + heightBase + heightDF, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 51+37, 256, 14);
+					blit(gui, levelUpTexture, 0, 0, 0, 51+37, 256, 14);
 				}
 				matrixStack.popPose();
 				
 				// Text
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(0, sHeight / 3 + 50 + heightBase, 0);
 
 					RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
@@ -352,8 +341,7 @@ public class GuiOverlay extends OverlayBase {
 						float y = minecraft.font.lineHeight * 1.1F * i; 
 						if(message.startsWith("A_")) {
 							RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-							RenderSystem.setShaderTexture(0, menuTexture);
-							blit(matrixStack, (int)x, (int)y-2, 74, 102, 12, 12);
+							blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);
 							message = message.replace("A_", "");
 							x += 13;
 						}
@@ -367,10 +355,9 @@ public class GuiOverlay extends OverlayBase {
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
 				{
-					RenderSystem.setShaderTexture(0, levelUpTexture);
 					matrixStack.translate(4.5F, sHeight / 3 + 34 + heightBase, 0);
 					matrixStack.scale(0.6f, 0.6f, 1);
-					blit(matrixStack, 0, 0, 0, 102, 43, 36);
+					blit(gui, levelUpTexture, 0, 0, 0, 102, 43, 36);
 				}
 				matrixStack.popPose();
 			}
@@ -388,7 +375,7 @@ public class GuiOverlay extends OverlayBase {
 		{
 			matrixStack.translate(tX, tY, tZ);
 			matrixStack.scale(sX, sY, sZ);
-			drawString(matrixStack, minecraft.font, text, 0, 0, color);
+			drawString(guiGraphics, minecraft.font, text, 0, 0, color);
 		}
 		matrixStack.popPose();
 	}

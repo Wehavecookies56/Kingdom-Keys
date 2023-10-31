@@ -30,5 +30,6 @@
     "recipes": [
       "kingdomkeys:xehanort_shoulder"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -45,6 +46,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+
 	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
@@ -73,7 +76,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrixStack = gui.pose();
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
 		Color col = Color.decode(String.valueOf(colour));
@@ -89,20 +93,19 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		if (visible) {
 			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.292F;
-			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
-			blit(matrixStack, 0, 0, 166, 34, 18, 28);
+			gui.blit(texture, 0, 0, 166, 34, 18, 28);
 			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
-				blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
+				gui.blit(texture, 16 + i, 0, 186, 34, 2, 28);
 			}
-			blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
+			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
+			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String itemName;
 			if (keyblade == null) { //Name to display
@@ -111,9 +114,8 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				itemName = new ItemStack(keyblade).getHoverName().getString();
 			}
 
-			drawString(matrixStack, minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
+			gui.drawString(minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
 			String ab = "N/A";
-			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			float labelWidth = parent.width * 0.215F;
 
 			matrixStack.pushPose();
@@ -123,12 +125,12 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 				matrixStack.translate(getX() + width + 2.1F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
-				blit(matrixStack, 0, 0, 219, 34, 15, 28);
+				gui.blit(texture, 0, 0, 219, 34, 15, 28);
 
 				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
-					blit(matrixStack, 14 + i, 0, 186, 34, 2, 28);
+					gui.blit(texture, 14 + i, 0, 186, 34, 2, 28);
 				}
-				blit(matrixStack, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
+				gui.blit(texture, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}
 			matrixStack.popPose();
 			if (keyblade != null) {
@@ -145,21 +147,20 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 			float centerX = (labelWidth / 2) - (minecraft.font.width(ab) / 2);
 			RenderSystem.setShaderColor(1,1,1,1);
-			drawString(matrixStack, minecraft.font, ab, (int) (getX() + width + centerX + 3), getY() + 3, labelColour);
+			gui.drawString(minecraft.font, ab, (int) (getX() + width + centerX + 3), getY() + 3, labelColour);
 		
 			if (selected || isHovered) { //Render stuff on the right
-				RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
 					
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
-					blit(matrixStack, 0, 0, 128, 34, 18, 28);
+					gui.blit(texture, 0, 0, 128, 34, 18, 28);
 					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-						blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
+						gui.blit(texture, 16 + i, 0, 148, 34, 2, 28);
 					}
-					blit(matrixStack, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();
 				
@@ -203,31 +204,30 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						openBracketMag += " ";
 					}
 					
-					drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
-					drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
-					drawString(matrixStack, fr, openBracketStr, (int) strNumPosX + fr.width(strengthStr), (int) strPosY, 0xBF6004);
-					drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr), (int) strPosY, 0xFBEA21);
-					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr) + fr.width(totalStrengthStr), (int) strPosY, 0xBF6004);
+					gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
+					gui.drawString(fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
+					gui.drawString(fr, openBracketStr, (int) strNumPosX + fr.width(strengthStr), (int) strPosY, 0xBF6004);
+					gui.drawString(fr, totalStrengthStr, (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr), (int) strPosY, 0xFBEA21);
+					gui.drawString(fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracketStr) + fr.width(totalStrengthStr), (int) strPosY, 0xBF6004);
 
-					drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
-					drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
-					drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.width(magicStr), (int) magPosY, 0xBF6004);
-					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag), (int) magPosY, 0xFBEA21);
-					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag) + fr.width(totalMagicStr), (int) magPosY, 0xBF6004);
+					gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
+					gui.drawString(fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
+					gui.drawString(fr, openBracketMag, (int) strNumPosX + fr.width(magicStr), (int) magPosY, 0xBF6004);
+					gui.drawString(fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag), (int) magPosY, 0xFBEA21);
+					gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag) + fr.width(totalMagicStr), (int) magPosY, 0xBF6004);
 					int level = keyblade.getKeybladeLevel(stack);
 
 					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
 					if(abilities.size() > 0) {
-						drawString(matrixStack, fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);	
+						gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-			                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-		                    blit(matrixStack, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
-							drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
+							gui.blit(texture, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
+							gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 						}
 					}
-					ClientUtils.drawSplitString(matrixStack, minecraft.font, keyblade.getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
+					ClientUtils.drawSplitString(gui, keyblade.getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();

@@ -54,7 +54,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if(!this.level.isClientSide()) {
+        if(!this.level().isClientSide()) {
             if(source instanceof MagicDamageSource)
             	return false;
         }
@@ -95,7 +95,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 25 + level.random.nextInt(5);
+            attackTimer = 25 + level().random.nextInt(5);
             EntityHelper.setState(mob, 0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
@@ -112,9 +112,9 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                 if (EntityHelper.getState(mob) == 0) {
                     this.mob.getLookControl().setLookAt(target, 30F, 30F);
 
-                    if (level.random.nextInt(100) + level.random.nextDouble() <= 20) {
+                    if (level().random.nextInt(100) + level().random.nextDouble() <= 20) {
                         EntityHelper.setState(this.mob, 1);
-						((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), mob.getX(), mob.getY()+mob.getEyeHeight(), mob.getZ(), 1, 0D, 1D, 0D, 1D);
+						((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), mob.getX(), mob.getY()+mob.getEyeHeight(), mob.getZ(), 1, 0D, 1D, 0D, 1D);
 
                         this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
@@ -123,11 +123,11 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
                                 if (heartless instanceof IKHMob && ((IKHMob)heartless).getKHMobType() != EntityHelper.MobType.NPC) {
                                     if (heartless.getHealth() < heartless.getMaxHealth()) {
                                         heartless.heal((float) this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()/4);
-										((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ()-0.5F, 1, 0D, 1D, 0D, 1D);
-										((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ()+0.5F, 1, 0D, 1D, 0D, 1D);
-										((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
-										((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX()+0.5F, heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
-										((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX()-0.5F, heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
+										((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ()-0.5F, 1, 0D, 1D, 0D, 1D);
+										((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ()+0.5F, 1, 0D, 1D, 0D, 1D);
+										((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX(), heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
+										((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX()+0.5F, heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
+										((ServerLevel) level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), heartless.getX()-0.5F, heartless.getY()+heartless.getEyeHeight(), heartless.getZ(), 1, 0D, 1D, 0D, 1D);
                                     }
                                 }
                             }

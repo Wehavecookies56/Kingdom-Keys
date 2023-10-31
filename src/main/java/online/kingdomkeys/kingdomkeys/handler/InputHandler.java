@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -51,9 +52,6 @@ import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
-import org.lwjgl.glfw.GLFW;
-
-import java.util.*;
 
 public class InputHandler {
 
@@ -97,7 +95,7 @@ public class InputHandler {
         if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
         	PacketHandler.sendToServer(new CSSummonKeyblade(true));
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -118,7 +116,7 @@ public class InputHandler {
 
         if (random * 100 < prob) {
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
-    		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+    		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
             CommandMenuGui.selected = CommandMenuGui.ATTACK;
             CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
@@ -382,10 +380,10 @@ public class InputHandler {
 	                	} else {//REVERT
 	                		
 	                		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
-	                			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	                			player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		} else {
 			                	PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
-			            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			            		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                		}
 						}
 					} else { // Org member Limits
@@ -397,7 +395,7 @@ public class InputHandler {
 							return;
 						} else {
 	                        CommandMenuGui.selected = CommandMenuGui.ATTACK;
-                			player.level.playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                			player.level().playSound(player, player.blockPosition(), ModSounds.error.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 					}
@@ -516,11 +514,11 @@ public class InputHandler {
 	                if (formName.equals(Strings.Form_Final)) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-	            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	            		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                } else {
 	                    if (!antiFormCheck()) {
 		                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-		            		player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		            		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 	                    }
 	                }
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
@@ -711,7 +709,7 @@ public class InputHandler {
                     case OPENMENU:
                         PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
                         if (ModCapabilities.getPlayer(player).getSoAState() != SoAState.COMPLETE) {
-                            if (player.level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
+                            if (player.level().dimension() != ModDimensions.DIVE_TO_THE_HEART) {
                                 mc.setScreen(new NoChoiceMenuPopup());
                             }
                         } else {
@@ -757,7 +755,11 @@ public class InputHandler {
 
                     case SUMMON_KEYBLADE:
                         if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player)) {
+                                PacketHandler.sendToServer(new CSPlayAnimation());
+                            }
+                            else
+                                PacketHandler.sendToServer(new CSSummonKeyblade());
                         } else {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
@@ -787,7 +789,7 @@ public class InputHandler {
                                     if (reach >= distance) {
                                         if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                                             lockOn = (LivingEntity) ertr.getEntity();
-                                            player.level.playSound((Player) player, player.position().x(),player.position().y(),player.position().z(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+                                            player.level().playSound((Player) player, player.position().x(),player.position().y(),player.position().z(), ModSounds.lockon.get(), SoundSource.MASTER, 1.0f, 1.0f);
                                         }
                                     }
                                 }
@@ -825,7 +827,7 @@ public class InputHandler {
 					// Wisdom Form
 					if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						power = Constants.WISDOM_QR[wisdomLevel];
-						if (!player.isOnGround()) {
+						if (!player.onGround()) {
 							player.push(motionX * power / 2, 0, motionZ * power / 2);
 							qrCooldown = 20;
 						}
@@ -835,7 +837,7 @@ public class InputHandler {
 						}
 					}
 
-					if (player.isOnGround()) {
+					if (player.onGround()) {
 						player.push(motionX * power, 0, motionZ * power);
 						qrCooldown = 20;
 					}
@@ -854,7 +856,7 @@ public class InputHandler {
 						}
 					}
 
-					if (player.isOnGround()) {
+					if (player.onGround()) {
 						player.push(player.getDeltaMovement().x * power, 0, player.getDeltaMovement().z * power);
 						qrCooldown = 20;
 						//PacketDispatcher.sendToServer(new InvinciblePacket(20));
@@ -947,7 +949,7 @@ public class InputHandler {
     		Player player = mc.player;
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
 			CommandMenuGui.reactionSelected = 0;
-			player.level.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		}
 	}
 

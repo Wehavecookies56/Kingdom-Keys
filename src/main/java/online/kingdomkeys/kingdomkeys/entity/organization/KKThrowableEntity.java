@@ -65,8 +65,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	public Player getProjOwner() {
 		if (owner == null) {
-			if (!level.isClientSide) {
-				owner = (Player) ((ServerLevel) level).getEntity(ownerUUID);
+			if (!level().isClientSide) {
+				owner = (Player) ((ServerLevel) level()).getEntity(ownerUUID);
 			}
 		}
 		return owner;
@@ -85,7 +85,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	@Override
 	public void tick() {
 		super.tick();
-		if(!level.isClientSide) {
+		if(!level().isClientSide) {
 			if (getProjOwner() == null) {
 				this.remove(RemovalReason.KILLED);
 				return;
@@ -104,7 +104,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 			}
 	
 			if (returning) {
-				List entityTagetList = this.level.getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D));
+				List entityTagetList = this.level().getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D));
 				for (int i = 0; i < entityTagetList.size(); i++) {
 					Entity entityTarget = (Entity) entityTagetList.get(i);
 					if (entityTarget != null && entityTarget instanceof Player) {
@@ -138,8 +138,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	private void returnItemToPlayer() {
 		if(owner == null)
 			return;
-		if(!ItemStack.isSame(owner.getInventory().getItem(slot),originalItem)) {
-			if(!ItemStack.isSame(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
+		if(!ItemStack.isSameItem(owner.getInventory().getItem(slot),originalItem)) {
+			if(!ItemStack.isSameItem(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
 				owner.addItem(originalItem);
 			} else {
 				owner.getInventory().add(slot, originalItem);
@@ -149,7 +149,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 
@@ -172,7 +172,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				}
 			} else { // Block (not ERTR)
 				if (brtResult != null) {
-					if (level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level.getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
+					if (level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
 					} else {
 						setReturn();
 					}

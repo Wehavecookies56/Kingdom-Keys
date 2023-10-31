@@ -19,15 +19,15 @@ public class RealmOfDarknessDimension {
 	// Event Listeners//
 	@SubscribeEvent
 	public static void playerTick(TickEvent.PlayerTickEvent event) {
-		if (!event.player.isCreative() && !event.player.level.isClientSide()) {
-			if (event.player.level.dimension().location().getPath().equals("realm_of_darkness")) {
+		if (!event.player.isCreative() && !event.player.level().isClientSide()) {
+			if (event.player.level().dimension().location().getPath().equals("realm_of_darkness")) {
 				if (event.player.getY() < 0) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 					playerData.setRespawnROD(false);
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)event.player);
 					
 					ResourceKey<Level> resourcekey = Level.OVERWORLD;
-					ServerLevel serverlevel = ((ServerLevel) event.player.level).getServer().getLevel(resourcekey);
+					ServerLevel serverlevel = ((ServerLevel) event.player.level()).getServer().getLevel(resourcekey);
 					if (serverlevel != null) {
 						ServerPlayer sPlayer = (ServerPlayer) event.player;
 						BlockPos pos = sPlayer.getRespawnPosition() != null ? sPlayer.getRespawnPosition() : serverlevel.getSharedSpawnPos();

@@ -37,6 +37,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
@@ -198,7 +200,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		storage.putInt("synth_level", synthLevel);
 		storage.putInt("synth_exp", synthExp);
-		
+		storage.putString("single_style", singleStyle.toString());
+		storage.putString("dual_style", dualStyle.toString());
+
 		storage.putInt("armor_color", armorColor);
 		storage.putBoolean("armor_glint", armorGlint);
 		
@@ -339,7 +343,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
-		
+		String s = nbt.getString("single_style");
+		if(!s.equals(""))
+			this.setSingleStyle(SingleChoices.valueOf(s));
+		s=nbt.getString("dual_style");
+		if(!s.equals(""))
+			this.setDualStyle(DualChoices.valueOf(s));
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
@@ -398,7 +407,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
-	
+
+	private SingleChoices singleStyle = SingleChoices.SORA;
+	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
+
 	private boolean respawnROD = false;
 
 	//private String armorName = "";
@@ -428,14 +440,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
 			if (this.level < 100) {
-				Party party = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+				Party party = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					if(sharedXP > 0) {
 						for(Member member : party.getMembers()) {
-							for(ResourceKey<Level> worldKey : player.level.getServer().levelKeys()) {
+							for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
 								Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
 									ModCapabilities.getPlayer(ally).addExperience(ally, (int) sharedXP, false, true); //Give EXP to other players with the false param to prevent getting in a loop
@@ -668,7 +680,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		// (EntityPlayerMP) player);
 
 		if(sound)
-			player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			player.level().playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
@@ -709,7 +721,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			addAbility(baseAbility,name);
 		}
 
-		player.level.playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+		player.level().playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 
 		PacketHandler.sendTo(new SCShowOverlayPacket("drivelevelup", driveForm), (ServerPlayer) player);
 	}
@@ -1285,6 +1297,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			equippedAccessories.put(slot, stack);
 		}
 	}
+
+	//endregion
 	
 	//region KBArmor
 	
@@ -1921,7 +1935,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void setReturnDimension(Player playerEntity) {
-		setReturnDimension(playerEntity.level.dimension());
+		setReturnDimension(playerEntity.level().dimension());
 	}
 
 	@Override
@@ -2040,6 +2054,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	//endregion
 
+	//region Shortcuts
+
 	@Override
 	public LinkedHashMap<Integer,String> getShortcutsMap() {
 		return shortcutsMap;
@@ -2060,6 +2076,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.shortcutsMap.remove(position);
 		
 	}
+
+	//endregion
+
+	//region Synth levelling
 
 	@Override
 	public int getSynthLevel() {
@@ -2101,6 +2121,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		return remainingSynthExp;
 	}
 
+	//endregion
+
+	//region ROD
+
 	@Override
 	public boolean getRespawnROD() {
 		return respawnROD;
@@ -2111,5 +2135,31 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.respawnROD = respawn;
 		
 	}
+
+	//endregion
+
+	//region EFM styles
+
+	@Override
+	public SingleChoices getSingleStyle() {
+		return singleStyle;
+	}
+
+	@Override
+	public void setSingleStyle(SingleChoices singleStyle) {
+		this.singleStyle = singleStyle;
+	}
+
+	@Override
+	public DualChoices getDualStyle() {
+		return dualStyle;
+	}
+
+	@Override
+	public void setDualStyle(DualChoices dualStyle) {
+		this.dualStyle = dualStyle;
+	}
+
+	//endregion
 
 }

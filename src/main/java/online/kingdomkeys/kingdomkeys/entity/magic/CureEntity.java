@@ -57,7 +57,7 @@ public class CureEntity extends ThrowableProjectile {
 
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2)
-			level.addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
 		
 		super.tick();
 	}

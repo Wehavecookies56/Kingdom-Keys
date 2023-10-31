@@ -72,12 +72,12 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 				while (playerData.getLevel() < level) {
 					playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);
 				}
-				context.getSource().sendSuccess(Component.translatable("Set "+player.getDisplayName().getString()+" level to "+level), true);
+				context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" level to "+level), true);
 				player.sendSystemMessage(Component.translatable("Your level is now "+level));
-				player.level.playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+				player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
 			} else {
-				context.getSource().sendSuccess(Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
+				context.getSource().sendSuccess(() -> Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
 			}
 
             Utils.restartLevel2(playerData, player);			

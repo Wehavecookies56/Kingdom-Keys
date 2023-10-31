@@ -33,12 +33,12 @@ public class MagicStop extends Magic {
 		dmg *= fullMPBlastMult;
 		
 		float radius = 2 + level;
-		List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
+		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level.getPlayerByUUID(m.getUUID()));
+				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		}
 		
@@ -55,7 +55,7 @@ public class MagicStop extends Magic {
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
 		
-		player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
+		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);

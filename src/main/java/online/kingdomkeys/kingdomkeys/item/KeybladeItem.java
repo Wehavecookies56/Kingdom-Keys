@@ -160,11 +160,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								//System.out.println(formChainID);
 								//if(playerData.isAbilityEquipped(Strings.synchBlade))
 								player.getInventory().setItem(slot, ItemStack.EMPTY);
-								player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+								player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
 						} else {
 							player.getInventory().setItem(slot, ItemStack.EMPTY);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
 
 						//Check for dupes
@@ -180,7 +180,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								if (id != null && player.getInventory().getItem(i).getItem() instanceof KeybladeItem) {
 									if (id.equals(stackID) && i != player.getInventory().selected) {
 										player.getInventory().setItem(i, ItemStack.EMPTY);
-										player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+										player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 									}
 								}
 							}
@@ -195,7 +195,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		Level level = player.level;
+		Level level = player.level();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
@@ -254,11 +254,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					player.swing(hand);
 					if(!world.isClientSide) {
 						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
-						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level, player, DamageCalculation.getMagicDamage(player) * 0.1F);
+						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 						world.addFreshEntity(shot);
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 				}

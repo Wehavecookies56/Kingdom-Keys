@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
 public class CSExtendedReach {
@@ -33,7 +34,9 @@ public class CSExtendedReach {
 	public static void handle(CSExtendedReach message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-	        Entity theEntity = player.level.getEntity(message.entityId);
+	        Entity theEntity = player.level().getEntity(message.entityId);
+			if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player))
+				return;
 	        if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY)) {
 	            return;
 	        }

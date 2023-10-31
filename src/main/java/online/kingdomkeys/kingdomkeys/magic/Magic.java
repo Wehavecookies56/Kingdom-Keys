@@ -112,7 +112,7 @@ public abstract class Magic {
 		casterData.setMagicCooldownTicks(Math.max(cd,5));
 		
 		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
-			double num = player.level.random.nextDouble();
+			double num = player.level().random.nextDouble();
 			if(num < (0.25+(0.125*(casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse)-1)))){
 				caster.heal((int) getCost(level, player)/2);
 			}

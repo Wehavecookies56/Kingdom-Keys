@@ -2,12 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.container;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 
@@ -57,10 +60,10 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int x, int y, float partialTicks) {
-		this.renderBackground(matrixStack);
-		super.render(matrixStack, x, y, partialTicks);
-		this.renderTooltip(matrixStack, x, y);
+	public void render(@NotNull GuiGraphics gui, int x, int y, float partialTicks) {
+		this.renderBackground(gui);
+		super.render(gui, x, y, partialTicks);
+		this.renderTooltip(gui, x, y);
 		List<Component> list = new ArrayList<Component>();
 		upgrade.visible = bagLevel < 2;
 		
@@ -72,7 +75,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
 						list.add(Component.translatable(ChatFormatting.RED+ Component.translatable("gui.synthesisbag.notenoughmunny").getString()));
 					}
-					renderComponentTooltip(matrixStack, list, x, y);
+					gui.renderTooltip(font, list, Optional.empty(), x, y);
 				}
 			}
 		}
@@ -80,23 +83,22 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	}
 
 	@Override
-	protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
+	protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
 		String s = title.getString()+ " LV." + (bagLevel + 1);
-		font.draw(matrixStack, s, imageWidth / 2 -17 / 2 - font.width(s) / 2, 5, 4210752);
+		gui.drawString(font, s, imageWidth / 2 -17 / 2 - font.width(s) / 2, 5, 4210752);
 		// font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2,
 		// 4210752);
 	}
 
 	@Override
-	protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+	protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, new ResourceLocation(textureBase + bagLevel + ".png"));
 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
-		blit(matrixStack, xPos, yPos, 0, 0, imageWidth, imageHeight);
+		gui.blit(new ResourceLocation(textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
 
 		/*
 		 * for (Slot slot : container.inventorySlots) { if (slot instanceof

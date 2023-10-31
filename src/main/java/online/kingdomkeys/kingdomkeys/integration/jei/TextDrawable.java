@@ -4,7 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public class TextDrawable implements IDrawable {
 
@@ -22,8 +24,8 @@ public class TextDrawable implements IDrawable {
     }
 
     @Override
-    public void draw(PoseStack poseStack) {
-        draw(poseStack, 0, 0);
+    public void draw(@NotNull GuiGraphics guiGraphics) {
+        draw(guiGraphics, 0, 0);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class TextDrawable implements IDrawable {
     }
 
     @Override
-    public void draw(PoseStack poseStack, int xOffset, int yOffset) {
-        Minecraft.getInstance().font.drawShadow(poseStack, text, xOffset, yOffset, colour);
+    public void draw(@NotNull GuiGraphics guiGraphics, int xOffset, int yOffset) {
+        guiGraphics.drawString(Minecraft.getInstance().font, text, xOffset, yOffset, colour, true);
     }
 }

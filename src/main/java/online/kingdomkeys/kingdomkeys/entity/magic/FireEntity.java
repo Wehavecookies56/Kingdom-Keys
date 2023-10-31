@@ -78,14 +78,14 @@ public class FireEntity extends ThrowableProjectile {
 		}
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2)
-			level.addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0, 0);
 		
 		super.tick();
 	}
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide && getOwner() != null) {
+		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 
@@ -103,7 +103,7 @@ public class FireEntity extends ThrowableProjectile {
 				if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
-						p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
+						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 					}
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setSecondsOnFire(5);
@@ -115,13 +115,13 @@ public class FireEntity extends ThrowableProjectile {
 
 			if (brtResult != null) {
 				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level.getBlockState(blockpos);
+				BlockState blockstate = level().getBlockState(blockpos);
 
 				if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-					level.setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
+					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 				}
 				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
 				}
 			}
 			remove(RemovalReason.KILLED);

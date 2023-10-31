@@ -144,7 +144,7 @@ public class LargeBodyEntity extends BaseKHEntity {
     		if(diff > 30 && diff < 150 && !(ModCapabilities.getGlobal(this).getFlatTicks() > 0)) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
-					level.playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
+					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
 	                attacker.setDeltaMovement(attacker.getDeltaMovement().x, 0.5F, attacker.getDeltaMovement().z);
     			}
                 return false;    		
@@ -170,7 +170,7 @@ public class LargeBodyEntity extends BaseKHEntity {
     }*/
 
     public Level getWorld() {
-        return this.level;
+        return this.level();
     }
 
     public void setCurrentAttackState(SpecialAttack state) {

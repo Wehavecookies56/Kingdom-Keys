@@ -86,7 +86,7 @@ public class ThundazaEntity extends ThrowableProjectile {
 	}
 
 	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level.getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
 	}
 
 	public void setCaster(UUID uuid) {
@@ -113,7 +113,7 @@ public class ThundazaEntity extends ThrowableProjectile {
 		
 		float radius = 6.0F;
 
-		if (!level.isClientSide && getCaster() != null) { // Only calculate and spawn lightning bolts server side
+		if (!level().isClientSide && getCaster() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
 				if(lockedOnEntity != null) {
 					list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), lockedOnEntity, radius, radius, radius);
@@ -125,7 +125,7 @@ public class ThundazaEntity extends ThrowableProjectile {
 
 			if (tickCount % 2 == 1) {
 				if (!list.isEmpty()) { // find random entity
-					int i = level.random.nextInt(list.size());
+					int i = level().random.nextInt(list.size());
 					Entity e = (Entity) list.get(i);
 					if (e instanceof LivingEntity) {
 						if(!e.isAlive()) {
@@ -133,15 +133,15 @@ public class ThundazaEntity extends ThrowableProjectile {
 						}
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.15F : 2;
 
-						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level, getCaster(), e.getX(), e.getY(), e.getZ(), dmg * dmgMult);
+						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), e.getX(), e.getY(), e.getZ(), dmg * dmgMult);
 						shot.setCaster(getCaster().getUUID());
-						level.addFreshEntity(shot);
+						level().addFreshEntity(shot);
 
-						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 						lightningBoltEntity.setVisualOnly(true);
 						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(e.blockPosition()));
 						lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
-						this.level.addFreshEntity(lightningBoltEntity);
+						this.level().addFreshEntity(lightningBoltEntity);
 					}
 				} else {
 					int x,z;
@@ -152,20 +152,20 @@ public class ThundazaEntity extends ThrowableProjectile {
 						x = (int) getCaster().getX();
 						z = (int) getCaster().getZ();
 					}
-					int posX = (int) (x + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
-					int posZ = (int) (z + getCaster().level.random.nextInt((int) (radius*2)) - radius / 2)-1;
+					int posX = (int) (x + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+					int posZ = (int) (z + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
 					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.15F : 2;
 					dmg = Math.max(0.5F, dmg);
-					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level, getCaster(), posX, getCaster().level.getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg * dmgMult);
+					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), posX, getCaster().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg * dmgMult);
 					shot.setCaster(getCaster().getUUID());
-					level.addFreshEntity(shot);
+					level().addFreshEntity(shot);
 
-					BlockPos pos = new BlockPos(posX, getCaster().level.getHeight(Types.WORLD_SURFACE, posX, posZ), posZ);
-					LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level);
+					BlockPos pos = new BlockPos(posX, getCaster().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ);
+					LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 					lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(pos));
 					lightningBoltEntity.setVisualOnly(true);
 					lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
-					this.level.addFreshEntity(lightningBoltEntity);
+					this.level().addFreshEntity(lightningBoltEntity);
 				}
 			}
 		}

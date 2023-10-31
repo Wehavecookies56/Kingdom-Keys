@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
@@ -41,24 +42,23 @@ public class MenuColourBox extends AbstractWidget {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void renderWidget(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		// isHovered = mouseX > x && mouseY >= y && mouseX < x + width && mouseY < y +
 		// height;
 		if (visible) {
-			matrixStack.pushPose();
+			gui.pose().pushPose();
 			RenderSystem.setShaderColor(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1.0F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			RenderSystem.setShaderTexture(0, texture);
 
 			for (int i = 0; i < middleWidth; i++) {
-				blit(matrixStack, getX() + i, getY(), u, vPos, 1, height);
+				gui.blit(texture, getX() + i, getY(), u, vPos, 1, height);
 			}
 			RenderSystem.setShaderColor(1,1,1,1);
-			drawString(matrixStack, minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
-			drawString(matrixStack, minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());
+			gui.drawString(minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
+			gui.drawString(minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());
 			RenderSystem.disableBlend();
-			matrixStack.popPose();
+			gui.pose().popPose();
 		}
 	}
 

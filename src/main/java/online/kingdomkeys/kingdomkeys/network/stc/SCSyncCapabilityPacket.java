@@ -25,6 +25,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -45,6 +47,9 @@ public class SCSyncCapabilityPacket {
 
 	public List<String> messages, dfMessages;
 	public String driveForm;
+
+	public SingleChoices singleStyle = SingleChoices.SORA;
+	public DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
 
 	public List<ResourceLocation> recipeList = new ArrayList<>();
 	public LinkedHashMap<String,int[]> magicsMap = new LinkedHashMap<>();
@@ -75,7 +80,8 @@ public class SCSyncCapabilityPacket {
 	public LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
 	
 	public int synthLevel,synthExp;
-	
+	private int armorColor = 0;
+	private boolean armorGlint = true;
 	public boolean respawnROD;
 
 	
@@ -143,6 +149,9 @@ public class SCSyncCapabilityPacket {
 		this.synthExp = capability.getSynthExperience();
 		
 		this.respawnROD = capability.getRespawnROD();
+
+		this.singleStyle = capability.getSingleStyle();
+		this.dualStyle = capability.getDualStyle();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -294,6 +303,9 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.synthExp);
 		
 		buffer.writeBoolean(this.respawnROD);
+
+		buffer.writeUtf(singleStyle.toString(), 20);
+		buffer.writeUtf(dualStyle.toString(), 20);
 	}
 
 	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -437,6 +449,9 @@ public class SCSyncCapabilityPacket {
 		msg.synthExp = buffer.readInt();
 		
 		msg.respawnROD = buffer.readBoolean();
+
+		msg.singleStyle = SingleChoices.valueOf(buffer.readUtf(20));
+		msg.dualStyle = DualChoices.valueOf(buffer.readUtf(20));
 		return msg;
 	}
 

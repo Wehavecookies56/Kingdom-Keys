@@ -54,15 +54,15 @@ public class CSPartyAddMember {
 	public static void handle(CSPartyAddMember message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 			for(Party p : worldData.getParties()) {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
-				Player target = player.level.getPlayerByUUID(message.memberUUID);
+				Player target = player.level().getPlayerByUUID(message.memberUUID);
 				ModCapabilities.getPlayer(target).removePartiesInvited(message.name);
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(target)), (ServerPlayer)target);
 			}
-			Utils.syncWorldData(player.level, worldData);
+			Utils.syncWorldData(player.level(), worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

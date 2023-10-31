@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -56,6 +57,8 @@ public class MenuEquipmentButton extends Button {
     String label;
     boolean hasLabel;
     ItemCategory category;
+
+	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
         super(new Builder(Component.literal(""), b -> {
@@ -108,9 +111,11 @@ public class MenuEquipmentButton extends Button {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         Font fr = mc.font;
+
+		PoseStack matrixStack = gui.pose();
 
         float itemY = parent.height * 0.1907F;
         float bottomY = parent.height - (parent.height * 0.25F);
@@ -123,7 +128,6 @@ public class MenuEquipmentButton extends Button {
         float gradientWidth = parent.width * 0.175F;
         if (visible) {
             float itemWidth = parent.width * 0.264F;
-            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
             matrixStack.pushPose();
             {
                 RenderSystem.enableBlend();
@@ -137,22 +141,22 @@ public class MenuEquipmentButton extends Button {
                     matrixStack.pushPose();
                     {
                         matrixStack.scale(((gradientWidth + itemWidth + 5) * 2) / (32F), 1.1F, 1);
-                        blit(matrixStack, -14, i - 1, 166, 63, 32, 1);
+                        gui.blit(texture, -14, i - 1, 166, 63, 32, 1);
                     }
                     matrixStack.popPose();
                 }
 
                 //Left item slot
-                blit(matrixStack, 0, 0, 166, 34, 18, 28);
+                gui.blit(texture, 0, 0, 166, 34, 18, 28);
                 //Middle item slot
                 for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                    blit(matrixStack, 16 + i, 0, 186, 34, 2, 28);
+                    gui.blit(texture, 16 + i, 0, 186, 34, 2, 28);
                 }
                 //Right item slot
-                blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
+                gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
                 RenderSystem.setShaderColor(1, 1, 1, 1);
                 //Icon
-                blit(matrixStack, 6, 4, category.getU(), category.getV(), 20, 20);
+                gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
             }
             matrixStack.popPose();
             if (stack != null) {
@@ -162,28 +166,27 @@ public class MenuEquipmentButton extends Button {
                 } else if (ItemStack.matches(stack, ItemStack.EMPTY)) {
                     itemName = "---";
                 }
-                drawString(matrixStack, fr, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
+                gui.drawString(fr, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
             } else {
             	if(shotlock != null) {
-            		drawString(matrixStack, fr, Utils.translateToLocal(shotlock.getTranslationKey()), getX() + 15, getY() + 3, 0xFFFFFF);
+            		gui.drawString(fr, Utils.translateToLocal(shotlock.getTranslationKey()), getX() + 15, getY() + 3, 0xFFFFFF);
             	} else {
-            		drawString(matrixStack, fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);	
+            		gui.drawString(fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);
             	}
             }
             if (isHovered) {
-                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     matrixStack.scale(0.5F, 0.5F, 1);
                     //Left selected
-                    blit(matrixStack, 0, 0, 128, 34, 18, 28);
+                    gui.blit(texture, 0, 0, 128, 34, 18, 28);
                     //Middle selected
                     for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                        blit(matrixStack, 16 + i, 0, 148, 34, 2, 28);
+                        gui.blit(texture, 16 + i, 0, 148, 34, 2, 28);
                     }
                     //Right selected
-                    blit(matrixStack, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
+                    gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
                 }
                 matrixStack.popPose();
                 float iconPosX = parent.width * 0.6374F;
@@ -303,29 +306,29 @@ public class MenuEquipmentButton extends Button {
 	                    }
 	                    
 	                    if(showAP) {
-		                    drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
-							drawString(matrixStack, fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, playerData.getMaxAP(true)+"", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
-							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket) + fr.width(totalAPStr), (int) posY, 0xBF6004);
+		                    gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							gui.drawString(fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
+							gui.drawString(fr, playerData.getMaxAP(true)+"", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
+							gui.drawString(fr, "]", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket) + fr.width(totalAPStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
 	                    
 	                    if(showStr) {
-							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
-							drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
-							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket) + fr.width(totalStrengthStr), (int) posY, 0xBF6004);
+							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							gui.drawString(fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
+							gui.drawString(fr, totalStrengthStr, (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
+							gui.drawString(fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket) + fr.width(totalStrengthStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
 	                    
 	                    if(showMag) {
-							drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
-							drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-							drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
-							drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
-							drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
+							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
+							gui.drawString(fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
+							gui.drawString(fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
+							gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
 	                    
@@ -333,80 +336,79 @@ public class MenuEquipmentButton extends Button {
 	                    	int pos = 0;
 	                    	{
 		                    	String resVal = ((KKArmorItem) stack.getItem()).getDefense()+"";
-								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, playerData.getDefense(true) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, playerData.getDefense(true) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
 	                    	}
 							if(resistances.containsKey(KKResistanceType.fire)) {
 								String resVal = resistances.get(KKResistanceType.fire).toString();
-								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.fire.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.fire.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.ice)) {
 								String resVal = resistances.get(KKResistanceType.ice).toString();
-								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.ice.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.ice.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.lightning)) {
 								String resVal = resistances.get(KKResistanceType.lightning).toString();
-								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
 								String resVal = resistances.get(KKResistanceType.darkness).toString();
-								drawString(matrixStack, fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-								drawString(matrixStack, fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-								drawString(matrixStack, fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								drawString(matrixStack, fr, Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								drawString(matrixStack, fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 	                    }
 	                    
 						if(abilities.size() > 0) {
-							drawString(matrixStack, fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);	
+							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-				                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-			                    blit(matrixStack, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
-								drawString(matrixStack, fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
+			                    gui.blit(texture, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
+								gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
 							}
 						}
 						
 						if(stack.getItem() instanceof KeychainItem) {
-	                    	ClientUtils.drawSplitString(matrixStack, fr,((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+	                    	ClientUtils.drawSplitString(gui, ((IKeychain) stack.getItem()).toSummon().getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KeybladeItem) {
-                            ClientUtils.drawSplitString(matrixStack, fr,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(gui,((KeybladeItem) stack.getItem()).getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKPotionItem) {
-                            ClientUtils.drawSplitString(matrixStack, fr, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(gui, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof ShoulderArmorItem kbArmor){
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", (ListTag) stack.getTag().get("helmet"))) {
-		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", (ListTag) stack.getTag().get("chestplate"))) {
-		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", (ListTag) stack.getTag().get("leggings"))) {
-		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", (ListTag) stack.getTag().get("boots"))) {
-		                    drawString(matrixStack, fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
                     }
@@ -416,7 +418,6 @@ public class MenuEquipmentButton extends Button {
             Lighting.setupFor3DItems();
             RenderSystem.setShaderColor(1, 1, 1, 1);
             if (hasLabel) {
-                RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
                 matrixStack.pushPose();
                 {
                     
@@ -426,18 +427,18 @@ public class MenuEquipmentButton extends Button {
                     matrixStack.scale(0.5F, 0.5F, 1);
 
                     //Left label
-                    blit(matrixStack, 0, 0, 166, 34, 17, 28);
+                    gui.blit(texture, 0, 0, 166, 34, 17, 28);
                     //Middle label
                     for (int i = 0; i  < (labelWidth * 2) - (17 + 14); i++) {
-                        blit(matrixStack, 17 + i, 0, 184, 34, 1, 28);
+                        gui.blit(texture, 17 + i, 0, 184, 34, 1, 28);
                     }
                     //Right label
-                    blit(matrixStack, (int)(labelWidth * 2) - 14, 0, 204, 34, 14, 28);
+                    gui.blit(texture, (int)(labelWidth * 2) - 14, 0, 204, 34, 14, 28);
                 }
                 matrixStack.popPose();
                 float centerX = (labelWidth / 2) - (fr.width(Utils.translateToLocal(label)) / 2);
     			RenderSystem.setShaderColor(1,1,1,1);
-                drawString(matrixStack, fr, Utils.translateToLocal(label), (int) (getX() - labelWidth + centerX), getY() + 3, labelColour);
+                gui.drawString(fr, Utils.translateToLocal(label), (int) (getX() - labelWidth + centerX), getY() + 3, labelColour);
             }
         }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.Builder;
 import net.minecraft.network.chat.Component;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -20,6 +22,8 @@ public class MenuScrollBar extends Button {
 	public int startX, startY, top, bottom;
 	int scrollBarHeight;
 	int minHeight, maxHeight;
+
+	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuScrollBar(int x, int y, int widthIn, int minHeight, int top, int bottom) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, widthIn, minHeight));		
@@ -48,33 +52,31 @@ public class MenuScrollBar extends Button {
 	final int renderOffset = 20;
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
-			fill(stack, getX(), top-(barTopBotDims.Y/2), getX() + width, getBottom()+buttonDims.Y, new Color(0, 0, 0, 0.5F).hashCode());
+			gui.fill(getX(), top-(barTopBotDims.Y/2), getX() + width, getBottom()+buttonDims.Y, new Color(0, 0, 0, 0.5F).hashCode());
 			RenderSystem.disableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
-
 			//Top of bar
-			ClientUtils.blitScaled(stack, this, getX(), top-renderOffset, barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), top-renderOffset, barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 
 			//Button top
-			ClientUtils.blitScaled(stack, this, getX(), getY()-buttonDims.Y, buttonTopUV.X, buttonTopUV.Y, buttonDims.X, buttonDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), getY()-buttonDims.Y, buttonTopUV.X, buttonTopUV.Y, buttonDims.X, buttonDims.Y, 1);
 
 			//Button middle
 			//for (int i = 0; i < scrollBarHeight; i++) {
-			ClientUtils.blitScaled(stack, this, getX(), getY(), buttonMiddleUV.X, buttonMiddleUV.Y, buttonDims.X, 1, 1, scrollBarHeight);
+			ClientUtils.blitScaled(texture, gui, getX(), getY(), buttonMiddleUV.X, buttonMiddleUV.Y, buttonDims.X, 1, 1, scrollBarHeight);
 			//}
 
 			//Button bottom
-			ClientUtils.blitScaled(stack, this, getX(), getY()+scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), getY()+scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(stack, this, getX(), getBottom()+4, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), getBottom()+4, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 

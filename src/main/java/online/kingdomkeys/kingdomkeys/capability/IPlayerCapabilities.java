@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -303,7 +305,12 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getSynthExperience();
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
-	
+
+	public SingleChoices getSingleStyle();
+	public void setSingleStyle(SingleChoices singleStyle) ;
+	public DualChoices getDualStyle();
+	public void setDualStyle(DualChoices dualStyle);
+
 	boolean getRespawnROD();
 	void setRespawnROD(boolean respawn);
 }

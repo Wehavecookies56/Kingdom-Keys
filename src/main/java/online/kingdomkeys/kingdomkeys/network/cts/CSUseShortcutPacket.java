@@ -56,7 +56,7 @@ public class CSUseShortcutPacket {
 					if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
 					
 					} else {
-						magic.onUse(player, player, level, (LivingEntity) player.level.getEntity(message.lockOnTarget));
+						magic.onUse(player, player, level, (LivingEntity) player.level().getEntity(message.lockOnTarget));
 					}
 					
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);

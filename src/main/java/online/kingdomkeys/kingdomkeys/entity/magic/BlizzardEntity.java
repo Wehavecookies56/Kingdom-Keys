@@ -64,25 +64,25 @@ public class BlizzardEntity extends ThrowableProjectile {
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
-		if(ModConfigs.blizzardChangeBlocks && !level.isClientSide) {
-			if (level.getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
-				level.setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
+		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide) {
+			if (level().getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
+				level().setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
 				remove(RemovalReason.KILLED);
-			} else if(level.getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
-				level.setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
+			} else if(level().getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
+				level().setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
 				remove(RemovalReason.KILLED);
 			}
 		}
 
 		if (tickCount > 2)
-			level.addParticle(ParticleTypes.CLOUD, getX(), getY(), getZ(), 0, 0, 0);
+			level().addParticle(ParticleTypes.CLOUD, getX(), getY(), getZ(), 0, 0, 0);
 
 		super.tick();
 	}
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
 
@@ -103,7 +103,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 					if (target != getOwner()) {
 						Party p = null;
 						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level).getPartyFromMember(getOwner().getUUID());
+							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 						}
 						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
@@ -115,9 +115,9 @@ public class BlizzardEntity extends ThrowableProjectile {
 			
 			if (brtResult != null) {
 				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level.getBlockState(blockpos);
+				BlockState blockstate = level().getBlockState(blockpos);
 				if(blockstate.hasProperty(BlockStateProperties.LIT))
-					level.setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
 
 			}
 			remove(RemovalReason.KILLED);

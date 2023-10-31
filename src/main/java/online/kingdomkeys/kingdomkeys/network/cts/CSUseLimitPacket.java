@@ -55,7 +55,7 @@ public class CSUseLimitPacket {
 					playerData.setLimitCooldownTicks(limit.getCooldown());
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 					if(message.targetID > -1) {
-						limit.onUse(player, (LivingEntity) player.level.getEntity(message.targetID));
+						limit.onUse(player, (LivingEntity) player.level().getEntity(message.targetID));
 					} else {
 						limit.onUse(player, player);
 					}

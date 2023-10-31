@@ -79,13 +79,13 @@ public class CSSummonArmor {
 						for(int i=36;i<40;i++) {
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
+						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 					} else {
 						//If it's wearing any armor unequip it
 						if(!(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR)) {
 							
 							if(checkAllArmorSlots(player, KBArmorUUID)) {
-								player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
+								player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 							}
 							
 							armor = new ItemStack[]{player.getInventory().getArmor(3),player.getInventory().getArmor(2),player.getInventory().getArmor(1),player.getInventory().getArmor(0)};
@@ -150,7 +150,7 @@ public class CSSummonArmor {
 							player.getInventory().setItem(38, newChestplate);
 							player.getInventory().setItem(37, newLeggings);
 							player.getInventory().setItem(36, newBoots);
-							player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
+							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 							spawnArmorParticles(player);
 						}
 					}
@@ -195,7 +195,7 @@ public class CSSummonArmor {
 	
 	private static void spawnArmorParticles(Player summoner) {
 		Vec3 userPos = new Vec3(summoner.getX(), summoner.getY(), summoner.getZ());
-        ((ServerLevel)summoner.level).sendParticles(ParticleTypes.FIREWORK, userPos.x, summoner.getY() + 1, userPos.z, 300, 0,0,0, 0.2);        
+        ((ServerLevel)summoner.level()).sendParticles(ParticleTypes.FIREWORK, userPos.x, summoner.getY() + 1, userPos.z, 300, 0,0,0, 0.2);
 	}
 
 }

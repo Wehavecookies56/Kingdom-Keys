@@ -61,10 +61,10 @@ public class CSPartyCreate {
 	public static void handle(CSPartyCreate message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 			Party party = new Party(message.name, message.uuid, message.username, message.priv, message.size); 
 			worldData.addParty(party);
-			Utils.syncWorldData(player.level, worldData);
+			Utils.syncWorldData(player.level(), worldData);
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -201,7 +201,7 @@ public class EntityEvents {
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
 		Player player = e.getEntity();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 		if(playerData != null) {
 			//Heartless Spawn reset
 			if(worldData != null) {
@@ -212,7 +212,7 @@ public class EntityEvents {
 				}
 			}
 			
-			if (!player.level.isClientSide) { // Sync from server to client				
+			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { //One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
@@ -421,7 +421,7 @@ public class EntityEvents {
 					playerData.addReactionCommand(rc.getName(), event.player);
 				}		
 				
-				if(!event.player.level.isClientSide && event.player.tickCount == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
+				if(!event.player.level().isClientSide && event.player.tickCount == 5) { //TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)event.player);
 				}
 				
@@ -431,8 +431,8 @@ public class EntityEvents {
 						playerData.setFP(playerData.getFP() - 0.3);
 					} else {
 						playerData.setActiveDriveForm(DriveForm.NONE.toString());
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-						if(!event.player.level.isClientSide) {
+						event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						if(!event.player.level().isClientSide) {
 							PacketHandler.syncToAllAround(event.player, playerData);
 						}
 					}
@@ -440,7 +440,7 @@ public class EntityEvents {
 					ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm())).updateDrive(event.player);
 				}
 				//Limit recharge system
-				if(playerData.getLimitCooldownTicks() > 0 && !event.player.level.isClientSide) {
+				if(playerData.getLimitCooldownTicks() > 0 && !event.player.level().isClientSide) {
 					playerData.setLimitCooldownTicks(playerData.getLimitCooldownTicks() - 1);
 					if(playerData.getLimitCooldownTicks() <= 0) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) event.player);
@@ -448,7 +448,7 @@ public class EntityEvents {
 				}
 				
 				//Magic CD recharge system
-				if(playerData.getMagicCooldownTicks() > 0 && !event.player.level.isClientSide) {
+				if(playerData.getMagicCooldownTicks() > 0 && !event.player.level().isClientSide) {
 					playerData.setMagicCooldownTicks(playerData.getMagicCooldownTicks() - 1);
 					if(playerData.getMagicCooldownTicks() <= 0) {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) event.player);
@@ -471,13 +471,13 @@ public class EntityEvents {
 				} else { // Not on recharge
 					if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
 						playerData.setRecharge(true);
-						if(!event.player.level.isClientSide) {
+						if(!event.player.level().isClientSide) {
 							PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) event.player);
 						}
 					}
 				}
 	
-				if(!event.player.level.isClientSide) {
+				if(!event.player.level().isClientSide) {
 					if (playerData.getAlignment() == Utils.OrgMember.NONE) {
 						if (!openedAlignment.containsKey(event.player.getUUID())) {
 							openedAlignment.put(event.player.getUUID(), false);
@@ -502,7 +502,7 @@ public class EntityEvents {
 					
 						float range = 1 + playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet);
 						
-						List<ItemEntity> items = event.player.level.getEntitiesOfClass(ItemEntity.class, new AABB(x - range, y - range, z - range, x + range, y + range, z + range));
+						List<ItemEntity> items = event.player.level().getEntitiesOfClass(ItemEntity.class, new AABB(x - range, y - range, z - range, x + range, y + range, z + range));
 						int pulled = 0;
 						for (ItemEntity item : items) {
 							if(item.tickCount < 20) {
@@ -583,7 +583,7 @@ public class EntityEvents {
 				//Drive form speed
 				if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-					if(player.isOnGround()) {
+					if(player.onGround()) {
 						player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
 					}
 				}
@@ -618,7 +618,7 @@ public class EntityEvents {
 					
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level, globalData.getStopCaster())), globalData.getStopDamage()/2);
+						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster())), globalData.getStopDamage()/2);
 					}
 					
 					if (event.getEntity() instanceof ServerPlayer) // Packet to unfreeze client
@@ -717,7 +717,7 @@ public class EntityEvents {
 						double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 						double y = Y + (radius * Math.cos(Math.toRadians(t)));
-						event.getEntity().level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
+						event.getEntity().level().addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 					}
 				}
 
@@ -740,12 +740,12 @@ public class EntityEvents {
 						dmgMult = 0.7F;
 						break;
 					}
-					List<Entity> list = player.level.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-					Party casterParty = ModCapabilities.getWorld(player.level).getPartyFromMember(player.getUUID());
+					List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
+					Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 					if(casterParty != null && !casterParty.getFriendlyFire()) {
 						for(Member m : casterParty.getMembers()) {
-							list.remove(player.level.getPlayerByUUID(m.getUUID()));
+							list.remove(player.level().getPlayerByUUID(m.getUUID()));
 						}
 					}
 					
@@ -756,7 +756,7 @@ public class EntityEvents {
 					for (int t = 1; t < 360; t += 20) {
 						double x = X + (radius * Math.cos(Math.toRadians(t)));
 						double z = Z + (radius * Math.sin(Math.toRadians(t)));
-						((ServerLevel)event.getEntity().level).sendParticles(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
+						((ServerLevel)event.getEntity().level()).sendParticles(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
 					}
 					
 					if (!list.isEmpty()) {
@@ -766,7 +766,7 @@ public class EntityEvents {
 								e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 							}
 						}
-						player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
+						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 					playerData.setReflectActive(false); // Restart reflect
@@ -843,7 +843,7 @@ public class EntityEvents {
 					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
 				
-				if(player.fallDistance > 0.0F && !player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) { //Crit attack formula
+				if(player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) { //Crit attack formula
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
@@ -977,13 +977,13 @@ public class EntityEvents {
 	//Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
-		if(!event.getEntity().level.isClientSide) {
+		if(!event.getEntity().level().isClientSide) {
 			if (event.getSource().getEntity() instanceof LivingEntity) { // If attacker is a LivingEntity
 				LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
 				LivingEntity target = event.getEntity();
 				
 				if(attacker instanceof Player && target instanceof Player) {
-					Party p = ModCapabilities.getWorld(attacker.level).getPartyFromMember(attacker.getUUID());
+					Party p = ModCapabilities.getWorld(attacker.level()).getPartyFromMember(attacker.getUUID());
 					if(p != null && p.getMember(event.getEntity().getUUID()) != null && !p.getFriendlyFire()) {
 						event.setCanceled(true);
 					}
@@ -1031,27 +1031,27 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		// EnderDragon killed makes heartless spawn if mode is 3
-		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntity().level);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(event.getEntity().level());
 		if (event.getEntity() instanceof EnderDragon) {
 			LivingEntity entity = event.getEntity();
 			if (worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 				worldData.setHeartlessSpawnLevel(1);
 			}
 
-			for(Player p : entity.level.players()) {
-				entity.level.addFreshEntity(new ItemEntity(entity.level, p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+			for(Player p : entity.level().players()) {
+				entity.level().addFreshEntity(new ItemEntity(entity.level(), p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
 			}
 		}
 		
 		if(event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			if(player.level.getLevelData().isHardcore())
-				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+			if(player.level().getLevelData().isHardcore())
+				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
 			else
-				player.level.playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
+				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(),ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 
-		if (!event.getEntity().level.isClientSide) {
+		if (!event.getEntity().level().isClientSide) {
 			if (event.getSource().getDirectEntity() instanceof Player || event.getSource().getEntity() instanceof Player) { //If the player kills
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -1084,9 +1084,9 @@ public class EntityEvents {
 				if(event.getEntity() instanceof IKHMob) {
 					IKHMob heartless = (IKHMob) event.getEntity();
 					if(heartless.getKHMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
-						HeartEntity heart = new HeartEntity(event.getEntity().level);
+						HeartEntity heart = new HeartEntity(event.getEntity().level());
 						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-						event.getEntity().level.addFreshEntity(heart);
+						event.getEntity().level().addFreshEntity(heart);
 					}
 				}
 				
@@ -1108,8 +1108,8 @@ public class EntityEvents {
 								exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 							}
 
-							XPEntity xp = new XPEntity(mob.level, player, mob, exp);
-							player.level.addFreshEntity(xp);
+							XPEntity xp = new XPEntity(mob.level(), player, mob, exp);
+							player.level().addFreshEntity(xp);
 						}
 					}
 					
@@ -1118,42 +1118,42 @@ public class EntityEvents {
 					double y = entity.getY();
 					double z = entity.getZ();
 					
-					if(entity.level.random.nextInt(100) <= ModConfigs.munnyDropProbability) {
+					if(entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
 						int num = Utils.randomWithRange(5, 15);
 						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
 						//reduce munny value by 2 for each level of drive converter
 						num /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter));
-						entity.level.addFreshEntity(new MunnyEntity(event.getEntity().level, x, y, z, num));
+						entity.level().addFreshEntity(new MunnyEntity(event.getEntity().level(), x, y, z, num));
 					}
 					
-					if(entity.level.random.nextInt(100) <= ModConfigs.hpDropProbability) {
+					if(entity.level().random.nextInt(100) <= ModConfigs.hpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
 						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
-						entity.level.addFreshEntity(new HPOrbEntity(event.getEntity().level, x, y, z, num));
+						entity.level().addFreshEntity(new HPOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 					
-					if(entity.level.random.nextInt(100) <= ModConfigs.mpDropProbability) {
+					if(entity.level().random.nextInt(100) <= ModConfigs.mpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
 						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
-						entity.level.addFreshEntity(new MPOrbEntity(event.getEntity().level, x, y, z,num));
+						entity.level().addFreshEntity(new MPOrbEntity(event.getEntity().level(), x, y, z,num));
 					}
 					
-					if(entity.level.random.nextInt(100) <= ModConfigs.driveDropProbability) {
+					if(entity.level().random.nextInt(100) <= ModConfigs.driveDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
 						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter)*0.5;
-						entity.level.addFreshEntity(new DriveOrbEntity(event.getEntity().level, x, y, z, num));
+						entity.level().addFreshEntity(new DriveOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 				
-					if(entity.level.random.nextInt(100) <= ModConfigs.focusDropProbability) {
+					if(entity.level().random.nextInt(100) <= ModConfigs.focusDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
 						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.focusConverter)*0.25;
-						entity.level.addFreshEntity(new FocusOrbEntity(event.getEntity().level, x, y, z, num));
+						entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 					
 					int num = Utils.randomWithRange(0,99);
 					if(num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
-						ItemEntity ie = new ItemEntity(player.level, x, y, z, new ItemStack(ModItems.recipeD.get()));
-						player.level.addFreshEntity(ie);
+						ItemEntity ie = new ItemEntity(player.level(), x, y, z, new ItemStack(ModItems.recipeD.get()));
+						player.level().addFreshEntity(ie);
 					}
 
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -1161,8 +1161,8 @@ public class EntityEvents {
 			}
 			//TODO check if works
 			if(event.getEntity() instanceof MoogleEntity && event.getSource().getMsgId().equals("anvil")) {
-				ItemEntity ie = new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
-				event.getEntity().level.addFreshEntity(ie);
+				ItemEntity ie = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
+				event.getEntity().level().addFreshEntity(ie);
 			}
 
 			if (event.getSource().getEntity() instanceof IKHMob && ModConfigs.playerSpawnHeartless) {
@@ -1174,40 +1174,40 @@ public class EntityEvents {
 						String[] heartless = ModConfigs.playerSpawnHeartlessData.get(0).split(",");
 						String[] nobody = ModConfigs.playerSpawnHeartlessData.get(1).split(",");
 						
-						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getEntity().level);
+						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getEntity().level());
 						newDusk.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
 						newDusk.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString()+"'s Nobody"));
 						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
 						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						event.getSource().getEntity().level.addFreshEntity(newDusk);
+						event.getSource().getEntity().level().addFreshEntity(newDusk);
 						
-						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level);
+						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level());
 						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
 						newShadow.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString()+"'s Heartless"));
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 						
 						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						event.getSource().getEntity().level.addFreshEntity(newShadow);
+						event.getSource().getEntity().level().addFreshEntity(newShadow);
 						
-						HeartEntity heart = new HeartEntity(event.getEntity().level);
+						HeartEntity heart = new HeartEntity(event.getEntity().level());
 						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-						event.getEntity().level.addFreshEntity(heart);
+						event.getEntity().level().addFreshEntity(heart);
 
 					} else if (event.getEntity() instanceof Villager) {
-						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level);
+						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level());
 						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						event.getSource().getEntity().level.addFreshEntity(newShadow);
+						event.getSource().getEntity().level().addFreshEntity(newShadow);
 						
-						HeartEntity heart = new HeartEntity(event.getEntity().level);
+						HeartEntity heart = new HeartEntity(event.getEntity().level());
 						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-						event.getEntity().level.addFreshEntity(heart);
+						event.getEntity().level().addFreshEntity(heart);
 
 					}
 				}
 			}
-			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().getLevel().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
+			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
 				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
@@ -1322,7 +1322,7 @@ public class EntityEvents {
 		newPlayerData.setSynthExperience(oldPlayerData.getSynthExperience());
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
-		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level)), (ServerPlayer)nPlayer);
+		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level())), (ServerPlayer)nPlayer);
 		oPlayer.invalidateCaps();
 	}
 	
@@ -1330,20 +1330,20 @@ public class EntityEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		Player nPlayer = event.getEntity();
 		
-		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.level);
+		IWorldCapabilities newWorldData = ModCapabilities.getWorld(nPlayer.level());
 		final IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
 		nPlayer.setHealth(playerData.getMaxHP());
 		Utils.RefreshAbilityAttributes(nPlayer, playerData);
 
-		if(!nPlayer.level.isClientSide)		
+		if(!nPlayer.level().isClientSide)
 			PacketHandler.sendTo(new SCSyncWorldCapability(newWorldData), (ServerPlayer)nPlayer);
 
-		if(!event.isEndConquered() && !nPlayer.level.isClientSide()) {
+		if(!event.isEndConquered() && !nPlayer.level().isClientSide()) {
 			if(playerData.getRespawnROD() && ModConfigs.respawnROD) {
 				System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
 				ServerPlayer sPlayer = (ServerPlayer) nPlayer;
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
-				ServerLevel serverlevel = ((ServerLevel) sPlayer.level).getServer().getLevel(dimension);
+				ServerLevel serverlevel = ((ServerLevel) sPlayer.level()).getServer().getLevel(dimension);
 				BlockPos pos = serverlevel.getSharedSpawnPos();
 				sPlayer.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));							
 			}
@@ -1353,7 +1353,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onDimensionChanged(PlayerEvent.PlayerChangedDimensionEvent e) {
 		Player player = e.getEntity();
-		if(!player.level.isClientSide) {
+		if(!player.level().isClientSide) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			ServerLevel world = player.getServer().getLevel(e.getTo());
 			if(e.getTo() == ModDimensions.STATION_OF_SORROW) {

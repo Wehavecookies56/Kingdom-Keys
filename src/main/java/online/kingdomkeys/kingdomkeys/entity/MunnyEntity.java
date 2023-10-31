@@ -45,7 +45,7 @@ public class MunnyEntity extends ItemDropEntity {
 	public void tick() {
 		super.tick();
 		//Merge with surrounding orbs
-		List<Entity> list = level.getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
+		List<Entity> list = level().getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				if(list.get(i) instanceof ItemDropEntity) {

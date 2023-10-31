@@ -52,7 +52,7 @@ public class MagicalChestContainer extends AbstractContainerMenu {
     }
 
     private static MagicalChestTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
-        final BlockEntity te = playerInventory.player.level.getBlockEntity(buf.readBlockPos());
+        final BlockEntity te = playerInventory.player.level().getBlockEntity(buf.readBlockPos());
         if (te instanceof MagicalChestTileEntity) {
             return (MagicalChestTileEntity) te;
         }

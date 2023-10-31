@@ -142,7 +142,7 @@ public class ClientEvents {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0) {
-				if(event.getEntity().getLevel().isClientSide) {
+				if(event.getEntity().level().isClientSide) {
 					if(Minecraft.getInstance().screen == null)
 						Minecraft.getInstance().setScreen(new StopGui());
 				}
@@ -173,7 +173,7 @@ public class ClientEvents {
 					}
 					
 					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-						player.level.addParticle(ParticleTypes.SMOKE, player.getX()+player.level.random.nextDouble() - 0.5D, player.getY()+player.level.random.nextDouble() *2D, player.getZ()+player.level.random.nextDouble() - 0.5D, (player.level.random.nextDouble() - 0.5D)*0.2, 0.1, (player.level.random.nextDouble() - 0.5D)*0.2);
+						player.level().addParticle(ParticleTypes.SMOKE, player.getX()+player.level().random.nextDouble() - 0.5D, player.getY()+player.level().random.nextDouble() *2D, player.getZ()+player.level().random.nextDouble() - 0.5D, (player.level().random.nextDouble() - 0.5D)*0.2, 0.1, (player.level().random.nextDouble() - 0.5D)*0.2);
 					}
 				}
 			}
@@ -218,11 +218,11 @@ public class ClientEvents {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					
 					if(focusingTicks == 5) {
-						event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
+						event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					focusingTicks++;
 					
@@ -240,11 +240,11 @@ public class ClientEvents {
 	
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									playerData.addShotlockEnemy(ertr.getEntity().getId());
-									event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 	
 									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
-										event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
 							}
@@ -257,7 +257,7 @@ public class ClientEvents {
 							// Send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
-								event.player.level.playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+								event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 								PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
 								cooldownTicks = 100;
 								focusing = false;
