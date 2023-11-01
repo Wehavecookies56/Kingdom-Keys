@@ -367,7 +367,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(gui, portalMenuColor, alpha);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() + 1)), 1);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(gui, Strings.Gui_CommandMenu_Portals_Title, SUB_PORTALS);
 			}
@@ -376,7 +376,7 @@ public class CommandMenuGui extends OverlayBase {
 				for (int i = 0; i < portals.size(); i++) {
 					matrixStack.pushPose();
 					{
-						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() - i)), 0);
+						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (portals.size() - i)), 1);
 						matrixStack.scale(scale, scale, scale);
 						paintWithColorArray(gui, portalMenuColor, alpha);
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
@@ -416,7 +416,7 @@ public class CommandMenuGui extends OverlayBase {
 		matrixStack.pushPose();
 		{
 			paintWithColorArray(gui, targetModeColor, alpha);
-			matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() + 1)), 0);
+			matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() + 1)), 2);
 			matrixStack.scale(scale, scale, scale);
 			drawHeader(gui, "TARGET", SUB_TARGET);
 		}
@@ -425,7 +425,7 @@ public class CommandMenuGui extends OverlayBase {
 		for (int i = 0; i < worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size(); i++) {
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() - i)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() - i)), 2);
 				matrixStack.scale(scale, scale, scale);
 				if (submenu == SUB_TARGET) {
 					paintWithColorArray(gui, targetModeColor, alpha);
@@ -462,7 +462,7 @@ public class CommandMenuGui extends OverlayBase {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() + 1)), 1);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(gui, magicMenuColor, alpha);
 				drawHeader(gui, Strings.Gui_CommandMenu_Magic_Title, SUB_MAGIC);
@@ -472,7 +472,7 @@ public class CommandMenuGui extends OverlayBase {
 			for (int i = 0; i < magics.size(); i++) {
 				matrixStack.pushPose();
 				{
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() - i)), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (magics.size() - i)), 1);
 					matrixStack.scale(scale, scale, scale);
 					paintWithColorArray(gui, magicMenuColor, alpha);
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
@@ -524,7 +524,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(gui, itemsMenuColor, alpha);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size()+1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size()+1)), 1);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(gui, Strings.Gui_CommandMenu_Items_Title, SUB_ITEMS);
 			}
@@ -536,7 +536,7 @@ public class CommandMenuGui extends OverlayBase {
 
 				matrixStack.pushPose();
 				{
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size() - c)), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (items.size() - c)), 1);
 					matrixStack.scale(scale, scale, scale);
 					paintWithColorArray(gui, itemsMenuColor, alpha);
 					textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
@@ -577,7 +577,7 @@ public class CommandMenuGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				paintWithColorArray(gui, driveMenuColor, alpha);
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size()+1)), 1);
 				matrixStack.scale(scale, scale, scale);
 				drawHeader(gui, Strings.Gui_CommandMenu_Drive_Title, SUB_DRIVE);
 			}
@@ -593,7 +593,7 @@ public class CommandMenuGui extends OverlayBase {
 
 					matrixStack.pushPose();
 					{
-						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 0);
+						matrixStack.translate(x, (height - MENU_HEIGHT * scale * (forms.size() - i)), 1);
 						matrixStack.scale(scale, scale, scale);
 
 						if (submenu == SUB_DRIVE) {
@@ -633,7 +633,7 @@ public class CommandMenuGui extends OverlayBase {
 			double x = 10 * ModConfigs.cmSubXOffset / 100D;
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 0);
+				matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() + 1)), 1);
 				matrixStack.scale(scale, scale, scale);
 				paintWithColorArray(gui, limitMenuColor, alpha);
 				drawHeader(gui, Strings.Gui_CommandMenu_Limit_Title, SUB_LIMIT);
@@ -643,7 +643,7 @@ public class CommandMenuGui extends OverlayBase {
 			for (int i = 0; i < limits.size(); i++) {
 				matrixStack.pushPose();
 				{
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * (limits.size() - i)), 1);
 					matrixStack.scale(scale, scale, scale);
 
 					paintWithColorArray(gui, limitMenuColor, alpha);
