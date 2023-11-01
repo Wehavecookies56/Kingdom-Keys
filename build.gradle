@@ -7,7 +7,7 @@ plugins {
 }
 
 def mcver = "1.19.4"
-version = mcver + '-2.3.3.1'
+version = mcver + '-2.3.4.0'
 
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
@@ -114,12 +114,10 @@ dependencies {
     //JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
-    implementation fg.deobf("curse.maven:patchouli-306770:4636289")
     //implementation fg.deobf("curse.maven:jer-240630:3951643")
     //implementation fg.deobf("curse.maven:epicfight-405076:3990391")
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-	
 	implementation fg.deobf("curse.maven:patchouli-306770:4636289")
 
 }

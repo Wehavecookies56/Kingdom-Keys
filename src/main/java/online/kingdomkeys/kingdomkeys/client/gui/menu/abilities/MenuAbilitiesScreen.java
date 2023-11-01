@@ -370,7 +370,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
 		if(abilities.size() <= 0)
 			return;
-		int listHeight = (abilities.get(abilities.size()-1).y+20) - abilities.get(0).y;
+		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
 		if (scrollBarHeight >= listHeight) {
 			scrollBar.visible = false;
 			scrollBar.active = false;
@@ -408,8 +408,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).y -= scrollOffset;
-				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active =true;;
 					abilities.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
 				}
