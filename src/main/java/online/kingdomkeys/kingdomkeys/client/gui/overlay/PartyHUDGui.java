@@ -85,7 +85,7 @@ public class PartyHUDGui extends OverlayBase {
 		if (playerAlly != null) {
 			skin = getLocationSkin(playerAlly);
 		} else {
-			skin = new ResourceLocation("minecraft", "textures/entity/steve.png");
+			skin = new ResourceLocation("minecraft", "textures/entity/player/wide/steve.png");
 		}
 
 		PoseStack matrixStack = gui.pose();
