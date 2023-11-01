@@ -80,7 +80,7 @@ public class KingdomKeys {
 	public static final String MODID = "kingdomkeys";
 	public static final String MODNAME = "Kingdom Keys";
 
-	public static final String MODVER = "2.3.3.1";
+	public static final String MODVER = "2.3.4.0";
 	public static final String MCVER = "1.19.2";
 
 	public static boolean efmLoaded = false;
