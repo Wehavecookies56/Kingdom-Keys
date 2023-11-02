@@ -408,8 +408,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).y -= scrollOffset;
-				if (abilities.get(i).y < scrollBot && abilities.get(i).y >= scrollTop-20) {
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active = true;
 					String abilityName = abilities.get(i).getText();
 					Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilityName));
