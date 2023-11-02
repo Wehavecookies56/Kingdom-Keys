@@ -114,6 +114,8 @@ public class PartyHUDGui extends OverlayBase {
 				}
 
 				this.blit(gui, skin, 0, 0, 32, 32, headWidth, headHeight);
+				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+
 			}
 			matrixStack.popPose();
 
