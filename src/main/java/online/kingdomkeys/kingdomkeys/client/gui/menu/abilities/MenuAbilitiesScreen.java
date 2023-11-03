@@ -431,8 +431,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 		RenderSystem.disableScissor();
 
-		playerButton.render(matrixStack, mouseX, mouseY, partialTicks);
-		back.render(matrixStack, mouseX, mouseY, partialTicks);
+		playerButton.render(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
 		if(hoveredAbility != null) {
 			renderSelectedData(gui, mouseX, mouseY, partialTicks);
 		}

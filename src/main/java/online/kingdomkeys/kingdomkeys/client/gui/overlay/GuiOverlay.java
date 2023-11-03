@@ -270,11 +270,11 @@ public class GuiOverlay extends OverlayBase {
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-						blit(gui, levelUpTexture, (int)x, (int)y-3, 74, 102, 12, 12);
+						blit(gui, menuTexture, (int)x, (int)y-3, 74, 102, 12, 12);
 						message = message.replace("A_", "");
 						x += 13;
 					}
-					
+
 					showText(matrixStack, Utils.translateToLocalFormatted(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
 				
@@ -339,8 +339,9 @@ public class GuiOverlay extends OverlayBase {
 						
 						float x = 33;
 						float y = minecraft.font.lineHeight * 1.1F * i; 
+						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+
 						if(message.startsWith("A_")) {
-							RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 							blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);
 							message = message.replace("A_", "");
 							x += 13;
