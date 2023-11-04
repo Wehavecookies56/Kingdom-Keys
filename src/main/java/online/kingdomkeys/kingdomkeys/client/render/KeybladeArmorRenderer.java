@@ -41,7 +41,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	UXArmorModel<LivingEntity> uxTopSlim;
 	UXArmorModel<LivingEntity> uxBotSlim;
-	
+
 	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
 		super(entityRendererIn);
 
@@ -105,22 +105,23 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(entitylivingbaseIn instanceof Player player) {
-
-			if (Minecraft.getInstance().player.getModelName().equals("slim")) {
-				if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
-					armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
-					armorModels.replace((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTopSlim);
-					armorModels.replace((BaseArmorItem) ModItems.ux_Leggings.get(), uxBotSlim);
-					armorModels.replace((BaseArmorItem) ModItems.ux_Boots.get(), uxTopSlim);
+			if (ModCapabilities.getPlayer(player) != null) {
+				if (Minecraft.getInstance().player.getModelName().equals("slim")) {
+					if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
+						armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
+						armorModels.replace((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTopSlim);
+						armorModels.replace((BaseArmorItem) ModItems.ux_Leggings.get(), uxBotSlim);
+						armorModels.replace((BaseArmorItem) ModItems.ux_Boots.get(), uxTopSlim);
+					}
 				}
-			}
 
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			int color = playerData.getArmorColor();
 			float red = ((color >> 16) & 0xff) / 255F;
 			float green = ((color >> 8) & 0xff) / 255F;
 			float blue = (color & 0xff) / 255F;
-			
+			boolean glint = playerData.getArmorGlint();
+
 			NonNullList<ItemStack> armor = player.getInventory().armor;
 			ArmorBaseModel<LivingEntity> armorModelBoots = armorModels.get(armor.get(0).getItem());
 			ArmorBaseModel<LivingEntity> armorModelLeggings = armorModels.get(armor.get(1).getItem());
@@ -133,7 +134,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 	    		
 	    		armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
@@ -147,7 +148,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"2.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -163,7 +164,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 
 	    		armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
@@ -181,12 +182,13 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"1.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(texture), false, itemStack.isEnchanted());
 
-	    		armorModelHelmet.head.copyFrom(getParentModel().head);
-	    		armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,red,green,blue,1);
-	    	}
-	    	
-	    	//Change texture
-	    	//vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
+					armorModelHelmet.head.copyFrom(getParentModel().head);
+					armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+				}
+
+				//Change texture
+				//vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture2), false, false);
+			}
 			
 		}
 	}
