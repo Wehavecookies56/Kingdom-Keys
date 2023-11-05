@@ -31,7 +31,7 @@ public class CSPlayAnimation {
     public static void handle(CSPlayAnimation message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(()->{
             ServerPlayerPatch spp = EpicFightCapabilities.getEntityPatch(ctx.get().getSender(), ServerPlayerPatch.class);
-            spp.playAnimationSynchronized(KKAnimations.Summon_Test, 0);
+            spp.playAnimationSynchronized(KKAnimations.SORA_SUMMON, 0);
         });
     }
 
