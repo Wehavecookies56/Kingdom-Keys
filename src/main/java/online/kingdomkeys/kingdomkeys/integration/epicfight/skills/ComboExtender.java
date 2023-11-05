@@ -39,17 +39,18 @@ public class ComboExtender extends Skill {
     @Override
     public void onInitiate(SkillContainer container) {
         super.onInitiate(container);
-        PlayerEventListener listener = container.getExecuter().getEventListener();
-        listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT, EVENT_UUID, event -> {
+        PlayerPatch pp = container.getExecuter();
+        if(!pp.isLogicalClient())
+        {
+            PlayerEventListener listener = container.getExecuter().getEventListener();
+            listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT, EVENT_UUID, event -> {
 
-            PlayerPatch<?> spp = container.getExecuter();
-            Player player = spp.getOriginal();
-            if (player.onGround() && !player.isSprinting() &&  event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
-            	if (!this.isExecutableState(spp)) {
-            		return;
-            	}
-            	
-                IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
+                PlayerPatch<?> spp = container.getExecuter();
+                Player player = spp.getOriginal();
+                if (player.onGround() && !player.isSprinting() &&  event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
+                    if (!this.isExecutableState(spp))
+                        return;
+                    IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
                     event.setCanceled(true);
                     StaticAnimation attackMotion;
                     this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
@@ -99,8 +100,10 @@ public class ComboExtender extends Skill {
                     }
                     dataManager.setData(this.combo, comboCounter);
                     spp.updateEntityState();
-            }
-        });
+
+                }
+            });
+        }
     }
 
     @Override

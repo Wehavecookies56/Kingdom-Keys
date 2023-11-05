@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -52,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import yesman.epicfight.api.animation.types.AttackAnimation;
 
 public class InputHandler {
 

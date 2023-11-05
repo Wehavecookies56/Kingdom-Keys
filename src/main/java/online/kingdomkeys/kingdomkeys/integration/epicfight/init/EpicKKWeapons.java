@@ -4,7 +4,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.KKWeaponCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
@@ -91,7 +90,7 @@ public class EpicKKWeapons {
                     .newStyleCombo(KKStyles.MASTER, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_DUAL_AUTO2, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DUAL_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.FINAL, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, KKAnimations.FINAL_AUTO1, Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
 
-                    .newStyleCombo(KKStyles.SORA, KKAnimations.KH1_SORA_COMBO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
+                    .newStyleCombo(KKStyles.SORA, KKAnimations.SORA_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.VENTUS, Animations.SWORD_DUAL_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.RIKU, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(KKStyles.ROXAS, Animations.SWORD_DUAL_AUTO3, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.AXE_AUTO1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_AIR_SLASH)
