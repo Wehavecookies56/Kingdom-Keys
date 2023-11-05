@@ -66,22 +66,6 @@ public class InputHandler {
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
 
-    @SubscribeEvent
-    public void renderOverlays(RenderGuiOverlayEvent event) {
-        switch (ModConfigs.showGuiToggle) {
-            case HIDE:
-                event.setCanceled(
-                        event.getOverlay() == ClientSetup.COMMAND_MENU ||
-                        event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
-                        event.getOverlay() == ClientSetup.HP_BAR ||
-                        event.getOverlay() == ClientSetup.MP_BAR ||
-                        event.getOverlay() == ClientSetup.DRIVE_BAR ||
-                        event.getOverlay() == ClientSetup.SHOTLOCK
-                );
-                break;
-        }
-    }
-
     public boolean antiFormCheck() { //Only checks if form is not final
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
@@ -723,32 +707,23 @@ public class InputHandler {
                         break;
 
                     case SCROLL_UP:
-                        // if (!MainConfig.displayGUI())
-                        // break;
-                        if (mc.screen == null)
+                        if (mc.screen == null && Utils.shouldRenderOverlay(mc.player))
                             commandUp();
                         break;
 
                     case SCROLL_DOWN:
-                        // if (!MainConfig.displayGUI())
-                        // break;
-                        if (mc.screen == null)
+                        if (mc.screen == null && Utils.shouldRenderOverlay(mc.player))
                             commandDown();
                         break;
 
                     case ENTER:
-                        /*
-                         * if (!MainConfig.displayGUI()) break;
-                         */
-                        if (mc.screen == null)
+                        if (mc.screen == null && Utils.shouldRenderOverlay(mc.player))
                             commandEnter();
 
                         break;
 
                     case BACK:
-                        // if (!MainConfig.displayGUI())
-                        // break;
-                        if (mc.screen == null)
+                        if (mc.screen == null && Utils.shouldRenderOverlay(mc.player))
                             commandBack();
 
                         break;
@@ -888,7 +863,7 @@ public class InputHandler {
     	Minecraft mc = Minecraft.getInstance();
     	if(mc.level != null){
 	        if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
-	        	if(KeyboardHelper.isScrollActivatorDown()) {
+	        	if(KeyboardHelper.isScrollActivatorDown() && Utils.shouldRenderOverlay(mc.player)) {
 	        		commandEnter();
 		            event.setCanceled(true);
 	        	} else if(mc.screen == null){
@@ -918,12 +893,12 @@ public class InputHandler {
 	        	}
 	        }
 	        
-	        if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
+	        if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1 && Utils.shouldRenderOverlay(mc.player)) {
 	            commandSwapReaction();
 	            event.setCanceled(true);
 	        }
 	
-	        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1) {
+	        if (event.getButton() == Constants.RIGHT_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1&& Utils.shouldRenderOverlay(mc.player)) {
 	            commandBack();
 	            event.setCanceled(true);
 	        }
@@ -958,6 +933,8 @@ public class InputHandler {
     	Minecraft mc = Minecraft.getInstance();
         if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
         	event.setCanceled(true);
+        	if(!Utils.shouldRenderOverlay(mc.player))
+        		return;
         	if(event.getScrollDelta() == Constants.WHEEL_DOWN) {
                 commandDown();
         	}else if(event.getScrollDelta() == Constants.WHEEL_UP) {

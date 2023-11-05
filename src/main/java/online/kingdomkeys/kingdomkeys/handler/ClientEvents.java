@@ -84,25 +84,6 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void renderOverlays(RenderGuiOverlayEvent event) {
-		Player player = Minecraft.getInstance().player;
-		if (player != null) {
-			if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
-				player.getMainHandItem().getItem();
-				if (!(player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon)) {
-					event.setCanceled(
-							event.getOverlay() == ClientSetup.COMMAND_MENU ||
-							event.getOverlay() == ClientSetup.PLAYER_PORTRAIT ||
-							event.getOverlay() == ClientSetup.HP_BAR ||
-							event.getOverlay() == ClientSetup.MP_BAR ||
-							event.getOverlay() == ClientSetup.DRIVE_BAR ||
-							event.getOverlay() == ClientSetup.SHOTLOCK
-					);
-				}
-			}
-		}
-	}
-	@SubscribeEvent
 	public void onRenderTick(RenderTickEvent event) { //Lock on
 		Player player = Minecraft.getInstance().player;
 

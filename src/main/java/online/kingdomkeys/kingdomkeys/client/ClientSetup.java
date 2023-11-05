@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -41,18 +41,28 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.PartyHUDGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.PlayerPortraitGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ShotlockGUI;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
-import online.kingdomkeys.kingdomkeys.client.model.armor.*;
+import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
@@ -243,8 +253,9 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
-		if (ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
-			NamedGuiOverlay o = event.getOverlay();
+		LocalPlayer player = Minecraft.getInstance().player;
+		NamedGuiOverlay o = event.getOverlay();
+		if(!Utils.shouldRenderOverlay(player)) {
 			event.setCanceled(o == COMMAND_MENU || o == PLAYER_PORTRAIT || o == HP_BAR || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK);
 		}
 
