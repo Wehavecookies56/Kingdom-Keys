@@ -732,7 +732,8 @@ public class InputHandler {
 
                     case SUMMON_KEYBLADE:
                         if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player)) {
+                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player) &&
+                            Utils.findSummoned(player.getInventory(), ModCapabilities.getPlayer(player).getEquippedWeapon(), false) == -1) {
                                 PacketHandler.sendToServer(new CSPlayAnimation());
                             }
                             else

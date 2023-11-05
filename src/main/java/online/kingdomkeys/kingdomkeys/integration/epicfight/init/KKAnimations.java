@@ -19,9 +19,10 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import java.util.List;
 
 public class KKAnimations {
-    public static StaticAnimation TEST, CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
-            KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, SORA_AUTO1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
-            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1, SORA_SUMMON;
+    public static StaticAnimation CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
+            KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, SORA_AUTO1,SORA_AUTO2, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
+            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1,
+            SORA_SUMMON, DRIVE_SUMMON;
 
 
     private KKAnimations() {
@@ -35,7 +36,7 @@ public class KKAnimations {
 
     private static void build() {
         List<Pair<Joint, Collider>> dualKeyblade =  List.of(Pair.of(Armatures.BIPED.toolR, KKCollider.KEYBLADE), Pair.of(Armatures.BIPED.toolL, KKCollider.KEYBLADE));
-        SORA_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
+               DRIVE_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE,true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
@@ -91,10 +92,18 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> .8f) ;
 
         ROXAS_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/roxas_auto_1", Armatures.BIPED);
-        ROXAS_IDLE = new StaticAnimation(true, "biped/living/roxas_idle", Armatures.BIPED);
+        ROXAS_IDLE = new StaticAnimation(true, "biped/living/sora_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .6f);
         ROXAS_RUN = new StaticAnimation(true, "biped/living/roxas_run", Armatures.BIPED);
 
-        SORA_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.7F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.7f);
+
+        SORA_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE,true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) ->
+                        SeparateClassToAvoidLoadingIssuesExtendedReach.SummonKeyblade((PlayerPatch) ep), AnimationEvent.Side.BOTH));
+
+        SORA_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.7f);
+        SORA_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.65f);
 
         KK_SHIELD_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_1", Armatures.BIPED);
         KK_SHIELD_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_2", Armatures.BIPED);
@@ -102,6 +111,6 @@ public class KKAnimations {
 
         CHAKRAM_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/chakram_auto_1", Armatures.BIPED);
 
-        TEST = new StaticAnimation(true, "biped/living/test", Armatures.BIPED);
+
     }
 }
