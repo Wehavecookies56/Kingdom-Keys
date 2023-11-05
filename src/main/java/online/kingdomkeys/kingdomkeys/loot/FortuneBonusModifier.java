@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.base.Suppliers;
@@ -51,16 +52,16 @@ public class FortuneBonusModifier extends LootModifier {
 
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
 
+
         if (tool != null && (!tool.hasTag() || tool.getTag() == null || !tool.getTag().getBoolean(hasLuckyLuckyBonus)))
         {
             Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
             BlockState blockState = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+            Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
 
-            if (blockState != null && entity instanceof Player)
+            if (blockState != null && entity instanceof Player player)
             {
-                Player player = (Player) entity;
-
-				// bonus for lucky amplifier.
+                // bonus for lucky amplifier.
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
@@ -74,8 +75,14 @@ public class FortuneBonusModifier extends LootModifier {
 
 					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
 
+                    if (origin == null) {
+                        origin = player.position();
+                    }
+
                     LootParams.Builder builder = new LootParams.Builder((ServerLevel) player.level());
                     builder.withParameter(LootContextParams.TOOL, fakeTool);
+                    builder.withParameter(LootContextParams.BLOCK_STATE, blockState);
+                    builder.withParameter(LootContextParams.ORIGIN, origin);
 
                     LootParams newContext = builder.create(LootContextParamSets.BLOCK);
                     LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
