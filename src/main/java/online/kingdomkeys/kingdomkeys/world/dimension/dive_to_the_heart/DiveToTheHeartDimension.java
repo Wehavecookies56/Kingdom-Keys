@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +16,11 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 @Mod.EventBusSubscriber
 public class DiveToTheHeartDimension{
@@ -51,8 +56,22 @@ public class DiveToTheHeartDimension{
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (!event.player.isCreative()) {
             if (event.player.level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
+                IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
+                if (playerData != null) {
+                    if (playerData.getSoAState() == SoAState.NONE) {
+                        playerData.setSoAState(SoAState.CHOICE);
+                    }
+                }
                 if (event.player.getY() < 10) {
-                    event.player.teleportTo(0, 25, 0);
+                    if (playerData.getSoAState() == SoAState.COMPLETE) {
+                        if (!event.player.level().isClientSide()) {
+                            event.player.resetFallDistance();
+                            ServerLevel dimension = event.player.level().getServer().getLevel(playerData.getReturnDimension());
+                            event.player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
+                        }
+                    } else {
+                        event.player.teleportTo(0, 25, 0);
+                    }
                 }
             }
         }

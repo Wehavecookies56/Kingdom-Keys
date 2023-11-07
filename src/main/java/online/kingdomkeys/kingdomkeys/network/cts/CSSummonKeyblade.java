@@ -296,29 +296,30 @@ public class CSSummonKeyblade {
 			ServerPlayer player = (ServerPlayer) event.getEntity();
 			AbstractContainerMenu openContainer = event.getContainer();
 			AbstractContainerMenu playerContainer = player.inventoryMenu;
-
-			if (!openContainer.equals(playerContainer)) {
-				openContainer.slots.forEach(slot -> {
-					ItemStack stack = slot.getItem();
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (slot.container != player.getInventory()) {
-						if ((Utils.hasKeybladeID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof IOrgWeapon || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
-							slot.set(ItemStack.EMPTY);
-							if(stack.getItem() instanceof IOrgWeapon || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
-								Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
-								for(ItemStack weapon : weapons) {
-									if(ItemStack.isSameItem(weapon, stack)) {
-										weapon.setTag(stack.getTag());
-										break;
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if (playerData != null) {
+				if (!openContainer.equals(playerContainer)) {
+					openContainer.slots.forEach(slot -> {
+						ItemStack stack = slot.getItem();
+						if (slot.container != player.getInventory()) {
+							if ((Utils.hasKeybladeID(stack) && stack.getItem() instanceof KeybladeItem) || (playerData.getAlignment() != Utils.OrgMember.NONE) && ((stack.getItem() instanceof IOrgWeapon || (playerData.getEquippedWeapon().getItem() == stack.getItem())))) {
+								slot.set(ItemStack.EMPTY);
+								if (stack.getItem() instanceof IOrgWeapon || (playerData.getAlignment() != Utils.OrgMember.NONE)) {
+									Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
+									for (ItemStack weapon : weapons) {
+										if (ItemStack.isSameItem(weapon, stack)) {
+											weapon.setTag(stack.getTag());
+											break;
+										}
 									}
+									playerData.setWeaponsUnlocked(weapons);
 								}
-								playerData.setWeaponsUnlocked(weapons);
+								openContainer.broadcastChanges();
+								player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
-							openContainer.broadcastChanges();
-							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						}
-					}
-				});
+					});
+				}
 			}
 		}
 
