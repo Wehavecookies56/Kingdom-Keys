@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import org.lwjgl.glfw.GLFW;
@@ -29,10 +30,6 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
@@ -732,14 +729,25 @@ public class InputHandler {
 
                     case SUMMON_KEYBLADE:
                         if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player) &&
-                            Utils.findSummoned(player.getInventory(), ModCapabilities.getPlayer(player).getEquippedWeapon(), false) == -1) {
-                                PacketHandler.sendToServer(new CSPlayAnimation());
+                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player)) {
+                                IPlayerCapabilities pc = ModCapabilities.getPlayer(player);
+                                if(Utils.findSummoned(player.getInventory(), pc.getEquippedKeychain(DriveForm.NONE), false) == -1 && pc.getAlignment() == OrgMember.NONE)
+                                    if(!pc.isAbilityEquipped(Strings.synchBlade))
+                                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.SORA_SUMMON)); //TODO add other keyblade summons
+                                    else
+                                        PacketHandler.sendToServer(new CSSummonKeyblade()); //TODO add dual keyblade summon
+                                else if(Utils.findSummoned(player.getInventory(), ModCapabilities.getPlayer(player).getEquippedWeapon(), true) == -1 && pc.getAlignment() != OrgMember.NONE)
+                                    PacketHandler.sendToServer(new CSSummonKeyblade()); //TODO add org summons
+                                else
+                                    PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
                             }
                             else
                                 PacketHandler.sendToServer(new CSSummonKeyblade());
                         } else {
-                            PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
+                            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player) && Utils.findSummoned(player.getInventory(), ModCapabilities.getPlayer(player).getEquippedKeychain(DriveForm.NONE), false) == -1)
+                                PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
+                            else
+                                PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer(player).getActiveDriveForm())));
                         }
                         
                         if(ModConfigs.summonTogether)

@@ -1,19 +1,26 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
-import yesman.epicfight.api.animation.types.ActionAnimation;
-import yesman.epicfight.api.animation.types.AttackAnimation;
-import yesman.epicfight.api.animation.types.BasicAttackAnimation;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.animation.types.*;
+import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
+import yesman.epicfight.api.utils.TypeFlexibleHashMap;
+import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
+import yesman.epicfight.config.ConfigurationIngame;
 import yesman.epicfight.gameasset.Armatures;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.List;
@@ -36,11 +43,13 @@ public class KKAnimations {
 
     private static void build() {
         List<Pair<Joint, Collider>> dualKeyblade =  List.of(Pair.of(Armatures.BIPED.toolR, KKCollider.KEYBLADE), Pair.of(Armatures.BIPED.toolL, KKCollider.KEYBLADE));
-               DRIVE_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
+               DRIVE_SUMMON = new ActionAnimation(0.05F, "biped/living/drive_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE,true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.7F)
-                .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
-                        SeparateClassToAvoidLoadingIssuesExtendedReach.SummonKeyblade((PlayerPatch) ep), AnimationEvent.Side.BOTH));
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->{
+                    if(ep.getOriginal().level().isClientSide && ((PlayerPatch<?>)ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
+                    }, AnimationEvent.Side.BOTH));
 
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         VALOR_AUTO1 = new BasicAttackAnimation(0.05F,  "biped/combat/valor_auto1", Armatures.BIPED,
@@ -56,7 +65,30 @@ public class KKAnimations {
         WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED)
-                .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
+        {
+            @Override
+            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, float time) {
+                TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
+                stateMap.put(EntityState.MOVEMENT_LOCKED, (Object)false);
+
+                return stateMap;
+            }
+
+            @Override
+            public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
+                return false;
+            }
+
+            @Override
+            public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
+                super.end(entitypatch, nextAnimation, isEnd);
+
+                if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
+                    float playbackSpeed = ConfigurationIngame.A_TICK * this.getPlaySpeed(entitypatch);
+                    entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
+                }
+            }
+        }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 1.0F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
@@ -65,7 +97,30 @@ public class KKAnimations {
                         AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
         WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_finisher", Armatures.BIPED)
-                .addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
+        {
+            @Override
+            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, float time) {
+                TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
+                stateMap.put(EntityState.MOVEMENT_LOCKED, (Object)false);
+
+                return stateMap;
+            }
+
+            @Override
+            public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
+                return false;
+            }
+
+            @Override
+            public void end(LivingEntityPatch<?> entitypatch, DynamicAnimation nextAnimation, boolean isEnd) {
+                super.end(entitypatch, nextAnimation, isEnd);
+
+                if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
+                    float playbackSpeed = ConfigurationIngame.A_TICK * this.getPlaySpeed(entitypatch);
+                    entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
+                }
+            }
+        }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
@@ -99,8 +154,10 @@ public class KKAnimations {
         SORA_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE,true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER,(self, entitypatch, speed, elapsedTime) -> 0.8F)
-                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) ->
-                        SeparateClassToAvoidLoadingIssuesExtendedReach.SummonKeyblade((PlayerPatch) ep), AnimationEvent.Side.BOTH));
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) ->{
+                    if(ep.getOriginal().level().isClientSide && ((PlayerPatch)ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
 
         SORA_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.7f);
         SORA_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) ->.65f);

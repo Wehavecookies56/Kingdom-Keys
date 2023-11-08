@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
@@ -20,18 +20,20 @@ public class CSPlayAnimation {
         this.animation = animation;
     }
     public void encode(FriendlyByteBuf buffer) {
-        if(animation != null)
-            buffer.writeUtf(animation.toString());
+        buffer.writeInt(animation.getNamespaceId());
+        buffer.writeInt(animation.getId());
     }
     public static CSPlayAnimation decode(FriendlyByteBuf buffer) {
         CSPlayAnimation msg = new CSPlayAnimation();
+        msg.animation = EpicFightMod.getInstance().animationManager.findAnimationById(buffer.readInt(), buffer.readInt());
+        //(String)l.get(2)
         return msg;
     }
 
     public static void handle(CSPlayAnimation message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(()->{
             ServerPlayerPatch spp = EpicFightCapabilities.getEntityPatch(ctx.get().getSender(), ServerPlayerPatch.class);
-            spp.playAnimationSynchronized(KKAnimations.SORA_SUMMON, 0);
+            spp.playAnimationSynchronized(message.animation, 0);
         });
     }
 

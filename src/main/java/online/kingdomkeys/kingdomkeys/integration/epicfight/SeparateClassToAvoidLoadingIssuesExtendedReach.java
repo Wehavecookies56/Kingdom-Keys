@@ -14,10 +14,4 @@ public class SeparateClassToAvoidLoadingIssuesExtendedReach {
     {
         return KingdomKeys.efmLoaded && EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class).isBattleMode();
     }
-    public static void SummonKeyblade(PlayerPatch<?> ep){
-        if (ep.getOriginal().level().isClientSide && (ep.isBattleMode()))
-        {
-            PacketHandler.sendToServer(new CSSummonKeyblade());
-        }
-    }
 }
