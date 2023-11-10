@@ -1,17 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import online.kingdomkeys.kingdomkeys.capability.*;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
-import org.lwjgl.glfw.GLFW;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -28,9 +17,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -39,6 +30,8 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -50,7 +43,9 @@ import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
-import yesman.epicfight.api.animation.types.AttackAnimation;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.*;
 
 public class InputHandler {
 
@@ -733,11 +728,12 @@ public class InputHandler {
                                 IPlayerCapabilities pc = ModCapabilities.getPlayer(player);
                                 if(Utils.findSummoned(player.getInventory(), pc.getEquippedKeychain(DriveForm.NONE), false) == -1 && pc.getAlignment() == OrgMember.NONE)
                                     if(!pc.isAbilityEquipped(Strings.synchBlade))
-                                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.SORA_SUMMON)); //TODO add other keyblade summons
+                                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(pc.getSingleStyle())));
                                     else
-                                        PacketHandler.sendToServer(new CSSummonKeyblade()); //TODO add dual keyblade summon
+                                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(pc.getDualStyle())));
                                 else if(Utils.findSummoned(player.getInventory(), ModCapabilities.getPlayer(player).getEquippedWeapon(), true) == -1 && pc.getAlignment() != OrgMember.NONE)
-                                    PacketHandler.sendToServer(new CSSummonKeyblade()); //TODO add org summons
+
+                                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(pc.getAlignment())));
                                 else
                                     PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
                             }
