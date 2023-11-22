@@ -86,7 +86,8 @@ public class DriveFormValor extends DriveForm {
 				} else {
 					if (playerData.getActiveDriveForm() != null) {
 						int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities() ? playerData.getDriveFormLevel(Strings.Form_Valor) - 2 : playerData.getDriveFormLevel(Strings.Form_Valor);// TODO eventually replace it with the skill
-						player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
+						if(jumpLevel > -1)
+							player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
 					}
 				}
 			}

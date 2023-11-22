@@ -30,8 +30,8 @@ public abstract class DriveForm {
 	ResourceLocation name;
 	int maxLevel;
 	int order;
-	float[] color;
-	ResourceLocation skinRL;
+	public float[] color;
+	public ResourceLocation skinRL;
 	boolean baseGrowth;
 	
 	String translationKey;
@@ -93,7 +93,7 @@ public abstract class DriveForm {
 		return order;
 	}
 	
-	public final float[] getDriveColor() {
+	public float[] getDriveColor() {
 		return color;
 	}
 	
