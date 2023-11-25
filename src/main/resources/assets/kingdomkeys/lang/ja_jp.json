@@ -460,7 +460,7 @@
   "item.kingdomkeys.betwixt_stone": "はざまのしずく",
   "item.kingdomkeys.black_primer": "ブラックプライマー",
   "item.kingdomkeys.blaze_of_glory": "ブレイズ オブ グローリー",
-  "item.kingdomkeys.blazing_crystal": "燃え上がる結晶
+  "item.kingdomkeys.blazing_crystal": "燃え上がる結晶",
   "item.kingdomkeys.blazing_gem": "燃え上がる魔石",
   "item.kingdomkeys.blazing_shard": "燃え上がるかけら",
   "item.kingdomkeys.blazing_stone": "燃え上がるしずく",
@@ -1258,7 +1258,7 @@
   "jei.info.kingdomkeys.organization_weapons": "組織のメンバーとして、キルで得たハートを消費して装備メニュー内の武器のロックを解除できます。選択したメンバーの武器を使用すると、2 倍のハートを獲得できます。召喚を使用して武器を召喚します。鍵。"、
   "jei.info.kingdomkeys.proof_of_heart": "エンダードラゴンを倒して入手。これを使って組織を脱退します。",
   "jei.info.kingdomkeys.recipes": "Mob からドロップされ、村のモーグリの家のチェストで見つかります。これらを使用してアイテム合成のレシピをロック解除します。",
-  "jei.info.kingdomkeys.spell_orb": "指定された呪文のロックを解除するために使用します。ロックが解除された魔法は、十分な MP がある限りコマンド メニューで使用できますが、レベル 5 までは MP が 0 になります。賞金ブロックの破壊からドロップされます。 。」、
+  "jei.info.kingdomkeys.spell_orb": "指定された呪文のロックを解除するために使用します。ロックが解除された魔法は、十分な MP がある限りコマンド メニューで使用できますが、レベル 5 までは MP が 0 になります。賞金ブロックの破壊からドロップされます。",
   "jei.info.kingdomkeys.valor_orb": "Valor Form のロックを解除するために使用します。Valor には 2 番目のキーブレード スロットがあります。アクティブ化にはドライブ ゲージの 3 バーが必要です。レアプライズのブロックスを破壊するとドロップされます。",
   "jei.info.kingdomkeys.wisdom_orb": "ウィズダム フォームのロックを解除するために使用します。アクティブ化にはドライブ ゲージ 3 バーが必要です。レア プライズ ブロックスを破壊するとドロップします。",
   "key.categories.kingdomkeys": "キングダムキー",
