@@ -1,9 +1,9 @@
 {
   "ability.ability_aerial_dodge.desc": "空中でもう一度ジャンプを押すと二段ジャンプできます。",
-  "ability.ability_aerial_dodge_1.name": "空中回避 LV.1",
-  "ability.ability_aerial_dodge_2.name": "エアリアルダッジ LV.2",
-  "ability.ability_aerial_dodge_3.name": "空中回避 LV.3",
-  "ability.ability_aerial_dodge_4.name": "空中回避 MAX",
+  "ability.ability_aerial_dodge_1.name": "エアドッヂ LV.1",
+  "ability.ability_aerial_dodge_2.name": "エアドッヂ LV.2",
+  "ability.ability_aerial_dodge_3.name": "エアドッヂ LV.3",
+  "ability.ability_aerial_dodge_4.name": "エアドッヂ MAX",
   "ability.ability_auto_final.desc": "最終形態が使用可能な場合、ピンチの場合にリアクション コマンドを自動的に最終に設定します。",
   "ability.ability_auto_final.name": "自動最終",
   "ability.ability_auto_limit.desc": "リミットフォームが使用可能な場合、ピンチの際にリアクションコマンドを自動的にリミットに設定します。",
