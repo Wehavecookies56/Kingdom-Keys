@@ -59,6 +59,10 @@ public class KKArmorItem extends Item implements IItemCategory {
     public int GetResValue(KKResistanceType kkResistanceType){
         return resList.get(kkResistanceType);
     }
+    
+    public int GetResValue(KKResistanceType kkResistanceType, int total){
+        return resList.get(kkResistanceType) * total / 100;
+    }
 
     public ImmutableMap<KKResistanceType, Integer> getResList() {
         return resList;

@@ -569,20 +569,20 @@ public class Utils {
 						break;
 					case "darkness":
 						if(kkArmorItem.CheckKey(KKResistanceType.darkness))
-							res+= kkArmorItem.GetResValue(KKResistanceType.darkness);
+							res+= kkArmorItem.GetResValue(KKResistanceType.darkness,res == 0 ? 100 : 100-res);
 						break;
 					case "ice":
 						if(kkArmorItem.CheckKey(KKResistanceType.ice))
-							res+= kkArmorItem.GetResValue(KKResistanceType.ice);
+							res+= kkArmorItem.GetResValue(KKResistanceType.ice,res == 0 ? 100 : 100-res);
 						break;
 
 					case "lightning":
 						if(kkArmorItem.CheckKey(KKResistanceType.lightning))
-							res+= kkArmorItem.GetResValue(KKResistanceType.lightning);
+							res+= kkArmorItem.GetResValue(KKResistanceType.lightning,res == 0 ? 100 : 100-res);
 						break;
 					case "fire":
 						if(kkArmorItem.CheckKey(KKResistanceType.fire))
-							res+= kkArmorItem.GetResValue(KKResistanceType.fire);
+							res+= kkArmorItem.GetResValue(KKResistanceType.fire,res == 0 ? 100 : 100-res);
 						break;
 				}
 			}
