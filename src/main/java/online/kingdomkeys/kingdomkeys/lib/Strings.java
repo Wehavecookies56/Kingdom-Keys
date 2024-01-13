@@ -559,7 +559,34 @@ public class Strings {
 	    thunderTrinket = "thunder_trinket",
     	petiteRibbon = "petite_ribbon",
     	ribbon = "ribbon",
-    	grandRibbon = "grand_ribbon";
+    	grandRibbon = "grand_ribbon",
+
+		abasChain = "abas_chain",
+		acrisius = "acrisius",
+		acrisiusPlus = "acrisius_plus",
+		aegisChain = "aegis_chain",
+		blizzagaArmlet = "blizzaga_armlet",
+		blizzagunArmlet = "blizzagun_armlet",
+		blizzaraArmlet = "blizzara_armlet",
+		busterBand = "buster_band",
+		championBelt = "champion_belt",
+		chaosAnklet = "chaos_anklet",
+		cosmicBelt = "cosmic_belt",
+		cosmicChain = "cosmic_chain",
+		darkAnklet = "dark_anklet",
+		divineBandanna = "divine_bandanna",
+		elvenBandanna = "elven_bandanna",
+		firaBangle = "fira_bangle",
+		firagaBangle = "firaga_bangle",
+		firagunBangle = "firagun_bangle",
+		gaiaBelt = "gaia_belt",
+		midnightAnklet = "midnight_anklet",
+		shadowAnklet = "shadow_anklet",
+		shockCharm = "shock_charm",
+		shockCharmPlus = "shock_charm_plus",
+		thundaraTrinket = "thundara_trinket",
+		thundagaTrinket = "thundaga_trinket",
+		thundagunTrinket = "thundagun_trinket";
     	
     
     // Music Discs

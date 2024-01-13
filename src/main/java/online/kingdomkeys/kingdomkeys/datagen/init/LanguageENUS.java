@@ -1084,6 +1084,33 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ribbon, "Ribbon");
         addItem(ModItems.grandRibbon, "Grand Ribbon");
 
+        addItem(ModItems.abasChain, "Abas Chain");
+        addItem(ModItems.acrisius, "Acrisius");
+        addItem(ModItems.acrisiusPlus, "Acrisius +");
+        addItem(ModItems.aegisChain, "Aegis Chain");
+        addItem(ModItems.blizzaraArmlet, "Blizzara Armlet");
+        addItem(ModItems.blizzagaArmlet, "Blizzaga Armlet");
+        addItem(ModItems.blizzagunArmlet, "Blizzagun Armlet");
+        addItem(ModItems.busterBand, "Buster Band");
+        addItem(ModItems.championBelt, "Champion Belt");
+        addItem(ModItems.chaosAnklet, "Chaos Anklet");
+        addItem(ModItems.cosmicBelt, "Cosmic Belt");
+        addItem(ModItems.cosmicChain, "Cosmic Chain");
+        addItem(ModItems.darkAnklet, "Dark Anklet");
+        addItem(ModItems.divineBandanna, "Divine Bandanna");
+        addItem(ModItems.elvenBandanna, "Elven Bandanna");
+        addItem(ModItems.firaBangle, "Fira Bangle");
+        addItem(ModItems.firagaBangle, "Firaga Bangle");
+        addItem(ModItems.firagunBangle, "Firagun Bangle");
+        addItem(ModItems.gaiaBelt, "Gaia Belt");
+        addItem(ModItems.midnightAnklet, "Midnight Anklet");
+        addItem(ModItems.shadowAnklet, "Shadow Anklet");
+        addItem(ModItems.shockCharm, "Shock Charm");
+        addItem(ModItems.shockCharmPlus, "Shock Charm +");
+        addItem(ModItems.thundaraTrinket, "Thundara Trinket");
+        addItem(ModItems.thundagaTrinket, "Thundaga Trinket");
+        addItem(ModItems.thundagunTrinket, "Thundagun Trinket");
+
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");
         addItem(ModEntities.SHADOW_EGG, "Spawn Shadow");
