@@ -4,12 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.registries.DeferredRegister;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +17,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -42,6 +37,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -55,6 +51,13 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -97,7 +100,8 @@ public class KingdomKeys {
 	private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
 	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
 	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
-	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KeychainItem)).toList());
+	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> (item.getItem() instanceof KKPotionItem || item.getItem() instanceof KKArmorItem || item.getItem() instanceof KKAccessoryItem)).toList());
+	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem)).toList());
 
 	public static final RegistryObject<CreativeModeTab>
 			keyblades_tab = TABS.register(Strings.keybladesGroup, () -> CreativeModeTab.builder()
@@ -120,6 +124,17 @@ public class KingdomKeys {
 					})
 					.displayItems(((params, output) -> {
 						orgWeapons.get().forEach(output::accept);
+					}))
+					.build()),
+			
+			equipables_tab = TABS.register(Strings.equipablesGroup, () -> CreativeModeTab.builder()
+					.title(Component.translatable("itemGroup." + Strings.equipablesGroup))
+					.icon(() -> {
+						List<ItemStack> equipablesList = equipables.get();
+						return equipablesList.get((int)(System.currentTimeMillis() / 1500) % equipablesList.size());
+					})
+					.displayItems(((params, output) -> {
+						equipables.get().forEach(output::accept);
 					}))
 					.build()),
 

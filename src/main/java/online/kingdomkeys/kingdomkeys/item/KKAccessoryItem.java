@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -38,20 +39,20 @@ public class KKAccessoryItem extends Item implements IItemCategory {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     	if(getAp() != 0) {
-    		tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
+    		tooltip.add(Component.translatable(ChatFormatting.YELLOW+Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
     	}
     	if(getStr() != 0) {
-    		tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+getStr()));
+    		tooltip.add(Component.translatable(ChatFormatting.RED+Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+getStr()));
     	}
     	if(getMag() != 0) {
-    		tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
+    		tooltip.add(Component.translatable(ChatFormatting.BLUE+Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
     	}
     	if(getAbilities().size() > 0) {
-			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
+			tooltip.add(Component.translatable(ChatFormatting.GOLD+Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
     		for(String a : getAbilities()) {
     			Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(a));
 				if (ability != null) {
-					tooltip.add(Component.translatable("- " + Utils.translateToLocal(ability.getTranslationKey())));
+					tooltip.add(Component.translatable(ChatFormatting.GOLD+"- " + Utils.translateToLocal(ability.getTranslationKey())));
 				}
     		}
     	}

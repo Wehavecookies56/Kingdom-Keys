@@ -7,6 +7,7 @@ public class Strings {
     public static final String
             keybladesGroup = "kingdomkeys_keyblades",
             organizationGroup = "kingdomkeys_org_weapons",
+            equipablesGroup = "kingdomkeys_equipables",
             miscGroup = "kingdomkeys_misc";
     // Records
     public static final String

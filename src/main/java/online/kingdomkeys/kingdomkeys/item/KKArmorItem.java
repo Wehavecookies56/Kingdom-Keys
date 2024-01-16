@@ -42,10 +42,10 @@ public class KKArmorItem extends Item implements IItemCategory {
         }
 		for (Map.Entry<KKResistanceType, Integer> resistanceType : resList.entrySet()) {
 			switch (resistanceType.getKey()) {
-			case fire -> tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_FireRes) + ": " + resistanceType.getValue()+"%"));
-			case ice -> tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes) + ": " + resistanceType.getValue()+"%"));
-			case lightning -> tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderRes) + ": " + resistanceType.getValue()+"%"));
-			case darkness -> tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes) + ": " + resistanceType.getValue()+"%"));
+			case fire -> tooltip.add(Component.translatable(ChatFormatting.RED+Utils.translateToLocal(Strings.Gui_Menu_Status_FireRes) + ": " + resistanceType.getValue()+"%"));
+			case ice -> tooltip.add(Component.translatable(ChatFormatting.AQUA+Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes) + ": " + resistanceType.getValue()+"%"));
+			case lightning -> tooltip.add(Component.translatable(ChatFormatting.YELLOW+Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderRes) + ": " + resistanceType.getValue()+"%"));
+			case darkness -> tooltip.add(Component.translatable(ChatFormatting.GRAY+Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes) + ": " + resistanceType.getValue()+"%"));
 			}
 		}
 		
