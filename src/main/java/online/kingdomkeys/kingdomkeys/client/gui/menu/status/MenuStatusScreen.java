@@ -122,7 +122,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 		int i = 0;
 		
-		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap()).keySet());
+		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms()).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
 		forms.remove(Strings.Form_Anti);

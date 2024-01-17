@@ -65,6 +65,8 @@ public class MenuConfigScreen extends MenuBackground {
 	//PlayerSkin
 	EditBox playerSkinXPosBox, playerSkinYPosBox;
 	ForgeSlider armorColorRed, armorColorGreen, armorColorBlue;
+	Button glintButton;
+	boolean glint;
 
 	//Lock On
 	EditBox lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
@@ -97,6 +99,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	
 	protected void action(String string) {
+		IPlayerCapabilities playerData;
 		switch(string) {
 		case "back":
 			GuiHelper.openMenu();
@@ -110,6 +113,13 @@ public class MenuConfigScreen extends MenuBackground {
 			hpShowHearts = !hpShowHearts;
 			hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 			ModConfigs.setShowHearts(hpShowHearts);
+			break;
+		case "glint":
+			glint = !glint;
+			glintButton.setMessage(Component.translatable(glint+""));
+			playerData = ModCapabilities.getPlayer(minecraft.player);
+			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
+
 			break;
 		}
 		
@@ -149,7 +159,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModCapabilities.getPlayer(minecraft.player).getArmorColor())); action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModCapabilities.getPlayer(minecraft.player).getArmorColor(),glint)); action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -657,9 +667,9 @@ public class MenuConfigScreen extends MenuBackground {
 
 	}
 	
-	
-	
 	private void initPlayerSkin() {
+		glint = ModCapabilities.getPlayer(minecraft.player).getArmorGlint();
+
 		int pos = 0;
 		
 		addRenderableWidget(playerSkinXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
@@ -726,7 +736,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 				super.onRelease(pMouseX, pMouseY);
 			}
 		});
@@ -740,7 +750,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
 				super.onRelease(pMouseX, pMouseY);
 			}
 		});
@@ -754,12 +764,14 @@ public class MenuConfigScreen extends MenuBackground {
 			
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
 				super.onRelease(pMouseX, pMouseY);
 			}
 		});
 			
-		
+		addRenderableWidget(glintButton = Button.builder(Component.translatable(glint+""), (e) -> {
+			 action("glint");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 
 		playerSkinXPosBox.setValue(""+ModConfigs.playerSkinXPos);
 		playerSkinYPosBox.setValue(""+ModConfigs.playerSkinYPos);
@@ -769,6 +781,7 @@ public class MenuConfigScreen extends MenuBackground {
 		playerSkinList.add(armorColorRed);
 		playerSkinList.add(armorColorGreen);
 		playerSkinList.add(armorColorBlue);
+		playerSkinList.add(glintButton);
 	}
 		
 	@Override
@@ -776,7 +789,7 @@ public class MenuConfigScreen extends MenuBackground {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
     		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
-			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor()));
+			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
         }
         return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
@@ -1332,7 +1345,7 @@ public class MenuConfigScreen extends MenuBackground {
 				}
 
 				Player player = Minecraft.getInstance().player;
-				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width-width*0.2F), (int) (height*0.65F), (int) 50, 0, 0, player);
+				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width*0.5F), (int) (height*0.5F), (int) 50, 0, 0, player);
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
@@ -1340,6 +1353,7 @@ public class MenuConfigScreen extends MenuBackground {
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 40, 20 * ++pos, 0xFF9900);
 
 
 				break;

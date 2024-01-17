@@ -101,7 +101,7 @@ public class KingdomKeys {
 	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
 	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
 	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> (item.getItem() instanceof KKPotionItem || item.getItem() instanceof KKArmorItem || item.getItem() instanceof KKAccessoryItem)).toList());
-	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem)).toList());
+	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof KeychainItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem)).toList());
 
 	public static final RegistryObject<CreativeModeTab>
 			keyblades_tab = TABS.register(Strings.keybladesGroup, () -> CreativeModeTab.builder()

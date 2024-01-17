@@ -1,6 +1,7 @@
 {
 	"cost":100,
 	"ap":-4,
+	"can_go_anti":true,
 	"str_mult":1.0,
 	"mag_mult":1.0,
 	"speed_mult":1.3,

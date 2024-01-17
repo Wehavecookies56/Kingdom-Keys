@@ -70,7 +70,7 @@ public class InputHandler {
 			return false;
 		}
 
-        if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) {
+        if(playerData.isAbilityEquipped(Strings.lightAndDarkness)) { // Will always be true
         	PacketHandler.sendToServer(new CSSummonKeyblade(true));
             PacketHandler.sendToServer(new CSUseDriveFormPacket(Strings.Form_Anti));
     		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.antidrive.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -489,7 +489,8 @@ public class InputHandler {
             	String formName = (String) driveFormsMap.keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
             	if (playerData.getDP() >= driveForm.getDriveCost()) {
-	                if (formName.equals(Strings.Form_Final)) {
+            		System.out.println(driveForm.canGoAnti());
+	                if (!driveForm.canGoAnti()) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
 	            		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -1041,7 +1042,7 @@ public class InputHandler {
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
 
         if(playerData != null && worldData != null) {
-	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+	        this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
 	        if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
 	        	this.driveFormsMap.remove(Strings.Form_Anti);
 			}

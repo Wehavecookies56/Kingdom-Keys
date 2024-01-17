@@ -13,18 +13,20 @@ public class DriveFormData {
     List<String> abilities;
     List<String> baseLevelUpAbilities;
     List<String> dfLevelUpAbilities;
+    boolean canGoAnti;
     
     public DriveFormData() {
 
     }
 
-    public DriveFormData(int cost, int ap, float strMult, float magMult, float speedMult, int[] levelUp) {
+    public DriveFormData(int cost, int ap, float strMult, float magMult, float speedMult, int[] levelUp, boolean canGoAnti) {
     	this.cost = cost;
     	this.ap = ap;
 		this.strMult = strMult;
 		this.magMult = magMult;
 		this.speedMult = speedMult;
 		this.levelUp = levelUp;
+		this.canGoAnti = canGoAnti;
 	}
 
     public int getCost() {
@@ -105,6 +107,14 @@ public class DriveFormData {
 	
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		return this.dfLevelUpAbilities.get(driveFormLevel);
+	}
+	
+	public boolean canGoAnti() {
+		return this.canGoAnti;
+	}
+	
+	public void setCanGoAnti(boolean canGoAnti) {
+		this.canGoAnti = canGoAnti;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -141,6 +142,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			forms.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("drive_forms", forms);
+		
+		CompoundTag visibleDriveForms = new CompoundTag();
+		for (String visibleForm : this.getVisibleDriveForms()) {
+			visibleDriveForms.putString(visibleForm, "");
+		}
+		storage.put("visible_drive_forms", visibleDriveForms);
 
 		CompoundTag abilities = new CompoundTag();
 		for (Entry<String, int[]> pair : this.getAbilityMap().entrySet()) {
@@ -295,6 +302,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
 			}
 		}
+		
+		for (String driveFormName : nbt.getCompound("visible_drive_forms").getAllKeys()) {
+			if (ModDriveForms.registry.get().containsKey(new ResourceLocation(driveFormName))) { //If form exists
+				this.getVisibleDriveForms().add(driveFormName);
+			}
+		}
 
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
 			if (ModAbilities.registry.get().containsKey(new ResourceLocation(abilityName))) {
@@ -363,6 +376,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
+	LinkedHashSet<String> visibleDriveforms = new LinkedHashSet<>();
 	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
 	List<Integer> shotlockEnemies;
@@ -799,6 +813,31 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void setDriveFormMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
 	}
+	
+	@Override
+	public LinkedHashSet<String> getVisibleDriveForms() {
+		return visibleDriveforms;
+	}
+
+	@Override
+	public void setVisibleDriveForms(LinkedHashSet<String> forms) {
+		this.visibleDriveforms = forms;
+	}
+
+	@Override
+	public void addVisibleDriveForm(String form) {
+		if(!visibleDriveforms.contains(form)) {
+			this.visibleDriveforms.add(form);
+		}
+	}
+
+	@Override
+	public void remVisibleDriveForm(String form) {
+		if(visibleDriveforms.contains(form)) {
+			visibleDriveforms.remove(form);
+		}
+		
+	}
 
 	@Override
 	public int getDriveFormLevel(String name) {
@@ -1034,7 +1073,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 	@Override
 	public LinkedHashMap<String, int[]> getMagicsMap() {
-		return magicList;//Utils.getSortedDriveForms(driveForms);
+		return magicList;
 	}
 
 	@Override

@@ -563,7 +563,7 @@ public class CommandMenuGui extends OverlayBase {
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
 		if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
 			forms.remove(Strings.Form_Anti);
 		}
@@ -624,7 +624,7 @@ public class CommandMenuGui extends OverlayBase {
 		PoseStack matrixStack = gui.pose();
 		RenderSystem.enableBlend();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap());
+		LinkedHashMap<String, int[]> forms = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
 
 		List<Limit> limits = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(minecraft.player));
 		

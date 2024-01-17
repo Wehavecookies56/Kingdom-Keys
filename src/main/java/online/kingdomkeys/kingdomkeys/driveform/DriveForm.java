@@ -212,4 +212,8 @@ public abstract class DriveForm {
 		return name;
 	}
 
+	public boolean canGoAnti() {
+		return data.canGoAnti;
+	}
+
 }

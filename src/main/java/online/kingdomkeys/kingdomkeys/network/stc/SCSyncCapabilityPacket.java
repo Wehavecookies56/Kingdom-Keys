@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +58,7 @@ public class SCSyncCapabilityPacket {
 	public List<String> reactionList = new ArrayList<>();
 	public String equippedShotlock;
 	public LinkedHashMap<String,int[]> driveFormMap = new LinkedHashMap<>();
+	public LinkedHashSet<String> visibleDriveForms = new LinkedHashSet<String>();
 	public LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
 	public List<String> partyList = new ArrayList<>(10);
 	public TreeMap<String, Integer> materialMap = new TreeMap<>();
@@ -114,6 +116,7 @@ public class SCSyncCapabilityPacket {
 		this.shotlockList = capability.getShotlockList();
 		this.equippedShotlock = capability.getEquippedShotlock();
 		this.driveFormMap = capability.getDriveFormMap();
+		this.visibleDriveForms = capability.getVisibleDriveForms();
 		this.abilityMap = capability.getAbilityMap();
 		this.partyList = capability.getPartiesInvited();
 		this.materialMap = capability.getMaterialMap();
@@ -208,6 +211,15 @@ public class SCSyncCapabilityPacket {
 			forms.putIntArray(pair.getKey().toString(), pair.getValue());
 		}
 		buffer.writeNbt(forms);
+		
+		//TODO Here
+		CompoundTag visibleForms = new CompoundTag();
+		Iterator<String> visibleDriveFormsIt = visibleDriveForms.iterator();
+		while (visibleDriveFormsIt.hasNext()) {
+			String formName = visibleDriveFormsIt.next();
+			visibleForms.putString(formName, "");
+		}
+		buffer.writeNbt(visibleForms);
 		
 		CompoundTag abilities = new CompoundTag();
 		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilityMap.entrySet().iterator();
@@ -359,6 +371,14 @@ public class SCSyncCapabilityPacket {
 		while (driveFormsIt.hasNext()) {
 			String driveFormName = (String) driveFormsIt.next();
 			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
+		}
+		
+		//TODO here
+		CompoundTag visibleDriveForms = buffer.readNbt();
+		Iterator<String> visibleDriveFormsIt = visibleDriveForms.getAllKeys().iterator();
+		while (visibleDriveFormsIt.hasNext()) {
+			String driveFormName = visibleDriveFormsIt.next();
+			msg.visibleDriveForms.add(driveFormName);
 		}
 		
 		CompoundTag abilitiesTag = buffer.readNbt();

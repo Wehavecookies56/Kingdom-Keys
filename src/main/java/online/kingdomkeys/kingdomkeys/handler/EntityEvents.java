@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +33,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.PlayerDataStorage;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -65,11 +62,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
-import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
-import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
-import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
@@ -388,6 +380,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+			//	playerData.remVisibleDriveForm(Strings.Form_Valor);
 //				playerData.setDriveFormLevel(KingdomKeys.MODID+":"+ Strings.DF_Prefix + "anti", 1);
 
 				//System.out.println(playerData.getNumberOfAbilitiesEquipped(Strings.criticalBoost));
@@ -1279,6 +1272,7 @@ public class EntityEvents {
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
+		newPlayerData.setVisibleDriveForms(oldPlayerData.getVisibleDriveForms());
 		newPlayerData.setAntiPoints(oldPlayerData.getAntiPoints());
 		newPlayerData.setActiveDriveForm(oldPlayerData.getActiveDriveForm());
 

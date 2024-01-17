@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -263,13 +264,15 @@ public class Utils {
 		return map;
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap) {
+	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, LinkedHashSet<String> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
 		Iterator<String> it = driveFormsMap.keySet().iterator();
 		while (it.hasNext()) {
 			String entry = it.next();
-			list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
+			if(visibleForms.contains(entry)) { //Should only add the form if it is visible
+				list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
+			}
 		}
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
