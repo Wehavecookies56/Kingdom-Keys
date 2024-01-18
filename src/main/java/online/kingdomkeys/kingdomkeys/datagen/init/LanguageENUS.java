@@ -1114,6 +1114,29 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.thundagaTrinket, "Thundaga Trinket");
         addItem(ModItems.thundagunTrinket, "Thundagun Trinket");
 
+        addItem(ModItems.engineersRing, "Engineer's Ring");
+        addItem(ModItems.techniciansRing , "Technician's Ring");
+        addItem(ModItems.skillRing , "Skill Ring");
+        addItem(ModItems.skillfulRing , "Skillful Ring");
+        addItem(ModItems.expertsRing , "Expert's Ring");
+        addItem(ModItems.mastersRing , "Master's Ring");
+        addItem(ModItems.cosmicRing , "Cosmic Ring");
+        addItem(ModItems.sardonyxRing , "Sardonyx Ring");
+        addItem(ModItems.goldRing , "Gold Ring");
+        addItem(ModItems.garnetRing , "Garnet Ring");
+        addItem(ModItems.diamondRing , "Diamond Ring");
+        addItem(ModItems.silverRing , "Silver Ring");
+        addItem(ModItems.tourmalineRing , "Tourmaline Ring");
+        addItem(ModItems.platinumRing , "Platinum Ring");
+        addItem(ModItems.mythrilRing , "Mythril Ring");
+        addItem(ModItems.orichalcumRing , "Orichalcum Ring");
+        addItem(ModItems.medal , "Medal");
+        addItem(ModItems.soldierEarring , "Soldier Earring");
+        addItem(ModItems.mageEarring , "Mage Earring");
+        addItem(ModItems.moonAmulet , "Moon Amulet");
+        addItem(ModItems.slayerEarring , "Slayer Earring");
+        addItem(ModItems.fencerEarring , "Fencer Earring");
+
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");
         addItem(ModEntities.SHADOW_EGG, "Spawn Shadow");
