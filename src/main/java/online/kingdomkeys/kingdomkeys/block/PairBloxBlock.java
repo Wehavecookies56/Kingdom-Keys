@@ -15,13 +15,14 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
 
-public class PairBloxBlock extends BaseBlock {
+public class PairBloxBlock extends FallingBlock {
 
 	public static final IntegerProperty PAIR = IntegerProperty.create("pair", 0, 2);
 
@@ -34,45 +35,43 @@ public class PairBloxBlock extends BaseBlock {
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
 		builder.add(PAIR);
+		
 	}
 
 	@Override
 	public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
-		if (!worldIn.isClientSide) {
-			PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.getValue(PAIR));
-			float velocity = 0.5F;
-			switch (Mth.floor(player.getYRot() * 8.0F / 360.0F + 0.5D) & 7) { // Get direction
-			case 0:// S
-				pairEntity.setDeltaMovement(0, 0, velocity);
-				break;
-			case 1:// SW
-				pairEntity.setDeltaMovement(-velocity, 0, velocity);
-				break;
-			case 2:// W
-				pairEntity.setDeltaMovement(-velocity, 0, 0);
-				break;
-			case 3:// NW
-				pairEntity.setDeltaMovement(-velocity, 0, -velocity);
-				break;
-			case 4:// N
-				pairEntity.setDeltaMovement(0, 0, -velocity);
-				break;
-			case 5:// NE
-				pairEntity.setDeltaMovement(velocity, 0, -velocity);
-				break;
-			case 6:// E
-				pairEntity.setDeltaMovement(velocity, 0, 0);
-				break;
-			case 7:// SE
-				pairEntity.setDeltaMovement(velocity, 0, velocity);
-				break;
+		PairBloxEntity pairEntity = new PairBloxEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), state.getValue(PAIR));
+		float velocity = 0.5F;
+		switch (Mth.floor(player.getYRot() * 8.0F / 360.0F + 0.5D) & 7) { // Get direction
+		case 0:// S
+			pairEntity.setDeltaMovement(0, 0, velocity);
+			break;
+		case 1:// SW
+			pairEntity.setDeltaMovement(-velocity, 0, velocity);
+			break;
+		case 2:// W
+			pairEntity.setDeltaMovement(-velocity, 0, 0);
+			break;
+		case 3:// NW
+			pairEntity.setDeltaMovement(-velocity, 0, -velocity);
+			break;
+		case 4:// N
+			pairEntity.setDeltaMovement(0, 0, -velocity);
+			break;
+		case 5:// NE
+			pairEntity.setDeltaMovement(velocity, 0, -velocity);
+			break;
+		case 6:// E
+			pairEntity.setDeltaMovement(velocity, 0, 0);
+			break;
+		case 7:// SE
+			pairEntity.setDeltaMovement(velocity, 0, velocity);
+			break;
 
-			}
-
-			// System.out.println(getDefaultState().get(PAIR));
-			worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-			worldIn.addFreshEntity(pairEntity);
 		}
+
+		worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+		worldIn.addFreshEntity(pairEntity);
 		super.attack(state, worldIn, pos, player);
 	}
 
@@ -109,6 +108,8 @@ public class PairBloxBlock extends BaseBlock {
 			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			world.setBlockAndUpdate(positions[i], Blocks.AIR.defaultBlockState());
 			world.setBlockAndUpdate(positions[i], ModBlocks.pairBlox.get().defaultBlockState().setValue(PAIR, 2));
+		} else {
+		      world.scheduleTick(pos, this, this.getDelayAfterPlace());
 		}
 
 	}

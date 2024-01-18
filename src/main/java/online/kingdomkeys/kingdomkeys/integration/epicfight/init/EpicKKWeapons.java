@@ -1,8 +1,10 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
@@ -129,9 +131,9 @@ public class EpicKKWeapons {
     }
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put(EpicKKWeaponEnum.CHAKRAM.toString().toLowerCase(), CHAKRAM);
-        event.getTypeEntry().put(EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase(), KK_SHIELD);
-        event.getTypeEntry().put(EpicKKWeaponEnum.KEYBLADE.toString().toLowerCase(), KEYBLADE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.CHAKRAM.toString().toLowerCase()), CHAKRAM);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KEYBLADE.toString().toLowerCase()), KEYBLADE);
     }
 
     public enum EpicKKWeaponEnum implements WeaponCategory {
