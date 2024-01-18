@@ -1077,6 +1077,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.executiveRing, "Executive Ring");
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
+        
         addItem(ModItems.fireBangle, "Fire Bangle");
         addItem(ModItems.blizzardArmlet, "Blizzard Armlet");
         addItem(ModItems.thunderTrinket, "Thunder Trinket");
@@ -1086,11 +1087,12 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addItem(ModItems.abasChain, "Abas Chain");
         addItem(ModItems.acrisius, "Acrisius");
-        addItem(ModItems.acrisiusPlus, "Acrisius +");
+        addItem(ModItems.acrisiusPlus, "Acrisius+");
         addItem(ModItems.aegisChain, "Aegis Chain");
         addItem(ModItems.blizzaraArmlet, "Blizzara Armlet");
         addItem(ModItems.blizzagaArmlet, "Blizzaga Armlet");
         addItem(ModItems.blizzagunArmlet, "Blizzagun Armlet");
+        addItem(ModItems.powerBand, "Power Band");
         addItem(ModItems.busterBand, "Buster Band");
         addItem(ModItems.championBelt, "Champion Belt");
         addItem(ModItems.chaosAnklet, "Chaos Anklet");
@@ -1102,11 +1104,12 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.firaBangle, "Fira Bangle");
         addItem(ModItems.firagaBangle, "Firaga Bangle");
         addItem(ModItems.firagunBangle, "Firagun Bangle");
+        addItem(ModItems.protectBelt, "Protect Belt");
         addItem(ModItems.gaiaBelt, "Gaia Belt");
         addItem(ModItems.midnightAnklet, "Midnight Anklet");
         addItem(ModItems.shadowAnklet, "Shadow Anklet");
         addItem(ModItems.shockCharm, "Shock Charm");
-        addItem(ModItems.shockCharmPlus, "Shock Charm +");
+        addItem(ModItems.shockCharmPlus, "Shock Charm+");
         addItem(ModItems.thundaraTrinket, "Thundara Trinket");
         addItem(ModItems.thundagaTrinket, "Thundaga Trinket");
         addItem(ModItems.thundagunTrinket, "Thundagun Trinket");
@@ -1462,6 +1465,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Groups
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
         add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization Weapons");
 

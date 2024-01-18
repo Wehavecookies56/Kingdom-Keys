@@ -888,6 +888,7 @@ public class ModItems {
 			shockCharmPlus = createNewItem(Strings.shockCharmPlus, () -> new KKArmorItem(new Item.Properties().stacksTo(1),4, ImmutableMap.of(KKResistanceType.lightning,50))),
 			elvenBandanna = createNewItem(Strings.elvenBandanna, () -> new KKArmorItem(new Item.Properties().stacksTo(1),1, ImmutableMap.of())),
 			divineBandanna = createNewItem(Strings.divineBandanna, () -> new KKArmorItem(new Item.Properties().stacksTo(1),2, ImmutableMap.of())),
+			powerBand = createNewItem(Strings.powerBand, () -> new KKArmorItem(new Item.Properties().stacksTo(1),4, ImmutableMap.of())),
 			busterBand = createNewItem(Strings.busterBand, () -> new KKArmorItem(new Item.Properties().stacksTo(1),5, ImmutableMap.of())),
 			cosmicBelt = createNewItem(Strings.cosmicBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),6, ImmutableMap.of())),
 			cosmicChain = createNewItem(Strings.cosmicChain, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.fire, 25,KKResistanceType.ice,25,KKResistanceType.lightning,25))),
@@ -903,6 +904,7 @@ public class ModItems {
 			darkAnklet = createNewItem(Strings.darkAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),2, ImmutableMap.of(KKResistanceType.darkness, 20))),
 			midnightAnklet = createNewItem(Strings.midnightAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness,20))),
 			chaosAnklet = createNewItem(Strings.chaosAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness, 25))),
+			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
 			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20)));
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
