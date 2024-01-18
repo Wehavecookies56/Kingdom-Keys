@@ -3,6 +3,18 @@
 	{"item": "kingdomkeys:hi_potion", "amount":1, "tier":2, "cost": 400},
 	{"item": "kingdomkeys:ether", "amount":1, "tier":1, "cost": 160},
     {"item": "kingdomkeys:hi_ether", "amount":1, "tier":2, "cost": 250},
+
+    {"item": "kingdomkeys:ability_ring", "amount":1, "tier":1, "cost": 80},
+    {"item": "kingdomkeys:engineers_ring", "amount":1, "tier":2, "cost": 160},
+    {"item": "kingdomkeys:technicians_ring", "amount":1, "tier":3, "cost": 240},
+    {"item": "kingdomkeys:sardonyx_ring", "amount":1, "tier":1, "cost": 160},
+    {"item": "kingdomkeys:gold_ring", "amount":1, "tier":2, "cost": 320},
+    {"item": "kingdomkeys:aquamarine_ring", "amount":1, "tier":3, "cost": 480},
+    {"item": "kingdomkeys:silver_ring", "amount":1, "tier":1, "cost": 160},
+    {"item": "kingdomkeys:tourmaline_ring", "amount":1, "tier":2, "cost": 320},
+    {"item": "kingdomkeys:platinum_ring", "amount":1, "tier":3, "cost": 480},
+    {"item": "kingdomkeys:medal", "amount":1, "tier":1, "cost": 80},
+
 	{"item": "kingdomkeys:fire_bangle", "amount":1, "tier":1, "cost": 6000},
 	{"item": "kingdomkeys:blizzard_armlet", "amount":1, "tier":1, "cost": 6000},
 	{"item": "kingdomkeys:thunder_trinket", "amount":1, "tier":1, "cost": 6000},
