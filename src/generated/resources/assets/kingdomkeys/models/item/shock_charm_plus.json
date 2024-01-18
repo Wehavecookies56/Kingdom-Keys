@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/shock_charm_plus"
+    "layer0": "kingdomkeys:item/kkarmors/shock_charm_plus"
   }
 }

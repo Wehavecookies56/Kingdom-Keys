@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/power_band"
+    "layer0": "kingdomkeys:item/kkarmors/power_band"
   }
 }

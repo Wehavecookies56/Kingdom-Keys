@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/fire_bangle"
+    "layer0": "kingdomkeys:item/kkarmors/fire_bangle"
   }
 }

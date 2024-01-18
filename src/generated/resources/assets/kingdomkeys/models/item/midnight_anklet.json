@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/midnight_anklet"
+    "layer0": "kingdomkeys:item/kkarmors/midnight_anklet"
   }
 }

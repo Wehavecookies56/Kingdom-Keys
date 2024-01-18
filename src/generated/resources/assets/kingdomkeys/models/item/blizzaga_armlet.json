@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/blizzaga_armlet"
+    "layer0": "kingdomkeys:item/kkarmors/blizzaga_armlet"
   }
 }

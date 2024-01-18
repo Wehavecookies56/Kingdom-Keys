@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/thundara_trinket"
+    "layer0": "kingdomkeys:item/kkarmors/thundara_trinket"
   }
 }

@@ -24,6 +24,8 @@ import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
 import online.kingdomkeys.kingdomkeys.block.SoRCore;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKRecordItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -54,6 +56,10 @@ public class ItemModels extends ItemModelProvider {
 				blockLogic((BlockItem) item, path);
 			} else if (item instanceof KKRecordItem) {
 				standardDisc(path);
+			} else if (item instanceof KKArmorItem){
+				standardKKArmor(path);
+			} else if (item instanceof KKAccessoryItem){
+				standardKKAccessory(path);
 			} else if (item instanceof KeybladeItem) {
 				// Keyblades already have models set up
 			} else if (item instanceof ShieldItem) {
@@ -115,6 +121,13 @@ public class ItemModels extends ItemModelProvider {
 
     void standardKeychain(String name) {
 		standardItem(name, "keychains/");
+	}
+    
+    void standardKKArmor(String name) {
+		standardItem(name, "kkarmors/");
+	}
+    void standardKKAccessory(String name) {
+		standardItem(name, "kkaccessories/");
 	}
 
 	void standardBlockItem(String name) {

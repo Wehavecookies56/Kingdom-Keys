@@ -905,7 +905,7 @@ public class EntityEvents {
 			}
 			
 			//Has to evaluate last
-			//Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more
+			//Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more)
 			if(playerData.isAbilityEquipped(Strings.secondChance)) {
 				if(damage >= player.getHealth() && player.getHealth() > 1) {
 					if(player.hasEffect(MobEffects.REGENERATION)) {
@@ -922,6 +922,7 @@ public class EntityEvents {
 			event.setAmount(damage <= 0 ? 1 : damage);
 		}
 
+		//Mobs defense formula
 		if (event.getEntity() instanceof BaseKHEntity) {
 			float damage = event.getAmount();
 			int defense = ((BaseKHEntity)event.getEntity()).getDefense();

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/cosmic_belt"
+    "layer0": "kingdomkeys:item/kkarmors/cosmic_belt"
   }
 }

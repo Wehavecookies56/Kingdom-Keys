@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/shadow_archive"
+    "layer0": "kingdomkeys:item/kkaccessories/shadow_archive"
   }
 }

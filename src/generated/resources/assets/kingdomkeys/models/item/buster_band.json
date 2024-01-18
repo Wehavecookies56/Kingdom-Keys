@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/buster_band"
+    "layer0": "kingdomkeys:item/kkarmors/buster_band"
   }
 }

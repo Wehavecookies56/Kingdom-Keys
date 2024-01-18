@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/ability_ring"
+    "layer0": "kingdomkeys:item/kkaccessories/ability_ring"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/protect_belt"
+    "layer0": "kingdomkeys:item/kkarmors/protect_belt"
   }
 }

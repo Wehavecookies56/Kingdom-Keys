@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/aegis_chain"
+    "layer0": "kingdomkeys:item/kkarmors/aegis_chain"
   }
 }

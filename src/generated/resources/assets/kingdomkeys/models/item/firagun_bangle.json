@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/firagun_bangle"
+    "layer0": "kingdomkeys:item/kkarmors/firagun_bangle"
   }
 }

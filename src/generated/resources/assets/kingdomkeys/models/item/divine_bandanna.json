@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/divine_bandanna"
+    "layer0": "kingdomkeys:item/kkarmors/divine_bandanna"
   }
 }
