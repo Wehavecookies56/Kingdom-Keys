@@ -1,0 +1,23 @@
+{
+  "cost": 3500,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_remembrance_shard",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_wellspring_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_gem",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:acrisius_plus",
+    "quantity": 1
+  },
+  "tier": 4
+}

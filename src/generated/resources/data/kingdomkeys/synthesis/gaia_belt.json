@@ -1,0 +1,27 @@
+{
+  "cost": 6000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_lightning_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "3"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:gaia_belt",
+    "quantity": 1
+  },
+  "tier": 4
+}

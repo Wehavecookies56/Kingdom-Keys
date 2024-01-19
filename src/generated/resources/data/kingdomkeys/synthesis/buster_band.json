@@ -1,0 +1,23 @@
+{
+  "cost": 5000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_pulsing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:buster_band",
+    "quantity": 1
+  },
+  "tier": 5
+}

@@ -194,5 +194,17 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.drawRing).output(Strings.drawRing, 1).addCost(1200).addTier(1).addType("item").addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_TwilightGem, 3).addMaterial(Strings.SM_BetwixtStone, 3).addMaterial(Strings.SM_RemembranceShard, 5);
         getBuilder(Strings.luckyRing).output(Strings.luckyRing, 1).addCost(2600).addTier(2).addType("item").addMaterial(Strings.SM_ManifestIllusion, 1).addMaterial(Strings.SM_RemembranceShard, 3).addMaterial(Strings.SM_SoothingGem, 3).addMaterial(Strings.SM_SoothingStone, 5).addMaterial(Strings.SM_SoothingShard, 9).addMaterial(Strings.SM_HungryCrystal, 1);
         getBuilder(Strings.starCharm).output(Strings.starCharm, 1).addCost(2000).addTier(3).addType("item").addMaterial(Strings.SM_MythrilCrystal, 1).addMaterial(Strings.SM_Adamantite, 2).addMaterial(Strings.SM_WellspringCrystal, 3).addMaterial(Strings.SM_SinisterCrystal, 3);
+        
+        getBuilder(Strings.busterBand).output(Strings.busterBand, 1).addCost(5000).addTier(5).addType("item").addMaterial(Strings.SM_PulsingCrystal, 2).addMaterial(Strings.SM_PulsingStone, 3).addMaterial(Strings.SM_MythrilCrystal, 2);
+        getBuilder(Strings.cosmicBelt).output(Strings.cosmicBelt, 1).addCost(6000).addTier(6).addType("item").addMaterial(Strings.SM_PulsingShard, 6).addMaterial(Strings.SM_PulsingGem, 3).addMaterial(Strings.SM_MythrilCrystal, 3).addMaterial(Strings.SM_IllusoryCrystal, 1);
+        getBuilder(Strings.acrisiusPlus).output(Strings.acrisiusPlus, 1).addCost(3500).addTier(4).addType("item").addMaterial(Strings.SM_MythrilGem, 2).addMaterial(Strings.SM_RemembranceShard, 6).addMaterial(Strings.SM_WellspringCrystal, 3);
+        getBuilder(Strings.cosmicChain).output(Strings.cosmicChain, 1).addCost(5000).addTier(5).addType("item").addMaterial(Strings.SM_MythrilStone, 5).addMaterial(Strings.SM_HungryGem, 4).addMaterial(Strings.SM_SoothingCrystal, 3).addMaterial(Strings.SM_IllusoryCrystal, 1);
+                
+        getBuilder(Strings.firagunBangle).output(Strings.firagunBangle, 1).addCost(6000).addTier(4).addType("item").addMaterial(Strings.SM_BlazingCrystal, 3).addMaterial(Strings.SM_BlazingGem, 4).addMaterial(Strings.SM_BlazingShard, 2).addMaterial(Strings.SM_BlazingStone, 4);
+        getBuilder(Strings.blizzagunArmlet).output(Strings.blizzagunArmlet, 1).addCost(6000).addTier(4).addType("item").addMaterial(Strings.SM_FrostCrystal, 3).addMaterial(Strings.SM_FrostGem, 4).addMaterial(Strings.SM_FrostShard, 2).addMaterial(Strings.SM_FrostStone, 4);
+        getBuilder(Strings.thundagunTrinket).output(Strings.thundagunTrinket, 1).addCost(6000).addTier(4).addType("item").addMaterial(Strings.SM_LightningCrystal, 3).addMaterial(Strings.SM_LightningGem, 4).addMaterial(Strings.SM_LightningShard, 2).addMaterial(Strings.SM_LightningStone, 4);
+        getBuilder(Strings.chaosAnklet).output(Strings.chaosAnklet, 1).addCost(6000).addTier(4).addType("item").addMaterial(Strings.SM_WrithingCrystal, 3).addMaterial(Strings.SM_WrithingGem, 4).addMaterial(Strings.SM_WrithingShard, 2).addMaterial(Strings.SM_WrithingStone, 4);
+        getBuilder(Strings.gaiaBelt).output(Strings.gaiaBelt, 1).addCost(6000).addTier(4).addType("item").addMaterial(Strings.SM_WrithingGem, 3).addMaterial(Strings.SM_LightningGem, 3).addMaterial(Strings.SM_LightningStone, 5).addMaterial(Strings.SM_WrithingStone, 4);
+
     }
 }

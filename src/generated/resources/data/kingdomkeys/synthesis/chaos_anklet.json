@@ -1,0 +1,27 @@
+{
+  "cost": 6000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_writhing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "3"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:chaos_anklet",
+    "quantity": 1
+  },
+  "tier": 4
+}

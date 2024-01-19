@@ -1,0 +1,27 @@
+{
+  "cost": 6000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_illusory_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_shard",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:mat_pulsing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "3"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:cosmic_belt",
+    "quantity": 1
+  },
+  "tier": 6
+}

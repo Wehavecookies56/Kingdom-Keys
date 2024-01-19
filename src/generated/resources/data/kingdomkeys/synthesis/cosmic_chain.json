@@ -1,0 +1,27 @@
+{
+  "cost": 5000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_illusory_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_soothing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_stone",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "4"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:cosmic_chain",
+    "quantity": 1
+  },
+  "tier": 5
+}

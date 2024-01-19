@@ -1,0 +1,27 @@
+{
+  "cost": 6000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_blazing_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_stone",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:mat_blazing_shard",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:firagun_bangle",
+    "quantity": 1
+  },
+  "tier": 4
+}
