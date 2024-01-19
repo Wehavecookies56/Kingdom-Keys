@@ -263,7 +263,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
 						});
-						System.out.println(level);
+						//System.out.println(level);
 
 						abilities.add(aa);
 						aa.visible = false;

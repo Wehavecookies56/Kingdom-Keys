@@ -59,7 +59,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			}
 		} else { //For the client side
-			System.out.println(magic);
+			//System.out.println(magic);
 			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
 				if(!ModConfigs.magicDisplayedInCommandMenu.contains(magic)) {
 					List<String> list = new ArrayList<>(ModConfigs.magicDisplayedInCommandMenu);

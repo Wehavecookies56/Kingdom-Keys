@@ -2,6 +2,7 @@
 	"cost":300,
 	"ap":1,
 	"can_go_anti":true,
+	"can_use_magic":true,
 	"str_mult":1.0,
 	"mag_mult":1.2,
 	"speed_mult":1.2,

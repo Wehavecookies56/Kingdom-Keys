@@ -215,5 +215,9 @@ public abstract class DriveForm {
 	public boolean canGoAnti() {
 		return data.canGoAnti;
 	}
+	
+	public boolean canUseMagic() {
+		return data.canUseMagic;
+	}
 
 }

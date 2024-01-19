@@ -1203,7 +1203,7 @@ public class EntityEvents {
 			}
 			if(event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
-				System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
+				//System.out.println(player.getDisplayName().getString()+" killed "+event.getEntity().getDisplayName().getString());
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
@@ -1335,7 +1335,7 @@ public class EntityEvents {
 
 		if(!event.isEndConquered() && !nPlayer.level().isClientSide()) {
 			if(playerData.getRespawnROD() && ModConfigs.respawnROD) {
-				System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
+			//	System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it you go");
 				ServerPlayer sPlayer = (ServerPlayer) nPlayer;
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID,"realm_of_darkness"));
 				ServerLevel serverlevel = ((ServerLevel) sPlayer.level()).getServer().getLevel(dimension);

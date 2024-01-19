@@ -586,7 +586,6 @@ public class Strings {
 		fencerEarring = "fencer_earring",
 
 
-
 		abasChain = "abas_chain",
 		acrisius = "acrisius",
 		acrisiusPlus = "acrisius_plus",

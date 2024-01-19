@@ -150,8 +150,9 @@ public class CommandMenuGui extends OverlayBase {
 						if(playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
 							colour = 0xFFFFFF;
 						}
-						
-						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
+	                	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+
+						if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()) {
 							colour = 0x888888;
 						}
 
@@ -315,7 +316,8 @@ public class CommandMenuGui extends OverlayBase {
 		
 					int color = getColor(0xFFFFFF,SUB_MAIN);
 					if(i == MAGIC) {
-						color = playerData.getMagicsMap().isEmpty() || ModConfigs.magicDisplayedInCommandMenu.isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || playerData.getActiveDriveForm().equals(Strings.Form_Valor) ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
+	                	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+						color = playerData.getMagicsMap().isEmpty() || ModConfigs.magicDisplayedInCommandMenu.isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || form != null && !form.canUseMagic() ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
 					if(i == ITEMS) {
 						color = getColor(Utils.getEquippedItems(playerData.getEquippedItems()).size() > 0 ? 0xFFFFFF : 0x888888,SUB_MAIN);

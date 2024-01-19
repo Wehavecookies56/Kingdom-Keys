@@ -16,4 +16,9 @@ public class DriveFormNone extends DriveForm {
     public String getDFAbilityForLevel(int driveFormLevel) {
         return null;
     }
+    
+    @Override
+    public boolean canUseMagic() {
+    	return true;
+    }
 }

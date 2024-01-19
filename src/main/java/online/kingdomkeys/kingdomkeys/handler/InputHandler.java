@@ -311,7 +311,8 @@ public class InputHandler {
                 break;
             case CommandMenuGui.MAGIC: //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
-                    if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicList.isEmpty() && !playerData.getMagicsMap().isEmpty() && (!playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
+                	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+                	if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicList.isEmpty() && !playerData.getMagicsMap().isEmpty() && (form.canUseMagic() && !playerData.getActiveDriveForm().equals(Strings.Form_Anti)))) {
                         //CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         mc.level.playSound(mc.player, mc.player.position().x(),player.position().y(),player.position().z(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -489,7 +490,7 @@ public class InputHandler {
             	String formName = (String) driveFormsMap.keySet().toArray()[CommandMenuGui.driveSelected];
             	DriveForm driveForm = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
             	if (playerData.getDP() >= driveForm.getDriveCost()) {
-            		System.out.println(driveForm.canGoAnti());
+            		//System.out.println(driveForm.canGoAnti());
 	                if (!driveForm.canGoAnti()) {
 	                    //driveForm.initDrive(player);
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
@@ -662,21 +663,24 @@ public class InputHandler {
 
 		Keybinds key = getPressedKey();
         if (player != null) {
+            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+			if(playerData == null)
+				return;
+			
+        	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+
             if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
-                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-    			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
     			if (globalData != null && globalData.getStoppedTicks() <= 0) {
-    				if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+    				if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic()) {
                         PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                     }    		
     			}                
             }
 
             if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
-                IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-    			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
     			if (globalData != null && globalData.getStoppedTicks() <= 0) {
-	                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+	                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic()) {
 	                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
 	                }
     			}

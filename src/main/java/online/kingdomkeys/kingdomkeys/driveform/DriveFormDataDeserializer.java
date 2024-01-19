@@ -46,6 +46,9 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 			case "can_go_anti":
 				out.setCanGoAnti(element.getAsBoolean());
 				break;
+			case "can_use_magic":
+				out.setCanUseMagic(element.getAsBoolean());
+				break;
 			case "level_up":
 				JsonArray costs = element.getAsJsonArray();
 				List<Integer> levelsArray = new ArrayList<Integer>();

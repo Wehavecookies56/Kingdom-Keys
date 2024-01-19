@@ -115,7 +115,7 @@ public class GravigaEntity extends ThrowableProjectile {
 							if(Utils.isHostile(e)) {
 								float dmg = this.getOwner() instanceof Player ? ((LivingEntity)e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
 								dmg = Math.min(dmg, 99);
-								System.out.println(dmg * dmgMult);
+								//System.out.println(dmg * dmgMult);
 								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 							}
 							if (e instanceof LivingEntity)
