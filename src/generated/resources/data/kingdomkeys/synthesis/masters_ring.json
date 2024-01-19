@@ -1,0 +1,23 @@
+{
+  "cost": 2000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_gem",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:masters_ring",
+    "quantity": 1
+  },
+  "tier": 4
+}

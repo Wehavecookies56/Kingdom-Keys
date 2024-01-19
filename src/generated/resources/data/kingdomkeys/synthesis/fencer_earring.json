@@ -1,0 +1,27 @@
+{
+  "cost": 2000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:mat_hungry_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_evanescent_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_gem",
+      "quantity": "3"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:fencer_earring",
+    "quantity": 1
+  },
+  "tier": 4
+}

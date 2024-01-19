@@ -1,0 +1,27 @@
+{
+  "cost": 2000,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:mat_hungry_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_evanescent_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mat_mythril_crystal",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:cosmic_ring",
+    "quantity": 1
+  },
+  "tier": 5
+}
