@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +39,7 @@ public class MenuCustomizeScreen extends MenuBackground {
     protected void action(String string) {
         switch(string) {
             case "shortcuts":
-                Minecraft.getInstance().setScreen(new MenuShortcutsScreen());
+                PacketHandler.sendToServer(new CSOpenShortcutsCustomize());
                 break;
             case "magic":
                 PacketHandler.sendToServer(new CSOpenMagicCustomize());

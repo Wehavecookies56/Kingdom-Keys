@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import java.awt.Color;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -22,9 +23,8 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.jetbrains.annotations.NotNull;
 
-public class MenuShortcutsScreen extends MenuBackground {
+public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		
 	MenuBox box;
 
@@ -37,9 +37,19 @@ public class MenuShortcutsScreen extends MenuBackground {
 	int buttonsX = 0;
 
 	private int selectedShortcut = 0;
+
+    LinkedHashSet<ResourceLocation> allMagic;
 	
-	public MenuShortcutsScreen() {
+	public MenuCustomizeShortcutsScreen(LinkedHashMap<String, int[]> knownMagic) {
 		super(Strings.Gui_Menu_Customize_Shortcuts, new Color(0,0,255));
+		
+		allMagic = new LinkedHashSet<>();
+        knownMagic.forEach((s, ints) -> {
+        	System.out.println(ints[0]);
+            if (ModMagic.registry.get().containsKey(new ResourceLocation(s))) {
+                allMagic.add(new ResourceLocation(s));
+            }
+        });
 		drawPlayerInfo = false;
 	}
 	
@@ -77,17 +87,19 @@ public class MenuShortcutsScreen extends MenuBackground {
 			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			//for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
-			for (String entry : ModConfigs.magicDisplayedInCommandMenu) {
-				Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(entry));
-				int level = playerData.getMagicLevel(new ResourceLocation(entry));
-				while(level >= 0) {
-					int lvl = level;
-					addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
-					magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
-					level--;
-					totalMagics++;
+			for (ResourceLocation entry : allMagic) {
+				Magic magic = ModMagic.registry.get().getValue(entry);
+				if(magic != null) {
+					int level = playerData.getMagicLevel(entry);
+					while(level >= 0) {
+						int lvl = level;
+						addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+						magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
+						level--;
+						totalMagics++;
+					}
+					magicType++;
 				}
-				magicType++;
 			}
 			
 			for(int i = 0; i < magics.length; i++) {

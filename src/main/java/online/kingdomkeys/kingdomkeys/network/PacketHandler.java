@@ -12,8 +12,78 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.network.cts.*;
-import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.network.cts.CSAntiPointsPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSChangeStyle;
+import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipAccessories;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipArmor;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
+import online.kingdomkeys.kingdomkeys.network.cts.CSExtendedReach;
+import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyInvite;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPartySettings;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
+import online.kingdomkeys.kingdomkeys.network.cts.CSPlayAnimation;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetChoice;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
+import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSpawnOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseDriveFormPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseItemPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseLimitPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseMagicPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseReactionCommandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSUseShortcutPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMagicCustomize;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenShortcutsCustomize;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityToAllPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSoA;
 
 public class PacketHandler {
 	private static final String PROTOCOL_VERSION = Integer.toString(1);
@@ -47,6 +117,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncShopData.class, SCSyncShopData::encode, SCSyncShopData::decode, SCSyncShopData::handle);
 		HANDLER.registerMessage(packetID++, SCSyncLimitData.class, SCSyncLimitData::encode, SCSyncLimitData::decode, SCSyncLimitData::handle);
 		HANDLER.registerMessage(packetID++, SCOpenMagicCustomize.class, SCOpenMagicCustomize::encode, SCOpenMagicCustomize::decode, SCOpenMagicCustomize::handle);
+		HANDLER.registerMessage(packetID++, SCOpenShortcutsCustomize.class, SCOpenShortcutsCustomize::encode, SCOpenShortcutsCustomize::decode, SCOpenShortcutsCustomize::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
@@ -95,7 +166,9 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSChangeStyle.class, CSChangeStyle::encode, CSChangeStyle::decode, CSChangeStyle::handle);
 		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
 		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
+		HANDLER.registerMessage(packetID++, CSOpenShortcutsCustomize.class, CSOpenShortcutsCustomize::encode, CSOpenShortcutsCustomize::decode, CSOpenShortcutsCustomize::handle);
 		HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
+
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {
