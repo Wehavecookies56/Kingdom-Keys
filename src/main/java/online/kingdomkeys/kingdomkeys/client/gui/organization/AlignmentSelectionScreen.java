@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -17,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.jetbrains.annotations.NotNull;
 
 public class AlignmentSelectionScreen extends Screen {
 

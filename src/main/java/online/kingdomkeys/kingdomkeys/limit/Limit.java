@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.limit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 public abstract class Limit {

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;

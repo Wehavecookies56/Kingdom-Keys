@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.skills;
 
+import java.util.List;
+import java.util.UUID;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -16,9 +19,6 @@ import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
-
-import java.util.List;
-import java.util.UUID;
 
 public class ComboExtender extends Skill {
     private static final UUID EVENT_UUID = UUID.fromString("a42e0198-fdbc-11eb-9a03-0242ac130003");

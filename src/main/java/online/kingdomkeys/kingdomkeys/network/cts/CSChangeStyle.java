@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
@@ -9,8 +11,6 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-
-import java.util.function.Supplier;
 
 public class CSChangeStyle {
 

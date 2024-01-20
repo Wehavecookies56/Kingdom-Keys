@@ -1,17 +1,14 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.PlayerCapabilitiesProvider;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMagicCustomize;
-
-import java.util.LinkedHashMap;
-import java.util.function.Supplier;
 
 public class CSOpenMagicCustomize {
 

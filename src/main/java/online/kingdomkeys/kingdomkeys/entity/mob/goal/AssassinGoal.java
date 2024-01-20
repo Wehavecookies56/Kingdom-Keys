@@ -4,7 +4,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.jetbrains.annotations.NotNull;
 
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 

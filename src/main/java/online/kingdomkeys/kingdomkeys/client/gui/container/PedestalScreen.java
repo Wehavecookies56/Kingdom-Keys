@@ -1,7 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
-import org.jetbrains.annotations.NotNull;
 
 public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
 

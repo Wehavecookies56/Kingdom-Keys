@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
+import java.util.function.Function;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +22,6 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
-
-import java.util.function.Function;
 
 public class EpicKKWeapons {
     public static final Function<Item, CapabilityItem.Builder> CHAKRAM = item ->

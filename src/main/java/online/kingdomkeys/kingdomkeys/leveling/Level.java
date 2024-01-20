@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class Level {
 

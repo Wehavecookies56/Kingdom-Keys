@@ -1,6 +1,11 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +19,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import yesman.epicfight.api.animation.Joint;
 import yesman.epicfight.api.animation.property.AnimationEvent;
 import yesman.epicfight.api.animation.property.AnimationProperty;
-import yesman.epicfight.api.animation.types.*;
+import yesman.epicfight.api.animation.types.ActionAnimation;
+import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.BasicAttackAnimation;
+import yesman.epicfight.api.animation.types.DynamicAnimation;
+import yesman.epicfight.api.animation.types.EntityState;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.client.animation.Layer;
 import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
@@ -24,10 +34,6 @@ import yesman.epicfight.config.ConfigurationIngame;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class KKAnimations {
     public static StaticAnimation CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,

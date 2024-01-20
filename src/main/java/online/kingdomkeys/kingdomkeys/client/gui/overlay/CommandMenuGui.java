@@ -1,7 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import java.awt.Color;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -28,11 +36,6 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.util.Map.Entry;
 
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {

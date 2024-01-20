@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 //TODO Should be an API thing
 

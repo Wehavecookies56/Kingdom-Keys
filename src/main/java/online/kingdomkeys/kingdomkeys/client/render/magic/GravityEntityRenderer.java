@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
-import java.util.Base64;
-
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;

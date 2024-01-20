@@ -1,12 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Button.Builder;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
 
 public class HiddenButton extends Button {
 	public HiddenButton(int x, int y, int width, int height, OnPress onPress) {

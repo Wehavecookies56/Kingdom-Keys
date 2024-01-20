@@ -26,7 +26,6 @@ import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class FireEntity extends ThrowableProjectile {
 

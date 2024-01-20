@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
-
-import java.util.function.Supplier;
 
 public class CSPlayAnimation {
     protected StaticAnimation animation;

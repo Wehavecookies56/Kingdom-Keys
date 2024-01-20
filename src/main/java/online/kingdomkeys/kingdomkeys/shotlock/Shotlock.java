@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public abstract class Shotlock {
 

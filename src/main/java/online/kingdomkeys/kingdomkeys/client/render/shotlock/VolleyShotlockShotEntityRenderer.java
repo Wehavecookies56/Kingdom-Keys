@@ -4,10 +4,8 @@ import java.awt.Color;
 
 import javax.annotation.Nullable;
 
-import com.mojang.math.Axis;
-import org.joml.Vector3f;
-
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;

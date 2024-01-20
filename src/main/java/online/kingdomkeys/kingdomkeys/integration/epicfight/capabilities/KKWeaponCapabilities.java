@@ -1,16 +1,16 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import java.util.HashMap;
+import java.util.Map;
+
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.skill.guard.GuardSkill;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class KKWeaponCapabilities extends WeaponCapability {
 

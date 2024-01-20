@@ -26,10 +26,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.model.armor.*;
+import online.kingdomkeys.kingdomkeys.client.model.armor.AquaModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.TerraModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.UXArmorModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @OnlyIn(Dist.CLIENT)

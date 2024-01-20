@@ -2,15 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import java.awt.Color;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
-import org.jline.reader.Widget;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;

@@ -2,13 +2,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import java.awt.Color;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;

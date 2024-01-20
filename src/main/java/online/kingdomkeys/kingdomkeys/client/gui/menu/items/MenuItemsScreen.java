@@ -2,7 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import org.jetbrains.annotations.NotNull;
 
 public class MenuItemsScreen extends MenuBackground {
 

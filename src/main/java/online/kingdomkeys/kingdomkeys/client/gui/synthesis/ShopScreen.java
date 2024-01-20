@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -39,7 +41,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.jetbrains.annotations.NotNull;
 
 public class ShopScreen extends MenuFilterable {
 

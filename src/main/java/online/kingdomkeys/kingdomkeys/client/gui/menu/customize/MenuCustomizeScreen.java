@@ -1,27 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
+import java.awt.Color;
+
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
-import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
-import java.util.Map;
 
 public class MenuCustomizeScreen extends MenuBackground {
 
