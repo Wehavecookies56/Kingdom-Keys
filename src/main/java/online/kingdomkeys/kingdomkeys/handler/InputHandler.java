@@ -73,13 +73,13 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class InputHandler {
 
-    List<UUID> portalCommands;
-    Map<String, int[]> driveFormsMap;
-    List<Member> targetsList;
-    List<Limit> limitsList;
-    List<String> magicList;
-    Map<Integer, ItemStack> itemsList;
-    List<String> reactionList = new ArrayList<String>();
+    public List<UUID> portalCommands;
+    public Map<String, int[]> driveFormsMap;
+    public List<Member> targetsList;
+    public List<Limit> limitsList;
+    public List<String> magicList;
+    public Map<Integer, ItemStack> itemsList;
+    public List<String> reactionList = new ArrayList<String>();
     
     public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -617,7 +617,7 @@ public class InputHandler {
         }
     }
 
-    private void summonPortal(Player player, PortalData coords) {
+    public void summonPortal(Player player, PortalData coords) {
 		BlockPos destination = coords.getPos();
 
 		if (player.isShiftKeyDown()) {
@@ -887,7 +887,7 @@ public class InputHandler {
 		}
     }
 
-	private Keybinds getPressedKey() {
+	public Keybinds getPressedKey() {
         for (Keybinds key : Keybinds.values())
             if (key.isPressed())
                 return key;
@@ -942,7 +942,7 @@ public class InputHandler {
 		}
 	}
 
-	private void commandSwapReaction() {
+	public void commandSwapReaction() {
 		loadLists();
 		if (this.reactionList != null && !this.reactionList.isEmpty()) {
 			if (CommandMenuGui.reactionSelected < this.reactionList.size() - 1) {
@@ -954,7 +954,7 @@ public class InputHandler {
 		}
 	}
     
-    private void reactionCommand() {
+    public void reactionCommand() {
     	loadLists();
     	if(!reactionList.isEmpty()) {
     		Minecraft mc = Minecraft.getInstance();
@@ -995,7 +995,7 @@ public class InputHandler {
         SUMMON_ARMOR("key.kingdomkeys.summonarmor",GLFW.GLFW_KEY_H),
     	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
 
-        private final KeyMapping keybinding;
+        public final KeyMapping keybinding;
         public final String translationKey;
         Keybinds(String name, int defaultKey) {
             keybinding = new KeyMapping(name, defaultKey, "key.categories.kingdomkeys");
