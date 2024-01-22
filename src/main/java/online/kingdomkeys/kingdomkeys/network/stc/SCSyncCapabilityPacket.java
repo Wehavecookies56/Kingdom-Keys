@@ -67,6 +67,7 @@ public class SCSyncCapabilityPacket {
 	public Map<Integer, ItemStack> accessories = new HashMap<>();
 	public Map<Integer, ItemStack> kbArmors = new HashMap<>();
 	public Map<Integer, ItemStack> armors = new HashMap<>();
+	public int maxAccessories, maxArmors;
 	public SoAState soAstate, choice, sacrifice;
 	public BlockPos choicePedestal, sacrificePedestal;
 	public Vec3 returnPos;
@@ -125,6 +126,8 @@ public class SCSyncCapabilityPacket {
 		this.accessories = capability.getEquippedAccessories();
 		this.kbArmors = capability.getEquippedKBArmors();
 		this.armors = capability.getEquippedArmors();
+		this.maxAccessories = capability.getMaxAccessories();
+		this.maxArmors = capability.getMaxArmors();
 		
 		this.messages = capability.getMessages();
 		this.dfMessages = capability.getDFMessages();
@@ -249,6 +252,9 @@ public class SCSyncCapabilityPacket {
 		this.armors.forEach((key, value) -> armors.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(armors);
 
+		buffer.writeInt(maxAccessories);
+		buffer.writeInt(maxArmors);
+		
 		buffer.writeInt(partyList.size());
 		for(int i=0;i<partyList.size();i++) {
 			buffer.writeInt(this.partyList.get(i).length());
@@ -402,6 +408,9 @@ public class SCSyncCapabilityPacket {
 
 		CompoundTag armorsNBT = buffer.readNbt();
 		armorsNBT.getAllKeys().forEach(key -> msg.armors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) armorsNBT.get(key))));
+		
+		msg.maxAccessories = buffer.readInt();
+		msg.maxArmors = buffer.readInt();
 		
 		int amount = buffer.readInt();
 		msg.partyList = new ArrayList<String>();

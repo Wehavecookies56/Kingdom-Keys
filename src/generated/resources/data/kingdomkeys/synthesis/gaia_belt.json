@@ -6,6 +6,10 @@
       "quantity": "3"
     },
     {
+      "material": "kingdomkeys:mat_illusory_crystal",
+      "quantity": "1"
+    },
+    {
       "material": "kingdomkeys:mat_lightning_stone",
       "quantity": "5"
     },

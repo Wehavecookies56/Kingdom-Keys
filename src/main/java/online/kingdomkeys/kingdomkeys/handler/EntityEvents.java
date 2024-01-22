@@ -307,13 +307,6 @@ public class EntityEvents {
 				}
 							
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
-				if(playerData.getEquippedAccessories().size() == 0) {
-					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 3; i++) {
-						map.put(i,ItemStack.EMPTY);
-					}
-					playerData.equipAllAccessories(map, true);
-				}
 				
 				if(playerData.getEquippedKBArmors().size() == 0) {
 					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
@@ -323,14 +316,29 @@ public class EntityEvents {
 					playerData.equipAllKBArmor(map, true);
 				}
 				
-				//System.out.println(playerData.getEquippedArmors());
-				if(playerData.getEquippedArmors().size() == 0) {
-					HashMap<Integer,ItemStack> map = new HashMap<Integer,ItemStack>();
-					for(int i = 0 ; i < 3; i++) {
-						map.put(i,ItemStack.EMPTY);
+				HashMap<Integer,ItemStack> accessoriesMap = (HashMap<Integer, ItemStack>) playerData.getEquippedAccessories();
+				if(accessoriesMap.size() == 0) {
+					for(int i = 0 ; i < 4; i++) {
+						accessoriesMap.put(i,ItemStack.EMPTY);
 					}
-					playerData.equipAllArmors(map, true);
 				}
+				for(int i = accessoriesMap.size(); i< 4; i++) {
+					System.out.println(i);
+					accessoriesMap.put(i,ItemStack.EMPTY);
+				}
+				playerData.equipAllAccessories(accessoriesMap, true);
+
+				HashMap<Integer,ItemStack> armorsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedArmors();
+				if(armorsMap.size() == 0) {
+					for(int i = 0 ; i < 4; i++) {
+						armorsMap.put(i,ItemStack.EMPTY);
+					}
+				}
+				for(int i = armorsMap.size(); i< 4; i++) {
+					armorsMap.put(i,ItemStack.EMPTY);
+				}
+				playerData.equipAllArmors(armorsMap, true);
+				
 
 				//Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
@@ -380,6 +388,8 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 
 			if (playerData != null) {
+				//playerData.setMaxAccessories(1);
+				//System.out.println(playerData.getMaxAccessories());
 			//	playerData.remVisibleDriveForm(Strings.Form_Valor);
 //				playerData.setDriveFormLevel(KingdomKeys.MODID+":"+ Strings.DF_Prefix + "anti", 1);
 

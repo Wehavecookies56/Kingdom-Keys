@@ -62,6 +62,7 @@
 	"gui.menu.items.equipment.accessories": "Accesorios",
 	"gui.menu.items.equipment.armor": "Armadura",
 	"gui.menu.items.equipment.items": "Objetos",
+	"gui.menu.items.equipment.pauldron": "Hombrera",
 	"gui.menu.customize": "Configuración",
 	"gui.menu.customize.magics": "Magias",
 	"gui.menu.customize.shortcut": "Atajo",
@@ -191,6 +192,9 @@
 	"stats.levelUpMP": "¡PM Máximos aumentados!",
 	"stats.levelUpAP": "¡PH Máximos aumentados!",
 	"stats.levelUpFG": "¡Aumenta el indic. de Forma!",
+	"stats.levelUpMaxAccessories": "¡Espacio para accesorios +1!",
+	"stats.levelUpMaxArmors": "¡Espacio para armaduras +1!",
+
 
 	"_comment": "Abilities",
 	"ability.ability_auto_valor.name": "Auto-valentía",

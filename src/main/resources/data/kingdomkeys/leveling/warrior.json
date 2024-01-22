@@ -21,7 +21,8 @@
     },
     "5":{
         "str":1,
-        "maxhp":5
+        "maxhp":5,
+		"max_armors":1
     },
     "6":{
         "mag":1,
@@ -42,7 +43,8 @@
     "10":{
         "mag":1,
         "def":1,
-        "maxhp":5
+        "maxhp":5,
+		"max_accessories":1
     },
     "11":{
         "str":1,
@@ -77,7 +79,8 @@
         "abilities":[
             "kingdomkeys:ability_damage_drive"
         ],
-        "ap":1
+        "ap":1,
+		"max_armors":1
     },
     "16":{
         "mag":1,
@@ -106,7 +109,8 @@
         "maxmp":8,
         "abilities":[
             "kingdomkeys:ability_jackpot"
-        ]
+        ],
+		"max_accessories":1
     },
     "21":{
         "str":1,
@@ -135,7 +139,8 @@
         "maxhp":5,
         "abilities":[
             "kingdomkeys:ability_drive_boost"
-        ]
+        ],
+		"max_armors":1
     },
     "26":{
         "mag":1,
@@ -170,7 +175,8 @@
         "ap":1,
         "abilities":[
             "kingdomkeys:ability_curaza"
-        ]
+        ],
+		"max_accessories":1
     },
     "31":{
         "str":1,
@@ -199,7 +205,8 @@
         "maxhp":5,
         "abilities":[
             "kingdomkeys:ability_grand_magic_haste"
-        ]
+        ],
+		"max_armors":1
     },
     "36":{
         "mag":1,
@@ -229,7 +236,8 @@
     "40":{
         "mag":1,
         "maxhp":5,
-        "maxmp":4.0
+        "maxmp":4.0,
+		"max_accessories":1
     },
     "41":{
         "str":1,

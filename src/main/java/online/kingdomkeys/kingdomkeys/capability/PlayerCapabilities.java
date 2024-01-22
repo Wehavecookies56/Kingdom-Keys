@@ -174,7 +174,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.serializeNBT()));
 		storage.put("armors", armors);
-
+		
+		storage.putInt("max_accessories", this.getMaxAccessories());
+		storage.putInt("max_armors", this.getMaxArmors());
 
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
@@ -330,6 +332,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.of(armorsNBT.getCompound(slot))));
 
+		this.setMaxAccessories(nbt.getInt("max_accessories"));
+		this.setMaxArmors(nbt.getInt("max_armors"));
+		
 		this.setHearts(nbt.getInt("hearts"));
 		this.setAlignment(nbt.getInt("org_alignment"));
 		this.equipWeapon(ItemStack.of(nbt.getCompound("org_equipped_weapon")));
@@ -418,6 +423,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
+	
+	private int maxAccessories = 0;
+	private int maxArmors = 0;
 	
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
@@ -2197,6 +2205,39 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setDualStyle(DualChoices dualStyle) {
 		this.dualStyle = dualStyle;
+	}
+
+	@Override
+	public int getMaxAccessories() {
+		return maxAccessories;
+	}
+
+	@Override
+	public void setMaxAccessories(int num) {
+		this.maxAccessories = num;
+	}
+
+	@Override
+	public void addMaxAccessories(int num) {
+		this.maxAccessories += num;
+		messages.add("C_"+Strings.Stats_LevelUp_MaxAccessories);
+
+	}
+
+	@Override
+	public int getMaxArmors() {
+		return maxArmors;
+	}
+
+	@Override
+	public void setMaxArmors(int num) {
+		this.maxArmors = num;
+	}
+
+	@Override
+	public void addMaxArmors(int num) {
+		this.maxArmors += num;
+		messages.add("R_"+Strings.Stats_LevelUp_MaxArmors);
 	}
 
 	//endregion

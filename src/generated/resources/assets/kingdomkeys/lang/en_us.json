@@ -290,6 +290,7 @@
   "gui.menu.items.equipment.armor": "Armor",
   "gui.menu.items.equipment.desc": "Equip your weapon and various equipables (not yet available).",
   "gui.menu.items.equipment.items": "Items",
+  "gui.menu.items.equipment.pauldron": "Pauldron",
   "gui.menu.items.equipment.shotlock": "Shotlock",
   "gui.menu.items.equipment.weapon": "Weapon",
   "gui.menu.items.equipment.weapon.keyblades": "Keyblades",
@@ -1430,11 +1431,13 @@
   "soa.warrior.1": "The power of the warrior.",
   "soa.warrior.2": "Invincible courage.",
   "soa.warrior.3": "A sword of terrible destruction.",
-  "stats.levelUpAP": "Maximum AP Increased!",
-  "stats.levelUpDef": "Defense Increased!",
+  "stats.levelUpAP": "Maximum AP increased!",
+  "stats.levelUpDef": "Defense increased!",
   "stats.levelUpFG": "Form Gauge Powered Up!",
-  "stats.levelUpHP": "Maximum HP Increased!",
-  "stats.levelUpMP": "Maximum MP Increased!",
-  "stats.levelUpMag": "Magic Increased!",
-  "stats.levelUpStr": "Strength Increased!"
+  "stats.levelUpHP": "Maximum HP increased!",
+  "stats.levelUpMP": "Maximum MP increased!",
+  "stats.levelUpMag": "Magic increased!",
+  "stats.levelUpMaxAccessories": "Gained accessory slot!",
+  "stats.levelUpMaxArmors": "Gained armor slot!",
+  "stats.levelUpStr": "Strength increased!"
 }

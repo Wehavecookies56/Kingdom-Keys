@@ -68,6 +68,14 @@ public class Level {
 	public String[] getSpells(int level) {
 		return data.getSpells(level);
 	}
+	
+	public int getMaxAccessories(int level) {
+		return data.getMaxAccessories(level);
+	}
+	
+	public int getMaxArmors(int level) {
+		return data.getMaxArmors(level);
+	}
 
 	public ResourceLocation getRegistryName() {
 		return name;

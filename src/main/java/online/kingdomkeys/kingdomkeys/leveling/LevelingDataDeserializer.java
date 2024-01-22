@@ -78,6 +78,14 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 					}
 					out.setSpells(level, spellsArray.toArray(new String[0]));
 					break;
+					
+				case "max_accessories":
+					out.setMaxAccessories(level, element2.getAsInt());
+					break;
+					
+				case "max_armors":
+					out.setMaxArmors(level, element2.getAsInt());
+					break;
 				}
 			});
 

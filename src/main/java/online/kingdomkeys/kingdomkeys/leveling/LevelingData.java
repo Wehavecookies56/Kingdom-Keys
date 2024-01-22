@@ -16,12 +16,14 @@ public class LevelingData {
 	String[][] abilities = new String[101][5];
 	String[][] shotlocks = new String[101][5];
 	String[][] spells = new String[101][5];
+	int[] maxAccessories = new int[101];
+	int[] maxArmors = new int[101];
 
 	public LevelingData() {
 
 	}
 
-	public LevelingData(int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells) {
+	public LevelingData(int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells, int maxAccessories, int maxArmors) {
 		this.mag[level] = mag;
 		this.def[level] = def;
 		this.str[level] = str;
@@ -31,6 +33,8 @@ public class LevelingData {
 		this.abilities[level] = (String[]) abilities.toArray();
 		this.shotlocks[level] = (String[]) shotlocks.toArray();
 		this.spells[level] = (String[]) spells.toArray();
+		this.maxAccessories[level] = maxAccessories;
+		this.maxArmors[level] = maxArmors;
 	}
 
 	public int getStr(int lvl) {
@@ -103,6 +107,21 @@ public class LevelingData {
 	
 	public void setSpells(int lvl, String[] spells) {
 		this.spells[lvl] = spells;
+	}
+	public int getMaxAccessories(int lvl) {
+		return maxAccessories[lvl];
+	}
+	
+	public void setMaxAccessories(int lvl, int amount) {
+		this.maxAccessories[lvl] = amount;
+	}
+	
+	public int getMaxArmors(int lvl) {
+		return maxArmors[lvl];
+	}
+
+	public void setMaxArmors(int lvl, int amount) {
+		this.maxArmors[lvl] = amount;
 	}
 
 }

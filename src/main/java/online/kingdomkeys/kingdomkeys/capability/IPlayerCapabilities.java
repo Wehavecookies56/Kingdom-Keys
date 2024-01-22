@@ -166,6 +166,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	boolean canEquipItem(int slot, ItemStack stack);
 	void setNewItem(int slot, ItemStack stack);
 	
+	int getMaxAccessories();
+	void setMaxAccessories(int num);
+	void addMaxAccessories(int num);
 	Map<Integer, ItemStack> getEquippedAccessories();
 	ItemStack equipAccessory(int slot, ItemStack stack);
 	ItemStack getEquippedAccessory(int slot);
@@ -185,6 +188,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	boolean getArmorGlint();
 	void setArmorGlint(boolean armorGlint);
 
+	int getMaxArmors();
+	void setMaxArmors(int num);
+	void addMaxArmors(int num);
 	Map<Integer, ItemStack> getEquippedArmors();
 	ItemStack equipArmor(int slot, ItemStack stack);
 	ItemStack getEquippedArmor(int slot);

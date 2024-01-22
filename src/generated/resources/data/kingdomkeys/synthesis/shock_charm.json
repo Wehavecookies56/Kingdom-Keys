@@ -1,31 +1,27 @@
 {
-  "cost": 6000,
+  "cost": 4600,
   "ingredients": [
     {
       "material": "kingdomkeys:mat_lightning_crystal",
-      "quantity": "3"
+      "quantity": "1"
     },
     {
       "material": "kingdomkeys:mat_lightning_gem",
-      "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_lightning_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_illusory_crystal",
+      "material": "kingdomkeys:mat_pulsing_crystal",
       "quantity": "1"
     },
     {
       "material": "kingdomkeys:mat_lightning_stone",
-      "quantity": "4"
+      "quantity": "3"
     }
   ],
   "output": {
     "type": "item",
-    "item": "kingdomkeys:thundagun_trinket",
+    "item": "kingdomkeys:shock_charm",
     "quantity": 1
   },
-  "tier": 4
+  "tier": 3
 }

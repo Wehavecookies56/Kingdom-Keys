@@ -2,6 +2,10 @@
   "cost": 6000,
   "ingredients": [
     {
+      "material": "kingdomkeys:mat_illusory_crystal",
+      "quantity": "1"
+    },
+    {
       "material": "kingdomkeys:mat_blazing_crystal",
       "quantity": "3"
     },

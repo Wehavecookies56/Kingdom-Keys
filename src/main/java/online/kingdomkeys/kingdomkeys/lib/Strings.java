@@ -345,11 +345,9 @@ public class Strings {
 		    Stats_LevelUp_MP = "stats.levelUpMP",
 		    Stats_LevelUp_AP = "stats.levelUpAP",
 		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
-			Stats_LevelUp_HighJump = "stats.levelUpHighJump"/*,
-			Stats_LevelUp_QuickRun = "stats.levelUpQuickRun",
-			Stats_LevelUp_DodgeRoll = "stats.levelUpDodgeRoll",
-			Stats_LevelUp_AerialDodge = "stats.levelUpAerialDodge",
-			Stats_LevelUp_Glide = "stats.levelUpGlide"*/;
+			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
+			Stats_LevelUp_MaxAccessories = "stats.levelUpMaxAccessories",
+			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors";
 
     // Gui
     public static final String
@@ -401,6 +399,7 @@ public class Strings {
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
             Gui_Menu_Items_Equipment_Accessories = Gui_Menu_Items_Equipment + ".accessories",
             Gui_Menu_Items_Equipment_Armor = Gui_Menu_Items_Equipment + ".armor",
+            Gui_Menu_Items_Equipment_Pauldron = Gui_Menu_Items_Equipment + ".pauldron",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
             
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",

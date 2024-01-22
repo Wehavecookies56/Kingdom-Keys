@@ -123,6 +123,14 @@ public enum SoAState {
 				}
 			}
 		}
+		
+		if (choice.getMaxAccessories(choiceLevel) != 0) {
+			playerData.addMaxAccessories(choice.getMaxAccessories(choiceLevel));
+		}
+		
+		if (choice.getMaxArmors(choiceLevel) != 0) {
+			playerData.addMaxArmors(choice.getMaxArmors(choiceLevel));
+		}
 	}
     
     public static void removeNonStatsData(Level levelData, IPlayerCapabilities playerData) {

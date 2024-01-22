@@ -531,7 +531,10 @@ public class Utils {
 	
 	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {
 		int res = 0;
+		int c = 1;
 		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if(c > playerData.getMaxAccessories())
+				break;
 			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
 				switch(type) {
@@ -552,11 +555,15 @@ public class Utils {
 	
 	public static List<String> getAccessoriesAbilities(IPlayerCapabilities playerData) {
 		List<String> res = new ArrayList<String>();
+		int c = 1;
 		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if(c > playerData.getMaxAccessories())
+				break;
 			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
 				res.addAll(accessory.getAbilities());
 			}
+			c++;
 		}
 		return res;
 	}
@@ -829,6 +836,8 @@ public class Utils {
         playerData.setMagic(1);
         playerData.setDefense(1);
         playerData.setMaxAP(0);
+        playerData.setMaxAccessories(0);
+        playerData.setMaxArmors(0);
 
         playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);

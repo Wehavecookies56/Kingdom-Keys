@@ -213,6 +213,8 @@ public class ClientUtils {
                 playerData.equipAllAccessories(message.accessories, false);
                 playerData.equipAllKBArmor(message.kbArmors, false);
                 playerData.equipAllArmors(message.armors, false);
+                playerData.setMaxAccessories(message.maxAccessories);
+                playerData.setMaxArmors(message.maxArmors);
                 playerData.setActiveDriveForm(message.driveForm);
 
                 playerData.setReturnDimension(message.returnDim);

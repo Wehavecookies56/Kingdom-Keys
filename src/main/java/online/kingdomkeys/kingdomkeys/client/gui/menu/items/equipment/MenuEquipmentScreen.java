@@ -155,43 +155,52 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         	kbArmor.entrySet().stream().forEachOrdered((entry) -> {
 	           // int slot = entry.getKey();
 	            ItemStack item = entry.getValue();
-	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xFF7200, new MenuKeybladeArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFF9A3D);
+	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xFF7200, new MenuKeybladeArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Pauldron), 0xFF9A3D);
 	            totalButtons.add(kbArmorSlot);
 	            addRenderableWidget(kbArmorSlot);
         	});
-         }
+         }        
         
-        if(accessories != null) {
-        	accessories.entrySet().stream().forEachOrdered((entry) -> {
-               int slot = entry.getKey();
-               ItemStack item = entry.getValue();
-               MenuEquipmentButton accessorySlot;
-               if(slot == 0) {
-            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Accessories), 0x42ceff);
-               } else {
-            	   accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this);
-               }
-               totalButtons.add(accessorySlot);
-               addRenderableWidget(accessorySlot);
-            });
-        }
-        
-        
-        
-        if(armor != null){
-            armor.entrySet().stream().forEachOrdered((entry)->{
-                int slot = entry.getKey();
-                ItemStack item = entry.getValue();
-                MenuEquipmentButton armorSlot;
-                if(slot == 0) {
-                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFFFF00);
-                } else {
-                    armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this);
-                }
-                totalButtons.add(armorSlot);
-                addRenderableWidget(armorSlot);
-            });
-        }
+		if (accessories != null) {
+			int c = 1;
+			for (Map.Entry<Integer, ItemStack> entry : accessories.entrySet()) {
+				if (c > playerData.getMaxAccessories())
+					break;
+				int slot = entry.getKey();
+				ItemStack item = entry.getValue();
+				MenuEquipmentButton accessorySlot;
+				if (slot == 0) {
+					accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Accessories), 0x42ceff);
+				} else {
+					accessorySlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x0055AA, new MenuAccessorySelectorScreen(slot, new Color(31, 35, 112), 0x44AAFF), ItemCategory.ACCESSORIES, this);
+				}
+				totalButtons.add(accessorySlot);
+				addRenderableWidget(accessorySlot);
+				c++;
+			}
+			
+
+		}
+            
+		if (armor != null) {
+			int c = 1;
+			for (Map.Entry<Integer, ItemStack> entry : armor.entrySet()) {
+				if (c > playerData.getMaxArmors())
+					break;
+				int slot = entry.getKey();
+				ItemStack item = entry.getValue();
+				MenuEquipmentButton armorSlot;
+				if (slot == 0) {
+					armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Armor), 0xFFFF00);
+				} else {
+					armorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0xAAAA00, new MenuArmorSelectorScreen(slot, new Color(255, 247, 0), 0x444400), ItemCategory.EQUIPMENT, this);
+				}
+				totalButtons.add(armorSlot);
+				addRenderableWidget(armorSlot);
+				c++;
+			}
+		}
+		
         if(items != null) {
         	 items.entrySet().stream().forEachOrdered((entry) -> {
                 int slot = entry.getKey();

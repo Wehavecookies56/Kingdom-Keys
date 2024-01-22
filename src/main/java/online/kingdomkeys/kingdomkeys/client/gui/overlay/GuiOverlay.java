@@ -197,6 +197,18 @@ public class GuiOverlay extends OverlayBase {
 					x += 13;
 				}
 				
+				if(message.startsWith("C_")) {
+					blit(gui, menuTexture, (int)x, (int)y-2, 87, 129, 12, 12);
+					message = message.replace("C_", "");
+					x += 13;
+				}
+				
+				if(message.startsWith("R_")) {
+					blit(gui, menuTexture, (int)x, (int)y-2, 101, 129, 12, 12);
+					message = message.replace("R_", "");
+					x += 13;
+				}
+				
 				showText(matrixStack, Utils.translateToLocal(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
