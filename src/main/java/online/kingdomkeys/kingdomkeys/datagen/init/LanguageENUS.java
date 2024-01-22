@@ -135,6 +135,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".impexp", "Import/Export");
         add(Gui_Menu_Config + ".impexp.import", "Import");
         add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
+        add(Gui_Menu_Config+ ".notif_color", "Notification");
         add(Gui_Menu_Config+ ".armor.red", "Armor red");
         add(Gui_Menu_Config+ ".armor.green", "Armor green");
         add(Gui_Menu_Config+ ".armor.blue", "Armor blue");

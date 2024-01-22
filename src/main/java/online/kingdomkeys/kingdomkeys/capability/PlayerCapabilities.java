@@ -216,6 +216,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putBoolean("armor_glint", armorGlint);
 		
 		storage.putBoolean("respawn_rod", respawnROD);
+		
+		storage.putInt("notif_color", notifColor);
 		return storage;
 	}
 
@@ -370,6 +372,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
+		this.setNotifColor(nbt.getInt("notif_color"));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -434,6 +437,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
 
 	private boolean respawnROD = false;
+	private int notifColor = 16777215;
 
 	//private String armorName = "";
 	
@@ -698,9 +702,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.getMessages().clear();
 		LevelStats.applyStatsForLevel(this.level, player, this);
 
-		// PacketDispatcher.sendTo(new SyncUnlockedAbilities(ABILITIES),
-		// (EntityPlayerMP) player);
-
+		Party party = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		if(party != null) {
+			for(Member member : party.getMembers()) {
+				for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
+					Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
+					if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
+						PacketHandler.sendTo(new SCShowOverlayPacket("levelup_party", player.getUUID(), getMessages()), (ServerPlayer) ally);
+						PacketHandler.syncToAllAround(player, this);
+					}
+				}
+			}
+		}
+		
 		if(sound)
 			player.level().playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
@@ -1402,6 +1416,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
+	public int getNotifColor() {
+		// TODO Auto-generated method stub
+		return notifColor;
+	}
+
+	@Override
+	public void setNotifColor(int color) {
+		this.notifColor = color;
+	}
+	
+	@Override
 	public int getArmorColor() {
 		return armorColor;
 	}
@@ -1702,7 +1727,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.matches(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) { // Check for synch blade ability to be equiped from the abilities menu
+			// Check for synch blade ability to be equiped from the abilities menu
+			if (abilityMap.containsKey(Strings.synchBlade) && abilityMap.get(Strings.synchBlade)[1] > 0 && !ItemStack.matches(getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 				ItemStack stack = getEquippedKeychain(DriveForm.SYNCH_BLADE);
 				IKeychain weapon = (IKeychain) getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem();
 				int level = weapon.toSummon().getKeybladeLevel(stack);
@@ -2221,7 +2247,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	public void addMaxAccessories(int num) {
 		this.maxAccessories += num;
 		messages.add("C_"+Strings.Stats_LevelUp_MaxAccessories);
-
 	}
 
 	@Override

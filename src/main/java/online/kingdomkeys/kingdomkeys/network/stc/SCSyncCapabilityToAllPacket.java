@@ -44,7 +44,7 @@ public class SCSyncCapabilityToAllPacket {
 	private int aerialDodgeTicks = 0;
 	private boolean isGliding = false, hasJumpedAD = false;
 	
-	private int armorColor = 0;
+	private int armorColor = 0, notifColor = 0;
 	private boolean armorGlint = true;
 
 	private SingleChoices singleStyle;
@@ -79,6 +79,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.hasJumpedAD = capability.hasJumpedAerialDodge();
 		
 		this.kbArmors = capability.getEquippedKBArmors();
+		this.notifColor = capability.getNotifColor();
 		this.armorColor = capability.getArmorColor();
 		this.armorGlint = capability.getArmorGlint();
 
@@ -128,6 +129,7 @@ public class SCSyncCapabilityToAllPacket {
 		this.kbArmors.forEach((key, value) -> kbArmors.put(key.toString(), value.serializeNBT()));
 		buffer.writeNbt(kbArmors);
 		
+		buffer.writeInt(notifColor);
 		buffer.writeInt(armorColor);
 		buffer.writeBoolean(armorGlint);
 
@@ -175,6 +177,7 @@ public class SCSyncCapabilityToAllPacket {
 		CompoundTag kbArmorsNBT = buffer.readNbt();
 		kbArmorsNBT.getAllKeys().forEach(key -> msg.kbArmors.put(Integer.parseInt(key), ItemStack.of((CompoundTag) kbArmorsNBT.get(key))));
 		
+		msg.notifColor = buffer.readInt();
 		msg.armorColor = buffer.readInt();
 		msg.armorGlint = buffer.readBoolean();
 
@@ -218,6 +221,7 @@ public class SCSyncCapabilityToAllPacket {
 				playerData.setHasJumpedAerialDodge(message.hasJumpedAD);
 				
                 playerData.equipAllKBArmor(message.kbArmors, false);
+                playerData.setNotifColor(message.notifColor);
                 playerData.setArmorColor(message.armorColor);
 				playerData.setArmorGlint(message.armorGlint);
 

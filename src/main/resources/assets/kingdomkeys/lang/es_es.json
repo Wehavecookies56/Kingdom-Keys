@@ -129,6 +129,7 @@
 	"gui.menu.config.icon_scale": "Escala del ícono fijación",
 	"gui.menu.config.icon_rotation": "Velocidad de Rotación del ícono fijación",
 	"gui.menu.config.hp_per_bar": "VT por barra",
+	"gui.menu.config.notif_color": "Notificación",
 	"gui.menu.config.armor.blue": "Armadura azul",
 	"gui.menu.config.armor.green": "Armadura verde",
 	"gui.menu.config.armor.red": "Armadura roja",

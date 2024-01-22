@@ -40,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetChoice;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetShortcutPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
@@ -168,6 +169,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
 		HANDLER.registerMessage(packetID++, CSOpenShortcutsCustomize.class, CSOpenShortcutsCustomize::encode, CSOpenShortcutsCustomize::decode, CSOpenShortcutsCustomize::handle);
 		HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
+		HANDLER.registerMessage(packetID++, CSSetNotifColor.class, CSSetNotifColor::encode, CSSetNotifColor::decode, CSSetNotifColor::handle);
 
 	}
 

@@ -1,14 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -29,6 +34,8 @@ public class GuiOverlay extends OverlayBase {
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
 	public static String driveForm = "";
+	public static UUID playerWhoLevels = Util.NIL_UUID;
+	public static List<String> messages = new ArrayList<String>();
 	public static long timeExp;
 	public static long timeMunny;
 	public static long timeLevelUp;
@@ -71,24 +78,9 @@ public class GuiOverlay extends OverlayBase {
 			if (showDriveLevelUp) {
 				showDriveLevelUp(guiGraphics, partialTick);
 			}
-
-			/*if(teleport != null) {
-				showTeleport();
-			}*/
 		}
 	}
-
-	/*private void showTeleport() {
-		String text = teleport.toName;
-		GlStateManager.push();
-		{
-			GlStateManager.translate(width/2-(minecraft.fontRenderer.getStringWidth(text)*2)/2, sHeight - sHeight/6, 1);
-			GlStateManager.scale(2, 2, 2);
-			minecraft.fontRenderer.drawStringWithShadow(text, 0,0, 0xFFFFFF);
-		}
-		GlStateManager.pop();
-	}*/
-
+	
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
@@ -117,8 +109,27 @@ public class GuiOverlay extends OverlayBase {
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
 	}
-
+	
 	private void showLevelUp(GuiGraphics gui, float partialTick) {
+		boolean ally = playerWhoLevels != Util.NIL_UUID;
+		int[] notifColor;
+		String name;
+		int lvl;
+		
+		if(ally) {
+			Player allyPlayer = minecraft.level.getPlayerByUUID(playerWhoLevels);
+			IPlayerCapabilities allyData = ModCapabilities.getPlayer(allyPlayer);
+			notifColor = Utils.getRGBFromDec(allyData.getNotifColor());
+			name = allyPlayer.getDisplayName().getString();
+			lvl = allyData.getLevel();
+		} else {
+			notifColor = Utils.getRGBFromDec(playerData.getNotifColor());
+			name = minecraft.player.getDisplayName().getString();
+			lvl = playerData.getLevel();
+			messages = playerData.getMessages();
+		}
+		 
+
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
@@ -128,10 +139,9 @@ public class GuiOverlay extends OverlayBase {
 			
 			matrixStack.translate(notifXPos + 155, 4, 0);
 
-			int height = (int)(minecraft.font.lineHeight * 1.2f) * (playerData.getMessages().size());
+			int height = (int)(minecraft.font.lineHeight * 1.2f) * (messages.size());
 			RenderSystem.enableBlend();
-			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
 			// Top
 			matrixStack.pushPose();
@@ -142,15 +152,15 @@ public class GuiOverlay extends OverlayBase {
 			}
 			matrixStack.popPose();
 
-		  //showText("LEVEL UP!" + TextFormatting.ITALIC, width - ((minecraft.fontRenderer.getStringWidth("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2])).hashCode());
+			RenderSystem.setShaderColor(1, 1, 0, 1F);
 			showText(matrixStack, "LEVEL UP!" + ChatFormatting.ITALIC, width - ((minecraft.font.width("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
+			RenderSystem.setShaderColor(1, 1, 1, 1F);
 			showText(matrixStack, "LV.", width - ((minecraft.font.width("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText(matrixStack, "" + playerData.getLevel(), width - 256.0f * 0.75f + ((minecraft.font.width("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-			showText(matrixStack, minecraft.player.getDisplayName().getString(), width - ((minecraft.font.width(minecraft.player.getDisplayName().getString())) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText(matrixStack, "" + lvl, width - 256.0f * 0.75f + ((minecraft.font.width("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText(matrixStack, name, width - ((minecraft.font.width(name)) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
-			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
 			matrixStack.pushPose();
 			{
@@ -161,8 +171,7 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.popPose();
 
 			// Bottom
-			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
-			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
 			matrixStack.pushPose();
 			{
@@ -173,10 +182,9 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.popPose();
 
 			// Text
-			//RenderSystem.color4ub((byte) MainConfig.client.hud.interfaceColour[0], (byte) MainConfig.client.hud.interfaceColour[1], (byte) MainConfig.client.hud.interfaceColour[2], (byte) 255);
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-			for (int i = 0; i < playerData.getMessages().size(); i++) {
-				String message = playerData.getMessages().get(i).toString();
+			for (int i = 0; i < messages.size(); i++) {
+				String message = messages.get(i).toString();
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
@@ -215,8 +223,10 @@ public class GuiOverlay extends OverlayBase {
 		}
 		matrixStack.popPose();
 		
-		if (System.currentTimeMillis()/1000 > (timeLevelUp + levelSeconds))
+		if (System.currentTimeMillis()/1000 > (timeLevelUp + levelSeconds)) {
 			showLevelUp = false;
+			playerWhoLevels = Util.NIL_UUID;
+		}
 	}
 
 	private void showDriveLevelUp(GuiGraphics gui, float partialTick) {
