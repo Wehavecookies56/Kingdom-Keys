@@ -101,13 +101,13 @@ public class SCShowOverlayPacket {
 		            GuiOverlay.showLevelUp = true;
 		            GuiOverlay.notifTicks = 0;
 		            GuiOverlay.timeLevelUp = time;
+		            GuiOverlay.playerWhoLevels = Util.NIL_UUID;
 					break;
 				case "levelup_party":
 		            GuiOverlay.showLevelUp = true;
 		            GuiOverlay.notifTicks = 0;
 		            GuiOverlay.timeLevelUp = time;
 		            GuiOverlay.playerWhoLevels = msg.player;
-		            System.out.println(msg.player);
 		            GuiOverlay.messages = msg.messages;
 					break;
 				case "drivelevelup":
