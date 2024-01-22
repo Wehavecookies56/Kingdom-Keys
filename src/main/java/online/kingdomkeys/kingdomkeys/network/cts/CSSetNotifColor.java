@@ -34,7 +34,6 @@ public class CSSetNotifColor {
            Player player = ctx.get().getSender();
            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
            playerData.setNotifColor(message.color);
-           System.out.println(message.color);
            PacketHandler.syncToAllAround(player, playerData);
         });
         ctx.get().setPacketHandled(true);

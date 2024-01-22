@@ -1314,6 +1314,9 @@ public class EntityEvents {
 		newPlayerData.equipAllAccessories(oldPlayerData.getEquippedAccessories(), true);
 		newPlayerData.equipAllArmors(oldPlayerData.getEquippedArmors(), true);
 		newPlayerData.equipAllKBArmor(oldPlayerData.getEquippedKBArmors(), true);
+		newPlayerData.setMaxAccessories(oldPlayerData.getMaxAccessories());
+		newPlayerData.setMaxArmors(oldPlayerData.getMaxArmors());
+		newPlayerData.setNotifColor(oldPlayerData.getNotifColor());
 		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
 		newPlayerData.setArmorGlint(oldPlayerData.getArmorGlint());
 		newPlayerData.setRespawnROD(oldPlayerData.getRespawnROD());
