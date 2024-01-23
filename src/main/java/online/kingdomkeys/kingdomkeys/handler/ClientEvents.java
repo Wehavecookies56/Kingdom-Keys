@@ -110,11 +110,11 @@ public class ClientEvents {
             
             float f = player.getXRot();
             float f1 = player.getYRot();
-            
-            player.setYRot((float)(player.getYRot() + rYaw * 0.15D));
-            player.setXRot((float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D));
-            player.xRotO = player.getXRot() - f;
-            player.yRotO += player.getYRot() - f1;
+
+			player.setYRot(Mth.rotLerp(event.renderTickTime, player.getYRot(), (float)(player.getYRot() + rYaw * 0.15D)));
+            player.setXRot(Mth.rotLerp(event.renderTickTime, player.getXRot(), (float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D)));
+            player.xRotO = Mth.rotLerp(event.renderTickTime, player.getXRot(), player.getXRot() - f);
+            player.yRotO = Mth.rotLerp(event.renderTickTime, player.yRotO, player.yRotO + player.getYRot() - f1);
 
             if (player.getVehicle() != null) {
                 player.getVehicle().onPassengerTurned(player);
