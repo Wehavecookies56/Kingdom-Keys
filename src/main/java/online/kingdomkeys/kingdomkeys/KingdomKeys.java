@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -172,9 +178,21 @@ public class KingdomKeys {
 		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
 		ModDimensions.CHUNK_GENERATORS.register(modEventBus);
+		ModStructures.STRUCTURES.register(modEventBus);
+
+		ModRoomStructures.ROOM_STRUCTURES.register(modEventBus);
+		ModRoomTypes.ROOM_TYPES.register(modEventBus);
+		ModFloorTypes.FLOOR_TYPES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
+
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new DistExecutor.SafeRunnable() {
+			@Override
+			public void run() {
+				modEventBus.addListener(ClientEvents::colourTint);
+			}
+		});
 
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
@@ -186,6 +204,7 @@ public class KingdomKeys {
 
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
+		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);

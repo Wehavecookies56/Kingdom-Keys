@@ -7,7 +7,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -79,7 +81,17 @@ public class ModBlocks {
             gummiEditor = createNewBlock("gummi_editor", () -> new GummiEditorBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))),
-            
+
+            cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(Block.Properties.of().mapColor(MapColor.WOOD).strength(-1.0F, 3600000.0F))),
+            structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F).dropsLike(Blocks.AIR).isValidSpawn((p1, p2, p3, p4) -> false))),
+            castleOblivionWall = createNewBlock("castle_oblivion_wall", () -> new CastleOblivionWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWallChiseled = createNewBlock("castle_oblivion_wall_chiseled", () -> new CastleOblivionWallBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWall2 = createNewBlock("castle_oblivion_wall2", () -> new CastleOblivionWallBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionWall3 = createNewBlock("castle_oblivion_wall3", () -> new CastleOblivionWallBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionPillar = createNewBlock("castle_oblivion_pillar", () -> new CastleOblivionPillarBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionStairs = createNewBlock("castle_oblivion_stairs", () -> new CastleOblivionStairBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+            castleOblivionSlab = createNewBlock("castle_oblivion_slab", () -> new CastleOblivionSlabBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
+    
             rodSand = createNewBlock("rod_sand", Block.Properties.of().mapColor(MapColor.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
             rodStone = createNewBlock("rod_stone", Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.0F, 10.0F)),
             rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.0F, 10.0F))

@@ -1,0 +1,10 @@
+{
+	"parent": "forge:block/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/card_door_open.obj",
+	"flip_v" : true,
+	"transform":{
+		"translation": [ -1.55, -0.62, -0.1 ],
+		"scale": [ 0.6, 0.6, 0.6 ]
+	}
+}

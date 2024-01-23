@@ -65,6 +65,9 @@ public class DimensionCommand extends BaseCommand {
 
 	public static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {
 		if (dimension.location().toString().contains("castle_oblivion_interior_")) {
+			player.sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
+			player.sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
+			player.sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));
 			return new BlockPos(8, 62, 8);
 		}
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
@@ -72,6 +75,12 @@ public class DimensionCommand extends BaseCommand {
 		}
 		if (dimension == ModDimensions.STATION_OF_SORROW) {
 			return new BlockPos(0, 26, 0);
+		}
+		if (dimension == ModDimensions.CASTLE_OBLIVION) {
+			player.sendSystemMessage(Component.translatable("CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
+			player.sendSystemMessage(Component.translatable("IN CASE IT WASN'T OBVIOUS BY THE NEED TO USE THIS COMMAND TO GET HERE"));
+			player.sendSystemMessage(Component.translatable("THANK YOU - Toby"));
+			return new BlockPos(-2, 90, -167);
 		}
 		if(dimension.location().toString().contains("realm_of_darkness")) {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();
