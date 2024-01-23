@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,12 +31,12 @@ public class GuiOverlay extends OverlayBase {
 	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
-	public static boolean showLevelUp;
+	//public static boolean showLevelUp;
+	public static List<LevelUpData> levelUpList = new ArrayList<LevelUpData>();
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
 	public static String driveForm = "";
 	public static UUID playerWhoLevels = Util.NIL_UUID;
-	public static List<String> messages = new ArrayList<String>();
 	public static long timeExp;
 	public static long timeMunny;
 	public static long timeLevelUp;
@@ -51,6 +52,16 @@ public class GuiOverlay extends OverlayBase {
 	ResourceLocation levelUpTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
 	ResourceLocation menuTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
+	public static class LevelUpData{
+		public UUID playerUUID;
+		public int lvl;
+		public int prevNotifTicks, notifTicks;
+		public boolean sliding = true;
+		public long timeLevelUp;
+		public List<String> messages = new ArrayList<String>();
+		public int color;
+	}
+	
 	@Override
 	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
 		super.render(gui, guiGraphics, partialTick, width, height);
@@ -70,8 +81,17 @@ public class GuiOverlay extends OverlayBase {
 			}
 
 			// Level Up
-			if (showLevelUp) {
-				showLevelUp(guiGraphics, partialTick);
+			
+			int lvlCounter = 0;
+			Iterator<LevelUpData> it = levelUpList.iterator();
+			while(it.hasNext()) {
+				showLevelUp(guiGraphics, partialTick, lvlCounter++);
+
+				System.out.println(levelUpList);
+				LevelUpData actual = it.next();
+				if (System.currentTimeMillis()/1000 > (actual.timeLevelUp + levelSeconds)) {
+					it.remove();
+				}
 			}
 
 			// Drive form level up
@@ -110,36 +130,39 @@ public class GuiOverlay extends OverlayBase {
 			showMunny = false;
 	}
 	
-	private void showLevelUp(GuiGraphics gui, float partialTick) {
-		boolean ally = playerWhoLevels != Util.NIL_UUID;
-		int[] notifColor;
-		String name;
-		int lvl;
-		
-		if(ally) {
-			Player allyPlayer = minecraft.level.getPlayerByUUID(playerWhoLevels);
-			IPlayerCapabilities allyData = ModCapabilities.getPlayer(allyPlayer);
-			notifColor = Utils.getRGBFromDec(allyData.getNotifColor());
-			name = allyPlayer.getDisplayName().getString();
-			lvl = allyData.getLevel();
-		} else {
-			notifColor = Utils.getRGBFromDec(playerData.getNotifColor());
-			name = minecraft.player.getDisplayName().getString();
-			lvl = playerData.getLevel();
-			messages = playerData.getMessages();
-		}
-		 
+	private void showLevelUp(GuiGraphics gui, float partialTick, int actual) {
+		if(actual >= levelUpList.size())
+			return;
+		LevelUpData levelData = levelUpList.get(actual);
+		if(levelData == null)
+			return;
 
-		PoseStack matrixStack = gui.pose();
+		int[] notifColor = Utils.getRGBFromDec(levelData.color);
+		String name = minecraft.level.getPlayerByUUID(levelData.playerUUID).getDisplayName().getString();
+		int lvl = levelData.lvl;
+
+		PoseStack matrixStack = gui.pose();		
 		matrixStack.pushPose();
 		{
-			float notifXPos = prevNotifTicks + (notifTicks - prevNotifTicks) * partialTick;
+			int totalSpace = 0;
+
+			for(int i = 0;i<actual;i++) {
+				totalSpace += 36*0.6F;
+
+				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages.size());
+			
+				totalSpace += 18*0.6F;
+			}
+			
+			matrixStack.translate(0, totalSpace , 0);
+
+			float notifXPos = levelData.prevNotifTicks + (levelData.notifTicks - levelData.prevNotifTicks) * partialTick;
 			if(notifXPos <= -155)
 				notifXPos = -155;
 			
 			matrixStack.translate(notifXPos + 155, 4, 0);
 
-			int height = (int)(minecraft.font.lineHeight * 1.2f) * (messages.size());
+			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages.size());
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
@@ -183,8 +206,8 @@ public class GuiOverlay extends OverlayBase {
 
 			// Text
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-			for (int i = 0; i < messages.size(); i++) {
-				String message = messages.get(i).toString();
+			for (int i = 0; i < levelData.messages.size(); i++) {
+				String message = levelData.messages.get(i).toString();
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
@@ -223,10 +246,7 @@ public class GuiOverlay extends OverlayBase {
 		}
 		matrixStack.popPose();
 		
-		if (System.currentTimeMillis()/1000 > (timeLevelUp + levelSeconds)) {
-			showLevelUp = false;
-			playerWhoLevels = Util.NIL_UUID;
-		}
+		
 	}
 
 	private void showDriveLevelUp(GuiGraphics gui, float partialTick) {
@@ -415,13 +435,15 @@ public class GuiOverlay extends OverlayBase {
 			return;
 		}
 		
-		if(showLevelUp) {
-			prevNotifTicks = notifTicks;
-			notifTicks -= 50;
-		} else {
-			if (notifTicks <= -150) {
-				prevNotifTicks = 0;
-				notifTicks = 0;
+		for(LevelUpData notif : levelUpList) {
+			if(notif.sliding) {//If sliding in
+				notif.prevNotifTicks = notif.notifTicks;
+				notif.notifTicks -= 50;
+			} else {// Stationary
+				if (notif.notifTicks <= -150) {
+					notif.prevNotifTicks = 0;
+					notif.notifTicks = 0;
+				}
 			}
 		}
 		

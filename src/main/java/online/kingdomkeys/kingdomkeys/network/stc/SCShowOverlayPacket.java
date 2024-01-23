@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.LevelUpData;
 
 public class SCShowOverlayPacket {
 
@@ -17,6 +18,7 @@ public class SCShowOverlayPacket {
 	int munny;
 	String driveForm;
 	UUID player;
+	int level, color;
 	List<String> messages = new ArrayList<String>();
 
 	public SCShowOverlayPacket() {
@@ -48,11 +50,12 @@ public class SCShowOverlayPacket {
 	}
 	
 	//Party player
-	public SCShowOverlayPacket(String type, UUID player, List<String> messages) {
+	public SCShowOverlayPacket(String type, UUID player, int level, int color, List<String> messages) {
 		this.type = type;
 		this.player = player;
 		this.messages = messages;
-		
+		this.level = level;
+		this.color = color;
 		this.driveForm = "";
 	}
 
@@ -61,6 +64,8 @@ public class SCShowOverlayPacket {
         buffer.writeInt(this.munny);
         buffer.writeUtf(this.driveForm, 50);
         buffer.writeUUID(this.player);
+        buffer.writeInt(this.level);
+        buffer.writeInt(this.color);
         int size = this.messages.size();
        // System.out.println(size);
         buffer.writeInt(size);
@@ -76,6 +81,8 @@ public class SCShowOverlayPacket {
 		msg.munny = buffer.readInt();
 		msg.driveForm = buffer.readUtf(50);
 		msg.player = buffer.readUUID();
+		msg.level = buffer.readInt();
+		msg.color = buffer.readInt();
 		int size = buffer.readInt();
 		for(int i = 0; i < size;i++) {
 			msg.messages.add(buffer.readUtf(150));
@@ -98,17 +105,18 @@ public class SCShowOverlayPacket {
 		            GuiOverlay.munnyGet = msg.munny;
 					break;
 				case "levelup":
-		            GuiOverlay.showLevelUp = true;
-		            GuiOverlay.notifTicks = 0;
-		            GuiOverlay.timeLevelUp = time;
-		            GuiOverlay.playerWhoLevels = Util.NIL_UUID;
-					break;
-				case "levelup_party":
-		            GuiOverlay.showLevelUp = true;
-		            GuiOverlay.notifTicks = 0;
-		            GuiOverlay.timeLevelUp = time;
-		            GuiOverlay.playerWhoLevels = msg.player;
-		            GuiOverlay.messages = msg.messages;
+					LevelUpData instance = new GuiOverlay.LevelUpData();
+					instance.timeLevelUp = time;
+					instance.notifTicks = 0;
+					instance.playerUUID = msg.player;
+					instance.messages = msg.messages;
+					instance.lvl = msg.level;
+					instance.color = msg.color;
+					GuiOverlay.levelUpList.add(instance);
+		            //GuiOverlay.showLevelUp = true;
+		            //GuiOverlay.notifTicks = 0;
+		            //GuiOverlay.timeLevelUp = time;
+		            //GuiOverlay.playerWhoLevels = Util.NIL_UUID;
 					break;
 				case "drivelevelup":
 		            GuiOverlay.showDriveLevelUp = true;
