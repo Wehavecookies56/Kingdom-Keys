@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
 
 public class MagicAero extends Magic {
 
@@ -23,6 +24,7 @@ public class MagicAero extends Magic {
 		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		globalData.setAeroTicks(time, level);
 		PacketHandler.syncToAllAround(player, globalData);
+		PacketHandler.sendToAllPlayers(new SCAeroSoundPacket(player));
 		caster.swing(InteractionHand.MAIN_HAND);
 	}
 

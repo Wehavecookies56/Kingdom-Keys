@@ -51,6 +51,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncDimensionLists.class, SCSyncDimensionLists::encode, SCSyncDimensionLists::decode, SCSyncDimensionLists::handle);
 		HANDLER.registerMessage(packetID++, SCSyncCastleOblivionInteriorCapability.class, SCSyncCastleOblivionInteriorCapability::encode, SCSyncCastleOblivionInteriorCapability::decode, SCSyncCastleOblivionInteriorCapability::handle);
 		HANDLER.registerMessage(packetID++, SCOpenCODoorGui.class, SCOpenCODoorGui::encode, SCOpenCODoorGui::decode, SCOpenCODoorGui::handle);
+		HANDLER.registerMessage(packetID++, SCAeroSoundPacket.class, SCAeroSoundPacket::encode, SCAeroSoundPacket::decode, SCAeroSoundPacket::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

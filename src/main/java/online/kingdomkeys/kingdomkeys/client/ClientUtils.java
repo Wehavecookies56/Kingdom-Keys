@@ -11,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
+
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -36,6 +38,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -159,6 +162,19 @@ public class ClientUtils {
             public void run() {
                 Player player = Minecraft.getInstance().player;
                 player.refreshDimensions();
+            }
+        };
+    }
+    
+    public static DistExecutor.SafeRunnable aeroSoundInstance(int entID) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Player player = Minecraft.getInstance().player;
+                Entity ent = player.level().getEntity(entID);
+                if(ent != null && ent instanceof LivingEntity entity)
+                	Minecraft.getInstance().getSoundManager().queueTickingSound(new AeroSoundInstance(entity));
+
             }
         };
     }

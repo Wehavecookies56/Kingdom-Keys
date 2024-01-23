@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class EmeraldBluesGoal extends TargetGoal {
@@ -78,6 +79,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 			globalData.setAeroTicks(MAX_AERO_TICKS, 1);
 			PacketHandler.syncToAllAround(mob, globalData);
 			EntityHelper.setState(mob, 1);
+			PacketHandler.sendToAllPlayers(new SCAeroSoundPacket(this.mob));
 		}
 		
 		@Override
