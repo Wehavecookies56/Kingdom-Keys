@@ -1,0 +1,22 @@
+{
+  "name": "Castle Oblivion",
+  "ultrawarm": false,
+  "natural": false,
+  "coordinate_scale": 1,
+  "ambient_light": 0.0,
+  "has_skylight": true,
+  "has_ceiling": false,
+  "infiniburn": "#minecraft:infiniburn_overworld",
+  "height": 256,
+  "min_y": 0,
+  "shrunk": false,
+  "logical_height" : 256,
+  "has_raids" : false,
+  "respawn_anchor_works": false,
+  "bed_works" : false,
+  "piglin_safe" : false,
+  "fixed_time": 4284,
+  "monster_spawn_block_light_limit": 0,
+  "monster_spawn_light_level": 0,
+  "effects": "kingdomkeys:castle_oblivion"
+}

@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "kingdomkeys:castle_oblivion_5",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 0,
+    "spacing": 1,
+    "separation": 0,
+    "type": "minecraft:random_spread"
+  }
+}

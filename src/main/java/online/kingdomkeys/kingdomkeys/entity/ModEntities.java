@@ -114,17 +114,7 @@ import online.kingdomkeys.kingdomkeys.client.render.org.LaserDomeShotEntityRende
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
-import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.MoogleProjectorTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.PairBloxEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.*;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
@@ -646,4 +636,5 @@ public class ModEntities {
     public static final RegistryObject<BlockEntityType<SoAPlatformTileEntity>> TYPE_SOA_PLATFORM = TILE_ENTITIES.register("soa_platform", () -> BlockEntityType.Builder.of(SoAPlatformTileEntity::new, ModBlocks.station_of_awakening_core.get()).build(null));
     public static final RegistryObject<BlockEntityType<GummiEditorTileEntity>> TYPE_GUMMI_EDITOR = TILE_ENTITIES.register("gummi_editor", () -> BlockEntityType.Builder.of(GummiEditorTileEntity::new, ModBlocks.gummiEditor.get()).build(null));
     public static final RegistryObject<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
 }

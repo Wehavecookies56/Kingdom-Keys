@@ -1,5 +1,5 @@
 {
-  "type": "kk_shield",
+  "type": "kingdomkeys:kk_shield",
   "attributes":{
     "common":{
       "armour_negation": 0.0,

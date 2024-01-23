@@ -13,6 +13,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.item.organization.AxeSwordItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
@@ -26,6 +29,10 @@ import online.kingdomkeys.kingdomkeys.item.organization.OrgShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.item.organization.SitarItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 
 public class ModItems {
 
@@ -928,9 +935,36 @@ public class ModItems {
 			midnightAnklet = createNewItem(Strings.midnightAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness,20))),
 			chaosAnklet = createNewItem(Strings.chaosAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness, 25))),
 			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
-			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20)));
+			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20))),
 
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
+
+			//map cards
+			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
+			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
+			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
+			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS),
+			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS),
+			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS),
+			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS),
+			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING),
+			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING),
+			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING),
+			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE),
+			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE),
+			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY),
+			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE),
+			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY),
+			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE),
+			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM),
+			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY),
+			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY),
+			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE),
+			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
+
+			//floor cards
+			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
+			netherCard = createWorldCard(Strings.NetherCard, ModFloorTypes.NETHER);
 
 
 
@@ -949,6 +983,14 @@ public class ModItems {
 
 	private static RegistryObject<Item> createArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+
+	private static RegistryObject<Item> createMapCard(String name, Supplier<RoomType> type) {
+		return ITEMS.register(name, () -> new MapCardItem(type));
+	}
+
+	private static RegistryObject<Item> createWorldCard(String name, Supplier<FloorType> type) {
+		return ITEMS.register(name, () -> new WorldCardItem(type));
 	}
 	
 	private static RegistryObject<Item> createKeybladeArmorItem(String name, KKArmorMaterial material, ArmorItem.Type slot, String textureName) {

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "kingdomkeys:block/castle_oblivion_wall",
+    "top": "kingdomkeys:block/castle_oblivion_wall",
+    "side": "kingdomkeys:block/castle_oblivion_wall"
+  }
+}

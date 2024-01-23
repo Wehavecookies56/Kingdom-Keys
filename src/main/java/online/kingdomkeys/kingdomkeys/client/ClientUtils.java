@@ -7,6 +7,10 @@ import java.util.LinkedHashMap;
 
 import javax.annotation.Nullable;
 
+import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -67,18 +71,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -418,6 +410,26 @@ public class ClientUtils {
                     weapon.setOrganizationData(result);
                     IOUtils.closeQuietly(br);
                 }
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable openCODoorGui(SCOpenCODoorGui message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos)));
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable syncCastleOblivionInterior(SCSyncCastleOblivionInteriorCapability message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Level world = Minecraft.getInstance().level;
+                CastleOblivionCapabilities.ICastleOblivionInteriorCapability worldData = ModCapabilities.getCastleOblivionInterior(world);
+                worldData.deserializeNBT(message.data);
             }
         };
     }

@@ -1,0 +1,9 @@
+{
+  "type": "kingdomkeys:castle_oblivion",
+  "step": "surface_structures",
+  "start_pool": "kingdomkeys:castle_oblivion/castle_oblivion_6",
+  "size": 1,
+  "biomes": "#kingdomkeys:has_structure/castle_oblivion_biomes",
+  "spawn_overrides": {},
+  "piece_index": 6
+}
