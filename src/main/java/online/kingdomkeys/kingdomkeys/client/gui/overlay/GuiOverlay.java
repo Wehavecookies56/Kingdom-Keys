@@ -87,7 +87,6 @@ public class GuiOverlay extends OverlayBase {
 			while(it.hasNext()) {
 				showLevelUp(guiGraphics, partialTick, lvlCounter++);
 
-				System.out.println(levelUpList);
 				LevelUpData actual = it.next();
 				if (System.currentTimeMillis()/1000 > (actual.timeLevelUp + levelSeconds)) {
 					it.remove();

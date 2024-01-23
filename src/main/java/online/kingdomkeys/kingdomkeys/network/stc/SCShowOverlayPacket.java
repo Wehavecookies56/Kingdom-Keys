@@ -112,11 +112,7 @@ public class SCShowOverlayPacket {
 					instance.messages = msg.messages;
 					instance.lvl = msg.level;
 					instance.color = msg.color;
-					GuiOverlay.levelUpList.add(instance);
-		            //GuiOverlay.showLevelUp = true;
-		            //GuiOverlay.notifTicks = 0;
-		            //GuiOverlay.timeLevelUp = time;
-		            //GuiOverlay.playerWhoLevels = Util.NIL_UUID;
+					GuiOverlay.levelUpList.add(0,instance);
 					break;
 				case "drivelevelup":
 		            GuiOverlay.showDriveLevelUp = true;
