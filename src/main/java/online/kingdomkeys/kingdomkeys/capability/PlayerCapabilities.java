@@ -411,6 +411,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private BlockPos choicePedestal = new BlockPos(0, 0, 0), sacrificePedestal = new BlockPos(0, 0, 0);
 
 	private List<String> messages = new ArrayList<>();
+	private List<String> bfMessages = new ArrayList<>();
 	private List<String> dfMessages = new ArrayList<>();
 
 	private Utils.OrgMember alignment = Utils.OrgMember.NONE;
@@ -683,6 +684,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	@Override
+	public List<String> getBFMessages() {
+		return this.bfMessages;
+	}
+
+	@Override
+	public void clearBFMessages() {
+		this.getBFMessages().clear();
+	}
+	
+	@Override
+	public void setBFMessages(List<String> messages) {
+		this.bfMessages = messages;
+	}
+	
+	@Override
 	public List<String> getDFMessages() {
 		return this.dfMessages;
 	}
@@ -730,7 +746,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void displayDriveFormLevelUpMessage(Player player, String driveForm) {
-		this.getMessages().clear();
+		this.getBFMessages().clear();
 		this.getDFMessages().clear();
 
 		dfMessages.add(Strings.Stats_LevelUp_FormGauge);
@@ -754,7 +770,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			if(a.getType() == AbilityType.GROWTH) {
 				name = (new StringBuilder(name).insert(name.lastIndexOf('.'), "_"+(getEquippedAbilityLevel(baseAbility)[0]+1))).toString();
 			}
-			addAbility(baseAbility,name);
+			addAbility(baseAbility,name, true);
 		}
 
 		player.level().playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
@@ -1664,8 +1680,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 	
-	public void addAbility(String ability, String displayName) {
-		messages.add("A_"+displayName);
+	public void addAbility(String ability, String displayName, boolean dfLevelUp) {
+		if(dfLevelUp) {
+			bfMessages.add("A_"+displayName);
+		} else {
+			messages.add("A_"+displayName);
+		}
+		
 		if(abilityMap.containsKey(ability)) {
 			abilityMap.put(ability, new int[]{abilityMap.get(ability)[0]+1,abilityMap.get(ability)[1]});
 		} else {//If not already present in the map set it to level 1 and fully unequipped

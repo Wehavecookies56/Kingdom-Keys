@@ -204,6 +204,7 @@ public class ClientUtils {
                 playerData.setMaxFocus(message.maxFocus);
 
                 playerData.setMessages(message.messages);
+                playerData.setBFMessages(message.bfMessages);
                 playerData.setDFMessages(message.dfMessages);
 
                 playerData.setKnownRecipeList(message.recipeList);

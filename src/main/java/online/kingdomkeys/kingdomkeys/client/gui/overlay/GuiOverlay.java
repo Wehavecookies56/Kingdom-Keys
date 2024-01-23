@@ -263,7 +263,7 @@ public class GuiOverlay extends OverlayBase {
 				driveNotifXPos = 155;
 			
 			matrixStack.translate(driveNotifXPos - 155, 4, 0);
-			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * (playerData.getMessages().size());
+			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * (playerData.getBFMessages().size());
 			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * playerData.getDFMessages().size();
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
@@ -280,7 +280,8 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.popPose();
-	
+				
+				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, minecraft.player.getDisplayName().getString(), 140 - (minecraft.font.width(minecraft.player.getDisplayName().getString()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
@@ -305,8 +306,8 @@ public class GuiOverlay extends OverlayBase {
 				
 				// Text
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
-				for (int i = 0; i < playerData.getMessages().size(); i++) {
-					String message = playerData.getMessages().get(i);
+				for (int i = 0; i < playerData.getBFMessages().size(); i++) {
+					String message = playerData.getBFMessages().get(i);
 					float x = 33;
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
@@ -328,6 +329,7 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 102, 43, 36);
 				}
 				matrixStack.popPose();
+
 			}
 			matrixStack.popPose();
 			
@@ -345,6 +347,7 @@ public class GuiOverlay extends OverlayBase {
 				matrixStack.popPose();
 				
 				String formName = Utils.translateToLocal(ModDriveForms.registry.get().getValue(new ResourceLocation(driveForm)).getTranslationKey());
+				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, "LV.", 2 + (minecraft.font.width("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.font.width("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				showText(matrixStack, formName, 140 - (minecraft.font.width(formName) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
@@ -405,6 +408,8 @@ public class GuiOverlay extends OverlayBase {
 			}
 			matrixStack.popPose();
 		}
+		RenderSystem.setShaderColor(1,1,1,1);
+
 		matrixStack.popPose();
 		
 		if (System.currentTimeMillis()/1000 > (timeDriveLevelUp + levelSeconds))

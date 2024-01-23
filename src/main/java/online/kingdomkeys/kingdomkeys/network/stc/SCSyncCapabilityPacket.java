@@ -46,7 +46,7 @@ public class SCSyncCapabilityPacket {
 
 	public boolean recharge;
 
-	public List<String> messages, dfMessages;
+	public List<String> messages, bfMessages, dfMessages;
 	public String driveForm;
 
 	public SingleChoices singleStyle = SingleChoices.SORA;
@@ -130,6 +130,7 @@ public class SCSyncCapabilityPacket {
 		this.maxArmors = capability.getMaxArmors();
 		
 		this.messages = capability.getMessages();
+		this.bfMessages = capability.getBFMessages();
 		this.dfMessages = capability.getDFMessages();
 		this.soAstate = capability.getSoAState();
 		this.choice = capability.getChosen();
@@ -272,10 +273,15 @@ public class SCSyncCapabilityPacket {
 		buffer.writeNbt(materials);
 		
 		buffer.writeInt(messages.size());
+		buffer.writeInt(bfMessages.size());
 		buffer.writeInt(dfMessages.size());
 
 		for (int i = 0; i < this.messages.size(); i++) {
 			buffer.writeUtf(this.messages.get(i));
+		}
+		
+		for (int i = 0; i < this.bfMessages.size(); i++) {
+			buffer.writeUtf(this.bfMessages.get(i));
 		}
 		
 		for (int i = 0; i < this.dfMessages.size(); i++) {
@@ -428,11 +434,17 @@ public class SCSyncCapabilityPacket {
 		}
 		
 		int msgSize = buffer.readInt();
+		int bfMsgSize = buffer.readInt();
 		int dfMsgSize = buffer.readInt();
 		
 		msg.messages = new ArrayList<String>();
 		for(int i = 0;i<msgSize;i++) {
 			msg.messages.add(buffer.readUtf(100));
+		}
+		
+		msg.bfMessages = new ArrayList<String>();
+		for(int i = 0;i<bfMsgSize;i++) {
+			msg.bfMessages.add(buffer.readUtf(100));
 		}
 		
 		msg.dfMessages = new ArrayList<String>();

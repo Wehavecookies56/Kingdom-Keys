@@ -81,8 +81,6 @@ public class ClientEvents {
 				if (e.getEntity() == minecraft.player) {
 					minecraft.getSoundManager().play(new AlarmSoundInstance(minecraft.player));
 				}
-//				minecraft.getSoundManager().queueTickingSound(new AeroSoundInstance(ent));
-
 			}
 		}
 	}

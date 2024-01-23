@@ -131,6 +131,11 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	int getMunny();
 	
 	void displayDriveFormLevelUpMessage(Player player, String driveForm);
+	
+    void clearBFMessages();
+	void setBFMessages(List<String> messages);
+	List<String> getBFMessages();
+
     void clearDFMessages();
 	void setDFMessages(List<String> messages);
 	List<String> getDFMessages();
