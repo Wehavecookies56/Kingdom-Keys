@@ -16,7 +16,7 @@ public class SCShowOverlayPacket {
 
 	String type;
 	int munny;
-	String driveForm;
+	String driveForm, playerName;
 	UUID player;
 	int level, color;
 	List<String> messages = new ArrayList<String>();
@@ -27,6 +27,7 @@ public class SCShowOverlayPacket {
 	public SCShowOverlayPacket(String type) {
 		this.type = type;
 		this.driveForm = "";
+		this.playerName = "";
 		
 		this.player = Util.NIL_UUID;
 		this.messages = List.of();
@@ -36,6 +37,7 @@ public class SCShowOverlayPacket {
 		this.type = type;
 		this.munny = munny;
 		this.driveForm = "";
+		this.playerName = "";
 		
 		this.player = Util.NIL_UUID;
 		this.messages = List.of();
@@ -44,15 +46,17 @@ public class SCShowOverlayPacket {
 	public SCShowOverlayPacket(String type, String driveForm) {
 		this.type = type;
 		this.driveForm = driveForm;
-		
+		this.playerName = "";
+
 		this.player = Util.NIL_UUID;
 		this.messages = List.of();
 	}
 	
 	//Party player
-	public SCShowOverlayPacket(String type, UUID player, int level, int color, List<String> messages) {
+	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages) {
 		this.type = type;
 		this.player = player;
+		this.playerName = playerName;
 		this.messages = messages;
 		this.level = level;
 		this.color = color;
@@ -63,6 +67,7 @@ public class SCShowOverlayPacket {
         buffer.writeUtf(this.type, 50);
         buffer.writeInt(this.munny);
         buffer.writeUtf(this.driveForm, 50);
+        buffer.writeUtf(this.playerName, 50);
         buffer.writeUUID(this.player);
         buffer.writeInt(this.level);
         buffer.writeInt(this.color);
@@ -80,6 +85,7 @@ public class SCShowOverlayPacket {
 		msg.type = buffer.readUtf(50);
 		msg.munny = buffer.readInt();
 		msg.driveForm = buffer.readUtf(50);
+		msg.playerName = buffer.readUtf(50);
 		msg.player = buffer.readUUID();
 		msg.level = buffer.readInt();
 		msg.color = buffer.readInt();
@@ -109,6 +115,7 @@ public class SCShowOverlayPacket {
 					instance.timeLevelUp = time;
 					instance.notifTicks = 0;
 					instance.playerUUID = msg.player;
+					instance.playerName = msg.playerName;
 					instance.messages = msg.messages;
 					instance.lvl = msg.level;
 					instance.color = msg.color;
