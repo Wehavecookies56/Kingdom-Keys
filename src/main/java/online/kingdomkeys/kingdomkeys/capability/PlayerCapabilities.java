@@ -499,7 +499,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					levelUpStatsAndDisplayMessage(player, sound);
-					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) player);
 				}
 				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayer) player);
 			}
@@ -724,7 +724,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
 					Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 					if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
-						PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(),getLevel(), getNotifColor(), getMessages()), (ServerPlayer) ally);
+						PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) ally);
 						PacketHandler.syncToAllAround(player, this);
 					}
 				}

@@ -53,6 +53,7 @@ public class GuiOverlay extends OverlayBase {
 	ResourceLocation menuTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public static class LevelUpData{
+		public String playerName; //In case player is unloaded from the client
 		public UUID playerUUID;
 		public int lvl;
 		public int prevNotifTicks, notifTicks;
@@ -81,7 +82,6 @@ public class GuiOverlay extends OverlayBase {
 			}
 
 			// Level Up
-			
 			int lvlCounter = 0;
 			Iterator<LevelUpData> it = levelUpList.iterator();
 			while(it.hasNext()) {
@@ -137,7 +137,7 @@ public class GuiOverlay extends OverlayBase {
 			return;
 
 		int[] notifColor = Utils.getRGBFromDec(levelData.color);
-		String name = minecraft.level.getPlayerByUUID(levelData.playerUUID).getDisplayName().getString();
+		String name = levelData.playerName;
 		int lvl = levelData.lvl;
 
 		PoseStack matrixStack = gui.pose();		
