@@ -478,7 +478,7 @@ public class ClientEvents {
 			CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
 			if (cap != null) {
 				if (!cap.getFloors().isEmpty()) {
-					Room room = cap.getRoomAtPos(pos);
+					Room room = cap.getRoomAtPos(Minecraft.getInstance().level, pos);
 					if (room != null) {
 						if (room.getType().getProperties().getColour() != null) {
 							colour = room.getType().getProperties().getColour();

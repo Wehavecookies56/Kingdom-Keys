@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
@@ -12,10 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomGenerator;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 
 public class CSGenerateRoom {
 	
@@ -54,15 +53,28 @@ public class CSGenerateRoom {
             CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(message.pos);
 			
 			RoomType type = ((MapCardItem)message.stack.getItem()).getRoomType();
-			Room currentRoom = cap.getRoomAtPos(message.pos);
+			Room currentRoom = cap.getRoomAtPos(player.level(), message.pos);
 			RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
 			Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
+			for (Map.Entry<RoomUtils.Direction, BlockPos> doors : newRoom.doorPositions.entrySet()) {
+				CardDoorTileEntity doorTE = (CardDoorTileEntity) level.getBlockEntity(doors.getValue());
+				if (doorTE != null) {
+					if (doorTE.getParentRoom() != null) {
+						if (doorTE.getParentRoom().getDoor(doors.getKey().opposite()) != null) {
+							if (doorTE.getParentRoom().getDoor(doors.getKey().opposite()).isOpen()) {
+								doorTE.openDoor(null);
+							}
+						}
+					}
+				}
+			}
 			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
-            te.openDoor(null, currentRoom, null);
+            te.openDoor(te.getDirection());
+			te.getParentRoom().getDoor(te.getDirection().opposite()).open();
            // System.out.println(te.getNumber());
-            destTe.openDoor(null, currentRoom, null);
-            destTe.setNumber(te.getNumber());
+            destTe.openDoor(te.getDirection().opposite());
+			destTe.setDestinationRoom(te.getParentRoom());
            // System.out.println(destTe.getNumber());
             
             player.getInventory().getItem(message.slot).shrink(1);

@@ -16,15 +16,18 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.Size2i;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nullable;
 
 public class Floor implements INBTSerializable<CompoundTag> {
 
 
     BlockPos lobbyPosition;
     FloorType type = ModFloorTypes.NONE.get();
-    Map<UUID, RoomUtils.RoomPos> players;
+    Map<UUID, Room> players;
     Map<RoomUtils.RoomPos, RoomData> rooms;
     UUID floorID;
 
@@ -32,7 +35,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         rooms = new HashMap<>();
         players = new HashMap<>();
         floorID = UUID.randomUUID();
-        RoomData lobby = new RoomData(new RoomUtils.RoomPos(0, 0));
+        RoomData lobby = new RoomData(RoomUtils.ZERO);
         lobby.setDoor(new DoorData(DoorData.Type.EXIT), RoomUtils.Direction.SOUTH);
         lobby.setDoor(new DoorData(DoorData.Type.NORMAL), RoomUtils.Direction.NORTH);
         lobby.setParent(this);
@@ -47,8 +50,8 @@ public class Floor implements INBTSerializable<CompoundTag> {
         return floorID;
     }
 
-    public Map<UUID, RoomUtils.RoomPos> getPlayers() {
-        return ImmutableMap.<UUID, RoomUtils.RoomPos>builder().putAll(players).build();
+    public Map<UUID, Room> getPlayers() {
+        return ImmutableMap.<UUID, Room>builder().putAll(players).build();
     }
 
     public boolean hasWorldCard() {
@@ -63,6 +66,38 @@ public class Floor implements INBTSerializable<CompoundTag> {
         players.remove(player.getGameProfile().getId());
     }
 
+    //calculate the length of the room based on the furthest room from the lobby
+    public int calculateFloorLength() {
+        int furthestRoomPos = 0;
+        for (RoomUtils.RoomPos pos : rooms.keySet()) {
+            furthestRoomPos = Math.max(furthestRoomPos, pos.y);
+        }
+        return (furthestRoomPos + 1) * 128;
+    }
+
+    public boolean inFloor(BlockPos pos) {
+        if (rooms.size() > 0) {
+            Room lobby = rooms.get(RoomUtils.ZERO).getGenerated();
+            if (lobby != null) {
+                int maxX = lobby.position.getX() + lobby.type.getProperties().getDimensions().width;
+                int minX = lobby.position.getX();
+                int maxZ = lobby.position.getZ() + lobby.type.getProperties().getDimensions().height;
+                int minZ = lobby.position.getZ();
+                for (Map.Entry<RoomUtils.RoomPos, RoomData> roomData : rooms.entrySet()) {
+                    Room room = roomData.getValue().getGenerated();
+                    Size2i roomSize = room.type.getProperties().getDimensions();
+                    BlockPos roomPos = room.position;
+                    minX = Math.min(minX, roomPos.getX());
+                    maxX = Math.max(maxX, roomPos.getX() + roomSize.width);
+                    minZ = Math.min(minZ, roomPos.getZ());
+                    maxZ = Math.max(maxZ, roomPos.getZ() + roomSize.height);
+                }
+                return pos.getX() >= minX && pos.getX() <= maxX && pos.getZ() >= minZ && pos.getZ() <= maxZ;
+            }
+        }
+        return false;
+    }
+
     public void createLobby(BlockPos pos) {
         lobbyPosition = pos;
     }
@@ -74,6 +109,15 @@ public class Floor implements INBTSerializable<CompoundTag> {
 
     public FloorType getType() {
         return type;
+    }
+
+    public BlockPos getLobbyPosition() {
+        return lobbyPosition;
+    }
+
+    public Room getLobbyRoom() {
+        //lobby room is always generated at RoomPos 0,0
+        return rooms.get(RoomUtils.ZERO).getGenerated();
     }
 
     public void generateLayout() {
@@ -136,6 +180,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         return rooms.get(pos);
     }
 
+    @Nullable
     public Pair<RoomData, RoomUtils.Direction> getAdjacentRoom(RoomData room, RoomUtils.Direction direction) {
         RoomUtils.RoomPos adjPos = room.pos.add(direction);
         if (rooms.containsKey(adjPos)) {
@@ -173,9 +218,9 @@ public class Floor implements INBTSerializable<CompoundTag> {
         CompoundTag playersTag = new CompoundTag();
         for (int i = 0; i < players.size(); i++) {
             List<UUID> uuids = players.keySet().stream().toList();
-            List<RoomUtils.RoomPos> rooms = players.values().stream().toList();
+            List<Room> rooms = players.values().stream().toList();
             playersTag.putUUID("players_uuid_" + i, uuids.get(i));
-            playersTag.put("players_room_" + i, RoomUtils.RoomPos.serialize(rooms.get(i)));
+            playersTag.put("players_room_" + i, rooms.get(i).serializeNBT());
         }
         tag.put("players", playersTag);
         tag.putInt("rooms_size", rooms.size());

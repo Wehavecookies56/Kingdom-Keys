@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
@@ -25,11 +26,13 @@ public class CardDoorTileEntity extends BlockEntity {
     boolean open = false;
     BlockPos destination;
     RoomData parent;
+    RoomData destinationRoom;
     RoomUtils.Direction direction;
-    int number;
-
-    public void openDoor(MapCardItem card, Room roomDest, RoomUtils.Direction directionFrom) {
+    public void openDoor(RoomUtils.Direction directionFrom) {
         open = true;
+        if (directionFrom != null) {
+            parent.getDoor(directionFrom.opposite()).open();
+        }
         level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, true), 2);
     }
 
@@ -45,20 +48,20 @@ public class CardDoorTileEntity extends BlockEntity {
         return parent;
     }
 
+    public RoomData getDestinationRoom() {
+        return destinationRoom;
+    }
+
+    public void setDestinationRoom(RoomData destinationRoom) {
+        this.destinationRoom = destinationRoom;
+    }
+
     public void setDirection(RoomUtils.Direction direction) {
         this.direction = direction;
     }
 
     public RoomUtils.Direction getDirection() {
         return direction;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getNumber() {
-        return number;
     }
 
     @Override
@@ -68,7 +71,9 @@ public class CardDoorTileEntity extends BlockEntity {
             parent = RoomData.deserialize(pTag.getCompound("parent"));
         }
         direction = RoomUtils.Direction.values()[pTag.getInt("direction")];
-        number = pTag.getInt("number");
+        if (pTag.contains("destination_room")) {
+            destinationRoom = RoomData.deserialize(pTag.getCompound("destination_room"));
+        }
         open = pTag.getBoolean("open");
         if (open && pTag.getCompound("destination") != null) {
             destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
@@ -83,8 +88,8 @@ public class CardDoorTileEntity extends BlockEntity {
         if (parent != null) {
             pTag.put("parent", parent.serializeNBT());
             pTag.putInt("direction", direction.ordinal());
+            pTag.put("destination_room", destinationRoom.serializeNBT());
         }
-        pTag.putInt("number", number);
         pTag.putBoolean("open", open);
         if (open && destination != null) {
             pTag.put("destination", NbtUtils.writeBlockPos(destination));

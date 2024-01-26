@@ -21,12 +21,15 @@ public class Room implements INBTSerializable<CompoundTag> {
     public Map<RoomUtils.Direction, BlockPos> doorPositions;
     public UUID parentFloor;
 
+    RoomUtils.RoomPos roomPos;
+
     //If the structure has been generated in the world
     boolean generated;
 
-    public Room(UUID parentFloor) {
+    public Room(UUID parentFloor, RoomUtils.RoomPos roomPos) {
         this.parentFloor = parentFloor;
         this.doorPositions = new HashMap<>();
+        this.roomPos = roomPos;
     }
 
     //Clear room if needed, set type and position
@@ -49,6 +52,14 @@ public class Room implements INBTSerializable<CompoundTag> {
 
     public RoomType getType() {
         return type;
+    }
+
+    public RoomUtils.RoomPos getRoomPos() {
+        return roomPos;
+    }
+
+    public RoomData getRoomData(Level level) {
+        return getParent(level).getRoom(getRoomPos());
     }
 
     public Floor getParent(Level level) {
@@ -88,6 +99,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("parent", parentFloor);
+        tag.put("room_pos", RoomUtils.RoomPos.serialize(roomPos));
         tag.putString("type", type.registryName.toString());
         tag.put("position", NbtUtils.writeBlockPos(position));
         tag.putInt("mobs", mobsRemaining);
@@ -107,6 +119,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     @Override
     public void deserializeNBT(CompoundTag tag) {
         parentFloor = tag.getUUID("parent");
+        roomPos = RoomUtils.RoomPos.deserialize(tag.getCompound("room_pos"));
         type = ModRoomTypes.registry.get().getValue(new ResourceLocation(tag.getString("type")));
         position = NbtUtils.readBlockPos(tag.getCompound("position"));
         mobsRemaining = tag.getInt("mobs");
@@ -119,7 +132,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     public static Room deserialize(CompoundTag tag) {
-        Room room = new Room(tag.getUUID("parent"));
+        Room room = new Room(tag.getUUID("parent"), RoomUtils.RoomPos.deserialize(tag.getCompound("room_pos")));
         room.deserializeNBT(tag);
         return room;
     }

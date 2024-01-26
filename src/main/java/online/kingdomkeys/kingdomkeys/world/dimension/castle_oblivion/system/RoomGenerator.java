@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.StructureBlock;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StructureMode;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -40,7 +41,7 @@ public class RoomGenerator {
     public Room generateRoom(RoomData data, RoomType type, Player player, Room currentRoom, RoomUtils.Direction doorDirection, boolean newFloor) {
         try {
             //todo new floor handling
-            Room room = new Room(currentRoom.parentFloor);
+            Room room = new Room(currentRoom.parentFloor, data.pos);
             room.createRoomFromCard(type, player.level(), currentRoom, doorDirection);
             BlockPos pos = room.position;
             Level level = player.level();
@@ -82,18 +83,30 @@ public class RoomGenerator {
                         RoomUtils.Direction facing = RoomUtils.Direction.NORTH;
                         BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.TYPE, false);
                         if (be.getMetaData().contains("north")) {
+                            if (data.getDoor(RoomUtils.Direction.NORTH) != null && data.getDoor(RoomUtils.Direction.NORTH).open) {
+                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                            }
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.NORTH.getOpposite());
                             room.doorPositions.put(RoomUtils.Direction.NORTH, blockpos.immutable());
                             facing = RoomUtils.Direction.NORTH;
                         } else if (be.getMetaData().contains("west")) {
+                            if (data.getDoor(RoomUtils.Direction.WEST) != null && data.getDoor(RoomUtils.Direction.WEST).open) {
+                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                            }
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.WEST.getOpposite());
                             room.doorPositions.put(RoomUtils.Direction.WEST, blockpos.immutable());
                             facing = RoomUtils.Direction.WEST;
                         } else if (be.getMetaData().contains("east")) {
+                            if (data.getDoor(RoomUtils.Direction.EAST) != null && data.getDoor(RoomUtils.Direction.EAST).open) {
+                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                            }
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.EAST.getOpposite());
                             room.doorPositions.put(RoomUtils.Direction.EAST, blockpos.immutable());
                             facing = RoomUtils.Direction.EAST;
                         } else if (be.getMetaData().contains("south")) {
+                            if (data.getDoor(RoomUtils.Direction.SOUTH) != null && data.getDoor(RoomUtils.Direction.SOUTH).open) {
+                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                            }
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, Direction.SOUTH.getOpposite());
                             room.doorPositions.put(RoomUtils.Direction.SOUTH, blockpos.immutable());
                             facing = RoomUtils.Direction.SOUTH;
@@ -105,7 +118,7 @@ public class RoomGenerator {
                                 CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
                                 cardDoorTileEntity.setParent(data);
                                 cardDoorTileEntity.setDirection(facing);
-                                cardDoorTileEntity.setNumber(Utils.randomWithRange(0, 9));
+                                cardDoorTileEntity.setDestinationRoom(adjacentRoom.getFirst());
                                 level.setBlockEntity(cardDoorTileEntity);
                             }
                         }
@@ -117,6 +130,7 @@ public class RoomGenerator {
             data.setGenerated(room);
             SCSyncCastleOblivionInteriorCapability.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
+            MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
             return room;
         } catch (IOException e){
             e.printStackTrace();

@@ -8,8 +8,10 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -23,7 +25,8 @@ public class CastleOblivionCapabilities {
     public interface ICastleOblivionInteriorCapability extends INBTSerializable<CompoundTag> {
         List<Floor> getFloors();
         void addFloor(Floor floor);
-        Room getRoomAtPos(BlockPos pos);
+        Room getRoomAtPos(Level level, BlockPos pos);
+        Floor getFloorAtPos(Level level, BlockPos pos);
         Floor getFloorByID(UUID id);
         boolean isInRoom(BlockPos pos);
     }
@@ -66,9 +69,8 @@ public class CastleOblivionCapabilities {
         }
 
         @Override
-        public Room getRoomAtPos(BlockPos pos) {
-            //TODO get floor properly
-            Floor floor = getFloors().get(0);
+        public Room getRoomAtPos(Level level, BlockPos pos) {
+            Floor floor = getFloorAtPos(level, pos);
             for (RoomData room : floor.getRooms()) {
                 Room r = room.getGenerated();
                 if (r != null) {
@@ -77,6 +79,24 @@ public class CastleOblivionCapabilities {
                     }
                 }
             }
+            return null;
+        }
+
+        //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
+        @Override
+        public Floor getFloorAtPos(Level level, BlockPos pos) {
+            Room closestLobby = floors.get(0).getLobbyRoom();
+            if (closestLobby != null) {
+                double closestDistance = closestLobby.position.distSqr(pos);
+                for (Floor floor : getFloors()) {
+                    if (floor.getLobbyPosition().distSqr(pos) < closestDistance) {
+                        closestLobby = floor.getLobbyRoom();
+                        closestDistance = floor.getLobbyPosition().distSqr(pos);
+                    }
+                }
+                return closestLobby.getParent(level);
+            }
+            //if there is no room in the first floor nothing has generated yet
             return null;
         }
 

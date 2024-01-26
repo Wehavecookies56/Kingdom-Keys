@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 
 public class RoomUtils {
 
+    public static final RoomPos ZERO = new RoomPos(0, 0);
+
     public static final int SPACING = 1024;
     public static class FloorPos {
         int x, y, z;

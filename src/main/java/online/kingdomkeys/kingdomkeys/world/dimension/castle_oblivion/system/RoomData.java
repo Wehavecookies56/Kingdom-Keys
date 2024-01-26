@@ -8,17 +8,21 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class RoomData implements INBTSerializable<CompoundTag> {
 
-    public Map<RoomUtils.Direction, DoorData> doors;
+    Map<RoomUtils.Direction, DoorData> doors;
     public final RoomUtils.RoomPos pos;
     UUID parent;
     Room generatedRoom;
 
+    int cardCost;
+
     public RoomData(RoomUtils.RoomPos pos) {
         this.pos = pos;
         doors = new HashMap<>();
+        this.cardCost = Utils.randomWithRange(0, 9);
     }
 
     public Floor getParentFloor(Level level) {
@@ -31,6 +35,14 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     public void setDoor(DoorData door, RoomUtils.Direction direction) {
         doors.put(direction, door);
+    }
+
+    public DoorData getDoor(RoomUtils.Direction direction) {
+        return doors.get(direction);
+    }
+
+    public int getCardCost() {
+        return cardCost;
     }
 
     public static RoomData inDirection(RoomData prevRoom, RoomUtils.Direction direction) {
@@ -65,6 +77,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         if (generatedRoom != null) {
             tag.put("generated_room", generatedRoom.serializeNBT());
         }
+        tag.putInt("card_cost", cardCost);
         return tag;
     }
 
@@ -82,6 +95,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         if (tag.getBoolean("generated")) {
             generatedRoom = Room.deserialize(tag.getCompound("generated_room"));
         }
+        cardCost = tag.getInt("card_cost");
     }
 
     public static RoomData deserialize(CompoundTag tag) {

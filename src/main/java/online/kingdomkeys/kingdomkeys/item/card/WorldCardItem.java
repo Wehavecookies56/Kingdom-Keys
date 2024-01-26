@@ -37,7 +37,7 @@ public class WorldCardItem extends Item {
     	if(!pLevel.isClientSide) {
 	        CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(pLevel);
 	        if (cap != null) {
-	            Room currentRoom = cap.getRoomAtPos(pPlayer.blockPosition());
+	            Room currentRoom = cap.getRoomAtPos(pLevel, pPlayer.blockPosition());
 	            if (currentRoom == null) {
 	                KingdomKeys.LOGGER.info("something is wrong player should be in the lobby room");
 	            } else {

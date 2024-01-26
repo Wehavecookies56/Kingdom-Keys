@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -14,10 +15,13 @@ import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
@@ -39,9 +43,19 @@ public class CastleOblivionHandler {
             if (cap != null) {
                 cap.getFloors().forEach(floor -> {
                     if (floor.shouldTick()) {
-                        floor.getPlayers().values().forEach(roompos -> floor.getRoom(roompos).getGenerated().tick());
+                        floor.getPlayers().values().forEach(room -> room.getRoomData(event.level).getGenerated().tick());
                     }
                 });
+            }
+        }
+    }
+
+    //Prevent card door from breaking in interior (there are probably ways around this
+    @SubscribeEvent
+    public void breakBlock(BlockEvent.BreakEvent event) {
+        if (event.getPlayer().level().dimension().location().toString().contains("castle_oblivion_interior_")) {
+            if (event.getState().getBlock() == ModBlocks.cardDoor.get()) {
+                event.setCanceled(true);
             }
         }
     }
@@ -80,7 +94,7 @@ public class CastleOblivionHandler {
                     //todo world card stuff, instead should open world card gui then generate room based on world and telport afterwards
                     CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(event.player.level());
                     if (cap != null) {
-                        Room currentRoom = cap.getRoomAtPos(pos);
+                        Room currentRoom = cap.getRoomAtPos(event.player.level(), pos);
                         if (currentRoom == null) {
                             KingdomKeys.LOGGER.info("something is wrong player should be in the lobby room");
                         } else {
@@ -96,9 +110,11 @@ public class CastleOblivionHandler {
                                 BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);
                                 CardDoorTileEntity te = (CardDoorTileEntity) event.player.level().getBlockEntity(newPos);
                                 if (te != null) { //null check in case door is destroyed
-                                    newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
-                                    te.openDoor(null, currentRoom, null);
-                                    event.player.moveTo(newPos.getX(), newPos.getY(), newPos.getZ());
+                                    if (!MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, event.player))) {
+                                        newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
+                                        te.openDoor(RoomUtils.Direction.NORTH);
+                                        event.player.teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
+                                    }
                                 }
 
                             }
@@ -114,11 +130,14 @@ public class CastleOblivionHandler {
         if (event.getFrom().equals(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(KingdomKeys.MODID, "castle_oblivion")))) {
             if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
                 SCSyncCastleOblivionInteriorCapability.syncClients(event.getEntity().level());
+                event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
+                event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
+                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));
                 ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
                 if (cap.getFloors().isEmpty()) {
                     Floor startFloor = new Floor();
-                    Room lobby = new Room(startFloor.getFloorID());
+                    Room lobby = new Room(startFloor.getFloorID(), new RoomUtils.RoomPos(0, 0));
                     Room.createDefaultLobby(lobby);
                     startFloor.getRoom(new RoomUtils.RoomPos(0, 0)).setGenerated(lobby);
                     startFloor.createLobby(lobby.position);
@@ -129,7 +148,16 @@ public class CastleOblivionHandler {
     }
 
     public static Floor getCurrentFloor(Player player) {
-        //TODO do a right proper check
-        return ModCapabilities.getCastleOblivionInterior(player.level()).getFloors().get(0);
+        return ModCapabilities.getCastleOblivionInterior(player.level()).getFloorAtPos(player.level(), player.blockPosition());
+    }
+
+    @SubscribeEvent
+    public void changedRoom(CastleOblivionEvent.PlayerChangeRoomEvent event) {
+        System.out.println("Entered Room: " + event.getNewRoom().position);
+    }
+
+    @SubscribeEvent
+    public void generatedRoom(CastleOblivionEvent.RoomGeneratedEvent event) {
+        System.out.println("Generated a new room: " + event.getGeneratedRoomData().getGenerated());
     }
 }

@@ -76,8 +76,8 @@ public class CardSelectionScreen extends MenuBackground {
 			
 			Level level = minecraft.level;
             CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
-			Room currentRoom = cap.getRoomAtPos(te.getBlockPos());
-            te.openDoor(null, currentRoom, null);
+			Room currentRoom = cap.getRoomAtPos(level, te.getBlockPos());
+            te.openDoor(null);
             minecraft.setScreen(null);
 		}));
 		createBtn.visible = false;
@@ -88,7 +88,7 @@ public class CardSelectionScreen extends MenuBackground {
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		guiGraphics.drawString(minecraft.font,"Is opened? "+te.isOpen(), 20, 50, 0xFF9900);
-		guiGraphics.drawString(minecraft.font,"Cost: "+te.getNumber(), 20, 60, 0xFF9900);
+		guiGraphics.drawString(minecraft.font,"Cost: "+te.getDestinationRoom().getCardCost(), 20, 60, 0xFF9900);
 		
 		for (int i = 0; i < cards.size(); i++) {
 			cards.get(i).render(guiGraphics, mouseX, mouseY, partialTicks);

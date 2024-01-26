@@ -23,12 +23,14 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 
@@ -85,7 +87,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
 							System.out.println("Size: "+te.getParentRoom().getParentFloor(level).getRooms().size());
-							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
+							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getDestinationRoom().getCardCost() + " Open? " + te.isOpen());
 							PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
 						}
 					}
@@ -116,17 +118,18 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock {
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
-							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getNumber() + " Open? " + te.isOpen());
+							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getDestinationRoom().getCardCost() + " Open? " + te.isOpen());
 							if (te.isOpen()) { // If it's closed always open gui
 								// TELEPORT PLAYER
 								RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
 								Room newRoom = data.getGenerated();
 								if (newRoom != null) {
-									BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
-									destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
-									//player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-	                                player.moveTo(destination.getX(), destination.getY(), destination.getZ());                                
-	
+									if (!MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(cap.getRoomAtPos(level, te.getBlockPos()), newRoom, player))) {
+										BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+										destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
+										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
+									}
 								}
 							}
 						}

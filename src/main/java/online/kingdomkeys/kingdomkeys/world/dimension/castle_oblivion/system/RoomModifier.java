@@ -12,4 +12,8 @@ public abstract class RoomModifier {
 
     public String modifierName;
 
+    public RoomModifier(String modifierName) {
+        this.modifierName = modifierName;
+    }
+
 }

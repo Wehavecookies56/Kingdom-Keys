@@ -17,6 +17,8 @@ public class RoomProperties {
     private List<RoomModifier> modifiers;
     private List<FloorType> compatibleFloors;
     private RoomStructure fixedRoom;
+    private List<RoomUtils.Direction> doorDirections;
+
     private RoomProperties(Builder builder) {
         this.lobby = builder.lobby;
         this.size = builder.size;
@@ -78,7 +80,7 @@ public class RoomProperties {
     }
 
     public enum RoomCategory {
-        ENEMY, STATUS, BOUNTY, SPECIAL
+        ENEMY, STATUS, BOUNTY, SPECIAL, ANY
     }
 
     public static Builder enemy(RoomSize size) {

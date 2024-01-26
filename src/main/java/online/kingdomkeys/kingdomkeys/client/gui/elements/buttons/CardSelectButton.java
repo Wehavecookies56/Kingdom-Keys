@@ -42,7 +42,7 @@ public class CardSelectButton extends MenuButtonBase {
         //if(!isSelected())
         //System.out.println(mouseX+" "+mouseY);
         isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
-        active = card.getCardValue(stack) >= parent.te.getNumber();
+        active = card.getCardValue(stack) >= parent.te.getDestinationRoom().getCardCost() || card.getCardValue(stack) == 0;
 
         if(isHovered()) {
             selected = false;
