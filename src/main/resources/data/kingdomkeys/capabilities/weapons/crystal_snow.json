@@ -1,5 +1,5 @@
 {
-  "type": "kingdomkeys:keyblade",
+  "type": "kingdomkeys:kk_keyblade",
   "attributes":{
     "common":{
       "armour_negation": 0.0,
