@@ -20,8 +20,8 @@ public class Struggle {
 	private List<Participant> participants = new ArrayList<Participant>();
 	//private boolean priv;
 	private byte size;
-	private float damageMult;
-	public BlockPos blockPos;
+	private int damageMult;
+	public BlockPos blockPos, c1,c2;
 
 	public Struggle() {
 
@@ -32,8 +32,10 @@ public class Struggle {
 		this.addParticipant(leaderId, username).setIsOwner();
 		//this.priv = priv;
 		this.size = size;
-		this.damageMult = 1.0F;
+		this.damageMult = 100;
 		this.blockPos = blockPos;
+		this.c1 = new BlockPos(0,0,0);
+		this.c2 = new BlockPos(0,0,0);
 	}
 
 	public void setPos(BlockPos pos) {
@@ -44,21 +46,29 @@ public class Struggle {
 		return this.blockPos;
 	}
 	
+	public void setC1(BlockPos pos) {
+		this.c1 = pos;
+	}
+
+	public BlockPos getC1() {
+		return this.c1;
+	}
+	
+	public void setC2(BlockPos pos) {
+		this.c2 = pos;
+	}
+
+	public BlockPos getC2() {
+		return this.c2;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public String getName() {
 		return this.name;
-	}
-
-	/*public void setPriv(boolean priv) {
-		this.priv = priv;
-	}
-
-	public boolean getPriv() {
-		return this.priv;
-	}*/
+	}	
 
 	public void setSize(byte size) {
 		this.size = size;
@@ -68,11 +78,11 @@ public class Struggle {
 		return this.size;
 	}
 
-	public void setDamageMult(float val) {
+	public void setDamageMult(int val) {
 		this.damageMult = val;
 	}
 
-	public float getDamageMult() {
+	public int getDamageMult() {
 		return this.damageMult;
 	}
 
@@ -126,8 +136,10 @@ public class Struggle {
 		struggleNBT.putString("name", this.getName());
 		//partyNBT.putBoolean("private", this.priv);
 		struggleNBT.putByte("size", this.size);
-		struggleNBT.putFloat("dmg_mult", this.damageMult);
+		struggleNBT.putInt("dmg_mult", this.damageMult);
 		struggleNBT.putIntArray("posArray", new int[] {this.blockPos.getX(),this.blockPos.getY(),this.blockPos.getZ()});
+		struggleNBT.putIntArray("c1", new int[] {this.c1.getX(),this.c1.getY(),this.c1.getZ()});
+		struggleNBT.putIntArray("c2", new int[] {this.c2.getX(),this.c2.getY(),this.c2.getZ()});
 
 		ListTag participants = new ListTag();
 		for (Struggle.Participant participant : this.getParticipants()) {
@@ -146,10 +158,16 @@ public class Struggle {
 		this.setName(nbt.getString("name"));
 		//this.setPriv(nbt.getBoolean("private"));
 		this.setSize(nbt.getByte("size"));
-		this.setDamageMult(nbt.getFloat("dmg_mult"));
+		this.setDamageMult(nbt.getInt("dmg_mult"));
 		int[] posArray = nbt.getIntArray("posArray");
-		BlockPos pos = new BlockPos(posArray[0],posArray[1],posArray[2]);
-		this.setPos(pos);
+		this.setPos(new BlockPos(posArray[0],posArray[1],posArray[2]));
+		
+		int[] c1Array = nbt.getIntArray("c1");
+		this.setC1(new BlockPos(c1Array[0],c1Array[1],c1Array[2]));
+		
+		int[] c2Array = nbt.getIntArray("c2");
+		this.setC2(new BlockPos(c2Array[0],c2Array[1],c2Array[2]));
+		
 		ListTag participants = nbt.getList("participants", Tag.TAG_COMPOUND);
 		for (int j = 0; j < participants.size(); j++) {
 			CompoundTag participantNBT = participants.getCompound(j);

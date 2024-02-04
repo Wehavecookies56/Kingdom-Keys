@@ -36,7 +36,7 @@ public class StruggleJoin extends MenuBackground {
 	MenuButton[] parties = new MenuButton[100];
 	
 	public StruggleJoin(BlockPos pos) {
-		super(Strings.Gui_Menu_Party_Join, new Color(252, 173, 3));
+		super("Join Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		boardPos = pos;

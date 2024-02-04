@@ -76,7 +76,7 @@ public class MenuStruggle extends MenuBackground {
 
 		addRenderableWidget(create = new MenuButton((int) buttonPosX, start, (int) buttonWidth, "Create match", ButtonType.BUTTON, true, (e) -> {action(buttons.CREATE);}));
 		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Join match", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
-		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
+		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.SETTINGS);}));
 
 		Struggle s = ModCapabilities.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
 		if(s != null) {

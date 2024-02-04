@@ -40,7 +40,7 @@ public class StruggleCreate extends MenuBackground {
 	Party party;
 		
 	public StruggleCreate(BlockPos pos) {
-		super(Strings.Gui_Menu_Party_Create, new Color(252, 173, 3));
+		super("Start Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		this.boardPos = pos;

@@ -17,6 +17,7 @@ import com.google.common.collect.Multimap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -971,6 +972,10 @@ public class Utils {
 
 		
 		return true;
+	}
+
+	public static BlockPos stringArrayToBlockPos(String[] temp) {
+		return new BlockPos(getInt(temp[0]),getInt(temp[1]),getInt(temp[2]));
 	}
 
 }

@@ -144,8 +144,6 @@ public class GuiMenu_Party_Create extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());

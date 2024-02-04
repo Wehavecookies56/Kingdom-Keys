@@ -80,7 +80,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 		toggleFF.setMessage(Component.translatable(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 
-		
+		size.setMessage(Component.translatable(pSize+""));
+
 		//TBName
 		togglePriv.visible = true;
 		toggleFF.visible = true;
