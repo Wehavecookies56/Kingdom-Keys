@@ -916,13 +916,9 @@ public class Utils {
 	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
 		int minCost = 1000;
 		if(playerData.getDriveFormMap().size() > 2) {
-			for(Entry<String, int[]> e : playerData.getDriveFormMap().entrySet()) {
-				//System.out.println(DriveForm.NONE.toString());
-				if(!e.getKey().equals(DriveForm.NONE.toString()) && !e.getKey().equals(DriveForm.SYNCH_BLADE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e.getKey()));
-	            	minCost = Math.min(minCost, form.getDriveCost());
-				}
-				
+			for(String e : playerData.getVisibleDriveForms()) {
+            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
+            	minCost = Math.min(minCost, form.getDriveCost());	
 			}
 		}
 		return minCost;
