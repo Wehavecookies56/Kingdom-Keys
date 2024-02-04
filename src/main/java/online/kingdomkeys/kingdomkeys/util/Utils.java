@@ -904,10 +904,10 @@ public class Utils {
 	public static int getLootingLevel(Player player) {
 		int lvl = 0;
 		if(!ItemStack.isSameItem(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
-            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
+            lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
 		}
 		if(!ItemStack.isSameItem(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
-            lvl += EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
+            lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
 		}
 		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 		return lvl;

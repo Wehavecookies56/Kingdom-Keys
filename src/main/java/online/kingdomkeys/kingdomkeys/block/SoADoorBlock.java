@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -20,6 +21,12 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.struggle.MenuStruggle;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 
 public class SoADoorBlock extends BaseBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -58,7 +65,23 @@ public class SoADoorBlock extends BaseBlock {
 	
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		//setDefaultState(state.with(BIG, true));
+		
+		IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
+		
+		if(!worldIn.isClientSide) {
+			if(worldData != null) {
+				System.out.println(worldData.getStruggles().size());
+				if(worldData.getStruggles().isEmpty()) {
+					Struggle struggle = new Struggle(pos, "Struggle", player.getUUID(), player.getDisplayName().getString(), false, (byte)8);
+					worldData.addStruggle(struggle);
+					PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+				} else {
+					worldData.removeStruggle(worldData.getStruggles().get(0));
+				}
+			}
+		} else {
+			Minecraft.getInstance().setScreen(new MenuStruggle(pos));
+		}
 		return super.use(state, worldIn, pos, player, handIn, hit);
 	}
 	

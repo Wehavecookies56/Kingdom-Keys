@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -19,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
+import online.kingdomkeys.kingdomkeys.lib.Struggle.Participant;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class WorldCapabilities implements IWorldCapabilities {
@@ -49,6 +52,22 @@ public class WorldCapabilities implements IWorldCapabilities {
 			portals.add(entry.getValue().write());
 		}
 		storage.put("portals", portals);
+		
+		ListTag struggles = new ListTag();
+		List<String> struggleNames = new ArrayList<>();
+		int struggleDupeCount = 0;
+		for (Struggle struggle : this.getStruggles()) {
+			if (struggleNames.contains(struggle.getName())) {
+				struggleDupeCount++;
+			} else {
+				struggleNames.add(struggle.getName());
+				struggles.add(struggle.write());
+			}
+		}
+		if (struggleDupeCount > 0) {
+			KingdomKeys.LOGGER.warn("Discarded {} duplicate struggles while writing", struggleDupeCount);
+		}
+		storage.put("struggles", struggles);
 
 		return storage;
 	}
@@ -88,9 +107,32 @@ public class WorldCapabilities implements IWorldCapabilities {
 			portalList.put(portal.getUUID(), portal);
 		}
 		this.setPortals(portalList);
+		
+		List<Struggle> strugglesList = this.getStruggles();
+		List<String> struggleNames = new ArrayList<>();
+		int struggleDupeCount = 0;
+		ListTag struggles = nbt.getList("struggles", Tag.TAG_COMPOUND);
+
+		for (int i = 0; i < struggles.size(); i++) {
+			CompoundTag struggleNBT = struggles.getCompound(i);
+			Struggle struggle = new Struggle();
+			struggle.read(struggleNBT);
+			if (struggleNames.contains(struggle.getName())) {
+				struggleDupeCount++;
+			} else {
+				struggleNames.add(struggle.getName());
+				strugglesList.add(struggle);
+			}
+		}
+		if (struggleDupeCount > 0) {
+			KingdomKeys.LOGGER.warn("Discarded {} duplicate struggles while reading", struggleDupeCount);
+		}
+		this.setParties(partiesList);
 	}
 	
 	private List<Party> parties = new ArrayList<Party>();
+	private List<Struggle> struggles = new ArrayList<Struggle>();
+
 	int heartlessSpawnLevel = 0;
 	Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
 
@@ -237,6 +279,85 @@ public class WorldCapabilities implements IWorldCapabilities {
 	public void addPartyMember(Party party, LivingEntity entity) {
 		party.addMember(entity);
 	}
+
+	@Override
+	public void setStruggles(List<Struggle> list) {
+		this.struggles = list;
+	}
+
+	@Override
+	public List<Struggle> getStruggles() {
+		return struggles;
+	}
+
+	@Override
+	public Struggle getStruggleFromParticipant(UUID memId) {
+		for (Struggle struggle : this.struggles) {
+			for (Participant participant : struggle.getParticipants()) {
+				if (participant.getUUID().equals(memId))
+					return struggle;
+			}
+		}
+
+		return null;
+	}
+
+	@Override
+	public void addStruggleParticipant(Struggle struggle, LivingEntity entity) {
+		struggle.addParticipant(entity);
+		
+	}
+
+	@Override
+	public void addStruggle(Struggle struggle) {
+		String key = Utils.getResourceName(struggle.getName());
+		boolean found = false;
+		for(Struggle p : struggles) {
+			if(Utils.getResourceName(p.getName()).equalsIgnoreCase(key)) {
+				found = true;
+			}
+		}
+		if (!found) {
+			this.struggles.add(struggle);
+		}		
+	}
+
+	@Override
+	public void removeStruggle(Struggle struggle) {
+		String key = Utils.getResourceName(struggle.getName());
+		int pos = -1;
+		for(int i = 0; i < struggles.size();i++) {
+			//System.out.println(parties.get(i).getName()+":"+key);
+			if(Utils.getResourceName(struggles.get(i).getName()).equalsIgnoreCase(key)) {
+				pos = i;
+				break;
+			}
+		}
+		
+		if(pos>-1)
+			struggles.remove(pos);		
+	}
+
+	@Override
+	public Struggle getStruggleFromName(String name) {
+		for (Struggle struggle : this.struggles) {
+			if(struggle.getName().equalsIgnoreCase(name)) {
+				return struggle;
+			}
+		}
+
+		return null;
+	}
+	
+	@Override
+	public Struggle getStruggleFromBlockPos(BlockPos boardPos) {
+		for (Struggle struggle : this.struggles) {
+			if(struggle.getPos().equals(boardPos)) {
+				return struggle;
+			}
+		}
+		return null;
+	}
 	
 	@Override
 	public void read(CompoundTag nbt) {
@@ -260,6 +381,15 @@ public class WorldCapabilities implements IWorldCapabilities {
 			portal.read(portalNBT);
 			this.portals.put(portal.getUUID(), portal);
 		}
+		
+		this.struggles.clear();
+		ListTag struggles = nbt.getList("struggles", Tag.TAG_COMPOUND);
+		for (int i = 0; i < struggles.size(); i++) {
+			CompoundTag struggleNBT = struggles.getCompound(i);
+			Struggle struggle = new Struggle();
+			struggle.read(struggleNBT);
+			addStruggle(struggle);
+		}
 	}
 	
 	@Override
@@ -282,10 +412,22 @@ public class WorldCapabilities implements IWorldCapabilities {
 			portals.add(entry.getValue().write());
 		}
 		nbt.put("portals", portals);
+		
+		
+		ListTag struggles = new ListTag();
+		Set<String> struggleNames = new HashSet<String>();
+		for (Struggle struggle : this.struggles) {
+			if(!struggleNames.contains(struggle.getName())) {
+				struggles.add(struggle.write());
+				struggleNames.add(struggle.getName());
+			}
+		}
+
+		nbt.put("struggles", struggles);
 
 		return nbt;
 	}
 
 	
-
+	
 }

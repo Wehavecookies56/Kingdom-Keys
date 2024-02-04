@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.menu;
+package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 
 import java.awt.Color;
 
@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -30,45 +31,33 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class MenuScreen extends MenuBackground {
+public class MenuStruggle extends MenuBackground {
+	BlockPos boardPos;
 
-	public MenuScreen() {
-		super("Menu", new Color(0,0,255));
+	public MenuStruggle(BlockPos pos) {
+		super("Menu", new Color(252, 173, 3));
 		minecraft = Minecraft.getInstance();
+		boardPos = pos;
 	}
 	
 
 	public enum buttons {
-		ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES;
+		CREATE, JOIN, SETTINGS;
 	}
 
-	MenuButton items, abilities, customize, party, status, journal, config, style;
+	MenuButton create, join, settings;
 
 	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	protected void action(buttons buttonID) {
 		switch (buttonID) {
-			case ITEMS -> minecraft.setScreen(new MenuItemsScreen());
-			case ABILITIES -> minecraft.setScreen(new MenuAbilitiesScreen());
-			case PARTY -> {
-				Party p = ModCapabilities.getWorld(minecraft.level).getPartyFromMember(minecraft.player.getUUID());
-				if (p == null) {
-					minecraft.setScreen(new GuiMenu_Party_None());
-				} else {
-					if (p.getLeader().getUUID().equals(minecraft.player.getUUID())) {
-						minecraft.setScreen(new GuiMenu_Party_Leader());
-					} else {
-						minecraft.setScreen(new GuiMenu_Party_Member());
-					}
-				}
-			}
-			case STATUS -> minecraft.setScreen(new MenuStatusScreen());
-			case CUSTOMIZE -> minecraft.setScreen(new MenuCustomizeScreen());
-			case JOURNAL -> minecraft.setScreen(new MenuJournalScreen());
-			case CONFIG -> minecraft.setScreen(new MenuConfigScreen());
-			case STYLES -> minecraft.setScreen(new StylesMenu());
+			case CREATE -> minecraft.setScreen(new StruggleCreate(boardPos));
+			case JOIN -> minecraft.setScreen(new StruggleJoin(boardPos));
+			case SETTINGS -> minecraft.setScreen(new StruggleSettings(boardPos));
+			
 		}
 		updateButtons();
 	}
@@ -85,45 +74,24 @@ public class MenuScreen extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
-		addRenderableWidget(items = new MenuButton((int) buttonPosX, start, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.ITEMS);
-		}));
-		addRenderableWidget(abilities = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.ABILITIES);
-		}));
-		addRenderableWidget(customize = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.CUSTOMIZE);
-		}));
-		addRenderableWidget(party = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.PARTY);
-		}));
-		addRenderableWidget(status = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.STATUS);
-		}));
-		addRenderableWidget(journal = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.JOURNAL);
-		}));
-		if (KingdomKeys.efmLoaded)
-			addRenderableWidget(style = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Style), ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
-		addRenderableWidget(config = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.CONFIG);
-		}));
+		addRenderableWidget(create = new MenuButton((int) buttonPosX, start, (int) buttonWidth, "Create match", ButtonType.BUTTON, true, (e) -> {action(buttons.CREATE);}));
+		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Join match", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
+		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
 
+		Struggle s = ModCapabilities.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
+		if(s != null) {
+			System.out.println(s.getOwner().getUsername());
+		}
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		items.visible = true;
-		abilities.visible = true;
-		customize.visible = true;
-		party.visible = true;
-		status.visible = true;
-		journal.visible = true;
-		config.visible = true;
-		if (KingdomKeys.efmLoaded)
-			style.visible = true;
-		customize.active = true;
-		journal.active = true;
+		create.visible = true; //TODO change to show only if configured
+		join.visible = true;
+		Struggle s = ModCapabilities.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
+		if (s != null) {
+			settings.visible = s.getOwner().getUUID().equals(minecraft.player.getUUID());
+		}
 	}
 
 	@Override
@@ -134,7 +102,6 @@ public class MenuScreen extends MenuBackground {
 	
 	public void drawPlayer(GuiGraphics gui) {
 		PoseStack matrixStack = gui.pose();
-		//PoseStack ps2 = matrixStack;
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
