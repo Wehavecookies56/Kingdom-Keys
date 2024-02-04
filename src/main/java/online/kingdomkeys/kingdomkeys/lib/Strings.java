@@ -529,6 +529,10 @@ public class Strings {
         SpellReflect = "spellreflect",
         SpellGravity = "spellgravity",
         SpellStop = "spellstop",
+
+		StruggleSword = "struggle_sword",
+		StruggleWand = "struggle_wand",
+		StruggleHammer = "struggle_hammer",
         
         LevelUpValor = "levelupdrivevalor",
         LevelUpWisdom = "levelupdrivewisdom",
