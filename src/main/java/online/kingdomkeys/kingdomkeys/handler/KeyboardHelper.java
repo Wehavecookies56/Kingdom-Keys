@@ -20,7 +20,7 @@ public class KeyboardHelper {
     }
 
     public static boolean isScrollActivatorDown () {
-        return isKeyDown(InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().getKey().getValue());
+        return !InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().isUnbound() && isKeyDown(InputHandler.Keybinds.SCROLL_ACTIVATOR.getKeybind().getKey().getValue());
     }
 
     /**
