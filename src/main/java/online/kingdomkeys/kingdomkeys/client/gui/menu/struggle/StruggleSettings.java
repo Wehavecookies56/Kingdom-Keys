@@ -100,6 +100,7 @@ public class StruggleSettings extends MenuBackground {
 	private void updateButtons() {
 		if(struggle == null)
 			return;
+		
 		size.setMessage(Component.translatable(pSize+""));
 		nameBox.setValue(struggle.getName());
 		dmgMultBox.setValue(dmgMult+"");

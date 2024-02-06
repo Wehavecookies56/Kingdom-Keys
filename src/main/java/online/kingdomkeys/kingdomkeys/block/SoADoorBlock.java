@@ -72,7 +72,7 @@ public class SoADoorBlock extends BaseBlock {
 			if(worldData != null) {
 				System.out.println(worldData.getStruggles().size());
 				if(worldData.getStruggleFromBlockPos(pos) == null) {
-					Struggle struggle = new Struggle(pos, player.getDisplayName().getString()+" Struggle", player.getUUID(), player.getDisplayName().getString(), false, (byte)8);
+					Struggle struggle = new Struggle(pos,"Struggle #"+worldData.getStruggles().size(), player.getUUID(), player.getDisplayName().getString(), false, (byte)8);
 					worldData.addStruggle(struggle);
 					PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 				}
