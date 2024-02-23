@@ -8,7 +8,7 @@
 		"parent": "forge:item/default",
 		"loader": "forge:obj",
 		"model": "kingdomkeys:models/item/keyblade/starcluster.obj",
-		"materialLibraryOverride": "kingdomkeys:models/item/keyblade/elementalencoder.mtl",
+		"mtl_override": "kingdomkeys:models/item/keyblade/elementalencoder.mtl",
 		"flip_v": true,
 		"textures": {
 	
