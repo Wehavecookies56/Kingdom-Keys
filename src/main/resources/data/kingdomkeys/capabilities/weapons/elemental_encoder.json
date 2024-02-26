@@ -1,0 +1,11 @@
+{
+	"type": "kingdomkeys:kk_keyblade",
+	"attributes":{
+		"common":{
+			"armour_negation": 0.0,
+			"impact": 4.0,
+			"max_strikes": 1,
+			"speed_bonus": -0.90
+		}
+	}
+}
