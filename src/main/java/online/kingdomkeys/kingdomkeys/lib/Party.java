@@ -13,7 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class Party {
 
-	public static final byte PARTY_LIMIT = 5;
+	//public static final byte PARTY_LIMIT = 5;
 
 	private String name;
 	private List<Member> members = new ArrayList<Member>();

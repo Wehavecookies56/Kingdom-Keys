@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -26,7 +27,7 @@ public class StruggleJoin extends MenuBackground {
 	BlockPos boardPos;
 
 	boolean priv = false;
-	byte pSize = Party.PARTY_LIMIT;
+	int pSize = ModConfigs.partyMembersLimit;
 	
 	MenuButton back;
 		

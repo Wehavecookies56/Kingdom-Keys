@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -29,7 +30,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	IWorldCapabilities worldData;
 	Party party;
 	
-	MenuButton[] players = new MenuButton[Party.PARTY_LIMIT];
+	MenuButton[] players = new MenuButton[ModConfigs.partyMembersLimit];
 	
 	public GuiMenu_Party_Kick() {
 		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));
