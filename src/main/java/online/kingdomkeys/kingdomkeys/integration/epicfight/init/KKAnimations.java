@@ -30,7 +30,7 @@ import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.forgeevent.AnimationRegistryEvent;
 import yesman.epicfight.api.utils.TypeFlexibleHashMap;
 import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
-import yesman.epicfight.config.ConfigurationIngame;
+import yesman.epicfight.config.EpicFightOptions;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -126,7 +126,7 @@ public class KKAnimations {
                 super.end(entitypatch, nextAnimation, isEnd);
 
                 if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
-                    float playbackSpeed = ConfigurationIngame.A_TICK * this.getPlaySpeed(entitypatch);
+                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch);
                     entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
                 }
             }
@@ -157,7 +157,7 @@ public class KKAnimations {
                 super.end(entitypatch, nextAnimation, isEnd);
 
                 if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
-                    float playbackSpeed = ConfigurationIngame.A_TICK * this.getPlaySpeed(entitypatch);
+                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch);
                     entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
                 }
             }

@@ -34,7 +34,7 @@ public class CheckboxButton extends AbstractButton {
             if (checked) {
                 gui.blit(TEXTURE, getX(), getY(), 10, 0, 10, 10);
             }
-            gui.drawString(Minecraft.getInstance().font, getMessage().getString(), getX() + width + 3, getY() + 2, 4210752);
+            gui.drawString(Minecraft.getInstance().font, getMessage().getString(), getX() + width + 3, getY() + 2, 4210752, false);
         }
     }
 
