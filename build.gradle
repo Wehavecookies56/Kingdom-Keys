@@ -131,9 +131,10 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     implementation fg.deobf("curse.maven:patchouli-306770:4633797")
-    implementation fg.deobf("curse.maven:jer-240630:4689044")
-	implementation fg.deobf("curse.maven:epic-fight-mod-405076:4945239")
-    //implementation fg.deobf("curse.maven:epicfight-405076:4823660")
+    //implementation fg.deobf("curse.maven:jer-240630:4689044")
+	implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
+	//implementation fg.deobf("curse.maven:epic-fight-mod-405076:4945239")
+    implementation fg.deobf("curse.maven:epic-fight-mod-405076:5159623")
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 

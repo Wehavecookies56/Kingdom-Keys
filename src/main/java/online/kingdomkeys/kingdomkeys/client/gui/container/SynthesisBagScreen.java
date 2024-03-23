@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,9 +86,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	@Override
 	protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
 		String s = title.getString()+ " LV." + (bagLevel + 1);
-		gui.drawString(font, s, imageWidth / 2 -17 / 2 - font.width(s) / 2, 5, 4210752);
-		// font.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2,
-		// 4210752);
+		gui.drawString(font, s, imageWidth / 2 -17 / 2 - font.width(s) / 2, 5, 4210752, false);
 	}
 
 	@Override
