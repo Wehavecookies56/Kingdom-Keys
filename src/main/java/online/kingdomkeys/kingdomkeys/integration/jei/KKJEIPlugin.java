@@ -50,7 +50,11 @@ public class KKJEIPlugin implements IModPlugin {
         List<Item> keychainsFromRegistry = ForgeRegistries.ITEMS.getValues().stream().filter(i -> i instanceof KeychainItem).toList();
         List<Item> orgWeapons = ForgeRegistries.ITEMS.getValues().stream().filter(i -> i instanceof IOrgWeapon).toList();
         List<KeychainItem> keychains = new ArrayList<>();
-        keychainsFromRegistry.forEach(chain -> keychains.add((KeychainItem) chain));
+        keychainsFromRegistry.forEach(chain -> {
+            if (((KeychainItem) chain).getKeyblade() != null) {
+                keychains.add((KeychainItem) chain);
+            }
+        });
 
         //Info
         InfoAdder info = new InfoAdder(registration);

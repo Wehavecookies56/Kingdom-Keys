@@ -85,8 +85,10 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 			}
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
-						addRenderableWidget(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem keychainItem) {
+						if (keychainItem.getKeyblade() != null) {
+							addRenderableWidget(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+						}
 					}
 				}
 			}
