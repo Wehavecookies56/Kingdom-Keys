@@ -12,6 +12,7 @@ public class ServerConfig {
     public ForgeConfigSpec.IntValue recipeDropChance;
 
     public ForgeConfigSpec.IntValue partyRangeLimit;
+    public ForgeConfigSpec.IntValue partyMembersLimit;
 
     public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ForgeConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -39,6 +40,11 @@ public class ServerConfig {
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")
                 .defineInRange("partyRangeLimit", 50, 1, 150);
+        
+        partyMembersLimit = builder
+                .comment("Party members limit")
+                .translation(KingdomKeys.MODID + ".config.party_members_limit")
+                .defineInRange("partyMembersLimit", 5, 1, 20);
                
         requireSynthTier = builder
                 .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
