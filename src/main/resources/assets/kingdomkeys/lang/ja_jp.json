@@ -286,8 +286,7 @@
 	"ability.ability_extra_cast.name": "MPリーヴ",
 	"ability.ability_extra_cast.desc": "MPが1以上残っていればMPチャージを発生させずにMP消費技を使うことができます。（ケアル系魔法・リンクコマンドは除く）",
 	"ability.ability_mp_thrift.name": "MPセーヴ",
-	"ability.ability_mp_thrift.desc": "MP消費技の消費MPが20％ダウンします
-複数セットすると効果がアップします。",
+	"ability.ability_mp_thrift.desc": "MP消費技の消費MPが20％ダウンします複数セットすると効果がアップします。",
 	"ability.ability_critical_boost.name": "クリティカルアップ",
 	"ability.ability_critical_boost.desc": "クリティカルヒットが出やすくなります。たくさん装備すると、さらに出やすくなります。",
 	"ability.ability_jackpot.name": "プライズアップ",
