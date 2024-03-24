@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortShoulderModel;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 
 @OnlyIn(Dist.CLIENT)
 public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
@@ -53,7 +53,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 		if(entitylivingbaseIn instanceof Player player) {
 			if (ModCapabilities.getPlayer(player) != null) {
 				ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
-				String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
+				String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
 				if (armorName.equals("") || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY))
 					return;
 

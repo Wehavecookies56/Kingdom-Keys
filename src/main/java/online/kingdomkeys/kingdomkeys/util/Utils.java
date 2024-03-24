@@ -60,7 +60,7 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -459,7 +459,7 @@ public class Utils {
 	}
 	
 	public static boolean hasArmorID(ItemStack stack) {
-		if (stack.getItem() instanceof ShoulderArmorItem || stack.getItem() instanceof BaseArmorItem) {
+		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("armorID")) {
 					return true;

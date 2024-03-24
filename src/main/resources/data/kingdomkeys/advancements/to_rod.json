@@ -2,7 +2,7 @@
 	"parent": "kingdomkeys:root",
     "display": {
         "icon": {
-            "item": "kingdomkeys:pedestal"
+            "item": "kingdomkeys:rod_cracked_stone"
         },
         "title": {
             "translate": "advancements.kingdomkeys.to_rod"
@@ -15,7 +15,7 @@
         "frame": "challenge"
     },
     "criteria": {
-        "m_key": {
+        "to_rod": {
             "trigger": "minecraft:changed_dimension",
 			"conditions": {
 				"to": "kingdomkeys:realm_of_darkness"
@@ -24,7 +24,7 @@
     },
     "requirements": [
         [
-            "m_key"
+            "to_rod"
         ]
     ],
     "rewards": {

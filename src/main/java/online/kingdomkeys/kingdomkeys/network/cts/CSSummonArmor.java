@@ -19,7 +19,7 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSummonArmor {
@@ -53,7 +53,7 @@ public class CSSummonArmor {
 			if(kbArmorItem.getItem() == Items.AIR) //if empty abort
 				return;
 			
-			if(kbArmorItem.getItem() instanceof ShoulderArmorItem kbArmor) { //If it's a valid shoulder armor
+			if(kbArmorItem.getItem() instanceof PauldronItem kbArmor) { //If it's a valid shoulder armor
 				UUID KBArmorUUID = kbArmorItem.getTag().getUUID("armorID");
 				ItemStack[] armor = {player.getInventory().getArmor(3),player.getInventory().getArmor(2),player.getInventory().getArmor(1),player.getInventory().getArmor(0)};
 				
@@ -119,10 +119,10 @@ public class CSSummonArmor {
 						}
 						
 						if(hasRoom) {
-							ItemStack newHelmet = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(3), KBArmorUUID);
-							ItemStack newChestplate = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
-							ItemStack newLeggings = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
-							ItemStack newBoots = getNewItemWithUUID(((ShoulderArmorItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
+							ItemStack newHelmet = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(3), KBArmorUUID);
+							ItemStack newChestplate = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
+							ItemStack newLeggings = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
+							ItemStack newBoots = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
 							
 							if(kbArmorItem.getTag() != null) {
 								Tag bootsTag = kbArmorItem.getTag().get("boots");

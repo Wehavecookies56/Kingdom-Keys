@@ -45,7 +45,7 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
@@ -1418,7 +1418,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipKBArmor(int slot, ItemStack stack) {
 		if (getEquippedKBArmor(slot) != null) {
-			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof ShoulderArmorItem) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof PauldronItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;

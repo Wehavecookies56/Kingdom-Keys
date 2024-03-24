@@ -39,6 +39,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
     	addAdvancement("obtain_org","A dark choice", "Obtain the organization robes");
+    	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
 
     	        

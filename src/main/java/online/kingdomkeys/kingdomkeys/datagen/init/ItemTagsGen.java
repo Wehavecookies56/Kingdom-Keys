@@ -17,10 +17,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.item.UpgradeDriveFormItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 
@@ -30,6 +33,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 	public static final TagKey<Item> MAGICS = bind(KingdomKeys.MODID+":magics");
 	public static final TagKey<Item> DRIVES = bind(KingdomKeys.MODID+":drives");
 	public static final TagKey<Item> ORG = bind(KingdomKeys.MODID+":org_weapons");
+	public static final TagKey<Item> PAULDRONS = bind(KingdomKeys.MODID+":pauldrons");
+	public static final TagKey<Item> ACCESSORIES = bind(KingdomKeys.MODID+":accessories");
+	public static final TagKey<Item> ARMORS = bind(KingdomKeys.MODID+":armors");
 	
 	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, CompletableFuture<TagLookup<Block>> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
 		super(p_255871_, p_256035_, p_256467_, KingdomKeys.MODID, existingFileHelper);
@@ -57,6 +63,15 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof IOrgWeapon) {
 				add(ORG,item);
+			}
+			if(item instanceof PauldronItem) {
+				add(PAULDRONS,item);
+			}
+			if(item instanceof KKAccessoryItem) {
+				add(ACCESSORIES,item);
+			}
+			if(item instanceof KKArmorItem) {
+				add(ARMORS,item);
 			}
 		}
 	}

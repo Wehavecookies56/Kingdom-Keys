@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuKeybladeArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonArmor;
@@ -75,11 +75,11 @@ public class MenuSelectKeybladeArmorButton extends MenuButtonBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.KBARMOR;
 				
-		ShoulderArmorItem potion;
-		if(ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof ShoulderArmorItem)) {
+		PauldronItem potion;
+		if(ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof PauldronItem)) {
 			potion = null;
 		} else {
-			potion = (ShoulderArmorItem) stack.getItem();
+			potion = (PauldronItem) stack.getItem();
 		}
 		if (visible) {
 			Lighting.setupForFlatItems();
