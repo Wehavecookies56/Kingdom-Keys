@@ -569,9 +569,9 @@ public class Utils {
 		return res;
 	}
 
-	public static int getArmorsStat(IPlayerCapabilities playerData, String type) {
+	public static int getArmorsStat(Map<Integer, ItemStack> equipped, String type) {
 		int res = 0;
-		for(Entry<Integer, ItemStack> entry : playerData.getEquippedArmors().entrySet()) {
+		for(Entry<Integer, ItemStack> entry : equipped.entrySet()) {
 			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
 				switch(type) {
@@ -599,6 +599,10 @@ public class Utils {
 			}
 		}
 		return res;
+	}
+
+	public static int getArmorsStat(IPlayerCapabilities playerData, String type) {
+		return getArmorsStat(playerData.getEquippedArmors(), type);
 	}
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;

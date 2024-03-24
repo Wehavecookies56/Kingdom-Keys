@@ -2,7 +2,9 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.platform.Lighting;
@@ -61,6 +63,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 					ItemStack stackToEquip = player.getInventory().getItem(slot);
 					ItemStack stackPreviouslyEquipped = playerData.equipArmor(parent.slot, stackToEquip);
 					player.getInventory().setItem(slot, stackPreviouslyEquipped);
+					b.visible = false;
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
@@ -91,7 +94,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 		} else {
 			armor = (KKArmorItem) stack.getItem();
 		}
-		if (visible) { ;
+		if (visible) {
 			Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.3F;
 			matrixStack.pushPose();
@@ -238,6 +241,8 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    if (totalAPStr.length() == 1) {
 	                        openBracket += " ";
 	                    }
+
+						Map<Integer, ItemStack> equippedArmourWithSelected = new HashMap<>(playerData.getEquippedArmors());
 	                               
 	                    if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	showAP = true;
@@ -248,6 +253,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    	showStr = false;
 	                    	showMag = false;
 	                    	showResistances = true;
+							equippedArmourWithSelected.put(parent.slot, stack);
 	                    } else {
 	                    	showAP = false;
 	                    	showStr = true;
@@ -299,7 +305,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								gui.drawString(fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							
@@ -310,7 +316,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								gui.drawString(fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							
@@ -321,7 +327,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								gui.drawString(fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 
@@ -332,7 +338,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-								gui.drawString(fr, (Utils.getArmorsStat(playerData, type.toString()) + resistances.get(type)) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 	                    }
