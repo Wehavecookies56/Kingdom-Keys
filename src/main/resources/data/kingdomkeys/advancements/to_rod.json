@@ -1,0 +1,33 @@
+{
+	"parent": "kingdomkeys:root",
+    "display": {
+        "icon": {
+            "item": "kingdomkeys:pedestal"
+        },
+        "title": {
+            "translate": "advancements.kingdomkeys.to_rod"
+        },
+        "description": {
+            "translate": "advancements.kingdomkeys.to_rod.desc"
+        },
+        "show_toast": true,
+        "announce_to_chat": true,
+        "frame": "challenge"
+    },
+    "criteria": {
+        "m_key": {
+            "trigger": "minecraft:changed_dimension",
+			"conditions": {
+				"to": "kingdomkeys:realm_of_darkness"
+			}
+        }
+    },
+    "requirements": [
+        [
+            "m_key"
+        ]
+    ],
+    "rewards": {
+    	"experience": 60
+  }
+}

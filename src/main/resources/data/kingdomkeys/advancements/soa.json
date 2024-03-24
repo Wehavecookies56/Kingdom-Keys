@@ -1,0 +1,35 @@
+{
+	"parent": "kingdomkeys:to_soa",
+    "display": {
+        "icon": {
+            "item": "kingdomkeys:dream_sword"
+        },
+        "title": {
+            "translate": "advancements.kingdomkeys.choice"
+        },
+        "description": {
+            "translate": "advancements.kingdomkeys.choice.desc"
+        },
+        "show_toast": true,
+        "announce_to_chat": true,
+        "frame": "goal"
+    },
+    "criteria": {
+        "tpback": {
+            "trigger": "minecraft:changed_dimension",
+			"conditions": {
+				"from": "kingdomkeys:dive_to_the_heart"
+			}
+        }
+    },
+    "requirements": [
+        [
+            "tpback"
+        ]
+    ],
+	"rewards": {
+		"loot": [
+			"kingdomkeys:grant_wooden_keyblade"
+		]
+    }
+}

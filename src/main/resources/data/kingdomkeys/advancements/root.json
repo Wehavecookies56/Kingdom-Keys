@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "kingdomkeys:kingdom_key"
+		},
+		"title": {
+			"translate": "advancements.kingdomkeys.root"
+		},
+		"description": {
+			"translate": "advancements.kingdomkeys.root.desc"
+		},
+		"background": "kingdomkeys:textures/block/normal_blox.png",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"frame": "task"
+	},
+	"criteria": {
+		"tick": {
+			"trigger": "minecraft:tick"
+		}
+	},
+	"rewards": {
+		"loot": [
+			"kingdomkeys:grant_book_on_first_join"
+		]
+	}
+}

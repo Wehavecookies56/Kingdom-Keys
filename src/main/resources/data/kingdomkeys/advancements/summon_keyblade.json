@@ -1,0 +1,37 @@
+{
+	"parent": "kingdomkeys:obtain_keychain",
+    "display": {
+        "icon": {
+            "item": "kingdomkeys:kingdom_key"
+        },
+        "title": {
+            "translate": "advancements.kingdomkeys.summon_keyblade"
+        },
+        "description": {
+            "translate": "advancements.kingdomkeys.summon_keyblade.desc"
+        },
+        "show_toast": true,
+        "announce_to_chat": true,
+        "frame": "goal"
+    },
+    "criteria": {
+        "summon_keyblade": {
+            "trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"tag": "kingdomkeys:keyblades"
+					}
+				]
+			}
+        }
+    },
+    "requirements": [
+        [
+            "summon_keyblade"
+        ]
+    ],
+    "rewards": {
+    	"experience": 25
+  }
+}

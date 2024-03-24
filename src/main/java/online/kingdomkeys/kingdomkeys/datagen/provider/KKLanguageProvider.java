@@ -93,5 +93,10 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         addItem(key, "Music Disc");
         add(key.get().getDescriptionId() + ".desc", value);
     }
+    
+    public void addAdvancement(String key, String name, String desc) {
+        add("advancements.kingdomkeys."+key, name);
+        add("advancements.kingdomkeys."+key+".desc", desc);
+    }
 
 }

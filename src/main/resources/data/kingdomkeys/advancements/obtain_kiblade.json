@@ -1,0 +1,37 @@
+{
+	"parent": "kingdomkeys:obtain_keychain",
+    "display": {
+        "icon": {
+            "item": "kingdomkeys:kiblade"
+        },
+        "title": {
+            "translate": "advancements.kingdomkeys.obtain_kiblade"
+        },
+        "description": {
+            "translate": "advancements.kingdomkeys.obtain_kiblade.desc"
+        },
+        "show_toast": true,
+        "announce_to_chat": true,
+        "frame": "challenge"
+    },
+    "criteria": {
+        "obtain_kiblade": {
+            "trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [ "kingdomkeys:kiblade_chain" ]
+					}
+				]
+			}
+        }
+    },
+    "requirements": [
+        [
+            "obtain_kiblade"
+        ]
+    ],
+    "rewards": {
+    	"experience": 400
+  }
+}

@@ -23,7 +23,25 @@ public class LanguageENUS extends KKLanguageProvider {
 
     @Override
     protected void addTranslations() {
-        /**GUIS**/
+    	/**GUIS**/
+    	//Advancements
+    	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
+    	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
+    	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+    	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
+    	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
+    	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
+    	addAdvancement("levelup1","Woah", "Install Kingdom Keys");
+    	addAdvancement("levelup50","Halfway there", "Reach level 50");
+    	addAdvancement("levelup100","I'm at the top!", "Reach level 100");
+    	addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
+    	addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
+    	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
+    	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
+    	addAdvancement("obtain_org","A dark choice", "Obtain the organization robes");
+    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
+
+    	        
         //Containers
         add("container.magical_chest", "Magical Chest");
         add("container.pedestal", "Pedestal");

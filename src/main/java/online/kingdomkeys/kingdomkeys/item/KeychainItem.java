@@ -48,6 +48,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		if (stack.getTag() != null) {
 			if (!stack.getTag().hasUUID("keybladeID"))
 				stack.setTag(setID(stack.getTag()));
+			stack.getTag().putInt("level",0);
 		} else {
 			stack.setTag(setID(new CompoundTag()));
 		}
@@ -61,12 +62,6 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		/*ItemStack stack = player.getHeldItem(hand);
-		if(!world.isRemote) {
-			if(stack != null && stack.getItem() == this) {
-				setKeybladeLevel(stack, getKeybladeLevel(stack)+1);
-			}
-		}*/
 		return super.use(world, player, hand);
 	}
 	
