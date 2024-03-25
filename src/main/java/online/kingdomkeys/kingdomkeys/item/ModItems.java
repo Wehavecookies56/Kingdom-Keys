@@ -832,9 +832,10 @@ public class ModItems {
 			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop")),
 
 
-			struggleSword = createKeybladeItem(Strings.StruggleSword),
-			struggleWand = createKeybladeItem(Strings.StruggleWand),
-			struggleHammer = createKeybladeItem(Strings.StruggleHammer),
+			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+
 			
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_valor")),
 			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_wisdom")),
