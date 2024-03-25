@@ -207,6 +207,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
         add("gui.synthesisbag.notenoughmunny", "Not enough munny");
+        
+        add("gui.statboost.increased","Increased %s, now it's %s");
+        add("gui.statboost.tooltip", "Increases %s by 1");
+        		
+        add("gui.magicspell.unlock","Unlocks %s");
+        add("gui.magicspell.maxed", "%s is already maxed");
+        		
+        add("gui.driveformorb.tooltip", "Upgrades %s Form");
+    	add("gui.driveformorb.upgrade", "%s Form had obtained %s exp");
+
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");

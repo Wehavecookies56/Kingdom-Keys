@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
-import online.kingdomkeys.kingdomkeys.item.UpgradeDriveFormItem;
+import online.kingdomkeys.kingdomkeys.item.DriveFormOrbItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 
 public class ItemTagsGen extends ItemTagsProvider {
@@ -52,7 +52,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 			if(item instanceof MagicSpellItem) {
 				add(MAGICS,item);
 			}
-			if(item instanceof UpgradeDriveFormItem) {
+			if(item instanceof DriveFormOrbItem) {
 				add(DRIVES,item);
 			}
 			if(item instanceof KeychainItem) {

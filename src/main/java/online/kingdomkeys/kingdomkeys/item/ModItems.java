@@ -836,11 +836,11 @@ public class ModItems {
 			struggleWand = createKeybladeItem(Strings.StruggleWand),
 			struggleHammer = createKeybladeItem(Strings.StruggleHammer),
 			
-			valorOrb = createNewItem(Strings.LevelUpValor, () -> new UpgradeDriveFormItem(new Item.Properties(), KingdomKeys.MODID+":form_valor")),
-			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new UpgradeDriveFormItem(new Item.Properties(), KingdomKeys.MODID+":form_wisdom")),
-			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new UpgradeDriveFormItem(new Item.Properties(), KingdomKeys.MODID+":form_limit")),
-			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new UpgradeDriveFormItem(new Item.Properties(), KingdomKeys.MODID+":form_master")),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new UpgradeDriveFormItem(new Item.Properties(), KingdomKeys.MODID+":form_final")),
+			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_valor")),
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_wisdom")),
+			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_limit")),
+			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_master")),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_final")),
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().stacksTo(1))),
 			recipe = createNewItem("recipe", () -> new RecipeItem(0,new Item.Properties().stacksTo(16))),

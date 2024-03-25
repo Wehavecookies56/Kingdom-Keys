@@ -20,10 +20,10 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class UpgradeDriveFormItem extends Item {
+public class DriveFormOrbItem extends Item {
 	String formName;
 
-	public UpgradeDriveFormItem(Properties properties, String name) {
+	public DriveFormOrbItem(Properties properties, String name) {
 		super(properties);
 		this.formName = name;
 	}
@@ -45,8 +45,10 @@ public class UpgradeDriveFormItem extends Item {
 							oldExp = form.getLevelUpCost(level - 1);
 						}
 						int newExp = exp - oldExp;
-						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + Math.max(newExp / 10, 1));
-						player.displayClientMessage(Component.translatable(Utils.translateToLocal(form.getTranslationKey()) + " has got +" + Math.max(newExp / 10, 1) + " exp"), true);
+						int finalExp = Math.max(newExp / 10, 1);
+						playerData.setDriveFormExp(player, formName, playerData.getDriveFormExp(formName) + finalExp);
+						String message = Utils.translateToLocal("gui.driveformorb.upgrade",Utils.translateToLocal(form.getTranslationKey()),finalExp);
+						player.displayClientMessage(Component.translatable(message), true);
 						
 						if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 							player.getMainHandItem().shrink(1);
@@ -76,7 +78,7 @@ public class UpgradeDriveFormItem extends Item {
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
 		if (form != null) {
-			tooltip.add(Component.translatable("Upgrade " + Utils.translateToLocal(form.getTranslationKey())));
+			tooltip.add(Component.translatable(Utils.translateToLocal("gui.driveformorb.tooltip",Utils.translateToLocal(form.getTranslationKey()))));
 		}
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

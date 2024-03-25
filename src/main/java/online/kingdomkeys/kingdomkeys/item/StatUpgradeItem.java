@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class StatUpgradeItem extends Item implements IItemCategory {
 	String boost;
@@ -40,19 +41,19 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 				switch (boost) {
 				case Strings.powerBoost:
 					playerData.getStrengthStat().addModifier("boost", 1, true);
-					player.displayClientMessage(Component.translatable("Increased Strength by 1, it is now "+playerData.getStrength(true)), true);
+					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),playerData.getStrength(true)), true);
 					break;
 				case Strings.magicBoost:
 					playerData.getMagicStat().addModifier("boost", 1, true);
-					player.displayClientMessage(Component.translatable("Increased Magic by 1, it is now "+playerData.getMagic(true)), true);
+					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),playerData.getMagic(true)), true);
 					break;
 				case Strings.defenseBoost:
 					playerData.getDefenseStat().addModifier("boost", 1, true);
-					player.displayClientMessage(Component.translatable("Increased Defense by 1, it is now "+playerData.getDefense(true)), true);
+					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),playerData.getDefense(true)), true);
 					break;
 				case Strings.apBoost:
 					playerData.getMaxAPStat().addModifier("boost", 1, true);
-					player.displayClientMessage(Component.translatable("Increased Max AP by 1, it is now "+playerData.getMaxAP(true)), true);
+					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_AP),playerData.getMaxAP(true)), true);
 					break;
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
@@ -75,16 +76,16 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 		if(Minecraft.getInstance().player != null) {			
 			switch (boost) {
 			case Strings.powerBoost:
-				tooltip.add(Component.translatable("Increases Strength by 1"));
+				tooltip.add(Component.translatable(Utils.translateToLocal("gui.statboost.tooltip"),Utils.translateToLocal((Strings.Gui_Menu_Status_Strength))));
 				break;
 			case Strings.magicBoost:
-				tooltip.add(Component.translatable("Increases Magic by 1"));
+				tooltip.add(Component.translatable(Utils.translateToLocal("gui.statboost.tooltip"),Utils.translateToLocal((Strings.Gui_Menu_Status_Magic))));
 				break;
 			case Strings.defenseBoost:
-				tooltip.add(Component.translatable("Increases Defense by 1"));
+				tooltip.add(Component.translatable(Utils.translateToLocal("gui.statboost.tooltip"),Utils.translateToLocal((Strings.Gui_Menu_Status_Defense))));
 				break;
 			case Strings.apBoost:
-				tooltip.add(Component.translatable("Increases Max AP by 1"));
+				tooltip.add(Component.translatable(Utils.translateToLocal("gui.statboost.tooltip"),Utils.translateToLocal((Strings.Gui_Menu_Status_AP))));
 				break;
 			}
 			
