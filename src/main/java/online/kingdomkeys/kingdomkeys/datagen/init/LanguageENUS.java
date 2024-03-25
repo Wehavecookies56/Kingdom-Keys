@@ -31,14 +31,14 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
     	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
     	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
-    	addAdvancement("levelup1","Woah", "Install Kingdom Keys");
+    	addAdvancement("levelup1","Woah!", "Level up");
     	addAdvancement("levelup50","Halfway there", "Reach level 50");
     	addAdvancement("levelup100","I'm at the top!", "Reach level 100");
     	addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
     	addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
     	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
-    	addAdvancement("obtain_org","A dark choice", "Obtain the organization robes");
+    	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
 
