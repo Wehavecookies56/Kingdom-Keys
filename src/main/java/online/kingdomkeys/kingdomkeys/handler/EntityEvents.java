@@ -1050,109 +1050,111 @@ public class EntityEvents {
 		if (!event.getEntity().level().isClientSide) {
 			if (event.getSource().getDirectEntity() instanceof Player || event.getSource().getEntity() instanceof Player) { //If the player kills
 				Player player = (Player) event.getSource().getEntity();
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				if (player != null) {
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
-				//TODO more sophisticated and dynamic way to do this
-				//Give hearts
-				if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem) {
-					int multiplier = 1;
-					if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
-						IOrgWeapon weapon = (IOrgWeapon) player.getMainHandItem().getItem();
-						if (weapon.getMember() == playerData.getAlignment()) {
-							multiplier = 2;
+					//TODO more sophisticated and dynamic way to do this
+					//Give hearts
+					if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem) {
+						int multiplier = 1;
+						if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
+							IOrgWeapon weapon = (IOrgWeapon) player.getMainHandItem().getItem();
+							if (weapon.getMember() == playerData.getAlignment()) {
+								multiplier = 2;
+							}
+						}
+						if (event.getEntity() instanceof IKHMob) {
+							IKHMob mob = (IKHMob) event.getEntity();
+							if (mob.getKHMobType() == MobType.HEARTLESS_EMBLEM) {
+								playerData.addHearts((int) ((20 * multiplier) * ModConfigs.heartMultiplier));
+							}
+						} else if (event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
+							playerData.addHearts((int) ((1000 * multiplier) * ModConfigs.heartMultiplier));
+						} else if (event.getEntity() instanceof Villager) {
+							playerData.addHearts((int) ((5 * multiplier) * ModConfigs.heartMultiplier));
+						} else if (event.getEntity() instanceof Monster) {
+							playerData.addHearts((int) ((2 * multiplier) * ModConfigs.heartMultiplier));
+						} else {
+							playerData.addHearts((int) ((1 * multiplier) * ModConfigs.heartMultiplier));
 						}
 					}
 					if (event.getEntity() instanceof IKHMob) {
-						IKHMob mob = (IKHMob) event.getEntity();
-						if (mob.getKHMobType() == MobType.HEARTLESS_EMBLEM) {
-							playerData.addHearts((int)((20 * multiplier) * ModConfigs.heartMultiplier));
+						IKHMob heartless = (IKHMob) event.getEntity();
+						if (heartless.getKHMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
+							HeartEntity heart = new HeartEntity(event.getEntity().level());
+							heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
+							event.getEntity().level().addFreshEntity(heart);
 						}
-					} else if (event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
-						playerData.addHearts((int)((1000 * multiplier) * ModConfigs.heartMultiplier));
-					} else if (event.getEntity() instanceof Villager) {
-						playerData.addHearts((int)((5 * multiplier) * ModConfigs.heartMultiplier));
-					} else if (event.getEntity() instanceof Monster) {
-						playerData.addHearts((int)((2 * multiplier) * ModConfigs.heartMultiplier));
-					} else {
-						playerData.addHearts((int)((1 * multiplier) * ModConfigs.heartMultiplier));
 					}
-				}
-				if(event.getEntity() instanceof IKHMob) {
-					IKHMob heartless = (IKHMob) event.getEntity();
-					if(heartless.getKHMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
-						HeartEntity heart = new HeartEntity(event.getEntity().level());
-						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-						event.getEntity().level().addFreshEntity(heart);
-					}
-				}
-				
-				if (event.getEntity().getClassification(false) == MobCategory.MONSTER) {
-					if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
-						LivingEntity mob = (LivingEntity) event.getEntity();
-						
-						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
-						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int) (exp * ModConfigs.xpMultiplier), true, true);
-											
-						if (event.getEntity() instanceof WitherBoss) {
-							exp += 1500;
+
+					if (event.getEntity().getClassification(false) == MobCategory.MONSTER) {
+						if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
+							LivingEntity mob = (LivingEntity) event.getEntity();
+
+							double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
+							double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
 							playerData.addExperience(player, (int) (exp * ModConfigs.xpMultiplier), true, true);
-						}
-						
-						if(!playerData.isAbilityEquipped(Strings.zeroExp)) {
-							if(playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
-								exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
+
+							if (event.getEntity() instanceof WitherBoss) {
+								exp += 1500;
+								playerData.addExperience(player, (int) (exp * ModConfigs.xpMultiplier), true, true);
 							}
 
-							XPEntity xp = new XPEntity(mob.level(), player, mob, exp);
-							player.level().addFreshEntity(xp);
-						}
-					}
-					
-					LivingEntity entity = event.getEntity();
-					double x = entity.getX();
-					double y = entity.getY();
-					double z = entity.getZ();
-					
-					if(entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
-						int num = Utils.randomWithRange(5, 15);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
-						//reduce munny value by 2 for each level of drive converter
-						num /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter));
-						entity.level().addFreshEntity(new MunnyEntity(event.getEntity().level(), x, y, z, num));
-					}
-					
-					if(entity.level().random.nextInt(100) <= ModConfigs.hpDropProbability) {
-						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
-						entity.level().addFreshEntity(new HPOrbEntity(event.getEntity().level(), x, y, z, num));
-					}
-					
-					if(entity.level().random.nextInt(100) <= ModConfigs.mpDropProbability) {
-						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
-						entity.level().addFreshEntity(new MPOrbEntity(event.getEntity().level(), x, y, z,num));
-					}
-					
-					if(entity.level().random.nextInt(100) <= ModConfigs.driveDropProbability) {
-						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter)*0.5;
-						entity.level().addFreshEntity(new DriveOrbEntity(event.getEntity().level(), x, y, z, num));
-					}
-				
-					if(entity.level().random.nextInt(100) <= ModConfigs.focusDropProbability) {
-						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.focusConverter)*0.25;
-						entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
-					}
-					
-					int num = Utils.randomWithRange(0,99);
-					if(num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
-						ItemEntity ie = new ItemEntity(player.level(), x, y, z, new ItemStack(ModItems.recipeD.get()));
-						player.level().addFreshEntity(ie);
-					}
+							if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
+								if (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+									exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
+								}
 
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+								XPEntity xp = new XPEntity(mob.level(), player, mob, exp);
+								player.level().addFreshEntity(xp);
+							}
+						}
+
+						LivingEntity entity = event.getEntity();
+						double x = entity.getX();
+						double y = entity.getY();
+						double z = entity.getZ();
+
+						if (entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
+							int num = Utils.randomWithRange(5, 15);
+							num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+							//reduce munny value by 2 for each level of drive converter
+							num /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter));
+							entity.level().addFreshEntity(new MunnyEntity(event.getEntity().level(), x, y, z, num));
+						}
+
+						if (entity.level().random.nextInt(100) <= ModConfigs.hpDropProbability) {
+							int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
+							num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+							entity.level().addFreshEntity(new HPOrbEntity(event.getEntity().level(), x, y, z, num));
+						}
+
+						if (entity.level().random.nextInt(100) <= ModConfigs.mpDropProbability) {
+							int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
+							num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+							entity.level().addFreshEntity(new MPOrbEntity(event.getEntity().level(), x, y, z, num));
+						}
+
+						if (entity.level().random.nextInt(100) <= ModConfigs.driveDropProbability) {
+							int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
+							num += num * playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter) * 0.5;
+							entity.level().addFreshEntity(new DriveOrbEntity(event.getEntity().level(), x, y, z, num));
+						}
+
+						if (entity.level().random.nextInt(100) <= ModConfigs.focusDropProbability) {
+							int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
+							num += num * playerData.getNumberOfAbilitiesEquipped(Strings.focusConverter) * 0.25;
+							entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
+						}
+
+						int num = Utils.randomWithRange(0, 99);
+						if (num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
+							ItemEntity ie = new ItemEntity(player.level(), x, y, z, new ItemStack(ModItems.recipeD.get()));
+							player.level().addFreshEntity(ie);
+						}
+
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+					}
 				}
 			}
 			//TODO check if works
