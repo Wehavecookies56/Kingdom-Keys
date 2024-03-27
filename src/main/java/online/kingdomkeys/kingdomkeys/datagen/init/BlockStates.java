@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -93,7 +94,8 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof CastleOblivionPillarBlock) {
 
 			} else if (block instanceof CardDoorBlock) {
-
+			} else if (block instanceof KKOreBlock && name.endsWith("_n")) {
+				simpleNetherOre(itemRegistryObject);
 			} else {
 				simpleBlock(itemRegistryObject);
 			}
@@ -113,4 +115,13 @@ public class BlockStates extends BlockStateProvider {
         //create item model for block
         this.simpleBlockItem(block, model);
     }
+
+	public ModelFile netherCubeAll(Block block) {
+		ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
+		return models().cubeAll(name.getPath(), new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
+	}
+
+	public void simpleNetherOre(Supplier<? extends Block> blockSupplier) {
+		simpleBlock(blockSupplier.get(), netherCubeAll(blockSupplier.get()));
+	}
 }
