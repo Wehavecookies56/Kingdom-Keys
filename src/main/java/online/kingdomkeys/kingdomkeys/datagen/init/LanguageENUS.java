@@ -28,6 +28,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
     	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
     	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+    	addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
     	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
     	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
     	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
