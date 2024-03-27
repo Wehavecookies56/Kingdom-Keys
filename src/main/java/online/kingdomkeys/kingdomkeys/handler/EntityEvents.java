@@ -112,6 +112,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
@@ -1055,11 +1056,12 @@ public class EntityEvents {
 
 					//TODO more sophisticated and dynamic way to do this
 					//Give hearts
-					if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem) {
+					System.out.println();
+					if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
 						int multiplier = 1;
 						if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
 							IOrgWeapon weapon = (IOrgWeapon) player.getMainHandItem().getItem();
-							if (weapon.getMember() == playerData.getAlignment()) {
+							if (weapon.getMember() == playerData.getAlignment() || (event.getSource().getDirectEntity() instanceof KKThrowableEntity && playerData.getAlignment() == OrgMember.AXEL)) { //If the item used to kill is for the correct alignment OR if it's been a throwable entity and the player is Axel (probably the only case so far which could be true)
 								multiplier = 2;
 							}
 						}
