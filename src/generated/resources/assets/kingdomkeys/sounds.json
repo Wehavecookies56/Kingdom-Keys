@@ -1,14 +1,4 @@
 {
-  "aero1": {
-    "sounds": [
-      "kingdomkeys:aero1"
-    ]
-  },
-  "aero2": {
-    "sounds": [
-      "kingdomkeys:aero2"
-    ]
-  },
   "alarm": {
     "sounds": [
       "kingdomkeys:alarm"
@@ -24,16 +14,6 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
-  "blizzard": {
-    "sounds": [
-      "kingdomkeys:blizzard"
-    ]
-  },
-  "cure": {
-    "sounds": [
-      "kingdomkeys:cure"
-    ]
-  },
   "drive": {
     "sounds": [
       "kingdomkeys:drive"
@@ -42,16 +22,6 @@
   "error": {
     "sounds": [
       "kingdomkeys:error"
-    ]
-  },
-  "fire": {
-    "sounds": [
-      "kingdomkeys:fire"
-    ]
-  },
-  "gravity": {
-    "sounds": [
-      "kingdomkeys:gravity"
     ]
   },
   "hp_orb": {
@@ -100,14 +70,109 @@
       "kingdomkeys:lockon"
     ]
   },
-  "magnet1": {
+  "magic/aero1": {
     "sounds": [
-      "kingdomkeys:magnet1"
+      "kingdomkeys:magic/aero1"
     ]
   },
-  "magnet2": {
+  "magic/aero2": {
     "sounds": [
-      "kingdomkeys:magnet2"
+      "kingdomkeys:magic/aero2"
+    ]
+  },
+  "magic/blizzaga": {
+    "sounds": [
+      "kingdomkeys:magic/blizzaga"
+    ]
+  },
+  "magic/blizzara": {
+    "sounds": [
+      "kingdomkeys:magic/blizzara"
+    ]
+  },
+  "magic/blizzard": {
+    "sounds": [
+      "kingdomkeys:magic/blizzard"
+    ]
+  },
+  "magic/cura": {
+    "sounds": [
+      "kingdomkeys:magic/cura"
+    ]
+  },
+  "magic/curaga": {
+    "sounds": [
+      "kingdomkeys:magic/curaga"
+    ]
+  },
+  "magic/cure": {
+    "sounds": [
+      "kingdomkeys:magic/cure"
+    ]
+  },
+  "magic/fira": {
+    "sounds": [
+      "kingdomkeys:magic/fira"
+    ]
+  },
+  "magic/firaga": {
+    "sounds": [
+      "kingdomkeys:magic/firaga"
+    ]
+  },
+  "magic/fire": {
+    "sounds": [
+      "kingdomkeys:magic/fire"
+    ]
+  },
+  "magic/graviga": {
+    "sounds": [
+      "kingdomkeys:magic/graviga"
+    ]
+  },
+  "magic/gravira": {
+    "sounds": [
+      "kingdomkeys:magic/gravira"
+    ]
+  },
+  "magic/gravity": {
+    "sounds": [
+      "kingdomkeys:magic/gravity"
+    ]
+  },
+  "magic/magnet1": {
+    "sounds": [
+      "kingdomkeys:magic/magnet1"
+    ]
+  },
+  "magic/magnet2": {
+    "sounds": [
+      "kingdomkeys:magic/magnet2"
+    ]
+  },
+  "magic/reflect1": {
+    "sounds": [
+      "kingdomkeys:magic/reflect1"
+    ]
+  },
+  "magic/reflect2": {
+    "sounds": [
+      "kingdomkeys:magic/reflect2"
+    ]
+  },
+  "magic/stop": {
+    "sounds": [
+      "kingdomkeys:magic/stop"
+    ]
+  },
+  "magic/stopga": {
+    "sounds": [
+      "kingdomkeys:magic/stopga"
+    ]
+  },
+  "magic/stopra": {
+    "sounds": [
+      "kingdomkeys:magic/stopra"
     ]
   },
   "menu_back": {
@@ -336,16 +401,6 @@
       }
     ]
   },
-  "reflect1": {
-    "sounds": [
-      "kingdomkeys:reflect1"
-    ]
-  },
-  "reflect2": {
-    "sounds": [
-      "kingdomkeys:reflect2"
-    ]
-  },
   "savepoint": {
     "sounds": [
       "kingdomkeys:savepoint"
@@ -384,11 +439,6 @@
   "shotlock_shot": {
     "sounds": [
       "kingdomkeys:shotlock_shot"
-    ]
-  },
-  "stop": {
-    "sounds": [
-      "kingdomkeys:stop"
     ]
   },
   "strike_raid": {

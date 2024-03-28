@@ -53,7 +53,12 @@ public class MagicStop extends Magic {
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
 		
-		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
+		switch(level) {
+			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopra.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopga.get(), SoundSource.PLAYERS, 1F, 1F);
+			}
+
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
