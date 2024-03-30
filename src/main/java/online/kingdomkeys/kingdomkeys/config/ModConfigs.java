@@ -371,6 +371,7 @@ public class ModConfigs {
 
     public static int recipeDropChance;
     public static int partyRangeLimit;
+    public static int partyMembersLimit;
     public static List<String> driveFormXPMultiplier;
     public static double xpMultiplier;
     public static double heartMultiplier;
@@ -382,10 +383,12 @@ public class ModConfigs {
     public static boolean projectorHasShop;
     public static boolean orgEnabled;
     public static boolean allowBoosts;
+    
 
     public static void bakeServer() {
         recipeDropChance = SERVER.recipeDropChance.get();
         partyRangeLimit = SERVER.partyRangeLimit.get();
+        partyMembersLimit = SERVER.partyMembersLimit.get();
         driveFormXPMultiplier = (List<String>) SERVER.driveFormXPMultiplier.get();
         xpMultiplier = SERVER.xpMultiplier.get();
         heartMultiplier = SERVER.heartMultiplier.get();

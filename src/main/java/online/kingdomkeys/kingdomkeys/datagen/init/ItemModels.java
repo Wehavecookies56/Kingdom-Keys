@@ -23,14 +23,7 @@ import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
 import online.kingdomkeys.kingdomkeys.block.SoRCore;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKRecordItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 
 public class ItemModels extends ItemModelProvider {
 
@@ -70,6 +63,8 @@ public class ItemModels extends ItemModelProvider {
 				// Spawn Egg
 				// This
 				standardSpawnEggItem(path);
+			} else if (item instanceof RecipeItem && !path.equals("recipe")) {
+				standardRecipe(path);
 			} else {
 				standardItem(path);
 			}
@@ -128,6 +123,10 @@ public class ItemModels extends ItemModelProvider {
 	}
     void standardKKAccessory(String name) {
 		standardItem(name, "kkaccessories/");
+	}
+
+	void standardRecipe(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ name + "_tier");
 	}
 
 	void standardBlockItem(String name) {

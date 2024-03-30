@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -46,6 +48,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		if (stack.getTag() != null) {
 			if (!stack.getTag().hasUUID("keybladeID"))
 				stack.setTag(setID(stack.getTag()));
+			stack.getTag().putInt("level",0);
 		} else {
 			stack.setTag(setID(new CompoundTag()));
 		}
@@ -59,12 +62,6 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		/*ItemStack stack = player.getHeldItem(hand);
-		if(!world.isRemote) {
-			if(stack != null && stack.getItem() == this) {
-				setKeybladeLevel(stack, getKeybladeLevel(stack)+1);
-			}
-		}*/
 		return super.use(world, player, hand);
 	}
 	
@@ -93,6 +90,12 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
 			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
+		} else {
+			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
+			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
+			ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/YOURKEYBLADEITEMNAMEHERE.json"));
+			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.getTag() != null) {

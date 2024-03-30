@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.datagen.init.AtlasProvider;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockModels;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockStates;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
+import online.kingdomkeys.kingdomkeys.datagen.init.EntityTagsGen;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemModels;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
@@ -49,6 +50,7 @@ public class DataGeneration {
         BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
+        //generator.addProvider(event.includeServer(), new EntityTagsGen(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));

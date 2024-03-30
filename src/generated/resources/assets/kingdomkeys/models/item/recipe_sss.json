@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/recipe_sss"
+    "layer0": "kingdomkeys:item/recipe_sss_tier"
   }
 }

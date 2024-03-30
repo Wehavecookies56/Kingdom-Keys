@@ -64,9 +64,9 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
         	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
             ResourceLocation organizationDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(organizationDataID);
             try {
-            	BufferedReader br = manager.getResource(file).get().openAsReader();
+                IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(organizationDataID);
+                BufferedReader br = manager.getResource(file).get().openAsReader();
             	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";
             	while(br.ready()) {
@@ -87,6 +87,8 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
                 IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ClassCastException e) {
+                KingdomKeys.LOGGER.warn("Found Organization weapon data: {} for item that does not exist, ignoring.");
             }
         }
         System.out.println("");

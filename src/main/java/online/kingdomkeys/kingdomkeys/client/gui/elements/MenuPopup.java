@@ -60,6 +60,12 @@ public abstract class MenuPopup extends Screen {
         }
     }
 
+    @Override
+    public void onClose() {
+        CANCEL();
+        super.onClose();
+    }
+
     public MenuPopup() {
         super(Component.translatable(""));
     }

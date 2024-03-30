@@ -64,9 +64,9 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
         	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
             ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
             try {
-            	BufferedReader br = manager.getResource(file).get().openAsReader();
+                KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
+                BufferedReader br = manager.getResource(file).get().openAsReader();
             	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";
             	while(br.ready()) {
@@ -89,6 +89,8 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
                 IOUtils.closeQuietly(br2);
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ClassCastException e) {
+                KingdomKeys.LOGGER.warn("Found Keyblade data: {} for item that does not exist, ignoring.");
             }
         }
         System.out.println();

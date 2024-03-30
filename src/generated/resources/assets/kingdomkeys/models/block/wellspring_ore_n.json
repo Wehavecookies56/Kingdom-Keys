@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "kingdomkeys:block/wellspring_ore_n"
+    "all": "kingdomkeys:block/wellspring_ore_nether"
   }
 }

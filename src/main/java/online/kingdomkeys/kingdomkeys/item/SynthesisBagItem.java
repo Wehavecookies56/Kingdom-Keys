@@ -21,8 +21,10 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisBagItem extends Item implements IItemCategory {
 
@@ -49,7 +51,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		CompoundTag nbt = stack.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		tooltip.add(Component.translatable("Level " + (bagLevel+1)));
+		tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+" "+(bagLevel+1)));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 

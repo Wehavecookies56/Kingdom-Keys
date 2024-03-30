@@ -34,28 +34,28 @@ public class MagicBlizzard extends Magic {
 				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult* 0.9F);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i*6, 0, 2F, 0);
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzara.get(), SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
 			for(int i = -1; i < 2; i++) {
 				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult*0.85F);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i*6, 0, 2F, 0);
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
 			for(int i = -1; i < 1; i++) {
 				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult*0.85F);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot()-6, player.getYRot() + i*6+3, 0, 2F, 0);
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			}
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzaga.get(), SoundSource.PLAYERS, 1F, 1F);
+
 			break;
 		case 3:
 			BlizzazaEntity blizzaza = new BlizzazaEntity(player.level(), player, dmgMult);
 			player.level().addFreshEntity(blizzaza);
 			blizzaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 0.8F);
 			break;
 		}
 		

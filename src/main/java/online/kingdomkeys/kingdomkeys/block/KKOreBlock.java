@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class KKOreBlock extends BaseBlock {
 
 	public KKOreBlock(Properties properties) {
-		super(properties);
+		super(properties.requiresCorrectToolForDrops());
 	}
 
 	protected int getExperience(RandomSource rand) {

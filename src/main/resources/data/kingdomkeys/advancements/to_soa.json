@@ -1,0 +1,30 @@
+{
+	"parent": "kingdomkeys:root",
+    "display": {
+        "icon": {
+            "item": "kingdomkeys:pedestal"
+        },
+        "title": {
+            "translate": "advancements.kingdomkeys.to_soa"
+        },
+        "description": {
+            "translate": "advancements.kingdomkeys.to_soa.desc"
+        },
+        "show_toast": true,
+        "announce_to_chat": true,
+        "frame": "task"
+    },
+    "criteria": {
+        "m_key": {
+            "trigger": "minecraft:changed_dimension",
+			"conditions": {
+				"to": "kingdomkeys:dive_to_the_heart"
+			}
+        }
+    },
+    "requirements": [
+        [
+            "m_key"
+        ]
+    ]
+}

@@ -6,9 +6,12 @@ import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -18,6 +21,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 
 public class BlockTagsGen extends BlockTagsProvider {
+	
+	public static final TagKey<Block> BLOX = create(KingdomKeys.MODID+":blox");
+
 	public BlockTagsGen(DataGenerator generator, CompletableFuture<Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
 		super(generator.getPackOutput(), lookupProvider, KingdomKeys.MODID, existingFileHelper);
 	}
@@ -43,6 +49,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 	            		add(BlockTags.NEEDS_STONE_TOOL, block);
 	            	}
                 }
+                if(block == ModBlocks.normalBlox.get() || block == ModBlocks.hardBlox.get() || block == ModBlocks.metalBlox.get() || block == ModBlocks.dangerBlox.get() || block == ModBlocks.blastBlox.get() || block == ModBlocks.prizeBlox.get() || block == ModBlocks.rarePrizeBlox.get() || block == ModBlocks.pairBlox.get() || block == ModBlocks.ghostBlox.get() || block == ModBlocks.bounceBlox.get() || block == ModBlocks.magnetBlox.get()) {
+                	add(BLOX,block);
+                }
             }
 
         }		
@@ -56,4 +65,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 		this.tag(branch).add(block);
 	}
 
+	 private static TagKey<Block> create(String pName) {
+	      return TagKey.create(Registries.BLOCK, new ResourceLocation(pName));
+	   }
 }

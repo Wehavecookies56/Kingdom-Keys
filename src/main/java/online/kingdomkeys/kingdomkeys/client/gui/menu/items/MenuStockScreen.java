@@ -60,31 +60,40 @@ public class MenuStockScreen extends MenuFilterable {
         float iconWidth = width * 0.1015F;
         float iconHeight = height * 0.1537F;
         
-        ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
         matrixStack.pushPose();
         {
-        	matrixStack.translate(iconPosX, iconPosY, 0);
-        	matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
-			ClientUtils.drawItemAsIcon(selectedItemstack, matrixStack, 1, -1, 16);
+            matrixStack.translate(iconPosX, iconPosY, 0);
+            matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+            ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 1, -1, 16);
         }
         matrixStack.popPose();
-        
-        gui.drawString(minecraft.font, selectedItemstack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (minecraft.font.lineHeight * 0), 0xFFFFFF);
 
-        if(selectedItemstack.getItem() instanceof KeybladeItem || selectedItemstack.getItem() instanceof KeychainItem) {
-        	KeybladeItem kb = selectedItemstack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemstack.getItem()).getKeyblade() : (KeybladeItem) selectedItemstack.getItem();
+        gui.drawString(minecraft.font, selectedItemStack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (minecraft.font.lineHeight * 0), 0xFFFFFF);
 
-            ClientUtils.drawSplitString(gui, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+kb.getMagic(0),  (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
-        } else {
-        	List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
-            for (int i = 0; i < tooltip.size(); i++) {
-                gui.drawString(minecraft.font, tooltip.get(i).getContents().toString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
+        if (selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KeychainItem) {
+            KeybladeItem kb = selectedItemStack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemStack.getItem()).getKeyblade() : (KeybladeItem) selectedItemStack.getItem();
+            if (kb != null && kb.data != null) {
+                ClientUtils.drawSplitString(gui, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
+                gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + ": " + kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
+                gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + ": " + kb.getMagic(0), (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
+            } else {
+                drawTooltipText(gui, selectedItemStack);
             }
+        } else {
+            drawTooltipText(gui, selectedItemStack);
         }
         
 	}
+
+    public void drawTooltipText(GuiGraphics gui, ItemStack selectedItemstack) {
+        List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
+        for (int i = 1; i < Math.min(tooltip.size(), 3); i++) {
+            gui.drawString(minecraft.font, tooltip.get(i).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
+        }
+        if (tooltip.size() > 3) {
+            gui.drawString(minecraft.font, "...", (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * 3) + 5, 0xFFFFFF);
+        }
+    }
 
     @Override
     public void init() {

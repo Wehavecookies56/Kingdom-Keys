@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
@@ -127,49 +128,62 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	}
 	
 	public void drawParty(GuiGraphics gui) {
-		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		if(party != null) {
+		gui.pose().pushPose();
+		{
 			for(int i=0;i<party.getMembers().size();i++) {
 				Member member = party.getMembers().get(i);
-				drawPlayer(gui, i,member);
+				drawPlayer(gui, i, member);
 			}
-		} else {
-			Member m = new Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
-			drawPlayer(gui, 0, m);
+			
 		}
+		gui.pose().popPose();
 	}
 	
 	public void drawPlayer(GuiGraphics gui, int order, Member member) {
+		
 		PoseStack matrixStack = gui.pose();
-		float scale = 0.9F;
+		byte partySize = (byte)ModCapabilities.getWorld(Minecraft.getInstance().player.level()).getPartyFromMember(member.getUUID()).getMembers().size();
+
+		float space = 0.18F;
+			space *= 2F/partySize;
 
 		float playerHeight = height * 0.45F;
-		float playerPosX = 140F+ (0.18F * (order) * width) * scale;
+
+		float playerPosX = 140F+ (space *(order)*1000);
 		float playerPosY = height * 0.7F;
 		
 		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
 		
+				
 		matrixStack.pushPose();
 		{
+			matrixStack.translate(playerPosX,playerPosY,0);
+
+			if(partySize > 4) {
+				matrixStack.translate(0,-2.5F,0);
+
+				matrixStack.scale(5F/partySize,5F/partySize,1F);
+			}
+			
+	
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
 					matrixStack.pushPose();
-				    InventoryScreen.renderEntityInInventoryFollowsMouse(gui, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, player);
+				    InventoryScreen.renderEntityInInventoryFollowsMouse(gui, 0,0, (int) playerHeight / 2, 0,0, player);
 					matrixStack.popPose();
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();
-				matrixStack.scale(scale, scale, 1);
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				matrixStack.translate(1, 20, 100);
+				matrixStack.translate(-playerPosX, -playerPosY, 100);
 				
 				RenderSystem.enableBlend();
 				int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-				int infoBoxPosX = (int) (-35+(playerPosX)*1.1); //Change this if scale changes
+				int infoBoxPosX = (int) (105F+ (space * (order) * 1000));
 				int infoBoxPosY = (int) (height * 0.54F);
 				gui.blit(texture, infoBoxPosX, infoBoxPosY, 123, 67, 12, 22);
 				for (int i = 0; i < infoBoxWidth; i++) {
@@ -186,8 +200,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			matrixStack.popPose();
 			matrixStack.pushPose();
 			{
-				matrixStack.scale(0.9F, 0.9F, 1);
-				matrixStack.translate(2, 20, 100);
+				matrixStack.translate(-playerPosX, -playerPosY, 100);
 				
 				matrixStack.pushPose();
 				{

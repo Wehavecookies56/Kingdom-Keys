@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import yesman.epicfight.api.client.model.AnimatedMesh;
 import yesman.epicfight.api.client.model.armor.CustomModelBakery;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
@@ -43,7 +43,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
             ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
-            String armorName = armor != null && armor.getItem() instanceof ShoulderArmorItem shoulderArmor ? shoulderArmor.getTextureName() : "";
+            String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
             if(armorName.equals("") || !ItemStack.isSameItem(player.getInventory().getItem(38),ItemStack.EMPTY))
                 return;
 

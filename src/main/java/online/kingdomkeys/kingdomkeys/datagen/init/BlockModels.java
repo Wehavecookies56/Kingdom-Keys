@@ -29,14 +29,14 @@ public class BlockModels extends BlockModelProvider {
 
 		// ore
 		standardCube("blazing_ore");
-		standardCube("blazing_ore_n");
+		netherOre("blazing_ore_n");
 		standardCube("soothing_ore");
 		standardCube("writhing_ore");
 		standardCube("writhing_ore_e");
-		standardCube("writhing_ore_n");
+		netherOre("writhing_ore_n");
 		standardCube("betwixt_ore");
 		standardCube("wellspring_ore");
-		standardCube("wellspring_ore_n");
+		netherOre("wellspring_ore_n");
 		standardCube("frost_ore");
 		standardCube("lightning_ore");
 		standardCube("lucid_ore");
@@ -48,7 +48,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("stormy_ore");
 		standardCube("tranquility_ore");
 		standardCube("twilight_ore");
-		standardCube("twilight_ore_n");
+		netherOre("twilight_ore_n");
 		
 		standardCube("rod_sand");
 		standardCube("rod_stone");
@@ -65,6 +65,10 @@ public class BlockModels extends BlockModelProvider {
 
 	public void standardCube(String name, String type) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).renderType(type).texture("all", "block/" + name);
+	}
+
+	public void netherOre(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).texture("all", "block/" + name + "ether");
 	}
 
 	@Override

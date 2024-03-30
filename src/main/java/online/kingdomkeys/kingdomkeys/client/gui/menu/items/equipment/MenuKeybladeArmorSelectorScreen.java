@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectKeybladeArmorButton;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -31,7 +31,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 	Color colour;
 	public int slot = -1;
 
-	public Map<ShoulderArmorItem,Integer> addedShoulderArmorList = new HashMap<ShoulderArmorItem, Integer>();
+	public Map<PauldronItem,Integer> addedShoulderArmorList = new HashMap<PauldronItem, Integer>();
 	
 	public MenuKeybladeArmorSelectorScreen(int slot, Color colour, int buttonColour) {
 		super(Strings.Gui_Menu_Items_Equipment_Armor, new Color(0,0,255));
@@ -64,7 +64,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		ItemStack equippedKBArmor = playerData.getEquippedKBArmor(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedKBArmorName = (equippedKBArmor != null && equippedKBArmor.getItem() instanceof ShoulderArmorItem) ? ((ShoulderArmorItem) equippedKBArmor.getItem()).getDescriptionId() : "---";
+		String equippedKBArmorName = (equippedKBArmor != null && equippedKBArmor.getItem() instanceof PauldronItem) ? ((PauldronItem) equippedKBArmor.getItem()).getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKBArmorName),"", buttonColour));
@@ -77,14 +77,14 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 			
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof ShoulderArmorItem) {
-						ShoulderArmorItem armor = (ShoulderArmorItem) minecraft.player.getInventory().getItem(i).getItem();
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof PauldronItem) {
+						PauldronItem armor = (PauldronItem) minecraft.player.getInventory().getItem(i).getItem();
 						if(addedShoulderArmorList.containsKey(armor)) {
 							int amount = addedShoulderArmorList.get(armor);
 							addedShoulderArmorList.replace(armor, amount+1);
 						} else {
 							addRenderableWidget(new MenuSelectKeybladeArmorButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
-							addedShoulderArmorList.put((ShoulderArmorItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
+							addedShoulderArmorList.put((PauldronItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}
 				}

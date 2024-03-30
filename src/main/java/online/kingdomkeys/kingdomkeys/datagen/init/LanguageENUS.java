@@ -23,7 +23,27 @@ public class LanguageENUS extends KKLanguageProvider {
 
     @Override
     protected void addTranslations() {
-        /**GUIS**/
+    	/**GUIS**/
+    	//Advancements
+    	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
+    	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
+    	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+    	addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
+    	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
+    	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
+    	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
+    	addAdvancement("levelup1","Woah!", "Level up");
+    	addAdvancement("levelup50","Halfway there", "Reach level 50");
+    	addAdvancement("levelup100","I'm at the top!", "Reach level 100");
+    	addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
+    	addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
+    	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
+    	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
+    	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
+    	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
+
+    	        
         //Containers
         add("container.magical_chest", "Magical Chest");
         add("container.pedestal", "Pedestal");
@@ -188,6 +208,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
         add("gui.synthesisbag.notenoughmunny", "Not enough munny");
+        
+        add("gui.statboost.increased","Increased %s, now it's %s");
+        add("gui.statboost.tooltip", "Increases %s by 1");
+        		
+        add("gui.magicspell.unlock","Unlocks %s");
+        add("gui.magicspell.maxed", "%s is already maxed");
+        		
+        add("gui.driveformorb.tooltip", "Upgrades %s Form");
+    	add("gui.driveformorb.upgrade", "%s Form had obtained %s exp");
+
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");

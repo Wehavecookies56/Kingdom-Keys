@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -28,7 +29,7 @@ public class StruggleCreate extends MenuBackground {
 	BlockPos boardPos;
 
 	boolean priv = false;
-	byte pSize = Party.PARTY_LIMIT;
+	int pSize = ModConfigs.partyMembersLimit;
 	
 	EditBox tfName;
 	Button togglePriv, accept, size;
@@ -65,7 +66,7 @@ public class StruggleCreate extends MenuBackground {
 			}
 			break;
 		case "size":
-			if(pSize == Party.PARTY_LIMIT) {
+			if(pSize == ModConfigs.partyMembersLimit) {
 				pSize = 2;
 			} else {
 				pSize++;
@@ -111,7 +112,7 @@ public class StruggleCreate extends MenuBackground {
 			action("accept");
 		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20).build());
 		
-		addRenderableWidget(size = Button.builder(Component.translatable(Party.PARTY_LIMIT+""), (e) -> {
+		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.partyMembersLimit+""), (e) -> {
 			action("size");
 		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20).build());
 		

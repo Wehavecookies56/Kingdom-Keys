@@ -24,8 +24,8 @@ public class ModBlocks {
 
     public static final RegistryObject<Block>
             normalBlox = createNewBlock("normal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F)),
-            hardBlox = createNewBlock("hard_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 20.0F)),
-            metalBlox = createNewBlock("metal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(10.0F, 60.0F)),
+            hardBlox = createNewBlock("hard_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 20.0F).requiresCorrectToolForDrops()),
+            metalBlox = createNewBlock("metal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(10.0F, 60.0F).requiresCorrectToolForDrops()),
             dangerBlox = createNewBlock("danger_blox", () -> new DangerBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F))),
             bounceBlox = createNewBlock("bounce_blox", () -> new BounceBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
             blastBlox = createNewBlock("blast_blox", () -> new BlastBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),

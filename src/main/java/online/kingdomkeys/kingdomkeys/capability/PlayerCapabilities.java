@@ -32,6 +32,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.advancements.KKLevelUpTrigger;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -44,7 +45,7 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ShoulderArmorItem;
+import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
@@ -498,6 +499,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				}
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
+					if(player instanceof ServerPlayer svPlayer) {
+				        KKLevelUpTrigger.TRIGGER_LEVELUP.trigger(svPlayer, this.getLevel());
+					}
 					levelUpStatsAndDisplayMessage(player, sound);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) player);
 				}
@@ -1414,7 +1418,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public boolean canEquipKBArmor(int slot, ItemStack stack) {
 		if (getEquippedKBArmor(slot) != null) {
-			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof ShoulderArmorItem) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof PauldronItem) {
 				//If there is more than 1 item in the stack don't handle it
 				if (stack.getCount() <= 1) {
 					return true;
