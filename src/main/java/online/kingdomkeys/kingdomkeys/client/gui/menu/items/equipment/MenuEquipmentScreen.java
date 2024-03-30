@@ -127,7 +127,17 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             hidden.getAndIncrement();
             
             //Synch blade
-            
+            if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+            	if(showingKeyblades)
+            		totalButtons.add(sbSlot);
+                addRenderableWidget(sbSlot);
+                
+                sbSlot.active = showingKeyblades;
+                sbSlot.visible = showingKeyblades;
+
+                hidden.getAndIncrement();      
+            }
         }
         
         //Form keyblades
