@@ -28,7 +28,7 @@ public class LimitLaserDome extends Limit {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
-			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2 * 0.15F;
+			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2 * 0.25F;
 		} else {
 			damage = (playerData.getStrength(true) + playerData.getMagic(true)) / 2F;
 		}

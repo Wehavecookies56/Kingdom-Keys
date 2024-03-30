@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -96,7 +97,7 @@ public class CSSummonKeyblade {
 			if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
 				return;
 			ItemStack orgWeapon = null;
-
+			
 			if (playerData.getAlignment() != Utils.OrgMember.NONE) {
 				orgWeapon = playerData.getEquippedWeapon().copy();
 			}
@@ -125,7 +126,13 @@ public class CSSummonKeyblade {
 					if(playerData.getAlignment() == OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem) {
 						extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 					} else {
-						extraChain = orgWeapon;
+						extraChain = orgWeapon.copy();
+						for(ItemStack weapon : playerData.getWeaponsUnlocked()) {
+							if(ItemStack.isSameItem(weapon, extraChain)) {
+								extraChain.setTag(weapon.getTag());
+								break;
+							}
+						}
 					}
 				}
 			
@@ -230,6 +237,7 @@ public class CSSummonKeyblade {
 							keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
 							keyblade.setTag(chain.getTag());
 						} else {
+							//Summon org
 							keyblade = orgWeapon;
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {
@@ -238,6 +246,7 @@ public class CSSummonKeyblade {
 									break;
 								}
 							}
+
 						}
 						//Summon when keyblade is unsummoned
 						player.getInventory().setItem(player.getInventory().selected, keyblade);
@@ -249,7 +258,7 @@ public class CSSummonKeyblade {
 						if (orgWeapon == null) {
 							keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
 							keyblade.setTag(chain.getTag());
-						} else {
+						} else { //Summon org weapon
 							keyblade = orgWeapon;
 							Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 							for(ItemStack weapon : weapons) {

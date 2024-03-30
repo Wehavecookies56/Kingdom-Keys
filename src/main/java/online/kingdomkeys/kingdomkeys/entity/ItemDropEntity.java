@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +22,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -27,13 +32,17 @@ public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
 	public int value;
 	private Player closestPlayer;
+	
+	private static final EntityDataAccessor<Integer> VALUE = SynchedEntityData.defineId(ItemDropEntity.class, EntityDataSerializers.INT);
 
 	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
 		this.setPos(x, y, z);
 		this.setYRot((float) (this.random.nextDouble() * 360.0D));
 		this.setDeltaMovement((this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.random.nextDouble() * 0.2D * 2.0D, (this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
-		this.value = expValue;
+		setValue(expValue);
+		System.out.println(expValue);
+
 		this.delayBeforeCanPickup = 20;
 	}
 
@@ -49,11 +58,8 @@ public abstract class ItemDropEntity extends Entity {
 		return false;
 	}
 
-	protected void defineSynchedData() {
-	}
-
 	public void tick() {
-		if(tickCount > 600) {
+		if(tickCount > 2400) {
 			this.remove(RemovalReason.KILLED);
 		}
 		
@@ -90,6 +96,8 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		if (this.closestPlayer != null) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(closestPlayer);
+			maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet)*2);
 			Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
 			double d1 = vec3d.lengthSqr();
 			if (d1 < Math.pow(maxDist,2)) {
@@ -136,14 +144,34 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	public void addAdditionalSaveData(CompoundTag compound) {
-		compound.putInt("Value", this.value);
+		compound.putInt("value", getValue());
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
 	public void readAdditionalSaveData(CompoundTag compound) {
-		this.value = compound.getInt("Value");
+		setValue(compound.getInt("value"));
+	}
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+		if (key.equals(VALUE)) {
+			this.value = this.entityData.get(VALUE);
+		}
+	}
+	
+	public int getValue() {
+		return value;
+	}
+	
+	public void setValue(int v) {
+		this.entityData.set(VALUE, v);
+		this.value = v;
+	}
+
+	@Override
+	protected void defineSynchedData() {
+		entityData.define(VALUE, 0);
 	}
 
 	/**
@@ -163,13 +191,6 @@ public abstract class ItemDropEntity extends Entity {
 
 	abstract void onPickup(Player entityIn);
 	abstract SoundEvent getPickupSound();
-
-	/**
-	 * Returns the XP value of this XP orb.
-	 */
-	public int getValue() {
-		return this.value;
-	}
 
 	/**
 	 * Returns a number from 1 to 10 based on how much XP this orb is worth. This is
@@ -211,5 +232,7 @@ public abstract class ItemDropEntity extends Entity {
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
 	}
+	
+	
 
 }

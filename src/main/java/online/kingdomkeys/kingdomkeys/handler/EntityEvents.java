@@ -1130,7 +1130,7 @@ public class EntityEvents {
 						double z = entity.getZ();
 
 						if (entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
-							int num = Utils.randomWithRange(5, 15);
+							int num = (int) Utils.randomWithRange(5, entity.getMaxHealth() / 5);
 							num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
 							// reduce munny value by 2 for each level of drive converter
 							num /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter));
