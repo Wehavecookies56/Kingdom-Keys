@@ -101,6 +101,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Party_Join + ".desc", "Join an already created party.");
         add(Gui_Menu_Party_Leader_Invite, "Invite");
         add(Gui_Menu_Party_Leader_Settings, "Settings");
+        add(Gui_Menu_Party_Leader_Promote, "Promote");
         add(Gui_Menu_Party_Leader_Kick, "Kick");
         add(Gui_Menu_Party_Leader_Disband, "Disband");
         add(Gui_Menu_Party_Member_Leave, "Leave");

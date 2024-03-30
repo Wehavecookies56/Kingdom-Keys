@@ -55,7 +55,7 @@ public class CSPartyInvite {
 				
 				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 				Party p = worldData.getPartyFromName(message.name);
-				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+p.getLeader().getUsername()+" has invited you to "+p.getName()));
+				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+p.getName()));
 			}
 			
 			

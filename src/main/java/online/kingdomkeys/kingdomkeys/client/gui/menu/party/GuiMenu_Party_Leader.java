@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GuiMenu_Party_Leader extends MenuBackground {
 	
-	MenuButton back, invite, settings, kick, disband;
+	MenuButton back, invite, settings, promote, kick, disband;
 		
 	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
@@ -64,6 +64,10 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			minecraft.setScreen(new GuiMenu_Party_Settings());
 			break;
+		case "promote":
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.setScreen(new GuiMenu_Party_Promote());
+			break;
 		case "kick":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			minecraft.setScreen(new GuiMenu_Party_Kick());
@@ -79,6 +83,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 
 	private void updateButtons() {
 		invite.visible = true;
+		promote.visible = true;
 		kick.visible = true;
 		disband.visible = true;
 	}
@@ -92,17 +97,23 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 		this.renderables.clear();
 		
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
+		if(party == null) {
+			GuiHelper.openMenu();
+			return;
+		}
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addRenderableWidget(invite = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Invite), ButtonType.BUTTON, (e) -> { action("invite"); }));
-		addRenderableWidget(settings = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Settings), ButtonType.BUTTON, (e) -> { action("settings"); }));
-		addRenderableWidget(kick = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Kick), ButtonType.BUTTON, (e) -> { action("kick"); }));
-		addRenderableWidget(disband = new MenuButton((int) buttonPosX, button_statsY + (3 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Disband), ButtonType.BUTTON, (e) -> { action("disband"); }));
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (4 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		int i = 0;
+		addRenderableWidget(invite = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Invite), ButtonType.BUTTON, (e) -> { action("invite"); }));
+		addRenderableWidget(settings = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Settings), ButtonType.BUTTON, (e) -> { action("settings"); }));
+		addRenderableWidget(promote = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Promote), ButtonType.BUTTON, (e) -> { action("promote"); }));
+		addRenderableWidget(kick = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Kick), ButtonType.BUTTON, (e) -> { action("kick"); }));
+		addRenderableWidget(disband = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Party_Leader_Disband), ButtonType.BUTTON, (e) -> { action("disband"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}
@@ -113,7 +124,15 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		if(party != null) {
+		if(party == null) {
+			GuiHelper.openMenu();
+			return;
+		} else {			
+			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
+				minecraft.setScreen(new GuiMenu_Party_Member());
+				return;
+			}
+			
 			invite.active = party.getMembers().size() < party.getSize();
 			matrixStack.pushPose();
 			{

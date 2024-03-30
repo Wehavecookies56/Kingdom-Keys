@@ -33,14 +33,15 @@ public class MarluxiaEntity extends BaseKHEntity {
 	public MarluxiaGoal marluxiaGoal;
 	public MarluxiaEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);
+		xpReward = 25;
 	}
 
 	public MarluxiaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_MARLUXIA.get(), world);
+		this(ModEntities.TYPE_MARLUXIA.get(), world);
 	}
 	
 	public MarluxiaEntity(Level world) {
-        super(ModEntities.TYPE_MARLUXIA.get(), world);
+        this(ModEntities.TYPE_MARLUXIA.get(), world);
     }
 
 	@Override

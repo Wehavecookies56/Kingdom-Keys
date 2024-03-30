@@ -367,6 +367,7 @@
   "gui.menu.party.join.desc": "Join an already created party.",
   "gui.menu.party.kick": "Kick",
   "gui.menu.party.leave": "Leave",
+  "gui.menu.party.promote": "Promote",
   "gui.menu.party.settings": "Settings",
   "gui.menu.status": "Status",
   "gui.menu.status.abilities": "Abilities",

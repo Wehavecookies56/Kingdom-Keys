@@ -28,10 +28,11 @@ public class DuskEntity extends BaseKHEntity {
 
 	public DuskEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);
+		xpReward = 7;
 	}
 
 	public DuskEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_DUSK.get(), world);
+		this(ModEntities.TYPE_DUSK.get(), world);
 	}
 
 	@Override

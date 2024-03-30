@@ -28,6 +28,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
 
     public BlueRhapsodyEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_BLUE_RHAPSODY.get(), spawnEntity, world);
+        xpReward = 8;
     }
 
     public static AttributeSupplier.Builder registerAttributes() {

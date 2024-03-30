@@ -280,24 +280,26 @@ public class Recipes extends RecipeProvider {
         .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
         .save(consumer);
         
+        
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
         .requires(ModItems.recipeC.get())
         .requires(ModItems.recipeC.get())
         .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
         .save(consumer);
-        
+      
+       
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
         .requires(ModItems.recipeB.get())
         .requires(ModItems.recipeB.get())
         .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
         .save(consumer);
-        
+      
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
         .requires(ModItems.recipeA.get())
         .requires(ModItems.recipeA.get())
         .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
         .save(consumer);
-        
+       
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
         .requires(ModItems.recipeS.get())
         .requires(ModItems.recipeS.get())
@@ -309,6 +311,48 @@ public class Recipes extends RecipeProvider {
         .requires(ModItems.recipeSS.get())
         .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
         .save(consumer);
+      
+        
+        //4 recipes
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
+        .requires(ModItems.recipeD.get())
+        .requires(ModItems.recipeD.get())
+        .requires(ModItems.recipeD.get())
+        .requires(ModItems.recipeD.get())
+        .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
+        .save(consumer,new ResourceLocation(KingdomKeys.MODID,"recipe_d2"));
+       
+	    ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
+        .requires(ModItems.recipeC.get())
+        .requires(ModItems.recipeC.get())
+        .requires(ModItems.recipeC.get())
+        .requires(ModItems.recipeC.get())
+        .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
+        .save(consumer,new ResourceLocation(KingdomKeys.MODID,"recipe_c2"));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
+        .requires(ModItems.recipeB.get())
+        .requires(ModItems.recipeB.get())
+        .requires(ModItems.recipeB.get())
+        .requires(ModItems.recipeB.get())
+        .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
+        .save(consumer,new ResourceLocation(KingdomKeys.MODID,"recipe_b2"));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
+        .requires(ModItems.recipeA.get())
+        .requires(ModItems.recipeA.get())
+        .requires(ModItems.recipeA.get())
+        .requires(ModItems.recipeA.get())
+        .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
+        .save(consumer,new ResourceLocation(KingdomKeys.MODID,"recipe_a2"));
+		
+		 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSSS.get())
+        .requires(ModItems.recipeS.get())
+        .requires(ModItems.recipeS.get())
+        .requires(ModItems.recipeS.get())
+        .requires(ModItems.recipeS.get())
+        .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
+        .save(consumer,new ResourceLocation(KingdomKeys.MODID,"recipe_s2"));
         
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.iceCream.get(), 3)
                 .requires(Tags.Items.RODS_WOODEN)

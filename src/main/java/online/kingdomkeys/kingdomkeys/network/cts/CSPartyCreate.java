@@ -22,8 +22,8 @@ public class CSPartyCreate {
 
 	public CSPartyCreate(Party party) {
 		this.name = party.getName();
-		this.uuid = party.getLeader().getUUID();
-		this.username = party.getLeader().getUsername();
+		this.uuid = party.getLeaders().get(0).getUUID();
+		this.username = party.getLeaders().get(0).getUsername();
 		this.priv = party.getPriv();
 		this.size = party.getSize();
 	}

@@ -25,10 +25,11 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 
     public NobodyCreeperEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 6;
     }
 
     public NobodyCreeperEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_NOBODY_CREEPER.get(), world);
+        this(ModEntities.TYPE_NOBODY_CREEPER.get(), world);
     }
     
     @Override

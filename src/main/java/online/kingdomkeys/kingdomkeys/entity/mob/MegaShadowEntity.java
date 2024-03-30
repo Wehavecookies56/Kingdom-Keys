@@ -26,10 +26,11 @@ public class MegaShadowEntity extends BaseKHEntity {
 
     public MegaShadowEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 10;
     }
 
     public MegaShadowEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_MEGA_SHADOW.get(), world);
+        this(ModEntities.TYPE_MEGA_SHADOW.get(), world);
     }
     
     @Override

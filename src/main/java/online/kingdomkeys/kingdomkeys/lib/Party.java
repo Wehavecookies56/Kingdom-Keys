@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.lib;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +28,7 @@ public class Party {
 
 	public Party(String name, UUID leaderId, String username, boolean priv, byte size) {
 		this.name = name;
-		this.addMember(leaderId, username).setIsLeader();
+		this.addMember(leaderId, username).setIsLeader(true);
 		this.priv = priv;
 		this.size = size;
 		this.friendlyFire = false;
@@ -92,8 +93,8 @@ public class Party {
 	}
 
 	@Nullable
-	public Member getLeader() {
-		return this.members.stream().filter(member -> member.isLeader()).findFirst().orElse(null);
+	public List<Member> getLeaders() {
+		return this.members.stream().filter(member -> member.isLeader()).toList();
 	}
 
 	public List<Member> getMembers() {
@@ -140,8 +141,7 @@ public class Party {
 		for (int j = 0; j < members.size(); j++) {
 			CompoundTag memberNBT = members.getCompound(j);
 			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"));
-			if (memberNBT.getBoolean("isLeader"))
-				member.setIsLeader();
+			member.setIsLeader(memberNBT.getBoolean("isLeader"));				
 		}
 
 	}
@@ -160,8 +160,8 @@ public class Party {
 			this.username = username;
 		}
 
-		public Member setIsLeader() {
-			this.isLeader = true;
+		public Member setIsLeader(boolean leader) {
+			this.isLeader = leader;
 			return this;
 		}
 

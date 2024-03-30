@@ -15,6 +15,7 @@ public class StormBombEntity extends BaseBombEntity {
 
     public StormBombEntity(EntityType<? extends BaseBombEntity> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 8;
     }
 
     @OnlyIn(Dist.CLIENT)

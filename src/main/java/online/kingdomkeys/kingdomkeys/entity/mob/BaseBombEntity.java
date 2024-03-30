@@ -47,7 +47,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     }
 
     public BaseBombEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(type, world);
+        this(type, world);
     }
     
     @Override
