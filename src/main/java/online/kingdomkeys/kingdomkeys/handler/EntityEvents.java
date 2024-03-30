@@ -161,6 +161,9 @@ public class EntityEvents {
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity mob) {
 			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
+			if(mobData == null)
+				return;
+			
 			if (mobData.getLevel() > 0) {
 				int level = mobData.getLevel();
 
