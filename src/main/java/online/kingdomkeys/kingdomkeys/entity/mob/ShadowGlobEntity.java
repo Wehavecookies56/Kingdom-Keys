@@ -21,10 +21,11 @@ public class ShadowGlobEntity extends BaseKHEntity {
 
     public ShadowGlobEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 2;
     }
 
     public ShadowGlobEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_SHADOW_GLOB.get(), world);
+        this(ModEntities.TYPE_SHADOW_GLOB.get(), world);
     }
     
     @Override

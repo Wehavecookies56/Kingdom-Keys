@@ -74,6 +74,14 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		this.renderables.clear();
 		
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
+		if(party == null) {
+			GuiHelper.openMenu();
+		} else {			
+			if(party.getMember(minecraft.player.getUUID()).isLeader()) {
+				minecraft.setScreen(new GuiMenu_Party_Leader());
+				return;
+			}
+		}
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -92,12 +100,16 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-
 		
 		if(party == null) {
 			GuiHelper.openMenu();
-			updateButtons();
-		} else {
+			return;
+		} else {			
+			if(party.getMember(minecraft.player.getUUID()).isLeader()) {
+				minecraft.setScreen(new GuiMenu_Party_Leader());
+				return;
+			}
+			
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(1.5F,1.5F, 1);

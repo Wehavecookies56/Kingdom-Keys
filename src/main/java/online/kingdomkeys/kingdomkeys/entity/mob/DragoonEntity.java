@@ -26,10 +26,11 @@ public class DragoonEntity extends BaseKHEntity {
 
     public DragoonEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 11;
     }
 
     public DragoonEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_DRAGOON.get(), world);
+        this(ModEntities.TYPE_DRAGOON.get(), world);
     }
     
     @Override

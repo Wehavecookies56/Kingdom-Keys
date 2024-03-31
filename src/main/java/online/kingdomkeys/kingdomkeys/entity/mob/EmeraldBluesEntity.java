@@ -20,10 +20,12 @@ public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {
 
     public EmeraldBluesEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 8;
     }
 
     public EmeraldBluesEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_EMERALD_BLUES.get(), spawnEntity, world);
+        xpReward = 8;
     }
 
     @Override

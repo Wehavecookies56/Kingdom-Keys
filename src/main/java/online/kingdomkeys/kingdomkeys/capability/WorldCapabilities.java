@@ -221,12 +221,6 @@ public class WorldCapabilities implements IWorldCapabilities {
 
 		return null;
 	}
-
-	@Nullable
-	@Override
-	public Party getPartyFromLeader(UUID leaderId) {
-		return this.parties.stream().filter(party -> party.getLeader() != null && party.getLeader().getUUID() == leaderId).findFirst().orElse(null);
-	}
 	
 	@Nullable
 	@Override

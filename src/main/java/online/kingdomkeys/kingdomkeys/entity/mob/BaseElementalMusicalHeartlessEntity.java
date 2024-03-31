@@ -34,10 +34,11 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
 
     protected BaseElementalMusicalHeartlessEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 8;
     }
 
     public BaseElementalMusicalHeartlessEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(type, world);
+        this(type, world);
     }
     
     @Override

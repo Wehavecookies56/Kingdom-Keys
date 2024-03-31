@@ -48,7 +48,6 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		if (stack.getTag() != null) {
 			if (!stack.getTag().hasUUID("keybladeID"))
 				stack.setTag(setID(stack.getTag()));
-			stack.getTag().putInt("level",0);
 		} else {
 			stack.setTag(setID(new CompoundTag()));
 		}

@@ -24,10 +24,12 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     public GreenRequiemEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 4;
     }
 
     public GreenRequiemEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_GREEN_REQUIEM.get(), spawnEntity, world);
+        xpReward = 4;
     }
 
     @Override

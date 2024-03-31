@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -57,7 +58,14 @@ public class MenuScreen extends MenuBackground {
 				if (p == null) {
 					minecraft.setScreen(new GuiMenu_Party_None());
 				} else {
-					if (p.getLeader().getUUID().equals(minecraft.player.getUUID())) {
+					boolean isLeader = false;
+					for(Member leader : p.getLeaders()) {
+						if(leader.getUUID().equals(minecraft.player.getUUID())) {
+							isLeader = true;
+							break;
+						}
+					}
+					if(isLeader) {
 						minecraft.setScreen(new GuiMenu_Party_Leader());
 					} else {
 						minecraft.setScreen(new GuiMenu_Party_Member());

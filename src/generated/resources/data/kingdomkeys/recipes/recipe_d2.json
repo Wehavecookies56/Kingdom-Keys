@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:recipe_d"
+    },
+    {
+      "item": "kingdomkeys:recipe_d"
+    },
+    {
+      "item": "kingdomkeys:recipe_d"
+    },
+    {
+      "item": "kingdomkeys:recipe_d"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:recipe_b"
+  }
+}

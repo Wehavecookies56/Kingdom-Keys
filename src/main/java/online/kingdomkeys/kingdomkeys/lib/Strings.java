@@ -417,6 +417,7 @@ public class Strings {
             Gui_Menu_Party_Create_Accessibility_Private = Gui_Menu_Party_Create_Accessibility + ".private",
             Gui_Menu_Party_Leader_Invite = Gui_Menu_Party+".invite",
 			Gui_Menu_Party_Leader_Settings = Gui_Menu_Party+".settings",
+			Gui_Menu_Party_Leader_Promote = Gui_Menu_Party+".promote",
 			Gui_Menu_Party_Leader_Kick = Gui_Menu_Party+".kick",
 			Gui_Menu_Party_Leader_Disband = Gui_Menu_Party+".disband",
 			Gui_Menu_Party_Member_Leave = Gui_Menu_Party+".leave",

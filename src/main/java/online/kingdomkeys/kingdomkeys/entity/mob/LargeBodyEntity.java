@@ -50,10 +50,11 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     public LargeBodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 10;
     }
 
     public LargeBodyEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_LARGE_BODY.get(), world);
+        this(ModEntities.TYPE_LARGE_BODY.get(), world);
     }
     
     @Override

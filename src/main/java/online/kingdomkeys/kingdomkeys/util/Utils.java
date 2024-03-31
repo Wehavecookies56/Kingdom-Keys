@@ -88,6 +88,10 @@ public class Utils {
 		return ForgeRegistries.BLOCKS.getKey(block);
 	}
 
+	public static float map(float x, float in_min, float in_max, float out_min, float out_max) {
+		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+
 	public static int getSlotFor(Inventory inv, ItemStack stack) {
 		for (int i = 0; i < inv.getContainerSize(); ++i) {
 			if (!inv.getItem(i).isEmpty() && ItemStack.matches(stack, inv.getItem(i))) {

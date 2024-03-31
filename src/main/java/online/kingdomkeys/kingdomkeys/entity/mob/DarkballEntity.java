@@ -29,7 +29,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class DarkballEntity extends BaseKHEntity {
 
-
     enum SpecialAttack {
         CHARGE,
         BERSERK,
@@ -46,10 +45,11 @@ public class DarkballEntity extends BaseKHEntity {
 
     public DarkballEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 8;
     }
 
     public DarkballEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_DARKBALL.get(), world);
+        this(ModEntities.TYPE_DARKBALL.get(), world);
     }
 
     @Override

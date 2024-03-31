@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -92,11 +93,23 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 		int c = 0;
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		for(int i = 1; i < minecraft.level.players().size(); i++) {
-			if(worldData.getPartyFromMember(minecraft.level.players().get(i).getUUID()) != party) {
-				addRenderableWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((c++) * 18), (int)(buttonWidth * 2), minecraft.level.players().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
+		if(party == null) {
+			GuiHelper.openMenu();
+			return;
+		} else {			
+			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
+				minecraft.setScreen(new GuiMenu_Party_Member());
+				return;
+			}
+			
+			for(int i = 1; i < minecraft.level.players().size(); i++) {
+				if(worldData.getPartyFromMember(minecraft.level.players().get(i).getUUID()) != party) {
+					addRenderableWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + ((c++) * 18), (int)(buttonWidth * 2), minecraft.level.players().get(i).getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
+				}
 			}
 		}
+		
+		
 	
 	}	
 

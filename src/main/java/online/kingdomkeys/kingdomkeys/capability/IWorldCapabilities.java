@@ -24,7 +24,6 @@ public interface IWorldCapabilities extends INBTSerializable<CompoundTag> {
 	void addParty(Party party);
 	void removeParty(Party party);
 	Party getPartyFromName(String name);
-	Party getPartyFromLeader(UUID leaderId);
 	
 	void read(CompoundTag nbt);
 	CompoundTag write(CompoundTag nbt);

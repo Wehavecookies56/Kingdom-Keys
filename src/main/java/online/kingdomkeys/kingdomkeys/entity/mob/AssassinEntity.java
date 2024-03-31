@@ -26,10 +26,11 @@ public class AssassinEntity extends BaseKHEntity {
 
 	public AssassinEntity(EntityType<? extends BaseKHEntity> type, Level worldIn) {
 		super(type, worldIn);
+		xpReward = 12;
 	}
 
 	public AssassinEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_ASSASSIN.get(), world);
+		this(ModEntities.TYPE_ASSASSIN.get(), world);
 	}
 
 	@Override

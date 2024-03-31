@@ -15,6 +15,7 @@ public class MinuteBombEntity extends BaseBombEntity {
 
     public MinuteBombEntity(EntityType<? extends BaseBombEntity> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 6;
     }
 
     @OnlyIn(Dist.CLIENT)

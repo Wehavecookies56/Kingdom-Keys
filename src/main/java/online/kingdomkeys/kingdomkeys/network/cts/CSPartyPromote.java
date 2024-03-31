@@ -9,57 +9,51 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSPartyDisband {
+public class CSPartyPromote {
 	
-	String name, username;
-	UUID uuid;
-	boolean priv;
+	String name;
+	UUID playerUUID;
 	
-	public CSPartyDisband() {}
+	public CSPartyPromote() {}
 
-	public CSPartyDisband(Party party) {
+	public CSPartyPromote(Party party, UUID playerUUID) {
 		this.name = party.getName();
-		this.uuid = party.getLeaders().get(0).getUUID();
-		this.username = party.getLeaders().get(0).getUsername();
-		this.priv = party.getPriv();
+		this.playerUUID = playerUUID;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(this.name.length());
 		buffer.writeUtf(this.name);
-		
-		buffer.writeUUID(this.uuid);
-		
-		buffer.writeInt(this.username.length());
-		buffer.writeUtf(this.username);
-		
-		buffer.writeBoolean(this.priv);
+				
+		buffer.writeUUID(this.playerUUID);
 	}
 
-	public static CSPartyDisband decode(FriendlyByteBuf buffer) {
-		CSPartyDisband msg = new CSPartyDisband();
+	public static CSPartyPromote decode(FriendlyByteBuf buffer) {
+		CSPartyPromote msg = new CSPartyPromote();
 		int length = buffer.readInt();
 		msg.name = buffer.readUtf(length);
-		
-		msg.uuid = buffer.readUUID();
-		
-		length = buffer.readInt();
-		msg.username = buffer.readUtf(length);
-		
-		msg.priv = buffer.readBoolean();
+				
+		msg.playerUUID = buffer.readUUID();
 		return msg;
 	}
 
-	public static void handle(CSPartyDisband message, final Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(CSPartyPromote message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 			Party p = worldData.getPartyFromName(message.name);
-			if(p != null)
-				worldData.removeParty(p);
-			
+			Member member = null;
+			for(Member m : p.getMembers()) {
+				if(m.getUUID().equals(message.playerUUID)){
+					member = m;
+				}
+			}
+			if(member != null) {
+				member.setIsLeader(!member.isLeader());
+			}
 			Utils.syncWorldData(player.level(), worldData);
 		});
 		ctx.get().setPacketHandled(true);

@@ -24,10 +24,12 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
 
     public YellowOperaEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 6;
     }
 
     public YellowOperaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_YELLOW_OPERA.get(), spawnEntity, world);
+        xpReward = 6;
     }
 
     @Override

@@ -9,7 +9,7 @@
 		"description": {
 			"translate": "advancements.kingdomkeys.root.desc"
 		},
-		"background": "kingdomkeys:textures/block/normal_blox.png",
+		"background": "kingdomkeys:textures/block/rod_sand.png",
 		"show_toast": true,
 		"announce_to_chat": true,
 		"frame": "task"

@@ -15,6 +15,7 @@ public class DetonatorEntity extends BaseBombEntity {
 
     public DetonatorEntity(EntityType<? extends BaseBombEntity> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 10;
     }
 
     @OnlyIn(Dist.CLIENT)

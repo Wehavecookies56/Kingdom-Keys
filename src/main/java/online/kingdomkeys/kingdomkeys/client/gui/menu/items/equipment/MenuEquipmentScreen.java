@@ -92,11 +92,24 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
 
             addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, Component.translatable(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; scrollOffset = 0; init();}));
             
-            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getAlignment() == Utils.OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem)) {
-            	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
-            	totalButtons.add(sbSlot);
-                addRenderableWidget(sbSlot);
+            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getEquippedWeapon() != null)) {
+            	if(playerData.getEquippedWeapon().getItem() instanceof KeybladeItem) { // Synch blade button when org member (should only appear when using Roxas weapon)
+            		MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+                	totalButtons.add(sbSlot);
+                    addRenderableWidget(sbSlot);            		
+            	} else { //Synch blade button when org member (should only appear when not using Roxas weapon, inside the keyblades button)
+            		MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
+                	if(showingKeyblades)
+                		totalButtons.add(sbSlot);
+                    addRenderableWidget(sbSlot);
+                    
+                    sbSlot.active = showingKeyblades;
+                    sbSlot.visible = showingKeyblades;
+
+                    hidden.getAndIncrement();            		
+            	}
             }
+           
         } else {
         	showingKeyblades = true;
         }
@@ -114,12 +127,16 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             hidden.getAndIncrement();
             
             //Synch blade
-            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0 && playerData.isAbilityEquipped(Strings.synchBlade) && playerData.getAlignment() != Utils.OrgMember.ROXAS) {
+            if (playerData.getAlignment() == Utils.OrgMember.NONE) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
-            	totalButtons.add(sbSlot);
+            	if(showingKeyblades)
+            		totalButtons.add(sbSlot);
                 addRenderableWidget(sbSlot);
+                
+                sbSlot.active = showingKeyblades;
+                sbSlot.visible = showingKeyblades;
 
-                hidden.getAndIncrement();
+                hidden.getAndIncrement();      
             }
         }
         

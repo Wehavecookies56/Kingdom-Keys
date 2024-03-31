@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -139,9 +140,21 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		worldData = ModCapabilities.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
-		int buttonX = (int)(width*0.25);
-		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
-		gui.drawString(minecraft.font, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
+		if(party == null) {
+			GuiHelper.openMenu();
+			return;
+		} else {			
+			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
+				minecraft.setScreen(new GuiMenu_Party_Member());
+				return;
+			}
+			
+			int buttonX = (int)(width*0.25);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
+			gui.drawString(minecraft.font, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
+		}
+		
+		
 	}
 	
 }

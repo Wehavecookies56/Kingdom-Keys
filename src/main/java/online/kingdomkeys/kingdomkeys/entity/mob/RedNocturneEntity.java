@@ -24,10 +24,13 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 
     public RedNocturneEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 6;
+
     }
 
     public RedNocturneEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         super(ModEntities.TYPE_RED_NOCTURNE.get(), spawnEntity, world);
+        xpReward = 6;
     }
 
     @Override

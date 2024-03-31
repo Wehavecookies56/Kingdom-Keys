@@ -26,10 +26,11 @@ public class SoldierEntity extends BaseKHEntity {
 
     public SoldierEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
+        xpReward = 7;
     }
 
     public SoldierEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_SOLDIER.get(), world);
+        this(ModEntities.TYPE_SOLDIER.get(), world);
     }
     
     @Override
