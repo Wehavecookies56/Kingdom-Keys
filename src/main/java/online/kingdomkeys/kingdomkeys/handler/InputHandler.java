@@ -110,7 +110,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public final void handleKeyInputEvent(InputEvent.Key event) {
+    public void handleKeyInputEvent(InputEvent.Key event) {
         init();
         Keybinds key = getPressedKey();
         if (player != null) {
@@ -150,7 +150,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public final void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
+    public void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
         init();
         if(level != null){
             if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
@@ -196,7 +196,7 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public final void OnMouseWheelScroll(MouseScrollingEvent event) {
+    public void OnMouseWheelScroll(MouseScrollingEvent event) {
         init();
         if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
             event.setCanceled(true);
