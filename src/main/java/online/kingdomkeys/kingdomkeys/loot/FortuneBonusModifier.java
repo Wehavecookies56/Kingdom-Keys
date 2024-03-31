@@ -21,6 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -57,6 +58,7 @@ public class FortuneBonusModifier extends LootModifier {
         {
             Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
             BlockState blockState = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+            BlockEntity blockEntity = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
             Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
 
             if (blockState != null && entity instanceof Player player)
@@ -83,6 +85,7 @@ public class FortuneBonusModifier extends LootModifier {
                     builder.withParameter(LootContextParams.TOOL, fakeTool);
                     builder.withParameter(LootContextParams.BLOCK_STATE, blockState);
                     builder.withParameter(LootContextParams.ORIGIN, origin);
+                    builder.withParameter(LootContextParams.BLOCK_ENTITY, blockEntity);
 
                     LootParams newContext = builder.create(LootContextParamSets.BLOCK);
                     LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
