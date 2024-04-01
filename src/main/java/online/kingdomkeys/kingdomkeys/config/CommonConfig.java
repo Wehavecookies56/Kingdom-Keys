@@ -47,6 +47,7 @@ public class CommonConfig {
     public ForgeConfigSpec.IntValue mobLevelStats;
 
     public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
+    public ForgeConfigSpec.BooleanValue needKeybladeForHeartless;
     
     CommonConfig(final ForgeConfigSpec.Builder builder) {
 		builder.push("general");
@@ -90,6 +91,11 @@ public class CommonConfig {
                 .comment("Critic Damage Multiplier")
                 .translation(KingdomKeys.MODID + ".config.crit_mult")
                 .defineInRange("critMult",1.5,0,100);
+        
+        needKeybladeForHeartless = builder
+        		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
+                .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
+                .define("needKeybladeForHeartless", false);
 
         builder.pop();
 
@@ -141,13 +147,13 @@ public class CommonConfig {
                 .defineInRange("mobLevelStats",10,0,100);
 
         bossDespawnIfNoTarget = builder
-        		 .comment("Make bosses despawn once his target disappears")
-                 .translation(KingdomKeys.MODID + ".config.boss_despawn_if_no_target")
-                 .define("bossDespawnIfNoTarget", true);
+        		.comment("Make bosses despawn once his target disappears")
+                .translation(KingdomKeys.MODID + ".config.boss_despawn_if_no_target")
+                .define("bossDespawnIfNoTarget", true);
+        
         builder.pop();
 
         builder.push("drops");
-
         hpDropProbability = builder
                 .comment("HP Drops Probability")
                 .translation(KingdomKeys.MODID + ".config.hp_drop_probability")

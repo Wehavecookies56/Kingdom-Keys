@@ -40,27 +40,8 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible;
-    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
-
-    public static boolean hpShowHearts;
-    public static int hpAlarm;
-    
-    public static int hpXPos, hpYPos, hpXScale;
-
-    public static int mpXPos, mpYPos, mpXScale;
-
-    public static int dpXPos, dpYPos, dpXScale, dpYScale;
-
-    public static int playerSkinXPos, playerSkinYPos;
-
-    public static int lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
-
-    public static int partyXPos, partyYPos, partyYDistance;
-
-    public static int focusXPos, focusYPos, focusXScale, focusYScale;
-
-	public static boolean showDriveForms, summonTogether;
+    public static boolean cmHeaderTextVisible, hpShowHearts, showDriveForms, summonTogether;
+    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale;
 
     public enum ShowType {
         SHOW, HIDE, WEAPON
@@ -307,34 +288,18 @@ public class ModConfigs {
         showGuiToggle = CLIENT.showGuiToggle.get();
     }
 
-    public static boolean debugConsoleOutput;
-    public static boolean bombExplodeWithfire;
-    public static boolean keybladeOpenDoors;
+    public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
-    public static boolean mobLevelingUp;
 
-    public static int driveHeal;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability;
 
-    public static double drivePointsMultiplier;
-    public static double focusPointsMultiplier;
+    public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier;
 
-    public static int hpDropProbability;
-    public static int mpDropProbability;
-    public static int munnyDropProbability;
-    public static int driveDropProbability;
-    public static int focusDropProbability;
-
-    public static double shotlockMult;
-    public static double critMult;
-
-    public static boolean playerSpawnHeartless;
-    public static boolean blizzardChangeBlocks;
     public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
 
-    public static boolean bossDespawnIfNoTarget, respawnROD;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -367,22 +332,15 @@ public class ModConfigs {
         rodHeartlessMaxLevel = COMMON.rodHeartlessMaxLevel.get();
         respawnROD = COMMON.respawnROD.get();
         bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
+    	needKeybladeForHeartless = COMMON.needKeybladeForHeartless.get();
+
     }
 
-    public static int recipeDropChance;
-    public static int partyRangeLimit;
-    public static int partyMembersLimit;
-    public static List<String> driveFormXPMultiplier;
-    public static double xpMultiplier;
-    public static double heartMultiplier;
-    public static double partyXPShare;
-    //public static int magicUsesTimer;
-    public static boolean requireSynthTier;
-
+    public static int recipeDropChance, partyRangeLimit, partyMembersLimit;
     public static List<Integer> statsMultiplier;
-    public static boolean projectorHasShop;
-    public static boolean orgEnabled;
-    public static boolean allowBoosts;
+    public static List<String> driveFormXPMultiplier;
+    public static double xpMultiplier, heartMultiplier, partyXPShare;
+    public static boolean requireSynthTier, projectorHasShop, orgEnabled, allowBoosts;
     
 
     public static void bakeServer() {
