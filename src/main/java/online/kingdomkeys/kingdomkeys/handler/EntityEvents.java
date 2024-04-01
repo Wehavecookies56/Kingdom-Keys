@@ -851,7 +851,7 @@ public class EntityEvents {
 				}
 
 				// System.out.println("event dmg: "+dmg);
-				System.out.println(dmg+" Added dmg: "+((event.getAmount()-1)+dmg));
+				//System.out.println(dmg+" Added dmg: "+((event.getAmount()-1)+dmg));
 				event.setAmount((event.getAmount()-1)+dmg);
 			}
 
