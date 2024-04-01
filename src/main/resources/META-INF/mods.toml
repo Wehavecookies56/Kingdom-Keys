@@ -24,3 +24,9 @@ A mod inspired by Kingdom Hearts adding various elements from the games.
     versionRange="[18.3,)"
     ordering="AFTER"
     side="BOTH"
+[[dependencies.kingdomkeys]]
+    modId="magicksaddon"
+    mandatory=false
+    versionRange="[1.20.1-0.7.5,)"
+    ordering="BEFORE"
+    side="BOTH"
