@@ -43,7 +43,7 @@ public class CSExtendedReach {
 	        if (player.getMainHandItem().getItem() instanceof IExtendedReach) {
 	            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getMainHandItem().getItem();
 	            double distanceSq = player.distanceToSqr(theEntity);
-	            double reachSq = theExtendedReachWeapon.getReach() * theExtendedReachWeapon.getReach();
+	            double reachSq = theExtendedReachWeapon.getReach() * theExtendedReachWeapon.getReach() * 3;
 	            if (reachSq >= distanceSq) {
 	                player.attack(theEntity);
 	            }
