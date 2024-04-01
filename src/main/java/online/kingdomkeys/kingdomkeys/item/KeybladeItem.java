@@ -36,7 +36,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -45,11 +44,13 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -305,11 +306,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
-			if(getKeybladeLevel(stack) > 0)
-				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeybladeLevel(stack)));
-			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack)+"]"));
-			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getDesc()));
+			tooltip = ClientUtils.getTooltip(tooltip,stack);
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {

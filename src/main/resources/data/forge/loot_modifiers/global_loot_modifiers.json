@@ -1,6 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "kingdomkeys:fortune_bonus"
+    "kingdomkeys:fortune_bonus",
+	"kingdomkeys:disc_gen"
   ]
 }

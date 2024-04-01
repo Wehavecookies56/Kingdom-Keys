@@ -25,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class KeychainItem extends SwordItem implements IKeychain, IItemCategory {
@@ -84,11 +85,12 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (getKeyblade() != null && getKeyblade().data != null) {
-			if(getKeyblade().getKeybladeLevel(stack) > 0)
+			tooltip = ClientUtils.getTooltip(tooltip, stack);
+			/*if(getKeyblade().getKeybladeLevel(stack) > 0)
 				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
 			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
 			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
-			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));
+			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));*/
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
