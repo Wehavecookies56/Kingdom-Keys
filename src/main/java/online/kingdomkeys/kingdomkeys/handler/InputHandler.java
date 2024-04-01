@@ -10,6 +10,10 @@ import java.util.UUID;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import online.kingdomkeys.kingdomkeys.api.client.KKInputEvent;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -74,25 +78,27 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
+import javax.annotation.Nullable;
+
 public class InputHandler {
 
-    public List<UUID> portalCommands;
-    public Map<String, int[]> driveFormsMap;
-    public List<Member> targetsList;
-    public List<Limit> limitsList;
-    public List<String> magicList;
-    public Map<Integer, ItemStack> itemsList;
-    public List<String> reactionList = new ArrayList<>();
+    @Nullable public List<UUID> portalCommands;
+    @Nullable public Map<String, int[]> driveFormsMap;
+    @Nullable public List<Member> targetsList;
+    @Nullable public List<Limit> limitsList;
+    @Nullable public List<String> magicList;
+    @Nullable public Map<Integer, ItemStack> itemsList;
+    @Nullable public List<String> reactionList;
     
-    public static LivingEntity lockOn = null;
+    @Nullable public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
 
-    protected Minecraft mc;
-    protected LocalPlayer player;
-    protected ClientLevel level;
-    protected IPlayerCapabilities playerData;
-    protected IGlobalCapabilities globalData;
-    protected IWorldCapabilities worldData;
+    public Minecraft mc;
+    public LocalPlayer player;
+    @Nullable public ClientLevel level;
+    public IPlayerCapabilities playerData;
+    public IGlobalCapabilities globalData;
+    @Nullable public IWorldCapabilities worldData;
     public InputHandler() {
         mc = Minecraft.getInstance();
     }
@@ -109,6 +115,7 @@ public class InputHandler {
         }
     }
 
+
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
@@ -118,30 +125,33 @@ public class InputHandler {
                 return;
 
             if (key != null) {
-                switch (key) {
-                    case OPENMENU -> openMenu();
-                    case SHOW_GUI -> showGui();
-                    case SCROLL_UP -> {
-                        if (mc.screen == null && Utils.shouldRenderOverlay(player))
-                            commandUp();
+                if (!MinecraftForge.EVENT_BUS.post(new KKInputEvent.Pre(key, this))) {
+                    switch (key) {
+                        case OPENMENU -> openMenu();
+                        case SHOW_GUI -> showGui();
+                        case SCROLL_UP -> {
+                            if (mc.screen == null && Utils.shouldRenderOverlay(player))
+                                commandUp();
+                        }
+                        case SCROLL_DOWN -> {
+                            if (mc.screen == null && Utils.shouldRenderOverlay(player))
+                                commandDown();
+                        }
+                        case ENTER -> {
+                            if (mc.screen == null && Utils.shouldRenderOverlay(player))
+                                commandEnter();
+                        }
+                        case BACK -> {
+                            if (mc.screen == null && Utils.shouldRenderOverlay(player))
+                                commandBack();
+                        }
+                        case SUMMON_KEYBLADE -> summonKeyblade();
+                        case SUMMON_ARMOR -> summonArmor();
+                        case ACTION -> commandAction();
+                        case LOCK_ON -> lockOn();
+                        case REACTION_COMMAND -> reactionCommand();
                     }
-                    case SCROLL_DOWN -> {
-                        if (mc.screen == null && Utils.shouldRenderOverlay(player))
-                            commandDown();
-                    }
-                    case ENTER -> {
-                        if (mc.screen == null && Utils.shouldRenderOverlay(player))
-                            commandEnter();
-                    }
-                    case BACK -> {
-                        if (mc.screen == null && Utils.shouldRenderOverlay(player))
-                            commandBack();
-                    }
-                    case SUMMON_KEYBLADE -> summonKeyblade();
-                    case SUMMON_ARMOR -> summonArmor();
-                    case ACTION -> commandAction();
-                    case LOCK_ON -> lockOn();
-                    case REACTION_COMMAND -> reactionCommand();
+                    MinecraftForge.EVENT_BUS.post(new KKInputEvent.Post(key, this));
                 }
             } else {
                 otherKeyPressed(event);
@@ -1059,5 +1069,4 @@ public class InputHandler {
                 return key;
         return null;
     }
-    
 }
