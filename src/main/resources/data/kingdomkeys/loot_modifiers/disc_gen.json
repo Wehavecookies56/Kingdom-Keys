@@ -6,9 +6,8 @@
       "loot_table_id": "minecraft:chests/simple_dungeon"
     },
     {
-      "chance": 1,
+      "chance": 0.5,
       "condition": "minecraft:random_chance"
     }
-  ],
-  "item": "kingdomkeys:orichalcum"
+  ]
 }
