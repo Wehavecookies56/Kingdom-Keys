@@ -119,7 +119,7 @@ public class DamageCalculation {
 	            	damage *= form.getStrMult();
 	            }
             }
-            finalDamage = damage + getSharpnessDamage(stack);
+            finalDamage = damage;// + getSharpnessDamage(stack);
            
             DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
             otherSymbols.setDecimalSeparator('.');
@@ -142,7 +142,7 @@ public class DamageCalculation {
             if (stack.getItem() instanceof IOrgWeapon) {
             	IOrgWeapon org = (IOrgWeapon) stack.getItem();
                 damage = (float) org.getStrength() + playerData.getStrength(true);
-                finalDamage = damage + getSharpnessDamage(stack);
+                finalDamage = damage;// + getSharpnessDamage(stack);
             }
             return finalDamage;
         } else {
@@ -168,4 +168,5 @@ public class DamageCalculation {
     private static float getSharpnessDamageFromLevel(float lvl) {
 		return lvl / 2F + 0.5F;
 	}
+	
 }

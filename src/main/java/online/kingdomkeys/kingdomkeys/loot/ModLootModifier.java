@@ -18,5 +18,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 public class ModLootModifier {
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
     public static final RegistryObject<Codec<FortuneBonusModifier>> FORTUNE_BONUS = LOOT_MODIFIERS.register("fortune_bonus", FortuneBonusModifier.CODEC);
+    public static final RegistryObject<Codec<DiscGenModifier>> DISC_BONUS = LOOT_MODIFIERS.register("disc_gen", DiscGenModifier.CODEC);
 
 }

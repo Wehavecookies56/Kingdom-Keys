@@ -851,7 +851,8 @@ public class EntityEvents {
 				}
 
 				// System.out.println("event dmg: "+dmg);
-				event.setAmount(dmg);
+				System.out.println(dmg+" Added dmg: "+((event.getAmount()-1)+dmg));
+				event.setAmount((event.getAmount()-1)+dmg);
 			}
 
 			if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {

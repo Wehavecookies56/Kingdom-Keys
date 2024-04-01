@@ -14,6 +14,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
@@ -91,11 +93,8 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-    	if(data != null) {
-			tooltip.add(Component.translatable(ChatFormatting.YELLOW + "" + getMember()));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "Strength %s", getStrength() + DamageCalculation.getSharpnessDamage(stack) + " [" + DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack) + "]"));
-			tooltip.add(Component.translatable(ChatFormatting.BLUE + "Magic %s", getMagic() + " [" + DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, this) + "]"));
-			tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + getDesc()));
-    	}
+    	if (data != null) {
+    		ClientUtils.getTooltip(tooltip, stack);
+		}
     }
 }
