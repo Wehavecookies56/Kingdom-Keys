@@ -56,7 +56,7 @@ public class CSAttackOffhandPacket {
 		        	if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
 			            IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getOffhandItem().getItem();
 			            double distanceSq = player.distanceToSqr(entity);
-			            float reach = Math.max(5,theExtendedReachWeapon.getReach()) * 3;
+			            float reach = Math.max(5,theExtendedReachWeapon.getReach());
 			            double reachSq = reach * reach;
 			            if (reachSq >= distanceSq) {
 				        	attackTargetEntityWithOffhandItem(player, entity);

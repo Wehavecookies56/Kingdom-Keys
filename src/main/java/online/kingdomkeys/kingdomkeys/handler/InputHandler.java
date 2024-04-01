@@ -163,7 +163,7 @@ public class InputHandler {
                         if (!ItemStack.matches(itemstack, ItemStack.EMPTY)) {
                             IExtendedReach ieri = itemstack.getItem() instanceof IExtendedReach ? (IExtendedReach) itemstack.getItem() : null;
                             if (ieri != null) {
-                                float reach = ieri.getReach() * 3;
+                                float reach = ieri.getReach();
                                 HitResult rtr = getMouseOverExtended(reach);
                                 if (rtr != null) {
                                     if (rtr instanceof EntityHitResult) {
