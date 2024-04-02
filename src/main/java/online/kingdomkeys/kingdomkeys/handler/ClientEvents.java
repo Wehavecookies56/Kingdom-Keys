@@ -26,14 +26,21 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -41,6 +48,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -48,6 +56,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -61,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
+import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -128,12 +138,22 @@ public class ClientEvents {
 	public void onLivingUpdate(LivingTickEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
-			if (globalData.getStoppedTicks() > 0) {
+			if (globalData.getStoppedTicks() > 0 ) {
 				if(event.getEntity().level().isClientSide) {
 					if(Minecraft.getInstance().screen == null)
 						Minecraft.getInstance().setScreen(new StopGui());
 				}
 				event.setCanceled(true);
+			}
+			if(globalData.isKO()) {
+				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
+					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
+						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+					
+					if(Minecraft.getInstance().screen == null && event.getEntity().tickCount % 10 == 0)
+						Minecraft.getInstance().setScreen(new ChatScreen(""));
+				}
+				System.out.println(event.getEntity().getHealth());
 			}
 		}
 		
@@ -144,12 +164,39 @@ public class ClientEvents {
 		}
 	}
 	
+	
+	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Pre event) {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player) {
 				Player player = (Player) event.getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+				if(globalData != null) {
+					if(globalData.isKO()) {
+						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+						if (!((IDisabledAnimations) renderer).isDisabled()) {
+							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
+							float MAX = 100;
+					        double pos = player.tickCount % MAX / (MAX /2D);
+
+							if (player.tickCount % MAX < (MAX / 2)) {
+								event.getPoseStack().translate(0, 0, pos * 0.3);
+							} else {
+								event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
+							}
+							event.getPoseStack().translate(0, -1, 0.8);
+
+							/*BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+							for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) { //TODO totally made this up in the 1.19.3 port
+								event.getMultiBufferSource().getBuffer(Sheets.translucentCullBlockSheet()).putBulkData(event.getPoseStack().last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+							}
+							*/
+						}
+					}
+				}
+				
 				if(playerData != null) {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {

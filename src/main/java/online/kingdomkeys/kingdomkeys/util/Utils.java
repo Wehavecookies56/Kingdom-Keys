@@ -49,6 +49,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -383,6 +384,25 @@ public class Utils {
 			list.remove(player);
 		}
 		return list;
+	}
+	
+	/**
+	 * Used to check if there's anyone else online in the party for KO effect
+	 * @param player
+	 * @param p
+	 * @param level
+	 * @return
+	 */
+	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
+		boolean membersOn = false;
+		for(Member member : p.getMembers()) {
+			if(Utils.getPlayerByName(level, member.getUsername()) != null){
+				if(Utils.getPlayerByName(level, member.getUsername()) != player) {
+					membersOn = true;
+				}
+			}
+		}
+		return membersOn;
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
@@ -984,6 +1004,14 @@ public class Utils {
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
 		return new BlockPos(getInt(temp[0]),getInt(temp[1]),getInt(temp[2]));
+	}
+	
+	public static void reviveFromKO(LivingEntity entity) {
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(entity);
+		globalData.setKO(false);
+		if(entity instanceof Player player)
+			PacketHandler.syncToAllAround(player, globalData);
+
 	}
 
 }

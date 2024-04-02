@@ -51,6 +51,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.VentusModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortModel;
 import online.kingdomkeys.kingdomkeys.client.render.AeroLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.HeartLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.StopLayerRenderer;
@@ -220,6 +221,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin("slim");
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -227,6 +229,8 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
+
 	}
 
 	@SubscribeEvent

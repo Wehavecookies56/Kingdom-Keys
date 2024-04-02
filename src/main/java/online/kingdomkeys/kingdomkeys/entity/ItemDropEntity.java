@@ -41,7 +41,6 @@ public abstract class ItemDropEntity extends Entity {
 		this.setYRot((float) (this.random.nextDouble() * 360.0D));
 		this.setDeltaMovement((this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D, this.random.nextDouble() * 0.2D * 2.0D, (this.random.nextDouble() * (double) 0.2F - (double) 0.1F) * 2.0D);
 		setValue(expValue);
-		System.out.println(expValue);
 
 		this.delayBeforeCanPickup = 20;
 	}

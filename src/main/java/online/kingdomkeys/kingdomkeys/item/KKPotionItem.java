@@ -45,46 +45,18 @@ public class KKPotionItem extends Item implements IItemCategory {
 		this.all = all;
     }
 
-   /* @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerIn);
-        if (playerData.getAlignment() != Utils.OrgMember.NONE) {
-        	if(Utils.isWearingOrgRobes(playerIn)) {
-        		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.unequip"), true);
-        	} else {
-        		if(worldIn.isRemote) {
-					if(Utils.findSummoned(playerIn.inventory, playerData.getEquippedWeapon(), true) > -1)
-						PacketHandler.sendToServer(new CSSummonKeyblade(true, playerData.getAlignment()));
-        		}
-        		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.leftorg"), true);
-
-        		if(playerIn.getHeldItemMainhand() != null && playerIn.getHeldItemMainhand().getItem() == this) {
-        			playerIn.getHeldItemMainhand().shrink(1);
-    	            playerData.setAlignment(Utils.OrgMember.NONE);
-    	            return super.onItemRightClick(worldIn, playerIn, handIn);
-        		}
-        		
-        		if(playerIn.getHeldItemOffhand() != null && playerIn.getHeldItemOffhand().getItem() == this) {
-        			playerIn.getHeldItemOffhand().shrink(1);
-    	            playerData.setAlignment(Utils.OrgMember.NONE);
-    	            return super.onItemRightClick(worldIn, playerIn, handIn);
-        		}
-        		
-        	}
-        } else {
-    		playerIn.sendStatusMessage(new TranslationTextComponent("gui.proofofheart.notinorg"), true);
-        }    	
-        return super.onItemRightClick(worldIn, playerIn, handIn);
-    }*/
-    
     public void potionEffect (Player player) {
     	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		//Utils.reviveFromKO(player);
+
 		switch(type) {
     	case HP:
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
         	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
         	player.heal(hpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+			Utils.reviveFromKO(player);
+
     		if(all) {
     			//Heal the rest of the party
     			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
@@ -97,6 +69,8 @@ public class KKPotionItem extends Item implements IItemCategory {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    						target.heal(hpAmount);
+	    						Utils.reviveFromKO(target);
+
 	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     					}
@@ -134,6 +108,7 @@ public class KKPotionItem extends Item implements IItemCategory {
         	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
         	
     		playerData.addMP(mpAmount);
+			Utils.reviveFromKO(player);
     		player.heal(hpAmount);
     		player.level().playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
@@ -149,7 +124,7 @@ public class KKPotionItem extends Item implements IItemCategory {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
-
+	    			        	Utils.reviveFromKO(target);
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
 	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);

@@ -13,28 +13,19 @@ import net.minecraftforge.network.PlayMessages;
 public class HeartEntity extends Entity {
 
 	public final static int MAX_TICKS = 30;
-	
+
 	public HeartEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
 	public HeartEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_HEART.get(), world);
+		this(ModEntities.TYPE_HEART.get(), world);
 	}
 
 	public HeartEntity(Level world) {
-		super(ModEntities.TYPE_HEART.get(), world);
-		this.blocksBuilding = true;
+		this(ModEntities.TYPE_HEART.get(), world);
 	}
-
-	/*public HeartEntity(World world, PlayerEntity player, BlockPos spawnPos, BlockPos destinationPos, int destinationDim, boolean shouldTP) {
-		super(ModEntities.TYPE_HEART.get(), world);
-		this.setPosition(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
-        this.destinationPos = destinationPos;
-        this.destinationDim = destinationDim;
-        this.shouldTeleport = shouldTP;
-	}*/
 
 	@Override
 	public void tick(){

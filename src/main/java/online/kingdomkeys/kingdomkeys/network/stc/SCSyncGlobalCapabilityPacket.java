@@ -13,7 +13,7 @@ public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
 	private int stoppedTicks, flatTicks, level, aeroTicks, aeroLevel, stopModelTicks;
 	private float stopDmg;
-	private boolean castleOblivionMarker;
+	private boolean castleOblivionMarker, isKO;
 
 	public SCSyncGlobalCapabilityPacket() {
 	}
@@ -27,6 +27,7 @@ public class SCSyncGlobalCapabilityPacket {
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
 		this.stopModelTicks = capability.getStopModelTicks();
+		this.isKO = capability.isKO();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -38,6 +39,8 @@ public class SCSyncGlobalCapabilityPacket {
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
+		buffer.writeBoolean(this.isKO);
+
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -50,6 +53,7 @@ public class SCSyncGlobalCapabilityPacket {
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
+		msg.isKO = buffer.readBoolean();
 		return msg;
 	}
 
@@ -64,6 +68,7 @@ public class SCSyncGlobalCapabilityPacket {
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
 				cap.setLevel(message.level);
 				cap.setStopModelTicks(message.stopModelTicks);
+				cap.setKO(message.isKO);
 			});
 		});
 		ctx.get().setPacketHandled(true);

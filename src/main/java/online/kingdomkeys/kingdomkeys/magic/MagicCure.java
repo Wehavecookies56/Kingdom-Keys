@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -16,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -35,6 +37,7 @@ public class MagicCure extends Magic {
 		if(playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
 			player.invulnerableTime = 40;
 
+		Utils.reviveFromKO(player);
 		switch(level) {
 		case 0:
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -53,6 +56,7 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
+		            		Utils.reviveFromKO(e);
 		            		player.level().playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }
@@ -71,6 +75,7 @@ public class MagicCure extends Magic {
 		                LivingEntity e = list.get(i);
 		                if (Utils.isEntityInParty(party, e) && e != player) {
 		                	e.heal(amount / 2);
+		            		Utils.reviveFromKO(e);
 		            		player.level().playSound(null, e.position().x(),e.position().y(),e.position().z(), ModSounds.curaga.get(), SoundSource.PLAYERS, 1F, 1F);
 		                }
 		            }

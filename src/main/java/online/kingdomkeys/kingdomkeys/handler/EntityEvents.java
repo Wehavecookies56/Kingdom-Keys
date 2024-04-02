@@ -593,6 +593,16 @@ public class EntityEvents {
 		if (globalData != null) {
 			// Stop
 
+			//if (true) {
+			if(globalData.isKO()) { //TODO tick
+				if(event.getEntity().tickCount % 20 == 0) {
+					event.getEntity().setHealth(event.getEntity().getHealth()-1);
+				}
+				event.getEntity().setYRot(0);
+				event.getEntity().setYBodyRot(0);
+				event.getEntity().setXRot(0);
+			}
+
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);
 				if (globalData.getStopModelTicks() <= 0) {
@@ -1049,6 +1059,28 @@ public class EntityEvents {
 
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+			if(worldData != null && globalData != null && worldData.getPartyFromMember(player.getUUID())!= null) {
+				if(!player.level().isClientSide()) {
+					Party p = worldData.getPartyFromMember(player.getUUID());
+					if(Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
+						if(!globalData.isKO()) { //We only set KO if we die while not KO already //TODO death
+							event.setCanceled(true);
+							player.setHealth(player.getMaxHealth());
+							player.invulnerableTime = 10;
+							globalData.setKO(true);
+							/*HeartEntity heart = new HeartEntity(player.level());
+							heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
+							player.level().addFreshEntity(heart);*/
+							
+						} else {
+							globalData.setKO(false);
+						}
+						PacketHandler.syncToAllAround(player, globalData);
+					}
+				}				
+			}
+			
 			if (player.level().getLevelData().isHardcore())
 				player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
 			else
@@ -1063,7 +1095,6 @@ public class EntityEvents {
 
 					// TODO more sophisticated and dynamic way to do this
 					// Give hearts
-					System.out.println();
 					if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
 						int multiplier = 1;
 						if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
@@ -1424,12 +1455,17 @@ public class EntityEvents {
 		if (e.getEntity() instanceof Player) {
 			Player localPlayer = (Player) e.getEntity();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
 			PacketHandler.syncToAllAround(localPlayer, playerData);
+			PacketHandler.syncToAllAround(localPlayer, globalData);
 		}
 		if (e.getTarget() instanceof Player) {
 			Player targetPlayer = (Player) e.getTarget();
 			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(targetPlayer);
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
+			PacketHandler.syncToAllAround(targetPlayer, globalData);
+
 		}
 	}
 

@@ -14,6 +14,7 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		storage.putInt("aero_level", this.getAeroLevel());
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
+		storage.putBoolean("is_ko", isKO);
 		return storage;
 	}
 
@@ -26,12 +27,13 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		this.setAeroTicks(properties.getInt("aero_ticks"), properties.getInt("aero_level"));
 		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
 		this.setLevel(properties.getInt("level"));
+		this.setKO(properties.getBoolean("is_ko"));
 	}
 
 	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level, stopModelTicks;
 	float stopDmg;
 	private String stopCaster;
-	private boolean castleOblivionMarker;
+	private boolean castleOblivionMarker, isKO;
 
 	@Override
 	public void setLevel(int lvl) {
@@ -143,5 +145,15 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public void setStopModelTicks(int ticks) {
 		this.stopModelTicks = ticks;		
+	}
+
+	@Override
+	public boolean isKO() {
+		return isKO;
+	}
+
+	@Override
+	public void setKO(boolean ko) {
+		this.isKO = ko;
 	}
 }
