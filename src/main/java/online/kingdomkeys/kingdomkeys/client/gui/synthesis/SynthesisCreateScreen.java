@@ -279,8 +279,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+"exp";
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
-			matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
-			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -2, 12);
+			matrixStack.scale((float)(boxM.getHeight() / 20F - offset / 20F), (float)(boxM.getHeight() / 20F - offset / 20F), 1);
+			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, -2, -3, 10);
 		}
 		matrixStack.popPose();
 
@@ -312,7 +312,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					case darkness -> darkRes = resistanceType.getValue();
 					}
 				}
-
 			}
 			
 				
@@ -320,7 +319,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			{
 				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
 				
-				int offset = -20;
+				int offset = -15;
 				
 				if(ap != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
