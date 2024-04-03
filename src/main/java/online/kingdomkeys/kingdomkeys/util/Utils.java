@@ -997,7 +997,10 @@ public class Utils {
 				return false;
 			}
 		}
-
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		if(globalData != null && globalData.isKO())
+			return false;
+		
 		
 		return true;
 	}

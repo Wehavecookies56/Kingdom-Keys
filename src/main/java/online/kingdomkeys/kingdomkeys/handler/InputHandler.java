@@ -873,7 +873,7 @@ public class InputHandler {
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
             if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic()) {
+                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                 }
             }
@@ -881,7 +881,7 @@ public class InputHandler {
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
             if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic()) {
+                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
                 }
             }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:recipe_sss"
+    }
+  ],
+  "result": {
+    "item": "kingdomkeys:recipe_ss"
+  }
+}

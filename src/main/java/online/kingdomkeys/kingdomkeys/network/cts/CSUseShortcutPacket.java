@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -45,7 +46,11 @@ public class CSUseShortcutPacket {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+			if(playerData == null || globalData == null)
+				return;
+			
+			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !globalData.isKO()) {
 				if (playerData.getShortcutsMap().containsKey(message.index)) {
 					String[] data = playerData.getShortcutsMap().get(message.index).split(",");
 					String magicName = data[0];

@@ -31,6 +31,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.DriveGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
@@ -257,8 +260,26 @@ public class ClientSetup {
 	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		NamedGuiOverlay o = event.getOverlay();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		if(playerData == null || globalData == null)
+			return;
+		
 		if(!Utils.shouldRenderOverlay(player)) {
-			event.setCanceled(o == COMMAND_MENU || o == PLAYER_PORTRAIT || o == HP_BAR || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK);
+			event.setCanceled(o == COMMAND_MENU || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK);
+			if(o == HP_BAR || o == PLAYER_PORTRAIT) { //Allow HP to be shown if KO'd
+				event.setCanceled(!globalData.isKO());
+			}
+		} else {
+			if(o == MP_BAR) {
+				event.setCanceled(playerData.getMagicsMap().size() == 0);
+			}
+			if(o == SHOTLOCK) {
+				event.setCanceled(playerData.getEquippedShotlock().equals(""));
+			}
+			if(o == DRIVE_BAR) {
+				event.setCanceled(playerData.getVisibleDriveForms().size() == 0);
+			}
 		}
 
 		if (!ModConfigs.hpShowHearts) {

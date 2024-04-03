@@ -592,10 +592,9 @@ public class EntityEvents {
 		if (globalData != null) {
 			// Stop
 
-			//if (true) {
-			if(globalData.isKO()) { //TODO tick
+			if(globalData.isKO()) {
 				if(event.getEntity().tickCount % 20 == 0) {
-					event.getEntity().setHealth(event.getEntity().getHealth()-1);
+					//event.getEntity().setHealth(event.getEntity().getHealth()-1);
 				}
 				event.getEntity().setYRot(0);
 				event.getEntity().setYBodyRot(0);
