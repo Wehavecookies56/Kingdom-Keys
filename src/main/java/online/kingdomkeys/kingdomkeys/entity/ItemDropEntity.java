@@ -96,12 +96,14 @@ public abstract class ItemDropEntity extends Entity {
 
 		if (this.closestPlayer != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(closestPlayer);
-			maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet)*2);
-			Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
-			double d1 = vec3d.lengthSqr();
-			if (d1 < Math.pow(maxDist,2)) {
-				double d2 = 1.0D - Math.sqrt(d1) / maxDist;
-				this.setDeltaMovement(this.getDeltaMovement().add(vec3d.normalize().scale(d2 * d2 * 0.1D)));
+			if(playerData != null) {
+				maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet)*2);
+				Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
+				double d1 = vec3d.lengthSqr();
+				if (d1 < Math.pow(maxDist,2)) {
+					double d2 = 1.0D - Math.sqrt(d1) / maxDist;
+					this.setDeltaMovement(this.getDeltaMovement().add(vec3d.normalize().scale(d2 * d2 * 0.1D)));
+				}
 			}
 		}
 
