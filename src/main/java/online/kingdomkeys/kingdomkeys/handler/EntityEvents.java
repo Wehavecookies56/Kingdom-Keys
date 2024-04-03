@@ -144,8 +144,7 @@ public class EntityEvents {
 			while (it.hasNext()) {
 				ItemStack a = it.next();
 				if (a.getItem() instanceof ArmorItem armor) {
-					if (index < 3 && armor.getMaterial().getEquipSound() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's
-																												// index is < 3 it means it's boots, pants or chest.
+					if (index < 3 && armor.getMaterial().getEquipSound() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
 						kbArmor = true;
 					}
 				}
@@ -596,7 +595,7 @@ public class EntityEvents {
 			//if (true) {
 			if(globalData.isKO()) { //TODO tick
 				if(event.getEntity().tickCount % 20 == 0) {
-					event.getEntity().setHealth(event.getEntity().getHealth()-1);
+					//event.getEntity().setHealth(event.getEntity().getHealth()-1);
 				}
 				event.getEntity().setYRot(0);
 				event.getEntity().setYBodyRot(0);
@@ -1064,19 +1063,17 @@ public class EntityEvents {
 				if(!player.level().isClientSide()) {
 					Party p = worldData.getPartyFromMember(player.getUUID());
 					if(Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
-						if(!globalData.isKO()) { //We only set KO if we die while not KO already //TODO death
-							event.setCanceled(true);
-							player.setHealth(player.getMaxHealth());
-							player.invulnerableTime = 10;
-							globalData.setKO(true);
-							/*HeartEntity heart = new HeartEntity(player.level());
-							heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-							player.level().addFreshEntity(heart);*/
-							
-						} else {
-							globalData.setKO(false);
+						if(ModConfigs.allowPartyKO) {
+							if(!globalData.isKO()) { //We only set KO if we die while not KO already //TODO death
+								event.setCanceled(true);
+								player.setHealth(player.getMaxHealth());
+								player.invulnerableTime = 10;
+								globalData.setKO(true);
+							} else {
+								globalData.setKO(false);
+							}
+							PacketHandler.syncToAllAround(player, globalData);
 						}
-						PacketHandler.syncToAllAround(player, globalData);
 					}
 				}				
 			}

@@ -45,6 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -203,6 +204,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		ItemStack itemstack = player.getItemInHand(hand);
 		Level level = player.level();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		globalData.setKO(!globalData.isKO());
 
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;

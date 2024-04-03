@@ -39,6 +39,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -153,7 +154,7 @@ public class ClientEvents {
 					if(Minecraft.getInstance().screen == null && event.getEntity().tickCount % 10 == 0)
 						Minecraft.getInstance().setScreen(new ChatScreen(""));
 				}
-				System.out.println(event.getEntity().getHealth());
+				//System.out.println(event.getEntity().getHealth());
 			}
 		}
 		
@@ -164,7 +165,22 @@ public class ClientEvents {
 		}
 	}
 	
-	
+	@SubscribeEvent
+	public void RenderEntity(RenderLivingEvent.Post event) { //Hide the player shadow when KO'd
+		if(event.getEntity() != null) {
+			if(event.getEntity() instanceof Player) {
+				Player player = (Player) event.getEntity();
+				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+				if(globalData != null) {
+					if(globalData.isKO()) {
+						event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
+						event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
+					}
+				}
+			}
+		}
+	}
+
 	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Pre event) {
@@ -187,12 +203,6 @@ public class ClientEvents {
 								event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
 							}
 							event.getPoseStack().translate(0, -1, 0.8);
-
-							/*BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
-							for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) { //TODO totally made this up in the 1.19.3 port
-								event.getMultiBufferSource().getBuffer(Sheets.translucentCullBlockSheet()).putBulkData(event.getPoseStack().last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
-							}
-							*/
 						}
 					}
 				}
