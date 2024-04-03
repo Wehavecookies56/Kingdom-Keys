@@ -279,8 +279,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+"exp";
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
-			matrixStack.scale((float)(boxM.getHeight() / 20F - offset / 20F), (float)(boxM.getHeight() / 20F - offset / 20F), 1);
-			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, -2, -3, 10);
+			//matrixStack.scale((float)(boxM.getHeight() / 20F - offset / 20F), (float)(boxM.getHeight() / 20F - offset / 20F), 1);
+			float size = 80;
+			matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()/2 - size / 2,0);
+			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -10, (int)size);
 		}
 		matrixStack.popPose();
 
@@ -327,13 +329,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": +"+str, 0, offset+=10, 0xFF0000);
 				if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
-				if(ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
-					if(a != null) {
-						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
-					}
-				}
 				if(def != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+def, 0, offset+=10, 0xFFFFFF);
 				if(fireRes != 0)
@@ -344,7 +339,13 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%", 0, offset+=10, 0xFFFF44);
 				if(darkRes != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%", 0, offset+=10, 0xAAAAAA);
-
+				if(ability != null) {
+					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					if(a != null) {
+						String abilityName = Utils.translateToLocal(a.getTranslationKey());
+						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
+					}
+				}
 			}
 			matrixStack.popPose();
 			
