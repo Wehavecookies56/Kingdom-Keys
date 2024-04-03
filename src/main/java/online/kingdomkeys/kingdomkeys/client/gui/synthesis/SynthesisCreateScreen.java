@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -34,6 +36,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -280,10 +284,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem) {
+		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
 			String ability = "";
-			int str=0, mag=0, ap = 0;
+			int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, darkRes = 0;
 			if(selectedItemStack.getItem() instanceof KeybladeItem) {
 				KeybladeItem kb = (KeybladeItem) selectedItemStack.getItem();
 				desc = kb.getDesc();
@@ -297,6 +301,18 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				str = accessory.getStr();
 				mag = accessory.getMag();
 				ap = accessory.getAp();
+			} else if(selectedItemStack.getItem() instanceof KKArmorItem) {
+				KKArmorItem armor = (KKArmorItem) selectedItemStack.getItem();
+				def = armor.getDefense();
+				for (Map.Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
+					switch (resistanceType.getKey()) {
+					case fire -> fireRes = resistanceType.getValue();
+					case ice -> iceRes = resistanceType.getValue();
+					case lightning -> thunderRes = resistanceType.getValue();
+					case darkness -> darkRes = resistanceType.getValue();
+					}
+				}
+
 			}
 			
 				
@@ -319,6 +335,16 @@ public class SynthesisCreateScreen extends MenuFilterable {
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
 					}
 				}
+				if(def != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+def, 0, offset+=10, 0xFFFFFF);
+				if(fireRes != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_FireResShort)+": "+fireRes+"%", 0, offset+=10, 0xFF4444);
+				if(iceRes != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardResShort)+": "+iceRes+"%", 0, offset+=10, 0x55FFFF);
+				if(thunderRes != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%", 0, offset+=10, 0xFFFF44);
+				if(darkRes != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%", 0, offset+=10, 0xAAAAAA);
 
 			}
 			matrixStack.popPose();
