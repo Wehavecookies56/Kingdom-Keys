@@ -204,8 +204,15 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		ItemStack itemstack = player.getItemInHand(hand);
 		Level level = player.level();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		/*IGlobalCapabilities globalData = ModCapabilities.getGlobal(player); //TODO REMEMBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER to remove before release
 		globalData.setKO(!globalData.isKO());
+		player.removeAllEffects();
+		player.setHealth(player.getMaxHealth());
+		player.invulnerableTime = 10;
+		player.getFoodData().setFoodLevel(10);
+		player.getFoodData().setExhaustion(0);
+		player.getFoodData().setSaturation(0);*/
+		
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 

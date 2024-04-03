@@ -106,6 +106,7 @@ import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -594,7 +595,7 @@ public class EntityEvents {
 
 			if(globalData.isKO()) {
 				if(event.getEntity().tickCount % 20 == 0) {
-					//event.getEntity().setHealth(event.getEntity().getHealth()-1);
+					event.getEntity().setHealth(event.getEntity().getHealth()-1);
 				}
 				event.getEntity().setYRot(0);
 				event.getEntity().setYBodyRot(0);
@@ -1065,8 +1066,15 @@ public class EntityEvents {
 						if(ModConfigs.allowPartyKO) {
 							if(!globalData.isKO()) { //We only set KO if we die while not KO already //TODO death
 								event.setCanceled(true);
+								if(player.level().isClientSide()) {
+									PacketHandler.sendToServer(new CSSummonKeyblade(true)); // desummon
+								}
+								player.removeAllEffects();
 								player.setHealth(player.getMaxHealth());
 								player.invulnerableTime = 10;
+								player.getFoodData().setFoodLevel(10);
+								player.getFoodData().setExhaustion(0);
+								player.getFoodData().setSaturation(0);
 								globalData.setKO(true);
 							} else {
 								globalData.setKO(false);

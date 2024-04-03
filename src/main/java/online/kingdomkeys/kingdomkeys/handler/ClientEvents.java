@@ -80,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
@@ -194,6 +195,7 @@ public class ClientEvents {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 						if (!((IDisabledAnimations) renderer).isDisabled()) {
 							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
+							event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
 							float MAX = 100;
 					        double pos = player.tickCount % MAX / (MAX /2D);
 

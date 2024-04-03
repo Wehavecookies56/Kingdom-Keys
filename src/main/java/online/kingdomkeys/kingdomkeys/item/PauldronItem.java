@@ -92,7 +92,7 @@ public class PauldronItem extends Item implements IItemCategory {
 		if(pStack.getTag() == null)
 			return super.getRarity(pStack);
 			if(pStack.getTag().get("boots") != null || pStack.getTag().get("leggings") != null || pStack.getTag().get("chestplate") != null || pStack.getTag().get("helmet") != null) {
-				return Rarity.EPIC;
+				return Rarity.EPIC; //Item enchant effect when any single enchantment is in
 			}
 			return super.getRarity(pStack);
 		
