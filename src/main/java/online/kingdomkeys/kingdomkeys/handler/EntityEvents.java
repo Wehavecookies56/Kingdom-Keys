@@ -1071,7 +1071,7 @@ public class EntityEvents {
 								}
 								player.removeAllEffects();
 								player.setHealth(player.getMaxHealth());
-								player.invulnerableTime = 10;
+								player.invulnerableTime = 40;
 								player.getFoodData().setFoodLevel(10);
 								player.getFoodData().setExhaustion(0);
 								player.getFoodData().setSaturation(0);

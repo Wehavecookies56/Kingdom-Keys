@@ -126,7 +126,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
 						bullet.shoot(target.getX() - (bullet.getX() + level().random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level().random.nextDouble() - 0.5D), 2f, 0);
-						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 0.4F, 1F);
 					}
 
 				}
