@@ -16,7 +16,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -989,7 +988,7 @@ public class Utils {
 		return (256 * 256 * r + 256 * g + b);
 	}
 
-	public static boolean shouldRenderOverlay(LocalPlayer player) {
+	public static boolean shouldRenderOverlay(Player player) {
 		if(ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
 			return false;
 		} else if(ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
