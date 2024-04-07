@@ -99,6 +99,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import yesman.epicfight.client.ClientEngine;
 
 public class ClientUtils {
 
@@ -637,6 +638,8 @@ public class ClientUtils {
   		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
   		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
   	}
+
+    public static boolean disableEFMAnims = false;
   	
   	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
   	@SuppressWarnings({ "deprecation", "unchecked" })
@@ -678,9 +681,11 @@ public class ClientUtils {
         RenderSystem.runAsFancy(() -> {
             LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).setDisabled(true);
+            disableEFMAnims = true;
             renderer.render((AbstractClientPlayer) p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
             renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).setDisabled(false);
+            disableEFMAnims = false;
         });
 
         multibuffersource$buffersource.endBatch();

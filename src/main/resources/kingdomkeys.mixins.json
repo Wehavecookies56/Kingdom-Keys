@@ -3,10 +3,13 @@
   "package": "online.kingdomkeys.kingdomkeys.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "kingdomkeys.refmap.json",
+  "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
-    
+
   ],
   "client": [
+    "epicfight.RenderEngineEventsMixin",
+    "epicfight.PHumanoidRendererMixin",
   	"LivingEntityRendererMixin",
   	"PlayerRendererMixin"
   ],
