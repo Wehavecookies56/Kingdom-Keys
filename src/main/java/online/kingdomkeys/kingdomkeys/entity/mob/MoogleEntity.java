@@ -10,17 +10,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -35,10 +28,13 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 
+import java.util.Objects;
+
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob {
 
 	String inv = "kingdomkeys:default";
+    Player interacting;
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
@@ -52,6 +48,10 @@ public class MoogleEntity extends PathfinderMob {
 
     @Override
     protected void registerGoals() {
+        normalGoals();
+    }
+
+    public void normalGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -67,6 +67,30 @@ public class MoogleEntity extends PathfinderMob {
                 ;
     }
 
+    public Player getInteracting() {
+        return interacting;
+    }
+
+    public void stopInteracting() {
+        this.interacting = null;
+        normalGoals();
+    }
+
+    public static class LookAtInteractingPlayerGoal extends LookAtPlayerGoal {
+        public LookAtInteractingPlayerGoal(MoogleEntity moogle) {
+            super(moogle, Player.class, 8);
+        }
+
+        @Override
+        public boolean canUse() {
+            if (((MoogleEntity)mob).interacting != null) {
+                lookAt = ((MoogleEntity)mob).interacting;
+                return true;
+            }
+            return false;
+        }
+    }
+
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         if (!player.level().isClientSide) {
@@ -80,7 +104,10 @@ public class MoogleEntity extends PathfinderMob {
 					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
 					return InteractionResult.FAIL;
 	        	} else {
-	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv), (ServerPlayer)player);
+	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv, this.getId()), (ServerPlayer)player);
+                    interacting = player;
+                    goalSelector.removeAllGoals(Objects::nonNull);
+                    goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
 	        	}
 	        }
 	        return super.interactAt(player, vec, hand);
@@ -132,7 +159,17 @@ public class MoogleEntity extends PathfinderMob {
     public void setFakeMoogle(boolean fake) {
         this.fakeMoogle = fake;
     }
-    
+
+    @Override
+    public void tick() {
+        if (interacting != null) {
+            if (distanceTo(interacting) > 10) {
+                interacting = null;
+            }
+        }
+        super.tick();
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
     	super.addAdditionalSaveData(pCompound);

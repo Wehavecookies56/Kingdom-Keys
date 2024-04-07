@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
 
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,14 +24,16 @@ public class SynthesisScreen extends MenuBackground {
 	MenuButton synthesise, forge, materials, shop;
 	
 	String invFile = ModConfigs.projectorHasShop ? "kingdomkeys:default" : "";
+	int moogle = -1;
 	
 	public SynthesisScreen() {
 		super(Strings.Gui_Synthesis,new Color(0,255,0));
 		drawPlayerInfo = true;
 	}
 	
-	public SynthesisScreen(String inv) {
+	public SynthesisScreen(String inv, int moogle) {
 		this();
+		this.moogle = moogle;
 		if(ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)))
 			this.invFile = inv;
 		else {
@@ -57,6 +61,14 @@ public class SynthesisScreen extends MenuBackground {
 			minecraft.setScreen(new ShopScreen(this));
 			break;
 		}
+	}
+
+	@Override
+	public void onClose() {
+		if (moogle != -1) {
+			PacketHandler.sendToServer(new CSCloseMoogleGUI(moogle));
+		}
+		super.onClose();
 	}
 
 	@Override

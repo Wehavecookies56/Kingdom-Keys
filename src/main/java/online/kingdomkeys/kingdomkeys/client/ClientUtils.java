@@ -165,12 +165,12 @@ public class ClientUtils {
         };
     }
 
-    public static DistExecutor.SafeRunnable openSynthesisGui(String inv) {
+    public static DistExecutor.SafeRunnable openSynthesisGui(String inv, int moogle) {
         return new DistExecutor.SafeRunnable() {
             @Override
             public void run() {
             	if(inv != null && !inv.equals(""))
-            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv));
+            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv, moogle));
             	else
             		Minecraft.getInstance().setScreen(new SynthesisScreen());
                 Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);

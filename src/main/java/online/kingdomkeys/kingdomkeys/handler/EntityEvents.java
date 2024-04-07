@@ -1465,38 +1465,36 @@ public class EntityEvents {
 	// Sync drive form on Start Tracking
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
-		if (e.getEntity() instanceof Player localPlayer) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
-			PacketHandler.syncToAllAround(localPlayer, playerData);
-			PacketHandler.syncToAllAround(localPlayer, globalData);
-		}
+		Player localPlayer = e.getEntity();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
+		IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
+		PacketHandler.syncToAllAround(localPlayer, playerData);
+		PacketHandler.syncToAllAround(localPlayer, globalData);
 		if (e.getTarget() instanceof Player targetPlayer) {
 			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(targetPlayer);
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(targetPlayer);
+			IGlobalCapabilities globalData2 = ModCapabilities.getGlobal(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
-			PacketHandler.syncToAllAround(targetPlayer, globalData);
+			PacketHandler.syncToAllAround(targetPlayer, globalData2);
 		}
 	}
 
 	@SubscribeEvent
 	public void playerStoppedTracking(PlayerEvent.StopTracking e) {
-		if (e.getEntity() instanceof Player player) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
-			if(playerData == null || worldData == null)
-				return;
-			
-			Party p = worldData.getPartyFromMember(player.getUUID());
-			if(p == null) 
-				return;
-			
-			Member m = p.getMember(player.getUUID());
-			m.setLevel(playerData.getLevel());
-			m.setHP((int) player.getMaxHealth());
-			m.setMP((int) playerData.getMaxMP());
-			Utils.syncWorldData(player.level(), worldData);
-		}
+		Player player = e.getEntity();
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+		if(playerData == null || worldData == null)
+			return;
+
+		Party p = worldData.getPartyFromMember(player.getUUID());
+		if(p == null)
+			return;
+
+		Member m = p.getMember(player.getUUID());
+		m.setLevel(playerData.getLevel());
+		m.setHP((int) player.getMaxHealth());
+		m.setMP((int) playerData.getMaxMP());
+		Utils.syncWorldData(player.level(), worldData);
 	}
 
 	@SubscribeEvent

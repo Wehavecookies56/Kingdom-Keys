@@ -12,22 +12,28 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScre
 
 public class SCOpenMaterialsScreen {
 	String inv;
-	
-    public SCOpenMaterialsScreen() {
+    int moogle = -1;
+    public SCOpenMaterialsScreen() {}
+
+    public SCOpenMaterialsScreen(int moogle) {
     	this.inv = "default";
+        this.moogle = moogle;
     }
 
-	public SCOpenMaterialsScreen(String inv) {
+	public SCOpenMaterialsScreen(String inv, int moogle) {
 		this.inv = inv;
+        this.moogle = moogle;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeUtf(inv);
+        buffer.writeInt(moogle);
 	}
 
 	public static SCOpenMaterialsScreen decode(FriendlyByteBuf buffer) {
 		SCOpenMaterialsScreen msg = new SCOpenMaterialsScreen();
 		msg.inv = buffer.readUtf();
+        msg.moogle = buffer.readInt();
 		return msg;
 	}
 
@@ -41,7 +47,7 @@ public class SCOpenMaterialsScreen {
     public static class Client {
         @OnlyIn(Dist.CLIENT)
         public static void handle(SCOpenMaterialsScreen message) {
-            Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(message.inv));
+            Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(message.inv, message.moogle));
         }
     }
 

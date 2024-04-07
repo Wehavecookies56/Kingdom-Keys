@@ -60,8 +60,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		this.parent = parent;
 	}
 	
-	public SynthesisMaterialScreen(String inv) {
-		this(new SynthesisScreen(inv));
+	public SynthesisMaterialScreen(String inv, int moogle) {
+		this(new SynthesisScreen(inv, moogle));
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
-			minecraft.setScreen(new SynthesisScreen(parent.invFile));
+			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.moogle));
 			break;
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));

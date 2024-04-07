@@ -106,6 +106,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSetNotifColor.class, CSSetNotifColor::encode, CSSetNotifColor::decode, CSSetNotifColor::handle);
 		HANDLER.registerMessage(packetID++, CSGenerateRoom.class, CSGenerateRoom::encode, CSGenerateRoom::decode, CSGenerateRoom::handle);
 		HANDLER.registerMessage(packetID++, CSStruggleSettings.class, CSStruggleSettings::encode, CSStruggleSettings::decode, CSStruggleSettings::handle);
+		HANDLER.registerMessage(packetID++, CSCloseMoogleGUI.class, CSCloseMoogleGUI::encode, CSCloseMoogleGUI::decode, CSCloseMoogleGUI::handle);
 
 	}
 
