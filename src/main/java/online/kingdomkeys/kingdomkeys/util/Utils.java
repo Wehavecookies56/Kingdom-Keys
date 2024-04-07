@@ -37,6 +37,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -465,11 +466,9 @@ public class Utils {
 	}
 
 	public static boolean hasKeybladeID(ItemStack stack) {
-		if (stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof IKeychain) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("keybladeID")) {
-					return true;
-				}
+		if (stack.getTag() != null && !stack.is(Items.AIR)) {
+			if (stack.getTag().hasUUID("keybladeID")) {
+				return true;
 			}
 		}
 		return false;
@@ -501,24 +500,23 @@ public class Utils {
 	}
 
 	// Returns the inv slot if summoned keychain is found
-	public static int findSummoned(Inventory inv, ItemStack chain, boolean orgWeapon) {
+	public static int findSummoned(Inventory inv, ItemStack chain) {
+		List<ItemStack> list = new ArrayList<>(inv.items);
+		list.addAll(inv.armor);
+		list.addAll(inv.offhand);
+		return findSummoned(list, chain);
+	}
+
+	public static int findSummoned(List<ItemStack> inv, ItemStack chain) {
 		if (!ItemStack.matches(chain, ItemStack.EMPTY)) {
-			for (int i = 0; i < inv.getContainerSize(); i++) {
-				ItemStack slotStack = inv.getItem(i);
-				// Only check the tag for keyblades
-				if (slotStack.getItem() instanceof KeybladeItem) {
-					if (orgWeapon) {
+			for (int i = 0; i < inv.size(); i++) {
+				ItemStack slotStack = inv.get(i);
+				// Make sure it has a tag
+				if (hasKeybladeID(slotStack)) {
+					// Compare the ID with the chain's
+					if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
 						return i;
 					}
-					// Make sure it has a tag
-					if (hasKeybladeID(slotStack)) {
-						// Compare the ID with the chain's
-						if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
-							return i;
-						}
-					}
-				} else if (slotStack.getItem() instanceof IOrgWeapon) {
-					return i;
 				}
 			}
 		}

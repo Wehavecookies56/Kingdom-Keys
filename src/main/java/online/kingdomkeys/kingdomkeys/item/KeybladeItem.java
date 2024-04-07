@@ -142,6 +142,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if(playerData != null) {
 					ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
+					if (playerData.getAlignment() != Utils.OrgMember.NONE) {
+						mainChain = playerData.getEquippedWeapon();
+					}
 					if (mainChain != null) {
 						ItemStack formChain = null;
 						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {

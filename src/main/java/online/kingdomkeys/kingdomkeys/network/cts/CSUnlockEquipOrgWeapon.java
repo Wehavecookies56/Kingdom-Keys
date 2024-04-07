@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -51,13 +53,18 @@ public class CSUnlockEquipOrgWeapon {
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
             if (message.unlock) {
                 if (playerData.getHearts() >= message.cost) {
+                    message.weapon.setTag(new CompoundTag());
+                    message.weapon.getTag().putUUID("keybladeID", UUID.randomUUID());
                     playerData.unlockWeapon(message.weapon);
                     playerData.removeHearts(message.cost);
                 }
             } else {
                 if (playerData.isWeaponUnlocked(message.weapon.getItem())) {
-                    playerData.equipWeapon(message.weapon);
-
+                    playerData.getWeaponsUnlocked().forEach(itemStack -> {
+                        if (itemStack.is(message.weapon.getItem())) {
+                            playerData.equipWeapon(itemStack);
+                        }
+                    });
                 }
             }
         });

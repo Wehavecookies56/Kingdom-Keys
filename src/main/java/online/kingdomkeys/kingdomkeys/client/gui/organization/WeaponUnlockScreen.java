@@ -142,6 +142,11 @@ public class WeaponUnlockScreen extends Screen {
             case SELECT:
                 //Select the current member
                 ItemStack weapon = new ItemStack(weapons.get(current));
+                playerData.getWeaponsUnlocked().forEach(itemStack -> {
+                    if (itemStack.is(weapon.getItem())) {
+                        weapon.setTag(itemStack.getTag());
+                    }
+                });
                 if (unlock) {
                     playerData.unlockWeapon(weapon);
                     int cost = (int) (startCost + ((0.1 * startCost) * current));
@@ -149,7 +154,7 @@ public class WeaponUnlockScreen extends Screen {
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
                 } else {
                     playerData.equipWeapon(weapon);
-					if(Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon(), true) > -1)
+					if(Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon()) > -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
                     
 					PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));

@@ -308,7 +308,6 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void unlockWeapon(String registryName);
 	ItemStack getEquippedWeapon();
 	void equipWeapon(ItemStack weapon);
-	void equipWeapon(String registryName);
 	Set<ItemStack> getWeaponsUnlocked();
 	void setWeaponsUnlocked(Set<ItemStack> unlocks);
 	int getLimitCooldownTicks();

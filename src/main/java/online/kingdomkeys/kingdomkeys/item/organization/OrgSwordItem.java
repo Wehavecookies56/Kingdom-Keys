@@ -96,5 +96,13 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     	if (data != null) {
     		ClientUtils.getTooltip(tooltip, stack);
 		}
+        if (flagIn.isAdvanced()) {
+            if (stack.getTag() != null) {
+                if (stack.getTag().hasUUID("keybladeID")) {
+                    tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+                    tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
+                }
+            }
+        }
     }
 }

@@ -1,16 +1,7 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
 
@@ -26,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -343,6 +335,30 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.equipWeapon(ItemStack.of(nbt.getCompound("org_equipped_weapon")));
 		CompoundTag unlocksCompound = nbt.getCompound("org_weapons_unlocked");
 		unlocksCompound.getAllKeys().forEach(key -> this.unlockWeapon(ItemStack.of(unlocksCompound.getCompound(key))));
+
+		if (!getEquippedWeapon().is(Items.AIR)) {
+			if (getEquippedWeapon().getTag() == null) {
+				getEquippedWeapon().setTag(new CompoundTag());
+			}
+			if (!getEquippedWeapon().getTag().contains("keybladeID")) {
+				getEquippedWeapon().getTag().putUUID("keybladeID", UUID.randomUUID());
+
+			}
+		}
+		getWeaponsUnlocked().forEach(itemStack -> {
+			if (itemStack.getTag() == null) {
+				itemStack.setTag(new CompoundTag());
+			}
+			if (!itemStack.getTag().contains("keybladeID")) {
+				if (itemStack.is(getEquippedWeapon().getItem())) {
+					itemStack.getTag().putUUID("keybladeID", getEquippedWeapon().getTag().getUUID("keybladeID"));
+				} else {
+					itemStack.getTag().putUUID("keybladeID", UUID.randomUUID());
+				}
+			}
+		});
+
+		getEquippedWeapon().getTag().contains("keybladeID");
 
 		for (String key : nbt.getCompound("parties").getAllKeys()) {
 			this.getPartiesInvited().add(key);
@@ -1594,16 +1610,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void equipWeapon(ItemStack weapon) {
 		this.equippedWeapon = weapon;
-	}
-
-	@Override
-	public void equipWeapon(String registryName) {
-		Item weapon = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryName));
-		if (weapon != null) {
-			this.equippedWeapon = new ItemStack(weapon);
-		} else {
-			this.equippedWeapon = ItemStack.EMPTY;
-		}
 	}
 
 	@Override
