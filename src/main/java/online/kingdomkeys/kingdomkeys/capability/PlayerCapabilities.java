@@ -358,7 +358,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			}
 		});
 
-		getEquippedWeapon().getTag().contains("keybladeID");
+	//	getEquippedWeapon().getTag().contains("keybladeID");
 
 		for (String key : nbt.getCompound("parties").getAllKeys()) {
 			this.getPartiesInvited().add(key);

@@ -943,6 +943,8 @@ public class ModItems {
 			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
 			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20))),
 
+			
+			gummiShip = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
     		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
 
 			//map cards

@@ -541,6 +541,7 @@ public class Strings {
         LevelUpMaster = "levelupdrivemaster",
         LevelUpFinal = "levelupdrivefinal",
         
+        wayfinder = "wayfinder",
         gummiShip = "gummiship",
         
         powerBoost = "powerboost",
