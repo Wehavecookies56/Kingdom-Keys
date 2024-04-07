@@ -26,7 +26,7 @@ public class ServerConfig {
         
     public ForgeConfigSpec.BooleanValue projectorHasShop;
     public ForgeConfigSpec.BooleanValue orgEnabled;
-    public ForgeConfigSpec.BooleanValue allowBoosts, allowPartyKO;
+    public ForgeConfigSpec.BooleanValue allowBoosts, allowPartyKO, hostileMobsLevel;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -70,6 +70,11 @@ public class ServerConfig {
                 .comment("If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
                 .define("allowPartyKO", true);
+        
+        hostileMobsLevel = builder
+                .comment("If true other hostile mobs will level up alongside the player level the same way heartless do")
+                .translation(KingdomKeys.MODID + ".config.hostile_mobs_level")
+                .define("hostileMobsLevel", true);
 
         builder.pop();
 

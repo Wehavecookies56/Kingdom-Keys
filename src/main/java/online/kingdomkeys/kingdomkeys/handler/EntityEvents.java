@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -160,17 +161,27 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity mob) {
+			
 			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
 			if(mobData == null)
 				return;
 			
-			if (mobData.getLevel() > 0) {
-				int level = mobData.getLevel();
+			int lvl = mobData.getLevel();
+			
+			Player player = Utils.getClosestPlayer(mob, mob.level());
+			if(player == null)
+				return;
 
+			if(lvl <= 0 && mob instanceof Monster && true) { //TODO config
+				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}
+			
+			lvl = mobData.getLevel();
+			if (lvl > 0) {
 				if (!mob.hasCustomName()) {
-					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + level));
-					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
+					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl));
+					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
 					mob.heal(mob.getMaxHealth());
 					return;
 				}
@@ -193,6 +204,7 @@ public class EntityEvents {
 					}
 				}
 			}
+			
 		}
 	}
 
@@ -704,8 +716,7 @@ public class EntityEvents {
 		}
 
 		if (playerData != null) {
-			// Rotation ticks should always be lost, this way we prevent the spinning
-			// animation on other players (hopefully)
+			// Rotation ticks should always be lost, this way we prevent the spinning animation on other players (hopefully)
 			if (playerData.getAerialDodgeTicks() > 0) {
 				playerData.setAerialDodgeTicks(playerData.getAerialDodgeTicks() - 1);
 			}
@@ -1205,8 +1216,7 @@ public class EntityEvents {
 							Item recipeTier = ModItems.recipeD.get();
 							IGlobalCapabilities mobData = ModCapabilities.getGlobal(entity);
 							if (mobData != null) {
-								int num2 = Utils.randomWithRange(0, mobData.getLevel());
-								System.out.println(num2);
+								int num2 = Utils.randomWithRange(0, mobData.getLevel()+1);
 								if (num2 < 15) {
 									recipeTier = ModItems.recipeD.get();
 								} else if (num2 < 30) {
@@ -1219,6 +1229,8 @@ public class EntityEvents {
 									recipeTier = ModItems.recipeS.get();
 								} else if (num2 < 200) {
 									recipeTier = ModItems.recipeSS.get();
+								}  else if (num2 == 200) {
+									recipeTier = ModItems.recipeSSS.get();
 								}
 							}
 							ItemEntity ie = new ItemEntity(player.level(), x, y, z, new ItemStack(recipeTier));
@@ -1280,8 +1292,6 @@ public class EntityEvents {
 			}
 			if (event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				Player player = (Player) event.getSource().getEntity();
-				// System.out.println(player.getDisplayName().getString()+" killed
-				// "+event.getEntity().getDisplayName().getString());
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));

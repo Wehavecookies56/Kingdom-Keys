@@ -42,6 +42,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -1014,6 +1015,54 @@ public class Utils {
 		if(entity instanceof Player player)
 			PacketHandler.syncToAllAround(player, globalData);
 
+	}
+
+	public static int getRandomMobLevel(Player player) {
+		if(ModConfigs.mobLevelingUp) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData == null)
+				return 0;
+			
+			int avgLevel = playerData.getLevel();
+			
+			if(ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID())!= null) {
+				Party p = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+				int total = 0;
+				int membersOnline = 0;
+				for(Party.Member m : p.getMembers()) {
+					if(Utils.getPlayerByName(player.level(), m.getUsername())!= null){
+						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername())).getLevel();
+						membersOnline++;
+					}
+				}
+				if (membersOnline == 0) {
+					avgLevel = 1;
+					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location().toString());
+				} else {
+					avgLevel = total / membersOnline;
+				}
+			}
+			
+			int level = avgLevel - player.level().random.nextInt(6) + 2;
+			level = Utils.clamp(level, 1, 100);
+			
+			return level;
+		}
+		return 0;
+	}
+
+	public static ChatFormatting getLevelColor(Player player, int lvl) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if(playerData == null)
+			return ChatFormatting.WHITE;
+		
+		if(playerData.getLevel() > lvl) {
+			return ChatFormatting.GREEN;
+		} else if(playerData.getLevel() == lvl) {
+			return ChatFormatting.YELLOW;
+		} else {
+			return ChatFormatting.RED;
+		}
 	}
 
 }
