@@ -75,6 +75,15 @@ public class Party {
 		this.members.add(member);
 		return member;
 	}
+	
+	public Member addMember(UUID uuid, String username, int lvl, int hp, int mp) {
+		Member member = new Member(uuid, username);
+		member.setHP(hp);
+		member.setMP(mp);
+		member.setLevel(lvl);
+		this.members.add(member);
+		return member;
+	}
 
 	public void removeMember(UUID id) {
 		Member member = this.getMember(id);
@@ -124,6 +133,9 @@ public class Party {
 			memberNBT.putUUID("id", member.getUUID());
 			memberNBT.putString("username", member.getUsername());
 			memberNBT.putBoolean("isLeader", member.isLeader());
+			memberNBT.putInt("level", member.getLevel());
+			memberNBT.putInt("hp", member.getHP());
+			memberNBT.putInt("mp", member.getMP());
 			members.add(memberNBT);
 		}
 		partyNBT.put("members", members);
@@ -140,7 +152,7 @@ public class Party {
 		ListTag members = nbt.getList("members", Tag.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {
 			CompoundTag memberNBT = members.getCompound(j);
-			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"));
+			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"), memberNBT.getInt("level"), memberNBT.getInt("hp"), memberNBT.getInt("mp"));
 			member.setIsLeader(memberNBT.getBoolean("isLeader"));				
 		}
 
@@ -150,6 +162,34 @@ public class Party {
 		private UUID uuid;
 		private String username;
 		private boolean isLeader;
+		private int level,hp,mp;
+
+		public int getLevel() {
+			return level;
+		}
+
+		public Member setLevel(int level) {
+			this.level = level;
+			return this;
+		}
+
+		public int getHP() {
+			return hp;
+		}
+
+		public Member setHP(int hp) {
+			this.hp = hp;
+			return this;
+		}
+
+		public int getMP() {
+			return mp;
+		}
+
+		public Member setMP(int mp) {
+			this.mp = mp;
+			return this;
+		}
 
 		public Member(LivingEntity entity) {
 			this(entity.getUUID(), entity.getDisplayName().getString());

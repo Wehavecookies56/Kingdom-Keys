@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -172,7 +171,7 @@ public class EntityEvents {
 			if(player == null)
 				return;
 
-			if(lvl <= 0 && mob instanceof Monster && true) { //TODO config
+			if(lvl <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}
 			
@@ -1466,20 +1465,37 @@ public class EntityEvents {
 	// Sync drive form on Start Tracking
 	@SubscribeEvent
 	public void playerStartedTracking(PlayerEvent.StartTracking e) {
-		if (e.getEntity() instanceof Player) {
-			Player localPlayer = (Player) e.getEntity();
+		if (e.getEntity() instanceof Player localPlayer) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
 			PacketHandler.syncToAllAround(localPlayer, playerData);
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 		}
-		if (e.getTarget() instanceof Player) {
-			Player targetPlayer = (Player) e.getTarget();
+		if (e.getTarget() instanceof Player targetPlayer) {
 			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(targetPlayer);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
 			PacketHandler.syncToAllAround(targetPlayer, globalData);
+		}
+	}
 
+	@SubscribeEvent
+	public void playerStoppedTracking(PlayerEvent.StopTracking e) {
+		if (e.getEntity() instanceof Player player) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+			if(playerData == null || worldData == null)
+				return;
+			
+			Party p = worldData.getPartyFromMember(player.getUUID());
+			if(p == null) 
+				return;
+			
+			Member m = p.getMember(player.getUUID());
+			m.setLevel(playerData.getLevel());
+			m.setHP((int) player.getMaxHealth());
+			m.setMP((int) playerData.getMaxMP());
+			Utils.syncWorldData(player.level(), worldData);
 		}
 	}
 

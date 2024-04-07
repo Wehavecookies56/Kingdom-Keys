@@ -228,14 +228,25 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 					gui.drawString(minecraft.font, member.getUsername(), 0, 0, 0xFFFFFF);
 				}
 				matrixStack.popPose();
+				int level = member.getLevel();
+				String cHP = "???";
+				String cMP = "???";
+				int mHP = member.getHP();
+				int mMP = member.getMP();
 				if(player != null) {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 					if (playerData != null) {
-						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+						level = playerData.getLevel();
+						cHP = "" + (int)player.getHealth();
+						mHP = (int) player.getMaxHealth();
+						cMP = "" + (int)playerData.getMP();
+						mMP = (int) playerData.getMaxMP();
 					}
 				}
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + level, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + cHP + "/" + mHP, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + cMP + "/" + mMP, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+
 			}
 			matrixStack.popPose();
 		}

@@ -140,7 +140,7 @@ public class CSSummonKeyblade {
 			potentialKeyblades.addAll(player.getInventory().offhand); //40
 			int slotSummoned = -1;
 			slotSummoned = Utils.findSummoned(potentialKeyblades, chain);
-			//TODO dual wield org weapons
+
 			if (slotSummoned != -1) {
 				potentialKeyblades.set(slotSummoned, ItemStack.EMPTY); //set to empty instead of remove to keep indexing consistent
 			}
