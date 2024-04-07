@@ -55,35 +55,12 @@ public class SpawningOrbEntity extends Monster {
 			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level());
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 			
-			if(ModConfigs.mobLevelingUp) {
-				int avgLevel = playerData.getLevel();
-				
-				if(ModCapabilities.getWorld(level()).getPartyFromMember(player.getUUID())!= null) {
-					Party p = ModCapabilities.getWorld(level()).getPartyFromMember(player.getUUID());
-					int total = 0;
-					int membersOnline = 0;
-					for(Party.Member m : p.getMembers()) {
-						if(Utils.getPlayerByName(worldIn, m.getUsername())!= null){
-							total += ModCapabilities.getPlayer(Utils.getPlayerByName(worldIn, m.getUsername())).getLevel();
-							membersOnline++;
-						}
-					}
-					if (membersOnline == 0) {
-						avgLevel = 1;
-						KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + worldIn.dimension().location().toString());
-					} else {
-						avgLevel = total / membersOnline;
-					}
-				}
-				
-				int level = avgLevel - this.level().random.nextInt(6) + 2;
-				level = Utils.clamp(level, 1, 100);
-				
-				IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
-				if(mobData != null) {
-					mobData.setLevel(level);
-					PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
-				}
+			int randomLevel = Utils.getRandomMobLevel(player);
+			
+			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
+			if(mobData != null) {
+				mobData.setLevel(randomLevel);
+				PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
 			}
 		}
 	}

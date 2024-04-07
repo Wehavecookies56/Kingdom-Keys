@@ -340,7 +340,7 @@ public class ModConfigs {
     public static List<Integer> statsMultiplier;
     public static List<String> driveFormXPMultiplier;
     public static double xpMultiplier, heartMultiplier, partyXPShare;
-    public static boolean requireSynthTier, projectorHasShop, orgEnabled, allowBoosts, allowPartyKO;
+    public static boolean requireSynthTier, projectorHasShop, orgEnabled, allowBoosts, allowPartyKO, hostileMobsLevel;
     
 
     public static void bakeServer() {
@@ -357,6 +357,7 @@ public class ModConfigs {
         orgEnabled = SERVER.orgEnabled.get();
         allowBoosts = SERVER.allowBoosts.get();
         allowPartyKO = SERVER.allowPartyKO.get();
+        hostileMobsLevel = SERVER.hostileMobsLevel.get();
     }
 
 
