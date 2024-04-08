@@ -16,7 +16,7 @@ public class SCOpenMaterialsScreen {
     public SCOpenMaterialsScreen() {}
 
     public SCOpenMaterialsScreen(int moogle) {
-    	this.inv = "default";
+    	this.inv = "";
         this.moogle = moogle;
     }
 

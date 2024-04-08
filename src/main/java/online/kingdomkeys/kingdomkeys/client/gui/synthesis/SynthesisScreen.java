@@ -34,10 +34,10 @@ public class SynthesisScreen extends MenuBackground {
 	public SynthesisScreen(String inv, int moogle) {
 		this();
 		this.moogle = moogle;
-		if(ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)))
+		if (ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)) || inv.isEmpty())
 			this.invFile = inv;
 		else {
-			KingdomKeys.LOGGER.error("The Shop '"+inv+"' does not exist or didn't get registered");
+			KingdomKeys.LOGGER.error("The Shop '" + inv + "' does not exist or didn't get registered");
 			this.invFile = "";
 		}
 	}

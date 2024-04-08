@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -357,6 +358,14 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	public boolean isPauseScreen() {
 		return false;
+	}
+
+	@Override
+	public void onClose() {
+		if (parent.moogle != -1) {
+			PacketHandler.sendToServer(new CSCloseMoogleGUI(parent.moogle));
+		}
+		super.onClose();
 	}
 
 }

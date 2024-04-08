@@ -22,20 +22,28 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class CSTakeMaterials {
 	
 	ItemStack stack;
+	int moogle = -1;
+	String inv;
 	
 	public CSTakeMaterials() {}
 	
-	public CSTakeMaterials(Item item, int amount) {
+	public CSTakeMaterials(Item item, int amount, String inv, int moogle) {
 		this.stack = new ItemStack(item,amount);
+		this.inv = inv;
+		this.moogle = moogle;
 	}
 	
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeItem(stack);
+		buffer.writeInt(moogle);
+		buffer.writeUtf(inv);
 	}
 
 	public static CSTakeMaterials decode(FriendlyByteBuf buffer) {
 		CSTakeMaterials msg = new CSTakeMaterials();
 		msg.stack = buffer.readItem();
+		msg.moogle = buffer.readInt();
+		msg.inv = buffer.readUtf();
 		return msg;
 	}
 
@@ -54,7 +62,7 @@ public class CSTakeMaterials {
 				}
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
-            PacketHandler.sendTo(new SCOpenMaterialsScreen(), (ServerPlayer) player);
+            PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.moogle), (ServerPlayer) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

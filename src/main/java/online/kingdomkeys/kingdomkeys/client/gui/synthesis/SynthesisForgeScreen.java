@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -364,5 +365,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	@Override
 	public boolean isPauseScreen() {
 		return false;
+	}
+
+	@Override
+	public void onClose() {
+		if (parent.moogle != -1) {
+			PacketHandler.sendToServer(new CSCloseMoogleGUI(parent.moogle));
+		}
+		super.onClose();
 	}
 }

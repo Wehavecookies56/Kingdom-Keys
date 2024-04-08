@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -118,7 +118,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			} catch (ConcurrentModificationException e) {
 				e.printStackTrace();
 			}
-			PacketHandler.sendToServer(new CSDepositMaterials());
+			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.moogle));
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
@@ -130,7 +130,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue())));
+					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.moogle));
 				} catch (Exception e) {
 					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
 				}
@@ -179,13 +179,11 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		List<ItemStack> items = new ArrayList<>();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
-		Iterator<Entry<String, Integer>> itMaterials = playerData.getMaterialMap().entrySet().iterator();
-		while(itMaterials.hasNext()) {
-			Entry<String, Integer> mat = itMaterials.next();
+		for (Entry<String, Integer> mat : playerData.getMaterialMap().entrySet()) {
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mat.getKey()));
-			items.add(new ItemStack(item,mat.getValue()));
+			items.add(new ItemStack(item, mat.getValue()));
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getDescriptionId()));
+		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(ItemStack::getDescriptionId));
 
 		for (int i = 0; i < items.size(); i++) {
 			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.3255F), true));
@@ -235,6 +233,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		gui.setColor(1, 1, 1, 1);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		prev.visible = page > 0;
@@ -309,6 +308,14 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
 	public boolean isPauseScreen() {
 		return false;
+	}
+
+	@Override
+	public void onClose() {
+		if (parent.moogle != -1) {
+			PacketHandler.sendToServer(new CSCloseMoogleGUI(parent.moogle));
+		}
+		super.onClose();
 	}
 
 }

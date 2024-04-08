@@ -5,13 +5,13 @@
   "refmap": "kingdomkeys.refmap.json",
   "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
-
+    "TellMeTheErrorMixin"
   ],
   "client": [
-    "epicfight.RenderEngineEventsMixin",
+    "LivingEntityRendererMixin",
+    "PlayerRendererMixin",
     "epicfight.PHumanoidRendererMixin",
-  	"LivingEntityRendererMixin",
-  	"PlayerRendererMixin"
+    "epicfight.RenderEngineEventsMixin"
   ],
   "minVersion": "0.8"
 }
