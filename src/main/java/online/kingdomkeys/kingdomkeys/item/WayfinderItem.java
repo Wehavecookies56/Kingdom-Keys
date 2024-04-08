@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import org.joml.Vector3f;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -28,9 +26,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import org.joml.Vector3f;
 
 public class WayfinderItem extends Item {
-	Player owner;
 	public WayfinderItem(Properties pProperties) {
 		super(pProperties);
 	}
@@ -44,10 +42,6 @@ public class WayfinderItem extends Item {
 			} else {
 				stack.setTag(setID(new CompoundTag(), player));
 			}
-			
-			if(owner == null && !worldIn.isClientSide) {
-				owner = getOwner((ServerLevel) player.level(), stack.getTag());
-			}
 			super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 		}
 	}
@@ -58,7 +52,7 @@ public class WayfinderItem extends Item {
 			ServerLevel serverLevel = (ServerLevel) world;
 			ItemStack stack = player.getItemInHand(hand);
 
-			owner = getOwner(serverLevel, stack.getTag());
+			Player owner = getOwner(serverLevel, stack.getTag());
 			if (owner == null) {
 				player.sendSystemMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " not found"));
 				return super.use(world, player, hand);
@@ -115,7 +109,7 @@ public class WayfinderItem extends Item {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.getTag() != null && owner != null) {
+		if (stack.getTag() != null) {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Owner: " + stack.getTag().getString("ownerName").toString()));
 			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
 		}
@@ -125,28 +119,5 @@ public class WayfinderItem extends Item {
 	public boolean isEnchantable(ItemStack pStack) {
 		return false;
 	}
-	/*
-	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-		// TODO Auto-generated method stub
-		consumer.accept(new IClientItemExtensions() {
-			@Override
-			public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-				CompoundTag tag = itemInHand.getTag();
-				if(owner != null) {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);	
-					if(playerData != null) {
-						Color color = new Color(playerData.getNotifColor());
-						RenderSystem.setShaderColor(color.getRed()/255F,color.getGreen()/255F,color.getBlue()/255F,1);
-					}
-					
-				}
-
-				return IClientItemExtensions.super.applyForgeHandTransform(poseStack, player, arm, itemInHand, partialTick, equipProcess, swingProcess);
-			}
-		});
-		super.initializeClient(consumer);
-	}*/
-
 
 }
