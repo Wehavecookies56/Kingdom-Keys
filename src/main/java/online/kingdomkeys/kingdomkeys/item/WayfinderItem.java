@@ -7,9 +7,12 @@ import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -20,8 +23,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import org.joml.Vector3f;
 
 public class WayfinderItem extends Item {
 	public WayfinderItem(Properties pProperties) {
@@ -54,7 +59,17 @@ public class WayfinderItem extends Item {
 			}
 
 			teleport(player, owner);
-			player.getCooldowns().addCooldown(this, 300 * 20);
+			//pretty Stuff
+
+			player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
+
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 1.5,player.getZ(),150,0,0,0,0.2);
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
+			((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
+			//((ServerLevel)player.level()).sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
+
+			//player.getCooldowns().addCooldown(this, 300 * 20);
 
 		}
 		return super.use(world, player, hand);
@@ -68,6 +83,7 @@ public class WayfinderItem extends Item {
 
 		player.teleportTo(owner.getX() + 0.5, owner.getY(), owner.getZ() + 0.5);
 		player.setDeltaMovement(0, 0, 0);
+
 	}
 
 	public CompoundTag setID(CompoundTag nbt, Player player) {
