@@ -1,12 +1,15 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -17,19 +20,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.ITeleporter;
-import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.UUID;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class WayfinderItem extends Item {
 	public WayfinderItem(Properties pProperties) {
 		super(pProperties);
 	}
-
-
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -44,20 +41,33 @@ public class WayfinderItem extends Item {
 		}
 	}
 
-	public void teleport(Player player, Entity owner, BlockPos pos, ResourceKey<Level> dimension){
-		owner = null;
-		ServerPlayer itemUser = (ServerPlayer) player;
-		ServerPlayer wayfinderOwner = (ServerPlayer) owner;
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		if (!world.isClientSide) {
+			ServerLevel serverLevel = (ServerLevel) world;
+			ItemStack stack = player.getItemInHand(hand);
 
-		if (itemUser.level().dimension() != owner.level().dimension()){
-			ServerLevel destionationWorld = itemUser.getServer().getLevel(dimension);
-			itemUser.changeDimension(destionationWorld);
-			itemUser.teleportTo(owner.getX()+0.5,owner.getY(),owner.getZ()+0.5);
-			itemUser.setDeltaMovement(0,0,0);
-		} else {
-			itemUser.teleportTo(owner.getX()+0.5,owner.getY(),owner.getZ()+0.5);
-			itemUser.setDeltaMovement(0,0,0);
+			Player owner = getOwner(serverLevel, stack.getTag());
+			if (owner == null) {
+				player.sendSystemMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " not found"));
+				return super.use(world, player, hand);
+			}
+
+			teleport(player, owner);
+			player.getCooldowns().addCooldown(this, 300 * 20);
+
 		}
+		return super.use(world, player, hand);
+	}
+
+	public void teleport(Player player, Entity owner) {
+		if (player.level().dimension() != owner.level().dimension()) {
+			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
+			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX() + 0.5, owner.getY(), owner.getZ() + 0.5));
+		}
+
+		player.teleportTo(owner.getX() + 0.5, owner.getY(), owner.getZ() + 0.5);
+		player.setDeltaMovement(0, 0, 0);
 	}
 
 	public CompoundTag setID(CompoundTag nbt, Player player) {
@@ -66,11 +76,18 @@ public class WayfinderItem extends Item {
 		return nbt;
 	}
 
+	public Player getOwner(ServerLevel level, CompoundTag nbt) {
+		if (nbt == null)
+			return null;
 
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		return super.use(world, player, hand);
+		UUID playerUUID = nbt.getUUID("ownerUUID");
 
+		for (Player p : Utils.getAllPlayers(level.getServer())) {
+			if (p.getUUID().equals(playerUUID)) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -78,6 +95,7 @@ public class WayfinderItem extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.getTag() != null) {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Owner: " + stack.getTag().getString("ownerName").toString()));
+			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
 		}
 	}
 
