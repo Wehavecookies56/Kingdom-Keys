@@ -3,10 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class DoorData implements INBTSerializable<CompoundTag> {
 
     public static final DoorData NONE = null;

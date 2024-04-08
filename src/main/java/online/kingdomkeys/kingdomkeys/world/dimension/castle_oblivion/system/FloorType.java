@@ -1,12 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.resources.ResourceLocation;

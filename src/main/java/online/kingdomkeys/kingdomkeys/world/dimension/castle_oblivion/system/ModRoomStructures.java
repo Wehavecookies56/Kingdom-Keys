@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.DeferredRegister;
@@ -7,9 +10,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 public class ModRoomStructures {
 

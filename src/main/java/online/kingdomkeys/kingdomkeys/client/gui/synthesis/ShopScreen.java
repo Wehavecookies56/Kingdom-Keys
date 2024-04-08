@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -37,6 +36,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;

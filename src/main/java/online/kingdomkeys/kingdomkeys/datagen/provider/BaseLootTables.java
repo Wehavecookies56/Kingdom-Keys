@@ -1,11 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.logging.log4j.LogManager;

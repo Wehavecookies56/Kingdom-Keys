@@ -13,7 +13,6 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.resources.ResourceLocation;

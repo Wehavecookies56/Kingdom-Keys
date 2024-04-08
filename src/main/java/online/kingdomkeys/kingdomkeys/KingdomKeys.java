@@ -4,12 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,17 +52,13 @@ import online.kingdomkeys.kingdomkeys.datagen.DataGeneration;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
@@ -87,7 +77,12 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
+import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {

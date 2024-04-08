@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import java.awt.Color;
+import java.util.function.Supplier;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.function.Supplier;
 
 public class ModFloorTypes {
 

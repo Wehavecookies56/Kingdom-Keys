@@ -7,7 +7,6 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Map.Entry;
 
-import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -35,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;

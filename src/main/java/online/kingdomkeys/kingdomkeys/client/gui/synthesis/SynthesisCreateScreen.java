@@ -1,14 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
-import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -35,13 +30,10 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;

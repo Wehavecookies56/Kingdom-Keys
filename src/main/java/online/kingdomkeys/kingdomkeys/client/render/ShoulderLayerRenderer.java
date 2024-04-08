@@ -22,11 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.model.armor.AquaShoulderModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.EraqusShoulderModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.TerraShoulderModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.VentusShoulderModel;
-import online.kingdomkeys.kingdomkeys.client.model.armor.XehanortShoulderModel;
+import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 
 @OnlyIn(Dist.CLIENT)

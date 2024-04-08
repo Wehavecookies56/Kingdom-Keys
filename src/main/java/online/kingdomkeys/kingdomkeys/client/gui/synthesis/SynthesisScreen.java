@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
 
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 

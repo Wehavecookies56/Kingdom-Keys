@@ -1,16 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -57,12 +48,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.PauldronItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;

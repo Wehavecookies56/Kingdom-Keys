@@ -17,15 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.DriveFormOrbItem;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
-import online.kingdomkeys.kingdomkeys.item.KKRecordItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.PauldronItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 
 public class ItemTagsGen extends ItemTagsProvider {

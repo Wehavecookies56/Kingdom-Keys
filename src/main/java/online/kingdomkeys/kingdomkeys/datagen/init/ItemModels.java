@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -14,15 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.DataPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.MagicalChestBlock;
-import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.OrgPortalBlock;
-import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
-import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
-import online.kingdomkeys.kingdomkeys.block.SoRCore;
+import online.kingdomkeys.kingdomkeys.block.*;
 import online.kingdomkeys.kingdomkeys.item.*;
 
 public class ItemModels extends ItemModelProvider {

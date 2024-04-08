@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +25,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
 public class KeychainItem extends SwordItem implements IKeychain, IItemCategory {
 

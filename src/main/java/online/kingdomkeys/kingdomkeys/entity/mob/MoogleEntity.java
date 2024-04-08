@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
@@ -10,7 +12,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -27,8 +32,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
-
-import java.util.Objects;
 
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob {

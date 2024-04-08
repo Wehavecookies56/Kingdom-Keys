@@ -1,12 +1,11 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import java.util.function.Supplier;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
-
-import java.util.UUID;
-import java.util.function.Supplier;
 
 public class CSCloseMoogleGUI {
 

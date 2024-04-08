@@ -40,7 +40,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -79,27 +78,13 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncKeybladeData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncLimitData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrganizationData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import yesman.epicfight.client.ClientEngine;
 
 public class ClientUtils {
 

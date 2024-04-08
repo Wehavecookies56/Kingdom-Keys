@@ -1,5 +1,9 @@
 package online.kingdomkeys.kingdomkeys.integration.jer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import jeresources.api.IWorldGenRegistry;
 import jeresources.api.conditionals.Conditional;
 import jeresources.api.distributions.DistributionSquare;
@@ -8,9 +12,6 @@ import jeresources.api.drop.LootDrop;
 import jeresources.api.restrictions.BiomeRestriction;
 import jeresources.api.restrictions.DimensionRestriction;
 import jeresources.api.restrictions.Restriction;
-import jeresources.api.util.BiomeHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -24,11 +25,6 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiFunction;
 
 public class WorldGen {
 

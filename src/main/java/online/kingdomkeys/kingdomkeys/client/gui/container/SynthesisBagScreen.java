@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

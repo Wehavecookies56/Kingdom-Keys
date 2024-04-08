@@ -11,9 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.DoorData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
 

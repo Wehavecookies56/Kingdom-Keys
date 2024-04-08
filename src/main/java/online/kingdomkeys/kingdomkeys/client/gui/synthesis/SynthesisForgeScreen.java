@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -36,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;

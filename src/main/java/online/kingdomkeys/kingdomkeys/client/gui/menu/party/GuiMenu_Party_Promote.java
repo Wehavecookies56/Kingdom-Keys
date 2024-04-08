@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;

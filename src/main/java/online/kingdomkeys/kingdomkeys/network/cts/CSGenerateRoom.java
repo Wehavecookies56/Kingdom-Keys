@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 

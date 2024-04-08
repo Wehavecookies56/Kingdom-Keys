@@ -2,9 +2,6 @@ package online.kingdomkeys.kingdomkeys.api.client;
 
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 
 public abstract class KKInputEvent extends Event {

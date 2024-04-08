@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
