@@ -122,6 +122,10 @@ public class WayfinderItem extends Item {
 		return null;
 	}
 
+	public Player getOwner() {
+		return owner;
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
@@ -135,28 +139,5 @@ public class WayfinderItem extends Item {
 	public boolean isEnchantable(ItemStack pStack) {
 		return false;
 	}
-	
-	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-		// TODO Auto-generated method stub
-		consumer.accept(new IClientItemExtensions() {
-			@Override
-			public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-				CompoundTag tag = itemInHand.getTag();
-				if(owner != null) {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);	
-					if(playerData != null) {
-						Color color = new Color(playerData.getNotifColor());
-						RenderSystem.setShaderColor(color.getRed()/255F,color.getGreen()/255F,color.getBlue()/255F,1);
-					}
-					
-				}
-
-				return IClientItemExtensions.super.applyForgeHandTransform(poseStack, player, arm, itemInHand, partialTick, equipProcess, swingProcess);
-			}
-		});
-		super.initializeClient(consumer);
-	}
-
 
 }

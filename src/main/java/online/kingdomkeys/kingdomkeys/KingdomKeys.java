@@ -185,6 +185,7 @@ public class KingdomKeys {
 			@Override
 			public void run() {
 				modEventBus.addListener(ClientEvents::colourTint);
+				modEventBus.addListener(ClientEvents::itemColour);
 			}
 		});
 

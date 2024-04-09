@@ -3,6 +3,9 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.nbt.CompoundTag;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -537,6 +540,21 @@ public class ClientEvents {
 			}
 		}
 		return colour.getRGB();
+	}
+
+	public static void itemColour(RegisterColorHandlersEvent.Item event) {
+		event.register((pStack, pTintIndex) -> {
+			Color colour = Color.WHITE;
+			Player owner = ((WayfinderItem)pStack.getItem()).getOwner();
+			if(owner != null) {
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
+				if(playerData != null) {
+					colour = new Color(playerData.getNotifColor());
+				}
+
+			}
+			return colour.getRGB();
+		}, ModItems.wayfinder.get());
 	}
 
 }
