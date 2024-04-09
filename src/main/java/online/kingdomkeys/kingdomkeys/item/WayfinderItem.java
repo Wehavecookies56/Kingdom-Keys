@@ -29,6 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
@@ -75,10 +76,25 @@ public class WayfinderItem extends Item {
 
 			owner = getOwner(serverLevel, stack.getTag());
 			if (owner == null) {
-				player.sendSystemMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " not found"));
+				player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " not found"), true);
+				return super.use(world, player, hand);
+			}
+			Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUUID());
+			if(p == null) {
+				player.displayClientMessage(Component.translatable("You are not in a party"), true);
+				return super.use(world, player, hand);
+			}
+			
+			if(!Utils.isEntityInParty(p, player)) {
+				player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " is not in your party"), true);
 				return super.use(world, player, hand);
 			}
 
+			if(owner == player) {
+				player.displayClientMessage(Component.translatable("This is your Wayfinder, hand it over to someone in your party"), true);
+				return super.use(world, player, hand);
+			}
+			
 			teleport(player, owner);
 			//pretty Stuff
 
@@ -91,9 +107,7 @@ public class WayfinderItem extends Item {
 			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
 			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
 			((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
-			//((ServerLevel)player.level()).sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
-
-			//player.getCooldowns().addCooldown(this, 300 * 20);
+			player.getCooldowns().addCooldown(this, 300 * 20);
 
 		}
 		return super.use(world, player, hand);
@@ -153,7 +167,7 @@ public class WayfinderItem extends Item {
 				tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
 		}
 	}
-
+	
 	@Override
 	public boolean isEnchantable(ItemStack pStack) {
 		return false;
