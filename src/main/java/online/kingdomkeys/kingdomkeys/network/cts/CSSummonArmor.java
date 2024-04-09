@@ -125,24 +125,28 @@ public class CSSummonArmor {
 							ItemStack newBoots = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
 							
 							if(kbArmorItem.getTag() != null) {
-								Tag bootsTag = kbArmorItem.getTag().get("boots");
-								Tag legginsTag = kbArmorItem.getTag().get("leggings");
-								Tag chestplateTag = kbArmorItem.getTag().get("chestplate");
-								Tag helmetTag = kbArmorItem.getTag().get("helmet");
+								CompoundTag bootsTag = kbArmorItem.getTag().getCompound("boots");
+								CompoundTag legginsTag = kbArmorItem.getTag().getCompound("leggings");
+								CompoundTag chestplateTag = kbArmorItem.getTag().getCompound("chestplate");
+								CompoundTag helmetTag = kbArmorItem.getTag().getCompound("helmet");
 								if(bootsTag != null) {
-									newBoots.getTag().put(ItemStack.TAG_ENCH, bootsTag);
+									newBoots.setTag(bootsTag);
+									newBoots.getTag().putUUID("armorID", KBArmorUUID);
 								}
 								
 								if(legginsTag != null) {
-									newLeggings.getTag().put(ItemStack.TAG_ENCH, legginsTag);
+									newLeggings.setTag(legginsTag);
+									newLeggings.getTag().putUUID("armorID", KBArmorUUID);
 								}
 								
 								if(chestplateTag != null) {
-									newChestplate.getTag().put(ItemStack.TAG_ENCH, chestplateTag);
+									newChestplate.setTag(chestplateTag);
+									newChestplate.getTag().putUUID("armorID", KBArmorUUID);
 								}
 								
 								if(helmetTag != null) {
-									newHelmet.getTag().put(ItemStack.TAG_ENCH, helmetTag);
+									newHelmet.setTag(helmetTag);
+									newHelmet.getTag().putUUID("armorID", KBArmorUUID);
 								}
 							}
 							

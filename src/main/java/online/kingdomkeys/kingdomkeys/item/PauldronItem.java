@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -48,21 +49,21 @@ public class PauldronItem extends Item implements IItemCategory {
     			if(armorPieceStack.isEnchanted() && !Utils.hasArmorID(armorPieceStack)) {
 	    			switch(i) {
 	    			case 0:
-	    				shoulderArmorStack.getTag().put("boots", armorPieceStack.getEnchantmentTags());
+	    				shoulderArmorStack.getTag().put("boots", armorPieceStack.getTag());
 	    				break;
 	    			case 1:
-	    				shoulderArmorStack.getTag().put("leggings", armorPieceStack.getEnchantmentTags());
+	    				shoulderArmorStack.getTag().put("leggings", armorPieceStack.getTag());
 	    				break;
 	    			case 2:
-	    				shoulderArmorStack.getTag().put("chestplate", armorPieceStack.getEnchantmentTags());
+	    				shoulderArmorStack.getTag().put("chestplate", armorPieceStack.getTag());
 	    				break;
 	    			case 3:
-	    				shoulderArmorStack.getTag().put("helmet", armorPieceStack.getEnchantmentTags());
+	    				shoulderArmorStack.getTag().put("helmet", armorPieceStack.getTag());
 	    				break;
 	    			}
 	    			
     				worldIn.playSound(playerIn, playerIn.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
-    				armorPieceStack.getTag().remove(ItemStack.TAG_ENCH);
+    				armorPieceStack.setTag(new CompoundTag());
     			}	
     		}
     	}
@@ -112,10 +113,10 @@ public class PauldronItem extends Item implements IItemCategory {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {		
 		if (stack.getTag() != null) {
-			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", tooltip, (ListTag) stack.getTag().get("helmet"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", tooltip, (ListTag) stack.getTag().get("chestplate"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", tooltip, (ListTag) stack.getTag().get("leggings"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", tooltip, (ListTag) stack.getTag().get("boots"));
+			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", tooltip, stack.getTag().getCompound("helmet"));
+			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", tooltip, stack.getTag().getCompound("chestplate"));
+			appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", tooltip, stack.getTag().getCompound("leggings"));
+			appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", tooltip, stack.getTag().getCompound("boots"));
 			if (flagIn.isAdvanced()) {
 				if (stack.getTag().hasUUID("armorID")) {
 					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
@@ -129,11 +130,11 @@ public class PauldronItem extends Item implements IItemCategory {
 		return items[slot];
 	}
 	
-	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, ListTag pStoredEnchantments) {
+	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, CompoundTag pStoredEnchantments) {
 		if (pStoredEnchantments != null) {
 			pTooltipComponents.add(Component.translatable(text));
 			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
-				CompoundTag compoundtag = pStoredEnchantments.getCompound(i);
+				CompoundTag compoundtag = pStoredEnchantments.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND).getCompound(i);
 				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
 					pTooltipComponents.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()));
 				});

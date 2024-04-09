@@ -389,19 +389,19 @@ public class MenuEquipmentButton extends Button {
                             ClientUtils.drawSplitString(gui, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof PauldronItem kbArmor){
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", (ListTag) stack.getTag().get("helmet"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.getTag().getCompound("helmet"))) {
 		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", (ListTag) stack.getTag().get("chestplate"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.getTag().getCompound("chestplate"))) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", (ListTag) stack.getTag().get("leggings"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.getTag().getCompound("leggings"))) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", (ListTag) stack.getTag().get("boots"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.getTag().getCompound("boots"))) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }

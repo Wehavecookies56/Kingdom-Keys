@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -947,12 +948,12 @@ public class Utils {
 		return minCost;
 	}
 	
-	public static List<String> appendEnchantmentNames(String text, ListTag pStoredEnchantments) {
+	public static List<String> appendEnchantmentNames(String text, CompoundTag pStoredEnchantments) {
 		List<String> arrayList = new ArrayList<String>();
 		if (pStoredEnchantments != null) {
 			arrayList.add(Component.translatable(text).getString());
 			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
-				CompoundTag compoundtag = pStoredEnchantments.getCompound(i);
+				CompoundTag compoundtag = pStoredEnchantments.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND).getCompound(i);
 				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
 					arrayList.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
 				});

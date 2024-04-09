@@ -22,12 +22,14 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.PlayLevelSoundEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -38,9 +40,11 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -64,10 +68,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -1467,6 +1468,17 @@ public class EntityEvents {
 				if (playerData != null) {
 					event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
 				}
+			}
+		}
+	}
+
+	//Prevent using Anvil with items that aren't enchanted books or empty for renaming. Mainly to stop infinite enchantments with Apotheosis
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void anvilUpdate(AnvilUpdateEvent event) {
+		Item item = event.getLeft().getItem();
+		if (item instanceof KeychainItem || item instanceof KeybladeItem || item instanceof IOrgWeapon || item instanceof KeybladeArmorItem) {
+			if (!event.getRight().isEmpty() && !(event.getRight().getItem() instanceof EnchantedBookItem)) {
+				event.setOutput(ItemStack.EMPTY);
 			}
 		}
 	}
