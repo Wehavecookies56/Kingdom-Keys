@@ -545,14 +545,8 @@ public class ClientEvents {
 	public static void itemColour(RegisterColorHandlersEvent.Item event) {
 		event.register((pStack, pTintIndex) -> {
 			Color colour = Color.WHITE;
-			Player owner = ((WayfinderItem)pStack.getItem()).getOwner();
-			if(owner != null) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
-				if(playerData != null) {
-					colour = new Color(playerData.getNotifColor());
-				}
-
-			}
+			int itemColor = ((WayfinderItem)pStack.getItem()).getColor(pStack);
+			colour = new Color(itemColor);
 			return colour.getRGB();
 		}, ModItems.wayfinder.get());
 	}

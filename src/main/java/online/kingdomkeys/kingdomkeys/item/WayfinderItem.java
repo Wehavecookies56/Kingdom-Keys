@@ -3,18 +3,13 @@ package online.kingdomkeys.kingdomkeys.item;
 import java.awt.Color;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
 import org.joml.Vector3f;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +19,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +26,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -55,8 +48,20 @@ public class WayfinderItem extends Item {
 				stack.setTag(setID(new CompoundTag(), player));
 			}
 			
-			if(owner == null && !worldIn.isClientSide) {
-				owner = getOwner((ServerLevel) player.level(), stack.getTag());
+			if(!worldIn.isClientSide) {
+				if(owner == null) 
+					owner = getOwner((ServerLevel) player.level(), stack.getTag());
+				
+				if(owner != null) {
+					IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
+					if(playerData != null) {
+						if(playerData.getNotifColor() != getColor(stack)) {
+							stack.getTag().putInt("color", playerData.getNotifColor());
+							System.out.println(new Color(stack.getTag().getInt("color")));
+						}
+						
+					}
+				}
 			}
 			super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 		}
@@ -78,10 +83,13 @@ public class WayfinderItem extends Item {
 			//pretty Stuff
 
 			player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
-
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 1.5,player.getZ(),150,0,0,0,0.2);
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F,1F,1F),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
+			Color c = new Color(getColor(player.getItemInHand(hand)));
+			float r = c.getRed()/255F;
+			float g = c.getGreen()/255F;
+			float b = c.getBlue()/255F;
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1.5,player.getZ(),150,0,0,0,0.2);
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
+			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
 			((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
 			//((ServerLevel)player.level()).sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
 
@@ -94,10 +102,10 @@ public class WayfinderItem extends Item {
 	public void teleport(Player player, Entity owner) {
 		if (player.level().dimension() != owner.level().dimension()) {
 			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
-			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX() + 0.5, owner.getY(), owner.getZ() + 0.5));
+			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX(), owner.getY(), owner.getZ()));
 		}
 
-		player.teleportTo(owner.getX() + 0.5, owner.getY(), owner.getZ() + 0.5);
+		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());
 		player.setDeltaMovement(0, 0, 0);
 
 	}
@@ -105,6 +113,12 @@ public class WayfinderItem extends Item {
 	public CompoundTag setID(CompoundTag nbt, Player player) {
 		nbt.putUUID("ownerUUID", player.getUUID());
 		nbt.putString("ownerName", player.getDisplayName().getString());
+		nbt.putInt("color", Color.WHITE.getRGB());
+		
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		if(playerData != null) {
+			nbt.putInt("color", playerData.getNotifColor());
+		}
 		return nbt;
 	}
 
@@ -122,16 +136,21 @@ public class WayfinderItem extends Item {
 		return null;
 	}
 
-	public Player getOwner() {
-		return owner;
+	public int getColor(ItemStack stack) {
+		if(stack.getTag() == null)
+			return Color.WHITE.getRGB();
+		
+		return stack.getTag().getInt("color");
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.getTag() != null && owner != null) {
+		if (stack.getTag() != null) {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Owner: " + stack.getTag().getString("ownerName").toString()));
-			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
+			//tooltip.add(Component.translatable(""+new Color(stack.getTag().getInt("color"))));
+			if(Minecraft.getInstance().player.getCooldowns().isOnCooldown(this))
+				tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
 		}
 	}
 
