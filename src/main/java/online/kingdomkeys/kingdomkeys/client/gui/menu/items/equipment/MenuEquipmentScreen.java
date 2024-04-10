@@ -85,7 +85,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         AtomicInteger offset = new AtomicInteger();
         AtomicInteger hidden = new AtomicInteger(0);
         
-        if (playerData.getAlignment() != Utils.OrgMember.NONE) {
+        if (playerData.getAlignment() != Utils.OrgMember.NONE) { //ORG
             MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);            
             totalButtons.add(orgWeaponSlot);
             addRenderableWidget(orgWeaponSlot);
@@ -127,7 +127,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             hidden.getAndIncrement();
             
             //Synch blade
-            if (playerData.getAlignment() == Utils.OrgMember.NONE) {
+            if (playerData.getAlignment() == Utils.OrgMember.NONE && playerData.isAbilityEquipped(Strings.synchBlade)) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	if(showingKeyblades)
             		totalButtons.add(sbSlot);
