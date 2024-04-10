@@ -44,11 +44,11 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	}
 
 	public LaserDomeCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_LASER_DOME.get(), world);
+		this(ModEntities.TYPE_LASER_DOME.get(), world);
 	}
 
 	public LaserDomeCoreEntity(Level world) {
-		super(ModEntities.TYPE_LASER_DOME.get(), world);
+		this(ModEntities.TYPE_LASER_DOME.get(), world);
 		this.blocksBuilding = true;
 	}
 
@@ -121,22 +121,13 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
 						bullet.shoot(target.getX() - (bullet.getX() + level().random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level().random.nextDouble() - 0.5D), 2f, 0);
-						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 0.4F, 1F);
+						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 0.2F, 1F);
 					}
 
 				}
 			}
 		}
 		super.tick();
-	}
-
-	private void updatePos(float r) {
-		for (LaserDomeShotEntity shot : list) {
-			double x = getX() + (r * Math.cos(Math.toRadians(shot.tickCount * 9)));
-			double z = getZ() + (r * Math.sin(Math.toRadians(shot.tickCount * 9)));
-			shot.setPos(x, getY() + 1, z);
-			shot.shoot(this.getX() - shot.getX(), this.getY() - shot.getY(), this.getZ() - shot.getZ(), 0.001f, 0);
-		}
 	}
 
 	private void updateList() {
