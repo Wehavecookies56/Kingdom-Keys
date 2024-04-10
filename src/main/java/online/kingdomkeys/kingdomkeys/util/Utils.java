@@ -10,13 +10,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -68,6 +69,65 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
+	
+	 public static class Title {
+	        public String title, subtitle;
+	        public int fadeIn = 10, fadeOut = 20, displayTime = 70;
+
+	        public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
+	            this.title = title;
+	            this.subtitle = subtitle;
+	            this.fadeIn = fadeIn;
+	            this.fadeOut = fadeOut;
+	            this.displayTime = displayTime;
+	        }
+
+	        public Title(String title, String subtitle) {
+	            this.title = title;
+	            this.subtitle = subtitle;
+	        }
+
+			public Title(CompoundTag compound) {
+				read(compound);
+			}
+	        
+	        public CompoundTag write() {
+	        	CompoundTag compound = new CompoundTag();
+	        	compound.putString("title", title);
+	        	compound.putString("subtitle", subtitle);
+	        	compound.putInt("fadein", fadeIn);
+	        	compound.putInt("fadeout", fadeOut);
+	        	compound.putInt("displaytime", displayTime);
+	        	return compound;
+	        }
+	        
+	        public void read(CompoundTag tag) {
+	        	this.title = tag.getString("title");
+	        	this.subtitle = tag.getString("subtitle");
+	        	this.fadeIn = tag.getInt("fadein");
+	        	this.fadeOut = tag.getInt("fadeout");
+	        	this.displayTime = tag.getInt("displaytime");
+	        }
+	        
+	        public static CompoundTag writeList(List<Title> titles) {
+	        	CompoundTag compound = new CompoundTag();
+	        	for(int i = 0; i< titles.size();i++) {
+	        		Title t = titles.get(i);
+	        		compound.put("m"+i, t.write());
+	        	}
+	        	compound.putInt("size", titles.size());
+	        	return compound;
+	        }
+	        
+	        public static List<Title> readList(CompoundTag compound) {
+	        	int size = compound.getInt("size");
+	        	List<Title> titles = new ArrayList<Title>();
+	        	for(int i = 0; i< size; i++) {
+	        		titles.add(new Title(compound.getCompound("m"+i)));
+	        	}
+	        	return titles;
+	        }
+	    }
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return ForgeRegistries.ITEMS.getKey(item);
@@ -1048,6 +1108,13 @@ public class Utils {
 		} else {
 			return ChatFormatting.RED;
 		}
+	}
+	
+	public static void playSoundToEveryone(ServerLevel level, SoundEvent sound, float vol, float pitch) {
+		for(Player p : getAllPlayers(level.getServer())){
+			p.level().playSound(null, p.blockPosition(), sound, SoundSource.PLAYERS, vol, pitch);
+		}
+		
 	}
 
 }

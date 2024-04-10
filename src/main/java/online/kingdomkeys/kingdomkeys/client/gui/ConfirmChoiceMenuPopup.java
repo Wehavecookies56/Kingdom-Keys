@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetChoice;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ConfirmChoiceMenuPopup extends MenuPopup {
 
@@ -89,8 +90,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         if (state == SoAState.CHOICE) {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
-                    new SoAMessages.Title(null, Strings.SoA_SacrificeIntro1, 10, 35, 20),
-                    new SoAMessages.Title(null, Strings.SoA_SacrificeIntro2, 10, 70, 20)
+                    new Utils.Title(null, Strings.SoA_SacrificeIntro1, 10, 35, 20),
+                    new Utils.Title(null, Strings.SoA_SacrificeIntro2, 10, 70, 20)
             );
         }
         if (state == SoAState.SACRIFICE) {
@@ -104,8 +105,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         if (state == SoAState.CONFIRM) {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
-                    new SoAMessages.Title(null, Strings.SoA_ResetIntro1, 10, 35, 20),
-                    new SoAMessages.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
+                    new Utils.Title(null, Strings.SoA_ResetIntro1, 10, 35, 20),
+                    new Utils.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
             );
             Minecraft mc = Minecraft.getInstance();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);

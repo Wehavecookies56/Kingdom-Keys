@@ -115,7 +115,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	public ItemCategory getCategory() {
 		return ItemCategory.TOOL;
 	}
-	
+
 	@Override
 	public boolean isEnchantable(ItemStack pStack) {
 		return true;

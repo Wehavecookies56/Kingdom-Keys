@@ -14,6 +14,7 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
 //Text rendering from IngameGui with an added message queue system
 public class SoAMessages extends OverlayBase {
@@ -22,24 +23,6 @@ public class SoAMessages extends OverlayBase {
 
     private SoAMessages() {
         super();
-    }
-
-    public static class Title {
-        public String title, subtitle;
-        public int fadeIn = 10, fadeOut = 20, displayTime = 70;
-
-        public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
-            this.title = title;
-            this.subtitle = subtitle;
-            this.fadeIn = fadeIn;
-            this.fadeOut = fadeOut;
-            this.displayTime = displayTime;
-        }
-
-        public Title(String title, String subtitle) {
-            this.title = title;
-            this.subtitle = subtitle;
-        }
     }
 
     private final Queue<Title> messages = new LinkedList<>();

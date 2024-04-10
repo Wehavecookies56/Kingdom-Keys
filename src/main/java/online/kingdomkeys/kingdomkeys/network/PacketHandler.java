@@ -39,7 +39,6 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCOpenEquipmentScreen.class, SCOpenEquipmentScreen::encode, SCOpenEquipmentScreen::decode, SCOpenEquipmentScreen::handle);
 		HANDLER.registerMessage(packetID++, SCOpenMaterialsScreen.class, SCOpenMaterialsScreen::encode, SCOpenMaterialsScreen::decode, SCOpenMaterialsScreen::handle);
 		HANDLER.registerMessage(packetID++, SCOpenChoiceScreen.class, SCOpenChoiceScreen::encode, SCOpenChoiceScreen::decode, SCOpenChoiceScreen::handle);
-		HANDLER.registerMessage(packetID++, SCUpdateSoA.class, SCUpdateSoA::encode, SCUpdateSoA::decode, SCUpdateSoA::handle);
 		HANDLER.registerMessage(packetID++, SCOpenAlignmentScreen.class, SCOpenAlignmentScreen::encode, SCOpenAlignmentScreen::decode, SCOpenAlignmentScreen::handle);
 		HANDLER.registerMessage(packetID++, SCShowOrgPortalGUI.class, SCShowOrgPortalGUI::encode, SCShowOrgPortalGUI::decode, SCShowOrgPortalGUI::handle);
 		HANDLER.registerMessage(packetID++, SCSyncMagicData.class, SCSyncMagicData::encode, SCSyncMagicData::decode, SCSyncMagicData::handle);
@@ -52,6 +51,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncCastleOblivionInteriorCapability.class, SCSyncCastleOblivionInteriorCapability::encode, SCSyncCastleOblivionInteriorCapability::decode, SCSyncCastleOblivionInteriorCapability::handle);
 		HANDLER.registerMessage(packetID++, SCOpenCODoorGui.class, SCOpenCODoorGui::encode, SCOpenCODoorGui::decode, SCOpenCODoorGui::handle);
 		HANDLER.registerMessage(packetID++, SCAeroSoundPacket.class, SCAeroSoundPacket::encode, SCAeroSoundPacket::decode, SCAeroSoundPacket::handle);
+		HANDLER.registerMessage(packetID++, SCShowMessagesPacket.class, SCShowMessagesPacket::encode, SCShowMessagesPacket::decode, SCShowMessagesPacket::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

@@ -1,12 +1,15 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,12 +21,14 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
 public class CSSynthesiseRecipe {
 
@@ -90,6 +95,17 @@ public class CSSynthesiseRecipe {
 						}
 						if (i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 							IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+							if(worldData.getHeartlessSpawnLevel() == 0) {
+								List<Title> titles = List.of(
+										new Utils.Title("","This world has been connected"),
+										new Utils.Title("","Tied to the darkness..."),
+										new Utils.Title("","Soon to be completely eclipsed"));
+								
+								//for(Player p : Utils.getAllPlayers(player.level().getServer())){
+								PacketHandler.sendToAllPlayers(new SCShowMessagesPacket(titles));
+								//}
+								Utils.playSoundToEveryone((ServerLevel) player.level(), SoundEvents.WITHER_SPAWN,1F,1F);
+							}
 							worldData.setHeartlessSpawnLevel(1);
 							PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 						}
@@ -102,3 +118,29 @@ public class CSSynthesiseRecipe {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

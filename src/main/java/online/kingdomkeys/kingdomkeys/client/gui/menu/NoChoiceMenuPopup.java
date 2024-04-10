@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class NoChoiceMenuPopup extends MenuPopup {
 
@@ -28,11 +29,11 @@ public class NoChoiceMenuPopup extends MenuPopup {
         Minecraft.getInstance().setScreen(null);
         SoAMessages.INSTANCE.clearMessage();
         SoAMessages.INSTANCE.queueMessages(
-                new SoAMessages.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
-                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro1, 20, 60, 20),
-                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro2, 20, 60, 20),
-                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro3, 20, 60, 20),
-                new SoAMessages.Title(null, Strings.SoA_ChoiceIntro4, 20, 60, 20)
+                new Utils.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
+                new Utils.Title(null, Strings.SoA_ChoiceIntro1, 20, 60, 20),
+                new Utils.Title(null, Strings.SoA_ChoiceIntro2, 20, 60, 20),
+                new Utils.Title(null, Strings.SoA_ChoiceIntro3, 20, 60, 20),
+                new Utils.Title(null, Strings.SoA_ChoiceIntro4, 20, 60, 20)
         );
     }
 

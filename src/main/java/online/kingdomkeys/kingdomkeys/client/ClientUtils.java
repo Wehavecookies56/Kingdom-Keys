@@ -85,6 +85,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
 public class ClientUtils {
 
@@ -737,4 +738,46 @@ public class ClientUtils {
 		
 		return tooltip;
 	}
+
+	public static DistExecutor.SafeRunnable showTitles(SCShowMessagesPacket message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+        		SoAMessages.INSTANCE.clearMessage();
+        		for(Title t : message.titles) {
+        			SoAMessages.INSTANCE.queueMessage(t);
+        		}
+        		//SoAMessages.INSTANCE.queueMessages((Title[]) message.titles.toArray());
+            }
+        };
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
