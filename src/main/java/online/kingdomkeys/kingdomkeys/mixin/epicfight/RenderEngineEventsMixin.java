@@ -15,7 +15,7 @@ import yesman.epicfight.client.events.engine.RenderEngine;
 public class RenderEngineEventsMixin {
 
     @Inject(method = "renderLivingEvent", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void livingTickDisable(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event, CallbackInfo ci) {
+    private static void renderLivingDisable(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event, CallbackInfo ci) {
         if (ClientUtils.disableEFMAnims) {
             ci.cancel();
         }

@@ -1476,7 +1476,7 @@ public class EntityEvents {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void anvilUpdate(AnvilUpdateEvent event) {
 		Item item = event.getLeft().getItem();
-		if (item instanceof KeychainItem || item instanceof KeybladeItem || item instanceof IOrgWeapon || item instanceof KeybladeArmorItem) {
+		if (item instanceof KeybladeItem || item instanceof IOrgWeapon || item instanceof KeybladeArmorItem) {
 			if (!event.getRight().isEmpty() && !(event.getRight().getItem() instanceof EnchantedBookItem)) {
 				event.setOutput(ItemStack.EMPTY);
 			}

@@ -16,8 +16,13 @@ import net.minecraftforge.fml.loading.LoadingModList;
 public class KKMixinPlugin implements IMixinConfigPlugin {
 
     private static final Supplier<Boolean> EFMLOADED = () -> LoadingModList.get().getModFileById("epicfight") != null;
+    private static final Supplier<Boolean> APOTHEOSISLOADED = () -> LoadingModList.get().getModFileById("apotheosis") != null;
 
-    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of("online.kingdomkeys.kingdomkeys.mixin.epicfight.PHumanoidRendererMixin", EFMLOADED, "online.kingdomkeys.kingdomkeys.mixin.epicfight.RenderEngineEventsMixin", EFMLOADED);
+    private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
+            "online.kingdomkeys.kingdomkeys.mixin.epicfight.PHumanoidRendererMixin", EFMLOADED,
+            "online.kingdomkeys.kingdomkeys.mixin.epicfight.RenderEngineEventsMixin", EFMLOADED,
+            "online.kingdomkeys.kingdomkeys.mixin.apotheosis.SalvaginMenuMixin", APOTHEOSISLOADED
+    );
 
     @Override
     public void onLoad(String mixinPackage) {
