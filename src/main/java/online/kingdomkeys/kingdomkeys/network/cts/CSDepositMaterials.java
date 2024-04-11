@@ -27,22 +27,26 @@ public class CSDepositMaterials {
 	public CSDepositMaterials() {}
 
 	String inv;
+	String name;
 	int moogle = -1;
 
-	public CSDepositMaterials(String inv, int moogle) {
+	public CSDepositMaterials(String inv, String name, int moogle) {
 		this.inv = inv;
 		this.moogle = moogle;
+		this.name = name;
 	}
 	
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeUtf(inv);
 		buffer.writeInt(moogle);
+		buffer.writeUtf(name);
 	}
 
 	public static CSDepositMaterials decode(FriendlyByteBuf buffer) {
 		CSDepositMaterials msg = new CSDepositMaterials();
 		msg.inv = buffer.readUtf();
 		msg.moogle = buffer.readInt();
+		msg.name = buffer.readUtf();
 		return msg;
 	}
 
@@ -69,7 +73,7 @@ public class CSDepositMaterials {
 						}
 					}
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
-					PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.moogle), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.name, message.moogle), (ServerPlayer) player);
 				} catch (ConcurrentModificationException e) {
 					e.printStackTrace();
 				}

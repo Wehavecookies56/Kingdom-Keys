@@ -28,9 +28,9 @@ public class ShopListRegistry {
         if (shopList.getRegistryName() != null) {
             registry.put(shopList.getRegistryName(), shopList);
             if (ModConfigs.debugConsoleOutput)
-                KingdomKeys.LOGGER.info("Successfully registered synthesis recipe {}", shopList.getRegistryName());
+                KingdomKeys.LOGGER.info("Successfully registered Shop list {}", shopList.getRegistryName());
         } else {
-            KingdomKeys.LOGGER.error("Cannot register Synthesis Recipe with no registry name");
+            KingdomKeys.LOGGER.error("Cannot register Shop list with no registry name");
         }
     }
 
@@ -38,7 +38,7 @@ public class ShopListRegistry {
         if (containsKey(key)) {
             return registry.get(key);
         } else {
-            KingdomKeys.LOGGER.error("Synthesis Recipe registry does not contain location: {}", key);
+            KingdomKeys.LOGGER.error("Shop list registry does not contain location: {}", key);
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class ShopListRegistry {
 
     public void clearRegistry() {
         registry.clear();
-        KingdomKeys.LOGGER.info("Synthesis Recipe registry cleared");
+        KingdomKeys.LOGGER.info("Shop list registry cleared");
     }
 
     public Map<ResourceLocation, ShopList> getRegistry() {

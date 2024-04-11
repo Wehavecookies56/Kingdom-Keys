@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -261,6 +262,7 @@ public class KingdomKeys {
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
+		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());
 		event.addListener(new LimitDataLoader());
 	}

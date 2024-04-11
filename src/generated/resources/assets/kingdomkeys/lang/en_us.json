@@ -428,6 +428,7 @@
   "gui.synthesis.materials": "Material List",
   "gui.synthesis.materials.deposit": "Deposit",
   "gui.synthesis.materials.take": "Take",
+  "gui.synthesis.moogle.title": "%s's Moogle Shop",
   "gui.synthesis.synthesise": "Synthesise Items",
   "gui.synthesis.synthesise.create": "Create",
   "gui.synthesisbag.munny": "Munny",

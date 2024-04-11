@@ -53,22 +53,24 @@ public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
 
         ShopListRegistry.getInstance().clearRegistry();
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation shopList = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            try {
-            	ShopList result;
+            if (!file.getPath().contains("shop/names/")) {
+                ResourceLocation shopList = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
                 try {
-                    result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), ShopList.class);
-                    result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                } catch (JsonParseException e) {
-                	//System.out.println(file+" is having issues "+shopList);
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
-                    continue;
+                    ShopList result;
+                    try {
+                        result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), ShopList.class);
+                        result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
+                    } catch (JsonParseException e) {
+                        //System.out.println(file+" is having issues "+shopList);
+                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                        continue;
+                    }
+                    ShopListRegistry.getInstance().register(result);
+
+                    IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                ShopListRegistry.getInstance().register(result);
-                
-                IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
         }

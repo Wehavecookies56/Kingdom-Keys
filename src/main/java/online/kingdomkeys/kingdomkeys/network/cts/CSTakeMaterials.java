@@ -24,19 +24,22 @@ public class CSTakeMaterials {
 	ItemStack stack;
 	int moogle = -1;
 	String inv;
+	String name;
 	
 	public CSTakeMaterials() {}
 	
-	public CSTakeMaterials(Item item, int amount, String inv, int moogle) {
+	public CSTakeMaterials(Item item, int amount, String inv, String name, int moogle) {
 		this.stack = new ItemStack(item,amount);
 		this.inv = inv;
 		this.moogle = moogle;
+		this.name = name;
 	}
 	
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeItem(stack);
 		buffer.writeInt(moogle);
 		buffer.writeUtf(inv);
+		buffer.writeUtf(name);
 	}
 
 	public static CSTakeMaterials decode(FriendlyByteBuf buffer) {
@@ -44,6 +47,7 @@ public class CSTakeMaterials {
 		msg.stack = buffer.readItem();
 		msg.moogle = buffer.readInt();
 		msg.inv = buffer.readUtf();
+		msg.name = buffer.readUtf();
 		return msg;
 	}
 
@@ -62,7 +66,7 @@ public class CSTakeMaterials {
 				}
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
-            PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.moogle), (ServerPlayer) player);
+            PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.name, message.moogle), (ServerPlayer) player);
 		});
 		ctx.get().setPacketHandled(true);
 	}

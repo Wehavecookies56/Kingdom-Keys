@@ -497,7 +497,9 @@ public class Strings {
             Gui_Synthesis_Main_Materials_TakeStack = Gui_Synthesis_Materials + ".takestack",
             Gui_Synthesis_Main_Materials_TakeAll = Gui_Synthesis_Materials + ".takeall",
             Gui_Synthesis_Main_Recipes_ReqMaterials = Gui_Synthesis_Main_Recipes + ".requiredmaterials",
-            Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create";
+            Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create",
+
+			Gui_Synthesis_Moogle_Name = "gui.synthesis.moogle.title";
 
     //Items
 

@@ -1,12 +1,17 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -24,7 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -32,21 +40,62 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO make moogle float
-public class MoogleEntity extends PathfinderMob {
+public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpawnData {
 
-	String inv = "kingdomkeys:default";
+	String inv;
+    String name;
     Player interacting;
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
+        if (Utils.randomWithRange(0, 100) >= 98) {
+            inv = "kingdomkeys:special";
+        } else {
+            inv = "kingdomkeys:default";
+        }
+        setRandomName();
+        if (name == null) {
+            name = "";
+        }
+    }
+
+    public void setRandomName() {
+        ShopList shop = ShopListRegistry.getInstance().getValue(new ResourceLocation(inv));
+        if (shop != null) {
+            List<String> names = NamesListRegistry.getInstance().getValue(shop.getNames());
+            if (names != null && !names.isEmpty()) {
+                name = names.get(Utils.randomWithRange(0, names.size()-1));
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public Component getCustomName() {
+        if (name != null && !name.isEmpty()) {
+            return Component.translatable(name);
+        }
+        return super.getCustomName();
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        if (name != null && !name.isEmpty()) {
+            return true;
+        }
+        return super.hasCustomName();
     }
 
     private boolean fakeMoogle = false;
 
     public MoogleEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_MOOGLE.get(), world);
+        this(ModEntities.TYPE_MOOGLE.get(), world);
     }
 
     @Override
@@ -79,6 +128,23 @@ public class MoogleEntity extends PathfinderMob {
         normalGoals();
     }
 
+    @Override
+    public void writeSpawnData(FriendlyByteBuf buffer) {
+        buffer.writeUtf(inv);
+        buffer.writeUtf(name);
+    }
+
+    @Override
+    public void readSpawnData(FriendlyByteBuf additionalData) {
+        inv = additionalData.readUtf();
+        name = additionalData.readUtf();
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
     public static class LookAtInteractingPlayerGoal extends LookAtPlayerGoal {
         public LookAtInteractingPlayerGoal(MoogleEntity moogle) {
             super(moogle, Player.class, 8);
@@ -107,10 +173,11 @@ public class MoogleEntity extends PathfinderMob {
 					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
 					return InteractionResult.FAIL;
 	        	} else {
-	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv, this.getId()), (ServerPlayer)player);
+	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv, name, this.getId()), (ServerPlayer)player);
                     interacting = player;
                     goalSelector.removeAllGoals(Objects::nonNull);
                     goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
+                    return InteractionResult.SUCCESS;
 	        	}
 	        }
 	        return super.interactAt(player, vec, hand);
@@ -177,13 +244,16 @@ public class MoogleEntity extends PathfinderMob {
     public void addAdditionalSaveData(CompoundTag pCompound) {
     	super.addAdditionalSaveData(pCompound);
     	pCompound.putString("inv", inv);
+        pCompound.putString("name", name);
     }
     
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
     	super.readAdditionalSaveData(pCompound);
-    	//System.out.println(pCompound.getString("inv"));
-    	inv = pCompound.getString("inv");
-
+        inv = pCompound.getString("inv");
+        name = pCompound.getString("name");
+        if (name.isEmpty()) {
+            setRandomName();
+        }
     }
 }

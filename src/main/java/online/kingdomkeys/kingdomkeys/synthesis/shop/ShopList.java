@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,7 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class ShopList implements INBTSerializable<CompoundTag>{
-    @Nullable List<ShopItem> list = new LinkedList<ShopItem>();
+	List<ShopItem> list = new LinkedList<ShopItem>();
+
+	@Nullable ResourceLocation names = null;
    
     ResourceLocation registryName;
 
@@ -18,7 +21,7 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 
     }
 
-    public ShopList(ResourceLocation rl, List<ShopItem> list) {
+    public ShopList(ResourceLocation rl, List<ShopItem> list, @Nullable List<String> names) {
     	this.registryName = rl;
 		this.list = list;
 	}
@@ -31,6 +34,14 @@ public class ShopList implements INBTSerializable<CompoundTag>{
     	this.type = type;
     }
     */
+
+	public void setNames(@Nullable ResourceLocation names) {
+		this.names = names;
+	}
+
+	public ResourceLocation getNames() {
+		return this.names;
+	}
    
 
 	public List<ShopItem> getList() {
@@ -55,6 +66,7 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			ShopItem shopItem = list.get(i);
 			nbt.put("shop_item_"+i, shopItem.serializeNBT());
 		}
+		nbt.putString("names", names.toString());
 		return nbt;
 	}
 
@@ -67,6 +79,7 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			this.list.add(shopItem);
 		}
 		this.setRegistryName(nbt.getString("regname"));
+		this.setNames(new ResourceLocation(nbt.getString("names")));
 	}
 
 	public ResourceLocation getRegistryName() {

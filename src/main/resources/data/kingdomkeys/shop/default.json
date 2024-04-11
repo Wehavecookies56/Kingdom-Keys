@@ -1,4 +1,5 @@
 [
+	{"names": "kingdomkeys:default"},
     {"item": "kingdomkeys:potion", "amount":1, "tier":1, "cost": 200},
 	{"item": "kingdomkeys:hi_potion", "amount":1, "tier":2, "cost": 400},
 	{"item": "kingdomkeys:ether", "amount":1, "tier":1, "cost": 160},

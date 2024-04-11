@@ -52,6 +52,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCOpenCODoorGui.class, SCOpenCODoorGui::encode, SCOpenCODoorGui::decode, SCOpenCODoorGui::handle);
 		HANDLER.registerMessage(packetID++, SCAeroSoundPacket.class, SCAeroSoundPacket::encode, SCAeroSoundPacket::decode, SCAeroSoundPacket::handle);
 		HANDLER.registerMessage(packetID++, SCShowMessagesPacket.class, SCShowMessagesPacket::encode, SCShowMessagesPacket::decode, SCShowMessagesPacket::handle);
+		HANDLER.registerMessage(packetID++, SCSyncMoogleNames.class, SCSyncMoogleNames::encode, SCSyncMoogleNames::decode, SCSyncMoogleNames::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

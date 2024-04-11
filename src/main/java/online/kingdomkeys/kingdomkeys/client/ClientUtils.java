@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -151,14 +152,14 @@ public class ClientUtils {
         };
     }
 
-    public static DistExecutor.SafeRunnable openSynthesisGui(String inv, int moogle) {
+    public static DistExecutor.SafeRunnable openSynthesisGui(String inv, String name, int moogle) {
         return new DistExecutor.SafeRunnable() {
             @Override
             public void run() {
             	if(inv != null && !inv.equals(""))
-            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv, moogle));
+            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv, name, moogle));
             	else
-            		Minecraft.getInstance().setScreen(new SynthesisScreen());
+            		Minecraft.getInstance().setScreen(new SynthesisScreen(name));
                 Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
             }
         };
@@ -455,6 +456,16 @@ public class ClientUtils {
                 Level world = Minecraft.getInstance().level;
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability worldData = ModCapabilities.getCastleOblivionInterior(world);
                 worldData.deserializeNBT(message.data);
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable syncMoogleNames(SCSyncMoogleNames message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                NamesListRegistry.getInstance().clearRegistry();
+                NamesListRegistry.getInstance().setRegistry(message.names);
             }
         };
     }

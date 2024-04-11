@@ -184,6 +184,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Materials_Take, "Take");
         add(Gui_Shop, "Shop");
         add(Gui_Shop_Buy_Cost, "Cost");
+        add(Gui_Synthesis_Moogle_Name, "%s's Moogle Shop");
 
         //Command Menu
         add(Gui_CommandMenu_Command, "COMMAND");

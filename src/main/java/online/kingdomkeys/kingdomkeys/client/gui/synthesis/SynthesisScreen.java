@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
 
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,15 +26,18 @@ public class SynthesisScreen extends MenuBackground {
 	
 	String invFile = ModConfigs.projectorHasShop ? "kingdomkeys:default" : "";
 	int moogle = -1;
-	
-	public SynthesisScreen() {
-		super(Strings.Gui_Synthesis,new Color(0,255,0));
+
+	String name;
+
+	public SynthesisScreen(String name) {
+		super(!name.isEmpty() ? name : Strings.Gui_Synthesis, new Color(0,255,0));
 		drawPlayerInfo = true;
 	}
 	
-	public SynthesisScreen(String inv, int moogle) {
-		this();
+	public SynthesisScreen(String inv, String name, int moogle) {
+		this(name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
 		this.moogle = moogle;
+		this.name = name;
 		if (ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)) || inv.isEmpty())
 			this.invFile = inv;
 		else {

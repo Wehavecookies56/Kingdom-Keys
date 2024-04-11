@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -24,18 +25,27 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
     	ShopList out = new ShopList();
 
         JsonArray jsonArray = json.getAsJsonArray();
-        //System.out.println(jsonArray);
+		boolean setNames = false;
+		//System.out.println(jsonArray);
         for(JsonElement e : jsonArray) {
         	ShopItem shopItem = new ShopItem();
         	JsonObject jsonObj = e.getAsJsonObject();
-            boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
-			if (valid) {
-				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObj.get("item").getAsString()));
-				shopItem.setResult(item, jsonObj.get("amount").getAsInt());
-				shopItem.setTier(jsonObj.get("tier").getAsInt());
-				shopItem.setCost(jsonObj.get("cost").getAsInt());
-				out.addToList(shopItem);
-		        KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
+			if (jsonObj.get("names") != null && !setNames) {
+				ResourceLocation namesPath = new ResourceLocation(jsonObj.get("names").getAsString());
+				if (NamesListRegistry.getInstance().containsKey(namesPath)) {
+					out.setNames(namesPath);
+				}
+				setNames = true;
+			} else {
+				boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
+				if (valid) {
+					Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObj.get("item").getAsString()));
+					shopItem.setResult(item, jsonObj.get("amount").getAsInt());
+					shopItem.setTier(jsonObj.get("tier").getAsInt());
+					shopItem.setCost(jsonObj.get("cost").getAsInt());
+					out.addToList(shopItem);
+					KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
+				}
 			}
         }
         

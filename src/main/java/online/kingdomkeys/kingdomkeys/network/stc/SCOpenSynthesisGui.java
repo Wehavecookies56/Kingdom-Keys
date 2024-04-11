@@ -12,25 +12,29 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 
 public class SCOpenSynthesisGui {
 	String inv;
+	String name;
 	int moogle = -1;
 	
 	public SCOpenSynthesisGui() {
 	}
 	
-	public SCOpenSynthesisGui(String inv, int moogle) {
+	public SCOpenSynthesisGui(String inv, String name, int moogle) {
 		this.inv = inv;
 		this.moogle = moogle;
+		this.name = name;
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeUtf(inv);
 		buffer.writeInt(moogle);
+		buffer.writeUtf(name);
 	}
 
 	public static SCOpenSynthesisGui decode(FriendlyByteBuf buffer) {
 		SCOpenSynthesisGui msg = new SCOpenSynthesisGui();
 		msg.inv = buffer.readUtf();
 		msg.moogle = buffer.readInt();
+		msg.name = buffer.readUtf();
 		return msg;
 	}
 
@@ -43,7 +47,7 @@ public class SCOpenSynthesisGui {
 	public static class ClientHandler {
 		@OnlyIn(Dist.CLIENT)
 		public static void handle(SCOpenSynthesisGui message) {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openSynthesisGui(message.inv, message.moogle));
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openSynthesisGui(message.inv, message.name, message.moogle));
 		}
 	}
 

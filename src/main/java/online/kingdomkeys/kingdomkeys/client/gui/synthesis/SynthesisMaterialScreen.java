@@ -60,8 +60,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		this.parent = parent;
 	}
 	
-	public SynthesisMaterialScreen(String inv, int moogle) {
-		this(new SynthesisScreen(inv, moogle));
+	public SynthesisMaterialScreen(String inv, String name, int moogle) {
+		this(new SynthesisScreen(inv, name, moogle));
 	}
 
 	@Override
@@ -118,11 +118,11 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			} catch (ConcurrentModificationException e) {
 				e.printStackTrace();
 			}
-			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.moogle));
+			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
 			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
-			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.moogle));
+			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle));
 			break;
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
@@ -130,7 +130,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.moogle));
+					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name, parent.moogle));
 				} catch (Exception e) {
 					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
 				}
