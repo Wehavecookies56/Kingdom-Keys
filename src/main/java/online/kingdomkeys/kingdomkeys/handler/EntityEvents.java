@@ -815,10 +815,8 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void hitEntity(LivingHurtEvent event) {
-		// System.out.println(event.getSource());
-		if (event.getSource().getEntity() instanceof Player) {
-			Player player = (Player) event.getSource().getEntity();
-
+		if (event.getSource().getEntity() instanceof Player player) {
+			
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if (weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -841,7 +839,6 @@ public class EntityEvents {
 			if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength(true));
 			}
-
 		}
 
 		LivingEntity target = event.getEntity();
@@ -850,8 +847,8 @@ public class EntityEvents {
 			target.invulnerableTime = 0;
 		}
 
-		if (target instanceof Player) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer((Player) target);
+		if (target instanceof Player player) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 				if (playerData.isAbilityEquipped(Strings.mpRage)) {
@@ -862,6 +859,32 @@ public class EntityEvents {
 				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
 					playerData.addDP((event.getAmount() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) target);
+				}
+			}
+			
+			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+			if (worldData != null && globalData != null && worldData.getPartyFromMember(player.getUUID()) != null) {
+				if (!player.level().isClientSide()) {
+					Party p = worldData.getPartyFromMember(player.getUUID());
+					if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
+						if (ModConfigs.allowPartyKO) {
+							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already //TODO death
+								event.setCanceled(true);
+								player.removeAllEffects();
+								player.setHealth(player.getMaxHealth());
+								player.invulnerableTime = 40;
+								player.getFoodData().setFoodLevel(10);
+								player.getFoodData().setExhaustion(0);
+								player.getFoodData().setSaturation(0);
+								globalData.setKO(true);
+								player.level().playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+							}
+							PacketHandler.syncToAllAround(player, globalData);
+						} else { //If config does not allow prevent KO from being applied
+							globalData.setKO(false);
+						}
+					}
 				}
 			}
 		}
@@ -1032,32 +1055,6 @@ public class EntityEvents {
 
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-			if(worldData != null && globalData != null && worldData.getPartyFromMember(player.getUUID())!= null) {
-				if(!player.level().isClientSide()) {
-					Party p = worldData.getPartyFromMember(player.getUUID());
-					if(Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
-						if(ModConfigs.allowPartyKO) {
-							if(!globalData.isKO()) { //We only set KO if we die while not KO already //TODO death
-								event.setCanceled(true);
-								if(player.level().isClientSide()) {
-									PacketHandler.sendToServer(new CSSummonKeyblade(true)); // desummon
-								}
-								player.removeAllEffects();
-								player.setHealth(player.getMaxHealth());
-								player.invulnerableTime = 40;
-								player.getFoodData().setFoodLevel(10);
-								player.getFoodData().setExhaustion(0);
-								player.getFoodData().setSaturation(0);
-								globalData.setKO(true);
-							} else {
-								globalData.setKO(false);
-							}
-							PacketHandler.syncToAllAround(player, globalData);
-						}
-					}
-				}				
-			}
 			
 			if (player.level().getLevelData().isHardcore())
 				player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
