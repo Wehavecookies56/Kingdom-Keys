@@ -163,6 +163,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.wishingStar, Strings.wishingStarChain, 5, 1, "", 5.0F, "Has a short reach, but always finishes up a combo attack with a powerful critical blow.");
 		addStats(Strings.youngXehanortsKeyblade, Strings.youngXehanortsKeybladeChain, 9, 7, "", 5.0F, "The Keyblade weilded by Young Xehanort.");
 		addStats(Strings.zeroOne, Strings.zeroOneChain, 6, 4, "", 5.0F, "A Keyblade newly wrought within the datascape. Its powers render all opponents helpless.");
+		addStats(Strings.k111, Strings.k111c, 10, 8, "", 5, "A keyblade from a long forgotten age, it seems to resemble something familiar...");
 	}
 
 	static Recipe[] recipes = {

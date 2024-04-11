@@ -789,7 +789,9 @@ public class Strings {
         woodenKeyblade = "wooden_keyblade",
         woodenStick = "wooden_stick",
         youngXehanortsKeyblade = "young_xehanorts_keyblade",
-        zeroOne = "zero_one";
+        zeroOne = "zero_one",
+		k111 = "k111"
+	;
 
     //Keychains
     public static final String
@@ -930,7 +932,9 @@ public class Strings {
         wishingLampChain = "wishing_lamp_chain",
         wishingStarChain = "wishing_star_chain",
         youngXehanortsKeybladeChain = "young_xehanorts_keyblade_chain",
-        zeroOneChain = "zero_one_chain";
+        zeroOneChain = "zero_one_chain",
+		k111c = "k111c"
+	;
 
     //Misc
     public static final String

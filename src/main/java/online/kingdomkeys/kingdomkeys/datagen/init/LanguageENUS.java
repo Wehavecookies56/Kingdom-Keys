@@ -680,6 +680,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.dreamSword, "Dream Sword");
         addItem(ModItems.dreamStaff, "Dream Staff");
         addItem(ModItems.dreamShield, "Dream Shield");
+        addItem(ModItems.k111, "K111");
 
         //Keychains
         addItem(ModItems.abaddonPlasmaChain, "Abaddon Plasma Chain");
@@ -820,6 +821,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.wishingStarChain, "Wishing Star Chain");
         addItem(ModItems.youngXehanortsKeybladeChain, "Young Xehanort's Keyblade Chain");
         addItem(ModItems.zeroOneChain, "Zero/One Chain");
+        addItem(ModItems.k111c, "K111c");
 
         //Organization Weapons
         addItem(ModItems.malice, "Malice");

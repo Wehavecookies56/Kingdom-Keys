@@ -172,6 +172,8 @@ public class ModItems {
 			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
 			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
 			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+
+			k111 = createKeybladeItem(Strings.k111),
 			
 			abaddonPlasmaChain = createNewItem(Strings.abaddonPlasmaChain, KeychainItem::new),
 			abyssalTideChain = createNewItem(Strings.abyssalTideChain, KeychainItem::new),
@@ -311,6 +313,8 @@ public class ModItems {
 			wishingStarChain = createNewItem(Strings.wishingStarChain, KeychainItem::new),
 			youngXehanortsKeybladeChain = createNewItem(Strings.youngXehanortsKeybladeChain, KeychainItem::new),
 			zeroOneChain = createNewItem(Strings.zeroOneChain, KeychainItem::new),
+
+			k111c = createNewItem(Strings.k111c, KeychainItem::new),
 			
 			malice = createNewItem(Strings.malice, EtherealBladeItem::new),
 			sanction = createNewItem(Strings.sanction, EtherealBladeItem::new),
