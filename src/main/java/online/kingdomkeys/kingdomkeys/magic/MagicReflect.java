@@ -17,12 +17,16 @@ public class MagicReflect extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setReflectTicks((int) (40 + (level * 5)), level);
-		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swing(InteractionHand.MAIN_HAND);
+	}
+	
+	@Override
+	protected void playMagicCastSound(Player player, Player caster, int level) {
+		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 
 }

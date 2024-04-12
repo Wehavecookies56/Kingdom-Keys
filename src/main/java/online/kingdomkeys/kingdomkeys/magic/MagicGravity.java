@@ -18,13 +18,12 @@ public class MagicGravity extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
 
 		switch (level) {
 			case 0 -> {
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
 				ThrowableProjectile gravity = new GravityEntity(player.level(), player, dmg * 1F);
 				player.level().addFreshEntity(gravity);
 				gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
@@ -33,7 +32,6 @@ public class MagicGravity extends Magic {
 				}
 			}
 			case 1 -> {
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.gravira.get(), SoundSource.PLAYERS, 1F, 1F);
 				ThrowableProjectile gravira = new GraviraEntity(player.level(), player, dmg * 1.1F);
 				player.level().addFreshEntity(gravira);
 				gravira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.3F, 0);
@@ -43,7 +41,6 @@ public class MagicGravity extends Magic {
 
 			}
 			case 2 -> {
-				player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.graviga.get(), SoundSource.PLAYERS, 1F, 1F);
 				ThrowableProjectile graviga = new GravigaEntity(player.level(), player, dmg * 1.2F);
 				player.level().addFreshEntity(graviga);
 				graviga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.6F, 0);
@@ -54,6 +51,16 @@ public class MagicGravity extends Magic {
 			}
 		}
 		player.swing(InteractionHand.MAIN_HAND);
+	}
+	
+	@Override
+	protected void playMagicCastSound(Player player, Player caster, int level) {
+		switch (level) {
+			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.gravira.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.graviga.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 3 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.graviga.get(), SoundSource.PLAYERS, 1F, 1F);
+		}
 	}
 
 }

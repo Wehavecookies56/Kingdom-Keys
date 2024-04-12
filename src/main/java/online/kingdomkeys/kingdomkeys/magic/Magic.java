@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,9 +12,11 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class Magic {
 
@@ -32,6 +36,11 @@ public abstract class Magic {
         translationKey = "magic." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
     }
 
+    public int getCasttimeTicks(int level) {
+    	System.out.println(data.getCasttime(level));
+    	return data.getCasttime(level);
+    }
+    
     public String getTranslationKey() {
         return getTranslationKey(0);
     }
@@ -74,7 +83,7 @@ public abstract class Magic {
     	this.data = data;
     }
    
-    protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+    public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 
     }
     
@@ -121,11 +130,19 @@ public abstract class Magic {
 		if(!casterData.isAbilityEquipped(Strings.magicLockOn)) {
 			lockOnEntity = null;
 		}
-    	magicUse(player, caster, level, fullMPBlastMult, lockOnEntity);
-    	caster.swing(InteractionHand.MAIN_HAND, true);
+		
+		playMagicCastSound(player,caster,level);
+		Utils.castMagic cast = new Utils.castMagic(player, caster, level, fullMPBlastMult, lockOnEntity, this);
+		casterData.setCastedMagic(cast);
+		
+		//magicUse(player, caster, level, fullMPBlastMult, lockOnEntity);
+    	//caster.swing(InteractionHand.MAIN_HAND, true);
+
 		//MinecraftForge.EVENT_BUS.post(new UpdatePlayerMotionEvent.BaseLayer((LocalPlayerPatch) player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null), KKLivingMotionsEnum.SPELL));
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);
     }
+
+	protected abstract void playMagicCastSound(Player player, Player caster, int level);
 
 	private boolean getRCProb(IPlayerCapabilities casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;

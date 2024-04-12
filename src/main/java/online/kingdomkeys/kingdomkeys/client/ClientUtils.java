@@ -248,6 +248,7 @@ public class ClientUtils {
                 playerData.equipWeapon(message.equippedWeapon);
                 playerData.setWeaponsUnlocked(message.unlocks);
                 playerData.setLimitCooldownTicks(message.limitCooldownTicks);
+                playerData.setMagicCasttimeTicks(message.magicCasttimeTicks);
                 playerData.setMagicCooldownTicks(message.magicCooldownTicks);
 
                 playerData.setReactionCommands(message.reactionList);

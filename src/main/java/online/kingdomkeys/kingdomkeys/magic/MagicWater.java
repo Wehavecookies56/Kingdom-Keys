@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
@@ -19,7 +20,7 @@ public class MagicWater extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmgMult = getDamageMult(level) + ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
@@ -28,31 +29,32 @@ public class MagicWater extends Magic {
 			WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
 			water.setCaster(player.getDisplayName().getString());
 			player.level().addFreshEntity(water);
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 1:
 			WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
 			watera.setCaster(player.getDisplayName().getString());
 			player.level().addFreshEntity(watera);
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 2:
 			WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
 			waterga.setCaster(player.getDisplayName().getString());
 			player.level().addFreshEntity(waterga);
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		case 3:
 			WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
 			waterza.setCaster(player.getDisplayName().getString());
 			player.level().addFreshEntity(waterza);
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 			break;
 		}
 		
 		if(player.isOnFire()) {
 			player.clearFire();
 		}
+	}
+	
+	@Override
+	protected void playMagicCastSound(Player player, Player caster, int level) {
+		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 	}
 
 }

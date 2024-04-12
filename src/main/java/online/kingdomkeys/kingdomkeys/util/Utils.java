@@ -58,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -69,65 +70,67 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
  * Created by Toby on 19/07/2016.
  */
 public class Utils {
-	
-	 public static class Title {
-	        public String title, subtitle;
-	        public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
-	        public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
-	            this.title = title;
-	            this.subtitle = subtitle;
-	            this.fadeIn = fadeIn;
-	            this.fadeOut = fadeOut;
-	            this.displayTime = displayTime;
-	        }
+	public static class Title {
+		public String title, subtitle;
+		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
-	        public Title(String title, String subtitle) {
-	            this.title = title;
-	            this.subtitle = subtitle;
-	        }
+		public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
+			this.title = title;
+			this.subtitle = subtitle;
+			this.fadeIn = fadeIn;
+			this.fadeOut = fadeOut;
+			this.displayTime = displayTime;
+		}
 
-			public Title(CompoundTag compound) {
-				read(compound);
+		public Title(String title, String subtitle) {
+			this.title = title;
+			this.subtitle = subtitle;
+		}
+
+		public Title(CompoundTag compound) {
+			read(compound);
+		}
+
+		public CompoundTag write() {
+			CompoundTag compound = new CompoundTag();
+			compound.putString("title", title);
+			compound.putString("subtitle", subtitle);
+			compound.putInt("fadein", fadeIn);
+			compound.putInt("fadeout", fadeOut);
+			compound.putInt("displaytime", displayTime);
+			return compound;
+		}
+
+		public void read(CompoundTag tag) {
+			this.title = tag.getString("title");
+			this.subtitle = tag.getString("subtitle");
+			this.fadeIn = tag.getInt("fadein");
+			this.fadeOut = tag.getInt("fadeout");
+			this.displayTime = tag.getInt("displaytime");
+		}
+
+		public static CompoundTag writeList(List<Title> titles) {
+			CompoundTag compound = new CompoundTag();
+			for (int i = 0; i < titles.size(); i++) {
+				Title t = titles.get(i);
+				compound.put("m" + i, t.write());
 			}
-	        
-	        public CompoundTag write() {
-	        	CompoundTag compound = new CompoundTag();
-	        	compound.putString("title", title);
-	        	compound.putString("subtitle", subtitle);
-	        	compound.putInt("fadein", fadeIn);
-	        	compound.putInt("fadeout", fadeOut);
-	        	compound.putInt("displaytime", displayTime);
-	        	return compound;
-	        }
-	        
-	        public void read(CompoundTag tag) {
-	        	this.title = tag.getString("title");
-	        	this.subtitle = tag.getString("subtitle");
-	        	this.fadeIn = tag.getInt("fadein");
-	        	this.fadeOut = tag.getInt("fadeout");
-	        	this.displayTime = tag.getInt("displaytime");
-	        }
-	        
-	        public static CompoundTag writeList(List<Title> titles) {
-	        	CompoundTag compound = new CompoundTag();
-	        	for(int i = 0; i< titles.size();i++) {
-	        		Title t = titles.get(i);
-	        		compound.put("m"+i, t.write());
-	        	}
-	        	compound.putInt("size", titles.size());
-	        	return compound;
-	        }
-	        
-	        public static List<Title> readList(CompoundTag compound) {
-	        	int size = compound.getInt("size");
-	        	List<Title> titles = new ArrayList<Title>();
-	        	for(int i = 0; i< size; i++) {
-	        		titles.add(new Title(compound.getCompound("m"+i)));
-	        	}
-	        	return titles;
-	        }
-	    }
+			compound.putInt("size", titles.size());
+			return compound;
+		}
+
+		public static List<Title> readList(CompoundTag compound) {
+			int size = compound.getInt("size");
+			List<Title> titles = new ArrayList<Title>();
+			for (int i = 0; i < size; i++) {
+				titles.add(new Title(compound.getCompound("m" + i)));
+			}
+			return titles;
+		}
+	}
+	
+	public record castMagic(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return ForgeRegistries.ITEMS.getKey(item);
@@ -149,7 +152,7 @@ public class Utils {
 		}
 		return -1;
 	}
-	
+
 	public static boolean isNumber(char c) {
 		try {
 			Integer.parseInt(String.valueOf(c));
@@ -168,7 +171,7 @@ public class Utils {
 			return 0;
 		}
 	}
-	
+
 	public static double getDouble(String num) {
 		double number;
 		try {
@@ -178,19 +181,18 @@ public class Utils {
 			return 0;
 		}
 	}
-	
+
 	public static int clamp(int value, int min, int max) {
 		return Math.min(Math.max(value, min), max);
 	}
-	
+
 	public static float clamp(float value, float min, float max) {
 		return Math.min(Math.max(value, min), max);
 	}
-	
+
 	public static double clamp(double value, double min, double max) {
 		return Math.min(Math.max(value, min), max);
 	}
-	
 
 	/**
 	 * Method for generating random integer between the 2 parameters, The order of
@@ -232,8 +234,7 @@ public class Utils {
 	}
 
 	/**
-	 * Replacement for
-	 * the old i8n format method
+	 * Replacement for the old i8n format method
 	 * 
 	 * @param name   the unlocalized string to translate
 	 * @param format the format of the string
@@ -324,7 +325,7 @@ public class Utils {
 		Iterator<String> it = driveFormsMap.keySet().iterator();
 		while (it.hasNext()) {
 			String entry = it.next();
-			if(visibleForms.contains(entry)) { //Should only add the form if it is visible
+			if (visibleForms.contains(entry)) { // Should only add the form if it is visible
 				list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
 			}
 		}
@@ -338,21 +339,19 @@ public class Utils {
 
 		return map;
 	}
-	
+
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		List<Limit> limits = new ArrayList<Limit>(ModLimits.registry.get().getValues());
-		//TODO change when we have more member limits
-       /* for(Limit val : ModLimits.registry.getValues()) {
-        	System.out.println(val.getName());
-        	if(val.getOwner() == playerData.getAlignment()) {
-        		limits.add(val);
-        		break;
-        	}
-        }*/
-        return limits;
+		// TODO change when we have more member limits
+		/*
+		 * for(Limit val : ModLimits.registry.getValues()) {
+		 * System.out.println(val.getName()); if(val.getOwner() ==
+		 * playerData.getAlignment()) { limits.add(val); break; } }
+		 */
+		return limits;
 	}
-	
+
 	public static List<Limit> getSortedLimits(List<Limit> list) {
 		List<Limit> newList = new ArrayList<>(list);
 		newList.sort(Comparator.comparingInt(Limit::getOrder));
@@ -364,7 +363,7 @@ public class Utils {
 		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
 		return newList;
 	}
-	
+
 	public static Player getPlayerByName(Level world, String name) {
 		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
 		for (Player p : players) {
@@ -377,16 +376,16 @@ public class Utils {
 
 	public static Player getClosestPlayer(Entity e, Level world) {
 		Player nearest = null;
-		if(e.getServer() == null) {
+		if (e.getServer() == null) {
 			return null;
 		}
 		List<? extends Player> players = world == null ? getAllPlayers(e.getServer()) : world.players();
-		for(Player p : players){
-			if(nearest == null) {
+		for (Player p : players) {
+			if (nearest == null) {
 				nearest = p;
 			}
 
-			if(p.distanceTo(e) < nearest.distanceTo(e)) {
+			if (p.distanceTo(e) < nearest.distanceTo(e)) {
 				nearest = p;
 			}
 		}
@@ -420,12 +419,12 @@ public class Utils {
 
 		return elList;
 	}
-	
-	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list){
+
+	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list) {
 		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for(Member m : casterParty.getMembers()) {
+		if (casterParty != null && !casterParty.getFriendlyFire()) {
+			for (Member m : casterParty.getMembers()) {
 				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		} else {
@@ -433,9 +432,10 @@ public class Utils {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Used to check if there's anyone else online in the party for KO effect
+	 * 
 	 * @param player
 	 * @param p
 	 * @param level
@@ -443,9 +443,9 @@ public class Utils {
 	 */
 	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
 		boolean membersOn = false;
-		for(Member member : p.getMembers()) {
-			if(Utils.getPlayerByName(level, member.getUsername()) != null){
-				if(Utils.getPlayerByName(level, member.getUsername()) != player) {
+		for (Member member : p.getMembers()) {
+			if (Utils.getPlayerByName(level, member.getUsername()) != null) {
+				if (Utils.getPlayerByName(level, member.getUsername()) != player) {
 					membersOn = true;
 				}
 			}
@@ -474,18 +474,19 @@ public class Utils {
 
 		return elList;
 	}
-	
+
 	/**
 	 * Gets entities in radius from the entity param
-	 * @param player to ignore from the list
-	 * @param entity where to check with radius
+	 * 
+	 * @param player  to ignore from the list
+	 * @param entity  where to check with radius
 	 * @param radiusX
 	 * @param radiusY
 	 * @param radiusZ
 	 * @return
 	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
-		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX,radiusY,radiusZ), Entity::isAlive);
+		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
 		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
@@ -495,9 +496,9 @@ public class Utils {
 		} else {
 			list.remove(player);
 		}
-		
+
 		list.remove(entity);
-		
+
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
 			if (e instanceof LivingEntity) {
@@ -527,7 +528,7 @@ public class Utils {
 		}
 		return null;
 	}
-	
+
 	public static boolean hasArmorID(ItemStack stack) {
 		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
 			if (stack.getTag() != null) {
@@ -576,7 +577,8 @@ public class Utils {
 		inv.setItem(stack1, tempStack);
 	}
 
-	// Returns the category for the stack from the IItemCategory interface, the registry, else it returns MISC
+	// Returns the category for the stack from the IItemCategory interface, the
+	// registry, else it returns MISC
 	public static ItemCategory getCategoryForStack(ItemStack stack) {
 		ItemCategory category = ItemCategory.MISC;
 		if (stack.getItem() instanceof IItemCategory) {
@@ -594,20 +596,20 @@ public class Utils {
 			return ItemCategory.MISC;
 		}
 	}
-	
+
 	public static ItemCategory getCategoryForShop(ResourceLocation stackRL) {
 		return getCategoryForStack(new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)));
 	}
-	
+
 	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {
 		int res = 0;
 		int c = 1;
-		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
-			if(c > playerData.getMaxAccessories())
+		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if (c > playerData.getMaxAccessories())
 				break;
-			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
-				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
-				switch(type) {
+			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
+				KKAccessoryItem accessory = (KKAccessoryItem) entry.getValue().getItem();
+				switch (type) {
 				case "ap":
 					res += accessory.getAp();
 					break;
@@ -622,15 +624,15 @@ public class Utils {
 		}
 		return res;
 	}
-	
+
 	public static List<String> getAccessoriesAbilities(IPlayerCapabilities playerData) {
 		List<String> res = new ArrayList<String>();
 		int c = 1;
-		for(Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
-			if(c > playerData.getMaxAccessories())
+		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
+			if (c > playerData.getMaxAccessories())
 				break;
-			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
-				KKAccessoryItem accessory = (KKAccessoryItem)entry.getValue().getItem();
+			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
+				KKAccessoryItem accessory = (KKAccessoryItem) entry.getValue().getItem();
 				res.addAll(accessory.getAbilities());
 			}
 			c++;
@@ -640,30 +642,30 @@ public class Utils {
 
 	public static int getArmorsStat(Map<Integer, ItemStack> equipped, String type) {
 		int res = 0;
-		for(Entry<Integer, ItemStack> entry : equipped.entrySet()) {
-			if(!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
+		for (Entry<Integer, ItemStack> entry : equipped.entrySet()) {
+			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
-				switch(type) {
-					case "def":
-						res += kkArmorItem.getDefense();
-						break;
-					case "darkness":
-						if(kkArmorItem.CheckKey(KKResistanceType.darkness))
-							res+= kkArmorItem.GetResValue(KKResistanceType.darkness,res == 0 ? 100 : 100-res);
-						break;
-					case "ice":
-						if(kkArmorItem.CheckKey(KKResistanceType.ice))
-							res+= kkArmorItem.GetResValue(KKResistanceType.ice,res == 0 ? 100 : 100-res);
-						break;
+				switch (type) {
+				case "def":
+					res += kkArmorItem.getDefense();
+					break;
+				case "darkness":
+					if (kkArmorItem.CheckKey(KKResistanceType.darkness))
+						res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
+					break;
+				case "ice":
+					if (kkArmorItem.CheckKey(KKResistanceType.ice))
+						res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
+					break;
 
-					case "lightning":
-						if(kkArmorItem.CheckKey(KKResistanceType.lightning))
-							res+= kkArmorItem.GetResValue(KKResistanceType.lightning,res == 0 ? 100 : 100-res);
-						break;
-					case "fire":
-						if(kkArmorItem.CheckKey(KKResistanceType.fire))
-							res+= kkArmorItem.GetResValue(KKResistanceType.fire,res == 0 ? 100 : 100-res);
-						break;
+				case "lightning":
+					if (kkArmorItem.CheckKey(KKResistanceType.lightning))
+						res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
+					break;
+				case "fire":
+					if (kkArmorItem.CheckKey(KKResistanceType.fire))
+						res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);
+					break;
 				}
 			}
 		}
@@ -673,6 +675,7 @@ public class Utils {
 	public static int getArmorsStat(IPlayerCapabilities playerData, String type) {
 		return getArmorsStat(playerData.getEquippedArmors(), type);
 	}
+
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
@@ -693,24 +696,23 @@ public class Utils {
 		return val;
 	}
 
-	public static void RefreshAbilityAttributes(Player player, IPlayerCapabilities playerData){
+	public static void RefreshAbilityAttributes(Player player, IPlayerCapabilities playerData) {
 		if (player.level().isClientSide)
 			return;
 
 		Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
 
-		//Luck - affects things like chest loot, separate from looting or fortune.
+		// Luck - affects things like chest loot, separate from looting or fortune.
 		AttributeModifier attributemodifier = new AttributeModifier(UUID.fromString("7faaa8a8-fee1-422c-8f85-6794042e8f09"), Strings.luckyLucky, playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADDITION);
 		map.put(Attributes.LUCK, attributemodifier);
-
 
 		player.getAttributes().addTransientAttributeModifiers(map);
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
-		if(!ModConfigs.orgEnabled)
+		if (!ModConfigs.orgEnabled)
 			return false;
-		
+
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);
@@ -740,50 +742,52 @@ public class Utils {
 
 		// Run a loop till string string contains underscore
 		while (str.contains("_")) {
-			// Replace the first occurrence of letter that present after the underscore, to capitalize form of next letter of underscore
+			// Replace the first occurrence of letter that present after the underscore, to
+			// capitalize form of next letter of underscore
 			str = str.replaceFirst("_[a-z]", String.valueOf(Character.toUpperCase(str.charAt(str.indexOf("_") + 1))));
 		}
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		// Return string
 		return str;
 	}
-	
-	 /**
-     * From {@link //LookController#getTargetPitch()}
-     * @param target
-     * @param entity
-     * @return
-     */
-	public static float getTargetPitch(Entity entity, Entity target) {
-        double xDiff = target.getX() - entity.getX();
-        double yDiff = target.getY() - entity.getY();
-        double zDiff = target.getZ() - entity.getZ();
-        double distance = Mth.sqrt((float) (xDiff * xDiff + zDiff * zDiff));
-        return (float) (-(Mth.atan2(yDiff, distance) * (double)(180F / (float)Math.PI)));
-    }
 
-    /**
-     * From {@link //LookController#getTargetYaw()}
+	/**
+	 * From {@link //LookController#getTargetPitch()}
+	 * 
 	 * @param target
 	 * @param entity
-     * @return
-     */
+	 * @return
+	 */
+	public static float getTargetPitch(Entity entity, Entity target) {
+		double xDiff = target.getX() - entity.getX();
+		double yDiff = target.getY() - entity.getY();
+		double zDiff = target.getZ() - entity.getZ();
+		double distance = Mth.sqrt((float) (xDiff * xDiff + zDiff * zDiff));
+		return (float) (-(Mth.atan2(yDiff, distance) * (double) (180F / (float) Math.PI)));
+	}
+
+	/**
+	 * From {@link //LookController#getTargetYaw()}
+	 * 
+	 * @param target
+	 * @param entity
+	 * @return
+	 */
 	public static float getTargetYaw(Entity entity, Entity target) {
-        double d0 = target.getX() - entity.getX();
-        double d1 = target.getZ() - entity.getZ();
-        return (float)-(Mth.atan2(d1, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
-    }
-	
+		double d0 = target.getX() - entity.getX();
+		double d1 = target.getZ() - entity.getZ();
+		return (float) -(Mth.atan2(d1, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+	}
+
 	public static Shotlock getPlayerShotlock(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		return ModShotlocks.registry.get().getValue(new ResourceLocation(playerData.getEquippedShotlock()));
 	}
 
 	public static boolean isPlayerLowHP(Player player) {
-		return player.getHealth() < player.getMaxHealth() / 4;	
+		return player.getHealth() < player.getMaxHealth() / 4;
 	}
 
-	
 	public static void syncWorldData(Level world, IWorldCapabilities worldData) {
 		world.getServer().getAllLevels().forEach(sw -> {
 			ModCapabilities.getWorld(sw).read(worldData.write(new CompoundTag()));
@@ -791,54 +795,56 @@ public class Utils {
 		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 	}
 
-	//Gets items excluding AIR
+	// Gets items excluding AIR
 	public static Map<Integer, ItemStack> getEquippedItems(Map<Integer, ItemStack> equippedItems) {
 		Map<Integer, ItemStack> finalMap = new HashMap<Integer, ItemStack>(equippedItems);
-		for(Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
 			ItemStack stack = entry.getValue();
-			if(ItemStack.matches(stack, ItemStack.EMPTY)){
+			if (ItemStack.matches(stack, ItemStack.EMPTY)) {
 				finalMap.remove(entry.getKey());
 			}
 		}
-		
+
 		return finalMap;
 	}
 
-	/*public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		
-		List<String> reactionCommands = playerData.getReactionCommands();
-		//Get if u already have an auto reaction command
-		
-		boolean hasAlready = false;
-		for(int i=0;i<reactionCommands.size();i++) {
-			ReactionCommand command = ModReactionCommands.registry.getValue(new ResourceLocation(reactionCommands.get(i)));
-			if(command instanceof ReactionAutoForm) {
-				hasAlready = true;
-				break;
-			}
-		}
-		
-		if(!hasAlready) {
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoFinalRC, player);
-			
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoMasterRC, player);
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoLimitRC, player);
-			
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoWisdomRC, player);
-			playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC, player);
-
-		}
-
-		return playerData;
-	}*/
+	/*
+	 * public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
+	 * IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+	 * 
+	 * List<String> reactionCommands = playerData.getReactionCommands(); //Get if u
+	 * already have an auto reaction command
+	 * 
+	 * boolean hasAlready = false; for(int i=0;i<reactionCommands.size();i++) {
+	 * ReactionCommand command = ModReactionCommands.registry.getValue(new
+	 * ResourceLocation(reactionCommands.get(i))); if(command instanceof
+	 * ReactionAutoForm) { hasAlready = true; break; } }
+	 * 
+	 * if(!hasAlready) {
+	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoFinalRC,
+	 * player);
+	 * 
+	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoMasterRC,
+	 * player);
+	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoLimitRC,
+	 * player);
+	 * 
+	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoWisdomRC,
+	 * player);
+	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC,
+	 * player);
+	 * 
+	 * }
+	 * 
+	 * return playerData; }
+	 */
 
 	public static boolean isEntityInParty(Party party, Entity e) {
-		if(party == null)
+		if (party == null)
 			return false;
 		List<Member> list = party.getMembers();
-		for(Member m : list) {
-			if(m.getUUID().equals(e.getUUID())) {
+		for (Member m : list) {
+			if (m.getUUID().equals(e.getUUID())) {
 				return true;
 			}
 		}
@@ -847,9 +853,9 @@ public class Utils {
 
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {
 		List<Entity> list2 = new ArrayList<Entity>();
-		for(Entity e : list) {
-			if(e instanceof Monster || e instanceof Player) {
-				list2.add((LivingEntity)e);
+		for (Entity e : list) {
+			if (e instanceof Monster || e instanceof Player) {
+				list2.add((LivingEntity) e);
 			}
 		}
 		return list2;
@@ -862,94 +868,96 @@ public class Utils {
 	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
 		ArrayList<String> abilities = new ArrayList<String>();
 		KeybladeItem keyblade = null;
-		if(item instanceof IKeychain) {
+		if (item instanceof IKeychain) {
 			keyblade = ((IKeychain) item).toSummon();
-		} else if(item instanceof KeybladeItem) {
+		} else if (item instanceof KeybladeItem) {
 			keyblade = ((KeybladeItem) item);
 		}
-		
-		if(keyblade != null) {
+
+		if (keyblade != null) {
 			for (int i = 0; i <= level; i++) {
 				String a = keyblade.data.getLevelAbility(i);
-				if(a != null) {
+				if (a != null) {
 					abilities.add(a);
 				}
 			}
 		}
 		return abilities;
 	}
-	
+
 	public static List<String> getOrgWeaponAbilities(Item item) {
 		ArrayList<String> abilities = new ArrayList<String>();
 		KeybladeItem keyblade = null;
-		if(item instanceof IOrgWeapon org) {
+		if (item instanceof IOrgWeapon org) {
 			String[] a = org.getOrganizationData().getAbilities();
-			if(a != null) {
+			if (a != null) {
 				abilities.addAll(Arrays.asList(a));
 			}
-			
+
 		}
 		return abilities;
 	}
 
 	/**
-	 * Set to level 1 
+	 * Set to level 1
+	 * 
 	 * @param playerData
 	 * @param player
 	 */
-	public static void restartLevel(IPlayerCapabilities playerData, Player player) { //sets player level to base
+	public static void restartLevel(IPlayerCapabilities playerData, Player player) { // sets player level to base
 		playerData.setLevel(1);
 		playerData.setExperience(0);
 		playerData.setMaxHP(20);
-        player.setHealth(playerData.getMaxHP());
+		player.setHealth(playerData.getMaxHP());
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
-        playerData.setMaxMP(0);
-        playerData.setMP(playerData.getMaxMP());
-        
-        playerData.setStrength(1);
-        playerData.setMagic(1);
-        playerData.setDefense(1);
-        playerData.setMaxAP(0);
-        playerData.setMaxAccessories(0);
-        playerData.setMaxArmors(0);
+		playerData.setMaxMP(0);
+		playerData.setMP(playerData.getMaxMP());
 
-        playerData.clearAbilities();
+		playerData.setStrength(1);
+		playerData.setMagic(1);
+		playerData.setDefense(1);
+		playerData.setMaxAP(0);
+		playerData.setMaxAccessories(0);
+		playerData.setMaxArmors(0);
+
+		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
 
 		playerData.setEquippedShotlock("");
 		playerData.getShotlockList().clear();
-		
-       // playerData.addAbility(Strings.zeroExp, false);
+
+		// playerData.addAbility(Strings.zeroExp, false);
 	}
-	
+
 	/**
 	 * Recalculate drive form levels
+	 * 
 	 * @param playerData
 	 * @param player
 	 */
-	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { //calculates drive forms
+	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { // calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Entry<String, int[]> entry = it.next();
 			int dfLevel = entry.getValue()[0];
 			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry.getKey()));
-			if(!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
-				for(int i=1;i<=dfLevel;i++) {
+			if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+				for (int i = 1; i <= dfLevel; i++) {
 					String baseAbility = form.getBaseAbilityForLevel(i);
-			     	if(baseAbility != null && !baseAbility.equals("")) {
-			     		playerData.addAbility(baseAbility, false);
-			     	}
+					if (baseAbility != null && !baseAbility.equals("")) {
+						playerData.addAbility(baseAbility, false);
+					}
 				}
 			}
 		}
-		
+
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
 	}
 
 	public static String getTierFromInt(int tier) {
-		return switch(tier) {
+		return switch (tier) {
 		case 1 -> "D";
 		case 2 -> "C";
 		case 3 -> "B";
@@ -957,7 +965,7 @@ public class Utils {
 		case 5 -> "S";
 		case 6 -> "SS";
 		case 7 -> "SSS";
-		default -> "Unknown: "+tier;
+		default -> "Unknown: " + tier;
 		};
 	}
 
@@ -972,16 +980,16 @@ public class Utils {
 	}
 
 	public static int stacksForItemAmount(ItemStack item, int amount) {
-		return (int) Math.round(Math.ceil((double)amount / (double)item.getMaxStackSize()));
+		return (int) Math.round(Math.ceil((double) amount / (double) item.getMaxStackSize()));
 	}
 
 	public static int getLootingLevel(Player player) {
 		int lvl = 0;
-		if(!ItemStack.isSameItem(player.getMainHandItem(),ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()){
-            lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
+		if (!ItemStack.isSameItem(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()) {
+			lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
 		}
-		if(!ItemStack.isSameItem(player.getOffhandItem(),ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()){
-            lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
+		if (!ItemStack.isSameItem(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()) {
+			lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
 		}
 		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 		return lvl;
@@ -989,25 +997,25 @@ public class Utils {
 
 	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
 		int minCost = 1000;
-		if(playerData.getDriveFormMap().size() > 2) {
-			for(String e : playerData.getVisibleDriveForms()) {
-            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
-            	minCost = Math.min(minCost, form.getDriveCost());	
+		if (playerData.getDriveFormMap().size() > 2) {
+			for (String e : playerData.getVisibleDriveForms()) {
+				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
+				minCost = Math.min(minCost, form.getDriveCost());
 			}
 		}
 		return minCost;
 	}
-	
+
 	public static double getMinimumDPForLimit(Player player) {
 		int minCost = 1000;
-		if(Utils.getPlayerLimitAttacks(player).size() > 0) {
-			for(Limit limit : Utils.getPlayerLimitAttacks(player)) {
-            	minCost = Math.min(minCost, limit.getCost());
+		if (Utils.getPlayerLimitAttacks(player).size() > 0) {
+			for (Limit limit : Utils.getPlayerLimitAttacks(player)) {
+				minCost = Math.min(minCost, limit.getCost());
 			}
 		}
 		return minCost;
 	}
-	
+
 	public static List<String> appendEnchantmentNames(String text, CompoundTag pStoredEnchantments) {
 		List<String> arrayList = new ArrayList<String>();
 		if (pStoredEnchantments != null) {
@@ -1015,7 +1023,7 @@ public class Utils {
 			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
 				CompoundTag compoundtag = pStoredEnchantments.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND).getCompound(i);
 				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
-					arrayList.add(Component.literal(ChatFormatting.GRAY+"- "+p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
+					arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
 				});
 			}
 		}
@@ -1029,53 +1037,52 @@ public class Utils {
 		colors[2] = (color & 0xff);
 		return colors;
 	}
-	
-	public static int getDecFromRGB(int r, int g, int b){
+
+	public static int getDecFromRGB(int r, int g, int b) {
 		return (256 * 256 * r + 256 * g + b);
 	}
 
 	public static boolean shouldRenderOverlay(Player player) {
-		if(ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
+		if (ModConfigs.showGuiToggle == ModConfigs.ShowType.HIDE) {
 			return false;
-		} else if(ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
+		} else if (ModConfigs.showGuiToggle == ModConfigs.ShowType.WEAPON) {
 			if (!(player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getOffhandItem().getItem() instanceof IOrgWeapon)) {
 				return false;
 			}
 		}
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-		if(globalData != null && globalData.isKO())
+		if (globalData != null && globalData.isKO())
 			return false;
-		
-		
+
 		return true;
 	}
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
-		return new BlockPos(getInt(temp[0]),getInt(temp[1]),getInt(temp[2]));
+		return new BlockPos(getInt(temp[0]), getInt(temp[1]), getInt(temp[2]));
 	}
-	
+
 	public static void reviveFromKO(LivingEntity entity) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(entity);
 		globalData.setKO(false);
-		if(entity instanceof Player player)
+		if (entity instanceof Player player)
 			PacketHandler.syncToAllAround(player, globalData);
 
 	}
 
 	public static int getRandomMobLevel(Player player) {
-		if(ModConfigs.mobLevelingUp) {
+		if (ModConfigs.mobLevelingUp) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData == null)
+			if (playerData == null)
 				return 0;
-			
+
 			int avgLevel = playerData.getLevel();
-			
-			if(ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID())!= null) {
+
+			if (ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID()) != null) {
 				Party p = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 				int total = 0;
 				int membersOnline = 0;
-				for(Party.Member m : p.getMembers()) {
-					if(Utils.getPlayerByName(player.level(), m.getUsername())!= null){
+				for (Party.Member m : p.getMembers()) {
+					if (Utils.getPlayerByName(player.level(), m.getUsername()) != null) {
 						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername())).getLevel();
 						membersOnline++;
 					}
@@ -1087,10 +1094,10 @@ public class Utils {
 					avgLevel = total / membersOnline;
 				}
 			}
-			
+
 			int level = avgLevel - player.level().random.nextInt(6) + 2;
 			level = Utils.clamp(level, 1, 100);
-			
+
 			return level;
 		}
 		return 0;
@@ -1098,23 +1105,23 @@ public class Utils {
 
 	public static ChatFormatting getLevelColor(Player player, int lvl) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		if(playerData == null)
+		if (playerData == null)
 			return ChatFormatting.WHITE;
-		
-		if(playerData.getLevel() > lvl) {
+
+		if (playerData.getLevel() > lvl) {
 			return ChatFormatting.GREEN;
-		} else if(playerData.getLevel() == lvl) {
+		} else if (playerData.getLevel() == lvl) {
 			return ChatFormatting.YELLOW;
 		} else {
 			return ChatFormatting.RED;
 		}
 	}
-	
+
 	public static void playSoundToEveryone(ServerLevel level, SoundEvent sound, float vol, float pitch) {
-		for(Player p : getAllPlayers(level.getServer())){
+		for (Player p : getAllPlayers(level.getServer())) {
 			p.level().playSound(null, p.blockPosition(), sound, SoundSource.PLAYERS, vol, pitch);
 		}
-		
+
 	}
 
 }

@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -55,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.util.Utils.castMagic;
 
 public class PlayerCapabilities implements IPlayerCapabilities {
 
@@ -388,7 +390,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setNotifColor(nbt.getInt("notif_color"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
 
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
@@ -2104,6 +2106,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
+	public void setMagicCasttimeTicks(int ticks) {
+		this.magicCasttime = ticks;
+	}
+
+	@Override
+	public void remMagicCasttimeTicks(int ticks) {
+		this.magicCasttime = Math.max(magicCasttime - ticks, 0);
+	}
+
+	@Override
+	public int getMagicCasttimeTicks() {
+		return this.magicCasttime;
+	}
+	
+	@Override
 	public void setMagicCooldownTicks(int ticks) {
 		this.magicCooldown = ticks;
 	}
@@ -2291,7 +2308,24 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.maxArmors += num;
 		messages.add("R_"+Strings.Stats_LevelUp_MaxArmors);
 	}
-
 	//endregion
+	
+	
+	Utils.castMagic castMagic = null;
+	
+	@Override
+	public void setCastedMagic(Utils.castMagic castMagic) {
+		this.castMagic = castMagic;
+		
+		if(castMagic != null) //If null it means we removing the magic so it doesnt fire more times, we don't need to set the casttime and crash in the attempt
+			this.magicCasttime = castMagic.magic().getCasttimeTicks(castMagic.level());
+	}
+
+	@Override
+	public castMagic getCastedMagic() {
+		return castMagic;
+	}
+
+	
 
 }

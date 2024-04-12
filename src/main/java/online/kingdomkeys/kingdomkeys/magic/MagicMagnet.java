@@ -17,13 +17,12 @@ public class MagicMagnet extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
 
 		switch(level) {
 		case 0:
-			player.level().playSound(null, player.blockPosition(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1.1F);
 			MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg);
 			magnet.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
@@ -36,7 +35,6 @@ public class MagicMagnet extends Magic {
 
 			break;
 		case 1:
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 0.9F);
 			MagneraEntity magnera = new MagneraEntity(player.level(), player, dmg);
 			magnera.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
@@ -48,7 +46,6 @@ public class MagicMagnet extends Magic {
 			player.level().addFreshEntity(magnera);
 			break;
 		case 2:
-			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 0.8F);
 			MagnegaEntity magnega = new MagnegaEntity(player.level(), player, dmg);
 			magnega.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
@@ -62,6 +59,11 @@ public class MagicMagnet extends Magic {
 		}
 		
 		player.swing(InteractionHand.MAIN_HAND);
+	}
+	
+	@Override
+	protected void playMagicCastSound(Player player, Player caster, int level) {
+		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 
 }

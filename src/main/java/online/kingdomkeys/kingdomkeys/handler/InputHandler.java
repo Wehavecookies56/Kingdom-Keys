@@ -439,7 +439,7 @@ public class InputHandler {
             case CommandMenuGui.MAGIC -> { //Accessing MAGIC submenu
                 if (CommandMenuGui.submenu == CommandMenuGui.SUB_MAIN) {
                     DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-                    if (!playerData.getRecharge() && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicList.isEmpty() && !playerData.getMagicsMap().isEmpty() && (form.canUseMagic()))) {
+                    if (!playerData.getRecharge() && playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && playerData.getMaxMP() > 0 && (!this.magicList.isEmpty() && !playerData.getMagicsMap().isEmpty() && (form.canUseMagic()))) {
                         //CommandMenuGui.magicSelected = 0;
                         CommandMenuGui.submenu = CommandMenuGui.SUB_MAGIC;
                         playInSound();
@@ -849,7 +849,7 @@ public class InputHandler {
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
             if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                 }
             }
@@ -857,7 +857,7 @@ public class InputHandler {
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
             if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
                 }
             }

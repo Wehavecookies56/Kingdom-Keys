@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -423,7 +424,22 @@ public class EntityEvents {
 						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) event.player);
 					}
 				}
+				//System.out.println(playerData.getMagicCasttimeTicks());
 
+				// Magic Casttime
+				if (playerData.getMagicCasttimeTicks() > 0 && !event.player.level().isClientSide) 
+					playerData.remMagicCasttimeTicks(1);
+				if (playerData.getCastedMagic() != null) {
+					if (playerData.getMagicCasttimeTicks() <= 0) {
+						Utils.castMagic castedMagic = playerData.getCastedMagic();
+						castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
+						event.player.swing(InteractionHand.MAIN_HAND,true);
+						playerData.setCastedMagic(null);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) event.player);
+					}
+				}
+					
+				
 				// Magic CD recharge system
 				if (playerData.getMagicCooldownTicks() > 0 && !event.player.level().isClientSide) {
 					playerData.setMagicCooldownTicks(playerData.getMagicCooldownTicks() - 1);

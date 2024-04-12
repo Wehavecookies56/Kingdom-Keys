@@ -17,7 +17,7 @@ public class MagicThunder extends Magic {
 	}
 
 	@Override
-	protected void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmgMult = getDamageMult(level) + ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
@@ -43,5 +43,10 @@ public class MagicThunder extends Magic {
 			player.level().addFreshEntity(thundazaController);
 			break;
 		}
+	}
+	
+	@Override
+	protected void playMagicCastSound(Player player, Player caster, int level) {
+
 	}
 }

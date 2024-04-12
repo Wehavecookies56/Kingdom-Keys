@@ -69,7 +69,7 @@ public class SCSyncCapabilityPacket {
 	public ItemStack equippedWeapon;
 	public Set<ItemStack> unlocks;
 	public int limitCooldownTicks;
-	public int magicCooldownTicks;
+	public int magicCasttimeTicks, magicCooldownTicks;
 
 	public LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>();
 	
@@ -137,6 +137,8 @@ public class SCSyncCapabilityPacket {
 		this.equippedWeapon = capability.getEquippedWeapon();
 		this.unlocks = capability.getWeaponsUnlocked();
 		this.limitCooldownTicks = capability.getLimitCooldownTicks();
+
+		this.magicCasttimeTicks = capability.getMagicCasttimeTicks();
 		this.magicCooldownTicks = capability.getMagicCooldownTicks();
 		
 		this.reactionList = capability.getReactionCommands();
@@ -298,6 +300,8 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.unlocks.size());
 		unlocks.forEach(buffer::writeItem);
 		buffer.writeInt(this.limitCooldownTicks);
+		
+		buffer.writeInt(this.magicCasttimeTicks);
 		buffer.writeInt(this.magicCooldownTicks);
 		
 		buffer.writeInt(reactionList.size());
@@ -463,6 +467,8 @@ public class SCSyncCapabilityPacket {
 			msg.unlocks.add(buffer.readItem());
 		}
 		msg.limitCooldownTicks = buffer.readInt();
+		
+		msg.magicCasttimeTicks = buffer.readInt();
 		msg.magicCooldownTicks = buffer.readInt();
 		
 		int rSize = buffer.readInt();
