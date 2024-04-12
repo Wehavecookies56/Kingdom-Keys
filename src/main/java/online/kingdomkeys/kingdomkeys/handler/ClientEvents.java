@@ -121,6 +121,7 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
+		
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 			if (globalData.getStoppedTicks() > 0 ) {
@@ -130,6 +131,7 @@ public class ClientEvents {
 				}
 				event.setCanceled(true);
 			}
+			
 			if(globalData.isKO()) {
 				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
@@ -138,11 +140,18 @@ public class ClientEvents {
 					if(Minecraft.getInstance().screen == null && event.getEntity().tickCount % 10 == 0)
 						Minecraft.getInstance().setScreen(new ChatScreen(""));
 				}
-				//System.out.println(event.getEntity().getHealth());
+			}
+			if(event.getEntity() instanceof Player player) {
+				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				if(playerData != null) {
+					if(playerData.getMagicCasttimeTicks() > 0) {
+						player.setDeltaMovement(0, 0, 0);
+					}
+				}
 			}
 		}
 		
-		if(event.getEntity() == Minecraft.getInstance().player) {
+		if(event.getEntity() == Minecraft.getInstance().player) { //Local player
 			if(InputHandler.qrCooldown > 0) {
 				InputHandler.qrCooldown -= 1;
 			}
