@@ -7,6 +7,7 @@ public class MagicData {
 
     float[] dmgMult = new float[4];
     int[] cost = new int[4];
+    int[] ct = new int[4];
     int[] cd = new int[4];
     boolean[] magicLockOn = new boolean[4];
     
@@ -14,8 +15,9 @@ public class MagicData {
 
     }
 
-    public MagicData(int level, int cost, int cd, float dmgMult, float magMult, boolean magicLockOn) {
+    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn) {
     	this.cost[level] = cost;
+    	this.ct[level] = ct;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
 		this.magicLockOn[level] = magicLockOn;
@@ -28,7 +30,15 @@ public class MagicData {
 	public void setCost(int lvl, int cost) {
 		this.cost[lvl] = cost;
 	}
-	
+
+	public int getCasttime(int lvl) {
+		return ct[lvl];
+	}
+
+	public void setCasttime(int lvl, int ct) {
+		this.ct[lvl] = ct;
+	}
+
 	public int getCooldown(int lvl) {
 		return cd[lvl];
 	}

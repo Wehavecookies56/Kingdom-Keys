@@ -26,18 +26,16 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				JsonElement element2 = entry2.getValue();
 
 				switch (entry2.getKey()) {
-				case "cost":
+				case "cost"->
 					out.setCost(level, element2.getAsInt());
-					break;
-				case "cooldown":
+				case "casttime"->
+					out.setCasttime(level,element2.getAsInt());
+				case "cooldown"->
 					out.setCooldown(level, element2.getAsInt());
-					break;
-				case "dmg_mult":
+				case "dmg_mult"->
 					out.setDmgMult(level, element2.getAsFloat());
-					break;
-				case "magic_lock_on":
+				case "magic_lock_on"->
 					out.setMagicLockon(level, element2.getAsBoolean());
-					break;
 				}
 			});
 
