@@ -177,15 +177,12 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
-					if(originalItem.getItem() instanceof CardItem) {
-						System.out.println(ertResult.getEntity());
-						
-					} else {
-						hitSet.add(target);
-		            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
-						setDeltaMovement(getDeltaMovement().scale(0.5));
-						dmg *= 0.9;
-					}
+					//TODO card absorbing entity?
+					hitSet.add(target);
+	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+					setDeltaMovement(getDeltaMovement().scale(0.8));
+					dmg *= 0.9;
+					
 				}
 			} else { // Block (not ERTR)
 				if (brtResult != null) {
