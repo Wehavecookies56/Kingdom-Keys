@@ -13,16 +13,16 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public enum KKArmorMaterial implements ArmorMaterial {
-	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, () -> {
+	ORGANIZATION(KingdomKeys.MODID + ":organization", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, 0, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, () -> {
+	XEMNAS(KingdomKeys.MODID + ":xemnas", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, 0, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F, () -> {
+	ANTICOAT(KingdomKeys.MODID + ":anticoat", 5, new int[] { 4, 7, 6, 3 }, 420, () -> SoundEvents.ARMOR_EQUIP_LEATHER, 1F,0,  () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	KEYBLADE(KingdomKeys.MODID + ":keyblade", 5, new int[] { 6, 10, 8, 6 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
+	KEYBLADE(KingdomKeys.MODID + ":keyblade", 5, new int[] { 6, 10, 8, 6 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, 0.15F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
 	/*TERRA(KingdomKeys.MODID + ":terra", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
@@ -43,28 +43,28 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	XEHANORT(KingdomKeys.MODID + ":xehanort", 5, new int[] { 7, 9, 11, 7 }, 420, () -> ModSounds.keyblade_armor.get(), 3F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),*/
-	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	VANITAS(KingdomKeys.MODID + ":vanitas", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	VANITASREMNANT(KingdomKeys.MODID + ":vanitas_remnant", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	VANITASREMNANT(KingdomKeys.MODID + ":vanitas_remnant", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	DARKRIKU(KingdomKeys.MODID + ":dark_riku", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	DARKRIKU(KingdomKeys.MODID + ":dark_riku", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	ACED(KingdomKeys.MODID + ":aced", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	ACED(KingdomKeys.MODID + ":aced", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0.05F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	AVA(KingdomKeys.MODID + ":ava", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	AVA(KingdomKeys.MODID + ":ava", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0.05F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	GULA(KingdomKeys.MODID + ":gula", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	GULA(KingdomKeys.MODID + ":gula", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0.05F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	INVI(KingdomKeys.MODID + ":invi", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	INVI(KingdomKeys.MODID + ":invi", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0.05F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	}),
-	IRA(KingdomKeys.MODID + ":ira", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, () -> {
+	IRA(KingdomKeys.MODID + ":ira", 5, new int[] { 3, 7, 5, 2 }, 420, () -> SoundEvents.ARMOR_EQUIP_DIAMOND, 3F, 0.05F, () -> {
 		return Ingredient.of(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future.get());
 	});
 	
@@ -77,14 +77,16 @@ public enum KKArmorMaterial implements ArmorMaterial {
 	private final Supplier<SoundEvent> soundEvent;
 	private final float toughness;
 	private final Supplier<Ingredient> repairMaterial;
+	private final float knockbackResistance;
 
-	KKArmorMaterial(String name, int maxDamageFactor, int[] damageReduction, int enchantability, Supplier<SoundEvent> sound, float toughness, Supplier<Ingredient> repairMaterialIn) {
+	KKArmorMaterial(String name, int maxDamageFactor, int[] damageReduction, int enchantability, Supplier<SoundEvent> sound, float toughness, float knockbackResistance, Supplier<Ingredient> repairMaterialIn) {
 		this.name = name;
 		//this.maxDamageFactor = maxDamageFactor;
 		this.damageReductionAmountArray = damageReduction;
 		this.enchantability = enchantability;
 		this.soundEvent = sound;
 		this.toughness = toughness;
+		this.knockbackResistance = knockbackResistance;
 		this.repairMaterial = repairMaterialIn;
 	}
 
@@ -126,7 +128,7 @@ public enum KKArmorMaterial implements ArmorMaterial {
 
 	@Override
 	public float getKnockbackResistance() {
-		return 0;
+		return this.knockbackResistance;
 	}
 
 }

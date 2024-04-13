@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -172,8 +173,8 @@ public class ModItems {
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
 			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
-			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), 1, 1, new Item.Properties().stacksTo(1))),
-			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), 1, 1, new Item.Properties().stacksTo(1))),
+			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
 
 			k111 = createKeybladeItem(Strings.k111),
 			
@@ -827,9 +828,9 @@ public class ModItems {
 			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop")),
 
 
-			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
-			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
-			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0), 1, 1, new Item.Properties().stacksTo(1))),
+			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), 1, 1, new Item.Properties().stacksTo(1))),
+			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), 1, 1, new Item.Properties().stacksTo(1))),
 
 			
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_valor")),
