@@ -2,9 +2,11 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -64,7 +66,20 @@ public class CSLevelUpKeybladePacket {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				player.getInventory().setItem(Utils.getSlotFor(player.getInventory(), message.stack), stack);
+				UUID keybladeID = Utils.getKeybladeID(stack);
+				if (keybladeID != null) {
+					ResourceLocation slot = null;
+					for (Entry<ResourceLocation, ItemStack> entry : playerData.getEquippedKeychains().entrySet()) {
+						if (keybladeID.equals(Utils.getKeybladeID(entry.getValue()))) {
+							slot = entry.getKey();
+						}
+					}
+					if (slot != null) {
+						playerData.equipKeychain(slot, stack);
+					} else {
+						player.getInventory().setItem(player.getInventory().findSlotMatchingItem(message.stack), stack);
+					}
+				}
 			}
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);	
 		});

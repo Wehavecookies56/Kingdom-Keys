@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.jetbrains.annotations.NotNull;
@@ -113,7 +110,20 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					playerData.removeMaterial(m.getKey(), m.getValue());
 				}
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selectedItemStack), stack);
+				UUID keybladeID = Utils.getKeybladeID(stack);
+				if (keybladeID != null) {
+					ResourceLocation slot = null;
+					for (Entry<ResourceLocation, ItemStack> entry : playerData.getEquippedKeychains().entrySet()) {
+						if (keybladeID.equals(Utils.getKeybladeID(entry.getValue()))) {
+							slot = entry.getKey();
+						}
+					}
+					if (slot != null) {
+						playerData.equipKeychain(slot, stack);
+					} else {
+						minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selectedItemStack), stack);
+					}
+				}
 			}
 			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selectedItemStack));
 			init();
@@ -171,6 +181,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				items.add(player.getInventory().getItem(i));
 			}
 		}
+		items.addAll(ModCapabilities.getPlayer(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
@@ -217,30 +228,23 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
 			KeybladeItem kb = ((KeychainItem)selectedItemStack.getItem()).getKeyblade();
-			if(!RecipeRegistry.getInstance().containsKey(Utils.getItemRegistryName(kb))){
-				return;
-			}
-			Recipe recipe = RecipeRegistry.getInstance().getValue(Utils.getItemRegistryName(kb));
-			
+
 			//Set create button state
 			if(kcItem.getKeybladeLevel(selectedItemStack) < 10) {
 				KeychainItem kChain = (KeychainItem) selectedItemStack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
-				if(recipe != null) {
-					upgrade.visible = true;
-					Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
-					while(materials.hasNext()) {
-						Entry<Material, Integer> m = materials.next();
-						if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-							enoughMats = false;
-						}
+				upgrade.visible = true;
+				Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
+				while(materials.hasNext()) {
+					Entry<Material, Integer> m = materials.next();
+					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+						enoughMats = false;
 					}
-					
 				}
 			}
 			
 			upgrade.active = enoughMats && ticks > 10;
-			upgrade.visible = recipe != null;
+			upgrade.visible = true;
 		} else {
 			upgrade.visible = false;
 		}
