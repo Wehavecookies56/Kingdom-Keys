@@ -31,6 +31,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.event.PlayLevelSoundEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -1495,6 +1496,15 @@ public class EntityEvents {
 			if (!event.getRight().isEmpty() && !(event.getRight().getItem() instanceof EnchantedBookItem)) {
 				event.setOutput(ItemStack.EMPTY);
 			}
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void grindstoneEvent(GrindstoneEvent.OnPlaceItem event) {
+		if(event.getTopItem() != null && event.getTopItem().getItem() instanceof PauldronItem pauldron) {
+			event.setOutput(new ItemStack(pauldron));
+			int xp = 5 * event.getTopItem().getTag().size();
+			event.setXp(xp);
 		}
 	}
 }
