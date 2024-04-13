@@ -269,6 +269,36 @@ public class Recipes extends RecipeProvider {
                 .save(consumer);
 
         //Items
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.struggleSword.get())
+        .pattern(" W ")
+        .pattern(" W ")
+        .pattern(" S ")
+        .define('S', ModItems.woodenStick.get())
+        .define('W', Blocks.BLUE_WOOL)
+        .group("kingdomkeys")
+        .unlockedBy("struggle_sword", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
+        .save(consumer);
+        
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.struggleWand.get())
+        .pattern(" W ")
+        .pattern(" S ")
+        .pattern(" S ")
+        .define('S', ModItems.woodenStick.get())
+        .define('W', Blocks.BLUE_WOOL)
+        .group("kingdomkeys")
+        .unlockedBy("struggle_wand", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
+        .save(consumer);
+        
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.struggleHammer.get())
+        .pattern(" W ")
+        .pattern(" WS")
+        .pattern(" S ")
+        .define('S', ModItems.woodenStick.get())
+        .define('W', Blocks.BLUE_WOOL)
+        .group("kingdomkeys")
+        .unlockedBy("struggle_hammer", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
+        .save(consumer);
+        
         //2 recipes upgrade
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeC.get())
         .requires(ModItems.recipeD.get())

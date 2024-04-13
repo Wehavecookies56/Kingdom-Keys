@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "S": {
+      "item": "kingdomkeys:wooden_stick"
+    },
+    "W": {
+      "item": "minecraft:blue_wool"
+    }
+  },
+  "pattern": [
+    " W ",
+    " WS",
+    " S "
+  ],
+  "result": {
+    "item": "kingdomkeys:struggle_hammer"
+  },
+  "show_notification": true
+}

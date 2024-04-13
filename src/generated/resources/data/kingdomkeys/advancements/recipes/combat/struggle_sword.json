@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:struggle_sword"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "struggle_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "kingdomkeys:wooden_stick"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "struggle_sword",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:struggle_sword"
+    ]
+  },
+  "sends_telemetry_event": false
+}

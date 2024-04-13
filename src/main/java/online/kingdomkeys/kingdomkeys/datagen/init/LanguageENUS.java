@@ -681,6 +681,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.dreamSword, "Dream Sword");
         addItem(ModItems.dreamStaff, "Dream Staff");
         addItem(ModItems.dreamShield, "Dream Shield");
+        addItem(ModItems.struggleSword, "Struggle Sword");
+        addItem(ModItems.struggleWand, "Struggle Wand");
+        addItem(ModItems.struggleHammer, "Struggle Hammer");
         addItem(ModItems.k111, "K111");
 
         //Keychains
