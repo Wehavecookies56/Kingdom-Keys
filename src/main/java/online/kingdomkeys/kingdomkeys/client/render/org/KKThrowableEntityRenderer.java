@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.LanceItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
@@ -116,6 +117,8 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	        	//poseStack.mulPose(Axis.XP.rotationDegrees(90F));
 	            //poseStack.mulPose(Axis.ZP.rotation(rotation));
 			}		
+		} else if(itemstack.getItem() instanceof CardItem) {
+			poseStack.scale(3,3,3);
 		}
         
         itemRenderer.render(itemstack, (itemstack.getItem() instanceof ChakramItem) ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);

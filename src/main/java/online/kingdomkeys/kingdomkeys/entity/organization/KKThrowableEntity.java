@@ -97,9 +97,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				this.remove(RemovalReason.KILLED);
 			}
 
-			if (originalItem .getItem() instanceof KnifeItem){
-				level().addParticle(ParticleTypes.ELECTRIC_SPARK,getX(),getY(),getZ(), 0,0,0);
-
+			if (originalItem.getItem() instanceof KnifeItem){
+				((ServerLevel) level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,getX(),getY()+0.3F,getZ(),1, 0,0,0,0);
 			}
 
 			if (tickCount > 30) {
@@ -178,10 +177,15 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
-					hitSet.add(target);
-	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
-					setDeltaMovement(getDeltaMovement().scale(0.5));
-					dmg *= 0.9;
+					if(originalItem.getItem() instanceof CardItem) {
+						System.out.println(ertResult.getEntity());
+						
+					} else {
+						hitSet.add(target);
+		            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+						setDeltaMovement(getDeltaMovement().scale(0.5));
+						dmg *= 0.9;
+					}
 				}
 			} else { // Block (not ERTR)
 				if (brtResult != null) {
