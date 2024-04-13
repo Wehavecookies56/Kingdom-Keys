@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.item;
+package online.kingdomkeys.kingdomkeys.item.tier;
 
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -7,28 +7,26 @@ import net.minecraft.world.item.crafting.Ingredient;
  * ItemTier for the keyblades
  * Attack damage set in constructor as the other fields are the same across all keyblades
  */
-public class KeybladeItemTier implements Tier {
+public class WoodenKeybladeItemTier implements Tier {
 
-    float attackDamage;
 
-    public KeybladeItemTier(float attackDamage) {
-        this.attackDamage = attackDamage;
-    }
+    public WoodenKeybladeItemTier() {}
 
     @Override
     public int getUses() {
-        return -1;
+        return 200;
     }
 
     @Override
     public float getSpeed() {
-        return 8.0F;
+        return 4.0F;
     }
 
     @Override
-    public float getAttackDamageBonus() {
-        return attackDamage;
-    }
+	public float getAttackDamageBonus() {
+		return 0;
+	}
+
 
     @Override
     public int getLevel() {
@@ -44,4 +42,5 @@ public class KeybladeItemTier implements Tier {
     public Ingredient getRepairIngredient() {
         return Ingredient.EMPTY;
     }
+	
 }

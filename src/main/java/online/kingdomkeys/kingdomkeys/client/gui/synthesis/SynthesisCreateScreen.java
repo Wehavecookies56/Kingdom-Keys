@@ -230,7 +230,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		}
 
 		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
-			if (i < inventory.size()) {
+			if (i < inventory.size() && i >= 0) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
 					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset

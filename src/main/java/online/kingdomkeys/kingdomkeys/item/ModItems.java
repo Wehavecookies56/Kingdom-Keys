@@ -17,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
+import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
+import online.kingdomkeys.kingdomkeys.item.tier.WoodenKeybladeItemTier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
@@ -164,8 +166,8 @@ public class ModItems {
 			winnersProof = createKeybladeItem(Strings.winnersProof),
 			wishingLamp = createKeybladeItem(Strings.wishingLamp),
 			wishingStar = createKeybladeItem(Strings.wishingStar),
-			woodenKeyblade = createNewItem(Strings.woodenKeyblade, () -> new SwordItem(new KeybladeItemTier(0), 4, 1, new Item.Properties().stacksTo(1))),
-			woodenStick = createNewItem(Strings.woodenStick, () -> new SwordItem(new KeybladeItemTier(0), 2, 1, new Item.Properties().stacksTo(1))),
+			woodenKeyblade = createNewItem(Strings.woodenKeyblade, () -> new SwordItem(new WoodenKeybladeItemTier(), 4, 1, new Item.Properties().stacksTo(1))),
+			woodenStick = createNewItem(Strings.woodenStick, () -> new SwordItem(new WoodenKeybladeItemTier(), 2, 1, new Item.Properties().stacksTo(1))),
 			youngXehanortsKeyblade = createKeybladeItem(Strings.youngXehanortsKeyblade),
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
