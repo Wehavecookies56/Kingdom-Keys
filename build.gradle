@@ -7,7 +7,7 @@ plugins {
 }
 
 def mcver = "1.20.1"
-version = mcver + '-2.3.8.2'
+version = mcver + '-2.3.9.0'
 
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
@@ -140,7 +140,7 @@ dependencies {
     implementation fg.deobf("curse.maven:apothic-attributes-898963:5209162")
     implementation fg.deobf("curse.maven:placebo-283644:5098182")
     implementation fg.deobf("curse.maven:apotheosis-313970:5209354")
-    implementation fg.deobf("curse.maven:real-camera-851574:5174036")
+    //implementation fg.deobf("curse.maven:real-camera-851574:5174036")
 
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")

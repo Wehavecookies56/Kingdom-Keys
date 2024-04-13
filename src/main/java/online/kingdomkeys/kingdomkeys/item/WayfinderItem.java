@@ -29,6 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
@@ -80,40 +81,31 @@ public class WayfinderItem extends Item {
 				return super.use(world, player, hand);
 			}
 			Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUUID());
-			if(p == null) {
-				player.displayClientMessage(Component.translatable("You are not in a party"), true);
-				return super.use(world, player, hand);
-			}
 			
-			if(!Utils.isEntityInParty(p, player)) {
-				player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " is not in your party"), true);
-				return super.use(world, player, hand);
-			}
-
 			if(owner == player) {
-				player.displayClientMessage(Component.translatable("This is your Wayfinder, hand it over to someone in your party"), true);
+				player.displayClientMessage(Component.translatable("This is your Wayfinder, hand it over to someone else"+(ModConfigs.wayfinderOnlyParty ? " in your party": "")), true);
 				return super.use(world, player, hand);
 			}
+
+			if(ModConfigs.wayfinderOnlyParty) {
+				if(p == null) {
+					player.displayClientMessage(Component.translatable("You are not in a party"), true);
+					return super.use(world, player, hand);
+				}
+				
+				if(!Utils.isEntityInParty(p, player)) {
+					player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " is not in your party"), true);
+					return super.use(world, player, hand);
+				}
+				
+			}
 			
-			teleport(player, owner);
-			//pretty Stuff
-
-			player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
-			Color c = new Color(getColor(player.getItemInHand(hand)));
-			float r = c.getRed()/255F;
-			float g = c.getGreen()/255F;
-			float b = c.getBlue()/255F;
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1.5,player.getZ(),150,0,0,0,0.2);
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
-			((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
-			((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
-			player.getCooldowns().addCooldown(this, 300 * 20);
-
+			teleport(player, owner, getColor(player.getItemInHand(hand)));
 		}
 		return super.use(world, player, hand);
 	}
 
-	public void teleport(Player player, Entity owner) {
+	public void teleport(Player player, Entity owner, int color) {
 		if (player.level().dimension() != owner.level().dimension()) {
 			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
 			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX(), owner.getY(), owner.getZ()));
@@ -122,6 +114,16 @@ public class WayfinderItem extends Item {
 		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());
 		player.setDeltaMovement(0, 0, 0);
 
+		player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
+		Color c = new Color(color);
+		float r = c.getRed()/255F;
+		float g = c.getGreen()/255F;
+		float b = c.getBlue()/255F;
+		((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1.5,player.getZ(),150,0,0,0,0.2);
+		((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 1,player.getZ(),150,0,0,0,0.2);
+		((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(r,g,b),6F),player.getX(),player.getY() + 0.5,player.getZ(),150,0,0,0,0.2);
+		((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 300, 0,0,0, 0.2);
+		player.getCooldowns().addCooldown(this, 300 * 20);
 	}
 
 	public CompoundTag setID(CompoundTag nbt, Player player) {
