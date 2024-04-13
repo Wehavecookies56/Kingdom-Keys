@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -27,7 +28,9 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
+import online.kingdomkeys.kingdomkeys.item.organization.KnifeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 
 public class KKThrowableEntity extends ThrowableItemProjectile {
@@ -94,6 +97,11 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				this.remove(RemovalReason.KILLED);
 			}
 
+			if (originalItem .getItem() instanceof KnifeItem){
+				level().addParticle(ParticleTypes.ELECTRIC_SPARK,getX(),getY(),getZ(), 0,0,0);
+
+			}
+
 			if (tickCount > 30) {
 				setReturn();
 			}
@@ -129,6 +137,12 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 			if (getProjOwner() != null)
 				shoot(this.getProjOwner().getX() - this.getX(), this.getProjOwner().getY() - this.getY() + 1.25, this.getProjOwner().getZ() - this.getZ(), 2f, 0);
 		} else if(originalItem.getItem() instanceof ScytheItem) {
+			this.remove(RemovalReason.KILLED);
+			returnItemToPlayer();
+		} else if (originalItem.getItem() instanceof KnifeItem) {
+			this.remove(RemovalReason.KILLED);
+			returnItemToPlayer();
+		} else if (originalItem.getItem() instanceof CardItem) {
 			this.remove(RemovalReason.KILLED);
 			returnItemToPlayer();
 		}
