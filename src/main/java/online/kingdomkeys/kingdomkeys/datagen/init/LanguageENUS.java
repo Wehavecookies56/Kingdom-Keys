@@ -276,6 +276,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.writhingOreD, "Writhing Ore");
         addBlock(ModBlocks.betwixtOre, "Betwixt Ore");
         addBlock(ModBlocks.betwixtOreD, "Betwixt Ore");
+        addBlock(ModBlocks.betwixtOreE, "Betwixt Ore");
         addBlock(ModBlocks.wellspringOre, "Wellspring Ore");
         addBlock(ModBlocks.wellspringOreN, "Wellspring Ore");
         addBlock(ModBlocks.frostOre, "Frost Ore");
@@ -1410,6 +1411,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
+        addItem(ModItems.wayfinder, "Wayfinder");
 
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
