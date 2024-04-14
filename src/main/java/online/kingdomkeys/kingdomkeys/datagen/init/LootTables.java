@@ -117,6 +117,9 @@ public class LootTables extends BaseLootTables {
 						LootItem.lootTableItem(ModItems.orichalcumplus.get()).setWeight(2),
 						LootItem.lootTableItem(ModItems.manifest_illusion.get()).setWeight(3),
 						LootItem.lootTableItem(ModItems.lost_illusion.get()).setWeight(2),
+						
+						LootItem.lootTableItem(ModItems.illusory_crystal.get()).setWeight(1),
+						LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1),
 
 						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(2))
 					)

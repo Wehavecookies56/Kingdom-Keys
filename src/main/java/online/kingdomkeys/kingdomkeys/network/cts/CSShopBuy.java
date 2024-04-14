@@ -73,7 +73,9 @@ public class CSShopBuy {
 				
 				if(enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
 					playerData.setMunny(playerData.getMunny() - item.getCost());
-					playerData.addSynthExperience(10 + item.getTier()*2);
+					
+					if(ModConfigs.getExpFromShop)
+						playerData.addSynthExperience(10 + item.getTier()*2);
 										
 					Item i = item.getResult();
 					

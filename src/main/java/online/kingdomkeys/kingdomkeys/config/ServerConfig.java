@@ -9,24 +9,13 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ServerConfig {
 
-    public ForgeConfigSpec.IntValue recipeDropChance;
-
-    public ForgeConfigSpec.IntValue partyRangeLimit;
-    public ForgeConfigSpec.IntValue partyMembersLimit;
+    public ForgeConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit;
 
     public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ForgeConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ForgeConfigSpec.DoubleValue xpMultiplier;
-    public ForgeConfigSpec.DoubleValue heartMultiplier;
-    public ForgeConfigSpec.DoubleValue partyXPShare;
-   // public ForgeConfigSpec.IntValue magicUsesTimer;
-    
-    public ForgeConfigSpec.BooleanValue requireSynthTier;
-        
-    public ForgeConfigSpec.BooleanValue projectorHasShop;
-    public ForgeConfigSpec.BooleanValue orgEnabled;
-    public ForgeConfigSpec.BooleanValue allowBoosts, allowPartyKO, hostileMobsLevel;
+    public ForgeConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
+    public ForgeConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel;
 
     ServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
@@ -56,6 +45,11 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.projector_has_shop")
                 .define("projectorHasShop", false);
         
+        getExpFromShop = builder
+                .comment("If true both synthesis and moogle shop will give EXP for recipes, if false only synthesis")
+                .translation(KingdomKeys.MODID + ".config.get_exp_from_shop")
+                .define("getExpFromShop", false);
+        
         orgEnabled = builder
                 .comment("If true the organization system will be enabled, if false will be disabled")
                 .translation(KingdomKeys.MODID + ".config.org_enabled")
@@ -70,6 +64,11 @@ public class ServerConfig {
                 .comment("If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
                 .define("allowPartyKO", true);
+        
+        wayfinderParty = builder
+                .comment("If true then players will only be able to use the Wayfinder with other party members, if false with anyone")
+                .translation(KingdomKeys.MODID + ".config.wayfinder_party")
+                .define("wayfinderParty", true);
         
         hostileMobsLevel = builder
                 .comment("If true other hostile mobs will level up alongside the player level the same way heartless do")
