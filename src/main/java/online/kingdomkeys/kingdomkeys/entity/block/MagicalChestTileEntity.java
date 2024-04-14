@@ -69,11 +69,14 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
 			compound.put("inv", invCompound);
 		});
-		compound.putUUID("owner", owner);
-		//Check that the UUID is not empty
-		if (keyblade != null) {
-			if (!keyblade.equals(new UUID(0L, 0L))) {
-				compound.putUUID("keyblade", keyblade);
+		//null check since BlockItem calls this method before loading the data from the stack
+		if (owner != null) {
+			compound.putUUID("owner", owner);
+			//Check that the UUID is not empty
+			if (keyblade != null) {
+				if (!keyblade.equals(new UUID(0L, 0L))) {
+					compound.putUUID("keyblade", keyblade);
+				}
 			}
 		}
 	}
