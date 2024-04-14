@@ -2,25 +2,21 @@
 # Material Count: 4
 
 newmtl Material__187
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/crabclaw_2
 
 newmtl Material__188
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/crabclaw_2
 
 newmtl Material__189
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/crabclaw_2
 
 newmtl Material__218
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/crabclaw_1

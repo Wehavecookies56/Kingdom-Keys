@@ -1,18 +1,15 @@
 # Created by Metasequoia
 
 newmtl 001
-Ka 0.000000 0.000000 0.000000
 Kd 0.80000 0.80000 0.80000
 map_Kd kingdomkeys:item/models/keyblades/moogleoglory
 
 newmtl 002
-Ka 0.000000 0.000000 0.000000
 Kd 0.80000 0.80000 0.80000
 map_Kd kingdomkeys:item/models/keyblades/moogleoglory2
 
 
 newmtl 003
-Ka 0.000000 0.000000 0.000000
 Kd 0.80000 0.80000 0.80000
 map_Kd kingdomkeys:item/models/keyblades/moogleoglory3
 

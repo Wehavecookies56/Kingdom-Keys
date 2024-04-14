@@ -1,11 +1,9 @@
 # Created by Metasequoia
 
 newmtl mat1
-Ka 0.000000 0.000000 0.000000
 Kd 0.80000 0.80000 0.80000
 map_Kd kingdomkeys:item/models/keyblades/killerbee1
 
 newmtl mat3
-Ka 0.000000 0.000000 0.000000
 Kd 0.80000 0.80000 0.80000
 map_Kd kingdomkeys:item/models/keyblades/killerbee2

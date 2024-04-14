@@ -2,13 +2,11 @@
 # Material Count: 2
 
 newmtl Material__85
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/ladyluck_1
 
 newmtl Material__86
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/ladyluck_2

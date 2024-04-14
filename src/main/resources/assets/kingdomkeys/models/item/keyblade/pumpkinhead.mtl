@@ -2,13 +2,11 @@
 # Material Count: 2
 
 newmtl Material__141
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/pumpkinhead_2
 
 newmtl Material__142
-Ka 0.000000 0.000000 0.000000
 Kd 0.588000 0.588000 0.588000
 d 1.000000
 map_Kd kingdomkeys:item/models/keyblades/pumpkinhead_1

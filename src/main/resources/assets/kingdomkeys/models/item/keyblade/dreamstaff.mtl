@@ -4,13 +4,11 @@
 newmtl Material__33
 d 1.0000
 Tr 0.0000
-Ka 0.000000 0.000000 0.000000
 Kd 0.5880 0.5880 0.5880
 map_Kd kingdomkeys:item/models/keyblades/dreamstaff_2
 
 newmtl Material__32
 d 1.0000
 Tr 0.0000
-Ka 0.000000 0.000000 0.000000
 Kd 0.5880 0.5880 0.5880
 map_Kd kingdomkeys:item/models/keyblades/dreamstaff_1

@@ -1,6 +1,5 @@
 # Created by Metasequoia
 
 newmtl mat1
-Ka 0.000000 0.000000 0.000000
 Kd 1.00000 1.00000 1.00000
 map_Kd kingdomkeys:item/models/keyblades/crux
