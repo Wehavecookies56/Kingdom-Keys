@@ -419,6 +419,7 @@
 	"block.kingdomkeys.writhing_ore_e": "Mena Tortuosa",
 	"block.kingdomkeys.betwixt_ore": "Mena Neutra",
 	"block.kingdomkeys.betwixt_ore_d": "Mena Neutra",
+	"block.kingdomkeys.betwixt_ore_e": "Mena Neutra",
 	"block.kingdomkeys.wellspring_ore": "Mena de Poder",
 	"block.kingdomkeys.wellspring_ore_n": "Mena de Poder",
 	"block.kingdomkeys.frost_ore": "Mena Fría",
@@ -618,6 +619,8 @@
 	"item.kingdomkeys.levelupdrivelimit": "Orbe de Forma Suma",
 	"item.kingdomkeys.levelupdrivemaster": "Orbe de Forma Maestra",
 	"item.kingdomkeys.levelupdrivefinal": "Orbe de Forma Final",
+	
+	"item.kingdomkeys.wayfinder": "Siemprejuntos",
 
 	"disc.duration.desc": "Duración",
 	"disc.durationunits.desc": "(mins:secs)",
