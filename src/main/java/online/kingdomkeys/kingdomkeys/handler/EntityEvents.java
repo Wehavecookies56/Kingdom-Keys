@@ -22,10 +22,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -283,6 +280,18 @@ public class EntityEvents {
 					}
 
 				}
+
+				//Set org weapon keybladeIDs if they don't exist
+				if (!playerData.getEquippedWeapon().is(Items.AIR)) {
+					Utils.createKeybladeID(playerData.getEquippedWeapon());
+				}
+				playerData.getWeaponsUnlocked().forEach(itemStack -> {
+					if (itemStack.is(playerData.getEquippedWeapon().getItem())) {
+						Utils.copyKeybladeID(playerData.getEquippedWeapon(), itemStack);
+					} else {
+						Utils.createKeybladeID(itemStack);
+					}
+				});
 
 				// Added for old world retrocompatibility
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) {

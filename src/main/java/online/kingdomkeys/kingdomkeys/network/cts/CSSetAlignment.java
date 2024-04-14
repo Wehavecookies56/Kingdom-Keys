@@ -84,8 +84,10 @@ public class CSSetAlignment {
                     break;
             }
             if (weapon != null) {
-                playerData.unlockWeapon(new ItemStack(weapon));
-                playerData.equipWeapon(new ItemStack(weapon));
+                ItemStack stack = new ItemStack(weapon);
+                Utils.createKeybladeID(stack);
+                playerData.unlockWeapon(stack);
+                playerData.equipWeapon(stack);
                 playerData.setActiveDriveForm(DriveForm.NONE.toString());
                 PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
             }

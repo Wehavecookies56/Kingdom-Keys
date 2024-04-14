@@ -513,6 +513,26 @@ public class Utils {
 		return text.replaceAll("[ \\t]+$", "").replaceAll("\\s+", "_").replaceAll("[\\'\\:\\-\\,\\#]", "").replaceAll("\\&", "and").toLowerCase();
 	}
 
+	public static void createKeybladeID(ItemStack stack) {
+		if (!hasKeybladeID(stack)) {
+			if (stack.getTag() == null) {
+				stack.setTag(new CompoundTag());
+			}
+			UUID uuid = UUID.randomUUID();
+			stack.getTag().putUUID("keybladeID", uuid);
+			KingdomKeys.LOGGER.debug("Created new keybladeID:{} for {}", uuid, stack.getDisplayName().getString());
+		}
+	}
+
+	public static void copyKeybladeID(ItemStack source, ItemStack destination) {
+		if (hasKeybladeID(source)) {
+			if (destination.getTag() == null) {
+				destination.setTag(new CompoundTag());
+			}
+			destination.getTag().putUUID("keybladeID", source.getTag().getUUID("keybladeID"));
+		}
+	}
+
 	public static boolean hasKeybladeID(ItemStack stack) {
 		if (stack.getTag() != null && !stack.is(Items.AIR)) {
 			if (stack.getTag().hasUUID("keybladeID")) {

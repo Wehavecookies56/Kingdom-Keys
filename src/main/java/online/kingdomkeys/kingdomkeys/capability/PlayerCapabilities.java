@@ -334,30 +334,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag unlocksCompound = nbt.getCompound("org_weapons_unlocked");
 		unlocksCompound.getAllKeys().forEach(key -> this.unlockWeapon(ItemStack.of(unlocksCompound.getCompound(key))));
 
-		if (!getEquippedWeapon().is(Items.AIR)) {
-			if (getEquippedWeapon().getTag() == null) {
-				getEquippedWeapon().setTag(new CompoundTag());
-			}
-			if (!getEquippedWeapon().getTag().contains("keybladeID")) {
-				getEquippedWeapon().getTag().putUUID("keybladeID", UUID.randomUUID());
-
-			}
-		}
-		getWeaponsUnlocked().forEach(itemStack -> {
-			if (itemStack.getTag() == null) {
-				itemStack.setTag(new CompoundTag());
-			}
-			if (!itemStack.getTag().contains("keybladeID")) {
-				if (itemStack.is(getEquippedWeapon().getItem())) {
-					itemStack.getTag().putUUID("keybladeID", getEquippedWeapon().getTag().getUUID("keybladeID"));
-				} else {
-					itemStack.getTag().putUUID("keybladeID", UUID.randomUUID());
-				}
-			}
-		});
-
-	//	getEquippedWeapon().getTag().contains("keybladeID");
-
 		for (String key : nbt.getCompound("parties").getAllKeys()) {
 			this.getPartiesInvited().add(key);
 		}
