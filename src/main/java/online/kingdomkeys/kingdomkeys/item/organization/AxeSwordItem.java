@@ -28,21 +28,23 @@ public class AxeSwordItem extends OrgSwordItem implements IOrgWeapon {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-
-		float dmg = playerData.getStrengthStat().getStat();
-		dmg *= 2.5F;
-		System.out.println(dmg);
+		float dmg = playerData.getStrengthStat().get();
 
 		if (!player.isShiftKeyDown()){
 			// Helm Split (Heavy Attack)
 			if (player.onGround()) {
-				//player.jumpFromGround();
 				player.setDeltaMovement(player.getDeltaMovement().add(0, 0.8, 0));
 				world.addParticle(ParticleTypes.ANGRY_VILLAGER,player.getX(),player.getY(),player.getZ(), 0,0,0);
+				if (!player.isDescending()){
+					world.addParticle(ParticleTypes.CLOUD,player.getX(),player.getY(),player.getZ(), 0,0,0);
+				}
+				player.getCooldowns().addCooldown(this,5);
 			}
 			if (!player.onGround()){
 				List<LivingEntity> targetList = Utils.getLivingEntitiesInRadiusExcludingParty((Player) player, player, 3,3,3);
 				for(LivingEntity e : targetList) {
+					dmg *= player.fallDistance + 2;
+					System.out.println("Falling Strike: "+ dmg);
 					e.hurt(DarknessDamageSource.getDarknessDamage(e, player), dmg);
 
 					world.explode(player,player.getX(), player.getY(),player.getZ(),3,false, Level.ExplosionInteraction.NONE);
