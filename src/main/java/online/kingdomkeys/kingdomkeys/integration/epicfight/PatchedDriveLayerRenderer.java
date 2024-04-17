@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -44,7 +45,7 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
     }
 
     public HumanoidMesh getModel(E e) {
-        boolean defaultSkin = DefaultPlayerSkin.getSkinModelName(e.getUUID()).equals("default");
+        boolean defaultSkin = ((LocalPlayer)e).getModelName().equals("default");
         if (defaultSkin) {
             return Meshes.BIPED;
         } else {
