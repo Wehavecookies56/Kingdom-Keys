@@ -183,12 +183,14 @@ public class EntityEvents {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			}
+			
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+					playerData.addVisibleDriveForm(Strings.Form_Anti);
 
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_shard.get()));
 					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_stone.get()));
@@ -219,6 +221,10 @@ public class EntityEvents {
 						}
 						playerData.equipAllItems(map, true);
 					}
+				}
+
+				if(!playerData.getVisibleDriveForms().contains(Strings.Form_Anti)) {
+					playerData.addVisibleDriveForm(Strings.Form_Anti);
 				}
 
 				if (!playerData.getKnownRecipeList().contains(ForgeRegistries.ITEMS.getKey(ModItems.powerBoost.get()))) {
@@ -315,7 +321,6 @@ public class EntityEvents {
 					}
 				}
 				for (int i = accessoriesMap.size(); i < 4; i++) {
-					System.out.println(i);
 					accessoriesMap.put(i, ItemStack.EMPTY);
 				}
 				playerData.equipAllAccessories(accessoriesMap, true);

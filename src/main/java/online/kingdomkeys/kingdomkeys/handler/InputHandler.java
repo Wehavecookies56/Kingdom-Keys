@@ -914,7 +914,7 @@ public class InputHandler {
         if(playerData != null && worldData != null) {
             this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
             if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
-                this.driveFormsMap.remove(Strings.Form_Anti);
+            	this.driveFormsMap.remove(Strings.Form_Anti);
             }
             this.driveFormsMap.remove(DriveForm.NONE.toString());
             this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());

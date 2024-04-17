@@ -59,7 +59,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		tooltip.add(Component.translatable("Can be locked with a keyblade"));
+		tooltip.add(Component.translatable("message.chest.can_be_locked"));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
