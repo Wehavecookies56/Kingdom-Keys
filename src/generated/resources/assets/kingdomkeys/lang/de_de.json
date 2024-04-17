@@ -617,6 +617,7 @@
 
   "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
 
+  "item.kingdomkeys.wayfinder": "Wayfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
 
 
@@ -979,6 +980,10 @@
 
 
   // -WEAPONS
+
+  "item.kingdomkeys.struggle_hammer": "Struggle-Schwert",
+  "item.kingdomkeys.struggle_sword": "Struggle-Knüppel",
+  "item.kingdomkeys.struggle_wand": "Struggle-Stab",
 
   // --KEYBLADES
 
