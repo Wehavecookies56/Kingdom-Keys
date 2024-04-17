@@ -264,7 +264,7 @@
         "def":1,
         "ap":1,
         "abilities":[
-            "kingdomkeys:combo_plus"
+            "kingdomkeys:ability_combo_plus"
         ]
     },
     "43":{
