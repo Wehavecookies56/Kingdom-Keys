@@ -98,6 +98,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, SeedBulletEntity::new, MobCategory.MISC,"seed_bullet", 0.5F, 0.5F);
     public static final RegistryObject<EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, ArrowgunShotEntity::new, MobCategory.MISC,"arrowgun_shot", 0.1F, 0.1F);
 
+    public static final RegistryObject<EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
+
     public static final RegistryObject<EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     
    // public static final RegistryObject<EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
@@ -275,6 +277,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GRAVITY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GRAVIRA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GRAVIGA.get(), InvisibleEntityRenderer::new);
+
+        event.registerEntityRenderer(TYPE_SAIX_SHOCKWAVE.get(),InvisibleEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_SPAWNING_ORB.get(), SpawningOrbRenderer::new);
         
