@@ -37,7 +37,6 @@ public abstract class Magic {
     }
 
     public int getCasttimeTicks(int level) {
-    	System.out.println(data.getCasttime(level));
     	return data.getCasttime(level);
     }
     
