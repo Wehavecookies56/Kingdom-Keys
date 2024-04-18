@@ -59,7 +59,6 @@ public class WayfinderItem extends Item {
 					if(playerData != null) {
 						if(playerData.getNotifColor() != getColor(stack)) {
 							stack.getTag().putInt("color", playerData.getNotifColor());
-							System.out.println(new Color(stack.getTag().getInt("color")));
 						}
 						
 					}

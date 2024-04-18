@@ -62,7 +62,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			}
 			break;
 		case "size":
-			System.out.println(ModConfigs.partyMembersLimit);
+			//System.out.println(ModConfigs.partyMembersLimit);
 			if(pSize == ModConfigs.partyMembersLimit) {
 				pSize = 2;
 			} else {

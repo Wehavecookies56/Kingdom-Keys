@@ -66,7 +66,9 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			ShopItem shopItem = list.get(i);
 			nbt.put("shop_item_"+i, shopItem.serializeNBT());
 		}
-		nbt.putString("names", names.toString());
+		if (names != null) {
+			nbt.putString("names", names.toString());
+		}
 		return nbt;
 	}
 
@@ -79,7 +81,9 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 			this.list.add(shopItem);
 		}
 		this.setRegistryName(nbt.getString("regname"));
-		this.setNames(new ResourceLocation(nbt.getString("names")));
+		if (nbt.contains("names")) {
+			this.setNames(new ResourceLocation(nbt.getString("names")));
+		}
 	}
 
 	public ResourceLocation getRegistryName() {
