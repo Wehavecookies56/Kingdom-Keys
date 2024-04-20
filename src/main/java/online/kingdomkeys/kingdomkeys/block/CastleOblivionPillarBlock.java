@@ -5,7 +5,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CastleOblivionPillarBlock extends RotatedPillarBlock {
+public class CastleOblivionPillarBlock extends RotatedPillarBlock implements INoDataGen {
 
     public CastleOblivionPillarBlock(Properties properties) {
         super(properties);

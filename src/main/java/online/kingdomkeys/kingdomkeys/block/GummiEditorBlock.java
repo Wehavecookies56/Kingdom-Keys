@@ -30,7 +30,7 @@ import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
 
-public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock {
+public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 	public GummiEditorBlock(Properties properties) {

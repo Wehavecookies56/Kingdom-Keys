@@ -34,7 +34,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Cas
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 
-public class CardDoorBlock extends BaseBlock implements EntityBlock {
+public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
 	private static final VoxelShape collisionShapeE = Block.box(0.0D, 0.0D, -8.0D, 6.0D, 32.0D, 24.0D);
 	private static final VoxelShape collisionShapeN = Block.box(-8.0D, 0.0D, 10.0D, 24.0D, 32.0D, 16.0D);

@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 
-public class SavePointBlock extends BaseBlock implements EntityBlock {
+public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
 	public SavePointBlock(Properties properties) {

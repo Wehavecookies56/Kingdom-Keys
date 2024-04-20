@@ -17,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class MosaicStainedGlassBlock extends StainedGlassBlock {
+public class MosaicStainedGlassBlock extends StainedGlassBlock implements INoDataGen{
 
     public static final BooleanProperty STRUCTURE = BooleanProperty.create("structure");
 
