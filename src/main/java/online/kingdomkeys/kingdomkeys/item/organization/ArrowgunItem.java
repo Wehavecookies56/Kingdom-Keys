@@ -79,12 +79,11 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 			Player player = (Player) entity;
 			if (!itemStack.hasTag()) {
 				itemStack.setTag(new CompoundTag());
+			}
+			
+			if(!itemStack.getTag().contains("ammo"))
 				itemStack.getTag().putInt("ammo", getMaxAmmo(player));
-			}
 
-			if (itemStack.getTag().getInt("ammo") == 0) {
-				
-			}
 		}
 	}
 }
