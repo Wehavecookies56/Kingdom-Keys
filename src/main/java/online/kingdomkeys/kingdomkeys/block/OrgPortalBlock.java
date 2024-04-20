@@ -35,7 +35,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class OrgPortalBlock extends BaseBlock implements EntityBlock {
+public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
 	public OrgPortalBlock(Properties properties) {
 		super(properties);

@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
-public class DataPortalBlock extends BaseBlock {
+public class DataPortalBlock extends BaseBlock implements INoDataGen {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 	private static final VoxelShape collisionShapeEW = Block.box(0.0D, 0.0D, -5.0D, 16.0D, 48.0D, 21.0D);

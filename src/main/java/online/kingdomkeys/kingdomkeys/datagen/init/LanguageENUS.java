@@ -156,22 +156,23 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".impexp", "Import/Export");
         add(Gui_Menu_Config + ".impexp.import", "Import");
         add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
-        add(Gui_Menu_Config+ ".notif_color", "Notification");
-        add(Gui_Menu_Config+ ".armor.red", "Armor red");
-        add(Gui_Menu_Config+ ".armor.green", "Armor green");
-        add(Gui_Menu_Config+ ".armor.blue", "Armor blue");
-        add(Gui_Menu_Config+ ".armor.glint", "Armor glint");
+        add(Gui_Menu_Config + ".notif_color", "Notification");
+        add(Gui_Menu_Config + ".armor.red", "Armor red");
+        add(Gui_Menu_Config + ".armor.green", "Armor green");
+        add(Gui_Menu_Config + ".armor.blue", "Armor blue");
+        add(Gui_Menu_Config + ".armor.glint", "Armor glint");
+        add(Gui_Menu_Journal, "Journal");
         add(Gui_Menu_Style, "Combat Style");
-        add(Gui_Menu_Style+ ".single", "Single");
-        add(Gui_Menu_Style+ ".dual", "Dual");
-        add(Gui_Menu_Style+ ".sora", "Sora");
-        add(Gui_Menu_Style+ ".roxas", "Roxas");
-        add(Gui_Menu_Style+ ".riku", "Riku");
-        add(Gui_Menu_Style+ ".terra", "Terra");
-        add(Gui_Menu_Style+ ".aqua", "Aqua");
-        add(Gui_Menu_Style+ ".ventus", "Ventus");
-        add(Gui_Menu_Style+ ".kh2roxasdual", "Roxas (KH2)");
-        add(Gui_Menu_Style+ ".daysroxasdual", "Roxas (358/2 Days)");
+        add(Gui_Menu_Style + ".single", "Single");
+        add(Gui_Menu_Style + ".dual", "Dual");
+        add(Gui_Menu_Style + ".sora", "Sora");
+        add(Gui_Menu_Style + ".roxas", "Roxas");
+        add(Gui_Menu_Style + ".riku", "Riku");
+        add(Gui_Menu_Style + ".terra", "Terra");
+        add(Gui_Menu_Style + ".aqua", "Aqua");
+        add(Gui_Menu_Style + ".ventus", "Ventus");
+        add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
+        add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -309,10 +310,23 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
+
+        //Castle Oblivion
+        addBlock(ModBlocks.cardDoor, "Card Door");
+        addBlock(ModBlocks.structureWall, "Structure Wall");
+        // addBlock(ModBlocks.castleOblivionWall, "Oblivion Block");
+        // addBlock(ModBlocks.castleOblivionWallChisled, "Chisled Oblivion Block");
+        // addBlock(ModBlocks.castleOblivionWall2, "Dark Oblivion Block");
+        // addBlock(ModBlocks.castleOblivionWall3, "Darker Oblivion Block");
+        // addBlock(ModBlocks.castleOblivionPillar, "Oblvion Pillar");
+        // addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
+        // addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
         
+        //Realm of Darkness
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
         addBlock(ModBlocks.rodStone, "Dark Stone");
+        
 
         /**KK stuff**/
         //Abilities
@@ -1202,32 +1216,32 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.fencerEarring , "Fencer Earring");
 
         //Spawn Eggs
-        addItem(ModEntities.MOOGLE_EGG, "Spawn Moogle");
-        addItem(ModEntities.SHADOW_EGG, "Spawn Shadow");
-        addItem(ModEntities.MEGA_SHADOW_EGG, "Spawn MegaShadow");
-        addItem(ModEntities.GIGA_SHADOW_EGG, "Spawn GigaShadow");
-        addItem(ModEntities.DARKBALL_EGG, "Spawn Darkball");
-        addItem(ModEntities.SHADOW_GLOB_EGG, "Spawn Shadow Glob");
+        addItem(ModEntities.MOOGLE_EGG, "Moogle Spawn Egg");
+        addItem(ModEntities.SHADOW_EGG, "Shadow Spawn Egg");
+        addItem(ModEntities.MEGA_SHADOW_EGG, "Mega Shadow Spawn Egg");
+        addItem(ModEntities.GIGA_SHADOW_EGG, "Giga Shadow Spawn Egg");
+        addItem(ModEntities.DARKBALL_EGG, "Darkball Spawn Egg");
+        addItem(ModEntities.SHADOW_GLOB_EGG, "Shadow Glob Spawn Egg");
 
-        addItem(ModEntities.MINUTE_BOMB_EGG, "Spawn Minute Bomb");
-        addItem(ModEntities.SKATER_BOMB_EGG, "Spawn Skater Bomb");
-        addItem(ModEntities.STORM_BOMB_EGG, "Spawn Storm Bomb");
-        addItem(ModEntities.DETONATOR_EGG, "Spawn Detonator");
+        addItem(ModEntities.MINUTE_BOMB_EGG, "Minute Bomb Spawn Egg");
+        addItem(ModEntities.SKATER_BOMB_EGG, "Skater Bomb Spawn Egg");
+        addItem(ModEntities.STORM_BOMB_EGG, "Storm Bomb Spawn Egg");
+        addItem(ModEntities.DETONATOR_EGG, "Detonator Spawn Egg");
 
-        addItem(ModEntities.RED_NOCTURNE_EGG, "Spawn Red Nocturne");
-        addItem(ModEntities.BLUE_RHAPSODY_EGG, "Spawn Blue Rhapsody");
-        addItem(ModEntities.YELLOW_OPERA_EGG, "Spawn Yellow Opera");
-        addItem(ModEntities.GREEN_REQUIEM_EGG, "Spawn Green Requiem");
-        addItem(ModEntities.EMERALD_BLUES_EGG, "Spawn Emerald Blues");
-        addItem(ModEntities.LARGE_BODY_EGG, "Spawn Large Body");
-        addItem(ModEntities.DIRE_PLANT_EGG, "Spawn Dire Plant");
-        addItem(ModEntities.SOLDIER_EGG, "Spawn Soldier");
+        addItem(ModEntities.RED_NOCTURNE_EGG, "Red Nocturne Spawn Egg");
+        addItem(ModEntities.BLUE_RHAPSODY_EGG, "Blue Rhapsody Spawn Egg");
+        addItem(ModEntities.YELLOW_OPERA_EGG, "Yellow Opera Spawn Egg");
+        addItem(ModEntities.GREEN_REQUIEM_EGG, "Green Requiem Spawn Egg");
+        addItem(ModEntities.EMERALD_BLUES_EGG, "Emerald Blues Spawn Egg");
+        addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
+        addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
+        addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
 
-        addItem(ModEntities.NOBODY_CREEPER_EGG, "Spawn Creeper (Nobody)");
-        addItem(ModEntities.DUSK_EGG, "Spawn Dusk");
-        addItem(ModEntities.ASSASSIN_EGG, "Spawn Assassin");
-        addItem(ModEntities.DRAGOON_EGG, "Spawn Dragoon");
-        addItem(ModEntities.MARLUXIA_EGG, "Spawn Marluxia");
+        addItem(ModEntities.NOBODY_CREEPER_EGG, "Creeper (Nobody) Spawn Egg");
+        addItem(ModEntities.DUSK_EGG, "Dusk Spawn Egg");
+        addItem(ModEntities.ASSASSIN_EGG, "Assassin Spawn Egg");
+        addItem(ModEntities.DRAGOON_EGG, "Dragoon Spawn Egg");
+        addItem(ModEntities.MARLUXIA_EGG, "Marluxia Spawn Egg");
         
 
         //Armour
@@ -1435,8 +1449,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
         addEntityType(ModEntities.TYPE_SHADOW, "Shadow");
-        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "MegaShadow");
-        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "GigaShadow");
+        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "Mega Shadow");
+        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "Giga Shadow");
         addEntityType(ModEntities.TYPE_DARKBALL, "Darkball");
         addEntityType(ModEntities.TYPE_SHADOW_GLOB, "Shadow Glob");
 
@@ -1462,6 +1476,10 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");
+        add("biome.kingdomkeys.realm_of_darkness", "Realm of Darkness");
+        add("biome.kingdomkeys.station_of_sorrow", "Station of Sorrow");
+        add("biome.kingdomkeys.castle_oblivion", "Castle Oblivion");
+        add("biome.kingdomkeys.castle_oblivion_interior", "Castle Oblivion Interior");
 
         /**JEI**/
         add("jei.category.kingdomkeys.synthesis", "Item Synthesis");
