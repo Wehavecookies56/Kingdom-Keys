@@ -77,6 +77,7 @@ public class CommandMenuGui extends OverlayBase {
 	float[] normalModeColor = { 0.04F, 0.2F, 1F, SUB_MAIN };
 	float[] portalMenuColor = { 0.8F, 0.8F, 0.8F, SUB_PORTALS};
 	float[] combatModeColor = { 1F, 0.8F, 0F, SUB_MAIN };
+	float[] bossModeColor = { 1F, 0F, 0F, SUB_MAIN };
 	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
 	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
 	float[] driveMenuColor = { 0F, 1F, 1F, SUB_DRIVE };
@@ -95,10 +96,18 @@ public class CommandMenuGui extends OverlayBase {
 	
 	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
 		if (EntityEvents.isHostiles) { //Red
-			if(submenu == array[3]) {
-				RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+			if(EntityEvents.isBoss) {
+				if(submenu == array[3]) {
+					RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
+				} else {
+					RenderSystem.setShaderColor(bossModeColor[0] / 2, array[1] / 2, bossModeColor[2] / 2, alpha);
+				}
 			} else {
-				RenderSystem.setShaderColor(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
+				if(submenu == array[3]) {
+					RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+				} else {
+					RenderSystem.setShaderColor(combatModeColor[0] / 2, array[1] / 2, combatModeColor[2] / 2, alpha);
+				}
 			}
 		} else { //Blue/color
 			if (ModCapabilities.getPlayer(minecraft.player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) {
