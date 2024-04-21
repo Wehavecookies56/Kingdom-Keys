@@ -219,7 +219,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		});
 		addRenderableWidget(take = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> {
 			action("take");
-		}).bounds((int) amountBox.getX() + amountBox.getWidth()+1, (int) (topBarHeight + middleHeight - 22), 50, 20).build());
+		}).bounds((int) amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
 		
 		take.visible = false;
 		updateButtons();
@@ -241,14 +241,14 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
-			take.setMessage(Component.translatable("No empty slot"));
+			take.setMessage(Component.translatable(Gui_Shop_NoSpace));
 		}
 		
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Gui_Shop_Page+": " + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 		
