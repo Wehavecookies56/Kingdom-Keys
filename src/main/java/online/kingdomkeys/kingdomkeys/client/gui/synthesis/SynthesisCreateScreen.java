@@ -53,7 +53,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	SynthesisScreen parent;
 
 	public SynthesisCreateScreen(SynthesisScreen parent) {
-		super("Synthesis", new Color(0, 255, 0));
+		super(Gui_Synthesis_Synthesise_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
 	}
@@ -208,9 +208,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
 			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.setMessage(Component.translatable("Not enough space"));
+				create.setMessage(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create));
 			} else {
-				create.setMessage(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
+				create.setMessage(Component.translatable(Utils.translateToLocal(Gui_Shop_NoSpace)));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {
@@ -221,7 +221,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Gui_Shop_Page + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 
@@ -264,10 +264,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
-				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
+				String line = recipe.getCost()+" "+Utils.translateToLocal(Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				gui.drawString(minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
+				gui.drawString(minecraft.font, Utils.translateToLocal(Gui_Shop_Tier)+":", 2, -10, Color.yellow.getRGB());
 				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+"exp";
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
