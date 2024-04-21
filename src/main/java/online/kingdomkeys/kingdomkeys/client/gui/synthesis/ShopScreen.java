@@ -57,7 +57,7 @@ public class ShopScreen extends MenuFilterable {
 	SynthesisScreen parent;
 
 	public ShopScreen(SynthesisScreen parent) {
-		super("Shop", new Color(255, 0, 0));
+		super(Gui_Shop_Main_Title, new Color(255, 0, 0));
 		drawSeparately = true;
 		this.parent = parent;
 	}
@@ -217,7 +217,7 @@ public class ShopScreen extends MenuFilterable {
 				create.active = enoughMunny && enoughTier;
 				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 					create.active = false;
-					create.setMessage(Component.translatable("No empty slot"));
+					create.setMessage(Gui_Shop_Buy_Inv_Full);
 				}
 			}
 			create.visible = item != null;
@@ -229,7 +229,7 @@ public class ShopScreen extends MenuFilterable {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Gui_Shop_Buy_Page + (page + 1)), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 
@@ -289,8 +289,8 @@ public class ShopScreen extends MenuFilterable {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+":", 2, -20, Color.yellow.getRGB());
 				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				gui.drawString(minecraft.font, Utils.translateToLocal("Tier")+":", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(item.getTier())+" "+(10 + item.getTier()*2)+"exp";
+				gui.drawString(minecraft.font, Gui_Shop_Buy_Tier+":", 2, -10, Color.yellow.getRGB());
+				line = Utils.getTierFromInt(item.getTier())+" "+(10 + item.getTier()*2)+" exp";
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				
 				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
