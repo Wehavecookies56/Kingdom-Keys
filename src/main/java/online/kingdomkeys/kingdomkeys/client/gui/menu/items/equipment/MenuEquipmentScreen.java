@@ -69,7 +69,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         
         float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
-        buttonPosY = topBarHeight+5;
+        buttonPosY = (int) (topBarHeight+5);
         buttonPosX = 15.4F;
         
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);

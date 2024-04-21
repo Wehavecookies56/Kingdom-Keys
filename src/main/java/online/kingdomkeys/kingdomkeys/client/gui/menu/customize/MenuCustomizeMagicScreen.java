@@ -136,7 +136,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         boxRight = new MenuBox((int) boxRightPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
         buttonsX = boxLeft.getX() + 10;
 
-        buttonPosY = topBarHeight + 5;
+        buttonPosY = (int) (topBarHeight + 5);
 
         super.init();
         addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, 14, 1, (int) topBarHeight, (int) (topBarHeight + middleHeight)));
