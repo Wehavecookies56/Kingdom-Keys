@@ -92,10 +92,8 @@ public class SaixShockwave extends ThrowableProjectile {
 
 			if (rtRes instanceof BlockHitResult brtResult) {
 				// Glide on Ground
-				if (brtResult.getType() == Type.BLOCK) {
-					System.out.println(brtResult.getDirection());
-					if (!(brtResult.getDirection() == Direction.UP || brtResult.getDirection() == Direction.DOWN)) {
-						// this.setPos(getX(), getY() + 0.1, getZ());
+					//if (!(brtResult.getDirection() == Direction.UP || brtResult.getDirection() == Direction.DOWN)) {
+						 this.setPos(getX(), getY() + 0.1, getZ());
 
 						Vec3 mot = getDeltaMovement();
 
@@ -103,10 +101,10 @@ public class SaixShockwave extends ThrowableProjectile {
 						double y = mot.y();
 						double z = mot.z();
 
-						this.setDeltaMovement(x, y * 1, z);
+						this.setDeltaMovement(x, y * 0, z);
 					}
-				}
-			}
+				//}
+			
 
 		}
 	}
