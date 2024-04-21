@@ -66,6 +66,8 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.67F;
 		float middleHeight = (float) height * 0.6F;
+
+		buttonPosY = topBarHeight + 5;
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		buttonsX = box.getX() + 10;
@@ -76,14 +78,14 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		
 		for(int i = 0; i< shortcuts.length;i++) {
 			int j = i;
-			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, (int) topBarHeight +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
+			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, (int) buttonPosY +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init();}));
 		}		
 		
 		//if(selectedShortcut > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int totalMagics = 0;
 			int magicType = 0;
-			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) topBarHeight + (-1 * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
+			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), (int) buttonPosY, (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			//for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
 			for (ResourceLocation entry : allMagic) {
@@ -92,7 +94,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 					int level = playerData.getMagicLevel(entry);
 					while(level >= 0) {
 						int lvl = level;
-						addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * 80), (int) topBarHeight + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+						addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * (buttonWidth + 5)), (int) buttonPosY + (18*2) + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
 						magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 						level--;
 						totalMagics++;
@@ -108,7 +110,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 			}
 		//}
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> action("back")));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) buttonPosY + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> action("back")));
 		
 	}
 
