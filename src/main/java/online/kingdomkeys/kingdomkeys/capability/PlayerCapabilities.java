@@ -822,7 +822,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public void remFP(double cost) {
+	public void remFP(double fp) {
 		this.fp -= fp;
 	}
 
