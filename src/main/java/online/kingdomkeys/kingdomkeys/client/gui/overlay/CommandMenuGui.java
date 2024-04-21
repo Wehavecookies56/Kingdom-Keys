@@ -76,7 +76,7 @@ public class CommandMenuGui extends OverlayBase {
 	//		{ color when seen fully, SubMenu when it should be seen fully }
 	float[] normalModeColor = { 0.04F, 0.2F, 1F, SUB_MAIN };
 	float[] portalMenuColor = { 0.8F, 0.8F, 0.8F, SUB_PORTALS};
-	float[] combatModeColor = { 1F, 0F, 0F, SUB_MAIN };
+	float[] combatModeColor = { 1F, 0.8F, 0F, SUB_MAIN };
 	float[] magicMenuColor = { 0.4F, 0F, 1F, SUB_MAGIC };
 	float[] itemsMenuColor = { 0.3F, 1F, 0.3F, SUB_ITEMS };
 	float[] driveMenuColor = { 0F, 1F, 1F, SUB_DRIVE };

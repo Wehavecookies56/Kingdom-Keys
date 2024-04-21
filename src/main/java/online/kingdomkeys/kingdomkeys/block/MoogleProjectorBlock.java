@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 
-public class MoogleProjectorBlock extends BaseBlock implements EntityBlock {
+public class MoogleProjectorBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
 	//TODO add facing
 

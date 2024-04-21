@@ -1,7 +1,15 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop.names;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -12,17 +20,6 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMoogleNames;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataDeserializer;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class NamesListLoader {
 

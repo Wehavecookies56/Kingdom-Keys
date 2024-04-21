@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 
-public class SoRCore extends BaseBlock implements EntityBlock {
+public class SoRCore extends BaseBlock implements EntityBlock, INoDataGen {
 
 	public SoRCore(Properties properties) {
 		super(properties);

@@ -5,7 +5,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CastleOblivionSlabBlock extends SlabBlock {
+public class CastleOblivionSlabBlock extends SlabBlock implements INoDataGen {
 
     public CastleOblivionSlabBlock(Properties properties) {
         super(properties);

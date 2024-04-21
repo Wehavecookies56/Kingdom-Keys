@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock {
+public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
     public static final BooleanProperty STRUCTURE = BooleanProperty.create("structure");
 

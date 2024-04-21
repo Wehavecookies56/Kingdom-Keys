@@ -31,7 +31,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class MagnetBloxBlock extends BaseBlock implements EntityBlock {
+public class MagnetBloxBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
     private static int min = 1, max = 10;
 

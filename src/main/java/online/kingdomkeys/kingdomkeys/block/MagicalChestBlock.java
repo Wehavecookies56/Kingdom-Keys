@@ -44,7 +44,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class MagicalChestBlock extends BaseEntityBlock {
+public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty BIG = BooleanProperty.create("big");
 
@@ -59,7 +59,7 @@ public class MagicalChestBlock extends BaseEntityBlock {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		tooltip.add(Component.translatable("Can be locked with a keyblade"));
+		tooltip.add(Component.translatable("message.chest.can_be_locked"));
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 

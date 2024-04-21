@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class SoADoorBlock extends BaseBlock {
+public class SoADoorBlock extends BaseBlock implements INoDataGen{
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 	private static final VoxelShape collisionShapeEW = Block.box(5.0D, 0.0D, -8.0D, 11.0D, 32.0D, 24.0D);

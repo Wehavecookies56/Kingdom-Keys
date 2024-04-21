@@ -50,7 +50,7 @@ public class BaseKHEntity extends Monster implements IKHMob {
 
 	@Override //True = can't get hit
 	public boolean skipAttackInteraction(Entity pEntity) {
-		System.out.println(pEntity);
+		//System.out.println(pEntity);
 		if (getKHMobType() != MobType.NPC) {
 			if(pEntity instanceof Player player) {
 				if(ItemStack.isSameItem(player.getMainHandItem(),ItemStack.EMPTY)) {

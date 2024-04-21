@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
 
-public class PedestalBlock extends BaseEntityBlock {
+public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 
 	public PedestalBlock(Properties properties) {
 		super(properties);
