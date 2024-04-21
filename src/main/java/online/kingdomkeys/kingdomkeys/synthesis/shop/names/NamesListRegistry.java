@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop.names;
 
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 public class NamesListRegistry {
 
