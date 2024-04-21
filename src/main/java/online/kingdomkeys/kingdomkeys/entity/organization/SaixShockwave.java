@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 
 import org.joml.Vector3f;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
@@ -77,46 +79,35 @@ public class SaixShockwave extends ThrowableProjectile {
 	@Override
 	protected void onHit(HitResult rtRes) {
 		if (!level().isClientSide) {
+			if (rtRes instanceof EntityHitResult ertResult) {
+				if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
 
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
+					LivingEntity target = (LivingEntity) ertResult.getEntity();
 
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target != getOwner()) {
-					/*
-					 * float dmg = 0; if(this.getOwner() instanceof Player) { Player player =
-					 * (Player) this.getOwner(); if(player.getMainHandItem() != null) { dmg =
-					 * DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
-					 * } }
-					 */
-					target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-
+					if (target != getOwner()) {
+						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					}
 				}
-			} else { // Block (not ERTR)
-
-				// Glide on Ground
-
-				this.setPos(getX(), getY() + 0.1, getZ());
-				Vec3 mot = getDeltaMovement();
-
-				double x = mot.x();
-				double y = mot.y();
-				double z = mot.z();
-
-				this.setDeltaMovement(x, y * 0, z);
-
 			}
+
+			if (rtRes instanceof BlockHitResult brtResult) {
+				// Glide on Ground
+				if (brtResult.getType() == Type.BLOCK) {
+					System.out.println(brtResult.getDirection());
+					if (!(brtResult.getDirection() == Direction.UP || brtResult.getDirection() == Direction.DOWN)) {
+						// this.setPos(getX(), getY() + 0.1, getZ());
+
+						Vec3 mot = getDeltaMovement();
+
+						double x = mot.x();
+						double y = mot.y();
+						double z = mot.z();
+
+						this.setDeltaMovement(x, y * 1, z);
+					}
+				}
+			}
+
 		}
 	}
 
