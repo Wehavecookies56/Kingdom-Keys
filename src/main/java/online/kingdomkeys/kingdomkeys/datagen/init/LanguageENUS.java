@@ -49,10 +49,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
 
         //Menu
-        add(Gui_Menu, "Menu");
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
+        add(Gui_Menu_Main_Title, "Menu");
+        
         add(Gui_Menu_Main_Button_Items, "Items");
         add(Gui_Menu_Main_Button_Items + ".desc", "Access to your equipables (weapon, potions...) and your inventory.");
         add(Gui_Menu_Main_Button_Abilities, "Abilities");
@@ -69,6 +70,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
         add(Gui_Menu_Main_Button_Style, "Combat Style");
         add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight");
+        
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
@@ -129,6 +131,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
         add(Gui_Menu_Status_Ability, "Ability");
+        
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
