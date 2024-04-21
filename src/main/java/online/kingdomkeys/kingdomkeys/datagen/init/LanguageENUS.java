@@ -49,6 +49,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
 
         //Menu
+        add(Gui_Menu, "Menu");
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
@@ -177,9 +178,11 @@ public class LanguageENUS extends KKLanguageProvider {
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
+        add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
         add(Gui_Synthesis_Forge_Upgrade, "Upgrade");
         add(Gui_Synthesis_Forge, "Keyblade Forge");
+        add(Gui_Synthesis_Forge_Title, "Forge");
         add(Gui_Synthesis_Materials, "Material List");
         add(Gui_Synthesis_Materials_Deposit, "Deposit");
         add(Gui_Synthesis_Materials_Take, "Take");
