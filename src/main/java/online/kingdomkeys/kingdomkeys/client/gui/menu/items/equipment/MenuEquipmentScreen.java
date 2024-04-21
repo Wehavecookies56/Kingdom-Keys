@@ -55,6 +55,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         buttonWidth = ((float)width * 0.07F);
         float listBoxX = width * 0.16F;
         float boxY = height * 0.174F;
+	float topBarHeight = height * 0.17F;
         float listBoxWidth = width * 0.452F;
         float boxHeight = height * 0.5972F;
         float detailsWidth = width * 0.2588F;
@@ -68,8 +69,8 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         
         float itemsX = width * 0.31F;
         float itemsY = height * 0.1907F;
-        buttonPosY = 48;
-        buttonPosX = 14.4F;
+        buttonPosY = topBarHeight+5;
+        buttonPosX = 15.4F;
         
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
