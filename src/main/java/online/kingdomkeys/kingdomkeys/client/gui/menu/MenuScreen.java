@@ -36,7 +36,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class MenuScreen extends MenuBackground {
 
 	public MenuScreen() {
-		super(Strings.Gui_Menu, new Color(0,0,255));
+		super(Strings.Gui_Menu_Main_Title, new Color(0,0,255));
 		minecraft = Minecraft.getInstance();
 	}
 	
