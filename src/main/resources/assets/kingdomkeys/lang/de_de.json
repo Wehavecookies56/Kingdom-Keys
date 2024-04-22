@@ -65,7 +65,7 @@
   "ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
   "ability.ability_water_boost.name": "Wasser-Boost",
 
-  "ability.ability_critical_boost.desc": "Increases damage dealt by critical hits by 10%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_critical_boost.name": "Volltreffer-Boost",
   "ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
   "ability.ability_drive_boost.name": "Drive-Boost",
@@ -451,6 +451,9 @@
 
   "gui.magicspell.maxed": "%s ist bereits das Maximum",
   "gui.magicspell.unlock": "Schaltet %s frei",
+
+  "gui.statboost.increased": "%s wurde Erhöht, es beträgt nun %s",
+  "gui.statboost.tooltip": "Erhöht %s um 1",
 
   "gui.menu.accept": "Akzeptieren",
   "gui.menu.back": "Zurück",
@@ -1914,7 +1917,7 @@
   "message.wayfinder.from_party": " aus deiner Gruppe",
   "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
   "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
-  "message.wayfinder.cooldown": "Cooldown: %s%%",
+  "message.wayfinder.cooldown": "Abklingzeit: %s%%",
 
 
   "potion.desc.beginning": "Stellt %s%s %s wiederher ",
