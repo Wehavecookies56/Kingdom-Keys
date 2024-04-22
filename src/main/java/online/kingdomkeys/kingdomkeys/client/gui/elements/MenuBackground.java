@@ -146,8 +146,8 @@ public class MenuBackground extends Screen {
 	
 	//GUIs variables
 	protected float buttonPosX;
-    protected int buttonPosY;
-    protected float buttonWidth;
+	protected float buttonPosY;
+	protected float buttonWidth;
 
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
