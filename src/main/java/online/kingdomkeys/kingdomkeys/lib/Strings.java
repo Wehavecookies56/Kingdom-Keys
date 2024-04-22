@@ -106,7 +106,7 @@ public class Strings {
     		driveBoost = KingdomKeys.MODID+":"+AB_Prefix +"drive_boost",
     		formBoost = KingdomKeys.MODID+":"+AB_Prefix +"form_boost",
     		fullMPBlast = KingdomKeys.MODID+":"+AB_Prefix +"full_mp_blast",
-    		fireBoost =  KingdomKeys.MODID+":"+.AB_Prefix +"fire_boost",
+    		fireBoost =  KingdomKeys.MODID+":"+AB_Prefix +"fire_boost",
 			blizzardBoost =  KingdomKeys.MODID+":"+AB_Prefix +"blizzard_boost",
 			waterBoost =  KingdomKeys.MODID+":"+AB_Prefix +"water_boost",
     		thunderBoost =  KingdomKeys.MODID+":"+AB_Prefix +"thunder_boost",
@@ -465,7 +465,7 @@ public class Strings {
             // Shop
             Gui_Shop = "gui.shop",
             Gui_Shop_Page = Gui_Shop + ".page",
-	    Gui_Shop_Tier = Gui_Shop + ".tier",
+	    	Gui_Shop_Tier = Gui_Shop + ".tier",
             Gui_Shop_Main = Gui_Shop + ".main",
             Gui_Shop_NoSpace = Gui_Shop + "no_empty_slot",
             Gui_Shop_Main_Title = Gui_Shop_Main + ".title",
