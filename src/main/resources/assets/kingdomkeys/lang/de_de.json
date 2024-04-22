@@ -606,8 +606,8 @@
 
   "gui.shop": "Laden",
   "gui.shop.cost": "Kosten",
-  "gui.shop.tier": "Stufe",
-  "gui.shop.page": "Seite",
+  "gui.shop.tier": "Stufe:",
+  "gui.shop.page": "Seite:",
   "gui.shop.no_empty_slot": "Inventar voll",
   "gui.shop.main.title": "Laden",
 
