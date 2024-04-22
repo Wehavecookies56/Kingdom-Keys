@@ -208,9 +208,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
 			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.setMessage(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create));
+				create.setMessage(Utils.translateToLocal(Strings.Gui_Shop_NoSpace));
 			} else {
-				create.setMessage(Utils.translateToLocal(Strings.Gui_Shop_NoSpace)));
+				create.setMessage(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {
