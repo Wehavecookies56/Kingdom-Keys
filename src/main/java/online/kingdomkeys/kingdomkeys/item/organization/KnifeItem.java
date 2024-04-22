@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -13,8 +12,6 @@ import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import static net.minecraft.core.BlockPos.getX;
 
 public class KnifeItem extends OrgSwordItem implements IOrgWeapon {
 	@Override

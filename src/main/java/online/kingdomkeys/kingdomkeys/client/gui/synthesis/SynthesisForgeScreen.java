@@ -35,8 +35,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisForgeScreen extends MenuFilterable {
@@ -53,7 +51,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	SynthesisScreen parent;
 
 	public SynthesisForgeScreen(SynthesisScreen parent) {
-		super("Forge", new Color(0, 255, 0));
+		super(Strings.Gui_Synthesis_Forge_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
 	}

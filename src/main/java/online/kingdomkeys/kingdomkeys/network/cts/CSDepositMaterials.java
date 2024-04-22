@@ -33,7 +33,7 @@ public class CSDepositMaterials {
 	public CSDepositMaterials(String inv, String name, int moogle) {
 		this.inv = inv != null ? inv : "";
 		this.moogle = moogle;
-		this.name = name != null ? inv : "";
+		this.name = name != null ? name : "";
 	}
 	
 	public void encode(FriendlyByteBuf buffer) {

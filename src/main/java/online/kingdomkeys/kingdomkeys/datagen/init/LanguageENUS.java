@@ -52,6 +52,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
+        add(Gui_Menu_Main_Title, "Menu");
+        
         add(Gui_Menu_Main_Button_Items, "Items");
         add(Gui_Menu_Main_Button_Items + ".desc", "Access to your equipables (weapon, potions...) and your inventory.");
         add(Gui_Menu_Main_Button_Abilities, "Abilities");
@@ -68,6 +70,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
         add(Gui_Menu_Main_Button_Style, "Combat Style");
         add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight");
+        
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
@@ -128,6 +131,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
         add(Gui_Menu_Status_Ability, "Ability");
+        
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
@@ -177,14 +181,20 @@ public class LanguageENUS extends KKLanguageProvider {
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
+        add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
         add(Gui_Synthesis_Forge_Upgrade, "Upgrade");
         add(Gui_Synthesis_Forge, "Keyblade Forge");
+        add(Gui_Synthesis_Forge_Title, "Forge");
         add(Gui_Synthesis_Materials, "Material List");
         add(Gui_Synthesis_Materials_Deposit, "Deposit");
         add(Gui_Synthesis_Materials_Take, "Take");
         add(Gui_Shop, "Shop");
-        add(Gui_Shop_Buy_Cost, "Cost");
+        add(Gui_Shop_Page, "Page:");
+        add(Gui_Shop_NoSpace, "Not enough space")
+        add(Gui_Shop_Tier, "Tier:");
+        add(Gui_Shop_Main_Title, "Shop")
+        add(Gui_Shop_Buy_Cost, "Cost:");
         add(Gui_Synthesis_Moogle_Name, "%s's Moogle Shop");
 
         //Command Menu

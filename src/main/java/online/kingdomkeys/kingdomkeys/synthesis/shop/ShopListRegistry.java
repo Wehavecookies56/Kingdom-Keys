@@ -38,7 +38,9 @@ public class ShopListRegistry {
         if (containsKey(key)) {
             return registry.get(key);
         } else {
-            KingdomKeys.LOGGER.error("Shop list registry does not contain location: {}", key);
+            if (!key.getPath().isEmpty()) {
+                KingdomKeys.LOGGER.error("Shop list registry does not contain location: {}", key);
+            }
             return null;
         }
     }

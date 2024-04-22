@@ -20,6 +20,7 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -43,7 +44,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -79,7 +79,6 @@ import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -546,33 +545,38 @@ public class EntityEvents {
 		}
 
 		if (ticks % 5 == 0) {
+			updateCommandMenu(event.player);
 			// Combat mode
-			List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(event.player, 16);
-			List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(event.player, 150);
-			if (!bossEntities.isEmpty()) {
-				for (int i = 0; i < bossEntities.size(); i++) {
-					if (bossEntities.get(i) instanceof EnderDragon || bossEntities.get(i) instanceof WitherBoss) {
-						isBoss = true;
-						break;
-					} else {
-						isBoss = false;
-					}
+		}
+
+	}
+
+	private void updateCommandMenu(Player player) {
+		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
+		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
+		if (!bossEntities.isEmpty()) {
+			for (int i = 0; i < bossEntities.size(); i++) {
+				if (bossEntities.get(i) instanceof EnderDragon || bossEntities.get(i) instanceof WitherBoss || bossEntities.get(i) instanceof MarluxiaEntity) {
+					isBoss = true;
+					return;
+				} else {
+					isBoss = false;
 				}
-			} else {
-				isBoss = false;
 			}
-			if (!entities.isEmpty()) {
-				for (Entity entity : entities) {
-					if (entity instanceof Monster) {
-						isHostiles = true;
-						break;
-					} else {
-						isHostiles = false;
-					}
+		} else {
+			isBoss = false;
+		}
+		if (!entities.isEmpty()) {
+			for (Entity entity : entities) {
+				if (entity instanceof Monster || entity instanceof Slime) {
+					isHostiles = true;
+					return;
+				} else {
+					isHostiles = false;
 				}
-			} else {
-				isHostiles = false;
 			}
+		} else {
+			isHostiles = false;
 		}
 
 	}

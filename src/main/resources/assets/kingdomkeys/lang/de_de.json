@@ -1,0 +1,1985 @@
+{
+  //ABILITIES
+
+  //levelup able
+  "ability.ability_aerial_dodge.desc": "In der Luft kannst du erneut die Sprungtaste drücken, für einen Doppelsprung.",
+  "ability.ability_aerial_dodge_1.name": "Luftsprung LV.1",
+  "ability.ability_aerial_dodge_2.name": "Luftsprung LV.2",
+  "ability.ability_aerial_dodge_3.name": "Luftsprung LV.3",
+  "ability.ability_aerial_dodge_4.name": "Luftsprung MAX",
+
+  "ability.ability_dodge_roll.desc": "Wenn du die Aktionstaste während des Laufens drückst machst du einen Purzelbaum zum Ausweichen.",
+  "ability.ability_dodge_roll_1.name": "Purzelbaum LV.1",
+  "ability.ability_dodge_roll_2.name": "Purzelbaum LV.2",
+  "ability.ability_dodge_roll_3.name": "Purzelbaum LV.3",
+  "ability.ability_dodge_roll_4.name": "Purzelbaum MAX",
+
+  "ability.ability_glide.desc": "In der Luft, halte die Sprungtaste um zu gleiten.",
+  "ability.ability_glide_1.name": "Gleiten LV.1",
+  "ability.ability_glide_2.name": "Gleiten LV.2",
+  "ability.ability_glide_3.name": "Gleiten LV.3",
+  "ability.ability_glide_4.name": "Gleiten MAX",
+
+  "ability.ability_high_jump.desc": "Du kannst jetzt wirklich hoch springen!",
+  "ability.ability_high_jump_1.name": "Sportsfreund LV.1",
+  "ability.ability_high_jump_2.name": "Sportsfreund LV.2",
+  "ability.ability_high_jump_3.name": "Sportsfreund LV.3",
+  "ability.ability_high_jump_4.name": "Sportsfreund MAX",
+
+  "ability.ability_quick_run.desc": "Wenn du die Aktionstaste während des Rennens drückst, sprintest du einen Satz voraus.",
+  "ability.ability_quick_run_1.name": "Sprint LV.1",
+  "ability.ability_quick_run_2.name": "Sprint LV.2",
+  "ability.ability_quick_run_3.name": "Sprint LV.3",
+  "ability.ability_quick_run_4.name": "Sprint MAX",
+
+  //reaction
+  "ability.ability_auto_final.desc": "Ermöglicht in Notfällen die automatische Aktivierung der Über-Form per Reaktionskommando, wenn die Über-Form verwendet werden kann.",
+  "ability.ability_auto_final.name": "Auto-Über-Form",
+  "ability.ability_auto_limit.desc": "Ermöglicht in Notfällen die automatische Aktivierung der Limit-Form per Reaktionskommando, wenn die Limit-Form verwendet werden kann.",
+  "ability.ability_auto_limit.name": "Auto-Limit-Form",
+  "ability.ability_auto_master.desc": "Ermöglicht in Notfällen die automatische Aktivierung der Meister-Form per Reaktionskommando, wenn die Meister-Form verwendet werden kann.",
+  "ability.ability_auto_master.name": "Auto-Meister-Form",
+  "ability.ability_auto_valor.desc": "Ermöglicht in Notfällen die automatische Aktivierung der Helden-Form per Reaktionskommando, wenn die Helden-Form verwendet werden kann.",
+  "ability.ability_auto_valor.name": "Auto-Helden-Form",
+  "ability.ability_auto_wisdom.desc": "Ermöglicht in Notfällen die automatische Aktivierung der Weisen-Form per Reaktionskommando, wenn die Weisen-Form verwendet werden kann.",
+  "ability.ability_auto_wisdom.name": "Auto-Weisen-Form",
+
+  "ability.ability_blizzaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Eiska zu erhalten.",
+  "ability.ability_blizzaza.name": "Eiska",
+  "ability.ability_curaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Vitka zu erhalten.",
+  "ability.ability_curaza.name": "Vitka",
+  "ability.ability_firaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Feuka zu erhalten.",
+  "ability.ability_firaza.name": "Feuka",
+  "ability.ability_thundaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Blitzka zu erhalten.",
+  "ability.ability_thundaza.name": "Blitzka",
+  "ability.ability_waterza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Wasseka zu erhalten.",
+  "ability.ability_waterza.name": "Wasseka",
+
+  //Boosts
+  "ability.ability_blizzard_boost.desc": "Erhöht den Schaden, der durch Eis-basierte Attacken verursacht wird.",
+  "ability.ability_blizzard_boost.name": "Eis-Boost",
+  "ability.ability_fire_boost.desc": "Erhöht den Schaden, der durch Feuer-basierte Attacken verursacht wird.",
+  "ability.ability_fire_boost.name": "Feuer-Boost",
+  "ability.ability_thunder_boost.desc": "Erhöht den Schaden, der durch Blitz-basierte Attacken verursacht wird.",
+  "ability.ability_thunder_boost.name": "Blitz-Boost",
+  "ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
+  "ability.ability_water_boost.name": "Wasser-Boost",
+
+  "ability.ability_critical_boost.desc": "Increases damage dealt by critical hits by 10%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_critical_boost.name": "Volltreffer-Boost",
+  "ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
+  "ability.ability_drive_boost.name": "Drive-Boost",
+  "ability.ability_experience_boost.desc": "Erhöht die erhaltene Erfahrung um 100% wenn du bei einem Halben Herz oder weniger bist.",
+  "ability.ability_experience_boost.name": "Erfahrungs-Boost",
+  "ability.ability_form_boost.desc": "Erhöht die verweildauer in den Formen.",
+  "ability.ability_form_boost.name": "Form-Boost",
+  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_item_boost.name": "Item-Boost",
+
+  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nMehrfaches Anlegen erhöht den Effekt. (Kein Combo-Abschlussangriff möglich?)",
+  "ability.ability_berserk_charge.name": "Auflade-Berserker",
+  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nAusgerüstete Menge bestimmt die Anzahl der Zusatzhiebe.",
+  "ability.ability_combo_plus.name": "Combo +",
+
+  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_damage_control.name": "Schadenskontrolle",
+  "ability.ability_damage_drive.desc": "Bei erlittenem Schaden füllt sich die Drive-Leiste.\nDie Leiste füllt sich proportional zum erlittenen Schaden.",
+  "ability.ability_damage_drive.name": "Schadensbegrenzung",
+  "ability.ability_dark_domination.desc": "Erlaubt es dem Nutzer die Anti-Form bewusst zu kontrollieren.",
+  "ability.ability_dark_domination.name": "Dunkle Übermacht",
+
+  "ability.ability_drive_converter.desc": "Erhöhe den Wert aller Drive-Kugeln.",
+  "ability.ability_drive_converter.name": "Drive-Konverter",
+  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_endless_magic.name": "Endlos-Magie",
+  "ability.ability_extra_cast.desc": "Erlaubt das wirken eines letzten Zaubers bevor die MP leer gehen.",
+  "ability.ability_extra_cast.name": "Extrazauber",
+  "ability.ability_finishing_plus.desc": "Lässt den Nutzer am Ende einer Combo einen zusätzlichen Abschlussangriff ausführen.",
+  "ability.ability_finishing_plus.name": "Abschlussangriff +",
+
+  "ability.ability_focus_converter.desc": "Erhöht den Wert aller Fokus-Kugeln.",
+  "ability.ability_focus_converter.name": "Fokus-Konverter",
+
+  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_full_mp_blast.name": "Volle MP-Salve",
+
+  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
+
+  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_hp_gain.name": "HP-Gewinn",
+
+  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_jackpot.name": "Jackpot",
+
+  "ability.ability_leaf_bracer.desc": "Das wirken von Vita auf sich selbst wird nicht unterbrochen, wird man attackiert.",
+  "ability.ability_leaf_bracer.name": "Anti-Disruptor",
+
+  "ability.ability_light_and_darkness.desc": "Hat eine spezielle geheime Wirkung.",
+  "ability.ability_light_and_darkness.name": "Licht & Dunkelheit",
+
+  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_lucky_lucky.name": "Glückspilz",
+  "ability.ability_magic_lock_on.desc": "Erlaubt es dem Benutzer einige Zauber bei der Position einer anvisierten Entitität zu benutzen.",
+  "ability.ability_magic_lock_on.name": "Magie-Autovisieren",
+
+  "ability.ability_mp_haste.desc": "Erhöht die Geschwindigkeit, mit der sich die MP nach komplettem Verbrauch aufladen.",
+  "ability.ability_mp_haste.name": "MP-Hast",
+  "ability.ability_mp_hastera.desc": "Erhöht die Geschwindigkeit deutlich, mit der sich die MP nach komplettem Verbrauch aufladen.",
+  "ability.ability_mp_hastera.name": "MP-Hastra",
+  "ability.ability_mp_hastega.desc": "Erhöht die Geschwindigkeit extrem, mit der sich die MP nach komplettem Verbrauch aufladen.",
+  "ability.ability_mp_hastega.name": "MP-Hastga",
+  "ability.ability_mp_rage.desc": "Stellt proportional zu erlittenem Schaden die MP wieder her.",
+  "ability.ability_mp_rage.name": "Esprit",
+  "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
+  "ability.ability_mp_safety.name": "MP-Aufladung",
+  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_mp_thrift.name": "MP Thrift",
+
+  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_negative_combo.name": "Combo -",
+
+  "ability.ability_scan.desc": "Inspiziert den aktuellen HP-Stand des Ziels.",
+  "ability.ability_scan.name": "Analyse",
+  "ability.ability_second_chance.desc": "Man behält 1 HP, auch wenn einem fataler Schaden zugefügt wurde.",
+  "ability.ability_second_chance.name": "Trotzkopf",
+  "ability.ability_strike_raid.desc": "Benutze beim Schleichen dein Schlüsselschwert um es zu werfen.\nVerbraucht 10MP.",
+  "ability.ability_strike_raid.name": "Schwertwurf",
+  "ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
+  "ability.ability_synch_blade.name": "Synchrone Klingen",
+
+  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_treasure_magnet.name": "Charmeur",
+  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_wizards_ruse.name": "Hexertrick",
+  "ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
+  "ability.ability_zero_exp.name": "Null Erfahrung",
+
+  //ADVANCEMENTS
+
+  "advancements.kingdomkeys.choice": "Habe ich geschlafen?",
+  "advancements.kingdomkeys.choice.desc": "Triff eine Entscheidung",
+  "advancements.kingdomkeys.levelup1": "Ich fühle die Energie!",
+  "advancements.kingdomkeys.levelup1.desc": "Steige in deiner Stufe auf",
+  "advancements.kingdomkeys.levelup100": "Spitzenreiter!",
+  "advancements.kingdomkeys.levelup100.desc": "Erreiche Stufe 100",
+  "advancements.kingdomkeys.levelup50": "Halbzeit",
+  "advancements.kingdomkeys.levelup50.desc": "Erreiche Stufe 50",
+  "advancements.kingdomkeys.obtain_drive": "Das ist noch nicht Mal meine wahre Form",
+  "advancements.kingdomkeys.obtain_drive.desc": "Erhalte deine erste Drive Form",
+  "advancements.kingdomkeys.obtain_keychain": "So ein Mogry kennt sich gut aus",
+  "advancements.kingdomkeys.obtain_keychain.desc": "Lasse deinen ersten Anhänger anfertigen",
+  "advancements.kingdomkeys.obtain_kiblade": "Der Schlüssel zum Herzen!",
+  "advancements.kingdomkeys.obtain_kiblade.desc": "Erlange die legendäre χ-Klinge",
+  "advancements.kingdomkeys.obtain_magic": "Magisch!",
+  "advancements.kingdomkeys.obtain_magic.desc": "Erhalte deinen ersten Zauber",
+  "advancements.kingdomkeys.obtain_org": "Niemand trägt sowas",
+  "advancements.kingdomkeys.obtain_org.desc": "Werde Miglied der Organisation",
+  "advancements.kingdomkeys.obtain_projector": "Manchmal muss man Opfer bringen",
+  "advancements.kingdomkeys.obtain_projector.desc": "Erhalte einen Mogry-Projektor",
+  "advancements.kingdomkeys.obtain_recipe": "Ein Mogry kann damit mehr anfangen.",
+  "advancements.kingdomkeys.obtain_recipe.desc": "Erlange eine Formel",
+  "advancements.kingdomkeys.root": "Willkommen zu Kingdom Keys!",
+  "advancements.kingdomkeys.root.desc": "Installiere Kingdom Keys",
+  "advancements.kingdomkeys.summon_keyblade": "Der Auserwählte?",
+  "advancements.kingdomkeys.summon_keyblade.desc": "Rufe deine Waffe herbei",
+  "advancements.kingdomkeys.to_rod": "Wo Licht ist, ist auch Dunkelheit",
+  "advancements.kingdomkeys.to_rod.desc": "Werde ins Reich der Dunkelheit absorbiert",
+  "advancements.kingdomkeys.to_soa": "Ist das... mein Herz?!",
+  "advancements.kingdomkeys.to_soa.desc": "Tauche in dein Herz hinein",
+  "advancements.kingdomkeys.upgrade_keyblade": "Noch Stärker?",
+  "advancements.kingdomkeys.upgrade_keyblade.desc": "Verbessere dein Schlüsselschwert in der Mogry-Schmiede",
+  
+  //BIOMES
+
+  "biome.kingdomkeys.castle_oblivion": "Schloss des Entfallens",
+  "biome.kingdomkeys.castle_oblivion_interior": "Schloss des Entfallens - Innen",
+  "biome.kingdomkeys.dive_to_the_heart": "Ort des Erwachens",
+  "biome.kingdomkeys.realm_of_darkness": "Das Reich der Dunkelheit",
+  "biome.kingdomkeys.station_of_sorrow": "Ort der Trauer",
+
+  //BLOCKS
+
+  // -MISC
+
+  "block.kingdomkeys.card_door": "Kartentür",
+  "block.kingdomkeys.structure_wall": "Struktur Wand",
+
+  // -ORES
+
+  "block.kingdomkeys.betwixt_ore": "Duktilerz",
+  "block.kingdomkeys.betwixt_ore_d": "Tiefenschiefer-Duktilerz",
+  "block.kingdomkeys.betwixt_ore_e": "End-Duktilerz",
+
+  "block.kingdomkeys.frost_ore": "Cyaniterz",
+  "block.kingdomkeys.frost_ore_d": "Tiefenschiefer-Cyaniterz",
+
+  "block.kingdomkeys.blazing_ore": "Pyroperz",
+  "block.kingdomkeys.blazing_ore_d": "Tiefenschiefer-Pyroperz",
+  "block.kingdomkeys.blazing_ore_n": "Nether-Pyroperz",
+
+  "block.kingdomkeys.hungry_ore": "Freudenerz",
+  "block.kingdomkeys.lightning_ore": "Donnererz",
+
+  "block.kingdomkeys.lucid_ore": "Luziderz",
+
+  "block.kingdomkeys.pulsing_ore": "Achaterz",
+  "block.kingdomkeys.pulsing_ore_d": "Tiefenschiefer-Achaterz",
+  "block.kingdomkeys.pulsing_ore_e": "End-Achaterz",
+
+  "block.kingdomkeys.remembrance_ore": "Gedächtniserz",
+
+  "block.kingdomkeys.sinister_ore": "Miasma-Erz",
+  "block.kingdomkeys.sinister_ore_d": "Tiefenschiefer-Miasma-Erz",
+
+  "block.kingdomkeys.soothing_ore": "Luna-Erz",
+  "block.kingdomkeys.soothing_ore_d": "Tiefenschiefer-Luna-Erz",
+
+  "block.kingdomkeys.stormy_ore": "Sturmerz",
+  "block.kingdomkeys.stormy_ore_d": "Tiefenschiefer-Sturmerz",
+
+  "block.kingdomkeys.tranquility_ore": "Ruhe-Erz",
+
+  "block.kingdomkeys.twilight_ore": "Zwielichterz",
+  "block.kingdomkeys.twilight_ore_d": "Tiefenschiefer-Zwielichterz",
+  "block.kingdomkeys.twilight_ore_n": "Nether-Zwielichterz",
+
+  "block.kingdomkeys.wellspring_ore": "Energie-Erz",
+  "block.kingdomkeys.wellspring_ore_n": "Nether-Energie-Erz",
+
+  "block.kingdomkeys.writhing_ore": "Finstererz",
+  "block.kingdomkeys.writhing_ore_d": "Tiefenschiefer-Finstererz",
+  "block.kingdomkeys.writhing_ore_e": "End-Finstererz",
+  "block.kingdomkeys.writhing_ore_n": "Nether-Finstererz",
+
+  // -BLOX
+
+  "block.kingdomkeys.blast_blox": "Bombenblock",
+  "block.kingdomkeys.bounce_blox": "Trampolinblock",
+  "block.kingdomkeys.danger_blox": "Schadensblock",
+  "block.kingdomkeys.ghost_blox": "Phantomblock",
+  "block.kingdomkeys.hard_blox": "Verstärkter Block",
+  "block.kingdomkeys.magnet_blox": "Magnetblock",
+  "block.kingdomkeys.metal_blox": "Metallblock",
+  "block.kingdomkeys.normal_blox": "Normaler Block",
+  "block.kingdomkeys.prize_blox": "Kugelblock",
+  "block.kingdomkeys.pair_blox": "Memoryblock",
+  "block.kingdomkeys.rare_prize_blox": "Raritätenblock",
+
+  // -other
+
+  "block.kingdomkeys.data_portal": "Daten-Portal",
+
+  "block.kingdomkeys.gummi_editor": "Gumi-Editor",
+  "block.kingdomkeys.magical_chest": "Magische Truhe",
+  "block.kingdomkeys.moogle_projector": "Mogry-Projektor",
+  "block.kingdomkeys.org_portal": "Organisations-Portal",
+  "block.kingdomkeys.pedestal": "Podest",
+  
+  "block.kingdomkeys.rod_cracked_stone": "Rissiger Dunkel-Stein",
+  "block.kingdomkeys.rod_sand": "Dunkel-Sand",
+  "block.kingdomkeys.rod_stone": "Dunkel-Stein",
+
+  "block.kingdomkeys.savepoint": "Speicherpunkt",
+
+  "block.kingdomkeys.soa_door": "Mysteriöse Tür",
+  "block.kingdomkeys.sor_core": "Ort der Trauer-Kern",
+  "block.kingdomkeys.mosaic_stained_glass": "Buntes Mosaikglas",
+  "block.kingdomkeys.station_of_awakening_core": "Ort des Erwachens-Plattformkern",
+
+  // -castle oblivion
+
+  "block.kingdomkeys.castle_oblivion_pillar": "Säule des Entfallens",
+  "block.kingdomkeys.castle_oblivion_stairs": "Treppe des Entfallens",
+  "block.kingdomkeys.castle_oblivion_slab": "Halbstufe des Entfallens",
+  "block.kingdomkeys.castle_oblivion_wall": "Block des Entfallens",
+  "block.kingdomkeys.castle_oblivion_wall2": "Muster des Entfallens",
+  "block.kingdomkeys.castle_oblivion_wall3": "Zierde des Entfallens",
+  "block.kingdomkeys.castle_oblivion_wall_chiseled": "Gemeißelter Block des Entfallens",
+
+  //CONTAINER
+
+  "container.magical_chest": "Magische Truhe",
+  "container.pedestal": "Podest",
+  "container.gummi_editor": "Gumi Editor",
+
+  //DISC
+
+  "disc.duration.desc": "Dauer",
+  "disc.durationunits.desc": "(min:sek)",
+
+  // ENTITIES
+
+  // -MOBS
+
+  // --ENEMIES
+
+  "entity.kingdomkeys.assassin": "Meuchler",
+  "entity.kingdomkeys.blue_rhapsody": "Arktizipfler",
+  "entity.kingdomkeys.darkball": "Schattenquasar",
+  "entity.kingdomkeys.detonator": "Bombe",
+  "entity.kingdomkeys.dire_plant": "Unheilskraut",
+  "entity.kingdomkeys.dragoon": "Dragoner",
+  "entity.kingdomkeys.dusk": "Dämmerling",
+  "entity.kingdomkeys.emerald_blues": "Saphirling",
+  "entity.kingdomkeys.giga_shadow": "Giga-Schattenlurch",
+  "entity.kingdomkeys.green_requiem": "Vitazipfler",
+  "entity.kingdomkeys.large_body": "Adowanpe",
+  "entity.kingdomkeys.mega_shadow": "Mega-Schattenlurch",
+  "entity.kingdomkeys.minute_bomb": "Bombenmolch",
+  "entity.kingdomkeys.nobody_creeper": "Kriecher",
+  "entity.kingdomkeys.red_nocturne": "Pyrozipfler",
+  "entity.kingdomkeys.shadow": "Schattenlurch",
+  "entity.kingdomkeys.shadow_glob": "Schattenfleck",
+  "entity.kingdomkeys.skater_bomb": "Eisbombe",
+  "entity.kingdomkeys.soldier": "Klappersoldat",
+  "entity.kingdomkeys.spawning_orb": "Schattenkugel-Spawner",
+  "entity.kingdomkeys.storm_bomb": "Sturmbombe",
+  "entity.kingdomkeys.yellow_opera": "Zikzakzipfler",
+
+  // --BOSSES
+
+  "entity.kingdomkeys.marluxia": "Marluxia",
+
+  // --FRIENDLY
+
+  "entity.kingdomkeys.moogle": "Mogry",
+
+  // -MAGIC
+
+  "entity.kingdomkeys.entity_blizzard": "Eis",
+  "entity.kingdomkeys.entity_fire": "Feuer",
+  "entity.kingdomkeys.entity_gravity": "Gravitas",
+  "entity.kingdomkeys.entity_thunder": "Blitz",
+  "entity.kingdomkeys.entity_thunderbolt": "Donnerblitz",
+  "entity.kingdomkeys.entity_water": "Wasser",
+  "entity.kingdomkeys.entity_magnet": "Magnet",
+
+  // -MISC
+
+  "entity.kingdomkeys.blast_blox_primed": "Angezündeter Bombenblock",
+  "entity.kingdomkeys.pair_blox": "Memoryblock",
+
+  "entity.kingdomkeys.entity_chakram": "Chakram",
+
+  "entity.kingdomkeys.entity_drive_orb": "Drive-Kugel",
+  "entity.kingdomkeys.entity_hp_orb": "HP-Kugel",
+  "entity.kingdomkeys.entity_mp_orb": "MP-Kugel",
+  "entity.kingdomkeys.entity_munny": "Taler",
+  
+  "entity.kingdomkeys.entity_org_portal": "Organisations-Portal",
+
+  // FORM NAMES
+
+  "form.form_anti.name": "Anti-Form",
+  "form.form_final.name": "Über-Form",
+  "form.form_limit.name": "Limit-Form",
+  "form.form_master.name": "Meister-Form",
+  "form.form_valor.name": "Helden-Form",
+  "form.form_wisdom.name": "Weisen-Form",
+
+  // Gears (not added) - for panel system
+  /*
+  //numbers should not be included in the name perhaps? maybe added in via code instead?
+  "gear.no_gear.name": "Keine Mod",
+  "gear.skill_gear.name": "Experten-Mod",
+  "gear.skill_gear_p.name": "Experten-Mod+ (2)",
+  "gear.duel_gear.name": "Duell-Mod (4)",
+  "gear.duel_gear_p.name": "Duell-Mod+ (4)",
+  "gear.duel_gear_pp.name": "Duell-Mod++ (5)",
+  "gear.technical_gear.name": "Tech-Mod (3)",
+  "gear.technical_gear_p.name": "Tech-Mod+ (3)",
+  "gear.loaded_gear.name": "Geladene Ausrüstung (2)",
+  "gear.loaded_gear_p.name": "Geladene Ausrüstung+ (2)",
+  "gear.chrono_gear.name": "Chrono-Mod (3)",
+  "gear.chrono_gear_p.name": "Chrono-Mod+ (3)",
+  "gear.phantom_gear.name": "Phantom-Mod (4)",
+  "gear.phantom_gear_p.name": "Phantom-Mod+ (4)",
+  "gear.phantom_gear_p.name": "Phantom-Mod++ (5)",
+  "gear.lift_gear.name": "Hebe-Mod (3)",
+  "gear.lift_gear_p.name": "Hebe-Mod+ (3)",
+  "gear.nimble_gear.name": "Flinkheitsmod (4)",
+  "gear.nimble_gear_p.name": "Flinkheitsmod+ (4)",
+  "gear.wild_gear.name": "Wildnis-Mod (3)",
+  "gear.wild_gear_p.name": "Wildnis-Mod+ (3)",
+  "gear.ominous_gear.name": "Unheilsmod (4)",
+  "gear.ominous_gear_p.name": "Unheilsmod+ (4)",
+  "gear.valor_gear.name": "Helden-Mod (2)",
+  "gear.valor_gear_p.name": "Helden-Mod+ (2)",
+  "gear.fearless_gear.name": "Furchtlos-Mod (3)",
+  "gear.fearless_gear_p.name": "Furchtlos-Mod+ (3)",
+  "gear.prestige_gear.name": "Prestige-Mod (4)",
+  "gear.prestige_gear_p.name": "Prestige-Mod+ (4)",
+  "gear.crisis_gear.name": "Krisen-Mod (5)",
+  "gear.crisis_gear_p.name": "Krisen-Mod+ (5)",
+  "gear.omega_gear.name": "Omega-Mod (6)",
+  "gear.omega_gear_p.name": "Omega-Mod+ (6)",
+  "gear.hazard_gear.name": "Gefahren-Mod (5)",
+  "gear.hazard_gear_p.name": "Gefahren-Mod+ (5)",
+  "gear.rage_gear.name": "Zorn-Mod (5)",
+  "gear.rage_gear_p.name": "Zorn-Mod+ (5)",
+  "gear.champion_gear.name": "Champ-Mod (5)",
+  "gear.champion_gear_p.name": "Champ-Mod+ (5)",
+  "gear.ultimate_gear.name": "Ultima-Mod (6)",
+  "gear.ultimate_gear_p.name": "Ultima-Mod+ (6)",
+  "gear.pandoras_gear.name": "Pandoras Mod (5)",
+  "gear.pandoras_gear_p.name": "Pandoras Mod+ (5)",
+  "gear.zero_gear.name": "Zero-Mod (5)",
+  "gear.casual_gear.name": "Freizeit-Mod (2)",
+  "gear.mystery_gear.name": "Mysterien-Mod (3)",
+
+  */
+
+  // GUI
+
+  "gui.commandmenu.attack": "Angriff",
+  "gui.commandmenu.command": "KOMMANDOS",
+  "gui.commandmenu.drive": "Drive",
+  "gui.commandmenu.drive.title": "Formen",
+  "gui.commandmenu.items": "Items",
+  "gui.commandmenu.items.title": "Items",
+  "gui.commandmenu.limit": "Limit",
+  "gui.commandmenu.limit.title": "Limits",
+  "gui.commandmenu.magic": "Magie",
+  "gui.commandmenu.magic.title": "Magie",
+  "gui.commandmenu.portal": "Portal",
+  "gui.commandmenu.portal.title": "Portale",
+  "gui.commandmenu.revert": "Zurück",
+
+  "gui.driveformorb.tooltip": "Verbessert die %s",
+  "gui.driveformorb.upgrade": "%s hat %s Exp erhalten",
+
+  "gui.magicspell.maxed": "%s ist bereits das Maximum",
+  "gui.magicspell.unlock": "Schaltet %s frei",
+
+  "gui.menu.accept": "Akzeptieren",
+  "gui.menu.back": "Zurück",
+  "gui.menu.back.desc": "Zurück zum voherigen Menü gehen.",
+
+  "gui.menu.config": "Konfiguration",
+  "gui.menu.config.armor.blue": "Rüstung Blau",
+  "gui.menu.config.armor.glint": "Rüstung Schimmern",
+  "gui.menu.config.armor.green": "Rüstung Grün",
+  "gui.menu.config.armor.red": "Rüstung Rot",
+
+  "gui.menu.config.bg": "Hintergrund Umschalten",
+  "gui.menu.config.command_menu": "Kommando-Menü",
+  "gui.menu.config.dp": "Drive-Balken",
+  "gui.menu.config.focus": "Fokus-Balken",
+  "gui.menu.config.header_title": "Überschrift",
+  "gui.menu.config.hp": "HP-Balken",
+  "gui.menu.config.hp_alarm": "HP-Alarm Lautstärke",
+  "gui.menu.config.hp_per_bar": "HP Pro Balken",
+  "gui.menu.config.hp_scale": "HP-Balken Größe",
+  "gui.menu.config.icon_rotation": "Anvisiersymbol-Rotationsgeschwindigkeit",
+  "gui.menu.config.icon_scale": "Anvisiersymbol-Größe",
+  "gui.menu.config.impexp": "Im-/Exportieren",
+  "gui.menu.config.impexp.export": "In Zwischenablage einfügen",
+  "gui.menu.config.impexp.import": "Importieren",
+  "gui.menu.config.lock_on_hp": "Anvisieren",
+  "gui.menu.config.mp": "MP-Balken",
+  "gui.menu.config.notif_color": "Mitteilung",
+  "gui.menu.config.party": "Gruppe",
+  "gui.menu.config.player_skin": "Spieler Skin",
+  "gui.menu.config.selected_x_pos": "Ausgewählter X-Versatz",
+  "gui.menu.config.show_hearts": "Herzen über der Schnellleiste anzeigen",
+  "gui.menu.config.sub_x_offset": "Untermenü X-Versatz",
+  "gui.menu.config.text_x_offset": "Text X-Versatz",
+  "gui.menu.config.x_pos": "X-Position",
+  "gui.menu.config.x_scale": "X-Scale",
+  "gui.menu.config.y_dist": "Y-Abstand",
+  "gui.menu.config.y_pos": "Y-Position",
+  "gui.menu.config.y_scale": "Y-Scale",
+
+  "gui.menu.customize": "Einstellungen",
+  "gui.menu.customize.magic": "Magie",
+  "gui.menu.customize.shortcut": "Kurzbefehl",
+  "gui.menu.customize.shortcuts": "Kurzbefehle",
+  "gui.menu.customize.unequip": "Abwählen",
+
+  "gui.menu.items": "Items",
+  "gui.menu.items.equipment": "Ausrüstung",
+  "gui.menu.items.equipment.accessories": "Accessories",
+  "gui.menu.items.equipment.armor": "Rüstung",
+  "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
+  "gui.menu.items.equipment.items": "Items",
+  "gui.menu.items.equipment.pauldron": "Pauldron",
+  "gui.menu.items.equipment.shotlock": "Fokussierung",
+  "gui.menu.items.equipment.weapon": "Waffe",
+  "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
+  "gui.menu.items.stock": "Lager",
+  "gui.menu.items.stock.desc": "Überprüfe dein Inventar.",
+
+  "gui.menu.journal": "Tagebuch",
+
+  "gui.menu.main.button.abilities": "Abilitys",
+  "gui.menu.main.button.abilities.desc": "Wähle deine Abilitys aus.",
+  "gui.menu.main.button.config": "Konfigurationen",
+  "gui.menu.main.button.config.desc": "Passe verschiedene, grafische Aspekte vom HUD ein. (z.B.: Kommandos-Menü & HP/MP-Balken)",
+  "gui.menu.main.button.customize": "Einstellungen",
+  "gui.menu.main.button.customize.desc": "Passe die Magie-Kurzbefehlean",
+  "gui.menu.main.button.items": "Items",
+  "gui.menu.main.button.items.desc": "Zugang zu deiner Ausrüstung (Waffen, Potions...) und dein Inventar.",
+  "gui.menu.main.button.journal": "Tagebuch",
+  "gui.menu.main.button.journal.desc": "Tagebuch Beschreibung",
+  "gui.menu.main.button.party": "Gruppe",
+  "gui.menu.main.button.party.desc": "Erstelle und verwalte deine Gruppe.",
+  "gui.menu.main.button.status": "Status",
+  "gui.menu.main.button.status.desc": "Überprüfe deine Werte.",
+  "gui.menu.main.button.style": "Kampfstil",
+  "gui.menu.main.button.style.desc": "Wähle deinen Kampfstil mit Epic Fight",
+
+  "gui.menu.main.hearts": "Herzen",
+  "gui.menu.main.munny": "Taler",
+  "gui.menu.main.synthesis_tier": "Synthese-Stufe",
+  "gui.menu.main.time": "Uhrzeit (Welt)",
+  "gui.menu.main.time.spent": "Vergangene Zeit",
+  "gui.menu.main.title": "Menü",
+
+  "gui.menu.party": "Gruppe",
+  "gui.menu.party.create": "Gruppe erstellen",
+  "gui.menu.party.create.accessibility": "Zugang",
+  "gui.menu.party.create.accessibility.private": "Privat",
+  "gui.menu.party.create.accessibility.public": "Öffentlich",
+  "gui.menu.party.create.desc": "Erstelle eine neue Gruppe.",
+  "gui.menu.party.create.name": "Name",
+  "gui.menu.party.disband": "Auflösen",
+  "gui.menu.party.invite": "Einladen",
+  "gui.menu.party.join": "Gruppe beitreten",
+  "gui.menu.party.join.desc": "Trete einer bereits erstellten Gruppe bei.",
+  "gui.menu.party.kick": "Rauswerfen",
+  "gui.menu.party.leave": "Austreten",
+  "gui.menu.party.settings": "Einstellungen",
+
+  //stats
+  "gui.menu.status": "Status",
+  "gui.menu.status.abilities": "Abilitys",
+  "gui.menu.status.ability": "Ability",
+  "gui.menu.status.ap": "AP",
+  "gui.menu.status.blizzardres": "Eisresistenz",
+  "gui.menu.status.blizzardresshort": "Eisres.",
+  "gui.menu.status.darkres": "Dunkelresistenz",
+  "gui.menu.status.darkresshort": "Dunkelres.",
+  "gui.menu.status.defense": "Abwehr", //Abwehrkraft
+  "gui.menu.status.drivegauge": "Drive-Leiste",
+  "gui.menu.status.fireres": "Feuerresistenz",
+  "gui.menu.status.fireresshort": "Feuerres.",
+  "gui.menu.status.formgauge": "Form-Leiste",
+  "gui.menu.status.formlevel": "Form-Level",
+  "gui.menu.status.hp": "HP",
+  "gui.menu.status.level": "Level",
+  "gui.menu.status.magic": "Magie", //Magiekraft
+  "gui.menu.status.mp": "MP",
+  "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
+  "gui.menu.status.strength": "Angriff", //Angriffskraft
+  "gui.menu.status.thunderres": "Blitzresistenz",
+  "gui.menu.status.thunderresshort": "Blitzres.",
+  "gui.menu.status.totalexp": "Erfahrung",
+
+  "gui.menu.style": "Kampfstil",
+  "gui.menu.style.aqua": "Aqua",
+  "gui.menu.style.daysroxasdual": "Roxas (358/2 Days)",
+  "gui.menu.style.dual": "Doppel",
+  "gui.menu.style.kh2roxasdual": "Roxas (KH2)",
+  "gui.menu.style.riku": "Riku",
+  "gui.menu.style.roxas": "Roxas",
+  "gui.menu.style.single": "Einzel",
+  "gui.menu.style.sora": "Sora",
+  "gui.menu.style.terra": "Terra",
+  "gui.menu.style.ventus": "Ventus",
+
+  "gui.org.cancel": "Abbrechen",
+  "gui.org.confirm": "Bestätigen",
+  "gui.org.line1": "Durch das Anlegen der dunklen Robe, bist du nun ein Mitglied der Organisation XIII.",
+  "gui.org.line2": "Wähle ein Mitglied der Organisation XIII, der du dich angleichen willst.",
+  "gui.org.line3": "Deine Wahl entscheidet deine Waffe mit der du beginnst.",
+  "gui.org.line4": "Möchtest du dich mit dem Mitglied %1$s, angleichen?",
+  "gui.org.line5": "Es wird dich etwas kosten, dies nach deiner Wahl zu ändern.",
+  "gui.org.ok": "Ok",
+  "gui.org.select": "Wählen",
+
+  "gui.proofofheart.desc": "Benutze dies, um die Organisation XIII zu verlassen",
+  "gui.proofofheart.desc2": "Du kannst dies nicht benutzen, während du die Robe der Organisation XIII trägst",
+  "gui.proofofheart.leftorg": "Du hast die Organisation XIII verlassen",
+  "gui.proofofheart.notinorg": "Du bist nicht in der Organisation XIII",
+  "gui.proofofheart.unequip": "Lege zuerst deine Organisation XIII Rüstung ab",
+
+  "gui.shop": "Laden",
+  "gui.shop.cost": "Kosten",
+  "gui.shop.tier": "Stufe:",
+  "gui.shop.page": "Seite:",
+  "gui.shop.no_empty_slot": "Inventar voll",
+  "gui.shop.main.title": "Laden",
+
+  "gui.summonarmor.notenoughspace": "Du hast nicht ausreichend Platz in deinem Inventar",
+
+  "gui.synthesis": "Mogry-Werkstatt",
+  "gui.synthesis.forge": "Mogry-Schmiede",
+  "gui.synthesis.forge.title": "Schmiede",
+  "gui.synthesis.forge.upgrade": "Verstärken",
+  "gui.synthesis.materials": "Materialliste",
+  "gui.synthesis.materials.deposit": "Einlagern",
+  "gui.synthesis.materials.take": "Entnehmen",
+  "gui.synthesis.moogle.title": "%ss Mogry-Laden",
+  "gui.synthesis.synthesise": "Item-Synthese",
+  "gui.synthesis.synthesise.create": "Erschaffen",
+
+  "gui.synthesisbag.munny": "Taler",
+  "gui.synthesisbag.notenoughmunny": "Nicht genug Taler",
+  "gui.synthesisbag.upgrade": "Vergrößern",
+
+  // ITEMS
+
+  // -MISC
+
+  "item.kingdomkeys.recipe": "Formel",
+  "item.kingdomkeys.recipe_a": "Formel Stufe A",
+  "item.kingdomkeys.recipe_b": "Formel Stufe B",
+  "item.kingdomkeys.recipe_c": "Formel Stufe C",
+  "item.kingdomkeys.recipe_d": "Formel Stufe D",
+  "item.kingdomkeys.recipe_s": "Formel Stufe S",
+  "item.kingdomkeys.recipe_ss": "Formel Stufe SS",
+  "item.kingdomkeys.recipe_sss": "Formel Stufe SSS",
+
+  "item.kingdomkeys.dream_shield": "Alchera-Schild",
+  "item.kingdomkeys.dream_staff": "Alchera-Stab",
+  "item.kingdomkeys.dream_sword": "Alchera-Schwert",
+
+  "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
+
+  "item.kingdomkeys.wayfinder": "Wegfinder",
+  "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
+
+
+  // -SPAWN EGGS
+
+  "item.kingdomkeys.assassin_spawn_egg": "Meuchler-Spawn-Ei",
+  "item.kingdomkeys.blue_rhapsody_spawn_egg": "Arktizipfler-Spawn-Ei",
+  "item.kingdomkeys.nobody_creeper_spawn_egg": "Kriecher-Spawn-Ei", //under C as creeper
+  "item.kingdomkeys.darkball_spawn_egg": "Schattenquasar-Spawn-Ei",
+  "item.kingdomkeys.detonator_spawn_egg": "Bombe-Spawn-Ei",
+  "item.kingdomkeys.dire_plant_spawn_egg": "Unheilskraut-Spawn-Ei",
+  "item.kingdomkeys.dragoon_spawn_egg": "Dragoner-Spawn-Ei",
+  "item.kingdomkeys.dusk_spawn_egg": "Dämmerling-Spawn-Ei",
+  "item.kingdomkeys.emerald_blues_spawn_egg": "Saphirling-Spawn-Ei",
+  "item.kingdomkeys.giga_shadow_spawn_egg": "Giga-Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.green_requiem_spawn_egg": "Vitazipfler-Spawn-Ei",
+  "item.kingdomkeys.large_body_spawn_egg": "Adowampe-Spawn-Ei",
+  "item.kingdomkeys.minute_bomb_spawn_egg": "Bombenmolch-Spawn-Ei",
+  "item.kingdomkeys.mega_shadow_spawn_egg": "Mega-Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
+  "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
+  "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
+  "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
+  "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
+  "item.kingdomkeys.yellow_opera_spawn_egg": "Zikzakzipfler-Spawn-Ei",
+
+  //boss
+  "item.kingdomkeys.marluxia_spawn_egg": "Marluxia-Spawn-Ei",
+
+  // -MATERIALS
+
+  "item.kingdomkeys.adamantite": "Adamantit",
+
+  "item.kingdomkeys.betwixt_crystal": "Duktilkristall",
+  "item.kingdomkeys.betwixt_gem": "Duktilstein",
+  "item.kingdomkeys.betwixt_shard": "Duktilsplitter",
+  "item.kingdomkeys.betwixt_stone": "Duktiltropfen",
+
+  "item.kingdomkeys.blazing_crystal": "Pyropkristall",
+  "item.kingdomkeys.blazing_gem": "Pyropstein",
+  "item.kingdomkeys.blazing_shard": "Pyropsplitter",
+  "item.kingdomkeys.blazing_stone": "Pyroptropfen",
+
+  "item.kingdomkeys.electrum": "Elektrum",
+
+  "item.kingdomkeys.damascus": "Damaskus",
+
+  "item.kingdomkeys.evanescent_crystal": "Dunstkristall",
+
+  "item.kingdomkeys.fluorite": "Fluorit",
+
+  "item.kingdomkeys.frost_crystal": "Cyanitkristall",
+  "item.kingdomkeys.frost_gem": "Cyanitstein",
+  "item.kingdomkeys.frost_shard": "Cyanitsplitter",
+  "item.kingdomkeys.frost_stone": "Cyanittropfen",
+
+  "item.kingdomkeys.hungry_crystal": "Freudenkristall",
+  "item.kingdomkeys.hungry_gem": "Freudenstein",
+  "item.kingdomkeys.hungry_shard": "Freudensplitter",
+  "item.kingdomkeys.hungry_stone": "Freudentropfen",
+
+  "item.kingdomkeys.illusory_crystal": "Illusionskristall",
+
+  "item.kingdomkeys.lightning_crystal": "Donnerkristall",
+  "item.kingdomkeys.lightning_gem": "Donnerstein",
+  "item.kingdomkeys.lightning_shard": "Donnersplitter",
+  "item.kingdomkeys.lightning_stone": "Donnertropfen",
+
+  "item.kingdomkeys.lost_illusion": "Verlorene Illusion",
+
+  "item.kingdomkeys.lucid_crystal": "Luzidkristall",
+  "item.kingdomkeys.lucid_gem": "Luzidstein",
+  "item.kingdomkeys.lucid_shard": "Luzidsplitter",
+  "item.kingdomkeys.lucid_stone": "Luzidtropfen",
+
+  "item.kingdomkeys.manifest_illusion": "Manifestierte Illusion",
+
+  "item.kingdomkeys.mythril_crystal": "Mithrilkristall",
+  "item.kingdomkeys.mythril_gem": "Mithrilstein",
+  "item.kingdomkeys.mythril_shard": "Mithrilsplitter",
+  "item.kingdomkeys.mythril_stone": "Mithriltropfen",
+
+  "item.kingdomkeys.orichalcum": "Orichalkum",
+  "item.kingdomkeys.orichalcumplus": "Orichalkum+",
+
+  "item.kingdomkeys.pulsing_crystal": "Achatkristall",
+  "item.kingdomkeys.pulsing_gem": "Achatstein",
+  "item.kingdomkeys.pulsing_shard": "Achatsplitter",
+  "item.kingdomkeys.pulsing_stone": "Achattropfen",
+
+  "item.kingdomkeys.remembrance_crystal": "Gedächtniskristall",
+  "item.kingdomkeys.remembrance_gem": "Gedächtnisstein",
+  "item.kingdomkeys.remembrance_shard": "Gedächtnissplitter",
+  "item.kingdomkeys.remembrance_stone": "Gedächtnistropfen",
+
+  "item.kingdomkeys.sinister_crystal": "Miasmakristall",
+  "item.kingdomkeys.sinister_gem": "Miasmastein",
+  "item.kingdomkeys.sinister_shard": "Miasmasplitter",
+  "item.kingdomkeys.sinister_stone": "Miasmatropfen",
+
+  "item.kingdomkeys.soothing_crystal": "Lunakristall",
+  "item.kingdomkeys.soothing_gem": "Lunastein",
+  "item.kingdomkeys.soothing_shard": "Lunasplitter",
+  "item.kingdomkeys.soothing_stone": "Lunatropfen",
+
+  "item.kingdomkeys.stormy_crystal": "Sturmkristall",
+  "item.kingdomkeys.stormy_gem": "Sturmstein",
+  "item.kingdomkeys.stormy_shard": "Sturmsplitter",
+  "item.kingdomkeys.stormy_stone": "Sturmtropfen",
+
+  "item.kingdomkeys.tranquility_crystal": "Ruhekristall",
+  "item.kingdomkeys.tranquility_gem": "Ruhestein",
+  "item.kingdomkeys.tranquility_shard": "Ruhesplitter",
+  "item.kingdomkeys.tranquility_stone": "Ruhetropfen",
+
+  "item.kingdomkeys.twilight_crystal": "Zwielichtkristall",
+  "item.kingdomkeys.twilight_gem": "Zwielichtstein",
+  "item.kingdomkeys.twilight_shard": "Zwielichtsplitter",
+  "item.kingdomkeys.twilight_stone": "Zwielichttropfen",
+
+  "item.kingdomkeys.wellspring_crystal": "Energiekristall",
+  "item.kingdomkeys.wellspring_gem": "Energiestein",
+  "item.kingdomkeys.wellspring_shard": "Energiesplitter",
+  "item.kingdomkeys.wellspring_stone": "Energietropfen",
+
+  "item.kingdomkeys.writhing_crystal": "Finsterkristall",
+  "item.kingdomkeys.writhing_gem": "Finsterstein",
+  "item.kingdomkeys.writhing_shard": "Finstersplitter",
+  "item.kingdomkeys.writhing_stone": "Finstertropfen",
+
+
+  // -ARMOR
+
+  // --KH ARMOR
+
+  "item.kingdomkeys.abas_chain": "Abas-Kette",
+  "item.kingdomkeys.acrisius": "Akrisios",
+  "item.kingdomkeys.acrisius_plus": "Akrisios+",
+  "item.kingdomkeys.aegis_chain": "Aigis-Kette",
+  "item.kingdomkeys.blizzaga_armlet": "Eisga-Klammer",
+  "item.kingdomkeys.blizzagun_armlet": "Eisgan-Klammer",
+  "item.kingdomkeys.blizzara_armlet": "Eisra-Klammer",
+  "item.kingdomkeys.blizzard_armlet": "Eis-Klammer",
+  "item.kingdomkeys.buster_band": "Ritterband", 
+  "item.kingdomkeys.champion_belt": "Champion-Gurt",
+  "item.kingdomkeys.chaos_anklet": "Chaos-Kettchen",
+  "item.kingdomkeys.cosmic_belt": "Kosmischer Gurt",
+  "item.kingdomkeys.cosmic_chain": "Kosmische Kette",
+  "item.kingdomkeys.dark_anklet": "Dunkles Kettchen",
+  "item.kingdomkeys.divine_bandanna": "Göttliches Tuch",
+  "item.kingdomkeys.elven_bandanna": "Elfentuch",
+  "item.kingdomkeys.fira_bangle": "Feura-Reif",
+  "item.kingdomkeys.firaga_bangle": "Feuga-Reif",
+  "item.kingdomkeys.firagun_bangle": "Feugan-Reif",
+  "item.kingdomkeys.fire_bangle": "Feuer-Reif",
+  "item.kingdomkeys.gaia_belt": "Gaia-Gurt",
+  "item.kingdomkeys.grand_ribbon": "Universal-Ribbon",
+  "item.kingdomkeys.midnight_anklet": "Mitternachts-Kettchen",
+  "item.kingdomkeys.petite_ribbon": "Kleine Schleife",
+  "item.kingdomkeys.power_band": "Energieband",
+  "item.kingdomkeys.protect_belt": "Protes-Gurt",
+  "item.kingdomkeys.ribbon": "Schleife",
+  "item.kingdomkeys.shock_charm": "Donneramulett", //2fm
+  "item.kingdomkeys.shock_charm_plus": "Donneramulett+", //2fm
+  "item.kingdomkeys.shadow_anklet": "Schatten-Kettchen",
+  "item.kingdomkeys.thundaga_trinket": "Blitzga-Spange",
+  "item.kingdomkeys.thundagun_trinket": "Blitzgan-Spange",
+  "item.kingdomkeys.thundara_trinket": "Blitzra-Spange",
+  "item.kingdomkeys.thunder_trinket": "Blitz-Spange",
+
+  // --MC ARMOR
+
+  "item.kingdomkeys.aced_boots": "Aced Stiefel",
+  "item.kingdomkeys.aced_chestplate": "Aced Mantel",
+  "item.kingdomkeys.aced_helmet": "Aced kapuze",
+  "item.kingdomkeys.aced_leggings": "Aced Hose",
+
+  "item.kingdomkeys.anticoat_boots": "Antirobe Stiefel",
+  "item.kingdomkeys.anticoat_chestplate": "Antirobe Mantel",
+  "item.kingdomkeys.anticoat_helmet": "Antirobe Kapuze",
+  "item.kingdomkeys.anticoat_leggings": "Antirobe Hose",
+
+  "item.kingdomkeys.aqua_boots": "Aqua Schuhe",
+  "item.kingdomkeys.aqua_chestplate": "Aqua Brustplatte",
+  "item.kingdomkeys.aqua_helmet": "Aqua Helm",
+  "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
+
+  "item.kingdomkeys.ava_boots": "Ava Boots",
+  "item.kingdomkeys.ava_chestplate": "Ava Coat",
+  "item.kingdomkeys.ava_helmet": "Ava Hood",
+  "item.kingdomkeys.ava_leggings": "Ava Leggings",
+
+  "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
+  "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
+  "item.kingdomkeys.dark_riku_leggings": "Dunkel-Riku Beinschutz",
+
+  "item.kingdomkeys.eraqus_boots": "Eraqus Boots",
+  "item.kingdomkeys.eraqus_chestplate": "Eraqus Chestplate",
+  "item.kingdomkeys.eraqus_helmet": "Eraqus Helmet",
+  "item.kingdomkeys.eraqus_leggings": "Eraqus Leggings",
+
+  "item.kingdomkeys.gula_boots": "Gula Stiefel",
+  "item.kingdomkeys.gula_chestplate": "Gula Mantel",
+  "item.kingdomkeys.gula_helmet": "Gula Kapuze",
+  "item.kingdomkeys.gula_leggings": "Gula Hose",
+
+  "item.kingdomkeys.invi_boots": "Invi Stiefel",
+  "item.kingdomkeys.invi_chestplate": "Invi Mantel",
+  "item.kingdomkeys.invi_helmet": "Invi Kapuze",
+  "item.kingdomkeys.invi_leggings": "Invi Hose",
+
+  "item.kingdomkeys.ira_boots": "Ira Stiefel",
+  "item.kingdomkeys.ira_chestplate": "Ira Mantel",
+  "item.kingdomkeys.ira_helmet": "Ira Kapuze",
+  "item.kingdomkeys.ira_leggings": "Ira Hose",
+
+  "item.kingdomkeys.nightmareventus_boots": "Albtraum-Ventus Schuhe",
+  "item.kingdomkeys.nightmareventus_chestplate": "Albtraum-Ventus Brustplatte",
+  "item.kingdomkeys.nightmareventus_helmet": "Albtraum-Ventus Helm",
+  "item.kingdomkeys.nightmareventus_leggings": "Albtraum-Ventus Beinschutz",
+
+  "item.kingdomkeys.organization_boots": "Stiefel der Organisation",
+  "item.kingdomkeys.organization_chestplate": "Mantel der Organisation",
+  "item.kingdomkeys.organization_helmet": "Kapuze der Organisation",
+  "item.kingdomkeys.organization_leggings": "Hose der Organisation",
+
+  "item.kingdomkeys.terra_boots": "Terra Schuhe",
+  "item.kingdomkeys.terra_chestplate": "Terra Brustplatte",
+  "item.kingdomkeys.terra_helmet": "Terra Helm",
+  "item.kingdomkeys.terra_leggings": "Terra Beinschutz",
+
+  "item.kingdomkeys.ux_boots": "UX-Rüstung Schuhe",
+  "item.kingdomkeys.ux_chestplate": "UX-Rüstung Brustplatte",
+  "item.kingdomkeys.ux_helmet": "UX-Rüstung Helm",
+  "item.kingdomkeys.ux_leggings": "UX-Rüstung Beinschutz",
+
+  "item.kingdomkeys.vanitas_boots": "Vanitas Schuhe",
+  "item.kingdomkeys.vanitas_chestplate": "Vanitas Brustplatte",
+  "item.kingdomkeys.vanitas_helmet": "Vanitas Helm",
+  "item.kingdomkeys.vanitas_leggings": "Vanitas Beinschutz",
+
+  "item.kingdomkeys.vanitas_remnant_boots": "Vanitas' Vermächtnis Schuhe",
+  "item.kingdomkeys.vanitas_remnant_chestplate": "Vanitas' Vermächtnis Brustplatte",
+  "item.kingdomkeys.vanitas_remnant_helmet": "Vanitas' Vermächtnis Helm",
+  "item.kingdomkeys.vanitas_remnant_leggings": "Vanitas' Vermächtnis Beinschutz",
+
+  "item.kingdomkeys.ventus_boots": "Ventus Schuhe",
+  "item.kingdomkeys.ventus_chestplate": "Ventus Brustplatte",
+  "item.kingdomkeys.ventus_helmet": "Ventus Helm",
+  "item.kingdomkeys.ventus_leggings": "Ventus Beinschutz",
+
+  "item.kingdomkeys.xehanort_boots": "Xehanort Schuhe",
+  "item.kingdomkeys.xehanort_chestplate": "Xehanort Brustplatte",
+  "item.kingdomkeys.xehanort_helmet": "Xehanort Helm",
+  "item.kingdomkeys.xehanort_leggings": "Xehanort Beinschutz",
+
+  "item.kingdomkeys.xemnas_boots": "Xemnas Stiefel",
+  "item.kingdomkeys.xemnas_chestplate": "Xemnas Mantel",
+  "item.kingdomkeys.xemnas_helmet": "Xemnas Kapuze",
+  "item.kingdomkeys.xemnas_leggings": "Xemnas Hose",
+
+
+  // -PAULDRONS
+
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
+  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
+
+
+  // -ACCESOIRES
+
+  "item.kingdomkeys.ability_ring": "Ability-Ring",
+  "item.kingdomkeys.aquamarine_ring": "Aquamarin-Ring",
+  "item.kingdomkeys.cosmic_arts": "Kosmosglücksbringer",
+  "item.kingdomkeys.cosmic_ring": "Kosmischer Ring",
+  "item.kingdomkeys.diamond_ring": "Diamant-Ring",
+  "item.kingdomkeys.draw_ring": "Charmeur-Ring",
+  "item.kingdomkeys.engineers_ring": "Ingenieurs-Ring",
+  "item.kingdomkeys.executive_ring": "Exekutivring", //2fm
+  "item.kingdomkeys.experts_ring": "Experten-Ring",
+  "item.kingdomkeys.fencer_earring": "Fechter Ohrring",
+  "item.kingdomkeys.full_bloom": "Volle Blüte", //2fm
+  "item.kingdomkeys.full_bloom_plus": "Volle Blüte+", //2fm
+  "item.kingdomkeys.garnet_ring": "Granat-Ring",
+  "item.kingdomkeys.gold_ring": "Gold-Ring",
+  "item.kingdomkeys.lucky_ring": "Glücks-Ring",
+  "item.kingdomkeys.mage_earring": "Magus-Ohrring",
+  "item.kingdomkeys.masters_ring": "Meister-Ring",
+  "item.kingdomkeys.medal": "Krieger-Münze",
+  "item.kingdomkeys.moon_amulet": "Mondglücksbringer",
+  "item.kingdomkeys.mythril_ring": "Mithril-Ring",
+  "item.kingdomkeys.orichalcum_ring": "Orichalkum-Ring",
+  "item.kingdomkeys.platinum_ring": "Platin-Ring",
+  "item.kingdomkeys.sardonyx_ring": "Sardonyx-Ring",
+  "item.kingdomkeys.shadow_archive": "Schattenarchiv", //2fm
+  "item.kingdomkeys.shadow_archive_plus": "Schattenarchiv+", //2fm
+  "item.kingdomkeys.silver_ring": "Silber-Ring",
+  "item.kingdomkeys.skill_ring": "Virtuosen-Ring",
+  "item.kingdomkeys.skillful_ring": "Maestro-Ring",
+  "item.kingdomkeys.slayer_earring": "Paladin-Ohrring",
+  "item.kingdomkeys.star_charm": "Sternenglücksbringer",
+  "item.kingdomkeys.soldier_earring": "Soldaten-Ohrring",
+  "item.kingdomkeys.technicians_ring": "Techniker-Ring",
+  "item.kingdomkeys.tourmaline_ring": "Turmalin-Ring",
+
+
+
+  // -CONSUMABLES
+
+  
+  // --COMMAND ITEMS
+  "item.kingdomkeys.ether": "Äther",
+  "item.kingdomkeys.elixir": "Elixier",
+  "item.kingdomkeys.potion": "Potion",
+  "item.kingdomkeys.refocuser": "Refocuser",
+  "item.kingdomkeys.drive_recovery": "Driver",
+  "item.kingdomkeys.hi_ether": "Hi-Äther",
+  "item.kingdomkeys.hi_potion": "Hi-Potion",
+  "item.kingdomkeys.hi_refocuser": "Hi-Refocuser",
+  "item.kingdomkeys.hi_drive_recovery": "High Driver",
+  "item.kingdomkeys.mega_ether": "Mega-Äther",
+  "item.kingdomkeys.mega_lixir": "Final-Elixier",
+  "item.kingdomkeys.mega_potion": "Mega-Potion",
+
+  // -- non-combat
+  "item.kingdomkeys.ice_cream": "Meersalz-Eis",
+
+  "item.kingdomkeys.apboost": "Abilitamin",
+  "item.kingdomkeys.defenseboost": "Schutzengel",
+  "item.kingdomkeys.magicboost": "Magiesphäre",
+  "item.kingdomkeys.powerboost": "Kraftbolzen",
+
+  "item.kingdomkeys.proof_of_heart": "Beweis des Herzens",
+
+
+  // --MAGIC AND FORMS
+
+  "item.kingdomkeys.spellaero": "Aero-Element",
+  "item.kingdomkeys.spellblizzard": "Eis-Element",
+  "item.kingdomkeys.spellcure": "Vita-Element",
+  "item.kingdomkeys.spellfire": "Feuer-Element",
+  "item.kingdomkeys.spellgravity": "Gravitas-Element",
+  "item.kingdomkeys.spellmagnet": "Magnet-Element",
+  "item.kingdomkeys.spellreflect": "Reflek-Element",
+  "item.kingdomkeys.spellstop": "Stop-Element",
+  "item.kingdomkeys.spellthunder": "Blitz-Element",
+  "item.kingdomkeys.spellwater": "Wasser-Element",
+
+  "item.kingdomkeys.levelupdrivefinal": "Über-Form-Kugel",
+  "item.kingdomkeys.levelupdrivelimit": "Limit-Form-Kugel",
+  "item.kingdomkeys.levelupdrivemaster": "Meister-Form-Kugel",
+  "item.kingdomkeys.levelupdrivevalor": "Helden-Form-Kugel",
+  "item.kingdomkeys.levelupdrivewisdom": "Weisen-Form-Kugel",
+
+
+  // -WEAPONS
+
+  "item.kingdomkeys.struggle_hammer": "Struggle-Schwert",
+  "item.kingdomkeys.struggle_sword": "Struggle-Knüppel",
+  "item.kingdomkeys.struggle_wand": "Struggle-Stab",
+
+  // --KEYBLADES
+
+  "item.kingdomkeys.wooden_keyblade": "Holz-Schlüsselschwert",
+
+  "item.kingdomkeys.k111": "K111",
+  "item.kingdomkeys.k111c": "K111a",
+
+  // ---KH1
+
+  "item.kingdomkeys.crabclaw": "Maritim",
+  "item.kingdomkeys.crabclaw_chain": "Maritim-Anhänger",
+  "item.kingdomkeys.divine_rose": "Zentifol",
+  "item.kingdomkeys.divine_rose_chain": "Zentifol-Anhänger",
+  "item.kingdomkeys.fairy_harp": "Feenharfe",
+  "item.kingdomkeys.fairy_harp_chain": "Feenharfe-Anhänger",
+  "item.kingdomkeys.jungle_king": "Simplexus",
+  "item.kingdomkeys.jungle_king_chain": "Simplexus-Anhänger",
+  "item.kingdomkeys.keyblade_of_peoples_hearts": "Schlüsselschwert der Herzen", //dark riku
+  "item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Schlüsselschwert der Herzen-Anhänger",
+  "item.kingdomkeys.kingdom_key": "Königsanhänger", //sora
+  "item.kingdomkeys.kingdom_key_chain": "Königsanhänger-Anhänger",
+  "item.kingdomkeys.kingdom_key_d": "Königsanhänger D", //mickey
+  "item.kingdomkeys.kingdom_key_d_chain": "Königsanhänger D-Anhänger",
+  "item.kingdomkeys.lady_luck": "Herzensbrecher",
+  "item.kingdomkeys.lady_luck_chain": "Herzensbrecher-Anhänger",
+  "item.kingdomkeys.lionheart": "Löwenherz",
+  "item.kingdomkeys.lionheart_chain": "Löwenherz-Anhänger",
+  "item.kingdomkeys.metal_chocobo": "Metall-Chocobo",
+  "item.kingdomkeys.metal_chocobo_chain": "Metall-Chocobo-Anhänger",
+  "item.kingdomkeys.oathkeeper": "Sternentreue", //zero + 1 ability
+  "item.kingdomkeys.oathkeeper_chain": "Sternentreue-Anhänger",
+  "item.kingdomkeys.oblivion": "Memoire", //pandora (riku)
+  "item.kingdomkeys.oblivion_chain": "Memoire-Anhänger",
+  "item.kingdomkeys.olympia": "Heros",
+  "item.kingdomkeys.olympia_chain": "Heros-Anhänger",
+  "item.kingdomkeys.pumpkinhead": "Cucurbita",
+  "item.kingdomkeys.pumpkinhead_chain": "Cucurbita-Anhänger",
+  "item.kingdomkeys.spellbinder": "Examinator",
+  "item.kingdomkeys.spellbinder_chain": "Examinator-Anhänger",
+  "item.kingdomkeys.soul_eater": "Seelenfänger", //riku
+  "item.kingdomkeys.soul_eater_chain": "Seelenfänger-Anhänger",
+  "item.kingdomkeys.three_wishes": "Wunderlampe",
+  "item.kingdomkeys.three_wishes_chain": "Wunderlampe-Anhänger",
+  "item.kingdomkeys.ultima_weapon_kh1": "Ultima (KH1)",
+  "item.kingdomkeys.ultima_weapon_kh1_chain": "Ultima (KH1)-Anhänger",
+  "item.kingdomkeys.wishing_star": "Wunschgestirn",
+  "item.kingdomkeys.wishing_star_chain": "Wunschgestirn-Anhänger",
+
+  //Final Mix
+  "item.kingdomkeys.diamond_dust": "Diamantenstaub",
+  "item.kingdomkeys.diamond_dust_chain": "Diamantenstaub-Anhänger",
+  "item.kingdomkeys.one_winged_angel": "Einflügliger Engel",
+  "item.kingdomkeys.one_winged_angel_chain": "Einflügliger Engel-Anhänger",
+
+
+  // ---KH Days -- Non Roxas Weapons
+
+  "item.kingdomkeys.wooden_stick": "Holzstock", //roxas final
+
+
+  // ---KH Re:Coded
+
+  "item.kingdomkeys.zero_one": "Binär",
+  "item.kingdomkeys.zero_one_chain": "Binär-Anhänger",
+
+
+  // ---KH2
+
+  "item.kingdomkeys.circle_of_life": "Der Ewige Kreis",
+  "item.kingdomkeys.circle_of_life_chain": "Der Ewige Kreis-Anhänger",
+  "item.kingdomkeys.decisive_pumpkin": "St. Kürbinian",
+  "item.kingdomkeys.decisive_pumpkin_chain": "St. Kürbinian-Anhänger",
+  "item.kingdomkeys.destinys_embrace": "Schicksalswink", //kairi
+  "item.kingdomkeys.destinys_embrace_chain": "Schicksalswink-Anhänger", //aqua
+  "item.kingdomkeys.fenrir": "Fenrir",
+  "item.kingdomkeys.fenrir_chain": "Fenrir-Anhänger",
+  "item.kingdomkeys.follow_the_wind": "Folge dem Wind",
+  "item.kingdomkeys.follow_the_wind_chain": "Folge dem Wind-Anhänger",
+  "item.kingdomkeys.guardian_soul": "Seelenwächter",
+  "item.kingdomkeys.guardian_soul_chain": "Seelenwächter-Anhänger",
+  "item.kingdomkeys.gull_wing": "Möwenflügel",
+  "item.kingdomkeys.gull_wing_chain": "Möwenflügel-Anhänger",
+  "item.kingdomkeys.heros_crest": "Heldenwappen",
+  "item.kingdomkeys.heros_crest_chain": "Heldenwappen-Anhänger",
+  "item.kingdomkeys.hidden_dragon": "Verborgener Drache",
+  "item.kingdomkeys.hidden_dragon_chain": "Verborgener Drache-Anhänger",
+  "item.kingdomkeys.monochrome": "Monochrom",
+  "item.kingdomkeys.monochrome_chain": "Monochrom-Anhänger",
+  "item.kingdomkeys.mysterious_abyss": "Mysteriöser Graben",
+  "item.kingdomkeys.mysterious_abyss_chain": "Mysteriöser Graben-Anhänger",
+  "item.kingdomkeys.photon_debugger": "Photonen-Debugger",
+  "item.kingdomkeys.photon_debugger_chain": "Photonen-Debugger-Anhänger",
+  "item.kingdomkeys.rumbling_rose": "Donnerrose",
+  "item.kingdomkeys.rumbling_rose_chain": "Donnerrose-Anhänger",
+  "item.kingdomkeys.sleeping_lion": "Schlafender Löwe",
+  "item.kingdomkeys.sleeping_lion_chain": "Schlafender Löwe-Anhänger",
+  "item.kingdomkeys.sweet_memories": "Süße Nostalgie",
+  "item.kingdomkeys.sweet_memories_chain": "Süße Nostalgie-Anhänger",
+  "item.kingdomkeys.ultima_weapon_kh2": "Ultima (KH2)",
+  "item.kingdomkeys.ultima_weapon_kh2_chain": "Ultima (KH2)-Anhänger",
+  "item.kingdomkeys.wishing_lamp": "Wunderklinge",
+  "item.kingdomkeys.wishing_lamp_chain": "Wunderklinge-Anhänger",
+
+  //Final Mix
+  "item.kingdomkeys.stormfall": "Regensturm",
+  "item.kingdomkeys.stormfall_chain": "Regensturm-Anhänger", //aqua
+  "item.kingdomkeys.winners_proof": "Siegesbeweis",
+  "item.kingdomkeys.winners_proof_chain": "Siegesbeweis-Anhänger",
+
+
+  // ---KH BBS
+
+  "item.kingdomkeys.brightcrest": "Lichtwappen",
+  "item.kingdomkeys.brightcrest_chain": "Lichtwappen-Anhänger",
+  "item.kingdomkeys.chaos_ripper": "Chaosbringer",
+  "item.kingdomkeys.chaos_ripper_chain": "Chaosbringer-Anhänger",
+  "item.kingdomkeys.darkgnaw": "Schattenlefzen",
+  "item.kingdomkeys.darkgnaw_chain": "Schattenlefzen-Anhänger",
+  "item.kingdomkeys.earthshaker": "Erderschütterer", //terra og
+  "item.kingdomkeys.earthshaker_chain": "Erderschütterer-Anhänger",
+  "item.kingdomkeys.ends_of_the_earth": "Hinter dem Horizont",
+  "item.kingdomkeys.ends_of_the_earth_chain": "Hinter dem Horizont-Anhänger",
+  "item.kingdomkeys.fairy_stars": "Feengestirn",
+  "item.kingdomkeys.fairy_stars_chain": "Feengestirn-Anhänger",
+  "item.kingdomkeys.frolic_flame": "Flammende Flausen", //ventus
+  "item.kingdomkeys.frolic_flame_chain": "Flammende Flausen-Anhänger",
+  "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
+  "item.kingdomkeys.lost_memory_chain": "Verlorene Erinnerung-Anhänger",
+  "item.kingdomkeys.hyperdrive": "Hyperantrieb",
+  "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
+  "item.kingdomkeys.mark_of_a_hero": "Heldenemblem",
+  "item.kingdomkeys.mark_of_a_hero_chain": "Heldenemblem-Anhänger",
+  "item.kingdomkeys.no_name_bbs": "Namenlose Klinge (BBS)",
+  "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge (BBS)-Anhänger",
+  "item.kingdomkeys.pixie_petal": "Feenblüte",
+  "item.kingdomkeys.pixie_petal_chain": "Feenblüte-Anhänger",
+  "item.kingdomkeys.rainfell": "Regenfall", //aqua og
+  "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
+  "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
+  "item.kingdomkeys.stroke_of_midnight_chain": "Punkt Mitternacht-Anhänger",
+  "item.kingdomkeys.sweetstack": "Süßer Traum",
+  "item.kingdomkeys.sweetstack_chain": "Süßer Traum-Anhänger",
+  "item.kingdomkeys.treasure_trove": "Schatzsucher",
+  "item.kingdomkeys.treasure_trove_chain": "Schatzsucher-Anhänger",
+  "item.kingdomkeys.ultima_weapon_bbs": "Ultima (BBS)",
+  "item.kingdomkeys.ultima_weapon_bbs_chain": "Ultima (BBS)-Anhänger",
+  "item.kingdomkeys.victory_line": "Freudenjubel",
+  "item.kingdomkeys.victory_line_chain": "Freudenjubel-Anhänger",
+  "item.kingdomkeys.void_gear": "Vanitas' Schlüsselschwert", //vanitas
+  "item.kingdomkeys.void_gear_chain": "Vanitas' Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.void_gear_remnant": "Clavis Vanitatum", // "Clavis Vanitatum Fragmentum",
+  "item.kingdomkeys.void_gear_remnant_chain": "Clavis Vanitatum-Anhänger",
+  "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus og
+  "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
+
+  "item.kingdomkeys.no_name": "Namenlose Klinge", //xehanort
+  "item.kingdomkeys.no_name_chain": "Namenlose Klinge-Anhänger",
+
+  //Final Mix
+  "item.kingdomkeys.masters_defender": "Meisterhüter", //Eraqus
+  "item.kingdomkeys.masters_defender_chain": "Meisterhüter-Anhänger",
+  "item.kingdomkeys.royal_radiance": "Königsglanz",
+  "item.kingdomkeys.royal_radiance_chain": "Königsglanz-Anhänger",
+
+
+  // ---KH DDD / 3D
+
+  "item.kingdomkeys.all_for_one": "Alle für einen",
+  "item.kingdomkeys.all_for_one_chain": "Alle für einen-Anhänger",
+  "item.kingdomkeys.bond_of_the_blaze": "Flammenbund", //name not full
+  "item.kingdomkeys.bond_of_the_blaze_chain": "Flammenbund-Anhänger",
+  "item.kingdomkeys.counterpoint": "Kontrapunkt",
+  "item.kingdomkeys.counterpoint_chain": "Kontrapunkt-Anhänger",
+  "item.kingdomkeys.divewing": "Flügeltaucher",
+  "item.kingdomkeys.divewing_chain": "Flügeltaucher-Anhänger",
+  "item.kingdomkeys.dual_disc": "Doppeldiskus",
+  "item.kingdomkeys.dual_disc_chain": "Doppeldiskus-Anhänger",
+  "item.kingdomkeys.end_of_pain": "Garaus",
+  "item.kingdomkeys.end_of_pain_chain": "Garaus-Anhänger",
+  "item.kingdomkeys.fatal_crest": "Unheilbringer",
+  "item.kingdomkeys.fatal_crest_chain": "Unheilbringer-Anhänger",
+  "item.kingdomkeys.ferris_gear": "Riesenrad",
+  "item.kingdomkeys.ferris_gear_chain": "Riesenrad-Anhänger",
+  "item.kingdomkeys.guardian_bell": "Schutzglocke",
+  "item.kingdomkeys.guardian_bell_chain": "Schutzglocke-Anhänger",
+  "item.kingdomkeys.knockout_punch": "K.-o.-Schlag",
+  "item.kingdomkeys.knockout_punch_chain": "K.-o.-Schlag-Anhänger",
+  "item.kingdomkeys.mirage_split": "Desillusion",
+  "item.kingdomkeys.mirage_split_chain": "Desillusion-Anhänger",
+  "item.kingdomkeys.nightmares_end": "Albtraumende",
+  "item.kingdomkeys.nightmares_end_chain": "Albtraumende-Anhänger",
+  "item.kingdomkeys.nightmares_end_and_mirage_split": "Verbundene Klinge",
+  "item.kingdomkeys.nightmares_end_and_mirage_split_chain": "Verbundene Klinge-Anhänger",
+  "item.kingdomkeys.oceans_rage": "Tosende See",
+  "item.kingdomkeys.oceans_rage_chain": "Tosende See-Anhänger",
+  "item.kingdomkeys.skull_noise": "Schädelklopfer",
+  "item.kingdomkeys.skull_noise_chain": "Schädelklopfer-Anhänger",
+  "item.kingdomkeys.sweet_dreams": "Süße Träume",
+  "item.kingdomkeys.sweet_dreams_chain": "Süße Träume-Anhänger",
+  "item.kingdomkeys.ultima_weapon_ddd": "Ultima (DDD)",
+  "item.kingdomkeys.ultima_weapon_ddd_chain": "Ultima (DDD)-Anhänger",
+  "item.kingdomkeys.unbound": "Entfessler",
+  "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
+  "item.kingdomkeys.way_to_the_dawn": "Weg zur Dämmerung", //riku
+  "item.kingdomkeys.way_to_the_dawn_chain": "Weg zur Dämmerung-Anhänger",
+  "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
+  "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
+
+
+  // ---KH3
+
+  "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch dlc
+  "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
+  "item.kingdomkeys.braveheart": "Braveheart", //riku
+  "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
+  "item.kingdomkeys.classic_tone": "Klassische Klänge",
+  "item.kingdomkeys.classic_tone_chain": "Klassische Klänge-Anhänger",
+  "item.kingdomkeys.crystal_snow": "Pulverschnee",
+  "item.kingdomkeys.crystal_snow_chain": "Pulverschnee-Anhänger",
+  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
+  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
+  "item.kingdomkeys.elemental_encoder": "Elemental Encoder", //epic games
+  "item.kingdomkeys.elemental_encoder_chain": "Elemental Encoder-Anhänger",
+  "item.kingdomkeys.ever_after": "Immer und Ewig",
+  "item.kingdomkeys.ever_after_chain": "Immer und Ewig-Anhänger",
+  "item.kingdomkeys.favorite_deputy": "Hilfssheriff Nr. 1",
+  "item.kingdomkeys.favorite_deputy_chain": "Hilfssheriff Nr. 1-Anhänger",
+  "item.kingdomkeys.grand_chef": "Meisterkoch",
+  "item.kingdomkeys.grand_chef_chain": "Meisterkoch-Anhänger",
+  "item.kingdomkeys.happy_gear": "Frohklinge",
+  "item.kingdomkeys.happy_gear_chain": "Frohklinge-Anhänger",
+  "item.kingdomkeys.heros_origin": "Heldenwiege",
+  "item.kingdomkeys.heros_origin_chain": "Heldenwiege-Anhänger",
+  "item.kingdomkeys.hunny_spout": "Honigschnabel",
+  "item.kingdomkeys.hunny_spout_chain": "Honigschnabel-Anhänger",
+  "item.kingdomkeys.midnight_blue": "Mitternachtsblau",
+  "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
+  "item.kingdomkeys.nano_gear": "Nano-Mod",
+  "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
+  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX DLC
+  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
+  "item.kingdomkeys.shooting_star": "Sternschnuppe",
+  "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
+  "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
+  "item.kingdomkeys.star_cluster_chain": "Star Cluster-Anhänger",
+  "item.kingdomkeys.ultima_weapon_kh3": "Ultima (KH3)",
+  "item.kingdomkeys.ultima_weapon_kh3_chain": "Ultima (KH3)-Anhänger",
+  "item.kingdomkeys.wheel_of_fate": "Schicksalsruder",
+  "item.kingdomkeys.wheel_of_fate_chain": "Schicksalsruder-Anhänger",
+
+  "item.kingdomkeys.incomplete_kiblade": "Unvollständige χ-Klinge",
+  "item.kingdomkeys.incomplete_kiblade_chain": "Unvollständige χ-Klinge-Anhänger",
+  "item.kingdomkeys.kiblade": "χ-Klinge",
+  "item.kingdomkeys.kiblade_chain": "χ-Klinge-Anhänger",
+
+
+  // Union Cross
+
+  "item.kingdomkeys.aceds_keyblade": "Aced's Schlüsselschwert",
+  "item.kingdomkeys.aceds_keyblade_chain": "Aced's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.avas_keyblade": "Ava's Schlüsselschwert",
+  "item.kingdomkeys.avas_keyblade_chain": "Ava's Schlüsselanhänger",
+  "item.kingdomkeys.gulas_keyblade": "Gula's Schlüsselschwert",
+  "item.kingdomkeys.gulas_keyblade_chain": "Gula's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.invis_keyblade": "Invi's Schlüsselschwert",
+  "item.kingdomkeys.invis_keyblade_chain": "Invi's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.iras_keyblade": "Ira's Schlüsselschwert",
+  "item.kingdomkeys.iras_keyblade_chain": "Ira's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.starlight": "Sternenlicht",
+  "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
+  "item.kingdomkeys.moogle_o_glory": "Stolzer Mogry",
+  "item.kingdomkeys.moogle_o_glory_chain": "Stolzer Mogry-Anhänger",
+
+
+  // --ORGA WEAPONS
+
+  // ---1 - Etheral Blades / Ätherische Klingen (Xemnas)
+
+  "item.kingdomkeys.interdiction": "Verbot", //main - zero gear
+  "item.kingdomkeys.malice": "Bosheit", //no gear
+
+  "item.kingdomkeys.aggression": "Aggression", //valor
+  "item.kingdomkeys.annihilation": "Vernichtung", //rage
+  "item.kingdomkeys.aristocracy": "Adel", //wild
+  "item.kingdomkeys.autocracy": "Autokratie", //loaded
+  "item.kingdomkeys.conquest": "Eroberung", //chrono  
+  "item.kingdomkeys.despair": "Verzweiflung", //prestige
+  "item.kingdomkeys.discipline": "Disziplin", //nimble
+  "item.kingdomkeys.domination": "Herrschaft", //hazard
+  "item.kingdomkeys.fury": "Wut", //fearless
+  "item.kingdomkeys.infinity": "Ragnarök", //pandora
+  "item.kingdomkeys.judgement": "Urteilsspruch", //lift
+  "item.kingdomkeys.magnificence": "Pracht", //ultima
+  "item.kingdomkeys.overlord": "Overlord", //tech
+  "item.kingdomkeys.ruination": "Ruin", //omega
+  "item.kingdomkeys.sanction": "Sanktion", // skill
+  "item.kingdomkeys.superiority": "Überlegenheit",
+  "item.kingdomkeys.terminus": "Terminus", //phantom
+  "item.kingdomkeys.triumph": "Triumpph", //crisis
+  "item.kingdomkeys.tyrant": "Tyrann", //champ
+  "item.kingdomkeys.veneration": "Ehrfurcht", //duel
+
+  "item.kingdomkeys.round_fan": "Runder Fächer", //casual
+  "item.kingdomkeys.absolute": "Absolutus", //mystery
+
+
+  // ---2 - Arrowsgun / Pfeilgewehr (Xigbar)
+
+  "item.kingdomkeys.sharpshooter": "Scharfschütze", //main - zero gear
+  "item.kingdomkeys.standalone": "Autononomus", //no gear
+
+  "item.kingdomkeys.armstrong": "Bärenstark",
+  "item.kingdomkeys.bahamut": "Bahamut",
+  "item.kingdomkeys.blue_frame": "Blauschimmer",
+  "item.kingdomkeys.counterweight": "Gegengewicht",
+  "item.kingdomkeys.crime_and_punishment": "Sünde & Sühne",
+  "item.kingdomkeys.cupids_arrow": "Amors Pfeil",
+  "item.kingdomkeys.diablo_eye": "Teufelsauge",
+  "item.kingdomkeys.double_tap": "Doppelschlag",
+  "item.kingdomkeys.dual_head": "Doppelkopf",
+  "item.kingdomkeys.energy_muzzle": "Mündungsfeuer",
+  "item.kingdomkeys.final_weapon": "Ultima Ratio", //pandora
+  "item.kingdomkeys.gullwing": "Nimmerflügel",
+  "item.kingdomkeys.hard_boiled_heat": "Flammensturm",
+  "item.kingdomkeys.ignition": "Funkensprung",
+  "item.kingdomkeys.killerbee": "Killer-Biene",
+  "item.kingdomkeys.precision": "Präzision",
+  "item.kingdomkeys.star_shell": "Sternenhülle",
+  "item.kingdomkeys.stardust": "Sternenstaub",
+  "item.kingdomkeys.stingray": "Stingray",
+  "item.kingdomkeys.sunrise": "Sonnenaufgang",
+
+  "item.kingdomkeys.dryer": "Trockner", //casual gear
+  "item.kingdomkeys.trumpet": "Trompete", //mystery gear
+
+
+  // ---3 - Lance / Lanze (Xaldin)
+
+  "item.kingdomkeys.lindworm": "Lindwurm", //main - zero gear
+  "item.kingdomkeys.zephyr": "Zephir", //no gear
+
+  "item.kingdomkeys.aer": "Aer",
+  "item.kingdomkeys.aether": "Äther",
+  "item.kingdomkeys.asura": "Asura",
+  "item.kingdomkeys.brume": "Dunst",
+  "item.kingdomkeys.crux": "Crux",
+  "item.kingdomkeys.cynosura": "Zynosura",
+  "item.kingdomkeys.dragonreign": "Drachenherrschaft",
+  "item.kingdomkeys.fellking": "Königsfall",
+  "item.kingdomkeys.foxfire": "Feuerfuchs",
+  "item.kingdomkeys.heavenfall": "Himmelsfall",
+  "item.kingdomkeys.hegemon": "Hegemon",
+  "item.kingdomkeys.mazzaroth": "Mazzaroth",
+  "item.kingdomkeys.moonglade": "Mondlichtung",
+  "item.kingdomkeys.nescience": "Ignoranz",
+  "item.kingdomkeys.nightcloud": "Nachtwolke",
+  "item.kingdomkeys.paladin": "Paladin",
+  "item.kingdomkeys.scission": "Schnitter",
+  "item.kingdomkeys.shimmer": "Schimmer",
+  "item.kingdomkeys.vortex": "Rotator",
+  "item.kingdomkeys.wyvern": "Wyvern",
+  "item.kingdomkeys.yaksha": "Jaksha",
+
+  "item.kingdomkeys.broom": "Besen", //casual
+
+
+  // ---4 - Shield / Schild (Vexen)
+
+  "item.kingdomkeys.frozen_pride": "Stolz aus Eis", //main - zero gear
+  "item.kingdomkeys.tester_zero": "Tester Zero", //no gear
+
+  "item.kingdomkeys.absolute_zero": "Nullpunkt",
+  "item.kingdomkeys.aegis": "Aigis",
+  "item.kingdomkeys.cold_blood": "Kaltblut",
+  "item.kingdomkeys.contrivance": "List & Tücke",
+  "item.kingdomkeys.cryolite_shield": "Eissteinschild",
+  "item.kingdomkeys.deep_freeze": "Frost",
+  "item.kingdomkeys.diamond_shield": "Diamantschild",
+  "item.kingdomkeys.edification": "Erbauung",
+  "item.kingdomkeys.empiricism": "Empirik",
+  "item.kingdomkeys.false_theory": "Irrglaube",
+  "item.kingdomkeys.glacier": "Gletscher",
+  "item.kingdomkeys.gunz": "Gunz",
+  "item.kingdomkeys.iceberg": "Eisberg",
+  "item.kingdomkeys.inquisition": "Inquisition",
+  "item.kingdomkeys.mindel": "Mindel",
+  "item.kingdomkeys.product_one": "Produkt Eins",
+  "item.kingdomkeys.scrutiny": "Examinatius",
+  "item.kingdomkeys.snowslide": "Lawine",
+  "item.kingdomkeys.subzero": "Unter Null",
+  "item.kingdomkeys.wurm": "Würm",
+
+  "item.kingdomkeys.pot_lid": "Topfdeckel", //casual
+  "item.kingdomkeys.snowman": "Schneemann", //mystery
+
+
+  // ---5 - Axe Sword / Axtschwert (Lexaaeus)
+
+  "item.kingdomkeys.skysplitter": "Himmelsspalter", //main - zero mod
+  "item.kingdomkeys.reticence": "Zurückhaltung", //no gear
+
+  "item.kingdomkeys.cardinal_virtue": "Tugend",
+  "item.kingdomkeys.clarity": "Klarheit",
+  "item.kingdomkeys.colossus": "Kolossus",
+  "item.kingdomkeys.copper_red": "Kupferrot",
+  "item.kingdomkeys.daybreak": "Morgengrauen", //duel
+  "item.kingdomkeys.earthshine": "Enigmanith",
+  "item.kingdomkeys.fuligin": "Ruß",
+  "item.kingdomkeys.firefly": "Glühwürm",
+  "item.kingdomkeys.goliath": "Goliath",
+  "item.kingdomkeys.harbinger": "Vorbote", //valor
+  "item.kingdomkeys.hard_winter": "Winterfrost", //wild
+  "item.kingdomkeys.hyperion": "Hyperion",
+  "item.kingdomkeys.iron_black": "Eisenlack", //crisis
+  "item.kingdomkeys.megacosm": "Megakosmos",
+  "item.kingdomkeys.octiron": "Octiron",
+  "item.kingdomkeys.one_thousand_and_one_nights": "1001 Nacht",
+  "item.kingdomkeys.redwood": "Rotholz",
+  "item.kingdomkeys.sequoia": "Sequoia",
+  "item.kingdomkeys.terrene": "Gaja",
+  "item.kingdomkeys.ursa_major": "Ursa Major",
+
+  "item.kingdomkeys.bleep_bloop_bop": "Biep Blup Bop", //casual
+  "item.kingdomkeys.monolith": "Monolith", //mystery
+
+
+  // ---6 - Lexicon / Lexikon (Zexion)
+
+  "item.kingdomkeys.book_of_retribution": "Buch der Vergeltung", //main - zero gear
+  "item.kingdomkeys.black_primer": "Schwarzlack", //no gear
+
+  "item.kingdomkeys.abandoned_dogma": "Verworfenes Dogma",
+  "item.kingdomkeys.arcane_compendium": "Arkaner Almanach",
+  "item.kingdomkeys.atlas_of_omens": "Atlas der Zeichen",
+  "item.kingdomkeys.buried_secrets": "Ars Occultica",
+  "item.kingdomkeys.cursed_manual": "Verfluchtes Buch",
+  "item.kingdomkeys.dissenters_notes": "Protestnote",
+  "item.kingdomkeys.eldritch_esoterica": "Ars Esoterica",
+  "item.kingdomkeys.freakish_bestiary": "Abartiges Bestiarium",
+  "item.kingdomkeys.illicit_research": "Illegale Forschung",
+  "item.kingdomkeys.indescribable_lore": "Unsägliches Wissen",
+  "item.kingdomkeys.lost_heterodoxy": "Verlorene Lehre",
+  "item.kingdomkeys.madmans_vita": "Buch des Wahnsinns",
+  "item.kingdomkeys.mystic_album": "Mythisches Album",
+  "item.kingdomkeys.nefarious_codex": "Sakrileg-Kodex",
+  "item.kingdomkeys.otherworldly_tales": "Überirdische Annalen",
+  "item.kingdomkeys.radical_treatise": "Radikale Abhandlung",
+  "item.kingdomkeys.revolting_scrapbook": "Ekelhaftes Album",
+  "item.kingdomkeys.taboo_text": "Tabutext",
+  "item.kingdomkeys.untitled_writings": "Unbetitele Schriften",
+  "item.kingdomkeys.white_tome": "Weißer Wälzer", //skill
+
+  "item.kingdomkeys.midnight_snack": "Mitternachtsmahl", //casual
+  "item.kingdomkeys.dear_diary": "Tagebuch des Todes", //mystery
+
+
+  // ---7 - Claymore (Saix)
+
+  "item.kingdomkeys.lunatic": "Wahnsinn", //main - zero gear
+  "item.kingdomkeys.new_moon": "Neumond", //no gear
+
+  "item.kingdomkeys.artemis": "Artemis",
+  "item.kingdomkeys.astrologia": "Astrologia",
+  "item.kingdomkeys.balsamic_moon": "Heilender Mond",
+  "item.kingdomkeys.berserker": "Berserker", //main
+  "item.kingdomkeys.crater": "Kaldera",
+  "item.kingdomkeys.crescent": "Demiluna",
+  "item.kingdomkeys.dichotomy": "Dichotomie",
+  "item.kingdomkeys.gibbous": "Konvex",
+  "item.kingdomkeys.horoscope": "Horoskop",
+  "item.kingdomkeys.king_of_the_night": "König der Nacht",
+  "item.kingdomkeys.light_year": "Lichtjahr",
+  "item.kingdomkeys.luminary": "Koryphäe",
+  "item.kingdomkeys.lunar_phase": "Mondphase",
+  "item.kingdomkeys.moonrise": "Mondaufgang",
+  "item.kingdomkeys.moonset": "Monduntergang",
+  "item.kingdomkeys.orbit": "Orbit",
+  "item.kingdomkeys.queen_of_the_night": "Königin der Nacht",
+  "item.kingdomkeys.selene": "Selene",
+  "item.kingdomkeys.twilight": "Zwielicht",
+  "item.kingdomkeys.werewolf": "Werwolf",
+
+  "item.kingdomkeys.just_desserts": "Verdiente Strafe", //casual
+  "item.kingdomkeys.bunnymoon": "Häschenmond", //mystery
+
+  // ---8 - Chakrams (Axel)
+
+  "item.kingdomkeys.eternal_flames": "Ewige Flammen", //main - zero gear
+  "item.kingdomkeys.ashes": "Asche", //no gear
+
+  "item.kingdomkeys.blaze_of_glory": "Glanz und Gloria",
+  "item.kingdomkeys.burnout": "Abbrand",
+  "item.kingdomkeys.combustion": "Brandherd",
+  "item.kingdomkeys.corona": "Korona", //prestige
+  "item.kingdomkeys.delayed_action": "Aufschub",
+  "item.kingdomkeys.dive_bombers": "Sturzbomber",
+  "item.kingdomkeys.doldrums": "Elegie",
+  "item.kingdomkeys.double_edge": "Doppelklinge",
+  "item.kingdomkeys.ferris_wheel": "Riesenrad", //crisis
+  "item.kingdomkeys.ifrit": "Ifrit",
+  "item.kingdomkeys.inferno": "Inferno",
+  "item.kingdomkeys.magma_ocean": "Magmameer",
+  "item.kingdomkeys.moulin_rouge": "Moulin Rouge",
+  "item.kingdomkeys.omega_trinity": "Omega-Dreieinigkeit", //hazard
+  "item.kingdomkeys.outbreak": "Ausbruch",
+  "item.kingdomkeys.prometheus": "Prometheus",
+  "item.kingdomkeys.prominence": "Prominenz",
+  "item.kingdomkeys.sizzling_edge": "Zischende Schneide",
+  "item.kingdomkeys.volcanics": "Vulkan",
+  "item.kingdomkeys.wildfire": "Wildbrand",
+
+  "item.kingdomkeys.pizza_cut": "Pizzaschneider", //casual
+  "item.kingdomkeys.conformers": "Konformisten", //mystery
+
+
+  // ---9 - Sitar (Demyx)
+
+  "item.kingdomkeys.arpeggio": "Arpeggio", //main - zero gear
+  "item.kingdomkeys.basic_model": "Grundmodell", //no gear
+
+  "item.kingdomkeys.concerto": "Konzert",
+  "item.kingdomkeys.da_capo": "Da Capo",
+  "item.kingdomkeys.eight_finger": "Achtfinger",
+  "item.kingdomkeys.fermata": "Fermate", //nimble
+  "item.kingdomkeys.fortissimo": "Fortissimo",
+  "item.kingdomkeys.harmonics": "Harmonie",
+  "item.kingdomkeys.interlude": "Intermezzo", //wild
+  "item.kingdomkeys.million_bucks": "Million",
+  "item.kingdomkeys.old_hand": "Runzelhand",
+  "item.kingdomkeys.overture": "Ouvertüre",
+  "item.kingdomkeys.power_chord": "Akkord",
+  "item.kingdomkeys.quartet": "Quartett",
+  "item.kingdomkeys.quintet": "Quintett",
+  "item.kingdomkeys.rise_to_fame": "Der Aufstieg",
+  "item.kingdomkeys.rock_star": "Rockstar",
+  "item.kingdomkeys.sanctuary": "Heiligtum",
+  "item.kingdomkeys.serenade": "Serenade",
+  "item.kingdomkeys.songbird": "Singvogel",
+  "item.kingdomkeys.tune_up": "Plus",
+  "item.kingdomkeys.up_to_eleven": "Auf Elf",
+  
+
+  "item.kingdomkeys.prince_of_awesome": "Spitzenreiter", //casual
+  "item.kingdomkeys.after_school": "Schulschluss", //mystery
+
+
+  // ---10 - Cards / Karten (Luxord)
+
+  //main
+  "item.kingdomkeys.fair_game": "Faires Spiel", //zero
+  "item.kingdomkeys.the_fool": "Der Narr", //no gear
+
+  "item.kingdomkeys.death": "Der Tod", //valor gear
+  "item.kingdomkeys.justice": "Die Gerechtigkeit", //loaded
+  "item.kingdomkeys.strength": "Die Kraft",
+  "item.kingdomkeys.temperance": "Die Mäßigkeit", //lift gear / hebe mod
+  "item.kingdomkeys.the_chariot": "Der Wagen",
+  "item.kingdomkeys.the_devil": "Der Teufel",
+  "item.kingdomkeys.the_emperor": "Der Herrscher", //ultima gear
+  "item.kingdomkeys.the_empress": "Die Herrscherin", //champion
+  "item.kingdomkeys.the_hanged_man": "Der Gehängte", //ominous gear / unheil mod
+  "item.kingdomkeys.the_hermit": "Der Eremit",
+  "item.kingdomkeys.the_hierophant": "Der Hierophant", //chrono
+  "item.kingdomkeys.the_high_priestess": "Die Hohepriesterin", //nimble
+  "item.kingdomkeys.the_joker": "Der Joker",
+  "item.kingdomkeys.the_lovers": "Die Liebenden",
+  "item.kingdomkeys.the_magician": "Der Magier", //skill gear
+  "item.kingdomkeys.the_moon": "Der Mond",
+  "item.kingdomkeys.the_star": "Der Stern", //tech gear
+  "item.kingdomkeys.the_sun": "Die Sonne",
+  "item.kingdomkeys.the_tower": "Der Turm", //wild
+  "item.kingdomkeys.the_world": "Die Welt", //phantom gear
+
+  "item.kingdomkeys.finest_fantasy_13": "Finest Fantasy 13", //casual gear
+  "item.kingdomkeys.high_rollers_secret": "Der Spieler", //mystery
+
+  // ---11 - Scythe / Sense (Marluxia)
+
+  "item.kingdomkeys.graceful_dahlia": "Elegante Dahlia", //main - zero gear
+  "item.kingdomkeys.fickle_erica": "Launische Erika", //no gear
+
+  "item.kingdomkeys.docile_vallota": "Sanfte Vallota", //ominous
+  "item.kingdomkeys.fair_helianthus": "Fairer Helianthus", //champ
+  "item.kingdomkeys.faithless_digitalis": "Treuloser Fingerhut", //nimble
+  "item.kingdomkeys.fearsome_anise": "Grässlicher Anis", //hazard
+  "item.kingdomkeys.gallant_achillea": "Gallante Schafgabe", //crisis
+  "item.kingdomkeys.grim_muscari": "Grimmige Hyazinthe", //wild
+  "item.kingdomkeys.hallowed_lotus": "Heiliger Lotus", //pandora
+  "item.kingdomkeys.jilted_anemone": "Einsame Anemone", //skill
+  "item.kingdomkeys.lofty_gerbera": "Lange Gerbera", //prestige
+  "item.kingdomkeys.mad_safflower": "Verrückter Saflor", //duel
+  "item.kingdomkeys.mournful_cineria": "Gequäulte Zinerarie", //phantom
+  "item.kingdomkeys.noble_peony": "Edle Pfingstrose", //omega
+  "item.kingdomkeys.parting_ipheion": "Teilende Sternblume", //fearless
+  "item.kingdomkeys.poor_melissa": "Arme Melisse", //loaded gear
+  "item.kingdomkeys.proud_amaryllis": "Stolze Amaryllis", //tech
+  "item.kingdomkeys.pseudo_silene": "Pseudo-Nelke", //lift
+  "item.kingdomkeys.quiet_belladonna": "Ruhige Belladonna", //valor
+  "item.kingdomkeys.solemn_magnolia": "Ernste Magnolie", //ultimate
+  "item.kingdomkeys.tragic_allium": "Tragisches Allium", //chrono
+  "item.kingdomkeys.vindictive_thistle": "Nachtragende Distel", //rage
+
+  "item.kingdomkeys.stirring_ladle": "Rührkelle", //casual
+  "item.kingdomkeys.dainty_bellflowers": "Zarte Glockenblume", //mystery
+
+
+  // ---12 - Knives / Messer (Larxene)
+
+  "item.kingdomkeys.foudre": "Blitz", //main - zero gear
+  "item.kingdomkeys.trancheuse": "Trancheuse", //no gear
+
+  "item.kingdomkeys.carmin": "Karmin",
+  "item.kingdomkeys.clair_de_lune": "Mondschein", //ultima
+  "item.kingdomkeys.croix_du_sud": "Kreuz der Sünden", //rage
+  "item.kingdomkeys.deluge": "Sintflut", //prestige
+  "item.kingdomkeys.dissonance": "Dissonanz", //nimble
+  "item.kingdomkeys.eruption": "Eruption", //wild
+  "item.kingdomkeys.etoile": "Stern", //phantom
+  "item.kingdomkeys.extirpeur": "Jäthacke", //hazard
+  "item.kingdomkeys.indigo": "Indigo", //valor
+  "item.kingdomkeys.irregulier": "Irregulär", //lift
+  "item.kingdomkeys.rafale": "Windstoß", //crisis
+  "item.kingdomkeys.meteore": "Meteor",
+  "item.kingdomkeys.orage": "Gewitter", //skill
+  "item.kingdomkeys.soleil_couchant": "Sonnenuntergang", //ominous
+  "item.kingdomkeys.tempete": "Sturm",
+  "item.kingdomkeys.tourbillon": "Wirbelwind", //tech
+  "item.kingdomkeys.typhon": "Taifun", //omega
+  "item.kingdomkeys.vague": "Welle", //duel
+  "item.kingdomkeys.vol_de_nuit": "Nachtflug", //pandora
+
+  "item.kingdomkeys.demoiselle": "Fräulein", //casual
+  "item.kingdomkeys.ampoule": "Ampulle", //mystery
+
+
+  // ---13 - Keyblade / Schlüsselschwert (Roxas)
+
+  "item.kingdomkeys.abaddon_plasma": "Plasma der Unschuld", //duel
+  "item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
+  "item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
+  "item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
+  "item.kingdomkeys.astral_blast": "Sternenexplosion",
+  "item.kingdomkeys.astral_blast_chain": "Sternenexplosion-Anhänger",
+  "item.kingdomkeys.aubade": "Morgenröte (Days)",
+  "item.kingdomkeys.aubade_chain": "Morgenröte (Days)-Anhänger",
+  "item.kingdomkeys.bond_of_flame": "Flammenfesseln", //pandora (sora)
+  "item.kingdomkeys.bond_of_flame_chain": "Flammenfesseln-Anhänger",
+  "item.kingdomkeys.crown_of_guilt": "Krone der Schuld", //phantom
+  "item.kingdomkeys.crown_of_guilt_chain": "Krone der Schuld-Anhänger",
+  "item.kingdomkeys.darker_than_dark": "Tiefschwarz", //hazard
+  "item.kingdomkeys.darker_than_dark_chain": "Tiefschwarz-Anhänger",
+  "item.kingdomkeys.glimpse_of_darkness": "Dunkelschimmer", //fearless
+  "item.kingdomkeys.glimpse_of_darkness_chain": "Dunkelschimmer-Anhänger",
+  "item.kingdomkeys.leviathan": "Leviathan", //nimble
+  "item.kingdomkeys.leviathan_chain": "Leviathan-Anhänger",
+  "item.kingdomkeys.lunar_eclipse": "Mondfinsternis", //omega
+  "item.kingdomkeys.lunar_eclipse_chain": "Mondfinsternis-Anhänger",
+  "item.kingdomkeys.maverick_flare": "Lichtschein", //champ
+  "item.kingdomkeys.maverick_flare_chain": "Lichtschein-Anhänger",
+  "item.kingdomkeys.midnight_roar": "Nachtschrei", //valor
+  "item.kingdomkeys.midnight_roar_chain": "Nachtschrei-Anhänger",
+  "item.kingdomkeys.missing_ache": "Schmerzlos", //skill
+  "item.kingdomkeys.missing_ache_chain": "Schmerzlos-Anhänger",
+  "item.kingdomkeys.rejection_of_fate": "Schicksalsrefus", //ominous
+  "item.kingdomkeys.rejection_of_fate_chain": "Schicksalsrefus-Anhänger",
+  "item.kingdomkeys.sign_of_innocence": "Rune der Unschuld",
+  "item.kingdomkeys.sign_of_innocence_chain": "Rune der Unschuld-Anhänger",
+  "item.kingdomkeys.silent_dirge": "Stumme Klage", //crisis
+  "item.kingdomkeys.silent_dirge_chain": "Stumme Klage-Anhänger",
+  "item.kingdomkeys.star_seeker": "Sternensucher", //pandora (mickey)
+  "item.kingdomkeys.star_seeker_chain": "Sternensucher-Anhänger",
+  "item.kingdomkeys.total_eclipse": "Totale Finsternis",
+  "item.kingdomkeys.total_eclipse_chain": "Totale Finsternis-Anhänger",
+  "item.kingdomkeys.true_lights_flight": "Lichtflug", //wild
+  "item.kingdomkeys.true_lights_flight_chain": "Lichtflug-Anhänger",
+  "item.kingdomkeys.twilight_blaze": "Zwielichtfeuer", //ultima
+  "item.kingdomkeys.twilight_blaze_chain": "Zwielichtfeuer-Anhänger",
+  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //alt name: "Zweisamkeit" //zero + 2 ability
+  "item.kingdomkeys.two_become_one_chain": "Aus Zwei wird Eins-Anhänger",
+  "item.kingdomkeys.omega_weapon": "Omega-Waffe", //pandora
+  "item.kingdomkeys.omega_weapon_chain": "Omega-Waffe-Anhänger",
+  "item.kingdomkeys.ominous_blight": "Verfall", //tech
+  "item.kingdomkeys.ominous_blight_chain": "Verfall-Anhänger",
+  "item.kingdomkeys.pain_of_solitude": "Einsamkeit",
+  "item.kingdomkeys.pain_of_solitude_chain": "Einsamkeit-Anhänger",
+
+  "item.kingdomkeys.umbrella": "Regenschirm", //casual
+  "item.kingdomkeys.umbrella_chain": "Regenschirm-Anhänger",
+
+
+  // -CoM Map Cards
+
+  "item.mapcard.prefix": "(%1$s) %2$s",
+
+  //bounty
+  "item.kingdomkeys.calm_bounty": "Friedlicher Schatz",
+  "item.kingdomkeys.false_bounty": "Falscher Schatz",
+  "item.kingdomkeys.guarded_trove": "Bewachter Schatz",
+  "item.kingdomkeys.mingling_worlds": "Kreuzung der Räume",
+  "item.kingdomkeys.moments_reprieve": "Verschnaufpause",
+  "item.kingdomkeys.moogle_room": "Mogry-Raum",
+  "item.kingdomkeys.prosperous_repository": "Wohlhabendes Lager (?)",
+  "item.kingdomkeys.reposeful_grove": "Friedlicher Hain (?)",
+  "item.kingdomkeys.treacherous_repository": "Hinterlistiges Lager (?)",
+
+  //enemy
+  "item.kingdomkeys.almighty_darkness": "Allmächtige Dunkelheit",
+  "item.kingdomkeys.bottomless_darkness": "Bodenlose Dunkelheit",
+  "item.kingdomkeys.feeble_darkness": "Schwache Dunkelheit",
+  "item.kingdomkeys.looming_darkness": "Gnadenlose Dunkelheit",
+  "item.kingdomkeys.sleeping_darkness": "Dösende Dunkelheit",
+  "item.kingdomkeys.teeming_darkness": "Drängende Dunkelheit",
+  "item.kingdomkeys.tranquil_darkness": "Harmlose Dunkelheit",
+
+  //status
+  "item.kingdomkeys.alchemic_waking": "Stunde des Chemikers",
+  "item.kingdomkeys.martial_waking": "Stunde des Kämpfers",
+  "item.kingdomkeys.sorcerous_waking": "Stunde des Magiers",
+  "item.kingdomkeys.stagnant_space": "Region der Stagnation",
+  "item.kingdomkeys.weightless_space": "Region der Schwerelosigkeit (?)",
+
+  //biome / dimension
+
+  //no names implemented
+  "item.kingdomkeys.plains_card": "Grüne Ebene (?)", //green plains
+  "item.kingdomkeys.nether_card": "Goldene Schweine (?)", //golden pigs ALT: Schweine Hitzen -> pig heat/warmth
+
+  //do not even exist, me theorizing
+  // "item.kingdomkeys.end_card": "Endliche Inseln Ebene", //pun - ENDlich = finite -> ending islands
+  // "item.kingdomkeys.forest_card": "Dichter Dickicht", //tense thicket
+  // "item.kingdomkeys.dessert_card": "Sandige Hitzen", //sandy heat
+  // "item.kingdomkeys.ocean_card": "Blaue Tiefen", //blue epths
+
+
+  // - MUSIC
+  "item.kingdomkeys.disc_0": "Schallplatte",
+  "item.kingdomkeys.disc_0.desc": "Yoko Shimomura & Kaoru Wada - Birth by Sleep -A Link to the Future-",
+  "item.kingdomkeys.disc_1": "Schallplatte",
+  "item.kingdomkeys.disc_1.desc": "Yoko Shimomura - Dearly Beloved -Union χ Credits Version-",
+  "item.kingdomkeys.disc_10": "Schallplatte",
+  "item.kingdomkeys.disc_10.desc": "Yoko Shimomura - The Other Promise",
+  "item.kingdomkeys.disc_11": "Schallplatte",
+  "item.kingdomkeys.disc_11.desc": "Yuko Komiyama - 13th Struggle -Luxord-",
+  "item.kingdomkeys.disc_12": "Schallplatte",
+  "item.kingdomkeys.disc_12.desc": "Yuki Kishida - 13th Dilemma -Saix-",
+  "item.kingdomkeys.disc_13": "Schallplatte",
+  "item.kingdomkeys.disc_13.desc": "Yoko Shimomura - 13th Reflection",
+  "item.kingdomkeys.disc_14": "Schallplatte",
+  "item.kingdomkeys.disc_14.desc": "Yoko Shimomura - Another Side -Battle Ver-",
+  "item.kingdomkeys.disc_15": "Schallplatte",
+  "item.kingdomkeys.disc_15.desc": "Yoko Shimomura - Cavern of Remembrance -Days Version-",
+  "item.kingdomkeys.disc_16": "Schallplatte",
+  "item.kingdomkeys.disc_16.desc": "Yoko Shimomura - Forgotten Challenge -Re:Coded Version-",
+  "item.kingdomkeys.disc_17": "Schallplatte",
+  "item.kingdomkeys.disc_17.desc": "Takeharu Ishimoto - Anger Unchained",
+  "item.kingdomkeys.disc_18": "Schallplatte",
+  "item.kingdomkeys.disc_18.desc": "Yoko Shimomura - Hunter of the Dark",
+  "item.kingdomkeys.disc_19": "Schallplatte",
+  "item.kingdomkeys.disc_19.desc": "Yoko Shimomura - Destati",
+  "item.kingdomkeys.disc_2": "Schallplatte",
+  "item.kingdomkeys.disc_2.desc": "Yoko Shimomura - Passion -Kingdom Orchestra Instrumental Version-",
+  "item.kingdomkeys.disc_3": "Schallplatte",
+  "item.kingdomkeys.disc_3.desc": "Yoko Shimomura & Kaoru Wada - Dream Drop Distance -The Next Awakening-",
+  "item.kingdomkeys.disc_4": "Schallplatte",
+  "item.kingdomkeys.disc_4.desc": "Yoko Shimomura & Kaoru Wada - Hikari -KINGDOM Instrumental Version-",
+  "item.kingdomkeys.disc_5": "Schallplatte",
+  "item.kingdomkeys.disc_5.desc": "Yoko Shimomura - L'Oscurita Dell'Ignoto",
+  "item.kingdomkeys.disc_6": "Schallplatte",
+  "item.kingdomkeys.disc_6.desc": "Yoko Shimomura - Musique pour la tristesse de Xion",
+  "item.kingdomkeys.disc_7": "Schallplatte",
+  "item.kingdomkeys.disc_7.desc": "Yoko Shimomura & Hirosato Noda - No More Bugs!! -Bug Version-",
+  "item.kingdomkeys.disc_8": "Schallplatte",
+  "item.kingdomkeys.disc_8.desc": "Yoko Shimomura - Organization XIII",
+  "item.kingdomkeys.disc_9": "Schallplatte",
+  "item.kingdomkeys.disc_9.desc": "Yoko Shimomura - Rage Awakened",
+
+  // CREATIVE TABS
+
+  "itemGroup.kingdomkeys_equipables": "Kingdom Keys: Ausrüstung",
+  "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Schlüsselschwerter",
+  "itemGroup.kingdomkeys_misc": "Kingdom Keys: Verschiedenes",
+  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation Waffen",
+
+  // JEI
+
+  "jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
+  "jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
+  "jei.category.kingdomkeys.synthesis": "Item Synthese",
+  "jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
+  "jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
+
+  "jei.info.kingdomkeys.blast_blox": "Wie TNT nur zerstörerischer, wird gezündet bei jeglichem Kontakt. Es sei denn du hast eine Feder in der Hand.",
+  "jei.info.kingdomkeys.bounce_blox": "Entititäten die auf diesen Block laufen, werden hüpfen, schleiche auf den Block zu laufen ohne dabei zu hüpfen.",
+  "jei.info.kingdomkeys.danger_blox": "Ähnlich wie ein Kaktus, aber verursacht mehr Schaden bei Kontakt, so wie bei dem Schlagen. Im Gegensatz zu einem Kaktus, hat er keine Einschränkungen beim plazieren, und kann auch nicht wachsen.\n\nTrage Schuhe um Schaden beim laufen auf dem Block zu verhindern.",
+  "jei.info.kingdomkeys.final_orb": "Benutzen um die Über-Form freizuschalten. Die Über-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 5 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.ghost_blox": "Wende ein Redstone-Signal an, um die Sichtbarkeit von diesem und alle benachbarten Phantomblöcke zu ändern. Unsichtbare Phantomblöcke haben keine Kollision.",
+  "jei.info.kingdomkeys.keychains": "Anhänger können benutzt werden um das zugehörige Schlüsselschwert zu rufen, durch das Ausrüsten des Anhängers im Kingdom Keys-Menü. Drücke die 'Waffe rufen'-Taste um das Schlüsselschwert herbei zu rufen.",
+  "jei.info.kingdomkeys.limit_orb": "Benutzen um die Limit-Form freizuschalten. Das Aktivieren benötigt 4 volle Drive-Leisten. Kann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.magnet_blox": "Ermöglicht das Anziehen oder Abstoßen andere Entititäten in die Richtung in die der Block schaut.\nWird mit einem Redstone-Signal aktiviert, Rechtsklick um die Reichweite zu ändern, und Schleichen + Rechtsklick um zwischen die beiden Modi zu wechseln.",
+  "jei.info.kingdomkeys.master_orb": "Benutzen um die Meister-Form freizuschalten. Die Meister-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 4 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Synthese und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
+  "jei.info.kingdomkeys.organization_robes": "Trage eine ganze Robe der Organisations um ihr beizutreten. Ein Mitglied muss am Anfang ausgewählt werden. Am Ende kann jede Waffe aller Mitglieder benutzt werden, aber zum freischalten muss die voherige Waffe mit Herzen freigeschaltet werden.",
+  "jei.info.kingdomkeys.organization_weapons": "Als Mitglied der Organisation kannst du Waffen innerhalb des Waffen-Menüs mit Herzen freischalten, die du durch das töten von Mobs erhälst. Du erhälst doppelte Anzahl an Herzen, wenn du eine Waffe deines ausgewählten Mitgliedes benutzt.\nRufe die Waffe mit der 'Waffe rufen'-Taste.",
+  "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
+  "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
+  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Synthese bei Mogrys freizuschalten.",
+  "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
+
+  // CONTROLS
+
+  "key.categories.kingdomkeys": "Kingdom Keys",
+
+  "key.kingdomkeys.action": "Aktionstaste",
+  "key.kingdomkeys.back": "Kommando Zurück",
+  "key.kingdomkeys.enter": "Kommando Bestätigen",
+  "key.kingdomkeys.lockon": "Anvisieren",
+  "key.kingdomkeys.openmenu": "Menü öffnen",
+  "key.kingdomkeys.reactioncommand": "Reaktionskommando",
+  "key.kingdomkeys.scrollactivator": "Kommando Mauskontrolle-Taste",
+  "key.kingdomkeys.scrolldown": "Kommando Runter",
+  "key.kingdomkeys.scrollup": "Kommando Hoch",
+  "key.kingdomkeys.showgui": "HUD Ein-/Ausschalten",
+  "key.kingdomkeys.summonarmor": "Rüstung rufen",
+  "key.kingdomkeys.summonkeyblade": "Waffe rufen",
+
+  "keybladedamage.death": "%s wurde erschlagen von %s",
+
+  "kingdomkeys.boots": "Schuhe",
+  "kingdomkeys.chestplate": "Brustplatte",
+  "kingdomkeys.helmet": "Helm",
+  "kingdomkeys.leggings": "Beinschutz",
+
+  // LIMITS
+
+  "limit.arrow_rain.name": "Pfeilregen",
+  "limit.fast_thunder_trail.name": "Schneller Donnerpfad",
+  "limit.laser_circle.name": "Laser-Kreis",
+  "limit.laser_dome.name": "Laser-Kuppel",
+  "limit.slow_thunder_trail.name": "Langsamer Donnerpfad",
+
+  // SPELL NAMES
+
+  "magic.kingdomkeys.magic_aero0.name": "Aero",
+  "magic.kingdomkeys.magic_aero1.name": "Aerora",
+  "magic.kingdomkeys.magic_aero2.name": "Aeroga",
+  "magic.kingdomkeys.magic_blizzard0.name": "Eis",
+  "magic.kingdomkeys.magic_blizzard1.name": "Eisra",
+  "magic.kingdomkeys.magic_blizzard2.name": "Eisga",
+  "magic.kingdomkeys.magic_blizzard3.name": "Eiska",
+  "magic.kingdomkeys.magic_cure0.name": "Vita",
+  "magic.kingdomkeys.magic_cure1.name": "Vitra",
+  "magic.kingdomkeys.magic_cure2.name": "Vigra",
+  "magic.kingdomkeys.magic_cure3.name": "Vitka",
+  "magic.kingdomkeys.magic_fire0.name": "Feuer",
+  "magic.kingdomkeys.magic_fire1.name": "Feura",
+  "magic.kingdomkeys.magic_fire2.name": "Feuga",
+  "magic.kingdomkeys.magic_fire3.name": "Feuka",
+  "magic.kingdomkeys.magic_gravity0.name": "Gravitas",
+  "magic.kingdomkeys.magic_gravity1.name": "Gravira",
+  "magic.kingdomkeys.magic_gravity2.name": "Graviga",
+  "magic.kingdomkeys.magic_magnet0.name": "Magnet",
+  "magic.kingdomkeys.magic_magnet1.name": "Magnera",
+  "magic.kingdomkeys.magic_magnet2.name": "Magnega",
+  "magic.kingdomkeys.magic_reflect0.name": "Reflek",
+  "magic.kingdomkeys.magic_reflect1.name": "Reflera",
+  "magic.kingdomkeys.magic_reflect2.name": "Reflega",
+  "magic.kingdomkeys.magic_stop0.name": "Stopp",
+  "magic.kingdomkeys.magic_stop1.name": "Stoppra",
+  "magic.kingdomkeys.magic_stop2.name": "Stoppga",
+  "magic.kingdomkeys.magic_thunder0.name": "Blitz",
+  "magic.kingdomkeys.magic_thunder1.name": "Blitzra",
+  "magic.kingdomkeys.magic_thunder2.name": "Blitzga",
+  "magic.kingdomkeys.magic_thunder3.name": "Blitzka",
+  "magic.kingdomkeys.magic_water0.name": "Wasser",
+  "magic.kingdomkeys.magic_water1.name": "Wassera",
+  "magic.kingdomkeys.magic_water2.name": "Wassega",
+  "magic.kingdomkeys.magic_water3.name": "Wasseka",
+
+  "message.chest.can_be_locked": "Kann mit einem Schlüsselschwert verschlossen werden",
+  "message.chest.keyblade_set": "Dein Schlüsselschwert wurde zum aufschließen dieser Truhe festgelegt",
+  "message.chest.lock": "Kann mit einem Schlüsselschwert verschlossen werden",
+  "message.chest.locked": "Die Truhe ist verschlossen",
+  "message.chest.unlocked": "Die Truhe ist aufgeschlossen",
+
+  "message.form_unlocked": "%s Freigeschaltet",
+
+  "message.kingdomkeys.gui_toggle": "GUI-Anzeige wurde auf %s gesetzt",
+
+  "message.magnet_blox.attract": "Anziehungs-Modus",
+  "message.magnet_blox.range": "Die Reichweite beträgt nun: %s",
+  "message.magnet_blox.repel": "Abstoßungs-Modus",
+
+  "message.wayfinder.player_not_found": "Der Spieler %s konnte nicht gefunden werden",
+  "message.wayfinder.owner_use": "Dies ist dein Wegfinder, gebe ihn an Jemand anderen",
+  "message.wayfinder.from_party": " aus deiner Gruppe",
+  "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
+  "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
+  "message.wayfinder.cooldown": "Cooldown: %s%%",
+
+
+  "potion.desc.beginning": "Stellt %s%s %s wiederher ",
+  "potion.desc.drive": "§eDrive§r",
+  "potion.desc.focus": "§6Fokus§r",
+  "potion.desc.hp": "§aHP§r",
+  "potion.desc.hpmp": "§aHP§r und §9MP§r",
+  "potion.desc.mp": "§9MP§r",
+  "potion.desc.toall": "für alle Gruppenmitglieder in einer Nähe",
+  "potion.desc.toone": "für ein ausgewähltes Gruppenmitglied",
+
+  "reactioncommand.rc_auto_final.name": "Auto-Über",
+  "reactioncommand.rc_auto_limit.name": "Auto-Limit",
+  "reactioncommand.rc_auto_master.name": "Auto-Meister",
+  "reactioncommand.rc_auto_valor.name": "Auto-Held",
+  "reactioncommand.rc_auto_wisdom.name": "Auto-Weise",
+
+  "shotlock.circular_shotlock.name": "Ragnarök",
+  "shotlock.dark_volley.name": "Düsterhagel",
+  "shotlock.prism_rain.name": "Prismaregen",
+
+  // STATION OF AWAKENING
+
+  "soa.cancel": "Nein.",
+  "soa.choice.confirm": "Ist das die Macht, die du suchst?",
+  "soa.choice.intro.1": "In dir ruht die Macht.",
+  "soa.choice.intro.2": "Gib ihr eine Form...",
+  "soa.choice.intro.3": "Und sie wird dir Kraft geben.",
+  "soa.choice.intro.4": "Wähle gut.",
+  "soa.confirm.1": "Du wählst die Macht des",
+  "soa.confirm.3": "Du verzichtest auf die Macht",
+  "soa.confirm.5": "Ist es das, was du wünscht?",
+  "soa.confirm.cancel": "Doch nicht.",
+  "soa.confirm.guardian": "des Wächters.",
+  "soa.confirm.mystic": "des Magiers.",
+  "soa.confirm.warrior": "des Kriegers.",
+  "soa.guardian.1": "Die Macht des Wächters.",
+  "soa.guardian.2": "Güte und Hilfsbereitschaft.",
+  "soa.guardian.3": "Ein Schild um alles abzuwehren.",
+  "soa.menu.1": "Bevor du das Menü öffnest.",
+  "soa.menu.2": "Musst du eine Entscheidung treffen.",
+  "soa.menu.cancel": "Abbruch.",
+  "soa.menu.ok": "Ok.",
+  "soa.mystic.1": "Die Macht des Magiers",
+  "soa.mystic.2": "Innere Stärke.",
+  "soa.mystic.3": "Ein Stab der Wunder bewirken kann.",
+  "soa.ok": "Ja.",
+  "soa.reset.intro.1": "Wähle mit bedacht.",
+  "soa.reset.intro.2": "What form will your power take?",
+  "soa.sacrifice.confirm": "Verzichtest du auf diese Macht?",
+  "soa.sacrifice.intro.1": "Dein Weg ist entschieden.",
+  "soa.sacrifice.intro.2": "Doch auf was verzichtest du dafür?",
+  "soa.subtitle": "Ort des Erwachens",
+  "soa.title": "Ort des Erwachens",
+  "soa.warrior.1": "Die Macht des Kriegers.",
+  "soa.warrior.2": "Unbeugsamer Mut.",
+  "soa.warrior.3": "Ein Schwert mit großer Zerstörungskraft.",
+
+  "stats.levelUpAP": "Maximum-AP erhöht!",
+  "stats.levelUpDef": "Abwehrkraft erhöht!",
+  "stats.levelUpFG": "Form-Leiste verstärkt!",
+  "stats.levelUpHP": "Maximum-HP erhöht!",
+  "stats.levelUpMP": "Maximum-MP erhöht!",
+  "stats.levelUpMag": "Magischekraft erhöht!",
+  "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",
+  "stats.levelUpMaxArmors": "Ausrüstungsplatz erhalten!",
+  "stats.levelUpStr": "Angriffskraft erhöht!"
+}
