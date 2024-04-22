@@ -165,7 +165,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			action("next");
 		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
         
-        addRenderableWidget(create = Button.builder(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+        addRenderableWidget(create = Button.builder(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create), (e) -> {
 			action("create");
 		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
         
@@ -208,9 +208,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
 			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
-				create.setMessage(Utils.translateToLocal(Strings.Gui_Shop_NoSpace));
+				create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 			} else {
-				create.setMessage(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)));
+				create.setMessage(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create));
 			}
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {
