@@ -241,14 +241,14 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
-			take.setMessage(Component.translatable(Gui_Shop_NoSpace));
+			take.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 		}
 		
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Gui_Shop_Page+": " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page)+": " + (page + 1), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 		
