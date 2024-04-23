@@ -221,6 +221,11 @@ public abstract class DriveForm {
 		return data.canUseMagic;
 	}
 
+	/**
+	 * Make this slot show up in equipment inventory
+	 * @param player
+	 * @return
+	 */
 	public boolean isSlotVisible(Player player) {
 		return hasKeychain();
 	}

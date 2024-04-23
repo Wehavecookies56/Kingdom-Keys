@@ -95,7 +95,7 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
-		if (submenu == 0) {
+		if (submenu == 0) { //Menu on top should always be of the original color
 			if (EntityEvents.isBoss) { // Red
 				RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
 			} else if (EntityEvents.isHostiles) { // Yellow
@@ -106,7 +106,7 @@ public class CommandMenuGui extends OverlayBase {
 			} else { // Blue
 				RenderSystem.setShaderColor(array[0], array[1], array[2], alpha);
 			}
-		} else {
+		} else { //Submenu ?
 			if (EntityEvents.isBoss) { // Red
 				if (submenu == array[3]) {
 					RenderSystem.setShaderColor(array[0], array[1], array[2], alpha);
