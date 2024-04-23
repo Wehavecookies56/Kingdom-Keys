@@ -615,7 +615,6 @@ public class InputHandler {
             		//System.out.println(driveForm.canGoAnti());
                     if (!antiFormCheck()) {
 	                	PacketHandler.sendToServer(new CSUseDriveFormPacket(formName));
-	            		playSound(ModSounds.drive.get());
                     }
 	                
 	                CommandMenuGui.selected = CommandMenuGui.ATTACK;
