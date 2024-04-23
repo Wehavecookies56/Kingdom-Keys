@@ -99,7 +99,11 @@ public class CommandMenuGui extends OverlayBase {
 			if (EntityEvents.isBoss) { // Red
 				RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
 			} else if (EntityEvents.isHostiles) { // Yellow
-				RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+				if(ModConfigs.cmClassicColors) {
+					RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
+				} else {
+					RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+				}
 				// Blue/color
 			} else if (ModCapabilities.getPlayer(minecraft.player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) { // Org gray
 				RenderSystem.setShaderColor(orgColor[0], orgColor[1], orgColor[2], alpha);
@@ -117,7 +121,11 @@ public class CommandMenuGui extends OverlayBase {
 				if (submenu == array[3]) {
 					RenderSystem.setShaderColor(array[0], array[1], array[2], alpha);
 				} else {
-					RenderSystem.setShaderColor(combatModeColor[0] / 2, combatModeColor[1] / 2, combatModeColor[2] / 2, alpha);
+					if(ModConfigs.cmClassicColors) {
+						RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
+					} else {
+						RenderSystem.setShaderColor(combatModeColor[0], combatModeColor[1], combatModeColor[2], alpha);
+					}
 				}
 				// Blue/color
 			} else if (ModCapabilities.getPlayer(minecraft.player).getAlignment() != Utils.OrgMember.NONE && array == normalModeColor) { // Org gray

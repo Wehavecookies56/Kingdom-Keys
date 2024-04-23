@@ -221,7 +221,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
-			gui.drawString(minecraft.font, (Strings.Gui_Shop_Page + " " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page) + " " + (page + 1), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
 
@@ -271,7 +271,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+" exp";
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
-			//matrixStack.scale((float)(boxM.getHeight() / 20F - offset / 20F), (float)(boxM.getHeight() / 20F - offset / 20F), 1);
 			float size = 80;
 			matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()/2 - size / 2,0);
 			ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -10, (int)size);

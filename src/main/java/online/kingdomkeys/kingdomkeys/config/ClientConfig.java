@@ -14,7 +14,7 @@ public class ClientConfig {
 
     public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
     
-    public ForgeConfigSpec.BooleanValue cmHeaderTextVisible;
+    public ForgeConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors;
     public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
     public ForgeConfigSpec.BooleanValue hpShowHearts;
@@ -74,6 +74,11 @@ public class ClientConfig {
 	                .comment("Command Menu Header Text Visibility")
 	                .translation(KingdomKeys.MODID + ".config.cm_header_text_visibility")
 	                .define("cmHeaderTextVisibility", true);
+	        
+	        cmClassicColors = builder
+	                .comment("Command Menu classic color scheme")
+	                .translation(KingdomKeys.MODID + ".config.cm_classic_colors")
+	                .define("cmClassicColors", false);
 	        
 	        cmXScale = builder
 	                .comment("Command Menu X Scale %")

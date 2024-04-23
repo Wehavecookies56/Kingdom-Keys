@@ -40,7 +40,7 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, hpShowHearts, showDriveForms, summonTogether;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether;
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale;
 
     public enum ShowType {
@@ -64,6 +64,11 @@ public class ModConfigs {
 
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
+        bakeClient();
+    }
+    
+    public static void setCmClassicColors(boolean value) {
+        CLIENT.cmClassicColors.set(value);
         bakeClient();
     }
 
@@ -243,6 +248,7 @@ public class ModConfigs {
         magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
+        cmClassicColors = CLIENT.cmClassicColors.get();
         cmXScale = CLIENT.cmXScale.get();
         cmXPos = CLIENT.cmXPos.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();

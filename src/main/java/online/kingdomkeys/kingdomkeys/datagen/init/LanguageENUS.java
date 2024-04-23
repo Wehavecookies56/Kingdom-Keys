@@ -142,6 +142,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
+        add(Gui_Menu_Config + ".classic_colors", "Classic colors");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".y_scale", "Y Scale");
         add(Gui_Menu_Config + ".x_pos", "X Position");
@@ -405,7 +406,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
         addAbilityWithDesc(ModAbilities.PROTECT, "Protect", "Absorbs 10% of the damage taken.");
         addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectra", "Absorbs 20% of the damage taken.");
-        addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectga", "Absorbs 40% of the damage taken.");
+        addAbilityWithDesc(ModAbilities.PROTECTGA, "Protectga", "Absorbs 40% of the damage taken.");
 
 
         //Limits
