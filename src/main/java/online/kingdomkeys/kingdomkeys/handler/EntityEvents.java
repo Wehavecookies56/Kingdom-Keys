@@ -551,6 +551,10 @@ public class EntityEvents {
 
 	}
 
+	/**
+	 * This method returns once a boss is been found, therefore isHostiles will not be updated
+	 * @param player
+	 */
 	private void updateCommandMenu(Player player) {
 		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
 		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
