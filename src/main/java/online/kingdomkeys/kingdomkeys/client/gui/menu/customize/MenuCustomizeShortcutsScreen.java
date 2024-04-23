@@ -84,22 +84,27 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		//if(selectedShortcut > -1) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			int totalMagics = 0;
-			int magicType = 0;
-			addRenderableWidget(unequip = new MenuButton((int) (width * 0.32F) + (80), buttonPosY, (int) (buttonWidth * 0.8), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
+			int magicLine = 0;
+			addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 20, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 			//for (Entry<String, int[]> entry : Utils.getSortedMagics(playerData.getMagicsMap()).entrySet()) {
+			int magicLines = 0;
+			for (ResourceLocation entry : allMagic) {
+				magicLines++;
+			}
+			
 			for (ResourceLocation entry : allMagic) {
 				Magic magic = ModMagic.registry.get().getValue(entry);
 				if(magic != null) {
 					int level = playerData.getMagicLevel(entry);
 					while(level >= 0) {
-						int lvl = level;
-						addRenderableWidget(magics[totalMagics] = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), buttonPosY + (18*2) + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+						int lvl = level;																															//-2 to make list go higher in the screen
+						addRenderableWidget(magics[totalMagics] = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), (int) (height * 0.5F) + (((magicLine-1)-(magicLines/2)) * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
 						magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 						level--;
 						totalMagics++;
 					}
-					magicType++;
+					magicLine++;
 				}
 			}
 			
