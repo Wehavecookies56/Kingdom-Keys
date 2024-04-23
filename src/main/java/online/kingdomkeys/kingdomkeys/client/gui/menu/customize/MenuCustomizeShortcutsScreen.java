@@ -94,7 +94,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 					int level = playerData.getMagicLevel(entry);
 					while(level >= 0) {
 						int lvl = level;
-						addRenderableWidget(magics[totalMagics] = new MenuButton((int) (width * 0.32F) + (level * (buttonWidth + 5)), buttonPosY + (18*2) + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
+						addRenderableWidget(magics[totalMagics] = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), buttonPosY + (18*2) + (magicType * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.BUTTON, (e) -> { select(magic,lvl); }));
 						magics[totalMagics].setData(magic.getRegistryName().toString()+","+level);
 						level--;
 						totalMagics++;
