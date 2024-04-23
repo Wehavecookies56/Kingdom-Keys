@@ -76,6 +76,9 @@ public class ModAbilities {
 			FINISHING_PLUS = createAbility(Strings.finishingPlus, 1, AbilityType.SUPPORT),
 			BERSERK_CHARGE = createAbility(Strings.berserkCharge, 5, AbilityType.SUPPORT),
 			DARK_DOMINATION = createAbility(Strings.darkDomination, 5, AbilityType.SUPPORT),
+			PROTECT = createAbility(Strings.protect, 2, AbilityType.SUPPORT),
+			PROTECTRA = createAbility(Strings.protectra,4, AbilityType.SUPPORT),
+			PROTECTGA = createAbility(Strings.protectga,6, AbilityType.SUPPORT),
 			
 			
 			FIRAZA = createAbility(Strings.firaza,3,AbilityType.SUPPORT),

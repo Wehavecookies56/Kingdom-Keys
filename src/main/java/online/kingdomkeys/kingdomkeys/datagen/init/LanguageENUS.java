@@ -191,9 +191,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Materials_Take, "Take");
         add(Gui_Shop, "Shop");
         add(Gui_Shop_Page, "Page:");
-        add(Gui_Shop_NoSpace, "Not enough space")
+        add(Gui_Shop_NoSpace, "Not enough space");
         add(Gui_Shop_Tier, "Tier:");
-        add(Gui_Shop_Main_Title, "Shop")
+        add(Gui_Shop_Main_Title, "Shop");
         add(Gui_Shop_Buy_Cost, "Cost:");
         add(Gui_Synthesis_Moogle_Name, "%s's Moogle Shop");
 
@@ -403,6 +403,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Increases maximum combo by 1 when on the ground. Equip more to enable more combos");
         addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Decreases maximum combo on the ground and in midair by 1. Equip more to increase the effect.");
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
+        addAbilityWithDesc(ModAbilities.PROTECT, "Protect", "Absorbs 10% of the damage taken.");
+        addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectra", "Absorbs 20% of the damage taken.");
+        addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectga", "Absorbs 40% of the damage taken.");
 
 
         //Limits

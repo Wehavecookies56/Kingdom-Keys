@@ -106,7 +106,7 @@ public class Strings {
     		driveBoost = KingdomKeys.MODID+":"+AB_Prefix +"drive_boost",
     		formBoost = KingdomKeys.MODID+":"+AB_Prefix +"form_boost",
     		fullMPBlast = KingdomKeys.MODID+":"+AB_Prefix +"full_mp_blast",
-    		fireBoost =  KingdomKeys.MODID+":"+.AB_Prefix +"fire_boost",
+    		fireBoost =  KingdomKeys.MODID+":"+AB_Prefix +"fire_boost",
 			blizzardBoost =  KingdomKeys.MODID+":"+AB_Prefix +"blizzard_boost",
 			waterBoost =  KingdomKeys.MODID+":"+AB_Prefix +"water_boost",
     		thunderBoost =  KingdomKeys.MODID+":"+AB_Prefix +"thunder_boost",
@@ -131,7 +131,10 @@ public class Strings {
 			finishingPlus = KingdomKeys.MODID + ":" + AB_Prefix +"finishing_plus",
 			berserkCharge = KingdomKeys.MODID+":"+AB_Prefix +"berserk_charge",
     		darkDomination = KingdomKeys.MODID+":"+AB_Prefix +"dark_domination",
-    		
+			protect = KingdomKeys.MODID+":"+AB_Prefix + "protect",
+			protectra = KingdomKeys.MODID+":"+AB_Prefix + "protectra",
+			protectga = KingdomKeys.MODID+":"+AB_Prefix + "protectga",
+
     		firaza = KingdomKeys.MODID+":"+AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+AB_Prefix +"blizzaza",
     		waterza = KingdomKeys.MODID+":"+AB_Prefix +"waterza",

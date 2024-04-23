@@ -950,10 +950,26 @@ public class EntityEvents {
 			}
 			// System.out.println(damage);
 
+			// Protect Abilities
+				if (playerData.isAbilityEquipped(Strings.protect)){
+					damage *= 0.1;
+					System.out.println(damage);
+				}
+				if (playerData.isAbilityEquipped(Strings.protectra)){
+					damage += 0.2;
+					System.out.println(damage);
+				}
+				if (playerData.isAbilityEquipped(Strings.protectga)){
+					damage += 0.4;
+					System.out.println(damage);
+				}
+
 			// Damage Control
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
+
+
 
 			// Has to evaluate last
 			// Second chance (will save the player from a damage that would've killed him as
