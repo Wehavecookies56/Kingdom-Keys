@@ -948,12 +948,32 @@ public class EntityEvents {
 			} else if (event.getSource().getMsgId().equals(KKResistanceType.darkness.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;
 			}
-			// System.out.println(damage);
+			 //System.out.println(damage);
 
 			// Damage Control
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
+			
+			// Protect Abilities
+			double protectReduction;
+			if (playerData.isAbilityEquipped(Strings.protect)){
+				protectReduction = damage * 0.1;
+				damage -= protectReduction;
+				//System.out.println(damage);
+			}
+			if (playerData.isAbilityEquipped(Strings.protectra)){
+				protectReduction = damage *  0.2;
+				damage -= protectReduction;
+				//System.out.println(damage);
+			}
+			if (playerData.isAbilityEquipped(Strings.protectga)){
+				protectReduction = damage *  0.4;
+				damage -= protectReduction;
+				//System.out.println(damage);
+			}
+
+
 
 			// Has to evaluate last
 			// Second chance (will save the player from a damage that would've killed him as

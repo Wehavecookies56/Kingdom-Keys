@@ -131,7 +131,10 @@ public class Strings {
 			finishingPlus = KingdomKeys.MODID + ":" + AB_Prefix +"finishing_plus",
 			berserkCharge = KingdomKeys.MODID+":"+AB_Prefix +"berserk_charge",
     		darkDomination = KingdomKeys.MODID+":"+AB_Prefix +"dark_domination",
-    		
+			protect = KingdomKeys.MODID+":"+AB_Prefix + "protect",
+			protectra = KingdomKeys.MODID+":"+AB_Prefix + "protectra",
+			protectga = KingdomKeys.MODID+":"+AB_Prefix + "protectga",
+
     		firaza = KingdomKeys.MODID+":"+AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+AB_Prefix +"blizzaza",
     		waterza = KingdomKeys.MODID+":"+AB_Prefix +"waterza",
