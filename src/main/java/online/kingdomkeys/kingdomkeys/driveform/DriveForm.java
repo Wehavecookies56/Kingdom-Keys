@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 
 import java.util.List;
 
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -152,7 +153,7 @@ public abstract class DriveForm {
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
 			// Summon Keyblades
-			player.level().playSound(player, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level().playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
@@ -218,6 +219,10 @@ public abstract class DriveForm {
 	
 	public boolean canUseMagic() {
 		return data.canUseMagic;
+	}
+
+	public boolean isSlotVisible(Player player) {
+		return hasKeychain();
 	}
 
 }

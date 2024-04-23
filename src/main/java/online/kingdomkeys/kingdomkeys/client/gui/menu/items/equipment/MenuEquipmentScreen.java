@@ -137,7 +137,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
                 sbSlot.active = showingKeyblades;
                 sbSlot.visible = showingKeyblades;
 
-                hidden.getAndIncrement();      
+                hidden.getAndIncrement();
             }
         }
         
@@ -146,7 +146,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get().getValue(form).hasKeychain()) {
+            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get().getValue(form).isSlotVisible(minecraft.player)) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement() - transformedScroll, 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get().getValue(form).getTranslationKey(), 0x00BBBB);
                 addRenderableWidget(button);
 
