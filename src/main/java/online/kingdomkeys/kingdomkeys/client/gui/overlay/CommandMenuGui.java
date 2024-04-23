@@ -95,7 +95,6 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
-		System.out.println(array[0] + " " + array[1] + " " + array[2]);
 		if (submenu == 0) {
 			if (EntityEvents.isBoss) { // Red
 				RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
@@ -135,7 +134,6 @@ public class CommandMenuGui extends OverlayBase {
 				}
 			}
 		}
-
 	}
 
 	public void drawCommandMenu(GuiGraphics gui, int width, int height) {
