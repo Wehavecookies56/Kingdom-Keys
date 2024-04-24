@@ -290,7 +290,7 @@ public class ShopScreen extends MenuFilterable {
 				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(item.getTier())+" "+(10 + item.getTier()*2)+" exp";
+				line = Utils.getTierFromInt(item.getTier())+" - "+(10 + item.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				
 				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);

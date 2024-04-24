@@ -181,6 +181,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
+        add(Gui_Synthesis_Exp, "Exp");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
         add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");

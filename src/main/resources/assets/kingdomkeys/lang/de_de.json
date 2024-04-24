@@ -617,6 +617,7 @@
   "gui.summonarmor.notenoughspace": "Du hast nicht ausreichend Platz in deinem Inventar",
 
   "gui.synthesis": "Mogry-Werkstatt",
+  "gui.synthesis.exp": "Erf",
   "gui.synthesis.forge": "Mogry-Schmiede",
   "gui.synthesis.forge.title": "Schmiede",
   "gui.synthesis.forge.upgrade": "Verstärken",
@@ -625,6 +626,7 @@
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
   "gui.synthesis.synthesise": "Item-Synthese",
+  "gui.synthesis.synthesise.title": "Synthese",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",
