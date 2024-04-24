@@ -176,6 +176,7 @@
 
 	"gui.synthesis": "Sintetizador",
 	"gui.synthesis.synthesise.title": "Sintetizar",
+	"gui.synthesis.exp": "Exp",
 	"gui.synthesis.synthesise.create": "Crear",
 	"gui.synthesis.forge.upgrade": "Mejorar",
 	"gui.synthesis.forge.title": "Forja",

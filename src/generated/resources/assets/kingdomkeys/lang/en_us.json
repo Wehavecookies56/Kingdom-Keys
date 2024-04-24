@@ -443,6 +443,7 @@
   "gui.statboost.tooltip": "Increases %s by 1",
   "gui.summonarmor.notenoughspace": "You don't have enough room in your inventory",
   "gui.synthesis": "Item Workshop",
+  "gui.synthesis.exp": "Exp",
   "gui.synthesis.forge": "Keyblade Forge",
   "gui.synthesis.forge.title": "Forge",
   "gui.synthesis.forge.upgrade": "Upgrade",
