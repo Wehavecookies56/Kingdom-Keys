@@ -482,17 +482,18 @@ public class Strings {
 
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
+			Gui_Synthesis_Exp = Gui_Synthesis + ".exp",
             Gui_Synthesis_Main = Gui_Synthesis + ".main",
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",
             
             Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
-	    Gui_Synthesis_Synthesise_Title = Gui_Synthesis_Synthesise + ".title",
+	    	Gui_Synthesis_Synthesise_Title = Gui_Synthesis_Synthesise + ".title",
             Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise + ".create",
             
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
-	    Gui_Synthesis_Forge_Title = Gui_Synthesis_Forge + ".title",
+	    	Gui_Synthesis_Forge_Title = Gui_Synthesis_Forge + ".title",
             Gui_Synthesis_Forge_Upgrade = Gui_Synthesis_Forge + ".upgrade",
             
             Gui_Synthesis_Materials = Gui_Synthesis + ".materials",

@@ -139,6 +139,13 @@
   "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_negative_combo.name": "Combo -",
 
+  "ability.ability_protect.desc":"Negiert 10% Schaden aus jeglichen Quellen.",
+  "ability.ability_protect.name":"Protes",
+  "ability.ability_protectra.desc":"Negiert 20% Schaden aus jeglichen Quellen.",
+  "ability.ability_protectra.name":"Protera",
+  "ability.ability_protectga.desc":"Negiert 40% Schaden aus jeglichen Quellen.",
+  "ability.ability_protectga.name":"Protega",
+
   "ability.ability_scan.desc": "Inspiziert den aktuellen HP-Stand des Ziels.",
   "ability.ability_scan.name": "Analyse",
   "ability.ability_second_chance.desc": "Man behält 1 HP, auch wenn einem fataler Schaden zugefügt wurde.",
@@ -617,6 +624,7 @@
   "gui.summonarmor.notenoughspace": "Du hast nicht ausreichend Platz in deinem Inventar",
 
   "gui.synthesis": "Mogry-Werkstatt",
+  "gui.synthesis.exp": "Erf",
   "gui.synthesis.forge": "Mogry-Schmiede",
   "gui.synthesis.forge.title": "Schmiede",
   "gui.synthesis.forge.upgrade": "Verstärken",
@@ -625,6 +633,7 @@
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
   "gui.synthesis.synthesise": "Item-Synthese",
+  "gui.synthesis.synthesise.title": "Synthese",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",

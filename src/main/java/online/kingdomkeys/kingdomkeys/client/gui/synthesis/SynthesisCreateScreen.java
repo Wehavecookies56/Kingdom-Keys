@@ -268,7 +268,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(recipe.getTier())+" "+(10 + recipe.getTier()*2)+" exp";
+				line = Utils.getTierFromInt(recipe.getTier())+" - "+(10 + recipe.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 			}
 			float size = 80;
