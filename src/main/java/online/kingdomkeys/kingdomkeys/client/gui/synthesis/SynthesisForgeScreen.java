@@ -252,7 +252,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page) + " " + (page + 1), 0, 10, 0xFF9900);
 			
 		}
 		matrixStack.popPose();
