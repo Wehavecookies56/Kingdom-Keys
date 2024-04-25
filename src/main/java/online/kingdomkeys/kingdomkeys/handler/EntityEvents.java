@@ -25,6 +25,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -597,7 +598,7 @@ public class EntityEvents {
 				// Drive form speed
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-					if (player.onGround()) {
+					if (player.onGround() && player.getBlockStateOn().getFriction(player.level(), player.blockPosition(), player) <= 0.6F) {
 						player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
 					}
 				}
@@ -621,7 +622,6 @@ public class EntityEvents {
 				if (globalData.getStopModelTicks() <= 0) {
 					PacketHandler.syncToAllAround(event.getEntity(), globalData);
 				}
-
 			}
 
 			if (globalData.getStoppedTicks() > 0) {
