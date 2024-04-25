@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
@@ -1569,6 +1570,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.3", "You've given the power");
         add("soa.confirm.5", "Is this the form you choose?");
 
+        //Heartless intro
+        add(Strings.HeartlessIntro1,"This world has been connected");
+        add(Strings.HeartlessIntro2,"Tied to the darkness...");
+        add(Strings.HeartlessIntro3,"Soon to be completely eclipsed");
+        
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");

@@ -1550,6 +1550,12 @@
 	"soa.confirm.mystic": "poder del hechicero.",
 	"soa.confirm.3": "Has renunciado al",
 	"soa.confirm.5": "¿Es esta la forma que quieres eligir?",
+	
+	"_comment": "Heartless Intro",
+	"heartless.intro.1": "Este mundo ha sido conectado",
+	"heartless.intro.2": "Unido a la oscuridad...",
+	"heartless.intro.3": "Y pronto perderá la luz",
+
 
 	"_comment": "Biomes",
 	"biome.kingdomkeys.dive_to_the_heart": "Descenso al Corazón",

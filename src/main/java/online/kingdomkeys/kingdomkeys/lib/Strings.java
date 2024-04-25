@@ -1304,6 +1304,11 @@ public class Strings {
             SoA_Confirm3 = "soa.confirm.3",
             SoA_Confirm5 = "soa.confirm.5"
     ;
+    
+    public static String
+    		HeartlessIntro1 = "heartless.intro.1", //This world has been connected
+    		HeartlessIntro2 = "heartless.intro.2", //Tied to the darkness...
+    		HeartlessIntro3 = "heartless.intro.3"; //Soon to be completely eclipsed
 
 	//Map Cards
 	public static String
