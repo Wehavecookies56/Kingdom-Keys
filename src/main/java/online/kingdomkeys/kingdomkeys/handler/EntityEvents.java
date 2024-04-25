@@ -126,20 +126,27 @@ public class EntityEvents {
 			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
 			if(mobData == null)
 				return;
-			
-			int lvl = mobData.getLevel();
-			
+						
 			Player player = Utils.getClosestPlayer(mob, mob.level());
 			if(player == null)
 				return;
 
-			if(lvl <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
-				mobData.setLevel(Utils.getRandomMobLevel(player));
+			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
+				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
+					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
+					int level = (int) Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
+					mobData.setLevel(level);
+				}
 			}
 			
-			lvl = mobData.getLevel();
-			if (lvl > 0) {
+			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
+				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}	
+			
+			
+			if (mobData.getLevel() > 0) {
 				if (!mob.hasCustomName()) {
+					int lvl = mobData.getLevel();
 					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl));
 					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
@@ -147,25 +154,6 @@ public class EntityEvents {
 					return;
 				}
 			}
-
-			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
-				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
-					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
-					int level = (int) Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
-					mobData.setLevel(level);
-
-					if (level > 0) {
-						if (!mob.hasCustomName()) {
-							mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + level));
-							mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
-							mob.heal(mob.getMaxHealth());
-							return;
-						}
-					}
-				}
-			}
-			
 		}
 	}
 
