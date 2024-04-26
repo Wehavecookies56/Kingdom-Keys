@@ -70,9 +70,11 @@ public class DriveLevelCommand extends BaseCommand{
             
 			if(level == 0) {
 				playerData.setDriveFormLevel(form, 0);
+				playerData.remVisibleDriveForm(form);
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 			} else {
 				playerData.setDriveFormLevel(form, 1);
+				playerData.addVisibleDriveForm(form);
 				playerData.setDriveFormExp(player, form, 0);
 				DriveForm drive = ModDriveForms.registry.get().getValue(new ResourceLocation(form));
 				playerData.setNewKeychain(new ResourceLocation(form), ItemStack.EMPTY);

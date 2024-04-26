@@ -248,12 +248,15 @@ public class ClientSetup {
 		} else {
 			if(o == MP_BAR) {
 				event.setCanceled(playerData.getMagicsMap().size() == 0);
+				return;
 			}
 			if(o == SHOTLOCK) {
 				event.setCanceled(playerData.getEquippedShotlock().equals(""));
+				return;
 			}
 			if(o == DRIVE_BAR) {
-				event.setCanceled(playerData.getVisibleDriveForms().size() == 0);
+				event.setCanceled(playerData.getVisibleDriveForms().size() <= 1);
+				return;
 			}
 		}
 

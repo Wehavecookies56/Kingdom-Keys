@@ -270,7 +270,7 @@ public class CommandMenuGui extends OverlayBase {
 			return Strings.Gui_CommandMenu_Items;
 		case DRIVE:
 			if(playerData.getAlignment() == OrgMember.NONE) {
-				return playerData.getDriveFormMap().size() > 2 ? (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert) : "???";
+				return playerData.getVisibleDriveForms().size() > 1 ? (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? Strings.Gui_CommandMenu_Drive : Strings.Gui_CommandMenu_Drive_Revert) : "???";
 			} else {
 				return Strings.Gui_CommandMenu_Limit;
 			}
