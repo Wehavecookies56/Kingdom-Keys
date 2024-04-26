@@ -62,7 +62,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.fairyStars, Strings.fairyStarsChain, 4, 5, ModAbilities.ENDLESS_MAGIC.get().toString(), 5.0F, "A Keyblade that provides a balanced boost in Strength and Magic.");
 		addStats(Strings.fatalCrest, Strings.fatalCrestChain, 5, 7, ModAbilities.BERSERK_CHARGE.get().toString(), 5.0F, "Increases strength during MP Charge and allows unlimited chaining of combos.");
 		addStats(Strings.favoriteDeputy, Strings.favoriteDeputyChain, 5, 3, "", 5.0F, "A Keyblade with an emphasis on Strength.");
-		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, "", 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
+		addStats(Strings.fenrir, Strings.fenrirChain, 9, 2, ModAbilities.NEGATIVE_COMBO.get().toString(), 5.0F, "Has great range and strength, but maximum ground and midair combos are decreased by 1.");
 		addStats(Strings.ferrisGear, Strings.ferrisGearChain, 5, 5, "", 5.0F, "A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.");
 		addStats(Strings.followTheWind, Strings.followTheWindChain, 4, 2, ModAbilities.TREASURE_MAGNET.get().toString(), 5.0F, "Draws in nearby orbs.");
 		addStats(Strings.frolicFlame, Strings.frolicFlameChain, 5, 5, "", 5.0F, "A well-balanced Keyblade that provides an extra boost to all of your stats.");
