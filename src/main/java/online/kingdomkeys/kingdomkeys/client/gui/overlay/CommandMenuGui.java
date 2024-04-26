@@ -299,11 +299,8 @@ public class CommandMenuGui extends OverlayBase {
 		for(int i = 0; i < list.size(); i++) {
 			matrixStack.pushPose();
 			{
-				if(i == reactionSelected) {
-					RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
-				} else {
-					RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, alpha);
-				}
+				float shade = i == reactionSelected ? 1F : 0.4F;
+				RenderSystem.setShaderColor(shade,shade,shade, alpha);
 				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 1);
 				matrixStack.scale(scale, scale, scale);
 				matrixStack.pushPose();
