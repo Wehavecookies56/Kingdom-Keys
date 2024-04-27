@@ -274,9 +274,10 @@ public class ClientEvents {
 
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						HitResult rt = InputHandler.getMouseOverExtended(100);
-						
-						if (rt != null && rt instanceof EntityHitResult) {
-							EntityHitResult ertr = (EntityHitResult) rt;
+						if(rt == null)
+							return;
+
+						if (rt instanceof EntityHitResult ertr) {
 							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
 							if(ertr.getEntity() instanceof LivingEntity) {
 								LivingEntity target = (LivingEntity) ertr.getEntity();
@@ -293,7 +294,7 @@ public class ClientEvents {
 							}
 						}
 
-						if (rt != null && rt instanceof BlockHitResult blockResult) {
+						if (rt instanceof BlockHitResult blockResult) {
 							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
 								System.out.println("AAAAAAA");
 							}
