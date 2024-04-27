@@ -92,7 +92,6 @@ public class MagnetEntity extends ThrowableProjectile {
 						double z = Z + (radius * Math.sin(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
 						double y = Y + (radius * Math.cos(Math.toRadians(t+tickCount)));
 						((ServerLevel) level()).sendParticles(ParticleTypes.BUBBLE_POP, x, y+1, z, 1, 0,0,0, 0);
-						//level.addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 					}
 				}
 			}

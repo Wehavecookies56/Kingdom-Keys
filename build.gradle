@@ -22,7 +22,7 @@ minecraft {
 
     runs {
         client {
-            taskName '[Kingdom Keys] Client'
+            taskName '[KingdomKeys]-Client'
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
@@ -40,7 +40,7 @@ minecraft {
         }
 
         server {
-            taskName '[Kingdom Keys] Server'
+            taskName '[KingdomKeys]-Server'
         
             workingDirectory project.file('run')
 
@@ -59,7 +59,7 @@ minecraft {
         }
 
         data {
-            taskName '[Kingdom Keys] Datagen'
+            taskName '[KingdomKeys]-Datagen'
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
