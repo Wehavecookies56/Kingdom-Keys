@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -289,6 +290,12 @@ public class ClientEvents {
 										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
+							}
+						}
+
+						if (rt != null && rt instanceof BlockHitResult blockResult) {
+							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
+								System.out.println("AAAAAAA");
 							}
 						}
 					}

@@ -15,6 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -60,6 +61,8 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
+			} else if (block == ModBlocks.airstepTarget.get()){
+
 			} else if (block instanceof INoDataGen) {
 				// Skip
 			} else if (block instanceof KKOreBlock && name.endsWith("_n")) {

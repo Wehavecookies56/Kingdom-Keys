@@ -89,7 +89,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 			remove(RemovalReason.KILLED);
 		}
 
-
 		if (tickCount > 2) {
 			float radius = 0.5F;
 			for (int t = 1; t < 360; t += 50) {
@@ -141,7 +140,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					}
 				}
 			}
-			
 
 			if (getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);

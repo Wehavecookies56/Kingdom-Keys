@@ -94,7 +94,9 @@ public class ModBlocks {
     
             rodSand = createNewBlock("rod_sand", Block.Properties.of().mapColor(MapColor.DIRT).sound(SoundType.SAND).strength(1.0F, 10.0F)),
             rodStone = createNewBlock("rod_stone", Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.0F, 10.0F)),
-            rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.0F, 10.0F).lightLevel(state -> 14));
+            rodCrackedStone = createNewBlock("rod_cracked_stone", Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(1.0F, 10.0F).lightLevel(state -> 14)),
+
+            airstepTarget = createNewBlock("airstep_target", Block.Properties.of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 10.0F).lightLevel(state -> 10));
     ;
 
     /**
