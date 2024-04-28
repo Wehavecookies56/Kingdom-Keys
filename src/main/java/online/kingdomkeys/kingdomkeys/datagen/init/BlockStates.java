@@ -61,8 +61,6 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
-			} else if (block == ModBlocks.airstepTarget.get()){
-
 			} else if (block instanceof INoDataGen) {
 				// Skip
 			} else if (block instanceof KKOreBlock && name.endsWith("_n")) {

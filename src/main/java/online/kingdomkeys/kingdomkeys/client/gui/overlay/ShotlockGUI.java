@@ -34,9 +34,9 @@ public class ShotlockGUI extends OverlayBase {
 
 	@SubscribeEvent
 	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
-		if (ClientEvents.focusing && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type()) {
+		/*if (ClientEvents.focusing && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type()) {
 			event.setCanceled(true);
-		}
+		}*/
 	}
 
 	@Override

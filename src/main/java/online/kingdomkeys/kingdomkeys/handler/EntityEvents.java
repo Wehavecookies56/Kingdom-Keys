@@ -578,6 +578,7 @@ public class EntityEvents {
 
 	}
 
+	int airstepTicks = -1;
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
@@ -596,19 +597,23 @@ public class EntityEvents {
 				}
 
 				if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
+					airstepTicks++;
+
 					BlockPos pos = playerData.getAirStep();
 					float speedFactor = 0.3F;
-					player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
 
-					if(!player.level().isClientSide) {
-						Color c = new Color(playerData.getNotifColor());
-						((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F),player.getX(), player.getY(), player.getZ(),50,0,0,0,0);
+					if(pos.distToCenterSqr(player.position()) < 2 || (airstepTicks > 5 && player.getDeltaMovement().x() == 0 && player.getDeltaMovement().z() == 0)){
+						player.setDeltaMovement(0,0,0);
+						player.setPos(pos.getCenter().subtract(0,0.4,0));
 
-					} else {
-						if(pos.distToCenterSqr(player.position()) < 2){
+						if(player.level().isClientSide) {
 							PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0,0,0)));
+							airstepTicks = -1;
 						}
 					}
+					if(airstepTicks > -1)
+						player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
+
 				}
 			}
 		}
