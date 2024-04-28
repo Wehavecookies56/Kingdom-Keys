@@ -134,10 +134,7 @@ public class DriveFormFinal extends DriveForm {
 			Vec3 motion = player.getDeltaMovement();
 
 			if (Math.abs(motion.x()) < limit && Math.abs(motion.z()) < limit)
-				player.setDeltaMovement(motion.x() * 1.1, motion.y(), motion.z() * 1.1);
-
-			motion = player.getDeltaMovement();
-			player.setDeltaMovement(motion.x(), glide, motion.z());
+				player.setDeltaMovement(motion.x() * 1.1, glide, motion.z() * 1.1);
 
 			if (player.getForcedPose() != Pose.SWIMMING) {
 				player.setForcedPose(Pose.SWIMMING);

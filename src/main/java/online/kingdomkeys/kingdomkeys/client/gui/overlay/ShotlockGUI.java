@@ -44,9 +44,6 @@ public class ShotlockGUI extends OverlayBase {
 		super.render(gui, guiGraphics, partialTick, width, height);
 
 		Player player = minecraft.player;
-
-		//minecraft.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"));
-
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 

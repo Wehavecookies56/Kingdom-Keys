@@ -54,7 +54,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -62,22 +62,32 @@ public class BlizzazaEntity extends ThrowableProjectile {
 		return 0F;
 	}
 
+	float radius = 6F;
+
 	@Override
 	public void tick() {
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide) {
-			if (level().getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
-				level().setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
-				remove(RemovalReason.KILLED);
-			} else if(level().getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
-				level().setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
-				remove(RemovalReason.KILLED);
+		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide && level().getBlockState(blockPosition()) != Blocks.AIR.defaultBlockState()) {
+			for(int x=(int)(getX()-radius/2);x<getX()+radius/2;x++) {
+				for(int y=(int)(getY());y<getY()+1;y++) {
+					for(int z=(int)(getZ()-radius/2);z<getZ()+radius/2;z++) {
+						if ((getX() - x) * (getX() - x) + (getY() - y) * (getY() - y) + (getZ() - z) * (getZ() - z) <= radius/2 * radius/2) {
+							BlockPos blockpos = new BlockPos(x,y,z);
+							BlockState blockstate = level().getBlockState(blockpos);
+							if(blockstate == Blocks.WATER.defaultBlockState()){
+								level().setBlockAndUpdate(blockpos, Blocks.ICE.defaultBlockState());
+							} else if(blockstate == Blocks.LAVA.defaultBlockState()){
+								level().setBlockAndUpdate(blockpos, Blocks.OBSIDIAN.defaultBlockState());
+							}
+						}
+					}
+				}
 			}
+			remove(RemovalReason.KILLED);
 		}
-
 
 		if (tickCount > 2) {
 			float radius = 0.5F;
@@ -97,19 +107,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 	@Override
 	protected void onHit(HitResult rtRes) {
 		if (!level().isClientSide) {
-
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
+			if (rtRes instanceof EntityHitResult ertResult) {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target.isOnFire()) {
@@ -127,10 +125,8 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					}
 				}
 			}
-			
-			float radius = 6F;
 
-			if (brtResult != null) {
+			if (rtRes instanceof BlockHitResult brtResult) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
 
 				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
@@ -144,7 +140,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					}
 				}
 			}
-			
+
 			if (getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				int r = 2;

@@ -790,7 +790,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void remDP(double dp) {
-		this.dp -= dp;
+		this.dp = Utils.clamp(this.dp - dp, 0, this.maxDP);
 	}
 
 	@Override
@@ -821,7 +821,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public void remFP(double fp) {
-		this.fp -= fp;
+		this.fp = Math.max(this.fp - fp, 0);
 	}
 
 	@Override

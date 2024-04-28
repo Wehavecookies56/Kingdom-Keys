@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -273,9 +274,10 @@ public class ClientEvents {
 
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						HitResult rt = InputHandler.getMouseOverExtended(100);
-						
-						if (rt != null && rt instanceof EntityHitResult) {
-							EntityHitResult ertr = (EntityHitResult) rt;
+						if(rt == null)
+							return;
+
+						if (rt instanceof EntityHitResult ertr) {
 							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
 							if(ertr.getEntity() instanceof LivingEntity) {
 								LivingEntity target = (LivingEntity) ertr.getEntity();
@@ -289,6 +291,12 @@ public class ClientEvents {
 										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
+							}
+						}
+
+						if (rt instanceof BlockHitResult blockResult) {
+							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
+								System.out.println("AAAAAAA");
 							}
 						}
 					}
