@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -80,7 +80,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 
 
     public HumanoidMesh getModel(E e) {
-        boolean defaultSkin = ((LocalPlayer)e).getModelName().equals("default");
+        boolean defaultSkin = ((AbstractClientPlayer)e).getModelName().equals("default");
         if (defaultSkin) {
             return Meshes.BIPED;
         } else {
