@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -196,6 +197,7 @@ public class KingdomKeys {
 			modEventBus.addListener(EpicKKWeapons::register);
 			MinecraftForge.EVENT_BUS.register(new KKSkills());
 			KKSkills.register();
+			ComboExtender.DATA_KEYS.register(modEventBus);
 		}
 
 		MinecraftForge.EVENT_BUS.register(this);

@@ -252,7 +252,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		{
 			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page) + " " + (page + 1), 0, 10, 0xFF9900);
 			
 		}
 		matrixStack.popPose();
@@ -297,10 +297,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				double offset = (boxM.getWidth()*0.1F);
 				matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
-				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
-				matrixStack.scale(0.8F, 0.8F, 0.8F);
-				ClientUtils.drawItemAsIcon(new ItemStack(kb), matrixStack, 2, -4, 16);
-
+				float size = 80;
+				matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()/2 - size / 2,0);
+				ClientUtils.drawItemAsIcon(new ItemStack(kb), matrixStack, 0, -30, (int)size);
 			}
 			matrixStack.popPose();
 			

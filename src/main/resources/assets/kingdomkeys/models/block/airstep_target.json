@@ -1,0 +1,13 @@
+{
+	"parent": "forge:block/default",
+	"render_type": "minecraft:cutout",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/airstep_target.obj",
+	"transform":{
+		"translation": [ -1, -1.2, -1 ],
+		"scale": [ 0.003, 0.003, 0.003 ],
+		"rotation":[0,45,0]
+	},
+	"textures": {
+	}
+}

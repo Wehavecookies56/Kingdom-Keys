@@ -3,6 +3,9 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.BlockHitResult;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -202,6 +205,13 @@ public class ClientEvents {
 				}
 				
 				if(playerData != null) {
+					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
+						Color c = new Color(playerData.getNotifColor());
+						//((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F),player.getX(), player.getY(), player.getZ(),50,0,0,0,0);
+
+						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
+						event.setCanceled(true);
+					}
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
@@ -245,6 +255,7 @@ public class ClientEvents {
 	double cost = 0;
 
 	int cooldownTicks = 0;
+	BlockPos lockedAirStep = new BlockPos(0,0,0);
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
@@ -273,13 +284,12 @@ public class ClientEvents {
 
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						HitResult rt = InputHandler.getMouseOverExtended(100);
-						
-						if (rt != null && rt instanceof EntityHitResult) {
-							EntityHitResult ertr = (EntityHitResult) rt;
+						if(rt == null)
+							return;
+
+						if (rt instanceof EntityHitResult ertr) {
 							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
-							if(ertr.getEntity() instanceof LivingEntity) {
-								LivingEntity target = (LivingEntity) ertr.getEntity();
-	
+							if(ertr.getEntity() instanceof LivingEntity target) {
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									playerData.addShotlockEnemy(ertr.getEntity().getId());
 									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -288,6 +298,23 @@ public class ClientEvents {
 									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
 										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
+								}
+							}
+						}
+
+						if (rt instanceof BlockHitResult blockResult) {
+							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
+								if(!lockedAirStep.equals(blockResult.getBlockPos())){
+									lockedAirStep = blockResult.getBlockPos();
+									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
+								}
+
+								if(mc.options.keyUse.isDown()) {
+									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+									cooldownTicks = 100;
+									focusingTicks = 0;
+									focusing = false;
+									return;
 								}
 							}
 						}
@@ -310,6 +337,7 @@ public class ClientEvents {
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
 					}
 				} else {
+					lockedAirStep = new BlockPos(0,0,0);
 					focusingTicks = 0;
 					focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<Integer>());

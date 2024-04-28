@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -79,6 +82,7 @@ import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -90,6 +94,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import org.joml.Vector3f;
 
 public class EntityEvents {
 
@@ -125,20 +130,27 @@ public class EntityEvents {
 			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
 			if(mobData == null)
 				return;
-			
-			int lvl = mobData.getLevel();
-			
+						
 			Player player = Utils.getClosestPlayer(mob, mob.level());
 			if(player == null)
 				return;
 
-			if(lvl <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
-				mobData.setLevel(Utils.getRandomMobLevel(player));
+			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
+				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
+					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
+					int level = (int) Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
+					mobData.setLevel(level);
+				}
 			}
 			
-			lvl = mobData.getLevel();
-			if (lvl > 0) {
+			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
+				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}	
+			
+			
+			if (mobData.getLevel() > 0) {
 				if (!mob.hasCustomName()) {
+					int lvl = mobData.getLevel();
 					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl));
 					mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
@@ -146,25 +158,6 @@ public class EntityEvents {
 					return;
 				}
 			}
-
-			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
-				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
-					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
-					int level = (int) Math.min(dist / ModConfigs.rodHeartlessLevelScale, ModConfigs.rodHeartlessMaxLevel);
-					mobData.setLevel(level);
-
-					if (level > 0) {
-						if (!mob.hasCustomName()) {
-							mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + level));
-							mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (level * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-							mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (level * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
-							mob.heal(mob.getMaxHealth());
-							return;
-						}
-					}
-				}
-			}
-			
 		}
 	}
 
@@ -551,6 +544,10 @@ public class EntityEvents {
 
 	}
 
+	/**
+	 * This method returns once a boss is been found, therefore isHostiles will not be updated
+	 * @param player
+	 */
 	private void updateCommandMenu(Player player) {
 		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
 		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
@@ -581,6 +578,7 @@ public class EntityEvents {
 
 	}
 
+	int airstepTicks = -1;
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
@@ -593,16 +591,34 @@ public class EntityEvents {
 				// Drive form speed
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-					if (player.onGround()) {
+					if (player.onGround() && player.getBlockStateOn().getFriction(player.level(), player.blockPosition(), player) <= 0.6F) {
 						player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
 					}
+				}
+
+				if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
+					airstepTicks++;
+
+					BlockPos pos = playerData.getAirStep();
+					float speedFactor = 0.3F;
+
+					if(pos.distToCenterSqr(player.position()) < 2 || (airstepTicks > 5 && player.getDeltaMovement().x() == 0 && player.getDeltaMovement().z() == 0)){
+						player.setDeltaMovement(0,0,0);
+						player.setPos(pos.getCenter().subtract(0,0.4,0));
+
+						if(player.level().isClientSide) {
+							PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0,0,0)));
+							airstepTicks = -1;
+						}
+					}
+					if(airstepTicks > -1)
+						player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
+
 				}
 			}
 		}
 
 		if (globalData != null) {
-			// Stop
-
 			if(globalData.isKO()) {
 				if(event.getEntity().tickCount % 20 == 0) {
 					event.getEntity().setHealth(event.getEntity().getHealth()-1);
@@ -612,12 +628,13 @@ public class EntityEvents {
 				event.getEntity().setXRot(0);
 			}
 
+
+
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);
 				if (globalData.getStopModelTicks() <= 0) {
 					PacketHandler.syncToAllAround(event.getEntity(), globalData);
 				}
-
 			}
 
 			if (globalData.getStoppedTicks() > 0) {

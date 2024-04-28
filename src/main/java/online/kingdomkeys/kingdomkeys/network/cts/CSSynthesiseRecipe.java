@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -97,9 +98,9 @@ public class CSSynthesiseRecipe {
 							IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
 							if(worldData.getHeartlessSpawnLevel() == 0) {
 								List<Title> titles = List.of(
-										new Utils.Title("","This world has been connected"),
-										new Utils.Title("","Tied to the darkness..."),
-										new Utils.Title("","Soon to be completely eclipsed"));
+										new Utils.Title("",Strings.HeartlessIntro1),
+										new Utils.Title("",Strings.HeartlessIntro2),
+										new Utils.Title("",Strings.HeartlessIntro3));
 								
 								//for(Player p : Utils.getAllPlayers(player.level().getServer())){
 								PacketHandler.sendToAllPlayers(new SCShowMessagesPacket(titles));

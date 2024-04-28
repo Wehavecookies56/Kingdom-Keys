@@ -48,6 +48,8 @@ public class MenuCustomizeScreen extends MenuBackground {
         float topBarHeight = (float) height * 0.17F;
         float boxWidth = (float) width * 0.67F;
         float middleHeight = (float) height * 0.6F;
+        
+        buttonPosY = (int) topBarHeight + 5;
 
         box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
         buttonsX = box.getX() + 10;
@@ -55,10 +57,10 @@ public class MenuCustomizeScreen extends MenuBackground {
         super.init();
         this.renderables.clear();
 
-        addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, (int) topBarHeight + 2, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
-        addRenderableWidget(magic = new MenuButton((int) buttonPosX, (int) topBarHeight + (1 * 18)+2, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic), MenuButton.ButtonType.BUTTON, (e) -> action("magic")));
+        addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, (int) buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
+        addRenderableWidget(magic = new MenuButton((int) buttonPosX, (int) buttonPosY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic), MenuButton.ButtonType.BUTTON, (e) -> action("magic")));
 
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + (2 * 18)+2, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) buttonPosY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 

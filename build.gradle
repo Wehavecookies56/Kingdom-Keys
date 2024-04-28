@@ -7,7 +7,7 @@ plugins {
 }
 
 def mcver = "1.20.1"
-version = mcver + '-2.3.9.2'
+version = mcver + '-2.3.9.3'
 
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
@@ -22,6 +22,7 @@ minecraft {
 
     runs {
         client {
+            taskName '[KingdomKeys]-Client'
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
@@ -39,6 +40,8 @@ minecraft {
         }
 
         server {
+            taskName '[KingdomKeys]-Server'
+        
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
@@ -56,6 +59,7 @@ minecraft {
         }
 
         data {
+            taskName '[KingdomKeys]-Datagen'
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
@@ -125,7 +129,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.23'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.30'
 
     //JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))

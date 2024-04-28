@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
@@ -142,6 +143,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
+        add(Gui_Menu_Config + ".classic_colors", "Classic colors");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".y_scale", "Y Scale");
         add(Gui_Menu_Config + ".x_pos", "X Position");
@@ -180,6 +182,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
+        add(Gui_Synthesis_Exp, "Exp");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
         add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
@@ -405,7 +408,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
         addAbilityWithDesc(ModAbilities.PROTECT, "Protect", "Absorbs 10% of the damage taken.");
         addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectra", "Absorbs 20% of the damage taken.");
-        addAbilityWithDesc(ModAbilities.PROTECTRA, "Protectga", "Absorbs 40% of the damage taken.");
+        addAbilityWithDesc(ModAbilities.PROTECTGA, "Protectga", "Absorbs 40% of the damage taken.");
 
 
         //Limits
@@ -1567,6 +1570,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.3", "You've given the power");
         add("soa.confirm.5", "Is this the form you choose?");
 
+        //Heartless intro
+        add(Strings.HeartlessIntro1,"This world has been connected");
+        add(Strings.HeartlessIntro2,"Tied to the darkness...");
+        add(Strings.HeartlessIntro3,"Soon to be completely eclipsed");
+        
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");

@@ -190,6 +190,8 @@ public class ClientSetup {
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
+				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
+
 			}
 		}
 		
@@ -208,6 +210,7 @@ public class ClientSetup {
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
+		
 
 	}
 
@@ -248,12 +251,15 @@ public class ClientSetup {
 		} else {
 			if(o == MP_BAR) {
 				event.setCanceled(playerData.getMagicsMap().size() == 0);
+				return;
 			}
 			if(o == SHOTLOCK) {
 				event.setCanceled(playerData.getEquippedShotlock().equals(""));
+				return;
 			}
 			if(o == DRIVE_BAR) {
-				event.setCanceled(playerData.getVisibleDriveForms().size() == 0);
+				event.setCanceled(playerData.getVisibleDriveForms().size() <= 1);
+				return;
 			}
 		}
 

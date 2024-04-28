@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -28,7 +29,7 @@ public class DriveFormValor extends DriveForm {
 
 	@SubscribeEvent
 	public static void getValorFormXP(LivingAttackEvent event) {
-		if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Monster) {
+		if (!event.getEntity().level().isClientSide && (event.getEntity() instanceof Monster || event.getEntity() instanceof EnderDragon)) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);

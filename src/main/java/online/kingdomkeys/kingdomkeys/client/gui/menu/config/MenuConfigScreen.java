@@ -51,8 +51,8 @@ public class MenuConfigScreen extends MenuBackground {
 	
 	//Command Menu
 	EditBox cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
-	Button cmHeaderTextVisibleButton;
-	boolean cmHeaderTextVisible;
+	Button cmHeaderTextVisibleButton, cmClassicColorsButton;
+	boolean cmHeaderTextVisible, cmClassicColors;
 	
 	//HP
 	EditBox hpXPosBox, hpYPosBox, hpAlarmBox, hpXScaleBox;
@@ -112,6 +112,11 @@ public class MenuConfigScreen extends MenuBackground {
 			cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
+		case "classicColors":
+			cmClassicColors = !cmClassicColors;
+			cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
+			ModConfigs.setCmClassicColors(cmClassicColors);
+			break;
 		case "hpShowHearts":
 			hpShowHearts = !hpShowHearts;
 			hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
@@ -168,7 +173,13 @@ public class MenuConfigScreen extends MenuBackground {
 
 	private void initCommandMenu() {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
+		cmClassicColors = ModConfigs.cmClassicColors;
 		int pos = 0;
+
+		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.translatable(cmClassicColors+""), (e) -> {
+			 action("classicColors");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+
 		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -282,6 +293,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.translatable(cmHeaderTextVisible+""), (e) -> {
 			 action("textHeaderVisibility");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		
 
 		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
@@ -311,12 +323,15 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
 		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
+		cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
+
 		cmXScaleBox.setValue(""+ModConfigs.cmXScale);
 		cmXPosBox.setValue(""+ModConfigs.cmXPos);
 		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
 		cmSubXOffsetBox.setValue(""+ModConfigs.cmSubXOffset);
 		
 		commandMenuList.add(cmHeaderTextVisibleButton);
+		commandMenuList.add(cmClassicColorsButton);
 		commandMenuList.add(cmTextXOffsetBox);
 		commandMenuList.add(cmTextXOffsetBox);
 		commandMenuList.add(cmHeaderTextVisibleButton);
@@ -1338,6 +1353,7 @@ public class MenuConfigScreen extends MenuBackground {
 				}
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
+				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.classic_colors"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
