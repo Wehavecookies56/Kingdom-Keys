@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +28,6 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -80,6 +82,7 @@ import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -91,6 +94,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import org.joml.Vector3f;
 
 public class EntityEvents {
 
@@ -590,12 +594,26 @@ public class EntityEvents {
 						player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
 					}
 				}
+
+				if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
+					BlockPos pos = playerData.getAirStep();
+					float speedFactor = 0.3F;
+					player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
+
+					if(!player.level().isClientSide) {
+						Color c = new Color(playerData.getNotifColor());
+						((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F),player.getX(), player.getY(), player.getZ(),50,0,0,0,0);
+
+					} else {
+						if(pos.distToCenterSqr(player.position()) < 2){
+							PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0,0,0)));
+						}
+					}
+				}
 			}
 		}
 
 		if (globalData != null) {
-			// Stop
-
 			if(globalData.isKO()) {
 				if(event.getEntity().tickCount % 20 == 0) {
 					event.getEntity().setHealth(event.getEntity().getHealth()-1);
@@ -604,6 +622,8 @@ public class EntityEvents {
 				event.getEntity().setYBodyRot(0);
 				event.getEntity().setXRot(0);
 			}
+
+
 
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);

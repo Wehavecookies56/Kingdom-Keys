@@ -339,4 +339,7 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	
 	Utils.castMagic getCastedMagic();
 	void setCastedMagic(Utils.castMagic castMagic);
+
+	BlockPos getAirStep();
+	void setAirStep(BlockPos pos);
 }

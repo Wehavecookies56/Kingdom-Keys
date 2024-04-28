@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -45,6 +46,8 @@ public class SCSyncCapabilityToAllPacket {
 
 	private SingleChoices singleStyle;
 	private DualChoices dualStyle;
+
+	private BlockPos airStepPos;
 		
 	public SCSyncCapabilityToAllPacket() {
 	}
@@ -81,6 +84,8 @@ public class SCSyncCapabilityToAllPacket {
 
 		this.singleStyle = capability.getSingleStyle();
 		this.dualStyle = capability.getDualStyle();
+
+		this.airStepPos = capability.getAirStep();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -131,6 +136,8 @@ public class SCSyncCapabilityToAllPacket {
 
 		buffer.writeUtf(singleStyle.toString(), 20);
 		buffer.writeUtf(dualStyle.toString(), 20);
+
+		buffer.writeBlockPos(this.airStepPos);
 	}
 
 	public static SCSyncCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -179,6 +186,8 @@ public class SCSyncCapabilityToAllPacket {
 
 		msg.singleStyle = SingleChoices.valueOf(buffer.readUtf(20));
 		msg.dualStyle = DualChoices.valueOf(buffer.readUtf(20));
+
+		msg.airStepPos = buffer.readBlockPos();
 		return msg;
 	}
 
@@ -223,6 +232,8 @@ public class SCSyncCapabilityToAllPacket {
 
 				playerData.setSingleStyle(message.singleStyle);
 				playerData.setDualStyle(message.dualStyle);
+
+				playerData.setAirStep(message.airStepPos);
 			}
 		});
 		ctx.get().setPacketHandled(true);

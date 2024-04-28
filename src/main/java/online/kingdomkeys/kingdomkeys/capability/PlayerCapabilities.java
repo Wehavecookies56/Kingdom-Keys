@@ -207,6 +207,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.putBoolean("respawn_rod", respawnROD);
 		
 		storage.putInt("notif_color", notifColor);
+
+		CompoundTag airstepCompound = new CompoundTag();
+		Vec3 airstepVec = this.getAirStep().getCenter();
+		returnCompound.putDouble("x", airstepVec.x);
+		returnCompound.putDouble("y", airstepVec.y);
+		returnCompound.putDouble("z", airstepVec.z);
+		storage.put("airstep_pos_compound", airstepCompound);
 		return storage;
 	}
 
@@ -362,10 +369,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 		this.setNotifColor(nbt.getInt("notif_color"));
+
+		CompoundTag airStepCompound = nbt.getCompound("airstep_pos_compound");
+		this.setAirStep(new BlockPos((int)airStepCompound.getDouble("x"), (int)airStepCompound.getDouble("y"), (int)airStepCompound.getDouble("z")));
+
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
-
+	private BlockPos airStepPos = new BlockPos(0,0,0);
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
 	Stat defense = new Stat("defense", 1);
@@ -2293,6 +2304,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		
 		if(castMagic != null) //If null it means we removing the magic so it doesnt fire more times, we don't need to set the casttime and crash in the attempt
 			this.magicCasttime = castMagic.magic().getCasttimeTicks(castMagic.level());
+	}
+
+	@Override
+	public BlockPos getAirStep() {
+		return airStepPos;
+	}
+
+	@Override
+	public void setAirStep(BlockPos pos) {
+		this.airStepPos = pos;
 	}
 
 	@Override

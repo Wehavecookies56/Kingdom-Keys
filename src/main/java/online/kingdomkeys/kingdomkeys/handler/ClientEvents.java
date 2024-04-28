@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.world.phys.BlockHitResult;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -203,6 +204,9 @@ public class ClientEvents {
 				}
 				
 				if(playerData != null) {
+					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
+						event.setCanceled(true);
+					}
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
@@ -296,7 +300,12 @@ public class ClientEvents {
 
 						if (rt instanceof BlockHitResult blockResult) {
 							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
-								System.out.println("AAAAAAA");
+
+								if(mc.options.keyAttack.isDown()) {
+									System.out.println("going to block");
+									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+									return;
+								}
 							}
 						}
 					}
