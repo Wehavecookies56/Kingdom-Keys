@@ -3,10 +3,11 @@
 	"render_type": "minecraft:cutout",
 	"loader": "forge:obj",
 	"model": "kingdomkeys:models/block/airstep_target.obj",
+	"flip_v" : true,
 	"transform":{
-		"translation": [ -1, -1.2, -1 ],
-		"scale": [ 0.003, 0.003, 0.003 ],
-		"rotation":[0,45,0]
+		"translation": [ -0.178, -0.5, -0.178 ],
+		"scale": [ 0.55,0.5,0.55 ],
+		"rotation":[0,0,0]
 	},
 	"textures": {
 	}
