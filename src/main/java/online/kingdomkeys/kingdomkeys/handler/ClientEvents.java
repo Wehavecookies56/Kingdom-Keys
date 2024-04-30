@@ -184,13 +184,14 @@ public class ClientEvents {
 	public void RenderEntity(RenderLivingEvent.Pre event) {
 		if(event.getEntity() != null) {
 			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-			if(localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())){
-				LivingEntity e = event.getEntity();
-				ClientUtils.drawIndicator(e,event.getPoseStack(), event.getMultiBufferSource(),event.getPartialTick());
+			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+				if (localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())) {
+					LivingEntity e = event.getEntity();
+					ClientUtils.drawIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+				}
 			}
 
-			if(event.getEntity() instanceof Player) {
-				Player player = (Player) event.getEntity();
+			if(event.getEntity() instanceof Player player) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 				if(globalData != null) {
@@ -215,8 +216,6 @@ public class ClientEvents {
 				if(playerData != null) {
 					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
 						Color c = new Color(playerData.getNotifColor());
-						//((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F),player.getX(), player.getY(), player.getZ(),50,0,0,0,0);
-
 						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
 						event.setCanceled(true);
 					}

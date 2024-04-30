@@ -883,9 +883,11 @@ public class EntityEvents {
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
 
+				//Attempt to make keyblades not spammable?
+				System.out.println(player.getAttackStrengthScale(0.0F));
 				// System.out.println("event dmg: "+dmg);
 				//System.out.println(dmg+" Added dmg: "+((event.getAmount()-1)+dmg));
-				event.setAmount((event.getAmount()-1)+dmg);
+				event.setAmount((event.getAmount()-1)+dmg * player.getAttackStrengthScale(0.0F));
 			}
 
 			if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
