@@ -3,8 +3,11 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.BlockHitResult;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -177,10 +180,15 @@ public class ClientEvents {
 		}
 	}
 
-	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Pre event) {
 		if(event.getEntity() != null) {
+			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+			if(localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())){
+				LivingEntity e = event.getEntity();
+				ClientUtils.drawIndicator(e,event.getPoseStack(), event.getMultiBufferSource(),event.getPartialTick());
+			}
+
 			if(event.getEntity() instanceof Player) {
 				Player player = (Player) event.getEntity();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
@@ -352,8 +360,8 @@ public class ClientEvents {
 			}
 		}
 	}
-/*
-	@SubscribeEvent
+
+	/*@SubscribeEvent
 	public void WorldRender(RenderWorldLastEvent event) {
 		/*Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
