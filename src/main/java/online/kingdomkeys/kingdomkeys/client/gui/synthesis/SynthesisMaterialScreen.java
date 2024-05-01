@@ -131,7 +131,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				try { 
 					Integer.parseInt(amountBox.getValue());
 					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name, parent.moogle));
-				} catch (Exception e) {
+				} catch (NumberFormatException e) {
 					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
 				}
 			}
