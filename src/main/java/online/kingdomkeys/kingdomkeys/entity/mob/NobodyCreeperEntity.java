@@ -31,11 +31,6 @@ public class NobodyCreeperEntity extends BaseKHEntity {
     public NobodyCreeperEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(ModEntities.TYPE_NOBODY_CREEPER.get(), world);
     }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @Override
     protected void registerGoals() {

@@ -28,11 +28,6 @@ public class MegaShadowEntity extends BaseKHEntity {
     public MegaShadowEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(ModEntities.TYPE_MEGA_SHADOW.get(), world);
     }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @Override
     protected void registerGoals() {

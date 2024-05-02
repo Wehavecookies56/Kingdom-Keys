@@ -23,11 +23,6 @@ public class BaseKHEntity extends Monster implements IKHMob {
 	}
 
 	@Override
-	public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-		return true;
-	}
-
-	@Override
 	public int getDefense() {
 		return 0;
 	}

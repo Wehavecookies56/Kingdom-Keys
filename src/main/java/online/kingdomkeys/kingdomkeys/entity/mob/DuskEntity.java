@@ -30,11 +30,7 @@ public class DuskEntity extends BaseKHEntity {
 		this(ModEntities.TYPE_DUSK.get(), world);
 	}
 
-	@Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
-	
+
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));

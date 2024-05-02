@@ -73,7 +73,10 @@ public class SpawningOrbEntity extends Monster {
 	
 	@Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return ModCapabilities.getWorld((Level) worldIn).getHeartlessSpawnLevel() > 0;
+		if(worldIn instanceof Level)
+    		return ModCapabilities.getWorld((Level) worldIn).getHeartlessSpawnLevel() > 0;
+		else
+			return true;
     }
 	
 	@Override

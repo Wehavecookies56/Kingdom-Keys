@@ -29,12 +29,6 @@ public class DarkballEntity extends BaseKHEntity {
 
     private SpecialAttack currentAttack, previousAttack;
 
-    protected final int
-            DAMAGE_HIT = 0,
-            DAMAGE_CHARGE = 6,
-            DAMAGE_BERSERK = 5,
-            DAMAGE_DARKCLOUD = 4;
-
     public DarkballEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 8;
@@ -44,11 +38,6 @@ public class DarkballEntity extends BaseKHEntity {
         this(ModEntities.TYPE_DARKBALL.get(), world);
     }
 
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
-    
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));

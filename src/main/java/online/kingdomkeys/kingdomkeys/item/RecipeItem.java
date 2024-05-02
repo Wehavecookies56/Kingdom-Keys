@@ -40,46 +40,44 @@ public class RecipeItem extends Item implements IItemCategory {
 				ItemStack stack = player.getMainHandItem();
 
 				//Allow recipes to be given with pre-set keyblades
-				//If a recipe already has a tag, it will try learn those
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				if (stack.hasTag()) {
-					//System.out.println(tier+" "+playerData.getSynthLevel());
-					if(tier <= playerData.getSynthLevel())
+				if(tier <= playerData.getSynthLevel()) { //If the player has the right tier
+					if (stack.hasTag()) { //If the recipe has been generated learn it
 						learnRecipes(player, stack);
-					else
-						player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
-				} else {
-					//System.out.println(tier);
-					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
-					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
-					
-					List<String> types = new ArrayList<String>();
-					types.add("keyblade");
-					types.add("item");
-					if(missingKeyblades.size() == 0) {
-						types.remove("keyblade");
-					}
-					if(missingItems.size() == 0) {
-						types.remove("item");
-					}
-					
-					String type = "";
-					if(types.size() > 1) {
-						int num = world.random.nextInt(types.size());
-						type = types.get(num);
-					} else if(types.size() == 1){
-						type = types.get(0);
-					} else {
-						player.displayClientMessage(Component.translatable("No more recipes to learn"), true);
-						return super.use(world, player, hand);
-					}
-					
-					player.displayClientMessage(Component.translatable("Opened "+type+" recipe"), true);
+					} else { //Otherwise generate it
+						List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
+						List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
 
-					//Set up the recipe item with the given type
-					//We get here if there are recipes still available to learn.
-					shuffleRecipes(stack, player, type);
+						List<String> types = new ArrayList<String>();
+						types.add("keyblade");
+						types.add("item");
+						if (missingKeyblades.size() == 0) {
+							types.remove("keyblade");
+						}
+						if (missingItems.size() == 0) {
+							types.remove("item");
+						}
+
+						String type = "";
+						if (types.size() > 1) {
+							int num = world.random.nextInt(types.size());
+							type = types.get(num);
+						} else if (types.size() == 1) {
+							type = types.get(0);
+						} else {
+							player.displayClientMessage(Component.translatable("No more recipes to learn"), true);
+							return super.use(world, player, hand);
+						}
+
+						player.displayClientMessage(Component.translatable("Opened " + type + " recipe"), true);
+
+						//Set up the recipe item with the given type
+						//We get here if there are recipes still available to learn.
+						shuffleRecipes(stack, player, type);
+					}
+				} else { //If the player tier is not enough don't even try to generate it
+					player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
 				}
 			}
 		}
