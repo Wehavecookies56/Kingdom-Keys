@@ -18,9 +18,9 @@ public class AirstepTargetRenderer implements BlockEntityRenderer<AirStepTargetE
     public void render(AirStepTargetEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStackIn.pushPose();
         {
-			if(tileEntityIn.getBlockPos().equals(ClientEvents.lockedAirStep)){
+			/*if(tileEntityIn.getBlockPos().equals(ClientEvents.lockedAirStep)){
                 ClientUtils.drawShotlockIndicator(ClientEvents.lockedAirStep,matrixStackIn,bufferIn,partialTicks);
-			}
+			}*/
         }
         matrixStackIn.popPose();
     }

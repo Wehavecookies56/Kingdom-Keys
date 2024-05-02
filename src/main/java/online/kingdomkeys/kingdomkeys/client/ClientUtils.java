@@ -812,8 +812,8 @@ public class ClientUtils {
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/focus2.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
-        Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, 0.0F, entityIn.getBbHeight() + 0.55F, 0.0F, true, partialTicks);
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.5F, -0.5F, 0.5F, 0.5F, 0, 0, 256, 256);
+        //Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, 0.0F, entityIn.getBbHeight() + 0.55F, 0.0F, true, partialTicks);
+        //ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.5F, -0.5F, 0.5F, 0.5F, 0, 0, 256, 256);
     }
 
     public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
