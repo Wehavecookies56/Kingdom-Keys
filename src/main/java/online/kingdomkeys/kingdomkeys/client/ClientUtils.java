@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
@@ -770,10 +771,7 @@ public class ClientUtils {
         };
     }
 
-    public static final Matrix4f getMVMatrix(PoseStack poseStack, LivingEntity entity, float x, float y, float z, boolean lockRotation, float partialTicks) {
-        float posX = (float) Mth.lerp(partialTicks, entity.xOld, entity.getX());
-        float posY = (float)Mth.lerp(partialTicks, entity.yOld, entity.getY());
-        float posZ = (float)Mth.lerp(partialTicks, entity.zOld, entity.getZ());
+    public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
         poseStack.pushPose();
         poseStack.translate(-posX, -posY, -posZ);
         poseStack.mulPose(QuaternionUtils.YP.rotationDegrees(180.0F));
@@ -804,11 +802,23 @@ public class ClientUtils {
         return OpenMatrix4f.exportToMojangMatrix(finalMatrix);
     }
 
+    public static Matrix4f getMVMatrix(PoseStack poseStack, LivingEntity entity, float x, float y, float z, boolean lockRotation, float partialTicks) {
+        float posX = (float) Mth.lerp(partialTicks, entity.xOld, entity.getX());
+        float posY = (float)Mth.lerp(partialTicks, entity.yOld, entity.getY());
+        float posZ = (float)Mth.lerp(partialTicks, entity.zOld, entity.getZ());
+        return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
+    }
+
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/focus2.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
-    public static void drawIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, 0.0F, entityIn.getBbHeight() + 0.55F, 0.0F, true, partialTicks);
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.1F, -0.1F, 0.1F, 0.1F, 0, 0, 256, 256);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.5F, -0.5F, 0.5F, 0.5F, 0, 0, 256, 256);
+    }
+
+    public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+        Matrix4f mvMatrix = getMVMatrix(matStackIn, pos.getX(),pos.getY(),pos.getZ(), 0.5F, 0.5F, 0.5F, true, partialTicks);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -1F, -1F, 1F, 1F, 0, 0, 256, 256);
     }
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {

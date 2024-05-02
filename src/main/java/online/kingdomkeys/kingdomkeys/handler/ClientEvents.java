@@ -185,7 +185,7 @@ public class ClientEvents {
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
 				if (localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())) {
 					LivingEntity e = event.getEntity();
-					ClientUtils.drawIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
 				}
 			}
 
@@ -260,7 +260,7 @@ public class ClientEvents {
 	double cost = 0;
 
 	int cooldownTicks = 0;
-	BlockPos lockedAirStep = new BlockPos(0,0,0);
+	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {

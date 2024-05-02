@@ -3,12 +3,17 @@ package online.kingdomkeys.kingdomkeys.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class AirStepBlock extends BaseBlock implements INoDataGen {
+import javax.annotation.Nullable;
+
+public class AirStepBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
 	public AirStepBlock(Properties properties) {
 		super(properties);
@@ -35,4 +40,11 @@ public class AirStepBlock extends BaseBlock implements INoDataGen {
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
 	}
+
+	@Nullable
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+		return ModEntities.TYPE_AIRSTEP_TARGET_TE.get().create(pPos, pState);
+	}
+
 }
