@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -91,6 +92,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.Title;
+import org.joml.Vector3f;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.api.utils.math.QuaternionUtils;
 import yesman.epicfight.api.utils.math.Vec3f;
@@ -774,32 +776,32 @@ public class ClientUtils {
     public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
         poseStack.pushPose();
         poseStack.translate(-posX, -posY, -posZ);
-        poseStack.mulPose(QuaternionUtils.YP.rotationDegrees(180.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
         float screenX = posX + x;
         float screenY = posY + y;
         float screenZ = posZ + z;
 
-        OpenMatrix4f viewMatrix = OpenMatrix4f.importFromMojangMatrix(poseStack.last().pose());
-        OpenMatrix4f finalMatrix = new OpenMatrix4f();
-        finalMatrix.translate(new Vec3f(-screenX, screenY, -screenZ));
+        Matrix4f viewMatrix = poseStack.last().pose();
+        Matrix4f finalMatrix = new Matrix4f();
+        finalMatrix.translate(-screenX, screenY, -screenZ);
         poseStack.popPose();
 
         if (lockRotation) {
-            finalMatrix.m00 = viewMatrix.m00;
-            finalMatrix.m01 = viewMatrix.m10;
-            finalMatrix.m02 = viewMatrix.m20;
-            finalMatrix.m10 = viewMatrix.m01;
-            finalMatrix.m11 = viewMatrix.m11;
-            finalMatrix.m12 = viewMatrix.m21;
-            finalMatrix.m20 = viewMatrix.m02;
-            finalMatrix.m21 = viewMatrix.m12;
-            finalMatrix.m22 = viewMatrix.m22;
+            finalMatrix.m00(viewMatrix.m00());
+            finalMatrix.m01(viewMatrix.m10());
+            finalMatrix.m02(viewMatrix.m20());
+            finalMatrix.m10(viewMatrix.m01());
+            finalMatrix.m11(viewMatrix.m11());
+            finalMatrix.m12(viewMatrix.m21());
+            finalMatrix.m20(viewMatrix.m02());
+            finalMatrix.m21(viewMatrix.m12());
+            finalMatrix.m22(viewMatrix.m22());
         }
 
-        finalMatrix.mulFront(viewMatrix);
+        finalMatrix = viewMatrix.mul(finalMatrix);
 
-        return OpenMatrix4f.exportToMojangMatrix(finalMatrix);
+        return finalMatrix;
     }
 
     public static Matrix4f getMVMatrix(PoseStack poseStack, LivingEntity entity, float x, float y, float z, boolean lockRotation, float partialTicks) {
@@ -812,8 +814,8 @@ public class ClientUtils {
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/focus2.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
-        //Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, 0.0F, entityIn.getBbHeight() + 0.55F, 0.0F, true, partialTicks);
-        //ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.5F, -0.5F, 0.5F, 0.5F, 0, 0, 256, 256);
+        Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, 0.0F, entityIn.getBbHeight() + 0.55F, 0.0F, true, partialTicks);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.5F, -0.5F, 0.5F, 0.5F, 0, 0, 256, 256);
     }
 
     public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
