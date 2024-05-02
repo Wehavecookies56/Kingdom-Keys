@@ -92,10 +92,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.Title;
-import org.joml.Vector3f;
-import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.api.utils.math.QuaternionUtils;
-import yesman.epicfight.api.utils.math.Vec3f;
 
 public class ClientUtils {
 
