@@ -323,6 +323,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
+        addBlock(ModBlocks.airstepTarget, "Airstep point");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
