@@ -130,7 +130,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name, parent.moogle));
+					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
 				} catch (NumberFormatException e) {
 					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
 				}
@@ -153,7 +153,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		float boxWidth = (float) width * 0.33F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox(boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, new Color(4, 4, 68));
 		
 		super.init();
 		initItems();
