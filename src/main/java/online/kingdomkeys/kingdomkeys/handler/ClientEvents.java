@@ -308,14 +308,13 @@ public class ClientEvents {
 						}
 
 						if (rt instanceof BlockHitResult blockResult) {
-							
-
 							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
 								if(!lockedAirStep.equals(blockResult.getBlockPos())){
 									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
 								}
 								if(mc.options.keyUse.isDown()) {
 									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+									lockedAirStep = new BlockPos(0,0,0);
 									cooldownTicks = 100;
 									focusingTicks = 0;
 									focusing = false;
