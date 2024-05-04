@@ -45,21 +45,20 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				if (!playerData.getMagicsMap().containsKey(magic)) {
 					playerData.getMagicsMap().put(magic, new int[] {0,0});
 					takeItem(player);
-					player.displayClientMessage(Component.translatable("Unlocked " + Utils.translateToLocal(magicInstance.getTranslationKey())), true);
+					player.displayClientMessage(Component.translatable("message.unlocked", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 					if(actualLevel < magicInstance.getMaxLevel()) {
-						player.displayClientMessage(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " has been upgraded to "+Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
+						player.displayClientMessage(Component.translatable("message.magic_upgrade",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)),Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
 						takeItem(player);
 					} else {
-						player.displayClientMessage(Component.translatable(Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)) + " is already at the max level"), true);
+						player.displayClientMessage(Component.translatable("message.magic_max_level",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))), true);
 					}
 				}
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			}
 		} else { //For the client side
-			//System.out.println(magic);
 			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
 				if(!ModConfigs.magicDisplayedInCommandMenu.contains(magic)) {
 					List<String> list = new ArrayList<>(ModConfigs.magicDisplayedInCommandMenu);

@@ -55,6 +55,8 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.rodStone.get());
         standardBlockLoot(ModBlocks.rodSand.get());
         standardBlockLoot(ModBlocks.rodCrackedStone.get());
+
+		standardBlockLoot(ModBlocks.airstepTarget.get());
         
         lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(

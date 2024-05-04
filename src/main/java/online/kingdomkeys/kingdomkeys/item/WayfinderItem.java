@@ -76,29 +76,27 @@ public class WayfinderItem extends Item {
 
 			owner = getOwner(serverLevel, stack.getTag());
 			if (owner == null) {
-				player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " not found"), true);
+				player.displayClientMessage(Component.translatable("message.wayfinder.player_not_found",stack.getTag().getString("ownerName").toString()), true);
 				return super.use(world, player, hand);
 			}
 			Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUUID());
 			
 			if(owner == player) {
-				player.displayClientMessage(Component.translatable("This is your Wayfinder, hand it over to someone else"+(ModConfigs.wayfinderOnlyParty ? " in your party": "")), true);
+				player.displayClientMessage(Component.translatable("message.wayfinder.your_wayfinder").append(" ").append(ModConfigs.wayfinderOnlyParty ? Component.translatable("message.wayfinder.in_your_party").getString(): ""), true);
 				return super.use(world, player, hand);
 			}
 
 			if(ModConfigs.wayfinderOnlyParty) {
 				if(p == null) {
-					player.displayClientMessage(Component.translatable("You are not in a party"), true);
+					player.displayClientMessage(Component.translatable("message.wayfinder.not_in_party"), true);
 					return super.use(world, player, hand);
 				}
 				
 				if(!Utils.isEntityInParty(p, player)) {
-					player.displayClientMessage(Component.translatable("Player " + stack.getTag().getString("ownerName").toString() + " is not in your party"), true);
+					player.displayClientMessage(Component.translatable("message.wayfinder.player_not_in_party",stack.getTag().getString("ownerName").toString()), true);
 					return super.use(world, player, hand);
 				}
-				
 			}
-			
 			teleport(player, owner, getColor(player.getItemInHand(hand)));
 		}
 		return super.use(world, player, hand);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -288,7 +289,7 @@ public class ClientEvents {
 						focusGaugeTemp-=0.8;
 
 					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
-						HitResult rt = InputHandler.getMouseOverExtended(100);
+						HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.shotlockMaxDist);
 						if(rt == null)
 							return;
 
@@ -315,7 +316,7 @@ public class ClientEvents {
 								if(mc.options.keyUse.isDown()) {
 									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
 									lockedAirStep = new BlockPos(0,0,0);
-									cooldownTicks = 100;
+									cooldownTicks = 20;
 									focusingTicks = 0;
 									focusing = false;
 									focusGaugeTemp = playerData.getFocus();

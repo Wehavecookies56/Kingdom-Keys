@@ -232,7 +232,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.magicspell.maxed", "%s is already maxed");
         		
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
-    	add("gui.driveformorb.upgrade", "%s Form had obtained %s exp");
+    	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
 
         //Proof of Heart
@@ -1534,6 +1534,14 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
         add("message.chest.unlocked", "Chest has been unlocked");
         add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
+        add("message.wayfinder.your_wayfinder","This is your Wayfinder, hand it over to someone else");
+        add("message.wayfinder.in_your_party","in your party");
+        add("message.wayfinder.not_in_party","You are not in a party");
+        add("message.wayfinder.player_not_in_party","Player %s is not in your party");
+        add("message.wayfinder.player_not_online","Player %s is not online");
+        add("message.unlocked","Unlocked %s");
+        add("message.magic_upgrade","%s has been upgraded to %s");
+        add("message.magic_max_level","%s is already at the max level");
 
         //Station of Awakening
         add("soa.menu.1", "Before you can open the menu.");

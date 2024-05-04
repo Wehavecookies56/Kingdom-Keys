@@ -757,7 +757,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		String driveformAbility = form.getDFAbilityForLevel(getDriveFormLevel(driveForm));
 		String baseAbility = form.getBaseAbilityForLevel(getDriveFormLevel(driveForm));
 
-		if(!driveformAbility.equals("")) {
+		if(driveformAbility != null && !driveformAbility.equals("")) {
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(driveformAbility));
 			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {
@@ -767,7 +767,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			dfMessages.add("A_"+name);
 		}
 
-		if(!baseAbility.equals("")) {
+		if(baseAbility != null && !baseAbility.equals("")) {
 			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(baseAbility));
 			String name = a.getTranslationKey();
 			if(a.getType() == AbilityType.GROWTH) {

@@ -342,7 +342,7 @@ public class ModConfigs {
 
     }
 
-    public static int recipeDropChance, partyRangeLimit, partyMembersLimit;
+    public static int recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
     public static List<Integer> statsMultiplier;
     public static List<String> driveFormXPMultiplier;
     public static double xpMultiplier, heartMultiplier, partyXPShare;
@@ -366,6 +366,7 @@ public class ModConfigs {
         allowBoosts = SERVER.allowBoosts.get();
         allowPartyKO = SERVER.allowPartyKO.get();
         hostileMobsLevel = SERVER.hostileMobsLevel.get();
+        shotlockMaxDist = SERVER.shotlockMaxDist.get();
     }
 
 
