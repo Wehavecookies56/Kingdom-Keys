@@ -809,22 +809,24 @@ public class ClientUtils {
 
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/focus2.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
-    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks, float size) {
         Player localPlayer = Minecraft.getInstance().player;
         float x = (float) (localPlayer.getX() - entityIn.getX())*0.3F;
         float y = (float) (localPlayer.getY() - entityIn.getY())*0.3F;
         float z = (float) (localPlayer.getZ() - entityIn.getZ())*0.3F;
-        Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y + entityIn.getBbHeight(),z, true, partialTicks);
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.2F, -0.2F, 0.2F, 0.2F, 0, 0, 256, 256);
+        Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y + entityIn.getEyeHeight(),z, true, partialTicks);
+
+        float renderSize = 0.1F+(0.02F*size);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
     }
 
     public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        float x = (float) (localPlayer.getX() - pos.getX())*0.5F;
-        float y = (float) (localPlayer.getY() - pos.getY())*0.5F;
+        float x = (float) (localPlayer.getX() - pos.getX())*0.8F;
+        float y = (float) (localPlayer.getY() - pos.getY())*0.8F;
         float z = (float) (localPlayer.getZ() - pos.getZ())*0.5F;
         Matrix4f mvMatrix = getMVMatrix(matStackIn, x,y,z, 0.5F, 0.5F, 0.5F, true, partialTicks);
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -1f,-1f,1f,1f, 0, 0, 256, 256);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.6f,-0.6f,0.6f,0.6f, 0, 0, 256, 256);
     }
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {

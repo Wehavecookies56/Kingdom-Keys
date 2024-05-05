@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -186,7 +187,7 @@ public class ClientEvents {
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
 				if (localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())) {
 					LivingEntity e = event.getEntity();
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(), Collections.frequency(localPlayerData.getShotlockEnemies(),e.getId()));
 				}
 			}
 

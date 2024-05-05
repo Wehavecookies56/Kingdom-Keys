@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -150,7 +151,7 @@ public class EntityEvents {
 			if (mobData.getLevel() > 0) {
 				if (!mob.hasCustomName()) {
 					int lvl = mobData.getLevel();
-					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl));
+					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl+ ChatFormatting.RESET));
 					if(mob.getAttribute(Attributes.ATTACK_DAMAGE) != null)
 						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					if(mob.getAttribute(Attributes.MAX_HEALTH) != null)
