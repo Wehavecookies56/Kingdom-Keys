@@ -180,7 +180,6 @@ public class MenuBackground extends Screen {
 				((MenuButtonBase) btn).setSelected(false);
 			}
 		}
-			
 	}
 
 	public void drawBars(GuiGraphics gui) {
@@ -188,11 +187,12 @@ public class MenuBackground extends Screen {
 		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 
+		float r = color.getRed() / 255F, g = color.getGreen() / 255F, b = color.getBlue() / 255F;
 		for (int i = 0; i < sh; i += 3) {
 			PoseStack matrixStack = gui.pose();
 			matrixStack.pushPose();
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1.0F);
+			RenderSystem.setShaderColor(r,g,b, 1.0F);
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 			matrixStack.translate(0, i, 0);
@@ -280,7 +280,6 @@ public class MenuBackground extends Screen {
 		
 	}
 
-	public static final ResourceLocation optionsBackground = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menubg.png");
 	public static final ResourceLocation menu = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public static String getWorldMinutes(Level world) {
@@ -310,18 +309,14 @@ public class MenuBackground extends Screen {
 		topRightBar = new MenuBar((int) (topLeftBarWidth + topGap), -10, (int) topRightBarWidth + 10, (int) topBarHeight + 10, true);
 		bottomLeftBar = new MenuBar(-10, (int) (topBarHeight + middleHeight), (int) bottomLeftBarWidth + 10, (int) bottomBarHeight + 10, false);
 		bottomRightBar = new MenuBar((int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) bottomRightBarWidth + 10, (int) bottomBarHeight + 10, false);
-		
+
 		buttonPosX = (float) width * 0.03F;
 	    buttonPosY = (int)topBarHeight+5;
 	    buttonWidth = ((float)width * 0.1744F)-22;
-	    
+
 	    tooltipPosX = bottomRightBar.getPosX() + 15;
 		tooltipPosY = bottomRightBar.getPosY() + 15;
-	}
-
-	protected void drawBackground(int screenWidth, int screenHeight, boolean drawPlayer) {
-		// Minecraft.getInstance().renderEngine.bindTexture(optionsBackground);
-	}
+}
 	
 	private static String printBiome(Holder<Biome> p_205375_) {
 	      return p_205375_.unwrap().map((p_205377_) -> {

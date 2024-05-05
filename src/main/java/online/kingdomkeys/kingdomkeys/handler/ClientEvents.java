@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -180,13 +182,14 @@ public class ClientEvents {
 		}
 	}
 
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
 			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-				if (localPlayerData.getShotlockEnemies().contains(event.getEntity().getId())) {
-					LivingEntity e = event.getEntity();
+				LivingEntity e = event.getEntity();
+				if(localPlayerData.getShotlockEnemies().contains(e.getId())){
 					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(), Collections.frequency(localPlayerData.getShotlockEnemies(),e.getId()));
 				}
 			}
@@ -263,6 +266,8 @@ public class ClientEvents {
 
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
+	public static List<ClientUtils.ShotlockPosition> shotlockEnemies = new ArrayList<ClientUtils.ShotlockPosition>();
+
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
@@ -299,6 +304,9 @@ public class ClientEvents {
 							if(ertr.getEntity() instanceof LivingEntity target) {
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									playerData.addShotlockEnemy(ertr.getEntity().getId());
+									Random rand = new Random();
+									shotlockEnemies.add(new ClientUtils.ShotlockPosition(ertr.getEntity().getId(), rand.nextFloat()-0.5F,rand.nextFloat()-0.5F, rand.nextFloat()-0.5F));
+
 									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 	
@@ -321,6 +329,7 @@ public class ClientEvents {
 									focusingTicks = 0;
 									focusing = false;
 									focusGaugeTemp = playerData.getFocus();
+									shotlockEnemies.clear();
 									return;
 								}
 							}
@@ -344,12 +353,14 @@ public class ClientEvents {
 						focusingTicks = 0;
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<Integer>());
+						shotlockEnemies.clear();
 					}
 				} else {
 					lockedAirStep = new BlockPos(0,0,0);
 					focusingTicks = 0;
 					focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<Integer>());
+					shotlockEnemies.clear();
 				}
 			} else {
 				if(cooldownTicks > 0) {
@@ -359,145 +370,9 @@ public class ClientEvents {
 		}
 	}
 
-	/*@SubscribeEvent
-	public void WorldRender(RenderWorldLastEvent event) {
-		/*Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			MatrixStack matrixStackIn = event.getMatrixStack();
-			EntityRendererManager renderManager = mc.getRenderManager();
 
-			if(playerData.getShotlockEnemies() != null) {
-				for (int entID : playerData.getShotlockEnemies()) {
-					Entity entityIn = mc.world.getEntityByID(entID);
-					
-					if (playerData.getShotlockEnemies().contains(entityIn.getEntityId())) {
-						float f = entityIn.getHeight();
-						matrixStackIn.push();
-						{							
-							ClientPlayerEntity player = mc.player;
-					        double x = (double) entityIn.getPosX() - (player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * (double) event.getPartialTicks());
-					        double y = (double) entityIn.getPosY() - (player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * (double) event.getPartialTicks());
-					        double z = (double) entityIn.getPosZ() - (player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * (double) event.getPartialTicks());
-							renderManager.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-							
-					        matrixStackIn.translate(x, y, z);
-					        matrixStackIn.rotate(renderManager.getCameraOrientation());
-					        matrixStackIn.translate(0,-f,-entityIn.getWidth());
-					        float scale = entityIn.getHeight() / 1000;
-					        matrixStackIn.scale(-scale, -scale, scale);
-					        RenderSystem.enableBlend();
-							blit(matrixStackIn, -128, -128, 0, 0, 256, 256);
-
-						}
-						matrixStackIn.pop();
-					}
-				}
-			}
-		}
-
-	}*/
-	
-    public static void render(PoseStack matrixStack, Entity e, float partialTicks) {
-        Color color = new Color(0);
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
-        Entity player = Minecraft.getInstance().getCameraEntity();
-        double ix, iy, iz;
-        double x = (double) e.getX() - (player.xOld + (player.getX() - player.xOld) * (double) partialTicks);
-        double y = (double) e.getY() - (player.yOld + (player.getY() - player.yOld) * (double) partialTicks) + player.getBbHeight();
-        double z = (double) e.getZ() - (player.zOld + (player.getZ() - player.zOld) * (double) partialTicks);
-        ix = x;
-        iy = y;
-        iz = z;
-        float distance = (float) Math.sqrt((x + 0.5) * (x + 0.5) + y * y + (z + 0.5) * (z + 0.5));
-        float scaleDistance = 12.0f;
-        float scale = 0.02666667f;
-        float iconScale = (0.02666667f);//*5;
-        if (distance > 12.0f) {
-            int renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance() * 16;
-            if (distance > (float) renderDistance) {
-                float scaleFactor = (float) renderDistance /distance;
-                x *= scaleFactor;
-                y *= scaleFactor;
-                z *= scaleFactor;
-                // iy *= (MC.gameSettings.renderDistanceChunks * 16) / 18.0f;
-                //     iconScale *= renderDistance/12.0F;
-                scale *= (float) renderDistance / 12.0f;
-            } else {
-                iconScale *= (distance / scaleDistance);
-                scale *= distance / 12.0f;
-            }
-        }
-
-        //sound(GuiScreenKey.isSoundOn);
-        renderIcon(matrixStack, e, ix, iy, iz, red, green, blue, iconScale);
-        
-    }
-    
-    private static void renderIcon(PoseStack matrix, Entity entity, double x, double y, double z, int red, int green, int blue, float scale) {
-        EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-        scale *= 5;
-        RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-		matrix.pushPose();
-        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
-        matrix.translate(x + 0.5, y + 3, z + 0.5);
-       // RenderSystem.rotate(-renderManager.playerViewY, 0.0f, 1.0f, 0.0f);
-       // RenderSystem.rotate(renderManager.playerViewX, 1.0f, 0.0f, 0.0f);
-        matrix.scale(-scale, -scale, scale);
-        matrix.translate(0.0f, 10.0f, 0.0f);
-        matrix.scale(10.0f, 10.0f, 10.0f);
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.disableBlend();
-        //RenderSystem.enableTexture(); //TODO disabled dis for 1.19.4, might not be the best way
-        
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferbuilder.vertex(-0.5, -0.5, 0.0).uv(1.0F, 1.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(-0.5, 0.5, 0.0).uv(1.0F, 0.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(0.5, 0.5, 0.0).uv(0.0F, 0.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(0.5, -0.5, 0.0).uv(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.end();
-		RenderSystem.enableBlend();
-		//BufferUploader.end(bufferbuilder);
-		
-		RenderSystem.depthMask(true);
-		RenderSystem.enableDepthTest();
-		matrix.popPose();
-    }
-	
 	@SubscribeEvent
 	public void EntityRender(RenderLivingEvent.Post<LivingEntity, EntityModel<LivingEntity>> event) {
-		//Text
-
-		/*Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
-			if(true) {
-				MatrixStack matrixStackIn = event.getMatrixStack();
-				LivingEntity entityIn = event.getEntity();
-				
-				EntityRendererManager renderManager = event.getRenderer().getRenderManager();
-				TranslationTextComponent displayNameIn = new TranslationTextComponent("o");
-				float f = entityIn.getHeight();
-				matrixStackIn.push();
-				{
-					matrixStackIn.translate(0.0D, (double) f, 0.0D);
-					matrixStackIn.rotate(renderManager.getCameraOrientation());
-					matrixStackIn.scale(-0.25F, -0.25F, 0.25F);
-
-					Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
-					FontRenderer fontrenderer = renderManager.getFontRenderer();
-					float f2 = (float) (-fontrenderer.getStringPropertyWidth(displayNameIn) / 2);
-					fontrenderer.drawInBatch(displayNameIn, f2, 0, 0x00FFFF, false, matrix4f, event.getBuffers(), false, 0, event.getLight());
-				}
-				matrixStackIn.pop();
-			}
-		}*/
-		
 		//Icon
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {

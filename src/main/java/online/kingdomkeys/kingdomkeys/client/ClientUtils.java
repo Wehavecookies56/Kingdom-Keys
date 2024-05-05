@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -769,6 +770,10 @@ public class ClientUtils {
         };
     }
 
+    public record ShotlockPosition(int id,float x,float y, float z){
+
+    }
+
     public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
         poseStack.pushPose();
         poseStack.translate(-posX, -posY, -posZ);
@@ -807,24 +812,45 @@ public class ClientUtils {
         return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
     }
 
-    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/focus2.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
+      public static int id = 0;
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks, float size) {
         Player localPlayer = Minecraft.getInstance().player;
-        float x = (float) (localPlayer.getX() - entityIn.getX())*0.3F;
-        float y = (float) (localPlayer.getY() - entityIn.getY())*0.3F;
-        float z = (float) (localPlayer.getZ() - entityIn.getZ())*0.3F;
-        Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y + entityIn.getEyeHeight(),z, true, partialTicks);
+        float ex = (float)entityIn.getX();
+        float ey = (float)entityIn.getY();
+        float ez = (float)entityIn.getZ();
 
-        float renderSize = 0.1F+(0.02F*size);
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+        for (int i = 0; i < ClientEvents.shotlockEnemies.size(); i++) {
+            ShotlockPosition shotlockEnemy = ClientEvents.shotlockEnemies.get(i);
+            ex+= shotlockEnemy.x();
+            ey+= shotlockEnemy.y();
+            ez+= shotlockEnemy.z();
+
+            float x = (float) (localPlayer.getX() - ex)*0.3F;
+            float y = (float) (localPlayer.getY() - ey)*0.3F;
+            float z = (float) (localPlayer.getZ() - ez)*0.3F;
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y + entityIn.getEyeHeight(),z, true, partialTicks);
+
+            //Random Circles
+            float renderSize = 0.1F;
+            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+
+        }
+
+        //Increasing circles
+        //float renderSize = 0.1F+(0.02F*size);
+        /*for(int i=0;i<size;i++) {
+            float renderSize = 0.05F+(0.02F*i);
+            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+        }*/
     }
 
     public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         float x = (float) (localPlayer.getX() - pos.getX())*0.8F;
         float y = (float) (localPlayer.getY() - pos.getY())*0.8F;
-        float z = (float) (localPlayer.getZ() - pos.getZ())*0.5F;
+        float z = (float) (localPlayer.getZ() - pos.getZ())*0.8F;
         Matrix4f mvMatrix = getMVMatrix(matStackIn, x,y,z, 0.5F, 0.5F, 0.5F, true, partialTicks);
         ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.6f,-0.6f,0.6f,0.6f, 0, 0, 256, 256);
     }
