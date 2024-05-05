@@ -582,10 +582,25 @@ public class Utils {
 				// Make sure it has a tag
 				if (hasKeybladeID(slotStack)) {
 					// Compare the ID with the chain's
-					if (slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
+					if (slotStack.getTag()!= null && chain.getTag() != null && slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
 						return i;
 					}
 				}
+			}
+		}
+		return -1;
+	}
+
+	public static int findSummoned(Inventory inv){
+		List<ItemStack> list = new ArrayList<>(inv.items);
+		list.addAll(inv.armor);
+		list.addAll(inv.offhand);
+
+		for (int i = 0; i < list.size(); i++) {
+			ItemStack slotStack = list.get(i);
+			// Make sure it has a tag
+			if (hasKeybladeID(slotStack) && slotStack.getItem() instanceof KeybladeItem) {
+				return i;
 			}
 		}
 		return -1;
