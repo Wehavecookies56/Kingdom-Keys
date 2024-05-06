@@ -303,8 +303,9 @@ public class ClientEvents {
 							if(ertr.getEntity() instanceof LivingEntity target) {
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 									Random rand = new Random();
-
-									playerData.addShotlockEnemy(new Utils.ShotlockPosition(ertr.getEntity().getId(), rand.nextFloat()-0.5F,rand.nextFloat()-0.5F, rand.nextFloat()-0.5F));
+									Entity e = ertr.getEntity();
+									System.out.println(e.getBbWidth());
+									playerData.addShotlockEnemy(new Utils.ShotlockPosition(e.getId(), Utils.randomWithRange(0,e.getBbWidth())-0.5F,Utils.randomWithRange(0,e.getBbHeight())-0.5F, Utils.randomWithRange(0,e.getBbWidth())-0.5F));
 
 									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;

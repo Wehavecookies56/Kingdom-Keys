@@ -814,24 +814,22 @@ public class ClientUtils {
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks, float size) {
         Player localPlayer = Minecraft.getInstance().player;
         IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
-        float ex = (float) entityIn.getX();
-        float ey = (float) entityIn.getY();
-        float ez = (float) entityIn.getZ();
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
-            ex += shotlockEnemy.x();
-            ey += shotlockEnemy.y();
-            ez += shotlockEnemy.z();
+            float ex = (float) entityIn.getX()+shotlockEnemy.x();
+            float ey = (float) entityIn.getY()+shotlockEnemy.y();
+            float ez = (float) entityIn.getZ()+shotlockEnemy.z();
 
             float x = (float) (localPlayer.getX() - ex)*0.3F;
             float y = (float) (localPlayer.getY() - ey)*0.3F;
             float z = (float) (localPlayer.getZ() - ez)*0.3F;
-            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y + entityIn.getEyeHeight(),z, true, partialTicks);
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getEyeHeight(),z, true, partialTicks);
 
             //Random Circles
             float renderSize = 0.1F;
-            if(shotlockEnemy.id() == entityIn.getId())
+            if(shotlockEnemy.id() == entityIn.getId()) {
                 ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+            }
         }
     }
 
