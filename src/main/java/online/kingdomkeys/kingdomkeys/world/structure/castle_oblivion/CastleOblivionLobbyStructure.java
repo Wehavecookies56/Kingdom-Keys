@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.structure.castle_oblivion;
 
-import java.util.Optional;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.ChunkPos;
@@ -16,6 +13,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionInteriorChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.structure.JigsawPlacementRotation;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
+
+import java.util.Optional;
 
 public class CastleOblivionLobbyStructure extends Structure {
 

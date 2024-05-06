@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +24,10 @@ import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -20,6 +18,8 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class SoADoorBlock extends BaseBlock implements INoDataGen{
     public static final DirectionProperty FACING = BlockStateProperties.FACING;

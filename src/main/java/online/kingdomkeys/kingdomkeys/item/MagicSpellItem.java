@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +23,9 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;

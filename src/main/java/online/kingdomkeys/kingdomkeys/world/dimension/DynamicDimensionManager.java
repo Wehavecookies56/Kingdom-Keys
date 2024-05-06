@@ -1,14 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
-import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.function.BiFunction;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Lifecycle;
-
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -30,6 +25,10 @@ import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.LevelEvent;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDimensionLists;
+
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.function.BiFunction;
 
 /**
  * Thanks to Commoble and McJty for providing this code.

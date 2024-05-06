@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +10,9 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public class KKRecordItem extends RecordItem implements IItemCategory {
 

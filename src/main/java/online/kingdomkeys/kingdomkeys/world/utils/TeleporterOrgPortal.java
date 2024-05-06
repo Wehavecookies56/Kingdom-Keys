@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.utils;
 
-import java.util.Optional;
-
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.portal.PortalForcer;
+
+import java.util.Optional;
 
 /**
  * Created by Toby on 01/08/2016.

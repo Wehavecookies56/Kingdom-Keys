@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
-import java.util.function.Supplier;
-
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -12,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
+
+import java.util.function.Supplier;
 
 public class WorldCardItem extends Item {
 

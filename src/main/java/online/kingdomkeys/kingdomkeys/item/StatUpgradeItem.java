@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
 
 public class StatUpgradeItem extends Item implements IItemCategory {
 	String boost;

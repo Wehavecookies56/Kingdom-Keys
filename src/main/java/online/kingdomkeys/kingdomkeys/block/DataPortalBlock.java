@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -29,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+
+import javax.annotation.Nullable;
 
 public class DataPortalBlock extends BaseBlock implements INoDataGen {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;

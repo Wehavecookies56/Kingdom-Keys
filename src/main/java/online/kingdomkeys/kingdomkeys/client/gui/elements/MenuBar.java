@@ -53,6 +53,20 @@ public class MenuBar extends Screen {
         int centerWidth = width - (borderSize * 2);
         int centerHeight = height - (borderSize * 2);
         //Center border
+
+        //Tried to fix the lag but it seems scaling the thingy isn't the solution, only does one box but not the other one
+       /* matrixStack.pushPose();
+        matrixStack.scale(centerWidth,1,1);
+        gui.blit(texture, posX + borderSize, posY, tCenterU, tCenterV, 1, borderSize);
+        gui.blit(texture, posX + borderSize, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
+        matrixStack.popPose();
+
+        matrixStack.pushPose();
+        matrixStack.scale(1,centerHeight,1);
+        gui.blit(texture, posX, posY + borderSize, lCenterU, lCenterV, borderSize, 1);
+        gui.blit(texture, posX + width - borderSize, posY + borderSize, rCenterU, rCenterV, borderSize, 1);
+        matrixStack.popPose();*/
+
         for (int i = 0; i < centerWidth; i++) {
             //Top
             gui.blit(texture, posX + borderSize + i, posY, tCenterU, tCenterV, 1, borderSize);

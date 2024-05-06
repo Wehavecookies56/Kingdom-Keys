@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
-import java.util.BitSet;
-import java.util.function.Function;
-
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
@@ -16,6 +12,9 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+
+import java.util.BitSet;
+import java.util.function.Function;
 
 /**
  * Copy of {@link net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration} modified to use {@link BloxOreFeatureConfig} otherwise it is identical

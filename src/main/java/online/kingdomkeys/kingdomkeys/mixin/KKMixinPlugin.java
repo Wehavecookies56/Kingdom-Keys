@@ -1,17 +1,15 @@
 package online.kingdomkeys.kingdomkeys.mixin;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Supplier;
-
+import com.google.common.collect.ImmutableMap;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import com.google.common.collect.ImmutableMap;
-
-import net.minecraftforge.fml.loading.LoadingModList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class KKMixinPlugin implements IMixinConfigPlugin {
 

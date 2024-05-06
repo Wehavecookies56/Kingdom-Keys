@@ -1,13 +1,12 @@
 package online.kingdomkeys.kingdomkeys.mixin;
 
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @Mixin(PlayerRenderer.class)
 public abstract class PlayerRendererMixin implements IDisabledAnimations {

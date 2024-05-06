@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,6 +9,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public class KeybladeArmorItem extends BaseArmorItem {
 

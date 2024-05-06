@@ -1,11 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
-import java.util.*;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,6 +61,9 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Created by Toby on 19/07/2016.

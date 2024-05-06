@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -33,6 +31,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+
+import javax.annotation.Nullable;
 
 public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen {
 

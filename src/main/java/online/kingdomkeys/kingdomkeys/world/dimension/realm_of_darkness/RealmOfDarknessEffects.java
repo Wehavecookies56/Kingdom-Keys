@@ -1,13 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.realm_of_darkness;
 
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -19,6 +15,8 @@ import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RealmOfDarknessEffects extends DimensionSpecialEffects {

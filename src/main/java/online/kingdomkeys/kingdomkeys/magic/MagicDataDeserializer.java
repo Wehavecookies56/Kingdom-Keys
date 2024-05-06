@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import java.lang.reflect.Type;
-
 import com.google.gson.*;
+
+import java.lang.reflect.Type;
 
 /**
  * Custom deserializer for Keyblade Data json files located in

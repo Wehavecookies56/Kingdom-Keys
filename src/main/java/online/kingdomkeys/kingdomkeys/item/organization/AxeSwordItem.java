@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import java.util.List;
-
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
 
 public class AxeSwordItem extends OrgSwordItem implements IOrgWeapon {
 	

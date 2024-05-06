@@ -2,9 +2,6 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -13,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -28,14 +24,10 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -55,7 +47,6 @@ import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -85,7 +76,7 @@ public class ClientEvents {
 		if (e.getEntity() instanceof LivingEntity ent) {
 			if (e.getLevel().isClientSide) {
 				Minecraft minecraft = Minecraft.getInstance();
-				if (e.getEntity() == minecraft.player) {
+				if (ent == minecraft.player) {
 					minecraft.getSoundManager().play(new AlarmSoundInstance(minecraft.player));
 				}
 			}
@@ -169,8 +160,7 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post event) { //Hide the player shadow when KO'd
 		if(event.getEntity() != null) {
-			if(event.getEntity() instanceof Player) {
-				Player player = (Player) event.getEntity();
+			if(event.getEntity() instanceof Player player) {
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 				if(globalData != null) {
 					if(globalData.isKO()) {
@@ -190,7 +180,7 @@ public class ClientEvents {
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
 				LivingEntity e = event.getEntity();
 				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(), Collections.frequency(localPlayerData.getShotlockEnemies(),e.getId()));
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
 				}
 			}
 

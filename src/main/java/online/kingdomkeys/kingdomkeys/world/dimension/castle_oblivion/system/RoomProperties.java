@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.awt.Color;
+import net.minecraftforge.common.util.Size2i;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraftforge.common.util.Size2i;
 
 public class RoomProperties {
 

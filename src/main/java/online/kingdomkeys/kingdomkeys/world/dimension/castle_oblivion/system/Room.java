@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class Room implements INBTSerializable<CompoundTag> {
     RoomType type;

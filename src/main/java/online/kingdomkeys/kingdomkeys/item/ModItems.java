@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.function.Supplier;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -24,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Flo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+
+import java.util.function.Supplier;
 
 public class ModItems {
 

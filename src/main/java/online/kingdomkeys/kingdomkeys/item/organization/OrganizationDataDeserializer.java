@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import com.google.gson.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.*;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/

@@ -1,13 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
-import org.joml.Vector3f;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -33,6 +25,12 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import org.joml.Vector3f;
+
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.List;
+import java.util.UUID;
 
 public class WayfinderItem extends Item {
 	Player owner;

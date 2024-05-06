@@ -811,7 +811,7 @@ public class ClientUtils {
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
       public static int id = 0;
-    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks, float size) {
+    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
 
@@ -823,7 +823,7 @@ public class ClientUtils {
             float x = (float) (localPlayer.getX() - ex)*0.3F;
             float y = (float) (localPlayer.getY() - ey)*0.3F;
             float z = (float) (localPlayer.getZ() - ez)*0.3F;
-            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getEyeHeight(),z, true, partialTicks);
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getBbHeight()/2,z, true, partialTicks);
 
             //Random Circles
             float renderSize = 0.1F;

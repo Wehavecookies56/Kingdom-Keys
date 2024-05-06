@@ -173,7 +173,7 @@ public class ModEntities {
     public static final RegistryObject<Item> NOBODY_CREEPER_EGG = ModItems.ITEMS.register("nobody_creeper_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_NOBODY_CREEPER, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.8F);
     public static final RegistryObject<Item> DUSK_EGG = ModItems.ITEMS.register("dusk_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DUSK, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
-    public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, MobCategory.MONSTER, "assassin", 1F, 1.5F);
+    public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, MobCategory.MONSTER, "assassin", 1.2F, 2F);
     public static final RegistryObject<Item> ASSASSIN_EGG = ModItems.ITEMS.register("assassin_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_ASSASSIN, 0xc9c9c9, 0xd4ccff, PROPERTIES));
     public static final RegistryObject<EntityType<DragoonEntity>> TYPE_DRAGOON = createEntityType(DragoonEntity::new, DragoonEntity::new, MobCategory.MONSTER, "dragoon", 1F, 2F);
     public static final RegistryObject<Item> DRAGOON_EGG = ModItems.ITEMS.register("dragoon_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DRAGOON, 0xc9c9c9, 0xc2387f, PROPERTIES));
