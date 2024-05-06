@@ -1914,6 +1914,9 @@
   "message.chest.unlocked": "Die Truhe ist aufgeschlossen",
 
   "message.form_unlocked": "%s Freigeschaltet",
+  "message.unlocked": "%s Freigeschaltet", //magic
+  "message.magic_max_level": "%s ist bereits die höchste Stufe",
+  "message.magic_upgrade": "%s wurde aufgewertet zu %s",
 
   "message.kingdomkeys.gui_toggle": "GUI-Anzeige wurde auf %s gesetzt",
 
@@ -1922,11 +1925,13 @@
   "message.magnet_blox.repel": "Abstoßungs-Modus",
 
   "message.wayfinder.player_not_found": "Der Spieler %s konnte nicht gefunden werden",
-  "message.wayfinder.owner_use": "Dies ist dein Wegfinder, gebe ihn an Jemand anderen",
+  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder, gebe ihn an jemand anderen weiter",
   "message.wayfinder.from_party": " aus deiner Gruppe",
   "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
   "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
   "message.wayfinder.cooldown": "Abklingzeit: %s%%",
+  "message.wayfinder.in_your_party": "in deiner Gruppe",
+  "message.wayfinder.player_not_online": "Der Spieler %s ist nicht online",
 
 
   "potion.desc.beginning": "Stellt %s%s %s wiederher ",
