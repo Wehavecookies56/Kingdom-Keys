@@ -387,7 +387,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	LinkedHashSet<String> visibleDriveforms = new LinkedHashSet<>();
 	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
-	List<Integer> shotlockEnemies;
+	List<Utils.ShotlockPosition> shotlockEnemies;
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
@@ -1041,18 +1041,18 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	
 
 	@Override
-	public void setShotlockEnemies(List<Integer> list) {
+	public void setShotlockEnemies(List<Utils.ShotlockPosition> list) {
 		this.shotlockEnemies = list;
 	}
 
 	@Override
-	public List<Integer> getShotlockEnemies() {
+	public List<Utils.ShotlockPosition> getShotlockEnemies() {
 		return shotlockEnemies;
 	}
 
 	@Override
-	public void addShotlockEnemy(Integer entity) {
-		this.shotlockEnemies.add(entity);
+	public void addShotlockEnemy(Utils.ShotlockPosition shotlockPos) {
+		this.shotlockEnemies.add(shotlockPos);
 	}
 	
 	@Override

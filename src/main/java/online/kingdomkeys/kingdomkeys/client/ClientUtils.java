@@ -770,10 +770,6 @@ public class ClientUtils {
         };
     }
 
-    public record ShotlockPosition(int id,float x,float y, float z){
-
-    }
-
     public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
         poseStack.pushPose();
         poseStack.translate(-posX, -posY, -posZ);
@@ -817,15 +813,15 @@ public class ClientUtils {
       public static int id = 0;
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks, float size) {
         Player localPlayer = Minecraft.getInstance().player;
-        float ex = (float)entityIn.getX();
-        float ey = (float)entityIn.getY();
-        float ez = (float)entityIn.getZ();
+        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        float ex = (float) entityIn.getX();
+        float ey = (float) entityIn.getY();
+        float ez = (float) entityIn.getZ();
 
-        for (int i = 0; i < ClientEvents.shotlockEnemies.size(); i++) {
-            ShotlockPosition shotlockEnemy = ClientEvents.shotlockEnemies.get(i);
-            ex+= shotlockEnemy.x();
-            ey+= shotlockEnemy.y();
-            ez+= shotlockEnemy.z();
+        for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
+            ex += shotlockEnemy.x();
+            ey += shotlockEnemy.y();
+            ez += shotlockEnemy.z();
 
             float x = (float) (localPlayer.getX() - ex)*0.3F;
             float y = (float) (localPlayer.getY() - ey)*0.3F;
@@ -834,16 +830,9 @@ public class ClientUtils {
 
             //Random Circles
             float renderSize = 0.1F;
-            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
-
+            if(shotlockEnemy.id() == entityIn.getId())
+                ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
         }
-
-        //Increasing circles
-        //float renderSize = 0.1F+(0.02F*size);
-        /*for(int i=0;i<size;i++) {
-            float renderSize = 0.05F+(0.02F*i);
-            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
-        }*/
     }
 
     public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {

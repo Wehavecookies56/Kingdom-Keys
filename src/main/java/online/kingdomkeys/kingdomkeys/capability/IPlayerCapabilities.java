@@ -71,9 +71,9 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setMaxFocus(double maxMP);
 	void addMaxFocus(double mp);
 	
-	void setShotlockEnemies(List<Integer> list);
-	List<Integer> getShotlockEnemies();
-	void addShotlockEnemy(Integer entity);
+	void setShotlockEnemies(List<Utils.ShotlockPosition> list);
+	List<Utils.ShotlockPosition> getShotlockEnemies();
+	void addShotlockEnemy(Utils.ShotlockPosition shotlockPos);
 	boolean hasShotMaxShotlock();
 	void setHasShotMaxShotlock(boolean val);
 	

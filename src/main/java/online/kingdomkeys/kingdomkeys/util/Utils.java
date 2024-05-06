@@ -129,7 +129,9 @@ public class Utils {
 			return titles;
 		}
 	}
-	
+
+	public record ShotlockPosition(int id,float x,float y, float z){}
+
 	public record castMagic(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
@@ -842,37 +844,6 @@ public class Utils {
 
 		return finalMap;
 	}
-
-	/*
-	 * public static IPlayerCapabilities chooseAutoForm(PlayerEntity player) {
-	 * IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-	 * 
-	 * List<String> reactionCommands = playerData.getReactionCommands(); //Get if u
-	 * already have an auto reaction command
-	 * 
-	 * boolean hasAlready = false; for(int i=0;i<reactionCommands.size();i++) {
-	 * ReactionCommand command = ModReactionCommands.registry.getValue(new
-	 * ResourceLocation(reactionCommands.get(i))); if(command instanceof
-	 * ReactionAutoForm) { hasAlready = true; break; } }
-	 * 
-	 * if(!hasAlready) {
-	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoFinalRC,
-	 * player);
-	 * 
-	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoMasterRC,
-	 * player);
-	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoLimitRC,
-	 * player);
-	 * 
-	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoWisdomRC,
-	 * player);
-	 * playerData.addReactionCommand(KingdomKeys.MODID+":"+Strings.autoValorRC,
-	 * player);
-	 * 
-	 * }
-	 * 
-	 * return playerData; }
-	 */
 
 	public static boolean isEntityInParty(Party party, Entity e) {
 		if (party == null)

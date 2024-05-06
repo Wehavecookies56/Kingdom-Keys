@@ -189,7 +189,7 @@ public class ClientEvents {
 			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
 				LivingEntity e = event.getEntity();
-				if(localPlayerData.getShotlockEnemies().contains(e.getId())){
+				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
 					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick(), Collections.frequency(localPlayerData.getShotlockEnemies(),e.getId()));
 				}
 			}
@@ -266,7 +266,6 @@ public class ClientEvents {
 
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
-	public static List<ClientUtils.ShotlockPosition> shotlockEnemies = new ArrayList<ClientUtils.ShotlockPosition>();
 
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
@@ -282,7 +281,7 @@ public class ClientEvents {
 					if (focusingTicks == 0) {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
-						playerData.setShotlockEnemies(new ArrayList<Integer>());
+						playerData.setShotlockEnemies(new ArrayList<>());
 						event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					
@@ -303,9 +302,9 @@ public class ClientEvents {
 							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
 							if(ertr.getEntity() instanceof LivingEntity target) {
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-									playerData.addShotlockEnemy(ertr.getEntity().getId());
 									Random rand = new Random();
-									shotlockEnemies.add(new ClientUtils.ShotlockPosition(ertr.getEntity().getId(), rand.nextFloat()-0.5F,rand.nextFloat()-0.5F, rand.nextFloat()-0.5F));
+
+									playerData.addShotlockEnemy(new Utils.ShotlockPosition(ertr.getEntity().getId(), rand.nextFloat()-0.5F,rand.nextFloat()-0.5F, rand.nextFloat()-0.5F));
 
 									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
@@ -329,7 +328,6 @@ public class ClientEvents {
 									focusingTicks = 0;
 									focusing = false;
 									focusGaugeTemp = playerData.getFocus();
-									shotlockEnemies.clear();
 									return;
 								}
 							}
@@ -352,50 +350,18 @@ public class ClientEvents {
 						}
 						focusingTicks = 0;
 						focusGaugeTemp = playerData.getFocus();
-						playerData.setShotlockEnemies(new ArrayList<Integer>());
-						shotlockEnemies.clear();
+						playerData.setShotlockEnemies(new ArrayList<>());
 					}
 				} else {
 					lockedAirStep = new BlockPos(0,0,0);
 					focusingTicks = 0;
 					focusGaugeTemp = playerData.getFocus();
-					playerData.setShotlockEnemies(new ArrayList<Integer>());
-					shotlockEnemies.clear();
+					playerData.setShotlockEnemies(new ArrayList<>());
 				}
 			} else {
 				if(cooldownTicks > 0) {
 					cooldownTicks--;
 				}
-			}
-		}
-	}
-
-
-	@SubscribeEvent
-	public void EntityRender(RenderLivingEvent.Post<LivingEntity, EntityModel<LivingEntity>> event) {
-		//Icon
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getId())) {
-				//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
-				PoseStack matrixStackIn = event.getPoseStack();
-				LivingEntity entityIn = event.getEntity();
-
-				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				MutableComponent displayNameIn = Component.translatable("o");
-				float f = entityIn.getBbHeight();
-				matrixStackIn.pushPose();
-				{
-					matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
-					matrixStackIn.mulPose(renderManager.cameraOrientation());
-					float scale = Math.max(entityIn.getBbHeight()/2, entityIn.getBbWidth()/2)/100;
-
-					matrixStackIn.scale(-scale, -scale, scale);
-					RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-					blit(matrixStackIn,-128,-128,0,0,256,256);
-				}
-				matrixStackIn.popPose();
 			}
 		}
 	}
