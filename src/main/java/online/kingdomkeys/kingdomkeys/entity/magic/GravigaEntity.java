@@ -54,7 +54,7 @@ public class GravigaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -93,37 +93,27 @@ public class GravigaEntity extends ThrowableProjectile {
 			
 			IWorldCapabilities worldData = ModCapabilities.getWorld(level());
 			if (!level().isClientSide && getOwner() != null && worldData != null) {
-				List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-				Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
-	
-				if(casterParty != null && !casterParty.getFriendlyFire()) {
-					for(Member m : casterParty.getMembers()) {
-						list.remove(level().getPlayerByUUID(m.getUUID()));
-					}
-				} else {
-					list.remove(getOwner());
-				}
-				
+				List<Entity> oList = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
+				List<Entity> list = Utils.removePartyMembersFromList((Player) getOwner(),oList);
+
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						Entity e = (Entity) list.get(i);
-						if (e instanceof LivingEntity) {
-							IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
-							globalData.setFlatTicks(100);
-							
-							if(Utils.isHostile(e)) {
-								float dmg = this.getOwner() instanceof Player ? ((LivingEntity)e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
-								dmg = Math.min(dmg, 99);
-								//System.out.println(dmg * dmgMult);
-								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-							}
-							if (e instanceof LivingEntity)
-								PacketHandler.syncToAllAround((LivingEntity) e, globalData);
-	
-							if(e instanceof ServerPlayer)
-								PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
-						}
-					}
+                    for (Entity e : list) {
+                        if (e instanceof LivingEntity le) {
+                            IGlobalCapabilities globalData = ModCapabilities.getGlobal(le);
+                            globalData.setFlatTicks(100);
+
+                            if (Utils.isHostile(e)) {
+                                float dmg = this.getOwner() instanceof Player player ? le.getMaxHealth() * DamageCalculation.getMagicDamage(player) / 100 : 2;
+                                dmg = Math.min(dmg, 99);
+                                e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+                            }
+                            if (e instanceof LivingEntity)
+                                PacketHandler.syncToAllAround(le, globalData);
+
+                            if (e instanceof ServerPlayer)
+                                PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
+                        }
+                    }
 				}
 				remove(RemovalReason.KILLED);
 			}

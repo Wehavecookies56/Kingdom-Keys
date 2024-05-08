@@ -51,7 +51,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -94,10 +94,8 @@ public class BlizzardEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target.isOnFire()) {
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
+                if (target.isOnFire()) {
 					target.clearFire();
 				} else {
 					if (target != getOwner()) {
@@ -106,7 +104,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 						}
 						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F : 2;
+							float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
 							target.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg * dmgMult);
 						}
 					}
@@ -117,7 +115,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 				BlockPos blockpos = brtResult.getBlockPos();
 				BlockState blockstate = level().getBlockState(blockpos);
 				if(blockstate.hasProperty(BlockStateProperties.LIT))
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, false), 11);
 
 			}
 			remove(RemovalReason.KILLED);

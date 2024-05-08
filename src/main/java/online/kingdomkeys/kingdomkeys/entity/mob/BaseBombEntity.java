@@ -86,7 +86,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

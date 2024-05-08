@@ -56,7 +56,7 @@ public class FiraEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -108,10 +108,8 @@ public class FiraEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target != getOwner()) {
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
+                if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
 						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
@@ -132,7 +130,7 @@ public class FiraEntity extends ThrowableProjectile {
 					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 				}
 				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 				}
 			}
 			remove(RemovalReason.KILLED);

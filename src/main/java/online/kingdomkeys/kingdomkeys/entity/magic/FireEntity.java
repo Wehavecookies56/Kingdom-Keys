@@ -55,7 +55,7 @@ public class FireEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class FireEntity extends ThrowableProjectile {
 					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 				}
 				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 				}
 			}
 			remove(RemovalReason.KILLED);

@@ -54,7 +54,7 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -97,7 +97,6 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 			this.setDeltaMovement(0, 0, 0);
 			this.hurtMarked = true;
-
 
 			List<Entity> list = level().getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
 			list = Utils.removePartyMembersFromList(getCaster(), list);

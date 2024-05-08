@@ -62,7 +62,7 @@ public class WateraEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class WateraEntity extends ThrowableProjectile {
 				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F;
 				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
 	            for (int i = 0; i < list.size(); i++) {
-	                Entity e = (Entity) list.get(i);
+	                Entity e = list.get(i);
 	                if (e instanceof LivingEntity) {
 						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
 	                }

@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -867,7 +868,7 @@ public class Utils {
 	}
 
 	public static boolean isHostile(Entity e) {
-		return e instanceof Monster || e instanceof Player;
+		return e instanceof Monster || e instanceof Player || e instanceof Slime;
 	}
 
 	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
