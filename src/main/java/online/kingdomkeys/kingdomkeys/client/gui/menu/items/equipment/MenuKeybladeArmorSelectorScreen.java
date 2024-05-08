@@ -71,7 +71,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedKBArmor, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					addRenderableWidget(new MenuSelectKeybladeArmorButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					addRenderableWidget(new MenuSelectKeybladeArmorButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) (keybladesWidth - (listX - keybladesX)*2), this, buttonColour));
 				}
 			}
 			
@@ -83,7 +83,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 							int amount = addedShoulderArmorList.get(armor);
 							addedShoulderArmorList.replace(armor, amount+1);
 						} else {
-							addRenderableWidget(new MenuSelectKeybladeArmorButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							addRenderableWidget(new MenuSelectKeybladeArmorButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) (keybladesWidth - (listX - keybladesX)*2), this, buttonColour));
 							addedShoulderArmorList.put((PauldronItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}

@@ -124,9 +124,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		matrixStack.pushPose();
 		{
 			gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
-			for (int i = 0; i < middleWidth; i++) {
-				gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
-			}
+			gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
 			gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 		}
 		matrixStack.popPose();
@@ -135,9 +133,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			//AP Cost
 			RenderSystem.setShaderColor(0.3F, 0.24F, 0, 1.0F);
 			gui.blit(texture, getX()+middleWidth+endWidth+10, getY()-1, 72, 117, endWidth, height);
-			for (int i = 0; i < apMiddleWidth; i++) {
-				gui.blit(texture, getX() +middleWidth+ i + endWidth+19, getY(), middleU, vPos, 1, height);
-			}
+			gui.blit(texture, getX() +middleWidth + endWidth+19, getY(), apMiddleWidth, height, middleU, vPos, 1, height, 256, 256);
 			gui.blit(texture, getX() + endWidth + middleWidth+apMiddleWidth +19, getY(), rightU, vPos, endWidth, height);
 		}
 		//Equipped/Unequipped icon
@@ -160,8 +156,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				gui.blit(texture, getX(), getY(), leftU, selectedVPos, endWidth, height);
-				for (int i = 0; i < middleWidth; i++)
-					gui.blit(texture, getX() + i + endWidth, getY(), middleU, selectedVPos, 1, height);
+				gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, selectedVPos, 1, height, 256, 256);
 				gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, selectedVPos, endWidth, height);
 			}
 			matrixStack.popPose();

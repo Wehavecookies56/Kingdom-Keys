@@ -100,9 +100,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			for (int i = 0; i < (itemWidth * 2) - (17 + 17); i++) {
-				gui.blit(texture, 16 + i, 0, 186, 34, 2, 28);
-			}
+			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+1, 28, 186, 34, 2, 28, 256, 256);
 			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
@@ -126,10 +124,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.translate(getX() + width + 2.1F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				gui.blit(texture, 0, 0, 219, 34, 15, 28);
-
-				for (int i = 0; i < (labelWidth * 2) - (17 + 14); i++) {
-					gui.blit(texture, 14 + i, 0, 186, 34, 2, 28);
-				}
+				gui.blit(texture, 14, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 186, 34, 2, 28, 256, 256);
 				gui.blit(texture, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}
 			matrixStack.popPose();
@@ -157,9 +152,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-						gui.blit(texture, 16 + i, 0, 148, 34, 2, 28);
-					}
+					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2))+1, 28, 148, 34, 2, 28, 256, 256);
 					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();

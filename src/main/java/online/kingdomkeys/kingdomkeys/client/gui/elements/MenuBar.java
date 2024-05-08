@@ -53,32 +53,15 @@ public class MenuBar extends Screen {
         int centerWidth = width - (borderSize * 2);
         int centerHeight = height - (borderSize * 2);
         //Center border
+        //Top
+        gui.blit(texture, posX + borderSize, posY, centerWidth, borderSize, tCenterU, tCenterV, 1, borderSize, 256, 256);
+        //Bottom
+        gui.blit(texture, posX + borderSize, posY + height - borderSize, centerWidth, borderSize, bCenterU, bCenterV, 1, borderSize, 256, 256);
+        //Left
+        gui.blit(texture, posX, posY + borderSize, borderSize, centerHeight, lCenterU, lCenterV, borderSize, 1, 256, 256);
+        //Right
+        gui.blit(texture, posX + width - borderSize, posY + borderSize, borderSize, centerHeight, rCenterU, rCenterV, borderSize, 1, 256, 256);
 
-        //Tried to fix the lag but it seems scaling the thingy isn't the solution, only does one box but not the other one
-       /* matrixStack.pushPose();
-        matrixStack.scale(centerWidth,1,1);
-        gui.blit(texture, posX + borderSize, posY, tCenterU, tCenterV, 1, borderSize);
-        gui.blit(texture, posX + borderSize, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
-        matrixStack.popPose();
-
-        matrixStack.pushPose();
-        matrixStack.scale(1,centerHeight,1);
-        gui.blit(texture, posX, posY + borderSize, lCenterU, lCenterV, borderSize, 1);
-        gui.blit(texture, posX + width - borderSize, posY + borderSize, rCenterU, rCenterV, borderSize, 1);
-        matrixStack.popPose();*/
-
-        for (int i = 0; i < centerWidth; i++) {
-            //Top
-            gui.blit(texture, posX + borderSize + i, posY, tCenterU, tCenterV, 1, borderSize);
-            //Bottom
-            gui.blit(texture, posX + borderSize + i, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
-        }
-        for (int i = 0; i < centerHeight; i++) {
-            //Left
-            gui.blit(texture, posX, posY + borderSize + i, lCenterU, lCenterV, borderSize, 1);
-            //Right
-            gui.blit(texture, posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
-        }
         //Inside
         matrixStack.pushPose();
         matrixStack.translate(posX + borderSize, posY + borderSize, 0);

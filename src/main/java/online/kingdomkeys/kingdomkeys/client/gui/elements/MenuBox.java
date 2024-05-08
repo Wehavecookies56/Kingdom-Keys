@@ -60,18 +60,14 @@ public class MenuBox extends AbstractWidget{
         int centerWidth = width - (borderSize * 2);
         int centerHeight = height - (borderSize * 2);
         //Center border
-        for (int i = 0; i < centerWidth; i++) {
-            //Top
-            gui.blit(texture, posX + borderSize + i, posY, tCenterU, tCenterV, 1, borderSize);
-            //Bottom
-            gui.blit(texture, posX + borderSize + i, posY + height - borderSize, bCenterU, bCenterV, 1, borderSize);
-        }
-        for (int i = 0; i < centerHeight; i++) {
-            //Left
-            gui.blit(texture, posX, posY + borderSize + i, lCenterU, lCenterV, borderSize, 1);
-            //Right
-            gui.blit(texture, posX + width - borderSize, posY + borderSize + i, rCenterU, rCenterV, borderSize, 1);
-        }
+        //Top
+        gui.blit(texture, posX + borderSize, posY, centerWidth, borderSize, tCenterU, tCenterV, 1, borderSize, 256, 256);
+        //Bottom
+        gui.blit(texture, posX + borderSize, posY + height - borderSize, centerWidth, borderSize, bCenterU, bCenterV, 1, borderSize, 256, 256);
+        //Left
+        gui.blit(texture, posX, posY + borderSize, borderSize, centerHeight, lCenterU, lCenterV, borderSize, 1, 256, 256);
+        //Right
+        gui.blit(texture, posX + width - borderSize, posY + borderSize, borderSize, centerHeight, rCenterU, rCenterV, borderSize, 1, 256, 256);
         //Inside
         matrixStack.pushPose();
         matrixStack.translate(posX + borderSize, posY + borderSize, 0);

@@ -188,19 +188,18 @@ public class MenuBackground extends Screen {
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 
 		float r = color.getRed() / 255F, g = color.getGreen() / 255F, b = color.getBlue() / 255F;
+		RenderSystem.setShaderColor(r,g,b, 1.0F);
+		// RenderSystem.enableAlpha();
+		RenderSystem.enableBlend();
+		PoseStack matrixStack = gui.pose();
 		for (int i = 0; i < sh; i += 3) {
-			PoseStack matrixStack = gui.pose();
 			matrixStack.pushPose();
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderColor(r,g,b, 1.0F);
-			// RenderSystem.enableAlpha();
-			RenderSystem.enableBlend();
 			matrixStack.translate(0, i, 0);
 			matrixStack.scale(sw, 1, 1);
 			gui.blit(menu, 0, 0, 77, 92, 1, 1);
-			RenderSystem.disableBlend();
 			matrixStack.popPose();
 		}
+		RenderSystem.disableBlend();
 		topLeftBar.draw(gui);
 		topRightBar.draw(gui);
 		bottomLeftBar.draw(gui);
