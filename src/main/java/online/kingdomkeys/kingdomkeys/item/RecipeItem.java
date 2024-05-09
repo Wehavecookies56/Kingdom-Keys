@@ -66,18 +66,16 @@ public class RecipeItem extends Item implements IItemCategory {
 						} else if (types.size() == 1) {
 							type = types.get(0);
 						} else {
-							player.displayClientMessage(Component.translatable("No more recipes to learn"), true);
+							player.displayClientMessage(Component.translatable("message.recipe.no_more_to_learn"), true);
 							return super.use(world, player, hand);
 						}
-
-						player.displayClientMessage(Component.translatable("Opened " + type + " recipe"), true);
 
 						//Set up the recipe item with the given type
 						//We get here if there are recipes still available to learn.
 						shuffleRecipes(stack, player, type);
 					}
 				} else { //If the player tier is not enough don't even try to generate it
-					player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
+					player.displayClientMessage(Component.translatable("message.recipe.cant_learn_yet"), true);
 				}
 			}
 		}
@@ -90,9 +88,8 @@ public class RecipeItem extends Item implements IItemCategory {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
-		//System.out.println(tier+" "+playerData.getSynthLevel());
 		if(tier > playerData.getSynthLevel()) {
-			player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
+			player.displayClientMessage(Component.translatable("message.recipe.cant_learn_yet"), true);
 			return;
 		}
 		boolean consume = false;
@@ -104,21 +101,18 @@ public class RecipeItem extends Item implements IItemCategory {
 					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
 					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
 				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
-					String message = "Recipe for " + Utils.translateToLocal(outputStack.getDescriptionId()) + " already learnt";
-					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + message));
+					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.already_learnt"),ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
 				} else { // If recipe is not known, learn it
 					playerData.addKnownRecipe(rl);
 					consume = true;
-					String message = "Recipe " + Utils.translateToLocal(outputStack.getDescriptionId()) + " learnt successfully";
-					player.sendSystemMessage(Component.translatable(ChatFormatting.GREEN + message));
+					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}
 		}
 
 		if (consume) {
-			//remove all child tags so we don't contaminate the stack
-			//This will set the stack's tag field to null once all are removed.
+			//remove all child tags so we don't contaminate the stack, this will set the stack's tag field to null once all are removed.
 			stack.removeTagKey("recipe1");
 			stack.removeTagKey("recipe2");
 			stack.removeTagKey("recipe3");

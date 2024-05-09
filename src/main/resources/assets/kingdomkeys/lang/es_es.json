@@ -1523,7 +1523,10 @@
 	"message.wayfinder.player_not_in_party": "El jugador %s no está en tu grupo",
 	"message.wayfinder.player_not_online": "El jugador %s no está en línea",
 	"message.wayfinder.your_wayfinder": "Este es tu siemprejuntos, dáselo a otro jugador",
-
+	"message.recipe.already_learnt": "Receta ya aprendida para %s",
+	"message.recipe.cant_learn_yet": "Aún no puedes aprender esa receta",
+	"message.recipe.learnt": "Aprendida la receta de %s",
+	"message.recipe.no_more_to_learn": "No quedan más recetas para aprender",
 
 
 	"_comment": "Station of Awakening",

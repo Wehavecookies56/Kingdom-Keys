@@ -1542,6 +1542,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");
+        add("message.recipe.no_more_to_learn","No more recipes to learn");
+        add("message.recipe.cant_learn_yet","You can't learn that recipe yet");
+        add("message.recipe.already_learnt", "Recipe for %s already learnt");
+        add("message.recipe.learnt", "Learnt recipe for %s");
 
         //Station of Awakening
         add("soa.menu.1", "Before you can open the menu.");
