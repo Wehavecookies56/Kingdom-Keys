@@ -1,0 +1,18 @@
+{
+	"name": "Formeln",
+	"icon": "kingdomkeys:recipe",
+	"sortnum": 4,
+	"priority": true,
+	"category": "kingdomkeys:synthesize",
+	"read_by_default": false,
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Recipes will sometimes drop from hostile mobs when killed. These Recipes come in a few different tiers, ranging from D all the way to SSS. Each Recipe holds new Keyblades, Armors and Accessories to be Synthesized. Once you run out of Recipes to learn from a specific tier, combine 2 of the same tiered Recipe in a Crafting Table or in your Inventory, this will craft a Recipe of the next tier."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:recipe_c"
+		}
+	]
+}
