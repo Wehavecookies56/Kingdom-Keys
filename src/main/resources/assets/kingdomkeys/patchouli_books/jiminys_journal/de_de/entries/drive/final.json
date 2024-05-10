@@ -1,0 +1,13 @@
+{
+	"name": "Final-Form",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 5,
+	"priority": true,
+	"category": "kingdomkeys:drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "This form gains XP for every Nobody and Enderman killed while in the form. Leveling this form will reward you with permenant access to the Glide ability."
+		}
+	]
+}
