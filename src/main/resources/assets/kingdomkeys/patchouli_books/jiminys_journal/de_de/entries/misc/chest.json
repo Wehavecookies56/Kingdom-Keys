@@ -1,0 +1,17 @@
+{
+	"name": "Magische Truhe",
+	"icon": "kingdomkeys:magical_chest",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "This chest is special in the case as it can be locked to a specific players Keyblade and will only be able to be opened by the player that locked it. It's has one more row of storage than a normal single chest has. The recipe is as follows."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:magical_chest"
+		}
+	]
+}
