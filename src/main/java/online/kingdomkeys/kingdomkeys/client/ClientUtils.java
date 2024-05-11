@@ -821,7 +821,7 @@ public class ClientUtils {
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
-        Shotlock shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(localPlayerData.getEquippedShotlock()));
+        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
             float x = (float) (localPlayer.getX() - entityIn.getX()) * 0.3F;
@@ -835,7 +835,7 @@ public class ClientUtils {
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
-        Shotlock shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(localPlayerData.getEquippedShotlock()));
+        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
             float ex = (float) entityIn.getX(); //Random offsets
