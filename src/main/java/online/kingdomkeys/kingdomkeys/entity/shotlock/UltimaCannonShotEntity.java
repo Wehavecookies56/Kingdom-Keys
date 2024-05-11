@@ -31,7 +31,7 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 	}
 
 	public UltimaCannonShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
-		super(ModEntities.TYPE_ULTIMA_CANNON_SHOT.get(), world, player, target, dmg*10);
+		super(ModEntities.TYPE_ULTIMA_CANNON_SHOT.get(), world, player, target, dmg * 15);
 	}
 
 	@Override
@@ -71,25 +71,26 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
 					if (target != getOwner()) {
 						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-						this.level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY(), this.blockPosition().getZ(), 5, false, Level.ExplosionInteraction.NONE);
-						super.remove(RemovalReason.KILLED);
 					}
 				}
 			}
-			((ServerLevel)level()).sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
-			((ServerLevel)level()).sendParticles(new DustParticleOptions(new Vector3f(1F,0.9F,0.9F),1F), getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			for(int i = 0; i < 6; i++) {
+				((ServerLevel) level()).sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 500, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, 0.1);
+			}
+
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(5));
 			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
 
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
                     if (e instanceof LivingEntity) {
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg);
+						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg / e.distanceTo(this));
                     }
                 }
 			}
 
 		}
+		this.level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY(), this.blockPosition().getZ(), 5, false, Level.ExplosionInteraction.NONE);
 		remove(RemovalReason.KILLED);
 	}
 }

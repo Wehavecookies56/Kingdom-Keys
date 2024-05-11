@@ -19,7 +19,7 @@ public class ShotlockUltimaCannon extends Shotlock {
     @Override
     public void doFullShotlock(Player player, List<Entity> targetList) {
         UltimaCannonShotEntity shot = new UltimaCannonShotEntity(player.level(), player, targetList.get(0), getDamage(player));
-        shot.setPos(player.getX(), player.getY()+2, player.getZ());
+        shot.setPos(player.getX(), player.getY()+3, player.getZ());
         player.level().addFreshEntity(shot);
     }
 }

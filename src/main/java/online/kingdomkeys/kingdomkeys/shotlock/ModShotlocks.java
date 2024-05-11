@@ -22,6 +22,6 @@ public class ModShotlocks {
 		RAGNAROK = SHOTLOCKS.register(Strings.Ragnarok, () -> new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.Ragnarok, order++, 3, 16)),
 		SONIC_BLADE = SHOTLOCKS.register(Strings.SonicBlade, () -> new ShotlockSonicBlade(KingdomKeys.MODID + ":" + Strings.SonicBlade, order++, 4, 10)),
 		PRISM_RAIN = SHOTLOCKS.register(Strings.PrismRain, () -> new ShotlockPrismRain(KingdomKeys.MODID + ":" + Strings.PrismRain, order++, 3, 16)),
-		ULTIMA_CANNON = SHOTLOCKS.register(Strings.UltimaCannon, () -> new ShotlockUltimaCannon(KingdomKeys.MODID + ":" + Strings.UltimaCannon, order++, 3*20, 1))
+		ULTIMA_CANNON = SHOTLOCKS.register(Strings.UltimaCannon, () -> new ShotlockUltimaCannon(KingdomKeys.MODID + ":" + Strings.UltimaCannon, order++, 2*20, 1))
 	;
 }
