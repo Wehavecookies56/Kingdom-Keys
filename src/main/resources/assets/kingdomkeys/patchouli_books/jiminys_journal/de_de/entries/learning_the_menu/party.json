@@ -1,0 +1,21 @@
+{
+	"name": "Creating a Party",
+	"icon": "kingdomkeys:ice_cream",
+	"sortnum": 4,
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+		"pages": [
+		{
+			"type": "text",
+			"text": "The $(thing)Party$() tab in your menu can be used to team up with friends. This disables PvP with these other players, shares XP gain and also allows you to heal them with spells and items as long as they're in your range."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/party.png"
+            ],
+            "title": "Party Menu",
+            "border": true
+        }
+	]
+}

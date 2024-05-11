@@ -1,0 +1,38 @@
+{
+	"name": "Andere Org. XIII Mäntel",
+	"icon": "kingdomkeys:xemnas_helmet",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These coats share the same stats as the original coat and still let you join the Organization, they just give you added style. "
+		},
+		{
+			"type": "text",
+			"text": "You can take on Xemnas' style from the end of Kingdom Hearts II or take on the AntiCoat style from Dream Drop Distance. Die Anleitungen sind wie folgt:"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_helmet",
+			"recipe2":"kingdomkeys:xemnas_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_leggings",
+			"recipe2":"kingdomkeys:xemnas_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_helmet",
+			"recipe2":"kingdomkeys:anticoat_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_leggings",
+			"recipe2":"kingdomkeys:anticoat_boots"
+		}
+
+	]
+}

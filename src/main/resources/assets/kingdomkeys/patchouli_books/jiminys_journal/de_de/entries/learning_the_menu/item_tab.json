@@ -1,0 +1,18 @@
+{
+	"name": "Item Tab",
+	"icon": "kingdomkeys:ether",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Let's start with $(thing)Items.$() This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades/Organization XIII weapons, Kingdom Keys specific Armors/Accessories and items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
+		},
+		{
+			"type": "text",
+			"text": "After equiping your Keyblade you can summon it with the summon button (standard button is $(thing)G$() )" 
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Hard Blox",
+	"icon": "kingdomkeys:hard_blox",
+	"sortnum": 2,
+	"priority": true,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Hard Blox can be found in the world. They have a singular use in the form of crafting Metal Blox. You can craft Hard Blox using Normal Blox and stone. The recipe is as follows."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:hard_blox"
+		}
+	]
+}

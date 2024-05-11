@@ -1,0 +1,18 @@
+{
+	"name": "Dragoon",
+	"icon": "kingdomkeys:dragoon_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"read_by_default": false,
+	"sortnum": 4,
+	"pages": [{
+			"type": "text",
+			"text": "A dragoon. A high-ranking Nobody. When a ball of light appears after parrying its attacks, use Learn. Time it accurately, to use Jump to attack. Learn can be used as often as possible, so a series of Jump attacks is one strategy option."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dragoon",
+			"scale": 0.8,
+			"offset": 0.5
+		}
+	]
+}

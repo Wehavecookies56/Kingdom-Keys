@@ -1,0 +1,17 @@
+{
+	"name": "Drive Forms",
+	"icon": "kingdomkeys:hi_drive_recovery",
+	"category": "kingdomkeys:commands",
+	"read_by_default": false,
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Just like Spells, as you explore the world and find those cubes we mentioned before, you can also find $(thing)Form Orbs.$() These orbs can be used with a press of the Interact button to learn the form."
+		},
+		{
+			"type": "text",
+			"text": " Using your Drive Gauge, located at the bottom right hand corner of your screen, above your HP bar, you can transform into one of 5 different forms that all have their own abilities, play styles and movement options to learn. These forms are known as Valor, Wisdom, Master, Limit and Final form."
+		}
+	]
+}

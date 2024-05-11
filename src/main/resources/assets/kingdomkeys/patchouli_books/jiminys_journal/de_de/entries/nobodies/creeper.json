@@ -1,0 +1,16 @@
+{
+	"name": "Kriecher",
+	"icon": "kingdomkeys:nobody_creeper_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"read_by_default": false,
+	"sortnum": 1,
+	"pages": [{
+			"type": "text",
+			"text": "Die schwächsten aller Niemande. Es kann verschiedene Gestalten annehmen, welches es erschwert deren nächsten Zug voraus zusehen. "
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:nobody_creeper"
+		}
+	]
+}

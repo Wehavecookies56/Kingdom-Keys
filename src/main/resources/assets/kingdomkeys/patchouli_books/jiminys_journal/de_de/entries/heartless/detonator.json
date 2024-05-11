@@ -1,0 +1,16 @@
+{
+	"name": "Detonator",
+	"icon": "kingdomkeys:detonator_spawn_egg",
+	"category": "kingdomkeys:heartless",
+	"read_by_default": false,
+	"sortnum": 9,
+	"pages": [{
+			"type": "text",
+			"text": "These large versions of the Minute Bomb act similarly, but produce a much broader blast when they self-detonate. They also won't stagger from regular attacks, making them a dangerous foe. Take ample care when facing them."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:detonator"
+		}
+	]
+}

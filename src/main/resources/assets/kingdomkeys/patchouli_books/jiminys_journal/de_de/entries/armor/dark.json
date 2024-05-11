@@ -1,0 +1,46 @@
+{
+	"name": "Warriors of Darkness",
+	"icon": "kingdomkeys:dark_riku_chestplate",
+	"sortnum": 2,
+	"priority": true,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These sets of armor are slightly weaker than the Organization coats but do not force you to join the Organization. Letting you keep your normal play style while also representing the Warriors of Darkness, they're also easier to craft than most of the other armors.  "
+		},
+		{
+			"type": "text",
+			"text": "Taking on the style of Dark Riku, Vanitas and Vanitas Remnant. The recipes are as follows."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:dark_riku_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:dark_riku_leggings",
+			"recipe2":"kingdomkeys:dark_riku_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_helmet",
+			"recipe2":"kingdomkeys:vanitas_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_leggings",
+			"recipe2":"kingdomkeys:vanitas_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_remnant_helmet",
+			"recipe2":"kingdomkeys:vanitas_remnant_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_remnant_leggings",
+			"recipe2":"kingdomkeys:vanitas_remnant_boots"
+		}
+	]
+}

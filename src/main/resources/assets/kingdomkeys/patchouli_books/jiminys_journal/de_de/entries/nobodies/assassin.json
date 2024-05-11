@@ -1,0 +1,18 @@
+{
+	"name": "Meuchler",
+	"icon": "kingdomkeys:assassin_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"read_by_default": false,
+	"sortnum": 3,
+	"pages": [{
+			"type": "text",
+			"text": "Ein Meuchler. ein hoch-rangiger Niemand. Es versteckt sich in den Boden und greift leise von hinten an. Es kann nicht angegriffen werden, solange es unter der Erde ist. Konter deren Angriffe um es an die Oberfläche zu locken. Doch pass auf wenn es anfängt umher zu rennnen! Dann fängt es an mächtige Angriffe loszulassen."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:assassin",
+			"scale": 0.65,
+			"offset": 0.5
+		}
+	]
+}
