@@ -61,7 +61,8 @@ public class Strings {
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
        		SonicBlade = "sonic_blade",
-       		PrismRain = "prism_rain";       
+       		PrismRain = "prism_rain",
+			UltimaCannon = "ultima_cannon";
     
     // Reaction Commands
        public static final String

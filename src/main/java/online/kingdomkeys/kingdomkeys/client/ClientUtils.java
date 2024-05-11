@@ -15,6 +15,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -808,27 +810,52 @@ public class ClientUtils {
         return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
     }
 
-    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"), false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
-      public static int id = 0;
+      public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
+    public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+        Player localPlayer = Minecraft.getInstance().player;
+        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        Shotlock shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(localPlayerData.getEquippedShotlock()));
+
+        if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
+            float x = (float) (localPlayer.getX() - entityIn.getX()) * 0.3F;
+            float y = (float) (localPlayer.getY() - entityIn.getY()) * 0.3F;
+            float z = (float) (localPlayer.getZ() - entityIn.getZ()) * 0.3F;
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x, y + entityIn.getBbHeight() / 2, z, true, partialTicks);
+            float renderSize = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+        }
+    }
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        Shotlock shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(localPlayerData.getEquippedShotlock()));
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
-            float ex = (float) entityIn.getX()+shotlockEnemy.x();
-            float ey = (float) entityIn.getY()+shotlockEnemy.y();
-            float ez = (float) entityIn.getZ()+shotlockEnemy.z();
-
+            float ex = (float) entityIn.getX(); //Random offsets
+            float ey = (float) entityIn.getY();
+            float ez = (float) entityIn.getZ();
+            float renderSize = 1.5F;
+            if(shotlock.getMaxLocks() > 1) {
+                ex += shotlockEnemy.x(); //Random offsets
+                ey += shotlockEnemy.y();
+                ez += shotlockEnemy.z();
+                renderSize = 0.1F;
+            }
             float x = (float) (localPlayer.getX() - ex)*0.3F;
             float y = (float) (localPlayer.getY() - ey)*0.3F;
             float z = (float) (localPlayer.getZ() - ez)*0.3F;
             Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getBbHeight()/2,z, true, partialTicks);
 
             //Random Circles
-            float renderSize = 0.1F;
             if(shotlockEnemy.id() == entityIn.getId()) {
-                ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+                ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(shotlock.getMaxLocks() == 1 ? ULTIMATE_SHOTLOCK_INDICATOR : SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
             }
         }
     }
