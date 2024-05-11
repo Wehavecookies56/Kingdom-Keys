@@ -50,15 +50,23 @@ public abstract class Shotlock {
 		return max;
 	}
 
-	public abstract void onUse(Player player, List<Entity> targetList);
+    public void onUse(Player player, List<Entity> targetList) {
+		if(targetList.size() == getMaxLocks()){
+			doFullShotlock(player,targetList);
+		} else {
+			doPartialShotlock(player,targetList);
+		}
+    }
 
-	public ResourceLocation getRegistryName() {
+    public ResourceLocation getRegistryName() {
 		return name;
 	}
 
 	public float getDamage(Player player){
-		return (float) (DamageCalculation.getMagicDamage(player) * ModConfigs.shotlockMult);
-
+		return (DamageCalculation.getMagicDamage(player)*0.7F + DamageCalculation.getStrengthDamage(player)*0.3F) * (float) ModConfigs.shotlockMult;
 	}
+
+	public abstract void doPartialShotlock(Player player, List<Entity> targetList);
+	public abstract void doFullShotlock(Player player, List<Entity> targetList);
 
 }

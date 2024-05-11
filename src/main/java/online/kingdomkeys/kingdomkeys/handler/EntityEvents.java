@@ -95,7 +95,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
-import org.joml.Vector3f;
 
 public class EntityEvents {
 
@@ -606,7 +605,7 @@ public class EntityEvents {
 					if(pos.distToCenterSqr(player.position()) < 2 || (airstepTicks > 5 && player.getDeltaMovement().x() == 0 && player.getDeltaMovement().z() == 0)){
 						player.setDeltaMovement(0,0,0);
 						player.setPos(pos.getCenter().subtract(0,0.4,0));
-
+						//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 						if(player.level().isClientSide) {
 							PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0,0,0)));
 							airstepTicks = -1;
@@ -883,12 +882,7 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
-
-				//Attempt to make keyblades not spammable?
-				System.out.println(player.getAttackStrengthScale(0.0F));
-				// System.out.println("event dmg: "+dmg);
-				//System.out.println(dmg+" Added dmg: "+((event.getAmount()-1)+dmg));
-				event.setAmount((event.getAmount()-1)+dmg * player.getAttackStrengthScale(0.0F));
+				event.setAmount((event.getAmount()-1)+dmg * player.getAttackStrengthScale(0));
 			}
 
 			if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {

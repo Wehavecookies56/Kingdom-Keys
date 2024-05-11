@@ -39,11 +39,6 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), world);
 	}
 
-	public SonicBladeCoreEntity(Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public SonicBladeCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), player, world);
 		setCaster(player.getUUID());

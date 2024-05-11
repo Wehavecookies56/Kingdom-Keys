@@ -317,8 +317,8 @@ public class ClientEvents {
 						lockedAirStep = blockResult.getBlockPos();
 					}
 
-					if (rt instanceof EntityHitResult ertr) { //If looking at an entity
-						if(shotlock.getMaxLocks() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
+					if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity
+						if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
 							if (ertr.getEntity() instanceof LivingEntity target) {
 								if(target != tempShotlockEntity){
 									focusingAnEntityTicks = 0;
@@ -337,7 +337,7 @@ public class ClientEvents {
 									focusingAnEntityTicks++;
 								}
 							}
-						} else if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
+						} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
 							if (ertr.getEntity() instanceof LivingEntity target) {
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
