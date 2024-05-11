@@ -8,11 +8,11 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Let's start with $(thing)Items.$() This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades/Organization XIII weapons, Kingdom Keys specific Armors/Accessories and items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
+			"text": "Lass und mit den $(thing)Items$() anfangen. Hier kannst du Items ausrüsten die in Verbindung zu der $(thing)Kingdom Keys$() Mod stehen. Dazu zählen Schlüsselschwerter bzw. Waffen der Organization XIII, Pauldrons, ausrüstbare Rüstungen und Accessories so wie Kommando-Items (wie z.B.: Potions, Hi-Potions, Äther, Elixiere, etc.)"
 		},
 		{
 			"type": "text",
-			"text": "After equiping your Keyblade you can summon it with the summon button (standard button is $(thing)G$() )" 
+			"text": "Nach dem Ausrüsten deines Schlüsselschwertes, kannst du ihn mit der Rufen-Taste in deine Hand rufen. (Standardsgemäß: $(thing)G$() )" 
 		}
 	]
 }

@@ -1,12 +1,12 @@
 {
-	"name": "Dragoon",
+	"name": "Dragoner",
 	"icon": "kingdomkeys:dragoon_spawn_egg",
 	"category": "kingdomkeys:nobodies",
 	"read_by_default": false,
 	"sortnum": 4,
 	"pages": [{
 			"type": "text",
-			"text": "A dragoon. A high-ranking Nobody. When a ball of light appears after parrying its attacks, use Learn. Time it accurately, to use Jump to attack. Learn can be used as often as possible, so a series of Jump attacks is one strategy option."
+			"text": "Ein Dragoner ist ein Niemand von hohem Rang. Sprünge und Blocken erweisen sich als eine gute Taktik um solch einen zu besiegen.\n[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

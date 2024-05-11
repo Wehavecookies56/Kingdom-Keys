@@ -1,12 +1,12 @@
 {
-	"name": "Red Nocturne",
+	"name": "Pyrozipfler",
 	"icon": "kingdomkeys:red_nocturne_spawn_egg",
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 10,
 	"pages": [{
 			"type": "text",
-			"text": "Spellcasting Heartless. While hovering about, they attack by casting Fire. Having low HP they keep their distance from their opponents, making them difficult to attack. They absorb fire attacks."
+			"text": "Ein Herzloser, der durch die Lüfte schwebt. mach einen harmlosen Eindruck, ist aber des \"Feuers\" mächtig und beschießt sein Ziel aus der Ferne mit Feuerbällen. Wenn man sich ihm nähert, flieht er flugs in weite Ferne. Besitzt nur wenig HP. \"Feuer\"-Angriffe bleiben wirkungslos.\n[KH1]"
 		},
 		{
 			"type": "patchouli:entity",

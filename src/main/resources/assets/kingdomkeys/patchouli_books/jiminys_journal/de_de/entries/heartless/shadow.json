@@ -1,12 +1,12 @@
 {
-	"name": "Shadow",
+	"name": "Schattenlurch",
 	"icon": "kingdomkeys:shadow_spawn_egg",
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 1,
 	"pages": [{
 			"type": "text",
-			"text": "Heartless that emerge from various places. They sneak up to their enemies with sharp claws. They are extremely tenacious, often chasing their prey to the end."
+			"text": "Er versinkt im Boden, um sich fortzubewegen, es ist also gutes Timing gefragt, wenn man ihn besiegen will.\n\nGreife in dem Moment an, in dem er wieder aus dem Boden auftaucht!\n[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

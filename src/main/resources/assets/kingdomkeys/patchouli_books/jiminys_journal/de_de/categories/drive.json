@@ -1,6 +1,6 @@
 {
 	"name": "Leveling up your Drive Forms",
-	"description": "This chapter is solely dedicated to telling you what you need to do to level each of your 5 $(thing)Drive Forms$(), as well as what abilities you'll earn for leveling them up. Each form having it's own way of gaining XP. Every form maxes out at level 7.",
+	"description": "This chapter is solely dedicated to telling you what you need to do to level each of your 5 $(thing)Drive Forms$(), as well as what abilities you'll earn for leveling them up. Each form having it's own way of gaining XP.\nJede Form erreicht ihr Maximum bei Stufe 7.",
 	"icon": "kingdomkeys:hi_drive_recovery",
 	"sortnum": 5
 }

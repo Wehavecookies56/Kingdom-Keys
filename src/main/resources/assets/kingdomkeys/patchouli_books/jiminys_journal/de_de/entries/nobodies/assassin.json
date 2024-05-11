@@ -6,7 +6,7 @@
 	"sortnum": 3,
 	"pages": [{
 			"type": "text",
-			"text": "Ein Meuchler. ein hoch-rangiger Niemand. Es versteckt sich in den Boden und greift leise von hinten an. Es kann nicht angegriffen werden, solange es unter der Erde ist. Konter deren Angriffe um es an die Oberfläche zu locken. Doch pass auf wenn es anfängt umher zu rennnen! Dann fängt es an mächtige Angriffe loszulassen."
+			"text": "Ein Meuchler ist ein Niemand von hohem Rang. Er versteckt sich im Boden und greift leise und unbemerkt von hinten an.\n\nEr kann nicht angegriffen werden, während er Schutz im Boden sucht. Pariere seine Attacken um ihn an die Oberfläche zu zwingen.\n\nVorsicht ist geboten, wenn er beginnt an der Oberfläche herumzulaufen! Dann setzt er nämlich bald zu Verzweiglungsangriffen an.\n[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

@@ -6,7 +6,7 @@
 	"sortnum": 2,
 	"pages": [{
 			"type": "text",
-			"text": "Phantasmagorical frights that morph and stretch as they fight. Stay locked on, and all the fancy footwork in the world won't save them. As tough as they are to predict, there are moments when they just sort of... stand there. And when they space? Keyblade to the face."
+			"text": "Es ist schwer, die nächste Bewegung dieser Kreatur vorherzusehen.\n\nMerke: Pariert man einen seiner Angriffe, vernachlässigt er kurz seine Deckung. Das gilt auch für die anderen Niemande.\n[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

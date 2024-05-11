@@ -6,7 +6,7 @@
 	"sortnum": 3,
 	"pages": [{
 			"type": "text",
-			"text": "A large Heartless similar to a shadow. Like its predecessor its quite persistent and will chase its target around. If it just does the littlest ammount of damage to You it will fade out of sheer happiness. "
+			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche(), verfügen allerdings über noch größere Körperkraft.\nDie einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.\n[Days]"
 		},
 		{
 			"type": "patchouli:entity",

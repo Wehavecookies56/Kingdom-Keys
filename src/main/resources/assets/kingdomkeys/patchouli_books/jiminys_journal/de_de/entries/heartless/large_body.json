@@ -1,12 +1,12 @@
 {
-	"name": "Large Body",
+	"name": "Adowampe",
 	"icon": "kingdomkeys:large_body_spawn_egg",
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 16,
 	"pages": [{
 			"type": "text",
-			"text": "Big round Heartless. They seem tame and laid-back, but go berserk when they are angered. With their brute strength, they can inflict great damage so be un guard. "
+			"text": "Eine dickere Variante eines Herzlosen. Meistens ruhig und besonnen, wird jedoch zu einem üblen Zeitgenossen, wenn er gereizt wird, und ist zudem auch noch äußerst Kräftig. Vor seinem dicken Bauch sollte man sich in Acht nehmen.\n[KH1]"
 		},
 		{
 			"type": "patchouli:entity",
