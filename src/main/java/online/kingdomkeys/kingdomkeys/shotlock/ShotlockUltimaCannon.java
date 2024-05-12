@@ -20,6 +20,7 @@ public class ShotlockUltimaCannon extends Shotlock {
     public void doFullShotlock(Player player, List<Entity> targetList) {
         UltimaCannonShotEntity shot = new UltimaCannonShotEntity(player.level(), player, targetList.get(0), getDamage(player));
         shot.setPos(player.getX(), player.getY()+3, player.getZ());
+        shot.setColor(13353527);
         player.level().addFreshEntity(shot);
     }
 }

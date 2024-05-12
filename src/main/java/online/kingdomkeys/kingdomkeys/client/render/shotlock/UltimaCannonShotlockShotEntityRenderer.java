@@ -34,8 +34,7 @@ public class UltimaCannonShotlockShotEntityRenderer extends EntityRenderer<BaseS
     		matrixStackIn.translate(0, 0.05, 0);
     		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
     		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
-			
-    		matrixStackIn.scale(2F,2F,2F);
+    		matrixStackIn.scale(5F,5F,5F);
     		Color color = new Color(entity.getColor());
     		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F);
      	}
