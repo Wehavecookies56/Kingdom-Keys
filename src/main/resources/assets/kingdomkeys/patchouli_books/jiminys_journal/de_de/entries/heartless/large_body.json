@@ -6,7 +6,7 @@
 	"sortnum": 16,
 	"pages": [{
 			"type": "text",
-			"text": "Eine dickere Variante eines Herzlosen. Meistens ruhig und besonnen, wird jedoch zu einem üblen Zeitgenossen, wenn er gereizt wird, und ist zudem auch noch äußerst Kräftig. Vor seinem dicken Bauch sollte man sich in Acht nehmen.\n[KH1]"
+			"text": "Eine dickere Variante eines Herzlosen. Meistens ruhig und besonnen, wird jedoch zu einem üblen Zeitgenossen, wenn er gereizt wird, und ist zudem auch noch äußerst Kräftig. Vor seinem dicken Bauch sollte man sich in Acht nehmen.$(br)[KH1]"
 		},
 		{
 			"type": "patchouli:entity",

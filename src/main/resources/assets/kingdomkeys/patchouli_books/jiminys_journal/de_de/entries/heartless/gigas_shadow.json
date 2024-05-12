@@ -6,7 +6,7 @@
 	"sortnum": 3,
 	"pages": [{
 			"type": "text",
-			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche(), verfügen allerdings über noch größere Körperkraft.\nDie einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.\n[Days]"
+			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(br)[Days]"
 		},
 		{
 			"type": "patchouli:entity",

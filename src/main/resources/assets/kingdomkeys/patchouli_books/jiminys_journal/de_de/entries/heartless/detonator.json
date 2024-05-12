@@ -6,7 +6,7 @@
 	"sortnum": 9,
 	"pages": [{
 			"type": "text",
-			"text": "Diese großen Verwandten des $(thing)Bombenmolchs() ähneln diesem, berfügen aber über noch größere Sprengkraft. Normale Angriffe sind gegen sie unwirksam, was sie zu gefährlichen Gegnern macht.\nSei besonders vorsichtig!\n[Days]"
+			"text": "Diese großen Verwandten des $(thing)Bombenmolchs$() ähneln diesem, berfügen aber über noch größere Sprengkraft. Normale Angriffe sind gegen sie unwirksam, was sie zu gefährlichen Gegnern macht.$(br)Sei besonders vorsichtig!$(br)[Days]"
 		},
 		{
 			"type": "patchouli:entity",

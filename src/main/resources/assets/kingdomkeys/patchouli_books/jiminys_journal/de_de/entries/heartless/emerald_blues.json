@@ -6,7 +6,7 @@
 	"sortnum": 15,
 	"pages": [{
 			"type": "text",
-			"text": "Kämpfe aus sicherer Entfernung und auchte auf seinen plötzlichen Vorstoß. Wenn er nur noch wenig HP hat, bildet sich ein Tornado, der dich zu ihm hin zieht.\n\nSeine Magie-Resistenz sollte für dich eine Einladung sein, dein Schlüsselschwert glühen zu lassen!\n[KH2]"
+			"text": "Kämpfe aus sicherer Entfernung und auchte auf seinen plötzlichen Vorstoß. Wenn er nur noch wenig HP hat, bildet sich ein Tornado, der dich zu ihm hin zieht.$(br2)Seine Magie-Resistenz sollte für dich eine Einladung sein, dein Schlüsselschwert glühen zu lassen!$(br)[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

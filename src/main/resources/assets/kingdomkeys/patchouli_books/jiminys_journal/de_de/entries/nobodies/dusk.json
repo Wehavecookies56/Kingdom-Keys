@@ -6,7 +6,7 @@
 	"sortnum": 2,
 	"pages": [{
 			"type": "text",
-			"text": "Es ist schwer, die nächste Bewegung dieser Kreatur vorherzusehen.\n\nMerke: Pariert man einen seiner Angriffe, vernachlässigt er kurz seine Deckung. Das gilt auch für die anderen Niemande.\n[KH2]"
+			"text": "Es ist schwer, die nächste Bewegung dieser Kreatur vorherzusehen.$(br)$(br)Merke: Pariert man einen seiner Angriffe, vernachlässigt er kurz seine Deckung. Das gilt auch für die anderen Niemande.$(br)[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

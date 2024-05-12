@@ -6,7 +6,7 @@
 	"sortnum": 1,
 	"pages": [{
 			"type": "text",
-			"text": "Der Schwächste unter den Niemanden. Nimmt verschiedene Formen an, was ihn unberechenbar macht.\n[KH2]"
+			"text": "Der Schwächste unter den Niemanden. Nimmt verschiedene Formen an, was ihn unberechenbar macht.$(br)[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

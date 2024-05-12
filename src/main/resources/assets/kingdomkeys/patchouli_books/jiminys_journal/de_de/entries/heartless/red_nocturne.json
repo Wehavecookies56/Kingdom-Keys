@@ -6,7 +6,7 @@
 	"sortnum": 10,
 	"pages": [{
 			"type": "text",
-			"text": "Ein Herzloser, der durch die Lüfte schwebt. mach einen harmlosen Eindruck, ist aber des \"Feuers\" mächtig und beschießt sein Ziel aus der Ferne mit Feuerbällen. Wenn man sich ihm nähert, flieht er flugs in weite Ferne. Besitzt nur wenig HP. \"Feuer\"-Angriffe bleiben wirkungslos.\n[KH1]"
+			"text": "Ein Herzloser, der durch die Lüfte schwebt. mach einen harmlosen Eindruck, ist aber des \"Feuers\" mächtig und beschießt sein Ziel aus der Ferne mit Feuerbällen. Wenn man sich ihm nähert, flieht er flugs in weite Ferne. Besitzt nur wenig HP. \"Feuer\"-Angriffe bleiben wirkungslos.$(br)[KH1]"
 		},
 		{
 			"type": "patchouli:entity",

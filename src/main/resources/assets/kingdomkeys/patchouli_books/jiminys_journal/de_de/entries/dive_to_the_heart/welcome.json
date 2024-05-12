@@ -1,5 +1,5 @@
 {
-	"name": "Choose your Path",
+	"name": "Wähle deinen Weg",
 	"icon": "kingdomkeys:kingdom_key_chain",
 	"sortnum": 1,
 	"priority": true,
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Let's start with the most simple step. You should take a Dive into your Heart and decide your path, to do so press the $(thing)[M] $()key."
+			"text": "Lass uns mit dem einfachsten Schritt anfangen. Du solltest in dein Herz eintauchen und dein Schicksal zu folgen. Drücke dafür die $(thing)[$(k:key.kingdomkeys.openmenu)]$()-Taste."
 		},
         {
             "type": "image",

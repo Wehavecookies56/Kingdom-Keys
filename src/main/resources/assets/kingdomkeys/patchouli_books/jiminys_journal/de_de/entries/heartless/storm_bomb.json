@@ -6,7 +6,7 @@
 	"sortnum": 8,
 	"pages": [{
 			"type": "text",
-			"text": "Diese kleinen herzlosen können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zu Selbstzerstörung ein. Weiche durch Springen oder Gleiten dem Wirbelwind aus, den sie während des Countdowns verursachen.\n[Days]"
+			"text": "Diese kleinen herzlosen können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zu Selbstzerstörung ein. Weiche durch Springen oder Gleiten dem Wirbelwind aus, den sie während des Countdowns verursachen.$(br)[Days]"
 		},
 		{
 			"type": "patchouli:entity",

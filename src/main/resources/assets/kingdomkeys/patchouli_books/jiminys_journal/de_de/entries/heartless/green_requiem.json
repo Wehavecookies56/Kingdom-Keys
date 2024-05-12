@@ -6,7 +6,7 @@
 	"sortnum": 13,
 	"pages": [{
 			"type": "text",
-			"text": "Ein Herzloser, der durch die Lüfte schwebt. Greift niemand an, aber heilt mit \"Vita\" die HP der anderen Herzlosen. In seiner Bewegung eher träge, aber flieht schnell in höhere Luftregionen. Magie-Angriffe werden absorbiert und bleiben wirkungslos.\n[KH1]"
+			"text": "Ein Herzloser, der durch die Lüfte schwebt. Greift niemand an, aber heilt mit \"Vita\" die HP der anderen Herzlosen. In seiner Bewegung eher träge, aber flieht schnell in höhere Luftregionen. Magie-Angriffe werden absorbiert und bleiben wirkungslos.$(br)[KH1]"
 		},
 		{
 			"type": "patchouli:entity",

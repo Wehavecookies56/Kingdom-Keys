@@ -6,7 +6,7 @@
 	"sortnum": 5,
 	"pages": [{
 			"type": "text",
-			"text": "Diese dunklen Massen ziehen $(thing)Reinblüter() an. Vernichte sie, sobald du sie siehst.\n[Days]"
+			"text": "Diese dunklen Massen ziehen $(thing)Reinblüter() an. Vernichte sie, sobald du sie siehst.$(br)[Days]"
 		},
 		{
 			"type": "patchouli:entity",

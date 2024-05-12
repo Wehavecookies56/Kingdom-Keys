@@ -6,7 +6,7 @@
 	"sortnum": 1,
 	"pages": [{
 			"type": "text",
-			"text": "Er versinkt im Boden, um sich fortzubewegen, es ist also gutes Timing gefragt, wenn man ihn besiegen will.\n\nGreife in dem Moment an, in dem er wieder aus dem Boden auftaucht!\n[KH2]"
+			"text": "Er versinkt im Boden, um sich fortzubewegen, es ist also gutes Timing gefragt, wenn man ihn besiegen will.$(br)$(br)Greife in dem Moment an, in dem er wieder aus dem Boden auftaucht!$(br)[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

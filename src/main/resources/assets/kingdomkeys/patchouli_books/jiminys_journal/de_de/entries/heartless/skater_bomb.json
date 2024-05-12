@@ -6,7 +6,7 @@
 	"sortnum": 7,
 	"pages": [{
 			"type": "text",
-			"text": "Diese kleinen Herzlosen können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zur Selbstzerstöung ein. Triff sie während des Countdowns, um ihre Sprengladung gegen andere zu richten.\n[Days]"
+			"text": "Diese kleinen Herzlosen können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zur Selbstzerstöung ein. Triff sie während des Countdowns, um ihre Sprengladung gegen andere zu richten.$(br)[Days]"
 		},
 		{
 			"type": "patchouli:entity",
