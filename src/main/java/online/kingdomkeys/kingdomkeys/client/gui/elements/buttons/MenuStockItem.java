@@ -79,7 +79,7 @@ public class MenuStockItem extends Button {
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
                     gui.blit(texture, 0, 0, 27, 0, 18, 28);
-                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 46, 0, 2, 28, 256, 256);
+                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 47, 0, 2, 28, 256, 256);
                     gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
                 }
                 matrixStack.popPose();
