@@ -29,9 +29,8 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 
 		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
 
-		CompoundTag nbt = playerInv.getSelected().getOrCreateTag();
+		CompoundTag nbt = bag.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		
 		int invStart = bagLevel * 2;
 		
 		//Bag inventory slots
@@ -67,23 +66,15 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 		
 		CompoundTag nbt = bag.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		int maxSlots = 0;
-		switch(bagLevel) {
-		case 0:
-			maxSlots = 18;
-			break;
-		case 1:
-			maxSlots = 36;
-			break;
-		case 2:
-			maxSlots = 54;
-			break;
-		case 3:
-			maxSlots = 72;
-			break;
-		}
-		
-		Slot slot = this.slots.get(index);
+		int maxSlots = switch (bagLevel) {
+            case 0 -> 18;
+            case 1 -> 36;
+            case 2 -> 54;
+            case 3 -> 72;
+            default -> 0;
+        };
+
+        Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
@@ -107,7 +98,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 
 	@Override
     public void clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
-        if (!(slot >= 0 && getSlot(slot).getItem() == player.getItemInHand(InteractionHand.MAIN_HAND))) {
+        if (!(slot >= 0 && getSlot(slot).getItem() == bag)) {
 			super.clicked(slot, dragType, clickTypeIn, player);
 		}
 
