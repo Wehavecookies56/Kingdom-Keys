@@ -32,15 +32,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 		CompoundTag nbt = playerInv.getSelected().getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
 		
-		int invStart = 0;
-				
-		if(bagLevel == 1) {
-			invStart = 2; 
-		} else if(bagLevel == 2) {
-			invStart = 4;
-		} else if(bagLevel == 3) {
-			invStart = 6;
-		}
+		int invStart = bagLevel * 2;
 		
 		//Bag inventory slots
 		for (i = 0; i < 2*(bagLevel+1); ++i) {
