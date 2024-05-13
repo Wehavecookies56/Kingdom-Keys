@@ -30,7 +30,6 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 
 	public SynthesisBagItem(Properties properties) {
 		super(properties);
-		
 	}
 
 	@Override

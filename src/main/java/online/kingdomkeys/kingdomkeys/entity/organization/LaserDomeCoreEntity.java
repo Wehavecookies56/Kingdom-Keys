@@ -47,11 +47,6 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 		this(ModEntities.TYPE_LASER_DOME.get(), world);
 	}
 
-	public LaserDomeCoreEntity(Level world) {
-		this(ModEntities.TYPE_LASER_DOME.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public LaserDomeCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_DOME.get(), player, world);
 		setCaster(player.getUUID());

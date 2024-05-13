@@ -38,6 +38,8 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 			invStart = 2; 
 		} else if(bagLevel == 2) {
 			invStart = 4;
+		} else if(bagLevel == 3) {
+			invStart = 6;
 		}
 		
 		//Bag inventory slots
@@ -84,6 +86,9 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 		case 2:
 			maxSlots = 54;
 			break;
+		case 3:
+			maxSlots = 72;
+			break;
 		}
 		
 		Slot slot = this.slots.get(index);
@@ -116,81 +121,4 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 
     }
 
-
-    
-  /*  @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) playerIn.getHeldItemMainhand().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
-		if(!playerIn.world.isRemote) {
-			PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bagInv), (ServerPlayerEntity)playerIn);
-		}
-    	super.onContainerClosed(playerIn);
-    }*/
-
-   /* @Override
-    protected boolean mergeItemStack (ItemStack stack, int start, int end, boolean backwards) {
-        boolean flag1 = false;
-        int k = (backwards ? end - 1 : start);
-        Slot slot;
-        ItemStack itemstack1;
-
-        if (stack.isStackable()) while (stack.getCount() > 0 && (!backwards && k < end || backwards && k >= start)) {
-            slot = inventorySlots.get(k);
-            itemstack1 = slot.getStack();
-
-            if (!slot.isItemValid(stack)) {
-                k += (backwards ? -1 : 1);
-                continue;
-            }
-
-            if (!ItemStack.areItemStacksEqual(itemstack1, ItemStack.EMPTY) && itemstack1.getItem() == stack.getItem()) {
-                int l = itemstack1.getCount() + stack.getCount();
-
-                if (l <= stack.getMaxStackSize() && l <= slot.getSlotStackLimit()) {
-                    stack.setCount(0);
-                    itemstack1.setCount(1);
-                    flag1 = true;
-                } else if (itemstack1.getCount() < stack.getMaxStackSize() && l < slot.getSlotStackLimit()) {
-                    stack.setCount(stack.getCount() - (stack.getMaxStackSize() - itemstack1.getCount()));
-                    itemstack1.setCount(stack.getMaxStackSize());
-                    flag1 = true;
-                }
-            }
-
-            k += (backwards ? -1 : 1);
-        }
-
-        if (stack.getCount() > 0) {
-            k = (backwards ? end - 1 : start);
-
-            while (!backwards && k < end || backwards && k >= start) {
-                slot = inventorySlots.get(k);
-                itemstack1 = slot.getStack();
-
-                if (!slot.isItemValid(stack)) {
-                    k += (backwards ? -1 : 1);
-                    continue;
-                }
-
-                if (ItemStack.areItemStacksEqual(itemstack1, ItemStack.EMPTY)) {
-                    int l = stack.getCount();
-
-                    if (l <= slot.getSlotStackLimit()) {
-                        slot.putStack(stack.copy());
-                        stack.setCount(0);
-                        flag1 = true;
-                        break;
-                    } else {
-                        putStackInSlot(k, new ItemStack(stack.getItem(), slot.getSlotStackLimit()));
-                        stack.setCount(stack.getCount() - slot.getSlotStackLimit());
-                        flag1 = true;
-                    }
-                }
-
-                k += (backwards ? -1 : 1);
-            }
-        }
-
-        return flag1;
-    }*/
 }

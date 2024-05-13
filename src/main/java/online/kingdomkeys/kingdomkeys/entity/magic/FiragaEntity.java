@@ -44,11 +44,6 @@ public class FiragaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRAGA.get(), world);
 	}
 
-	public FiragaEntity(Level world) {
-		super(ModEntities.TYPE_FIRAGA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRAGA.get(), player, world);
 		this.dmgMult = dmgMult;

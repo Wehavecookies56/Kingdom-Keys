@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.world.InteractionHand;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -28,9 +30,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 
 	private static final String textureBase = KingdomKeys.MODID + ":textures/gui/synthesis_bag_";
-	int[] texHeight = { 140, 176, 212 };
+	int[] texHeight = { 140, 176, 212, 248 };
 	int bagLevel = 0;
-	HiddenButton upgrade;
+	HiddenButton upgradeButton;
 
 	public SynthesisBagScreen(SynthesisBagContainer container, Inventory playerInv, Component title) {
 		super(container, playerInv, title);
@@ -43,7 +45,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 		bagLevel = nbt.getInt("level");
 		this.imageHeight = texHeight[bagLevel];
 		this.imageWidth = 193;
-		addRenderableWidget(upgrade = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
+		addRenderableWidget(upgradeButton = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
 			upgrade();
 		}));
 		
@@ -51,7 +53,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	}
 	
 	private void upgrade() {
-		if (bagLevel < 2) {
+		if (bagLevel < 3) {
 			if(ModCapabilities.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
 				PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
 				onClose();
@@ -61,15 +63,20 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int x, int y, float partialTicks) {
+		if(minecraft.player.getItemInHand(InteractionHand.MAIN_HAND) == null || minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() != ModItems.synthesisBag.get()){
+			if(minecraft.player.getItemInHand(InteractionHand.OFF_HAND) == null || minecraft.player.getItemInHand(InteractionHand.OFF_HAND).getItem() != ModItems.synthesisBag.get()) {
+				onClose();
+			}
+		}
 		this.renderBackground(gui);
 		super.render(gui, x, y, partialTicks);
 		this.renderTooltip(gui, x, y);
-		List<Component> list = new ArrayList<Component>();
-		upgrade.visible = bagLevel < 2;
+		List<Component> list = new ArrayList<>();
+		upgradeButton.visible = bagLevel < 3;
 		
-		if(upgrade.visible) {
-			if (x >= upgrade.getX() && x <= upgrade.getX() + upgrade.getWidth()) {
-				if (y >= upgrade.getY() && y <= upgrade.getY() + upgrade.getHeight()) {
+		if(upgradeButton.visible) {
+			if (x >= upgradeButton.getX() && x <= upgradeButton.getX() + upgradeButton.getWidth()) {
+				if (y >= upgradeButton.getY() && y <= upgradeButton.getY() + upgradeButton.getHeight()) {
 					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
 					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
 					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
@@ -90,21 +97,12 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
-		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
 		gui.blit(new ResourceLocation(textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
-
-		/*
-		 * for (Slot slot : container.inventorySlots) { if (slot instanceof
-		 * SlotItemHandler && !slot.getHasStack()) { ItemStack stack = new
-		 * ItemStack(ModBlocks.blazingOre); int x = guiLeft + slot.xPos; int y = guiTop
-		 * + slot.yPos; //mc.getItemRenderer().renderItemIntoGUI(stack, x, y);
-		 * mc.fontRenderer.drawStringWithShadow("0", x + 11, y + 9, 0xFF6666); } }
-		 */
 	}
 
 }

@@ -17,8 +17,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class AirStepTargetEntity extends BlockEntity {
-	UUID uuid;
-
 	public AirStepTargetEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_AIRSTEP_TARGET_TE.get(), pos, state);
 	}

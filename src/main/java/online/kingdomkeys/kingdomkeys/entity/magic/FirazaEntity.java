@@ -43,11 +43,6 @@ public class FirazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRAZA.get(), world);
 	}
 
-	public FirazaEntity(Level world) {
-		super(ModEntities.TYPE_FIRAZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FirazaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 		this.dmgMult = dmgMult;
