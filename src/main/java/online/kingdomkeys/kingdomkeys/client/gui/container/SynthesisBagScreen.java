@@ -63,8 +63,8 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int x, int y, float partialTicks) {
-		if(minecraft.player.getItemInHand(InteractionHand.MAIN_HAND) == null || minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() != ModItems.synthesisBag.get()){
-			if(minecraft.player.getItemInHand(InteractionHand.OFF_HAND) == null || minecraft.player.getItemInHand(InteractionHand.OFF_HAND).getItem() != ModItems.synthesisBag.get()) {
+		if(minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() || minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() != ModItems.synthesisBag.get()){
+			if(minecraft.player.getItemInHand(InteractionHand.OFF_HAND).isEmpty() || minecraft.player.getItemInHand(InteractionHand.OFF_HAND).getItem() != ModItems.synthesisBag.get()) {
 				onClose();
 			}
 		}
