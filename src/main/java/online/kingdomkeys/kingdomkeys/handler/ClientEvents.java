@@ -235,18 +235,17 @@ public class ClientEvents {
 		}
 	}
 
+	private static int selectedSlot = 0;
+
 	@SubscribeEvent
 	public void clientTick(TickEvent.ClientTickEvent event) {
 		if (Minecraft.getInstance().level != null) {
 			if (event.phase == Phase.START) {
-				for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
-					if (KeyboardHelper.isScrollActivatorDown()) {
-						key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
-					} else {
-						if (!key.matches(key.getDefaultKey().getValue(), key.getKey().getValue())) {
-							key.setToDefault();
-						}
-					}
+				selectedSlot = Minecraft.getInstance().player.getInventory().selected;
+			}
+			if (event.phase == Phase.END) {
+				if (KeyboardHelper.isScrollActivatorDown()) {
+					Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 				}
 			}
 		}
