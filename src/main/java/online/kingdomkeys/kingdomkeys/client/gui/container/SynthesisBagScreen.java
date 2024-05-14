@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +42,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 
 	@Override
 	protected void init() {
-		CompoundTag nbt = Minecraft.getInstance().player.getInventory().getSelected().getOrCreateTag();
+		CompoundTag nbt = menu.bag.getOrCreateTag();
 		bagLevel = nbt.getInt("level");
 		this.imageHeight = texHeight[bagLevel];
 		this.imageWidth = 193;
@@ -63,11 +64,12 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int x, int y, float partialTicks) {
-		if(minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() || minecraft.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() != ModItems.synthesisBag.get()){
-			if(minecraft.player.getItemInHand(InteractionHand.OFF_HAND).isEmpty() || minecraft.player.getItemInHand(InteractionHand.OFF_HAND).getItem() != ModItems.synthesisBag.get()) {
-				onClose();
-			}
+		ItemStack stack = Utils.getItemInAnyHand(minecraft.player, ModItems.synthesisBag.get()); //Get if the player is holding a synth bag in any hand
+		//If stack is null or empty or anything other than synth bag it means it's not holding one, close the gui
+		if(stack == null || stack.isEmpty() || stack.getItem() != ModItems.synthesisBag.get()) {
+			onClose();
 		}
+
 		this.renderBackground(gui);
 		super.render(gui, x, y, partialTicks);
 		this.renderTooltip(gui, x, y);

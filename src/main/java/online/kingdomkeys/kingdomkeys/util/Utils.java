@@ -71,7 +71,16 @@ import java.util.Map.Entry;
  */
 public class Utils {
 
-	public static class Title {
+    public static ItemStack getItemInAnyHand(Player player, Item item) {
+		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
+			return player.getMainHandItem();
+		} else if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() == item){
+			return player.getOffhandItem();
+		}
+		return null;
+    }
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 

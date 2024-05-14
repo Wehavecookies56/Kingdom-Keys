@@ -19,7 +19,7 @@ public class SynthesisBagContainer extends AbstractContainerMenu {
 		return new SynthesisBagContainer(windowId, inv, inv.player.getItemInHand(hand));
 	}
 	
-	private final ItemStack bag;
+	public final ItemStack bag;
 
 	public SynthesisBagContainer(int windowId, Inventory playerInv, ItemStack bag) {
 		super(ModContainers.SYNTHESIS_BAG.get(), windowId);
