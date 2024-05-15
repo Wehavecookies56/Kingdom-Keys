@@ -46,14 +46,14 @@
 
   "ability.ability_blizzaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Eiska zu erhalten.",
   "ability.ability_blizzaza.name": "Eiska",
-  "ability.ability_curaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Vitka zu erhalten.",
-  "ability.ability_curaza.name": "Vitka",
+  "ability.ability_curaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Vitkra zu erhalten.",
+  "ability.ability_curaza.name": "Vitkra",
   "ability.ability_firaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Feuka zu erhalten.",
   "ability.ability_firaza.name": "Feuka",
   "ability.ability_thundaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Blitzka zu erhalten.",
   "ability.ability_thundaza.name": "Blitzka",
-  "ability.ability_waterza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Wasseka zu erhalten.",
-  "ability.ability_waterza.name": "Wasseka",
+  "ability.ability_waterza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Wasska zu erhalten.",
+  "ability.ability_waterza.name": "Wasska",
 
   //Boosts
   "ability.ability_blizzard_boost.desc": "Erhöht den Schaden, der durch Eis-basierte Attacken verursacht wird.",
@@ -162,6 +162,10 @@
   "ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
   "ability.ability_zero_exp.name": "Null Erfahrung",
 
+  "ability.ability_stackable.prefix": "Diese Ability kann aufgestapelt werden, um ",
+  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.",
+  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.",
+
   //ADVANCEMENTS
 
   "advancements.kingdomkeys.choice": "Habe ich geschlafen?",
@@ -207,10 +211,13 @@
 
   //BLOCKS
 
-  // -MISC
+  // -NOT FULLY IMPLEMENTED
 
   "block.kingdomkeys.card_door": "Kartentür",
+  "block.kingdomkeys.data_portal": "Daten-Portal",
+  "block.kingdomkeys.savepoint": "Speicherpunkt",
   "block.kingdomkeys.structure_wall": "Struktur Wand",
+
 
   // -ORES
 
@@ -275,7 +282,7 @@
 
   // -other
 
-  "block.kingdomkeys.data_portal": "Daten-Portal",
+  "block.kingdomkeys.airstep_target": "Windschritt-Markierung",
 
   "block.kingdomkeys.gummi_editor": "Gumi-Editor",
   "block.kingdomkeys.magical_chest": "Magische Truhe",
@@ -286,8 +293,6 @@
   "block.kingdomkeys.rod_cracked_stone": "Rissiger Dunkel-Stein",
   "block.kingdomkeys.rod_sand": "Dunkel-Sand",
   "block.kingdomkeys.rod_stone": "Dunkel-Stein",
-
-  "block.kingdomkeys.savepoint": "Speicherpunkt",
 
   "block.kingdomkeys.soa_door": "Mysteriöse Tür",
   "block.kingdomkeys.sor_core": "Ort der Trauer-Kern",
@@ -1881,7 +1886,7 @@
   "magic.kingdomkeys.magic_cure0.name": "Vita",
   "magic.kingdomkeys.magic_cure1.name": "Vitra",
   "magic.kingdomkeys.magic_cure2.name": "Vigra",
-  "magic.kingdomkeys.magic_cure3.name": "Vitka",
+  "magic.kingdomkeys.magic_cure3.name": "Vitkra",
   "magic.kingdomkeys.magic_fire0.name": "Feuer",
   "magic.kingdomkeys.magic_fire1.name": "Feura",
   "magic.kingdomkeys.magic_fire2.name": "Feuga",
@@ -1903,9 +1908,9 @@
   "magic.kingdomkeys.magic_thunder2.name": "Blitzga",
   "magic.kingdomkeys.magic_thunder3.name": "Blitzka",
   "magic.kingdomkeys.magic_water0.name": "Wasser",
-  "magic.kingdomkeys.magic_water1.name": "Wassera",
-  "magic.kingdomkeys.magic_water2.name": "Wassega",
-  "magic.kingdomkeys.magic_water3.name": "Wasseka",
+  "magic.kingdomkeys.magic_water1.name": "Wassra",
+  "magic.kingdomkeys.magic_water2.name": "Wassga",
+  "magic.kingdomkeys.magic_water3.name": "Wasska",
 
   "message.chest.can_be_locked": "Kann mit einem Schlüsselschwert verschlossen werden",
   "message.chest.keyblade_set": "Dein Schlüsselschwert wurde zum aufschließen dieser Truhe festgelegt",
