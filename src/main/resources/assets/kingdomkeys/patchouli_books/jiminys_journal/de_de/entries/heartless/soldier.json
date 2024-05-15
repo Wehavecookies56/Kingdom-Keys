@@ -6,7 +6,7 @@
 	"sortnum": 14,
 	"pages": [{
 			"type": "text",
-			"text": "Er greift von jeder Seite mit den gleichen ausgewogenen Attacken an. sei auf der hut, wenn du gegen ihn kämpfst!$(br)$(br)Er kontert mit gefährlichen Tritten.$(br)[KH2]"
+			"text": "Er greift von jeder Seite mit den gleichen ausgewogenen Attacken an. Sei auf der Hut, wenn du gegen ihn kämpfst!$(br)$(br)Er kontert mit gefährlichen Tritten.$(br)[KH2]"
 		},
 		{
 			"type": "patchouli:entity",

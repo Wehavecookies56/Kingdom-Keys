@@ -6,7 +6,7 @@
 	"sortnum": 2,
 	"pages": [{
 			"type": "text",
-			"text": "Es ist schwer, die nächste Bewegung dieser Kreatur vorherzusehen.$(br)$(br)Merke: Pariert man einen seiner Angriffe, vernachlässigt er kurz seine Deckung. Das gilt auch für die anderen Niemande.$(br)[KH2]"
+			"text": "Diese phantasmagorischen Schrecken verwandeln und dehnen sich im Kampf. Behalte sie stets im Visier, dann wird sie auch ihr trickreiches Hin und Her nicht vor dir retten.$(br2)So schwer es auch ist, ihre Bewegungen vorauszuahnen, es gibt einen Moment, in dem sie einfach nur... dastehen. Und genau dann, wenn sie Däumchen drehen, lässt du sie Bekanntschaft mit deinem Schlüsselschwert machen.$(br)[KH3]"
 		},
 		{
 			"type": "patchouli:entity",
