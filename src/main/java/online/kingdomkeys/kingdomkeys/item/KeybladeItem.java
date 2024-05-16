@@ -233,15 +233,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
 				if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
 					HitResult rtr;
-					if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
-						float reach = ((IExtendedReach) player.getOffhandItem().getItem()).getReach();
-						rtr = InputHandler.getMouseOverExtended(Math.max(5, reach));
+					if (player.getOffhandItem().getItem() instanceof IExtendedReach item) {
+						rtr = InputHandler.getMouseOverExtended(Math.max(5, item.getReach()));
 					} else {
 						rtr = Minecraft.getInstance().hitResult;
 					}
 					if (rtr != null) {
-						player.swing(InteractionHand.OFF_HAND);
-
 						if (rtr.getType() == Type.ENTITY) {
 							EntityHitResult ertr = (EntityHitResult) rtr;
 							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
@@ -252,6 +249,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								return InteractionResultHolder.fail(itemstack);
 							}
 						}
+						player.swing(InteractionHand.OFF_HAND);
 					}
 				}
 			} else { //Wisdom attack

@@ -882,6 +882,9 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
+				System.out.println(event.getSource());
+				System.out.println(dmg+" "+player.getAttackStrengthScale(0));
+
 				event.setAmount((event.getAmount()-1)+dmg * player.getAttackStrengthScale(0));
 			}
 

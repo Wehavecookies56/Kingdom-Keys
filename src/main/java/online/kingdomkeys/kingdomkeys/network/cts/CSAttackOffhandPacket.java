@@ -95,7 +95,7 @@ public class CSAttackOffhandPacket {
 	               int i = 0;
 	               i = i + EnchantmentHelper.getKnockbackBonus(player);
 	               if (player.isSprinting() && flag) {
-	                  player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
+	                  player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
 	                  ++i;
 	                  flag1 = true;
 	               }
@@ -110,7 +110,7 @@ public class CSAttackOffhandPacket {
 
 	               damage = damage + f1;
 	               boolean flag3 = false;
-	               double d0 = (double)(player.walkDist - player.walkDistO);
+	               double d0 = player.walkDist - player.walkDistO;
 	               if (flag && !flag2 && !flag1 && player.onGround() && d0 < (double)player.getSpeed()) {
 	                  ItemStack itemstack = player.getItemInHand(InteractionHand.OFF_HAND);
 	                  if (itemstack.getItem() instanceof KeybladeItem) {
@@ -135,9 +135,9 @@ public class CSAttackOffhandPacket {
 	               if (flag5) {
 	                  if (i > 0) {
 	                     if (targetEntity instanceof LivingEntity) {
-	                        ((LivingEntity)targetEntity).knockback((float)i * 0.5F, (double)Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
+	                        ((LivingEntity)targetEntity).knockback((float)i * 0.5F, Math.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
 	                     } else {
-	                        targetEntity.push((double)(-Mth.sin(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F), 0.1D, (double)(Mth.cos(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F));
+	                        targetEntity.push(-Mth.sin(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F, 0.1D, Mth.cos(player.getYRot() * ((float)Math.PI / 180F)) * (float)i * 0.5F);
 	                     }
 
 	                     player.setDeltaMovement(player.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
@@ -149,12 +149,12 @@ public class CSAttackOffhandPacket {
 
 	                     for(LivingEntity livingentity : player.level().getEntitiesOfClass(LivingEntity.class, targetEntity.getBoundingBox().inflate(1.0D, 0.25D, 1.0D))) {
 	                        if (livingentity != player && livingentity != targetEntity && !player.isAlliedTo(livingentity) && (!(livingentity instanceof ArmorStand) || !((ArmorStand)livingentity).isMarker()) && player.distanceToSqr(livingentity) < 9.0D) {
-	                           livingentity.knockback(0.4F, (double)Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
+	                           livingentity.knockback(0.4F, Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), -Mth.cos(player.getYRot() * ((float)Math.PI / 180F)));
 	                           livingentity.hurt(KeybladeDamageSource.causeOffhandKeybladeDamage(player), f3);
 	                        }
 	                     }
 
-	                     player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
 	                     player.sweepAttack();
 	                  }
 
@@ -165,15 +165,15 @@ public class CSAttackOffhandPacket {
 	                  }
 
 	                  if (flag2) {
-	                     player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+	                     player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
 	                     player.crit(targetEntity);
 	                  }
 
 	                  if (!flag2 && !flag3) {
 	                     if (flag) {
-	                        player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+	                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
 	                     } else {
-	                        player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
+	                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
 	                     }
 	                  }
 
