@@ -478,6 +478,7 @@
   "gui.menu.config.armor.red": "Rüstung Rot",
 
   "gui.menu.config.bg": "Hintergrund Umschalten",
+  "gui.menu.config.classic_colors": "Klassiche Farben",
   "gui.menu.config.command_menu": "Kommando-Menü",
   "gui.menu.config.dp": "Drive-Balken",
   "gui.menu.config.focus": "Fokus-Balken",
@@ -669,7 +670,7 @@
 
   "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch",
   "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
-  "patchouli.kingdomkeys.journal.hello": "Wilkommen, Schlüsselschwertträger, zur $(thing)Kingdom Key's$() Mod.$(p)Im diesem Buch, wirst du jegliche Informationen finden, um damit anzufangen.",
+  "patchouli.kingdomkeys.journal.hello": "Wilkommen, Schlüsselschwertträger, zur $(thing)Kingdom Key's$() Mod.$(p)Im diesem Buch, wirst du jegliche Informationen finden, um anzufangen.",
 
 
   // -SPAWN EGGS
@@ -845,7 +846,7 @@
 
   "item.kingdomkeys.aced_boots": "Aced Stiefel",
   "item.kingdomkeys.aced_chestplate": "Aced Mantel",
-  "item.kingdomkeys.aced_helmet": "Aced kapuze",
+  "item.kingdomkeys.aced_helmet": "Aced Kapuze",
   "item.kingdomkeys.aced_leggings": "Aced Hose",
 
   "item.kingdomkeys.anticoat_boots": "Antirobe Stiefel",
@@ -858,10 +859,10 @@
   "item.kingdomkeys.aqua_helmet": "Aqua Helm",
   "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
 
-  "item.kingdomkeys.ava_boots": "Ava Boots",
-  "item.kingdomkeys.ava_chestplate": "Ava Coat",
-  "item.kingdomkeys.ava_helmet": "Ava Hood",
-  "item.kingdomkeys.ava_leggings": "Ava Leggings",
+  "item.kingdomkeys.ava_boots": "Ava Stiefel",
+  "item.kingdomkeys.ava_chestplate": "Ava Mantel",
+  "item.kingdomkeys.ava_helmet": "Ava Kapuze",
+  "item.kingdomkeys.ava_leggings": "Ava Hose",
 
   "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
   "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
