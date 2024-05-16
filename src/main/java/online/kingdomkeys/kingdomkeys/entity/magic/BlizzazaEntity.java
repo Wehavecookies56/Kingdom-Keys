@@ -43,11 +43,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_BLIZZAZA.get(), world);
 	}
 
-	public BlizzazaEntity(Level world) {
-		super(ModEntities.TYPE_BLIZZAZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public BlizzazaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), player, world);
 		this.dmgMult = dmgMult;

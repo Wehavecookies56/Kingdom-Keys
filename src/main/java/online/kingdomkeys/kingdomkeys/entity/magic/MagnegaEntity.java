@@ -41,11 +41,6 @@ public class MagnegaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_MAGNEGA.get(), world);
 	}
 
-	public MagnegaEntity(Level world) {
-		super(ModEntities.TYPE_MAGNEGA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public MagnegaEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNEGA.get(), player, world);
 		setCaster(player.getUUID());

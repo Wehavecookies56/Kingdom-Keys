@@ -1,34 +1,37 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import java.awt.Color;
-
-import org.joml.Vector3f;
-
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Vector3f;
 
-public class VolleyShotEntity extends BaseShotlockShotEntity {
-	
-	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+import java.awt.*;
+import java.util.List;
+
+public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
+
+	public UltimaCannonShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public VolleyShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
+	public UltimaCannonShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
+		super(ModEntities.TYPE_ULTIMA_CANNON_SHOT.get(), world);
 	}
 
-	public VolleyShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world, player, target, dmg);
+	public UltimaCannonShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
+		super(ModEntities.TYPE_ULTIMA_CANNON_SHOT.get(), world, player, target, dmg * 15);
 	}
 
 	@Override
@@ -42,7 +45,7 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
 		}
 		
-		if(tickCount % 10 == 0) {
+		if(tickCount > 30 && tickCount % 10 == 0) {
 			updateMovement();
 		}
 		
@@ -63,18 +66,31 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 	@Override
 	protected void onHit(HitResult rtRes) {
 		super.onHit(rtRes);
-		if (!level().isClientSide) {
+		if (!level().isClientSide && getOwner() != null) {
 			if (rtRes instanceof EntityHitResult ertResult) {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
-                    if (target != getOwner()) {
+					if (target != getOwner()) {
 						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-						super.remove(RemovalReason.KILLED);
 					}
 				}
 			}
-			remove(RemovalReason.KILLED);
+			for(int i = 0; i < 6; i++) {
+				((ServerLevel) level()).sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 500, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, 0.1);
+			}
+
+			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(5));
+			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
+
+			if (!list.isEmpty()) {
+                for (Entity e : list) {
+                    if (e instanceof LivingEntity) {
+						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg / e.distanceTo(this));
+                    }
+                }
+			}
+
 		}
+		this.level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY(), this.blockPosition().getZ(), 5, false, Level.ExplosionInteraction.NONE);
+		remove(RemovalReason.KILLED);
 	}
-	
-	
 }

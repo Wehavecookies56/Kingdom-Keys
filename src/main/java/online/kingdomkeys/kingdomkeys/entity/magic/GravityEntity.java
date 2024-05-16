@@ -42,11 +42,6 @@ public class GravityEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_GRAVITY.get(), world);
 	}
 
-	public GravityEntity(Level world) {
-		super(ModEntities.TYPE_GRAVITY.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public GravityEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVITY.get(), player, world);
 		this.dmgMult = dmgMult;

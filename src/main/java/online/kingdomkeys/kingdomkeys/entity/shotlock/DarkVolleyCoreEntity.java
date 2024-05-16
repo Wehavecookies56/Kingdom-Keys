@@ -41,11 +41,6 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
 	}
 
-	public DarkVolleyCoreEntity(Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public DarkVolleyCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
 		setCaster(player.getUUID());

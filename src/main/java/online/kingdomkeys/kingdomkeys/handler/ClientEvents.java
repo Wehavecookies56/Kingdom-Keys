@@ -177,6 +177,9 @@ public class ClientEvents {
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
 			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+			if(tempShotlockEntity != null && event.getEntity() == tempShotlockEntity){
+				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+			}
 			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
 				LivingEntity e = event.getEntity();
 				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
@@ -232,18 +235,17 @@ public class ClientEvents {
 		}
 	}
 
+	private static int selectedSlot = 0;
+
 	@SubscribeEvent
 	public void clientTick(TickEvent.ClientTickEvent event) {
 		if (Minecraft.getInstance().level != null) {
 			if (event.phase == Phase.START) {
-				for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
-					if (KeyboardHelper.isScrollActivatorDown()) {
-						key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
-					} else {
-						if (!key.matches(key.getDefaultKey().getValue(), key.getKey().getValue())) {
-							key.setToDefault();
-						}
-					}
+				selectedSlot = Minecraft.getInstance().player.getInventory().selected;
+			}
+			if (event.phase == Phase.END) {
+				if (KeyboardHelper.isScrollActivatorDown()) {
+					Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 				}
 			}
 		}
@@ -251,6 +253,8 @@ public class ClientEvents {
 
 	public static boolean focusing = false;
 	int focusingTicks = 0;
+	public static int focusingAnEntityTicks = 0;
+	LivingEntity tempShotlockEntity = null;
 	public static double focusGaugeTemp = 100;
 	double cost = 0;
 
@@ -266,8 +270,12 @@ public class ClientEvents {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				if(playerData == null)
 					return;
+
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
 				if (focusing) {
+					if(focusGaugeTemp <= 0){ //Clear temp shotlock icon if time has run out
+						tempShotlockEntity = null;
+					}
 					if (focusingTicks == 0) {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
@@ -283,52 +291,72 @@ public class ClientEvents {
 					if(focusGaugeTemp > 0)
 						focusGaugeTemp-=0.8;
 
-					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
-						HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.shotlockMaxDist);
-						if(rt == null)
-							return;
+					HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.shotlockMaxDist);
+					if (rt == null)
+						return;
 
-						if (rt instanceof EntityHitResult ertr) {
-							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
-							if(ertr.getEntity() instanceof LivingEntity target) {
+					if (rt instanceof BlockHitResult blockResult) { //Airstep
+						tempShotlockEntity = null;
+						if (event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()) {
+							if (!lockedAirStep.equals(blockResult.getBlockPos())) {
+								event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
+							}
+							if (mc.options.keyUse.isDown()) {
+								PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+								lockedAirStep = new BlockPos(0, 0, 0);
+								cooldownTicks = 20;
+								focusingAnEntityTicks = 0;
+								focusingTicks = 0;
+								focusing = false;
+								tempShotlockEntity = null;
+								focusGaugeTemp = playerData.getFocus();
+								return;
+							}
+						}
+						lockedAirStep = blockResult.getBlockPos();
+					}
+
+					if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity
+						if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
+							if (ertr.getEntity() instanceof LivingEntity target) {
+								if(target != tempShotlockEntity){
+									focusingAnEntityTicks = 0;
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+								}
+								tempShotlockEntity = target;
+								Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
 								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-									Entity e = ertr.getEntity();
-									playerData.addShotlockEnemy(new Utils.ShotlockPosition(e.getId(), Utils.randomWithRange(0,e.getBbWidth()*2)-e.getBbWidth(), Utils.randomWithRange(0,e.getBbHeight()*2)-e.getBbHeight(), Utils.randomWithRange(0,e.getBbWidth()*2)-e.getBbWidth()));
+									if(focusingAnEntityTicks >= shotlock.getCooldown()) {
+										playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
+										event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+										cost = playerData.getFocus() - focusGaugeTemp;
+										tempShotlockEntity = null;
+									}
+									focusingAnEntityTicks++;
+								}
+							}
+						} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
+							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
+							if (ertr.getEntity() instanceof LivingEntity target) {
+								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+									playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
 
-									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
-	
-									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
-										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+									tempShotlockEntity = null;
+
+									if (playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
+										event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									}
 								}
 							}
-						}
-
-						if (rt instanceof BlockHitResult blockResult) {
-							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
-								if(!lockedAirStep.equals(blockResult.getBlockPos())){
-									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
-								}
-								if(mc.options.keyUse.isDown()) {
-									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
-									lockedAirStep = new BlockPos(0,0,0);
-									cooldownTicks = 20;
-									focusingTicks = 0;
-									focusing = false;
-									focusGaugeTemp = playerData.getFocus();
-									return;
-								}
-							}
-							lockedAirStep = blockResult.getBlockPos();
-
 						}
 					}
 					
 					if(mc.options.keyAttack.isDown()) {
 						if (focusingTicks > 0) {
-							// Has stopped shotlocking
-							// Send packet to spawn entities and track enemies
+							// Has finished shotlocking, send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
 								event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -338,12 +366,16 @@ public class ClientEvents {
 							}
 						}
 						focusingTicks = 0;
+						focusingAnEntityTicks = 0;
+						tempShotlockEntity = null;
 						focusGaugeTemp = playerData.getFocus();
 						playerData.setShotlockEnemies(new ArrayList<>());
 					}
 				} else {
 					lockedAirStep = new BlockPos(0,0,0);
 					focusingTicks = 0;
+					focusingAnEntityTicks = 0;
+					tempShotlockEntity = null;
 					focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<>());
 				}

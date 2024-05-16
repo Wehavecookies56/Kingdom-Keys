@@ -30,7 +30,6 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 
 	public SynthesisBagItem(Properties properties) {
 		super(properties);
-		
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 			});
 		}
-		return InteractionResultHolder.success(player.getItemInHand(hand));
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
 	}
 
 	@Override

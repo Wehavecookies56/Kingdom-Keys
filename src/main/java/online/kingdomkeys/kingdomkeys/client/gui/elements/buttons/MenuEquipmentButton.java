@@ -136,7 +136,7 @@ public class MenuEquipmentButton extends Button {
                 //Left item slot
                 gui.blit(texture, 0, 0, 166, 34, 18, 28);
                 //Middle item slot
-				gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+1), 28, 186, 34, 2, 28, 256, 256);
+				gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+2), 28, 186, 34, 2, 28, 256, 256);
 				//Right item slot
                 gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
                 RenderSystem.setShaderColor(1, 1, 1, 1);

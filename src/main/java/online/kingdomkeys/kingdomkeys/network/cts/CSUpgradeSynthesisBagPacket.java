@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSUpgradeSynthesisBagPacket {
@@ -30,16 +31,17 @@ public class CSUpgradeSynthesisBagPacket {
 			Player player = ctx.get().getSender();
 			
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			ItemStack stack = player.getMainHandItem();
-			CompoundTag nbt = stack.getOrCreateTag();
+			ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
 
-			int cost = Utils.getBagCosts(nbt.getInt("level"));
-			if(playerData.getMunny() >= cost) {
-				playerData.setMunny(playerData.getMunny() - cost);
-				nbt.putInt("level", nbt.getInt("level")+1);
+			if(stack != null) {
+				CompoundTag nbt = stack.getOrCreateTag();
+
+				int cost = Utils.getBagCosts(nbt.getInt("level"));
+				if (playerData.getMunny() >= cost) {
+					playerData.setMunny(playerData.getMunny() - cost);
+					nbt.putInt("level", nbt.getInt("level") + 1);
+				}
 			}
-			
-			
 		});
 		ctx.get().setPacketHandled(true);
 	}

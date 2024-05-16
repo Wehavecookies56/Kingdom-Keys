@@ -27,19 +27,9 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	
 	int maxTicks = 100;
 	public float dmg;
-	Entity target;
 
 	public BaseShotlockShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
-	}
-
-	public BaseShotlockShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
-	}
-
-	public BaseShotlockShotEntity(Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 		this.blocksBuilding = true;
 	}
 

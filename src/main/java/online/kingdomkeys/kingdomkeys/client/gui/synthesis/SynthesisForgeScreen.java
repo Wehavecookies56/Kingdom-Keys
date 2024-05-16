@@ -225,7 +225,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
-			KeybladeItem kb = ((KeychainItem)selectedItemStack.getItem()).getKeyblade();
 
 			//Set create button state
 			if(kcItem.getKeybladeLevel(selectedItemStack) < 10) {

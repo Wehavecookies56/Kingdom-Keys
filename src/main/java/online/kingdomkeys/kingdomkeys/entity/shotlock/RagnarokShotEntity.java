@@ -27,11 +27,6 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public RagnarokShotEntity(Level world) {
-		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public RagnarokShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world, player, target, dmg);
 	}
@@ -91,27 +86,18 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		super.onHit(rtRes);
 
 		if (!level().isClientSide) {
-
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-					super.remove(RemovalReason.KILLED);
+			if (rtRes instanceof EntityHitResult ertResult) {
+				if (ertResult.getEntity() instanceof LivingEntity target) {
+					if (target != getOwner()) {
+						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+						super.remove(RemovalReason.KILLED);
+					}
 				}
+
 			}
-			remove(RemovalReason.KILLED);
 		}
+		remove(RemovalReason.KILLED);
+
 	}
 	
 	@Override

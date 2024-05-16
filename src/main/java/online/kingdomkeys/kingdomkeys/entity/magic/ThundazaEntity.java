@@ -45,11 +45,6 @@ public class ThundazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDAZA.get(), world);
 	}
 
-	public ThundazaEntity(Level world) {
-		super(ModEntities.TYPE_THUNDAZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThundazaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAZA.get(), player, world);
 		setCaster(player.getUUID());

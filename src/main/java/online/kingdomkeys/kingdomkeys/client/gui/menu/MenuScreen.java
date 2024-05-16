@@ -128,7 +128,8 @@ public class MenuScreen extends MenuBackground {
 		status.visible = true;
 		journal.visible = true;
 		config.visible = true;
-		style.visible = KingdomKeys.efmLoaded;
+		if(KingdomKeys.efmLoaded)
+			style.visible = true;
 		customize.active = true;
 		journal.active = true;
 	}

@@ -42,11 +42,6 @@ public class FireEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRE.get(), world);
 	}
 
-	public FireEntity(Level world) {
-		super(ModEntities.TYPE_FIRE.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FireEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRE.get(), player, world);
 		this.dmgMult = dmgMult;

@@ -25,8 +25,6 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
         FIRE, BLIZZARD, THUNDER, AERO, CURE
     }
 
-    Element elementToUse;
-
     protected BaseElementalMusicalHeartlessEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 8;

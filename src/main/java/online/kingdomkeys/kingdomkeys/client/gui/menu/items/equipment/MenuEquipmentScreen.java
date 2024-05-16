@@ -64,7 +64,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
         
         int itemHeight = 14;
-        maxItems = (int) (listBox.getHeight() / itemHeight)-1;
+        maxItems = (listBox.getHeight() / itemHeight)-1;
         transformedScroll = scrollOffset * 15;
         
         float itemsX = width * 0.31F;
