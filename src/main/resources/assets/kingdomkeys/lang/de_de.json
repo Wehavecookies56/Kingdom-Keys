@@ -662,6 +662,10 @@
   "item.kingdomkeys.wayfinder": "Wegfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
 
+  "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch",
+  "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
+  "patchouli.kingdomkeys.journal.hello": "Wilkommen, Schlüsselschwertträger, zur $(thing)Kingdom Key's$() Mod.$(p)Im diesem Buch, wirst du jegliche Informationen finden, um damit anzufangen.",
+
 
   // -SPAWN EGGS
 
@@ -682,7 +686,7 @@
   "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
   "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
   "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
-  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Schattenlurch-Spawn-Ei",
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
@@ -1567,7 +1571,6 @@
   "item.kingdomkeys.songbird": "Singvogel",
   "item.kingdomkeys.tune_up": "Plus",
   "item.kingdomkeys.up_to_eleven": "Auf Elf",
-  
 
   "item.kingdomkeys.prince_of_awesome": "Spitzenreiter", //casual
   "item.kingdomkeys.after_school": "Schulschluss", //mystery
@@ -1913,8 +1916,8 @@
   "message.chest.locked": "Die Truhe ist verschlossen",
   "message.chest.unlocked": "Die Truhe ist aufgeschlossen",
 
-  "message.form_unlocked": "%s Freigeschaltet",
-  "message.unlocked": "%s Freigeschaltet", //magic
+  "message.form_unlocked": "%s freigeschaltet",
+  "message.unlocked": "%s freigeschaltet", //magic
   "message.magic_max_level": "%s ist bereits die höchste Stufe",
   "message.magic_upgrade": "%s wurde aufgewertet zu %s",
 

@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Lass uns mit dem einfachsten Schritt anfangen. Du solltest in dein Herz eintauchen und dein Schicksal zu folgen. Drücke dafür die $(thing)[$(k:key.kingdomkeys.openmenu)]$()-Taste."
+			"text": "Lass uns mit dem einfachsten Schritt anfangen. Du solltest in dein Herz eintauchen und dein Schicksal zu folgen. Drücke dafür die $(thing)[$(k:key.kingdomkeys.openmenu)]$()-Taste. $(o)(Standard: M)$()"
 		},
         {
             "type": "image",
