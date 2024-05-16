@@ -39,11 +39,6 @@ public class BlizzardEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_BLIZZARD.get(), world);
 	}
 
-	public BlizzardEntity(Level world) {
-		super(ModEntities.TYPE_BLIZZARD.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public BlizzardEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 		this.dmgMult = dmgMult;

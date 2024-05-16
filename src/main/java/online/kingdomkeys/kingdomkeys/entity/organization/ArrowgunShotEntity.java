@@ -37,11 +37,6 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.setPos(x,y,z);
 	}
 
-	public ArrowgunShotEntity(Level world) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ArrowgunShotEntity(Level world, LivingEntity player, float damage) {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), player, world);
 		this.dmg = damage;

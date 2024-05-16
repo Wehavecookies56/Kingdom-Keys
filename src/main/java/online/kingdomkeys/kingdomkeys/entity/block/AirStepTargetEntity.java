@@ -17,8 +17,6 @@ import java.util.Random;
 import java.util.UUID;
 
 public class AirStepTargetEntity extends BlockEntity {
-	UUID uuid;
-
 	public AirStepTargetEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_AIRSTEP_TARGET_TE.get(), pos, state);
 	}
@@ -31,8 +29,7 @@ public class AirStepTargetEntity extends BlockEntity {
 
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		Random pRandom = new Random();
-		level.addParticle(ParticleTypes.END_ROD, pos.getX()+pRandom.nextDouble(), pos.getY()+pRandom.nextDouble(), pos.getZ()+pRandom.nextDouble(), 0,0, 0);
+		level.addAlwaysVisibleParticle(ParticleTypes.END_ROD, pos.getX()+level.random.nextDouble(), pos.getY()+level.random.nextDouble(), pos.getZ()+level.random.nextDouble(), 0,0, 0);
 	}
 
 }

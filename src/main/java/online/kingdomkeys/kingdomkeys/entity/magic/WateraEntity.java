@@ -49,11 +49,6 @@ public class WateraEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_WATERA.get(), world);
 	}
 
-	public WateraEntity(Level world) {
-		super(ModEntities.TYPE_WATERA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public WateraEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_WATERA.get(), player, world);
 		this.player = player;

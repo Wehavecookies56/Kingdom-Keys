@@ -53,11 +53,6 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
 	}
 
-	public ThunderBoltEntity(Level world) {
-		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThunderBoltEntity(Level world, Player player, double x, double y, double z, float dmgMult) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
 		setCaster(player.getUUID());

@@ -42,11 +42,6 @@ public class FiraEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRA.get(), world);
 	}
 
-	public FiraEntity(Level world) {
-		super(ModEntities.TYPE_FIRA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FiraEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRA.get(), player, world);
 		this.dmgMult = dmgMult;

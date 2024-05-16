@@ -71,7 +71,16 @@ import java.util.Map.Entry;
  */
 public class Utils {
 
-	public static class Title {
+    public static ItemStack getItemInAnyHand(Player player, Item item) {
+		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
+			return player.getMainHandItem();
+		} else if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() == item){
+			return player.getOffhandItem();
+		}
+		return null;
+    }
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
@@ -761,16 +770,9 @@ public class Utils {
 		return wearingOrgCloak;
 	}
 
+	final static int[] bagCosts = {10000,20000,40000,80000};
 	public static int getBagCosts(int bagLevel) {
-		switch (bagLevel) {
-		case 0:
-			return 10000;
-		case 1:
-			return 20000;
-		case 2:
-			return 40000;
-		}
-		return 0;
+		return bagCosts[bagLevel];
 	}
 
 	public static String snakeToCamel(String str) {
