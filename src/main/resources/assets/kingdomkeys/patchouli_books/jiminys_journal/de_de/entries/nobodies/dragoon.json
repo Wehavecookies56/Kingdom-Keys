@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:nobodies",
 	"read_by_default": false,
 	"sortnum": 4,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Ein Dragoner ist ein Niemand von hohem Rang. Sprünge und Blocken erweisen sich als eine gute Taktik um solch einen zu besiegen.$(p)$(#F00)$(l)$(o)[KH2]$()"
 		},

@@ -2,5 +2,5 @@
 	"name": "Learning the Menu",
 	"description": "You've decided your path, now let's learn how to navigate the Kingdom Keys Menu. To open the menu, once again press the [M] key. Upon doing so you will be greeted by 7 different options, once of which currently does not do anything so we can skip over the $(thing)Journal$() option.",
 	"icon": "kingdomkeys:potion",
-	"sortnum": 1
+	"sortnum": 2
 }

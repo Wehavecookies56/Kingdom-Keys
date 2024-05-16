@@ -2,7 +2,7 @@
 	"name": "Item Tab",
 	"icon": "kingdomkeys:ether",
 	"sortnum": 1,
-	"priority": true,
+	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 	"pages": [ 

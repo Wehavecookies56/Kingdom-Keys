@@ -2,5 +2,5 @@
 	"name": "The Command Menu",
 	"description": "You probably noticed the menu at the bottom left hand side of your screen. This is your Kingdom Keys $(thing)Command Menu.$() Navigating this menu is as simple as using your Arrow Keys. Up and Down navigates the menu, Right selects and confirms, Left cancels your selection. $(thing)Attack$() is naturally bound to your regular Minecraft attack and mine button, so we can skip over that one.",
 	"icon": "kingdomkeys:kingdom_key_chain",
-	"sortnum": 2
+	"sortnum": 3
 }

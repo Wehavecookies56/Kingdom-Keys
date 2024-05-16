@@ -2,6 +2,7 @@
 	"name": "Customizing Shortcuts",
 	"icon": "kingdomkeys:spellfire",
 	"sortnum": 3,
+	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 		"pages": [

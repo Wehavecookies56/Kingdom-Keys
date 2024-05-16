@@ -1,6 +1,6 @@
 {
 	"name": "Niemande",
-	"description": "The $(thing)Niemande$() Registry keeps track of all den verschiedenen $(thing)Niemanden$() type of mobs you have encountered.",
+	"description": "Das $(thing)Niemande$()-Register zeichnet alle verschiedenen Arten von $(thing)Niemanden$() Mobs auf, die dir auf deiner Reise begegnen.",
 	"icon": "kingdomkeys:evanescent_crystal",
 	"sortnum": 8
 }

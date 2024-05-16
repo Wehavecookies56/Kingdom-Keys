@@ -2,6 +2,7 @@
 	"name": "Kingdom Keys Configuration",
 	"icon": "kingdomkeys:spellbinder_chain",
 	"sortnum": 6,
+	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 		"pages": [

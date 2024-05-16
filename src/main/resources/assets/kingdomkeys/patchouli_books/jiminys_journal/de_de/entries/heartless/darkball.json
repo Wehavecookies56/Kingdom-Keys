@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 4,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Aus Schatten geformte Herzlose. Normalerweise fliegen sie geruhsam durch die Lüfte. Doch sei gewarnt, diese Wesen sind unberechenbar. Urplötzlich können sie losschnellen, wild ihre Richtung ändern und ohne Vorwarnung auf dich zustürzen.$(p)$(#F00)$(l)$(o)[Re:Coded]$()"
 		},

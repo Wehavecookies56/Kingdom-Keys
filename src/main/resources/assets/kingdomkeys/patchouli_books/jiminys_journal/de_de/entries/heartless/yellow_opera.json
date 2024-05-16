@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 12,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Ein Herzloser, der im Zickzack durch die Lüfte fliegt un sein Ziel rammt oder mit \"Blitz\" attackiert. $(thing)$(o)\"Blitz\"-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(#F00)$(l)$(o)[KH1]$()"
 		},

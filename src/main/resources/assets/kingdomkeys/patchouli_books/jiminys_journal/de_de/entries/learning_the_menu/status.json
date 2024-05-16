@@ -2,6 +2,7 @@
 	"name": "Checking your Status",
 	"icon": "kingdomkeys:shooting_star_chain",
 	"sortnum": 5,
+	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 		"pages": [

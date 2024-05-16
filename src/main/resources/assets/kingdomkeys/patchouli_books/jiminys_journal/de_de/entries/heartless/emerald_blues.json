@@ -4,6 +4,7 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 15,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [{
 			"type": "text",
 			"text": "Kämpfe aus sicherer Entfernung und auchte auf seinen plötzlichen Vorstoß. Wenn er nur noch wenig HP hat, bildet sich ein Tornado, der dich zu ihm hin zieht.$(p)Seine $(thing)Magie-Resistenz$() sollte für dich eine Einladung sein, dein Schlüsselschwert glühen zu lassen!$(p)$(#F00)$(l)$(o)[KH2]$()"

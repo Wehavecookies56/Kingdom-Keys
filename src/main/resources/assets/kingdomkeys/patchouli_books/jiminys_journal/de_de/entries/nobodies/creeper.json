@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:nobodies",
 	"read_by_default": false,
 	"sortnum": 1,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Der Schwächste unter den Niemanden. Nimmt verschiedene Formen an, was ihn unberechenbar macht.$(p)$(#F00)$(l)$(o)[KH2]$()"
 		},

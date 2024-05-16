@@ -4,6 +4,7 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 17,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [{
 			"type": "text",
 			"text": "Diese Herzlosen sind unbeweglich. Sie greifen aus der Entfernung mit ihrer Samenkanone an, die durch einen gut abgestimmten Block auch gegen andere Gegner gerichtet werden kann.$(p)$(#F00)$(l)$(o)[Days]$()"

@@ -2,12 +2,12 @@
 	"name": "Wisdom Form",
 	"icon": "kingdomkeys:levelupdrivewisdom",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every Heartless mob killed while in the form. Kills agaisnt other mobs won't give it any XP. Leveling this form will reward you with permenant access to the Quick Run ability."
+			"text": "Diese Form erhält erfahrung für jeden niedergestreckten $(thing)Herzlosen$()-Mob, während man in dieser Form ist. Das vernichten anderer Mobs gibt diese Form keine Erfahrung.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Sprint-Ability$() belohnen."
 		}
 	]
 }

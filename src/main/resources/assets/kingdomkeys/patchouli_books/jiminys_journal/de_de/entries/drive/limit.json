@@ -2,12 +2,12 @@
 	"name": "Limit Form",
 	"icon": "kingdomkeys:levelupdrivelimit",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every max charged Shotlock successfully preformed while in the form, not fully charging the Shotlock will not give you the XP. Leveling this form will reward you with permenant access to the Dodge Roll ability."
+			"text": "Diese Form erhält Erfahrung für jeden max charged Shotlock successfully preformed, während man in dieser Form ist. Not fully charging the Shotlock will not give you the XP.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Purzelbaum-Ability$() belohnen."
 		}
 	]
 }

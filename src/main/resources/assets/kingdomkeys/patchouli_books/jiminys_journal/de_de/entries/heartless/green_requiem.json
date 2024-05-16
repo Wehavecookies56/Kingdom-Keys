@@ -4,6 +4,7 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 13,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [{
 			"type": "text",
 			"text": "Ein Herzloser, der durch die Lüfte schwebt. Greift niemand an, aber heilt mit \"Vita\" die HP der anderen Herzlosen. In seiner Bewegung eher träge, aber flieht schnell in höhere Luftregionen. $(thing)Magie-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(#F00)$(l)$(o)[KH1]$()"

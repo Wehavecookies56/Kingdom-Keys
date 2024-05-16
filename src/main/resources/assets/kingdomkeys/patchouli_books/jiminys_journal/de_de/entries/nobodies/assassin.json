@@ -4,6 +4,7 @@
 	"category": "kingdomkeys:nobodies",
 	"read_by_default": false,
 	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

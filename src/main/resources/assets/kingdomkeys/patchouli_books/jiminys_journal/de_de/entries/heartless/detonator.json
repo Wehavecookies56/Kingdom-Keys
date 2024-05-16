@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 9,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Diese großen Verwandten des $(thing)Bombenmolchs$() ähneln diesem, berfügen aber über noch größere Sprengkraft. $(thing)$(o)Normale Angriffe sind gegen sie unwirksam$(), was sie zu gefährlichen Gegnern macht.$(br)Sei besonders vorsichtig!$(p)$(#F00)$(l)$(o)[Days]$()"
 		},

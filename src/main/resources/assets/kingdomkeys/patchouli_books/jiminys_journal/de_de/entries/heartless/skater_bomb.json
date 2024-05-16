@@ -4,7 +4,9 @@
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 7,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
 			"text": "Diese kleinen Herzlosen können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zur Selbstzerstöung ein. Triff sie während des Countdowns, um ihre Sprengladung gegen andere zu richten.$(p)$(#F00)$(l)$(o)[Days]$()"
 		},

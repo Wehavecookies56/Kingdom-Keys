@@ -2,12 +2,12 @@
 	"name": "Master Form",
 	"icon": "kingdomkeys:levelupdrivemaster",
 	"sortnum": 4,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every Drive Orb (The Black and Yellow orbs dropped by hostile mobs.) picked up while in the form. Leveling this form will reward you with permenant access to the Aerial Dodge ability."
+			"text": "Diese Form erhält Erfahrung für jede aufgehobene Drive-Kugel (Die schwarz-gelben Kugeln, die von feindlichen Mobs fallengelassen werden.), während man in dieser Form ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Luftsprung-Ability$() belohnen."
 		}
 	]
 }

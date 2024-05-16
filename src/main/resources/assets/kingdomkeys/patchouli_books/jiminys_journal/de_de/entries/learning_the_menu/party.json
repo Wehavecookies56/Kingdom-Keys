@@ -2,6 +2,7 @@
 	"name": "Creating a Party",
 	"icon": "kingdomkeys:ice_cream",
 	"sortnum": 4,
+	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 		"pages": [
