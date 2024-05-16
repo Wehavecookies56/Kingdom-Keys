@@ -6,7 +6,7 @@
 	"sortnum": 17,
 	"pages": [{
 			"type": "text",
-			"text": "Diese Herzlosen sind unbeweglich. Sie greifen aus der Entfernung mit ihrer Samenkanone an, die durch einen gut abgestimmten Block auch gegen andere Gegner gerichtet werden kann.$(br)[Days]"
+			"text": "Diese Herzlosen sind unbeweglich. Sie greifen aus der Entfernung mit ihrer Samenkanone an, die durch einen gut abgestimmten Block auch gegen andere Gegner gerichtet werden kann.$(p)$(#F00)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

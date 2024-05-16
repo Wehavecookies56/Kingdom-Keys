@@ -1,12 +1,12 @@
 {
-	"name": "Giga Shadow",
+	"name": "Giga-Schattenlurch",
 	"icon": "kingdomkeys:giga_shadow_spawn_egg",
 	"category": "kingdomkeys:heartless",
 	"read_by_default": false,
 	"sortnum": 3,
 	"pages": [{
 			"type": "text",
-			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(br)[Days]"
+			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche$(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(p)$(#F00)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

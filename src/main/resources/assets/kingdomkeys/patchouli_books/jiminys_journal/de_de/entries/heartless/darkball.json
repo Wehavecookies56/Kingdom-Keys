@@ -6,7 +6,7 @@
 	"sortnum": 4,
 	"pages": [{
 			"type": "text",
-			"text": "Heartless hewn from the very shadows. Usually they just waft through the air, but they can be annoyingly unpredictable, bobbing around erratically or charging right at you without a moment's warning."
+			"text": "Aus Schatten geformte Herzlose. Normalerweise fliegen sie geruhsam durch die Lüfte. Doch sei gewarnt, diese Wesen sind unberechenbar. Urplötzlich können sie losschnellen, wild ihre Richtung ändern und ohne Vorwarnung auf dich zustürzen.$(p)$(#F00)$(l)$(o)[Re:Coded]$()"
 		},
 		{
 			"type": "patchouli:entity",
