@@ -88,7 +88,6 @@ public class CSAttackOffhandPacket {
 	            float f2 = player.getAttackStrengthScale(0.5F);
 	            damage = damage * (0.2F + f2 * f2 * 0.8F);
 	            f1 = f1 * f2;
-	            player.resetAttackStrengthTicker();
 	            if (damage > 0.0F || f1 > 0.0F) {
 	               boolean flag = f2 > 0.9F;
 	               boolean flag1 = false;
@@ -223,7 +222,8 @@ public class CSAttackOffhandPacket {
 	                  }
 	               }
 	            }
-
+				player.swing(InteractionHand.OFF_HAND);
+				player.resetAttackStrengthTicker();
 	         }
 	      }
 	   }

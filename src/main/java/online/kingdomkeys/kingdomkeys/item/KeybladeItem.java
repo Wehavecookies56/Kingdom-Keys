@@ -248,8 +248,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								}
 								return InteractionResultHolder.fail(itemstack);
 							}
+						} else {
+							player.swing(InteractionHand.OFF_HAND);
 						}
-						player.swing(InteractionHand.OFF_HAND);
 					}
 				}
 			} else { //Wisdom attack
