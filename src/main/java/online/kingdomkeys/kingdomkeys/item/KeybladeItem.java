@@ -230,14 +230,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			}
 			return super.use(world, player, hand);
 		} else { //Attack offhand and wisdom attack
-			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
-				if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
-					HitResult rtr;
-					if (player.getOffhandItem().getItem() instanceof IExtendedReach item) {
-						rtr = InputHandler.getMouseOverExtended(Math.max(5, item.getReach()));
-					} else {
-						rtr = Minecraft.getInstance().hitResult;
-					}
+			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
+				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+					HitResult rtr = player.getOffhandItem().getItem() instanceof IExtendedReach item ? InputHandler.getMouseOverExtended(item.getReach()) : Minecraft.getInstance().hitResult;
 					if (rtr != null) {
 						if (rtr.getType() == Type.ENTITY) {
 							EntityHitResult ertr = (EntityHitResult) rtr;

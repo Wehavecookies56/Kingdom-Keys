@@ -77,7 +77,7 @@ public class CSAttackOffhandPacket {
 	    	  return;
 	      if (targetEntity.isAttackable()) {
 	         if (!targetEntity.skipAttackInteraction(player)) {
-	            float damage = DamageCalculation.getKBStrengthDamage(player, player.getOffhandItem());
+	            float damage = 1F;
 	            float f1;
 	            if (targetEntity instanceof LivingEntity) {
 	               f1 = EnchantmentHelper.getDamageBonus(player.getOffhandItem(), ((LivingEntity)targetEntity).getMobType());
@@ -216,14 +216,13 @@ public class CSAttackOffhandPacket {
 
 	                  player.causeFoodExhaustion(0.1F);
 	               } else {
-	                  player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
+	                  player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_NODAMAGE, player.getSoundSource(), 1.0F, 1.0F);
 	                  if (flag4) {
 	                     targetEntity.clearFire();
 	                  }
 	               }
 	            }
 				player.swing(InteractionHand.OFF_HAND);
-				player.resetAttackStrengthTicker();
 	         }
 	      }
 	   }
