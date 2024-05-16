@@ -12,7 +12,14 @@
 	"filler_texture": "kingdomkeys:journal/pagefiller.png",
 	"creative_tab": "tools",
 	"macros": {
-		"$(lissa)": "$(#fe84a3)"
+		"$(lissa)": "$(#fe84a3)",
+		"\n": "$(br)",
+		"$(heartless)": "$(l:kingdomkeys:heartless)$(item)",
+		"$(pure_blooded)": "$(l:kingdomkeys:heartless/pure_blooded)$(item)",
+		"$(emblem)": "$(l:kingdomkeys:heartless/emblem)$(item)",
+		"$(nobody)": "$(l:kingdomkeys:nobodies)$(item)",
+		"$(drive)": "$(l:kingdomkeys:drive)$(item)",
+		"$(blox)": "$(l:kingdomkeys:blox)$(item)"
 	},
 	"use_resource_pack": true
 }

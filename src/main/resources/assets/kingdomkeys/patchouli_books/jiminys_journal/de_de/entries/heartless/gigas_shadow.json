@@ -7,7 +7,7 @@
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [{
 			"type": "text",
-			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(thing)Mega-Schattenlurche$(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(p)$(#F00)$(l)$(o)[Days]$()"
+			"text": "Diese großen reinblütigen Herzlosen haben dasselbe Angriffsmuster wie die $(l:kingdomkeys:heartless/mega_shadow)$(item)Mega-Schattenlurche$(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

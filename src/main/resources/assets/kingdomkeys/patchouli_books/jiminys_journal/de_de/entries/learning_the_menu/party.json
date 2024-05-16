@@ -1,5 +1,5 @@
 {
-	"name": "Creating a Party",
+	"name": "Eine Gruppe erstellen",
 	"icon": "kingdomkeys:ice_cream",
 	"sortnum": 4,
 	"advancement": "kingdomkeys:soa",
@@ -8,14 +8,14 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "The $(thing)Party$() tab in your menu can be used to team up with friends. This disables PvP with these other players, shares XP gain and also allows you to heal them with spells and items as long as they're in your range."
+			"text": "Der $(thing)Gruppe$()-Reiter in deinem Menü, kann genutzt werden, um dich mit deinen Freunden zu verbünden. This disables PvP with these other players, shares XP gain and also allows you to heal them with spells and items as long as they're in your range. Zusätzlich stirbst du nicht direkt, sobald deine LP auf 0 sinken, sondern wirst nur Aussergefecht (K.o.) gesetzt. (In der Config Datei umstellbar.) "
 		},
         {
             "type": "image",
             "images": [
                 "kingdomkeys:journal/party.png"
             ],
-            "title": "Party Menu",
+            "title": "Gruppen Menü",
             "border": true
         }
 	]

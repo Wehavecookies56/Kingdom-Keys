@@ -12,7 +12,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Vorsicht ist geboten, wenn er beginnt an der Oberfläche herumzulaufen! Dann setzt er nämlich bald zu Verzweiglungsangriffen an.$(p)$(#F00)$(l)$(o)[KH2]$()"
+			"text": "Vorsicht ist geboten, wenn er beginnt an der Oberfläche herumzulaufen! Dann setzt er nämlich bald zu Verzweiglungsangriffen an.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

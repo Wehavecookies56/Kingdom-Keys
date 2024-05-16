@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein Dragoner ist ein Niemand von hohem Rang. Sprünge und Blocken erweisen sich als eine gute Taktik um solch einen zu besiegen.$(p)$(#F00)$(l)$(o)[KH2]$()"
+			"text": "Ein Dragoner ist ein Niemand von hohem Rang. Sprünge und Blocken erweisen sich als eine gute Taktik um solch einen zu besiegen.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

@@ -1,14 +1,14 @@
 {
-	"name": "Kingdom Keys Configuration",
+	"name": "Kingdom Key's Konfigurationen",
 	"icon": "kingdomkeys:spellbinder_chain",
-	"sortnum": 6,
+	"sortnum": 8,
 	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
 	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
-			"text": "The $(thing)Config$() tab allows you to edit HUD placement of every single HUD element included in the mod."
+			"text": "Der $(thing)Konfiguration$()-Tab erlaubt es dir Anpassungen and dem HUD zu machen. Dabei kannst du die Position jedes HUD-Element der Mod nach deinen vorlieben anpassen. (Um die Mod zu genießen wird dieser Schritt direkt nach dem Zugang des Mneüs empfohlen.)"
 		},
         {
             "type": "image",

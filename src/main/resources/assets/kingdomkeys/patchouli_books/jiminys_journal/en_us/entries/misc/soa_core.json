@@ -1,0 +1,131 @@
+{
+	"name": "Station of Awakening Platform",
+	"icon": "kingdomkeys:wooden_stick",
+	"sortnum": 500,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(#F00)$(l)CREATIVE MODE ONLY$()$(p)To build the Station of Awakening Platform, you need a ton of Mosaic Stained Glass, the Core and a Wooden Stick (the Kingdom Keys Weapon and NOT the Minecraft stick item). Build the structure as seen and put the core in the middle of the top, and then use your Wooden Stick on it."
+		},
+		{
+            "type": "multiblock",
+            "name": "Station of Awakening",
+            "enable_visualize": true,
+            "multiblock": {
+                "pattern": [
+	                [
+		                "     mmmmmmm     ",
+		                "    mmmmmmmmm    ",
+		                "  mmmmmmmmmmmmm  ",
+		                " mmmmmmmmmmmmmmm ",
+		                " mmmmmmmmmmmmmmm ",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmcmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                " mmmmmmmmmmmmmmm ",
+		                " mmmmmmmmmmmmmmm ",
+		                "  mmmmmmmmmmmmm  ",
+		                "    mmmmmmmmm    ",
+		                "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+	                ],
+	                [
+		                "     mmmmmmm     ",
+		                "    mmmmmmmmm    ",
+		                "  mmmmmmmmmmmmm  ",
+		                " mmmmmmmmmmmmmmm ",
+		                " mmmmmmmmmmmmmmm ",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmm0mmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                "mmmmmmmmmmmmmmmmm",
+		                " mmmmmmmmmmmmmmm ",
+		                " mmmmmmmmmmmmmmm ",
+		                "  mmmmmmmmmmmmm  ",
+		                "    mmmmmmmmm    ",
+		                "     mmmmmmm     "
+	                ]
+                ],
+                "mapping": {
+                    "m": "kingdomkeys:mosaic_stained_glass",
+                    "c": "kingdomkeys:station_of_awakening_core",
+	                "0": "kingdomkeys:mosaic_stained_glass"
+                },
+	            "symmetrical": true
+            }
+        }
+	]
+}

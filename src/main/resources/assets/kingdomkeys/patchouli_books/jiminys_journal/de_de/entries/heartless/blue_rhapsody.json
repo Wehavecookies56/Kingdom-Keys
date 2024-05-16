@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein Herloser, der hüpfend durch die Lüfte schwebt und sein Ziel mit \"Eis\" attackiert. $(o)\"Eis\"-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(#F00)$(l)$(o)[KH1]$()"
+			"text": "Ein Herloser, der hüpfend durch die Lüfte schwebt und sein Ziel mit \"Eis\" attackiert. $(o)\"Eis\"-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

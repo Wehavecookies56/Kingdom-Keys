@@ -1,0 +1,15 @@
+{
+	"name": "Epic Fight Name",
+	"icon": "kingdomkeys:wooden_keyblade",
+	"sortnum": 7,
+	"advancement": "kingdomkeys:soa",
+	"flag": "mod:epicfight",
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+		"pages": [
+		{
+			"type": "text",
+			"text": "As you have Epic Fight installed, you can choose a Combat Style for wielding one, or two keyblades, which changes the attack animation when in combat mode."
+		}
+	]
+}

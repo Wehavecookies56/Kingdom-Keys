@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein Herzloser, der im Zickzack durch die Lüfte fliegt un sein Ziel rammt oder mit \"Blitz\" attackiert. $(thing)$(o)\"Blitz\"-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(#F00)$(l)$(o)[KH1]$()"
+			"text": "Ein Herzloser, der im Zickzack durch die Lüfte fliegt un sein Ziel rammt oder mit \"Blitz\" attackiert. $(thing)$(o)\"Blitz\"-Angriffe werden absorbiert und bleiben wirkungslos.$()$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

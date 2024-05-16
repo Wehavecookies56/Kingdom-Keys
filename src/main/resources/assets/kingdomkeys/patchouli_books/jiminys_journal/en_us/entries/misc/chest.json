@@ -2,7 +2,6 @@
 	"name": "Magical Chest",
 	"icon": "kingdomkeys:magical_chest",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{

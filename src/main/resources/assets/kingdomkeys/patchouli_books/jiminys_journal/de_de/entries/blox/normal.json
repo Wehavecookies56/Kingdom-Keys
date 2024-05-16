@@ -1,5 +1,5 @@
 {
-	"name": "Normal Blox",
+	"name": "Normaler Block",
 	"icon": "kingdomkeys:normal_blox",
 	"sortnum": 1,
 	"priority": true,
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The most common of the Blox. Can be used to craft many other different blox. You can mine Normal Blox in the world or craft them using Dirt and Stone, the recipe is as follows."
+			"text": "Der gewöhnlichste aller $(blox)Bug-Blöcke$(). Dieser kann genutzt werden um die meisten anderen Bug-Blöcke herzustellen. Man kann sie entweder einfach abbauen oder mit etwas Erde und einer beliebigen Art von Stein herstellen."
 		},
 		{
 			"type":"crafting",

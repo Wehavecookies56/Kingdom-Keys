@@ -1,5 +1,5 @@
 {
-	"name": "Blast Blox",
+	"name": "Bombenblock",
 	"icon": "kingdomkeys:blast_blox",
 	"sortnum": 6,
 	"priority": true,
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "I would avoid staying away from these Blox at all times. Blast Blox work like old school TNT and will set off immediately on contact. The only safe way to break these is with a feather. They can be found in the overworld and they can also be crafted using Normal Blox, TNT and a Lava Bucket. The recipe is as follows."
+			"text": "Vor den Bombenblöcken sollte man sich um jeden Preis fernhalten. Sie funktionieren wie klassisches TNT und entzünden sich direkt bei jeglichen Kontakt. Die einzig sichere Methode um diese abzubauen ist mit einer sanften $(thing)Feder$(). Diese können in der Oberwelt, zusammen mit $(l:kingdomkeys:blox/prize)$(item)Kugel- oder Raritätenblöcken$(), gefunden werden und können ebenfalls hergestellt werden aus: $(l:kingdomkeys:blox/normal)$(item)Normaler Block$(), TNT und einen Lavaeimer."
 		},
 		{
 			"type":"crafting",

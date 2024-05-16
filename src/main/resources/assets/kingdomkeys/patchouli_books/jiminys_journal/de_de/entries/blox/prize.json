@@ -1,5 +1,5 @@
 {
-	"name": "Prize & Rare Prize Blox",
+	"name": "Kugel- & Raritätenblock",
 	"icon": "kingdomkeys:prize_blox",
 	"sortnum": 8,
 	"priority": true,
@@ -7,35 +7,39 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These can be found all over the overworld and will carry many different kinds of goodies including Spells, Form orbs, Synthesis Materials and Munny. They however are the only kind of Blox that cannot be crafted, but you should break these whenever you see them."
+			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(l:kingdomkeys:customize/magic_and_spells)$(item)Zauber$(), $(l:kingdomkeys:customize/drive)$(item)Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)$(item)Synthese Materialien$() und $(l:kingdomkeys:synthesize/munny)$(item)Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
 		},
 		{
-      "type": "multiblock",
-	  "name": "Prize Blox",
-	  "enable_visualize": false,
-      "multiblock": {
-    "pattern": [
-        [" 0 "]
-    ],
-    "mapping": {
-        "0": "kingdomkeys:prize_blox"
-    },
-      "symmetrical": true
-}
-    },
+			"type": "text",
+			"text": "$(o)Anmerkung:$()$(br)Oft werden diese begleitet von $(l:kingdomkeys:blox/blast)$(item)Bombenblöcken$() oder $(l:kingdomkeys:blox/danger)$(item)Schadensblöcken$(). Um Gegenstandsverlust zu vermeiden, empfielt es sich erst um diese preiswerten Blöcke umherzugraben."
+		},
 		{
-      "type": "multiblock",
-	  "name": "Rare Prize Blox",
-	  "enable_visualize": false,
-      "multiblock": {
-    "pattern": [
-        [" 0 "]
-    ],
-    "mapping": {
-        "0": "kingdomkeys:rare_prize_blox"
-    },
-      "symmetrical": true
-}
-    }
+			"type": "multiblock",
+			"name": "Kugelblock",
+			"enable_visualize": false,
+			"multiblock": {
+				"pattern": [
+					[" 0 "]
+				],
+				"mapping": {
+					"0": "kingdomkeys:prize_blox"
+				},
+				"symmetrical": true
+			}
+	    },
+		{
+			"type": "multiblock",
+			"name": "Raritätenblock",
+			"enable_visualize": false,
+			"multiblock": {
+				"pattern": [
+					[" 0 "]
+				],
+				"mapping": {
+					"0": "kingdomkeys:rare_prize_blox"
+				},
+				"symmetrical": true
+			}
+	    }
 	]
 }

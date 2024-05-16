@@ -12,7 +12,7 @@
 		},
 		{
 			"type": "text",
-			"text": "So schwer es auch ist, ihre Bewegungen vorauszuahnen, es gibt einen Moment, in dem sie einfach nur... dastehen. Und genau dann, wenn sie Däumchen drehen, lässt du sie Bekanntschaft mit deinem Schlüsselschwert machen.$(p)$(#F00)$(l)$(o)[KH3]$()"
+			"text": "So schwer es auch ist, ihre Bewegungen vorauszuahnen, es gibt einen Moment, in dem sie einfach nur... dastehen. Und genau dann, wenn sie Däumchen drehen, lässt du sie Bekanntschaft mit deinem Schlüsselschwert machen.$(p)$(lissa)$(l)$(o)[KH3]$()"
 		},
 		{
 			"type": "patchouli:entity",

@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "When you equip usable items in your menu (see section $(thing)The Items Tab$() for more information.), you can get a quick pick me up by using them from the $(thing)Items$() tab in your command menu."
+			"text": "Wenn du deine verbrauchbaren Items im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), you can get a quick pick me up by using them from the $(thing)Items$()-Kommadno in your command menu."
 		}
 	]
 }

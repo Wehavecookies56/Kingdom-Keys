@@ -1,6 +1,6 @@
 {
 	"name": "Das Bug-Block Glossar",
-	"description": "Dieser Abschnitt beschäftigt sich über die verschiedenen Bug-Blöcken, die du finden kannst, und welchen Nutzen sie mit sich tragen.$(br)[Debüt in Re:Coded]",
+	"description": "Dieser Abschnitt beschäftigt sich über die verschiedenen Bug-Blöcken, die du finden kannst, und welchen Nutzen sie mit sich tragen.$(p)$(lissa)$(l)$(o)[Debüt in Re:Coded]$()$(p)$(o)Da im deutschen die Coded-Blöcke (im englischen $(thing)\"Blox\"$(nocolor)) sich von den Minecraft-Blöcken namentlich kaum unterscheiden, werden die Coded-Blöcke als \"Bug-Blöcke\" bezeichnet. $()",
 	"icon": "kingdomkeys:prize_blox",
 	"sortnum": 9
 }

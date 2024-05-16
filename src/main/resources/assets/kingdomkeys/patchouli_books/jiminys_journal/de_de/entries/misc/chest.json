@@ -1,13 +1,12 @@
 {
-	"name": "Magical Chest",
+	"name": "Magische Truhe",
 	"icon": "kingdomkeys:magical_chest",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This chest is special in the case as it can be locked to a specific players Keyblade and will only be able to be opened by the player that locked it. It's has one more row of storage than a normal single chest has. The recipe is as follows."
+			"text": "Diese Truhe ist sofern Spezial, indem sie sich nur öffnet lässt, mithilfe eines $(item)Schlüsselschwertes$() eines bestimmten Spielers, und kann auch nur von diesem Spieler geöffnet werden. Außerdem, hat es eine Reihe (oder auch 9 Plätze) mehr Speicherraum, als eine herkömmliche, einzelne Truhe, lässt sich aber dafür nicht verbinden."
 		},
 		{
 			"type":"crafting",

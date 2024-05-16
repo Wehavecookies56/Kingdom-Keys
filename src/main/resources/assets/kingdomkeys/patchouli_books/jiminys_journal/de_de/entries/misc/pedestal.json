@@ -1,5 +1,5 @@
 {
-	"name": "Pedestal",
+	"name": "Podest",
 	"icon": "kingdomkeys:pedestal",
 	"sortnum": 2,
 	"priority": true,
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The Pedestal is a block that can be used to showcase an item, with options to customize how it floats and how fast it spins. The recipe is as follows."
+			"text": "Der Podest ist ein interaktiver Block, welcher genutzt werden kann um einen beliebigen Gegenstand zu präsentieren. Zusätzlich sind einige Faktoren einstellbar, wie Größe, Dreh- und Schwebe-Geschwindigkeit."
 		},
 		{
 			"type":"crafting",

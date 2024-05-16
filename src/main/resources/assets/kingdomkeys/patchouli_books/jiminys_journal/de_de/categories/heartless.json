@@ -1,6 +1,6 @@
 {
 	"name": "Herzlose",
-	"description": "Das $(thing)Herzlosen$()-Register zeichnet alle verschiedenen Arten von $(thing)Herzlosen$() Mobs auf, die dir auf deiner Reise begegnen.",
+	"description": "Das $(thing)Herzlosen$()-Register zeichnet alle verschiedenen Arten von $(thing)Herzlosen$() Mobs auf, die dir auf deiner Reise begegnen.$(p)Dabei wird unterschieden zwischen $(item)Reinblütern$() und $(item)Emblem-Herlose$().",
 	"icon": "kingdomkeys:illusory_crystal",
 	"sortnum": 7
 }

@@ -1,5 +1,5 @@
 {
-	"name": "Playing Organization",
+	"name": "Als Organisationsmitglied spielen",
 	"icon": "kingdomkeys:evanescent_crystal",
 	"sortnum": 2,
 	"priority": true,
@@ -7,11 +7,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "While playing as a member of the Organization, you'll notice in your menu you have a currency called $(thing)Hearts. Hearts$() are obtained from killing Heartless and Nobodies and are used to obtain new and stronger weapons for whatever Organization member you choose to play as. Doing so is essential for being able to take out higher level enemies as you level up. "
+			"text": "Da du nun ein Mitglied der Organisation bist, fällt dir sicherlich auf, dass im Menü sich eine Währung befindet, die sich $(thing)Herzen$() nennt. $(thing)Herzen$() werden erhalten durch das besiegen von $(heartless)Emblem-Herzlosen$() und feindlichen Mobs und werden dazu benutzt, um neue und stärkere Waffen für dein ausgewähltes Mitglied zu erhalten. (Wenn du Mobs mit deiner Organisations-Waffe erlegst, erhältst du sogar doppelt so viele Herzen.) Dies ist wichtig um Gegner mit einer höhren Stufe zu besiegen, während du deine eigene Stufe erhöhst."
 		},
 		{
 			"type": "text",
-			"text": "You also obtain the ability to craft Organization Portals, which you can have 3 of active at a time and be able to teleport to whenever you wish. Be weary, because other players, even outside of the Organizations ranks, can follow you through your portal. The recipe for the portal is as follows."
+			"text": "Außerdem erhälst du die Fähigkeit $(thing)Organisations-Portale$() herzustellen, und zu nutzen. Jeder Spieler kann maximal 3 Portale gleichzeitig besitzen, und ist in der Lage sich zwischen denen beliebig hin und her zu teleportieren. Doch pass auf, denn andere Spieler, auch welche außerhalb der Organisation, können dir durch dein Portal folgen."
 		},
 		{
 			"type":"crafting",

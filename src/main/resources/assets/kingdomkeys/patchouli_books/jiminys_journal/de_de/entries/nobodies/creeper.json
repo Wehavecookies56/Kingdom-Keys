@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Der Schwächste unter den Niemanden. Nimmt verschiedene Formen an, was ihn unberechenbar macht.$(p)$(#F00)$(l)$(o)[KH2]$()"
+			"text": "Der Schwächste unter den Niemanden. Nimmt verschiedene Formen an, was ihn unberechenbar macht.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

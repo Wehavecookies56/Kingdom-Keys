@@ -1,5 +1,5 @@
 {
-	"name": "Bounce Blox",
+	"name": "Trampolinblock",
 	"icon": "kingdomkeys:bounce_blox",
 	"sortnum": 5,
 	"priority": true,
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Bounce Blox have a lot more MMPH to them than Slime Blocks do, increasing the bounce even further when used. You can craft Bounce Blox using Normal Blox and a singular Slime Block, the recipe is as follows."
+			"text": "$(item)Trampoplinblöcke$() haben mehr Wumms, als ein herkömmlicher Schleimblock, mit ihrer erheblichen Sprungkraft die sie verleihen. Hergestellt wird ein $(thing)Trampolinblock$() mit $(l:kingdomkeys/blox/normal)$(item)Normalen Blöcken$(), und einem einzigen Schleimblock."
 		},
 		{
 			"type":"crafting",

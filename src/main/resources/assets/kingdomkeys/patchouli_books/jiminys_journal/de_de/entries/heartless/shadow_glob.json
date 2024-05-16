@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese dunklen Massen ziehen $(thing)Reinblüter$() an. Vernichte sie, sobald du sie siehst.$(p)$(#F00)$(l)$(o)[Days]$()"
+			"text": "Diese dunklen Massen ziehen $(thing)Reinblüter$() an. Vernichte sie, sobald du sie siehst.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

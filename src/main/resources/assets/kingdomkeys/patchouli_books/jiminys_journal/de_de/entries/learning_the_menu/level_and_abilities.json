@@ -1,5 +1,5 @@
 {
-	"name": "Leveling up and Abilities",
+	"name": "Stufen aufsteigen und Abilitys",
 	"icon": "kingdomkeys:apboost",
 	"sortnum": 2,
 	"advancement": "kingdomkeys:soa",
@@ -12,7 +12,7 @@
 		},
 		{
 			"type": "text",
-			"text": "These abilities will cost AP to equip, you'll never be able to go over your max AP. You can increase your max AP by leveling up, putting on accessories that increase AP or synthesizing AP Boosts and using them on yourself. New abilities can give you different movement options, combat capabilities or many other useful effects. Always read new abilities you earn and test them as you go."
+			"text": "Diese Abilitys kosten dich Ability Punkte (AP) um diese auszurüsten, wobei du deine maximalen AP nicht überschreiten kannst. --- You can increase your max AP by leveling up, putting on accessories that increase AP or synthesizing AP Boosts and using them on yourself. New abilities can give you different movement options, combat capabilities or many other useful effects. Always read new abilities you earn and test them as you go."
 		}
 	]
 }

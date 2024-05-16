@@ -2,7 +2,6 @@
 	"name": "Pedestal",
 	"icon": "kingdomkeys:pedestal",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{

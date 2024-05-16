@@ -1,5 +1,5 @@
 {
-	"name": "Customizing Shortcuts",
+	"name": "Benutzerdefinierte Kurzbefehle",
 	"icon": "kingdomkeys:spellfire",
 	"sortnum": 3,
 	"advancement": "kingdomkeys:soa",
@@ -8,14 +8,14 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "As you gain new spells (see section $(thing)Magic and Spells$() for more information), you can use the $(thing)Customize$() tab in your menu to set shortcuts and make spells easier to cast."
+			"text": "Während du fortlaufen neue Zauber erhälst (siehe den Abschnitt über $(l:kingdomkeys:customize/magic_and_spells)$(item)Magie und Zauber$(), für mehr Informationen), kannst du den $(thing)Einstellungen$()-Reiter in deinem Menü benutzen, um Kurzbefehle zu setzen und so das Zaubern zu erleichtern."
 		},
         {
             "type": "image",
             "images": [
                 "kingdomkeys:journal/shortcut.png"
             ],
-            "title": "Shortcuts",
+            "title": "Kurzbefehle",
             "border": true
         }
 	]

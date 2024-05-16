@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Aus Schatten geformte Herzlose. Normalerweise fliegen sie geruhsam durch die Lüfte. Doch sei gewarnt, diese Wesen sind unberechenbar. Urplötzlich können sie losschnellen, wild ihre Richtung ändern und ohne Vorwarnung auf dich zustürzen.$(p)$(#F00)$(l)$(o)[Re:Coded]$()"
+			"text": "Aus Schatten geformte Herzlose. Normalerweise fliegen sie geruhsam durch die Lüfte. Doch sei gewarnt, diese Wesen sind unberechenbar. Urplötzlich können sie losschnellen, wild ihre Richtung ändern und ohne Vorwarnung auf dich zustürzen.$(p)$(lissa)$(l)$(o)[Re:Coded]$()"
 		},
 		{
 			"type": "patchouli:entity",

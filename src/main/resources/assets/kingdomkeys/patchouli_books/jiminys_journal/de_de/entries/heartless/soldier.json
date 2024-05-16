@@ -8,7 +8,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Er greift von jeder Seite mit den gleichen ausgewogenen Attacken an. Sei auf der Hut, wenn du gegen ihn kämpfst!$(p)Er kontert mit gefährlichen Tritten.$(p)$(#F00)$(l)$(o)[KH2]$()"
+			"text": "Er greift von jeder Seite mit den gleichen ausgewogenen Attacken an. Sei auf der Hut, wenn du gegen ihn kämpfst!$(p)Er kontert mit gefährlichen Tritten.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

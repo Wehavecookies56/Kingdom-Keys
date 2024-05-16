@@ -7,7 +7,7 @@
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [{
 			"type": "text",
-			"text": "Diese mittelgroßen $(thing)Reinblüter$() haben dasselbe Angriffsmuster wie ihre $(thing)kleineren Verwandten$(), verfügen aber zusätzlich noch über einen gefährlichen Angriff. Blocke sie, dann haben sie keine Deckung mehr.$(p)$(#F00)$(l)$(o)[Days]$()"
+			"text": "Diese mittelgroßen $(thing)Reinblüter$() haben dasselbe Angriffsmuster wie ihre $(l:kingdomkeys:heartless/shadow)$(item)kleineren Verwandten$(), verfügen aber zusätzlich noch über einen gefährlichen Angriff. Blocke sie, dann haben sie keine Deckung mehr.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",
