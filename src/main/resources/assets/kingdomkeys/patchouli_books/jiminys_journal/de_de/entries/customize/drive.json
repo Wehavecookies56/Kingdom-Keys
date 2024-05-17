@@ -2,7 +2,6 @@
 	"name": "Drive Formen",
 	"icon": "kingdomkeys:hi_drive_recovery",
 	"category": "kingdomkeys:commands",
-	"read_by_default": false,
 	"sortnum": 3,
 	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [

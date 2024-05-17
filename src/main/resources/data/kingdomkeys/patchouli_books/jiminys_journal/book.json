@@ -16,6 +16,7 @@
 		"\n": "$(br)",
 		"$(heartless)": "$(l:kingdomkeys:heartless)$(item)",
 		"$(pure_blooded)": "$(l:kingdomkeys:heartless/pure_blooded)$(item)",
+		"$(pureblooded)": "$(l:kingdomkeys:heartless/pure_blooded)$(item)",
 		"$(emblem)": "$(l:kingdomkeys:heartless/emblem)$(item)",
 		"$(nobody)": "$(l:kingdomkeys:nobodies)$(item)",
 		"$(drive)": "$(l:kingdomkeys:drive)$(item)",

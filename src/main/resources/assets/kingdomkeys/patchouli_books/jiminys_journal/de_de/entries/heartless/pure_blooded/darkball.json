@@ -1,0 +1,17 @@
+{
+	"name": "Schattenquasar",
+	"icon": "kingdomkeys:darkball_spawn_egg",
+	"category": "kingdomkeys:hidden",
+	"sortnum": 104,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Aus Schatten geformte $(heartless)Herzlose$(). Normalerweise fliegen sie geruhsam durch die Lüfte. Doch sei gewarnt, diese Wesen sind unberechenbar. Urplötzlich können sie losschnellen, wild ihre Richtung ändern und ohne Vorwarnung auf dich zustürzen.$(p)$(lissa)$(l)$(o)[Re:Coded]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:darkball"
+		}
+	]
+}

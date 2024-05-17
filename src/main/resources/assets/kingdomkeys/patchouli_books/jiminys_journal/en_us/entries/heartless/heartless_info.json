@@ -1,0 +1,12 @@
+{
+	"name": "What is a Heartless?",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 5,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Heartless$() explanation."
+		}
+	]
+}

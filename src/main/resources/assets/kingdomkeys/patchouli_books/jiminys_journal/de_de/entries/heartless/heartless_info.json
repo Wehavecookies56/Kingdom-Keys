@@ -1,0 +1,12 @@
+{
+	"name": "Was ist ein Herzloser?",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 2,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(item)Herzloser$() ."
+		}
+	]
+}

@@ -1,9 +1,8 @@
 {
 	"name": "Schattenfleck",
 	"icon": "kingdomkeys:shadow_glob_spawn_egg",
-	"category": "kingdomkeys:heartless",
-	"read_by_default": false,
-	"sortnum": 5,
+	"category": "kingdomkeys:hidden",
+	"sortnum": 105,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{

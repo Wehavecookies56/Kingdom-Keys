@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Hard Blox can be found in the world. They have a singular use in the form of crafting Metal Blox. You can craft Hard Blox using Normal Blox and stone. The recipe is as follows."
+			"text": "Ein $(item)Verstärkter Block$() ist robuster als ein $(l:kingdomkeys:blox/normal)$(item)Normaler Block$() und kann an der Oberfläche gefunden werden. Ihr einziger Nutzen ist es, zu einem $(l:kingdomkeys:blox/metal)$(item)Metallblock$() weiterverarbeitet zu werden. Andernfalls kann man sich einen herstellen, mit einer beliebigen Art von Stein sowie $(l:kingdomkeys:blox/normal)$(item)Normalen Blöcken$()."
 		},
 		{
 			"type":"crafting",

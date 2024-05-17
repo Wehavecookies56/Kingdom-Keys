@@ -1,0 +1,23 @@
+{
+	"name": "Reinblüter",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 1,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Reinblüter$() sind Herzlose, die einen schwachen Willen besitzen, und sind daher nichts weiter als manifestierte Dunkelheit. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
+		},
+		{
+			"type": "patchouli:relations",
+			"title": "Reinblüter",
+			"entries": [
+				"kingdomkeys:heartless/pure_blooded/shadow",
+				"kingdomkeys:heartless/pure_blooded/mega_shadow",
+				"kingdomkeys:heartless/pure_blooded/gigas_shadow",
+				"kingdomkeys:heartless/pure_blooded/darkball",
+				"kingdomkeys:heartless/pure_blooded/shadow_glob"
+			]
+		}
+	]
+}

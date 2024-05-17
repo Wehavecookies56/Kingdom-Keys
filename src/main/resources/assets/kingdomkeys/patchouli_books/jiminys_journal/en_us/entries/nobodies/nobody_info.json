@@ -1,0 +1,25 @@
+{
+	"name": "What is a Nobody?",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 5,
+	"category": "kingdomkeys:nobodies",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A $(item)Nobody$() ."
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/dream.png"
+			],
+			"title": "Nobody Emblem",
+			"border": true,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 256,
+			"texture_width": 256
+		}
+	]
+}

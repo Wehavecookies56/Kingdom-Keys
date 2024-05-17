@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Can be used with a redstone signal to open up hidden areas and items. When turned on, all blocks become intangible and can be moved through at will, when turned off they become solid blocks. Ghost Blox can be crafted using Normal Blox, any kind of Glass and a single Redstone Block. The recipe is as follows."
+			"text": "Dieser $(blox)Bug-Block$() kann zusammen mit einem Redstone-Signal genutzt werden, um versteckte Bereiche oder Gegenstände zu offenbaren. Wenn dieser in Kontakt mit einem aktiven Redstone-Signal kommt, werden alle verbundenen $(item)Phantomblöcke$() durchlässig. Ist das Redstone-Signal wieder aus, werden sie wieder fest, und sind undurchdringbar. Herstellbar sind diese mit $(l:kingdomkeys/blox/normal)$(item)Normalen Blöcken$(), ein beliebiger Glasblock, sowie ein einzielner Redstone-Block."
 		},
 		{
 			"type":"crafting",

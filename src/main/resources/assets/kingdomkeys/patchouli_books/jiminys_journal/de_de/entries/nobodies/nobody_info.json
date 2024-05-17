@@ -1,0 +1,25 @@
+{
+	"name": "Was ist ein Niemand?",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 2,
+	"category": "kingdomkeys:nobodies",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(item)Niemand$()."
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/dream.png"
+			],
+			"title": "Das Niemande-Emblem",
+			"border": true,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 256,
+			"texture_width": 256
+		}
+	]
+}

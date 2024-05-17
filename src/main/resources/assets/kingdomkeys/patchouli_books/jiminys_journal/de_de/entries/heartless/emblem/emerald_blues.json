@@ -1,11 +1,11 @@
 {
 	"name": "Saphirling",
 	"icon": "kingdomkeys:emerald_blues_spawn_egg",
-	"category": "kingdomkeys:heartless",
-	"read_by_default": false,
-	"sortnum": 15,
+	"category": "kingdomkeys:hidden",
+	"sortnum": 207,
 	"advancement": "kingdomkeys:obtain_keychain",
-	"pages": [{
+	"pages": [
+		{
 			"type": "text",
 			"text": "Kämpfe aus sicherer Entfernung und auchte auf seinen plötzlichen Vorstoß. Wenn er nur noch wenig HP hat, bildet sich ein Tornado, der dich zu ihm hin zieht.$(p)Seine $(thing)Magie-Resistenz$() sollte für dich eine Einladung sein, dein Schlüsselschwert glühen zu lassen!$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},

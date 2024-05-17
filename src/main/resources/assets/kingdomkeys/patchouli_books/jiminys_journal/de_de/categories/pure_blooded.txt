@@ -1,0 +1,7 @@
+{
+	"name": "Reinblüter",
+	"description": "$(item)Reinblüter$() sind Herzlose, die einen schwachen Willen besitzen, und sind daher nichts weiter als manifestierte Dunkelheit. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden.",
+	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 1
+}

@@ -1,0 +1,8 @@
+{
+	"name": "SECRET",
+	"description": "You aren't supposed to read this. - This category only serves purposes to hide Relation Entries.",
+	"icon": "minecraft:barrier",
+	"flag": "|debug,testing_mode",
+	"sortnum": 500,
+	"secret": true
+}

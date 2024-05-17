@@ -1,0 +1,28 @@
+{
+	"name": "Emblem-Heartless",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 5,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Emblem-explanation."
+		},
+		{
+			"type": "patchouli:relations",
+			"entries": [
+				"kingdomkeys:heartless/emblem/soldier",
+				"kingdomkeys:heartless/emblem/large_body",
+				"kingdomkeys:heartless/emblem/red_nocturne",
+				"kingdomkeys:heartless/emblem/blue_rhapsody",
+				"kingdomkeys:heartless/emblem/yellow_opera",
+				"kingdomkeys:heartless/emblem/green_requiem",
+				"kingdomkeys:heartless/emblem/minute_bomb",
+				"kingdomkeys:heartless/emblem/skater_bomb",
+				"kingdomkeys:heartless/emblem/storm_bomb",
+				"kingdomkeys:heartless/emblem/detonator",
+				"kingdomkeys:heartless/emblem/dire_plant"
+			]
+		}
+	]
+}

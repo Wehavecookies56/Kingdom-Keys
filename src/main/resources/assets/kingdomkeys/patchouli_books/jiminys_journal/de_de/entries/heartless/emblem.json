@@ -1,0 +1,43 @@
+{
+	"name": "Emblem-Herzlose",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 2,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Emblem-Herzlose$() sind einfach zu erkennen, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden."
+		},
+		{
+			"type": "patchouli:relations",
+			"title": "Emblem-Herzlose",
+			"entries": [
+				"kingdomkeys:heartless/emblem/soldier",
+				"kingdomkeys:heartless/emblem/large_body",
+				"kingdomkeys:heartless/emblem/red_nocturne",
+				"kingdomkeys:heartless/emblem/blue_rhapsody",
+				"kingdomkeys:heartless/emblem/yellow_opera",
+				"kingdomkeys:heartless/emblem/green_requiem",
+				"kingdomkeys:heartless/emblem/emerald_blues",
+				"kingdomkeys:heartless/emblem/minute_bomb",
+				"kingdomkeys:heartless/emblem/skater_bomb",
+				"kingdomkeys:heartless/emblem/storm_bomb",
+				"kingdomkeys:heartless/emblem/detonator",
+				"kingdomkeys:heartless/emblem/dire_plant"
+			]
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/dream.png"
+			],
+			"title": "Das Herzlosen-Emblem",
+			"border": true,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 256,
+			"texture_width": 256
+		}
+	]
+}

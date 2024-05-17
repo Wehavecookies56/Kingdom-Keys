@@ -1,0 +1,22 @@
+{
+	"name": "Pureblooded",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 5,
+	"category": "kingdomkeys:heartless",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A $(item)Pureblooded$() Heartless, or just Pureblooded for short, ."
+		},
+		{
+			"type": "patchouli:relations",
+			"entries": [
+				"kingdomkeys:heartless/pure_blooded/shadow",
+				"kingdomkeys:heartless/pure_blooded/mega_shadow",
+				"kingdomkeys:heartless/pure_blooded/gigas_shadow",
+				"kingdomkeys:heartless/pure_blooded/darkball",
+				"kingdomkeys:heartless/pure_blooded/shadow_glob"
+			]
+		}
+	]
+}
