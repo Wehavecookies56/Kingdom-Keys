@@ -518,7 +518,7 @@
   "gui.menu.items.equipment.armor": "Rüstung",
   "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
   "gui.menu.items.equipment.items": "Items",
-  "gui.menu.items.equipment.pauldron": "Pauldron",
+  "gui.menu.items.equipment.pauldron": "Schulterschutz",
   "gui.menu.items.equipment.shotlock": "Fokussierung",
   "gui.menu.items.equipment.weapon": "Waffe",
   "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
@@ -931,13 +931,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
-  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
+  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
 
 
   // -ACCESOIRES
