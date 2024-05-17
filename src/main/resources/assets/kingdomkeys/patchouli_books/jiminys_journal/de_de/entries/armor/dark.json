@@ -1,5 +1,5 @@
 {
-	"name": "Warriors of Darkness",
+	"name": "Krieger der Dunkelheit",
 	"icon": "kingdomkeys:dark_riku_chestplate",
 	"sortnum": 2,
 	"priority": true,
@@ -11,7 +11,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Taking on the style of Dark Riku, Vanitas and Vanitas Remnant. The recipes are as follows."
+			"text": "Taking on the style of Dark Riku, Vanitas and Vanitas Remnant."
 		},
 		{
 			"type":"crafting",
