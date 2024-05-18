@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
@@ -18,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
+import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
+
 public class KeybladeStats extends KeybladeProvider {
     public KeybladeStats(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, KingdomKeys.MODID, KeybladeBuilder::new, existingFileHelper);
@@ -25,8 +28,8 @@ public class KeybladeStats extends KeybladeProvider {
 
     @Override
     protected void registerKeyblades() {
-		addStats(Strings.abaddonPlasma, Strings.abaddonPlasmaChain, 7, 3, "", 5.0F, "A weapon that lets you string together faster, incredibly long ground combos.");
-		addStats(Strings.abyssalTide, Strings.abyssalTideChain, 5, 2, "", 5.0F, "A weapon that performs very well in midair. Excellent for taking on fliers.");
+		addStats(Strings.abaddonPlasma, Strings.abaddonPlasmaChain, 7, 3, "", 5.0F, Utils.translateToLocal("item." + MODID + "." + Strings.abaddonPlasma + ".desc"));
+		addStats(Strings.abyssalTide, Strings.abyssalTideChain, 5, 2, "", 5.0F, "item." + MODID + "." + Strings.abyssalTide + ".desc");
 		addStats(Strings.acedsKeyblade, Strings.acedsKeybladeChain, 8, 7, "", 5.0F, "The Keyblade owned by Ursus' Foreteller.");
 		addStats(Strings.adventRed, Strings.adventRedChain, 4, 4, "", 5.0F, "A Keyblade that courses with mystic power.");
 		addStats(Strings.allForOne, Strings.allForOneChain, 6, 7, "", 5.0F, "A Keyblade that triggers fewer Reality Shifts, but compensates with a boost in Magic and more frequent critical hits.");
