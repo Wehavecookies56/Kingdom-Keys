@@ -20,7 +20,9 @@
 		"$(emblem)": "$(l:kingdomkeys:heartless/emblem)$(item)",
 		"$(nobody)": "$(l:kingdomkeys:nobodies)$(item)",
 		"$(drive)": "$(l:kingdomkeys:drive)$(item)",
-		"$(blox)": "$(l:kingdomkeys:blox)$(item)"
+		"$(blox)": "$(l:kingdomkeys:blox)$(item)",
+		"$(spell)": "$(l:kingdomkeys:customize/magic_and_spells)$(item)",
+		"$(magic)": "$(l:kingdomkeys:customize/magic_and_spells)$(item)"
 	},
 	"use_resource_pack": true
 }

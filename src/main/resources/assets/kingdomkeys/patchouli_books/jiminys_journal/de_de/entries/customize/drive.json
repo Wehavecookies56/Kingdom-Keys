@@ -7,11 +7,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Just like Spells, as you explore the world and find those cubes we mentioned before, you can also find $(thing)Form Orbs.$() These orbs can be used with a press of the Interact button to learn the form."
+			"text": "Ähnlich wie $(spell)Zauber$() - welche du in den $(blox)Würfeln$() findest, die in der Welt verstreut sind - Kannst du auch $(item)Form-Kugeln$() finden. Diese Kugeln können benutzt werden um die jeweilige Form zu erlernen, bzw. verbessern."
 		},
 		{
 			"type": "text",
-			"text": " Using your Drive Gauge, located at the bottom right hand corner of your screen, above your HP bar, you can transform into one of 5 different forms that all have their own abilities, play styles and movement options to learn. These forms are known as Valor, Wisdom, Master, Limit and Final form."
+			"text": "Mit deinem Drive-Leiste, welche sich unten rechts, über deiner LP-Leiste befindet, kannst du dich eine von vielen Formen verwandeln. Jede Form hat seine eigenen Fähigkeiten, Spielweise und Bewegungsarten. Mit dieser Mod kommen hinzu die Helden-, Weisen-, Meister-, Final- und Limit-Form."
 		}
 	]
 }

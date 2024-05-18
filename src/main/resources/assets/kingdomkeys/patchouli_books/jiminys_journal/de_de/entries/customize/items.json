@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Wenn du deine verbrauchbaren Items im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), you can get a quick pick me up by using them from the $(thing)Items$()-Kommadno in your command menu."
+			"text": "Wenn du deine verbrauchbaren Items im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), kannst du sie einfach von dem $(thing)Items$()-Kommando auswählen."
 		}
 	]
 }

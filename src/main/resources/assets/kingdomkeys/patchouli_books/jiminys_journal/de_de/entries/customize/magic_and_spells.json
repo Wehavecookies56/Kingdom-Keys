@@ -7,7 +7,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "As you explore the world, you should find these Blue and Yellow cubes with stars in the middle of them. These cubes can be mined with your fist and have the chance to drop new spells for you to learn. When you learn these spells, they can be cast from your $(thing)Magic$() command menu tab, as long as you have the MP to cast them. If you run out of MP, it will take some time to recharge."
+			"text": "Während du die Welt erkundest solltest du einige $(l:kingdomkeys:blox/prize)Würfel mit blauen und gelben Sternen drauf$() gesehen haben. Diese Blöcke können mit der Hand abgebaut werden, und haben eine Chance neue Zauber fallenzulassen, die du erlernen kannst. Wenn du diese Zauber lernst, kannst du sie von deinem $(thing)Magie()-Kommando sprechen, solange du genügend MP hast. Wenn deine MP ausgeht, dauert es etwas bis sie sich wieder auffüllt."
+		},
+		{
+			"type": "text",
+			"text": "Regulär, erhälst du deine ersten MP mit Stufe 5. Davor kannst du keine Zauber sprechen."
 		}
 	]
 }
