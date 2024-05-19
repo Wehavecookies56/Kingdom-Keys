@@ -116,7 +116,7 @@ public class KingdomKeys {
 					keyblades.get().forEach(output::accept);
 					keychains.get().forEach(output::accept);
 				}))
-				.withSearchBar()
+				.withSearchBar(71)
 				.backgroundSuffix("keyblades.png")
 				.build()),
 			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
@@ -128,7 +128,7 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						orgWeapons.get().forEach(output::accept);
 					}))
-					.withSearchBar()
+					.withSearchBar(71)
 					.backgroundSuffix("organization.png")
 					.build()),
 			
@@ -141,7 +141,7 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						equipables.get().forEach(output::accept);
 					}))
-					.withSearchBar()
+					.withSearchBar(71)
 					.backgroundSuffix("equipables.png")
 					.build()),
 
@@ -151,7 +151,7 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						misc.get().forEach(output::accept);
 					}))
-					.withSearchBar()
+					.withSearchBar(71)
 					.backgroundSuffix("misc.png")
 					.build());
 
