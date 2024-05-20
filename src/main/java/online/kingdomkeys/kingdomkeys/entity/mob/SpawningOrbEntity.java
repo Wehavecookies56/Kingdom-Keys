@@ -66,11 +66,7 @@ public class SpawningOrbEntity extends Monster {
 	public SpawningOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_SPAWNING_ORB.get(), world);
 	}
-	
-	public SpawningOrbEntity(Level world) {
-		super(ModEntities.TYPE_SPAWNING_ORB.get(), world);
-	}
-	
+
 	@Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
 		if(worldIn instanceof Level)
@@ -86,7 +82,6 @@ public class SpawningOrbEntity extends Monster {
 	
 	@Override
 	public void tick() {
-		//System.out.println(getPosition());
 		if(tickCount == 1 && !level().isClientSide && this.mob != null) {
 			if(level().random.nextDouble() < 0.1) {
 				setPortal(true);

@@ -117,7 +117,8 @@ public class KingdomKeys {
 					keychains.get().forEach(output::accept);
 				}))
 				.withSearchBar(71)
-				.backgroundSuffix("keyblades.png")
+				.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_keyblades.png"))
+				.hideTitle()
 				.build()),
 			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup." + Strings.organizationGroup))
@@ -129,7 +130,8 @@ public class KingdomKeys {
 						orgWeapons.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.backgroundSuffix("organization.png")
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_organization.png"))
+					.hideTitle()
 					.build()),
 			
 			equipables_tab = TABS.register(Strings.equipablesGroup, () -> CreativeModeTab.builder()
@@ -142,7 +144,8 @@ public class KingdomKeys {
 						equipables.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.backgroundSuffix("equipables.png")
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_equipables.png"))
+					.hideTitle()
 					.build()),
 
 			misc_tab = TABS.register(Strings.miscGroup, () -> CreativeModeTab.builder()
@@ -152,13 +155,13 @@ public class KingdomKeys {
 						misc.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.backgroundSuffix("misc.png")
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_misc.png"))
+					.hideTitle()
 					.build());
 
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
 		//KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
 		ModMagic.MAGIC.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);
