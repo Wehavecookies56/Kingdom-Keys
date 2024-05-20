@@ -630,7 +630,6 @@ public class EntityEvents {
 						event.getEntity().setHealth(event.getEntity().getHealth() - 1);
 					}
 				}
-				//event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,1,1));
 				event.getEntity().setYRot(0);
 				event.getEntity().setYBodyRot(0);
 				event.getEntity().setXRot(0);

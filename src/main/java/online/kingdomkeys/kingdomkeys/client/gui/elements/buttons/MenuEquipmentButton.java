@@ -202,7 +202,7 @@ public class MenuEquipmentButton extends Button {
 					int ap = 0;
 					ImmutableMap<KKResistanceType, Integer> resistances = null;
 
-					List<String> abilities = new ArrayList<String>();
+					List<String> abilities = new ArrayList<>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
 						strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -363,8 +363,12 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-			                    gui.blit(texture, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
-								gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
+								if(ability != null) {
+									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
+									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
+								} else {
+									KingdomKeys.LOGGER.error("Ability "+abilities.get(i)+" does not exist for weapon "+stack.getItem());
+								}
 							}
 						}
 						

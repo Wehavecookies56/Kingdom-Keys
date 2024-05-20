@@ -1604,10 +1604,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SHOW_GUI, "Toggle HUD");
 
         //Groups
-        add("itemGroup.kingdomkeys_misc", "KK: Misc");
-        add("itemGroup.kingdomkeys_equipables", "KK: Equipables");
-        add("itemGroup.kingdomkeys_keyblades", "KK: Keyblades");
-        add("itemGroup.kingdomkeys_org_weapons", "KK: Organization");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
+        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");

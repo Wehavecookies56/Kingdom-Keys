@@ -117,7 +117,7 @@ public class KingdomKeys {
 					keychains.get().forEach(output::accept);
 				}))
 				.withSearchBar(71)
-				.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_keyblades.png"))
+				.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
 				.hideTitle()
 				.build()),
 			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
@@ -130,7 +130,7 @@ public class KingdomKeys {
 						orgWeapons.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_organization.png"))
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
 					.hideTitle()
 					.build()),
 			
@@ -144,7 +144,7 @@ public class KingdomKeys {
 						equipables.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_equipables.png"))
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
 					.hideTitle()
 					.build()),
 
@@ -155,7 +155,7 @@ public class KingdomKeys {
 						misc.get().forEach(output::accept);
 					}))
 					.withSearchBar(71)
-					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_misc.png"))
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
 					.hideTitle()
 					.build());
 
