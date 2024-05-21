@@ -2,16 +2,15 @@
 	"name": "Krieger der Dunkelheit",
 	"icon": "kingdomkeys:dark_riku_chestplate",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:armor",
 	"pages": [
 		{
 			"type": "text",
-			"text": "These sets of armor are slightly weaker than the Organization coats but do not force you to join the Organization. Letting you keep your normal play style while also representing the Warriors of Darkness, they're also easier to craft than most of the other armors.  "
+			"text": "Diese Rüstungssets sind etwas schwächer als die $(l:kingdomkeys/armor/orgcoats)$(item)Mäntel der Organisation$(), aber zwingen dich nicht der Organisation beitreten zu müssen. Dafür dass du wie geowhnt spielen darfst, und die Krieger der $(lissa)Dunkelheit$() repräsentierst, sind sie auch einfacher herzustellen."
 		},
 		{
 			"type": "text",
-			"text": "Taking on the style of Dark Riku, Vanitas and Vanitas Remnant."
+			"text": "Du kannst dich kleiden als:$(br)Dunkel-Riku, Vanitas and Vanitas' Vermächtnis."
 		},
 		{
 			"type":"crafting",

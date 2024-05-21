@@ -11,7 +11,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Regulär, erhälst du deine ersten MP mit Stufe 5. Davor kannst du keine Zauber sprechen."
+			"text": "Regulär, erhälst du deine $(thing)ersten MP mit Stufe 5$(). Davor kannst du keine Zauber sprechen."
 		}
 	]
 }

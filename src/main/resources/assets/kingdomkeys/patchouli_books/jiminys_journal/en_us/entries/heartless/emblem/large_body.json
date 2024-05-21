@@ -1,12 +1,12 @@
 {
 	"name": "Large Body",
 	"icon": "kingdomkeys:large_body_spawn_egg",
-	"category": "kingdomkeys:heartless",
-	"read_by_default": false,
+	"category": "kingdomkeys:emblem",
 	"sortnum": 16,
-	"pages": [{
+	"pages": [
+		{
 			"type": "text",
-			"text": "Big round Heartless. They seem tame and laid-back, but go berserk when they are angered. With their brute strength, they can inflict great damage so be un guard. "
+			"text": "Big round $(heartless)Heartless$(). They seem tame and laid-back, but go berserk when they are angered. With their brute strength, they can inflict great damage so be un guard. "
 		},
 		{
 			"type": "patchouli:entity",

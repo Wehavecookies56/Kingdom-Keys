@@ -1,6 +1,7 @@
 {
 	"name": "Herzlose",
-	"description": "Das $(item)Herzlosen$()-Register zeichnet alle verschiedenen Arten von $(thing)Herzlosen$() Mobs auf, die dir auf deiner Reise begegnen.$(p)Dabei wird unterschieden zwischen $(pure_blooded)Reinblütern$() und $(emblem)Emblem-Herlose$().",
+	"description": "Das $(item)Herzlose$()-Register zeichnet alle verschiedenen Arten von $(thing)Herzlosen$() auf, die dir auf deiner Reise begegnen.$(br)Dabei wird unterschieden zwischen $(pure_blooded)Reinblütern$() und $(emblem)Emblem-Herlosen$().",
 	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:enemies",
 	"sortnum": 7
 }

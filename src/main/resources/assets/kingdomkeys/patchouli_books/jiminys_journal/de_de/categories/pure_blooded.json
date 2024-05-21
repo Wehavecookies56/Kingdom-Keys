@@ -1,0 +1,7 @@
+{
+	"name": "Reinblüter",
+	"description": "$(item)Reinblütige Herzlose$(), oder auch nur Reinblüter für kurz, zählen zu den $(heartless)Herzlosen$(), die einen schwachen Willen besitzen, und sind nichts weiter als manifestierte $(lissa)Dunkelheit$(). Anders als die $(emblem)Emblem-Herzlosen$(), geben diese $(thing)kein Herz$(), wenn sie besiegt wurden.",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 1
+}

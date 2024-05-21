@@ -1,7 +1,8 @@
 {
 	"name": "Was ist ein Niemand?",
 	"icon": "kingdomkeys:illusory_crystal",
-	"sortnum": 2,
+	"sortnum": 1,
+	"priority": true,
 	"category": "kingdomkeys:nobodies",
 	"pages": [
 		{

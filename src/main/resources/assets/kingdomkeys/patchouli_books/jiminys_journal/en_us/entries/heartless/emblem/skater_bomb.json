@@ -1,12 +1,12 @@
 {
 	"name": "Skater Bomb",
 	"icon": "kingdomkeys:skater_bomb_spawn_egg",
-	"category": "kingdomkeys:heartless",
-	"read_by_default": false,
+	"category": "kingdomkeys:emblem",
 	"sortnum": 7,
-	"pages": [{
+	"pages": [
+		{
 			"type": "text",
-			"text": "These mid-sized Heartless begin a countdown to self-detonation if you deflect their head-butts with a block. Strike them during the countdown to send their payload hurtling into other enemies."
+			"text": "These mid-sized $(heartless)Heartless$() begin a countdown to self-detonation if you deflect their head-butts with a block. Strike them during the countdown to send their payload hurtling into other enemies."
 		},
 		{
 			"type": "patchouli:entity",

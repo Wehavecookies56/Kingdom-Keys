@@ -2,9 +2,7 @@
 	"name": "Moogles",
 	"icon": "kingdomkeys:moogle_o_glory_chain",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
@@ -13,7 +11,9 @@
 		{
 			"type": "patchouli:entity",
 			"entity": "kingdomkeys:moogle",
-			"scale": 0.9
+			"scale": 0.9,
+			"name": "Moogle",
+			"offset": 0.5
 		},
 		{
 			"type": "text",

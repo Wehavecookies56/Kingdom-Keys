@@ -1,7 +1,0 @@
-{
-	"name": "Emblem-Herzlose",
-	"description": "$(item)Emblem-Herzlose$() sind einfach zu unterscheiden, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden.",
-	"icon": "kingdomkeys:illusory_crystal",
-	"parent": "kingdomkeys:heartless",
-	"sortnum": 2
-}

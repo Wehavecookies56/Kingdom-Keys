@@ -1,0 +1,7 @@
+{
+	"name": "Pureblooded",
+	"description": "$(item)Pureblooded Heartless() have a weak will and are nothing more than the living manifestion of $(lissa)Darkness$(). Unlike $(emblem)Emblem Heartless$() do these $(thing)not set heart free$(), once defeatd.",
+	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 1
+}

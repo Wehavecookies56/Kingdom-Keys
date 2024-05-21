@@ -1,18 +1,22 @@
 {
-	"name": "Recipes",
+	"name": "Formeln",
 	"icon": "kingdomkeys:recipe",
 	"sortnum": 4,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Recipes will sometimes drop from hostile mobs when killed. These Recipes come in a few different tiers, ranging from D all the way to SSS. Each Recipe holds new Keyblades, Armors and Accessories to be Synthesized. Once you run out of Recipes to learn from a specific tier, combine 2 of the same tiered Recipe in a Crafting Table or in your Inventory, this will craft a Recipe of the next tier."
+			"text": "$(item)Formeln$() werden selten beim besiegen von $(thing)aggressives Mobs$() fallen gelassen. Diese Formeln kommen in verschiedenen Stufen von D bis SSS, wobei Mobs mit einer höheren Stufe, eine Formel mit einer höheren Stufe fallen lassen können. Jede Formel kann Schlüsselschwerter, Rüstungen oder Accesoires freischalten, die dann bei einem $(l:kingdomkeys:synthesis/moogle)Mogry$() synthetisiert werden können."
+		},
+		{
+			"type": "text",
+			"text": "Um die Stufe von Formeln zu ändern, kann man entweder 2 miteinander kombinieren, um eine Formel zu erhalten die eine Stufe besser ist, 4 kombinieren um eine um zwei höhere Stufen zu erhalten, oder eine einzelne, einer höheren Stufe, um sie in eine Stufe darunter zu verwandeln."
 		},
 		{
 			"type":"crafting",
-			"recipe":"kingdomkeys:recipe_c"
+			"recipe":"kingdomkeys:recipe_c",
+			"recipe2":"kingdomkeys:recipe_c2",
+			"recipe3":"kingdomkeys:recipe_c3"
 		}
 	]
 }

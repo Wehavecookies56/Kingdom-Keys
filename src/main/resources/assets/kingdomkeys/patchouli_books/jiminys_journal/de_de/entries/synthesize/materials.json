@@ -3,11 +3,14 @@
 	"icon": "kingdomkeys:orichalcum",
 	"sortnum": 2,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "$(item)Materialien$() für die Item-Synthese bei einem $(l:kingdomkeys:synthesize/moogles)$(item)Mogry$(), kannst du finden in $(thing)Höhlen$(), im $(thing)Nether$() sowie dem $(thing)Ende$(). Es gibt $(thing)20 verschieden Arten$() von Materialien, die jeweils in $(thing)4 Stufen$() aufgeteilt sind. Jede $(l:kingdomkeys:synthesize/recipes)$(item)Synthese-Formel$() benötigt eine andere Zusammenstellung von Materialien, weshalb es sich lohnt alles zu nehmen was dir unter die Nase kommt! Denke dran, manche Materialien können nur in $(thing)bestimmten Biomen oder Gegenden$() gefunden werden."
+			"text": "$(item)Materialien$() für die Item-Synthese bei einem $(l:kingdomkeys:synthesize/moogles)$(item)Mogry$(), kannst du finden in $(thing)Höhlen$(), im $(thing)Nether$() sowie dem $(thing)Ende$(). Es gibt $(thing)20 verschieden Arten$() von Materialien, die jeweils in $(thing)4 Stufen$() aufgeteilt sind."
+		},
+		{
+			"type": "text",
+			"text": "Jede $(l:kingdomkeys:synthesize/recipes)$(item)Synthese-Formel$() benötigt eine andere Zusammenstellung von Materialien, weshalb es sich lohnt alles zu nehmen was dir unter die Nase kommt! Denke dran, manche Materialien können nur in $(thing)bestimmten Biomen oder Gegenden$() gefunden werden."
 		}
 	]
 }

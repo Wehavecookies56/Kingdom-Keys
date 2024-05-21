@@ -2,7 +2,6 @@
 	"name": "Trampolinblock",
 	"icon": "kingdomkeys:bounce_blox",
 	"sortnum": 5,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{

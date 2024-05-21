@@ -1,10 +1,10 @@
 {
 	"name": "Assassin",
 	"icon": "kingdomkeys:assassin_spawn_egg",
-	"category": "kingdomkeys:nobodies",
-	"read_by_default": false,
+	"category": "kingdomkeys:hidden",
 	"sortnum": 3,
-	"pages": [{
+	"pages": [
+		{
 			"type": "text",
 			"text": "An assassin. A high-ranking Nobody. It hides in the ground and attacks quietly from behind. It cannot be attacked while it is in the ground. Parry its attacks to get it to surface. When it starts running around, look out! It'll begin to unleash powerful attacks. Don't miss any chances to use the reaction commands to defeat as many as possible at once!"
 		},

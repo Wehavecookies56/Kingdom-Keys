@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Wenn du deine $(item)verbrauchbaren Items$() im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), kannst du sie einfach von dem $(thing)Item$()-Kommando auswählen."
+			"text": "Wenn du deine $(l:kingdomkeys:learning_the_menu/item_tab)$(item)verbrauchbaren Items im Menü ausrüstest$(), kannst du sie einfach von dem $(thing)Item$()-Kommando auswählen."
 		}
 	]
 }

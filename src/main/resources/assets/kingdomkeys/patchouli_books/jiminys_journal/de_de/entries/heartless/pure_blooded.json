@@ -9,6 +9,10 @@
 			"text": "$(item)Reinblüter$() sind natürliche Herzlose, und einen schwachen Willen besitzen. Sie dann entstehen, wenn das $(thing)Herz$() einer Person von $(lissa)Dunkelheit$() eingehüllt wird. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
 		},
 		{
+			"type": "text",
+			"text": "In der Regel sind $(item)Reinblütige Herzlose$() schwarz mit gelben Augen, aber je stärker sie sind, umso bunter werden sie."
+		},
+		{
 			"type": "patchouli:relations",
 			"title": "Reinblüter",
 			"entries": [

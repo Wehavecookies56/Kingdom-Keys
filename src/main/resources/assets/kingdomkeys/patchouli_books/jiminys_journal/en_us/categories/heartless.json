@@ -2,5 +2,6 @@
 	"name": "Heartless",
 	"description": "The $(thing)Heartless$() Registry keeps track of all the different $(thing)Heartless$() type of mobs you have encountered.",
 	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:enemies",
 	"sortnum": 7
 }

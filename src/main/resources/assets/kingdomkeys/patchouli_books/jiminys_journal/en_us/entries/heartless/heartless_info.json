@@ -1,12 +1,13 @@
 {
 	"name": "What is a Heartless?",
-	"icon": "kingdomkeys:levelupdrivefinal",
-	"sortnum": 5,
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 1,
+	"priority": true,
 	"category": "kingdomkeys:heartless",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Heartless$() explanation."
+			"text": "A $(item)Heartless() ist die manifestierte $(lissa)Darkness() die in einem $(thing)Herzen$() zurückbleibt, wenn ein $(thing)Jemand$() sein $(thing)Herz$() verliert, und sich von seiner $(nobody)leeren Hülle$() trennt."
 		}
 	]
 }

@@ -1,7 +1,7 @@
 {
 	"name": "Schattenlurch",
 	"icon": "kingdomkeys:shadow_spawn_egg",
-	"category": "kingdomkeys:hidden",
+	"category": "kingdomkeys:pure_blooded",
 	"sortnum": 101,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [

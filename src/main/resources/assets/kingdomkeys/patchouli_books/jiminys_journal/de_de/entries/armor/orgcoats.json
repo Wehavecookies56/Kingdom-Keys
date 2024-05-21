@@ -2,16 +2,15 @@
 	"name": "Andere Org. XIII Mäntel",
 	"icon": "kingdomkeys:xemnas_helmet",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:armor",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Mäntel haben sind gleichwertig wie der reguläre Mantel der Organisation, und lassen dich sogar diesen beitreten, weshalb ihr aussehen nur rein kosmetisch ist. "
+			"text": "Diese Mäntel haben sind gleichwertig wie der reguläre $(item)Mantel der Organisation$(), und lassen dich sogar diesen beitreten, weshalb ihr aussehen nur rein kosmetisch ist. "
 		},
 		{
 			"type": "text",
-			"text": "You can take on Xemnas' style from the end of $(lissa)Kingdom Hearts II$() or take on the AntiCoat style from $(lissa)Dream Drop Distance$()."
+			"text": "Du kannst das Aussehen von $(thing)Xemnas$() am Ende von $(lissa)Kingdom Hearts II$() oder das Aussehen der $(thing)Antirobe$() aus $(lissa)Dream Drop Distance$() annehmen."
 		},
 		{
 			"type":"crafting",

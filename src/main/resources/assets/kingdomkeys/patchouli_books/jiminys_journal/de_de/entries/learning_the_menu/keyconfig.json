@@ -1,5 +1,5 @@
 {
-	"name": "Kingdom Key's Konfigurationen",
+	"name": "KK Konfigurationen",
 	"icon": "kingdomkeys:spellbinder_chain",
 	"sortnum": 8,
 	"advancement": "kingdomkeys:soa",
@@ -15,7 +15,7 @@
             "images": [
                 "kingdomkeys:journal/config.png"
             ],
-            "title": "Configuration",
+            "title": "Konfiguration",
             "border": true
         }
 	]

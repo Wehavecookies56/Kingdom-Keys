@@ -1,25 +1,25 @@
 {
 	"name": "What is a Nobody?",
-	"icon": "kingdomkeys:levelupdrivefinal",
-	"sortnum": 5,
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 2,
 	"category": "kingdomkeys:nobodies",
 	"pages": [
 		{
 			"type": "text",
-			"text": "A $(item)Nobody$() ."
+			"text": "A $(item)Nobody$() the vessel that remains, when the $(thing)heart$() that is filled with $(lissa)darkness$() disconnects from their $(thing)somebody(). Every $(heartless)Heartless$() that gets born, also causes a $(thing)nobody$() to be born, with the heart lost."
 		},
 		{
 			"type": "patchouli:image",
 			"images": [
-				"kingdomkeys:journal/dream.png"
+				"kingdomkeys:journal/nobody_symbol.png"
 			],
-			"title": "Nobody Emblem",
-			"border": true,
+			"title": "Nobody & Org XIII",
+			"border": false,
 			"centered": true,
 			"height": 64,
 			"width": 64,
-			"texture_height": 256,
-			"texture_width": 256
+			"texture_height": 200,
+			"texture_width": 160
 		}
 	]
 }

@@ -1,10 +1,10 @@
 {
 	"name": "Mega Shadow",
 	"icon": "kingdomkeys:mega_shadow_spawn_egg",
-	"category": "kingdomkeys:heartless",
-	"read_by_default": false,
+	"category": "kingdomkeys:pure_blooded",
 	"sortnum": 2,
-	"pages": [{
+	"pages": [
+		{
 			"type": "text",
 			"text": "These mid-sized Purebloods retain the attack patterns of their smaller cousins, but also use a dangerous tackle. Block it, and they're left wide open."
 		},

@@ -2,7 +2,6 @@
 	"name": "Phantomblock",
 	"icon": "kingdomkeys:ghost_blox",
 	"sortnum": 7,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{

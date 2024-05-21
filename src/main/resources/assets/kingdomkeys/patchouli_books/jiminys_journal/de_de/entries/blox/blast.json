@@ -2,7 +2,6 @@
 	"name": "Bombenblock",
 	"icon": "kingdomkeys:blast_blox",
 	"sortnum": 6,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{

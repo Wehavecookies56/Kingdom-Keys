@@ -1,17 +1,16 @@
 {
-	"name": "Kleidung der Propheten",
+	"name": "Gewänder der Propheten",
 	"icon": "kingdomkeys:ira_helmet",
 	"sortnum": 4,
-	"priority": true,
 	"category": "kingdomkeys:armor",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Sets of garb worn originally by the Foretellers of 5 Unions, these Foretellers are some of the earliest known to be able to weild the Keyblade. These are the easiest and weakest armor sets you can craft, but once again they do not break."
+			"text": "$(item)Gewänder$() die ursprünglich von den $(thing)Propheten$() der 5 Zusammenschlüsse getragen wurden, die Propheten zählen zu den ersten bekannten Schlüssekschwertträgern. Diese sind am einfachsten herzustellen, sind aber dafür auch $(thing)am schwächsten$(). $(o)Genau wie die anderen Kleider, zerbrechen diese nicht$.$()"
 		},
 		{
 			"type": "text",
-			"text": "You can take on the style of Invi, Gula, Ira, Aced or Ava. The recipes are as follows."
+			"text": "Du kannst die Gewänder von Invi, Gula, Ira, Aced oder Ava tragen."
 		},
 		{
 			"type":"crafting",

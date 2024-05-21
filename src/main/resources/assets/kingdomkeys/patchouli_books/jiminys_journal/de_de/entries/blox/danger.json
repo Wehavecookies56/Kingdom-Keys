@@ -2,7 +2,6 @@
 	"name": "Danger Blox",
 	"icon": "kingdomkeys:danger_blox",
 	"sortnum": 4,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{

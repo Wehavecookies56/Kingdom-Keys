@@ -1,6 +1,6 @@
 {
 	"name": "Grundlagen der Synthese",
-	"description": "Ab einem bestimmten Punkt, musst du dein Arsenal erweitern, Schlüsselschwertträger. Nützlich dafür sind ein paar Materialien und ein $(thing)Mogry$(), fang an zu suchen!",
+	"description": "Ab einem bestimmten Punkt, musst du dein Arsenal erweitern, Schlüsselschwertträger. Nützlich dafür sind ein paar $(thing)Materialien$() und ein $(thing)Mogry$(), fang an zu suchen!",
 	"icon": "kingdomkeys:mythril_crystal",
 	"sortnum": 4
 }

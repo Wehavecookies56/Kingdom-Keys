@@ -1,13 +1,12 @@
 {
-	"name": "Leaving the Organization",
+	"name": "Die Organisation verlassen",
 	"icon": "kingdomkeys:proof_of_heart",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{
 			"type": "text",
-			"text": "The only way to leave the Organization is to defeat the Ender Dragon and obtain a Proof of Heart. Once used, you will be dismissed from the Organizations ranks and will return to being a normal Keyblade Wielder. You can rejoin at any time by repeating the same methods from when you originally joined."
+			"text": "Der einzige weg $(item)aus der Organisation XII auszutreten$(), ist in dem man ein $(item)Zeugnis des Herzens$() erhäkt und dieses benutzt. Für gewöhnlich erhält man dies von dem §(thing)Enderdrachen$(). Wurde das Zeugnis angewandt, kehrst du zurück als ein regulärer Schlüsselschwertträger, wie davor. Aus der Organisation kann man beliebig oft ein- und austreten."
 		}
 	]
 }

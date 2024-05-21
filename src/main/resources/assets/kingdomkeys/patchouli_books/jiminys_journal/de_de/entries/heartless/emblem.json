@@ -9,6 +9,10 @@
 			"text": "$(item)Emblem-Herzlose$() sind einfach zu erkennen, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden. Ihr markantes $(thing)Emblem$() tragen sie, weil sie künstlich erschaffen wurden."
 		},
 		{
+			"type": "text",
+			"text": "$(item)Emblem-Herzlose$() zeichnen sich außerdem dadurch aus, dass sie bedeutend stärker sind, als natürliche $(thing)Reinblüter$()."
+		},
+		{
 			"type": "patchouli:relations",
 			"title": "Emblem-Herzlose",
 			"entries": [

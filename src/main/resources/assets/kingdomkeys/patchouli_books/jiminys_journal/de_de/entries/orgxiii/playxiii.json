@@ -1,8 +1,7 @@
 {
-	"name": "Als Organisationsmitglied spielen",
+	"name": "Als Org.-Mitglied spielen",
 	"icon": "kingdomkeys:evanescent_crystal",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{

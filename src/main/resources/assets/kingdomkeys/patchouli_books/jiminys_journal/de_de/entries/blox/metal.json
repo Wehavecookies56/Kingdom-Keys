@@ -2,7 +2,6 @@
 	"name": "Metallblock",
 	"icon": "kingdomkeys:metal_blox",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
