@@ -1,12 +1,12 @@
 {
 	"name": "Emblem-Herzlose",
-	"icon": "kingdomkeys:illusory_crystal",
+	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
 	"sortnum": 2,
 	"category": "kingdomkeys:heartless",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Emblem-Herzlose$() sind einfach zu erkennen, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden."
+			"text": "$(item)Emblem-Herzlose$() sind einfach zu erkennen, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden. Ihr markantes $(thing)Emblem$() tragen sie, weil sie künstlich erschaffen wurden."
 		},
 		{
 			"type": "patchouli:relations",
@@ -29,15 +29,15 @@
 		{
 			"type": "patchouli:image",
 			"images": [
-				"kingdomkeys:journal/dream.png"
+				"kingdomkeys:journal/heartless_emblem.png"
 			],
-			"title": "Das Herzlosen-Emblem",
-			"border": true,
+			"title": "Herzlosen-Emblem",
+			"border": false,
 			"centered": true,
 			"height": 64,
 			"width": 64,
-			"texture_height": 256,
-			"texture_width": 256
+			"texture_height": 200,
+			"texture_width": 147
 		}
 	]
 }

@@ -1,14 +1,13 @@
 {
-	"name": "Synthesis materials",
+	"name": "Synthese-Materialien",
 	"icon": "kingdomkeys:orichalcum",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
 	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "You can find Materials in Caves, The Nether and The End. There are 20 different types of Material, all having 4 tiers to work with. Each recipe will call for a different combination of Materials so it's best to grab whatever you can find! Remember, some materials can only be found in certain biomes and locations."
+			"text": "$(item)Materialien$() für die Item-Synthese bei einem $(l:kingdomkeys:synthesize/moogles)$(item)Mogry$(), kannst du finden in $(thing)Höhlen$(), im $(thing)Nether$() sowie dem $(thing)Ende$(). Es gibt $(thing)20 verschieden Arten$() von Materialien, die jeweils in $(thing)4 Stufen$() aufgeteilt sind. Jede $(l:kingdomkeys:synthesize/recipes)$(item)Synthese-Formel$() benötigt eine andere Zusammenstellung von Materialien, weshalb es sich lohnt alles zu nehmen was dir unter die Nase kommt! Denke dran, manche Materialien können nur in $(thing)bestimmten Biomen oder Gegenden$() gefunden werden."
 		}
 	]
 }

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein $(item)Herzloser$() ."
+			"text": "Ein $(item)Herzloser$() ist die manifestierte $(lissa)Dunkelheit$() die in einem $(thing)Herzen$() zurückbleibt, wenn ein $(thing)Jemand$() sein $(thing)Herz$() verliert, und sich von seiner $(nobody)leeren Hülle$() trennt."
 		}
 	]
 }

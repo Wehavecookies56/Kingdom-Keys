@@ -1,6 +1,6 @@
 {
 	"name": "Verbessern deiner Drive-Formen",
-	"description": "This chapter is solely dedicated to telling you what you need to do to level each of your 5 $(thing)Drive Formen$(), as well as what abilities you'll earn for leveling them up. Each form having it's own way of gaining XP.$(br)Jede Form erreicht ihr Maximum bei Stufe 7.",
+	"description": "Dieses Kapitel fokussiert sich alleine darauf, dir die Vorraussetzungen zu erzählen damit du jede deiner (thing)Drive Formen$() aufstufen kannst. Jede Form erhählt seine EP anders und bringt ihre eigenen Abilities mit, die man sich außerhalb der Form raus freischalten kann. $(br)Jede Form erreicht ihr Maximum bei Stufe 7.",
 	"icon": "kingdomkeys:hi_drive_recovery",
 	"sortnum": 5
 }

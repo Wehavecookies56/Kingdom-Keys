@@ -1,5 +1,5 @@
 {
-	"name": "Limit Form",
+	"name": "Limit-Form",
 	"icon": "kingdomkeys:levelupdrivelimit",
 	"sortnum": 3,
 	"category": "kingdomkeys:drive",
@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Form erhält Erfahrung für jeden max charged Shotlock successfully preformed, während man in dieser Form ist. Not fully charging the Shotlock will not give you the XP.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Purzelbaum-Ability$() belohnen."
+			"text": "Diese Form erhält Erfahrung für jeden Maximal aufgeladenen Fokus, der erfolgreich abgefeuert wurde, während man in dieser Form ist. Ein $(lissa)$(l)nicht vollständig aufgeladener Fokus$() wird dir $(lissa)$(l)keine EP$() geben. $(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Purzelbaum-Ability$() belohnen."
 		}
 	]
 }

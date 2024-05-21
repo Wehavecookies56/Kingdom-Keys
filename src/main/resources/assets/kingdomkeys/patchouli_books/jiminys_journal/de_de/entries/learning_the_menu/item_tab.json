@@ -8,11 +8,11 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Lass und mit den $(thing)Items$() anfangen. Hier kannst du Items ausrüsten die in Verbindung zu der $(thing)Kingdom Keys$() Mod stehen. Dazu zählen Schlüsselschwerter bzw. Waffen der $(thing)Organization XIII$(), Pauldrons, ausrüstbare Rüstungen und Accessories so wie Kommando-Items (wie z.B.: Potions, Hi-Potions, Äther, Elixiere, etc.)"
+			"text": "Lass und mit den $(item)Items$() anfangen. Hier kannst du Items ausrüsten die in Verbindung zu der $(thing)Kingdom Keys$() Mod stehen. Dazu zählen Schlüsselschwerter bzw. Waffen der $(thing)Organization XIII$(), Schulterschutze, ausrüstbare Rüstungen und Accessoires so wie Kommando-Items (wie z.B.: Potions, Hi-Potions, Äther, Elixiere, etc.)"
 		},
 		{
 			"type": "text",
-			"text": "Nach dem Ausrüsten deines Schlüsselschwertes, kannst du ihn mit der $(thing)[$(k:key.kingdomkeys.summonkeyblade)]$()-Taste in deine Hand rufen. $(o)(Standard: G)$()"
+			"text": "Nach dem Ausrüsten deines Schlüsselschwertes, kannst du ihn mit der $(thing)[$(k:key.kingdomkeys.summonkeyblade)]$()-Taste in deine Hand rufen."
 		}
 	]
 }

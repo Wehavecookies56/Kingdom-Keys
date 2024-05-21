@@ -1,5 +1,5 @@
 {
-	"name": "Checking your Status",
+	"name": "Deinen Status überprüfen",
 	"icon": "kingdomkeys:shooting_star_chain",
 	"sortnum": 5,
 	"advancement": "kingdomkeys:soa",
@@ -8,7 +8,7 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "The $(thing)Status$() menu allows you to see your current statistics and the amount of XP needed to level up you and your Forms. (see section $(thing)Drive Forms$() for more information.)"
+			"text": "Das $(thing)Status$()-Menü erlaubt es dir deine aktuellen Werte über deinen Fortschritt anzusehen, wie Erfahrungspunkte allows you to see your current statistics and the amount of XP needed to level up you and your Forms."
 		},
         {
             "type": "image",

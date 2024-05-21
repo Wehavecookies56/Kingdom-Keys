@@ -6,20 +6,20 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein $(item)Niemand$()."
+			"text": "Ein $(item)Niemand$() ist die Hülle die zurückbleibt, wenn das von der $(lissa)Dunkelheit$() umhüllte $(thing)Herz$() sich von dem $(thing)Jemand$() trennt. Bei jedem $(heartless)Herzlosen$() der geschaffen wird, wird ebenso ein $(thing)Niemand$() geschaffen."
 		},
 		{
 			"type": "patchouli:image",
 			"images": [
-				"kingdomkeys:journal/dream.png"
+				"kingdomkeys:journal/nobody_symbol.png"
 			],
-			"title": "Das Niemande-Emblem",
-			"border": true,
+			"title": "Niemande & Org XII",
+			"border": false,
 			"centered": true,
 			"height": 64,
 			"width": 64,
-			"texture_height": 256,
-			"texture_width": 256
+			"texture_height": 200,
+			"texture_width": 160
 		}
 	]
 }

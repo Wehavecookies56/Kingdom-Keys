@@ -1,12 +1,12 @@
 {
 	"name": "Reinblüter",
-	"icon": "kingdomkeys:levelupdrivefinal",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
 	"sortnum": 1,
 	"category": "kingdomkeys:heartless",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Reinblüter$() sind Herzlose, die einen schwachen Willen besitzen, und sind daher nichts weiter als manifestierte Dunkelheit. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
+			"text": "$(item)Reinblüter$() sind natürliche Herzlose, und einen schwachen Willen besitzen. Sie dann entstehen, wenn das $(thing)Herz$() einer Person von $(lissa)Dunkelheit$() eingehüllt wird. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
 		},
 		{
 			"type": "patchouli:relations",

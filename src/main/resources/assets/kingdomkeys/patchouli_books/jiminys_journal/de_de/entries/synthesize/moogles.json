@@ -1,23 +1,24 @@
 {
-	"name": "Moogles",
+	"name": "Mogrys",
 	"icon": "kingdomkeys:moogle_o_glory_chain",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
 	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "These little guys are here to help you with your Synthesis! They can make anything you desire as long as you know the recipe and bring them the materials. They will also sometimes sell you useful items such as Potions. If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
+			"text": "Diese $(item)kleinen Kerle$() sind hier um dir bei der $(thing)Synthese$() zu helfen! Sie können dir alles anfertigen, solange du die passende $(item)Formel$() kennst und die notwendigen Materialien bei ihnen einlagerst. Gelegentlich erweisen sie sich auch als nützlich, um bei ihnen Potions oder andere $(l:kingdomkeys:customize/items)$(item)Items$() mit $(l:kingdomkeys:synthesize/munny)$(item)Talern$() zu kaufen. Wenn du einen dieser $(thing)Mogrys$() deine ganzen Materialien abgibst, hat jeder von denen Zugriff auf diese. Fast schon $(l)magisch$()."
 		},
 		{
 			"type": "patchouli:entity",
 			"entity": "kingdomkeys:moogle",
-			"scale": 0.9
+			"scale": 0.9,
+			"name": "Mogry",
+			"offset": -1
 		},
 		{
 			"type": "text",
-			"text": "If you're having trouble finding them in the wild, You should consider keeping an Anvil on you. Dropping one on a $(thing)Moogle's'$() head can help you make them your permanent friend."
+			"text": "Falls du mal Probleme haben solltest sie in freier Wildbahn anzutreffen, solltest du überlegen ob du dir einen $(thing)Amboss$() anschaffst und mitnimmst. Lässt du einen Amboss auf einen dieser Mogrys fallen, dann wird dieser zu deinem $(thing)ewigen Freund$()."
 		},
 		{
             "type": "image",

@@ -1,12 +1,12 @@
 {
-	"name": "Using your Items",
+	"name": "Items benutzen",
 	"icon": "kingdomkeys:potion",
 	"category": "kingdomkeys:commands",
 	"sortnum": 2,
 	"pages": [
 		{
 			"type": "text",
-			"text": "Wenn du deine verbrauchbaren Items im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), kannst du sie einfach von dem $(thing)Items$()-Kommando auswählen."
+			"text": "Wenn du deine $(item)verbrauchbaren Items$() im Menü ausrüstest (siehe den Abschnitt über $(l:kingdomkeys:learning_the_menu/item_tab)$(item)den Item-Reiter$(), für mehr Informationen.), kannst du sie einfach von dem $(thing)Item$()-Kommando auswählen."
 		}
 	]
 }
