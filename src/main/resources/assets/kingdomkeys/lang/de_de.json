@@ -460,7 +460,7 @@
   "gui.commandmenu.revert": "Zurück",
 
   "gui.driveformorb.tooltip": "Verbessert die %s",
-  "gui.driveformorb.upgrade": "%s hat %s Exp erhalten",
+  "gui.driveformorb.upgrade": "%1$s hat %2$s Exp erhalten",
 
   "gui.magicspell.maxed": "%s ist bereits das Maximum",
   "gui.magicspell.unlock": "Schaltet %s frei",
@@ -523,7 +523,7 @@
   "gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
   "gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
   "gui.menu.items.equipment.weapon": "Waffe",
-  "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
+  "gui.menu.items.equipment.weapon.keyblades": "Schlüssel.", // Schlüsselschwerter
   "gui.menu.items.stock": "Lager",
   "gui.menu.items.stock.desc": "Überprüfe dein Inventar.",
 
@@ -578,6 +578,7 @@
   "gui.menu.status.darkres": "Dunkelresistenz",
   "gui.menu.status.darkresshort": "Dunkelres.",
   "gui.menu.status.defense": "Abwehr", //Abwehrkraft
+  //"gui.menu.status.defenselong": "Abwehrkraft", //Abwehrkraft
   "gui.menu.status.drivegauge": "Drive-Leiste",
   "gui.menu.status.fireres": "Feuerresistenz",
   "gui.menu.status.fireresshort": "Feuerres.",
@@ -586,9 +587,11 @@
   "gui.menu.status.hp": "LP",
   "gui.menu.status.level": "Level",
   "gui.menu.status.magic": "Magie", //Magiekraft
+  //"gui.menu.status.magiclong": "Magiekraft",
   "gui.menu.status.mp": "MP",
   "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
   "gui.menu.status.strength": "Angriff", //Angriffskraft
+  //"gui.menu.status.strengthlong": "Angriffskraft", //Angriffskraft
   "gui.menu.status.thunderres": "Blitzresistenz",
   "gui.menu.status.thunderresshort": "Blitzres.",
   "gui.menu.status.totalexp": "Erfahrung",
