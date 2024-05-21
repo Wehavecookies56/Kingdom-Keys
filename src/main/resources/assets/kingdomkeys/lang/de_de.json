@@ -65,7 +65,7 @@
   "ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
   "ability.ability_water_boost.name": "Wasser-Boost",
 
-  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_critical_boost.name": "Volltreffer-Boost",
   "ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
   "ability.ability_drive_boost.name": "Drive-Boost",
@@ -73,15 +73,15 @@
   "ability.ability_experience_boost.name": "Erfahrungs-Boost",
   "ability.ability_form_boost.desc": "Erhöht die verweildauer in den Formen.",
   "ability.ability_form_boost.name": "Form-Boost",
-  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_item_boost.name": "Item-Boost",
 
-  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nMehrfaches Anlegen erhöht den Effekt. (Kein Combo-Abschlussangriff möglich?)",
+  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern. (Kein Combo-Abschlussangriff möglich?)",
   "ability.ability_berserk_charge.name": "Auflade-Berserker",
-  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nAusgerüstete Menge bestimmt die Anzahl der Zusatzhiebe.",
+  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nDiese Ability kann aufgestapelt werden, um noch weitere Kombo-Angriffe hinzuzufügen.",
   "ability.ability_combo_plus.name": "Combo +",
 
-  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_damage_control.name": "Schadenskontrolle",
   "ability.ability_damage_drive.desc": "Bei erlittenem Schaden füllt sich die Drive-Leiste.\nDie Leiste füllt sich proportional zum erlittenen Schaden.",
   "ability.ability_damage_drive.name": "Schadensbegrenzung",
@@ -90,7 +90,7 @@
 
   "ability.ability_drive_converter.desc": "Erhöhe den Wert aller Drive-Kugeln.",
   "ability.ability_drive_converter.name": "Drive-Konverter",
-  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_endless_magic.name": "Endlos-Magie",
   "ability.ability_extra_cast.desc": "Erlaubt das wirken eines letzten Zaubers bevor die MP leer gehen.",
   "ability.ability_extra_cast.name": "Extrazauber",
@@ -100,16 +100,16 @@
   "ability.ability_focus_converter.desc": "Erhöht den Wert aller Fokus-Kugeln.",
   "ability.ability_focus_converter.name": "Fokus-Konverter",
 
-  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_full_mp_blast.name": "Volle MP-Salve",
 
-  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
 
-  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_hp_gain.name": "HP-Gewinn",
 
-  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_jackpot.name": "Jackpot",
 
   "ability.ability_leaf_bracer.desc": "Das wirken von Vita auf sich selbst wird nicht unterbrochen, wird man attackiert.",
@@ -118,7 +118,7 @@
   "ability.ability_light_and_darkness.desc": "Hat eine spezielle geheime Wirkung.",
   "ability.ability_light_and_darkness.name": "Licht & Dunkelheit",
 
-  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_lucky_lucky.name": "Glückspilz",
   "ability.ability_magic_lock_on.desc": "Erlaubt es dem Benutzer einige Zauber bei der Position einer anvisierten Entitität zu benutzen.",
   "ability.ability_magic_lock_on.name": "Magie-Autovisieren",
@@ -133,10 +133,10 @@
   "ability.ability_mp_rage.name": "Esprit",
   "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
   "ability.ability_mp_safety.name": "MP-Aufladung",
-  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_mp_thrift.name": "MP Thrift",
 
-  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_negative_combo.name": "Combo -",
 
   "ability.ability_protect.desc":"Negiert 10% Schaden aus jeglichen Quellen.",
@@ -155,16 +155,17 @@
   "ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
   "ability.ability_synch_blade.name": "Synchrone Klingen",
 
-  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_treasure_magnet.name": "Charmeur",
-  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_wizards_ruse.name": "Hexertrick",
   "ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
   "ability.ability_zero_exp.name": "Null Erfahrung",
 
   "ability.ability_stackable.prefix": "Diese Ability kann aufgestapelt werden, um ",
-  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.",
-  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.",
+  "ability.ability_stackable.increase_chance": "die Chance zu erhöhen.", // "Mehrfaches Anlegen erhöht die Chance."
+  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.", //"Ausgerüstete Menge bestimmt die Anzahl der Zusatzhiebe."
+  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.", // "Mehrfaches Anlegen erhöht den Effekt."
 
   //ADVANCEMENTS
 
@@ -407,7 +408,7 @@
   "gear.chrono_gear_p.name": "Chrono-Mod+ (3)",
   "gear.phantom_gear.name": "Phantom-Mod (4)",
   "gear.phantom_gear_p.name": "Phantom-Mod+ (4)",
-  "gear.phantom_gear_p.name": "Phantom-Mod++ (5)",
+  "gear.phantom_gear_pp.name": "Phantom-Mod++ (5)",
   "gear.lift_gear.name": "Hebe-Mod (3)",
   "gear.lift_gear_p.name": "Hebe-Mod+ (3)",
   "gear.nimble_gear.name": "Flinkheitsmod (4)",
@@ -453,7 +454,7 @@
   "gui.commandmenu.limit": "Limit",
   "gui.commandmenu.limit.title": "Limits",
   "gui.commandmenu.magic": "Magie",
-  "gui.commandmenu.magic.title": "Magie",
+  "gui.commandmenu.magic.title": "Sprüche",
   "gui.commandmenu.portal": "Portal",
   "gui.commandmenu.portal.title": "Portale",
   "gui.commandmenu.revert": "Zurück",
@@ -519,8 +520,8 @@
   "gui.menu.items.equipment.armor": "Rüstung",
   "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
   "gui.menu.items.equipment.items": "Items",
-  "gui.menu.items.equipment.pauldron": "Schulterschutz",
-  "gui.menu.items.equipment.shotlock": "Fokussierung",
+  "gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
+  "gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
   "gui.menu.items.equipment.weapon": "Waffe",
   "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
   "gui.menu.items.stock": "Lager",
@@ -553,7 +554,7 @@
   "gui.menu.main.title": "Menü",
 
   "gui.menu.party": "Gruppe",
-  "gui.menu.party.create": "Gruppe erstellen",
+  "gui.menu.party.create": "Erstellen", //"Gruppe erstellen"
   "gui.menu.party.create.accessibility": "Zugang",
   "gui.menu.party.create.accessibility.private": "Privat",
   "gui.menu.party.create.accessibility.public": "Öffentlich",
@@ -561,7 +562,7 @@
   "gui.menu.party.create.name": "Name",
   "gui.menu.party.disband": "Auflösen",
   "gui.menu.party.invite": "Einladen",
-  "gui.menu.party.join": "Gruppe beitreten",
+  "gui.menu.party.join": "Beitreten", //"Gruppe beitreten"
   "gui.menu.party.join.desc": "Trete einer bereits erstellten Gruppe bei.",
   "gui.menu.party.kick": "Rauswerfen",
   "gui.menu.party.leave": "Austreten",
@@ -582,7 +583,7 @@
   "gui.menu.status.fireresshort": "Feuerres.",
   "gui.menu.status.formgauge": "Form-Leiste",
   "gui.menu.status.formlevel": "Form-Level",
-  "gui.menu.status.hp": "HP",
+  "gui.menu.status.hp": "LP",
   "gui.menu.status.level": "Level",
   "gui.menu.status.magic": "Magie", //Magiekraft
   "gui.menu.status.mp": "MP",
@@ -703,7 +704,7 @@
 
   // -MATERIALS
 
-  "item.kingdomkeys.adamantite": "Adamantit",
+  "item.kingdomkeys.adamantite": "Adamant",
 
   "item.kingdomkeys.betwixt_crystal": "Duktilkristall",
   "item.kingdomkeys.betwixt_gem": "Duktilstein",
