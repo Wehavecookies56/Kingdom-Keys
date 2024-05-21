@@ -651,7 +651,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGear, "Nano Gear");
         addItem(ModItems.nightmaresEnd, "Nightmare's End");
         addItem(ModItems.nightmaresEndAndMirageSplit, "Combined Keyblade");
-        addItem(ModItems.noName, "The gazing Eye");
+        addItem(ModItems.noName, "The Gazing Eye");
         addItem(ModItems.noNameBBS, "No Name");
         addItem(ModItems.oathkeeper, "Oathkeeper");
         addItem(ModItems.oblivion, "Oblivion");
@@ -800,7 +800,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGearChain, "Nano Gear Chain");
         addItem(ModItems.nightmaresEndChain, "Nightmare's End Chain");
         addItem(ModItems.nightmaresEndAndMirageSplitChain, "Combined Keyblade Chain");
-        addItem(ModItems.noNameChain, "The gazing Eye Chain");
+        addItem(ModItems.noNameChain, "The Gazing Eye Chain");
         addItem(ModItems.noNameBBSChain, "No Name Chain");
         addItem(ModItems.oathkeeperChain, "Oathkeeper Chain");
         addItem(ModItems.oblivionChain, "Oblivion Chain");
