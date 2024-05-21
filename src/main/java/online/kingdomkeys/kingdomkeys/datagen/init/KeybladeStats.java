@@ -107,7 +107,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.nanoGear, Strings.nanoGearChain, 5, 4, "", 5.0F, "A well-balanced Keyblade.");
 		addStats(Strings.nightmaresEnd, Strings.nightmaresEndChain, 7, 7, "", 5.0F, "A Keyblade formed from a Reality Shift in The World That Never Was.");
 		addStats(Strings.nightmaresEndAndMirageSplit, Strings.nightmaresEndAndMirageSplitChain, 9, 8, "", 5.0F, "A Keyblade formed by combining both the Mirage Split and Nightmare's End.");
-		addStats(Strings.noName, Strings.noNameChain, 9, 7, "", 5.0F, "The Keyblade wielded by Master Xehanort.");
+		addStats(Strings.noName, Strings.noNameChain, 9, 7, "", 5.0F, "The Keyblade that Luxu received from the Master of Masters, containing his very own eye.");
 		addStats(Strings.noNameBBS, Strings.noNameBBSChain, 7, 7, "", 6.0F, "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.");
 		addStats(Strings.oathkeeper, Strings.oathkeeperChain, 7, 7, ModAbilities.FORM_BOOST.get().toString(), 5.0F, "Enhances magic and increases the duration of a Drive Form.");
 		addStats(Strings.oblivion, Strings.oblivionChain, 8, 5, ModAbilities.DRIVE_BOOST.get().toString(), 5.0F, "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.");

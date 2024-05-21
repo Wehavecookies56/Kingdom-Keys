@@ -1164,8 +1164,8 @@
   "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
   "item.kingdomkeys.mark_of_a_hero": "Heldenemblem",
   "item.kingdomkeys.mark_of_a_hero_chain": "Heldenemblem-Anhänger",
-  "item.kingdomkeys.no_name_bbs": "Namenlose Klinge (BBS)",
-  "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge (BBS)-Anhänger",
+  "item.kingdomkeys.no_name_bbs": "Namenlose Klinge",
+  "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge-Anhänger",
   "item.kingdomkeys.pixie_petal": "Feenblüte",
   "item.kingdomkeys.pixie_petal_chain": "Feenblüte-Anhänger",
   "item.kingdomkeys.rainfell": "Regenfall", //aqua og
@@ -1187,8 +1187,8 @@
   "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus og
   "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
 
-  "item.kingdomkeys.no_name": "Namenlose Klinge", //xehanort
-  "item.kingdomkeys.no_name_chain": "Namenlose Klinge-Anhänger",
+  "item.kingdomkeys.no_name": "Das starrende Auge", //xehanort / luxu
+  "item.kingdomkeys.no_name_chain": "Das starrende Auge-Anhänger",
 
   //Final Mix
   "item.kingdomkeys.masters_defender": "Meisterhüter", //Eraqus
