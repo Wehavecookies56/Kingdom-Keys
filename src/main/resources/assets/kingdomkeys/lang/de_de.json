@@ -519,7 +519,7 @@
   "gui.menu.items.equipment.armor": "Rüstung",
   "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
   "gui.menu.items.equipment.items": "Items",
-  "gui.menu.items.equipment.pauldron": "Pauldron",
+  "gui.menu.items.equipment.pauldron": "Schulterschutz",
   "gui.menu.items.equipment.shotlock": "Fokussierung",
   "gui.menu.items.equipment.weapon": "Waffe",
   "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
@@ -740,14 +740,14 @@
   "item.kingdomkeys.lightning_shard": "Donnersplitter",
   "item.kingdomkeys.lightning_stone": "Donnertropfen",
 
-  "item.kingdomkeys.lost_illusion": "Verlorene Illusion",
+  "item.kingdomkeys.lost_illusion": "Flüchtige Vision",
 
   "item.kingdomkeys.lucid_crystal": "Luzidkristall",
   "item.kingdomkeys.lucid_gem": "Luzidstein",
   "item.kingdomkeys.lucid_shard": "Luzidsplitter",
   "item.kingdomkeys.lucid_stone": "Luzidtropfen",
 
-  "item.kingdomkeys.manifest_illusion": "Manifestierte Illusion",
+  "item.kingdomkeys.manifest_illusion": "Beständige Vision",
 
   "item.kingdomkeys.mythril_crystal": "Mithrilkristall",
   "item.kingdomkeys.mythril_gem": "Mithrilstein",
@@ -936,13 +936,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
-  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
+  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
 
 
   // -ACCESOIRES
@@ -1008,7 +1008,7 @@
   "item.kingdomkeys.magicboost": "Magiesphäre",
   "item.kingdomkeys.powerboost": "Kraftbolzen",
 
-  "item.kingdomkeys.proof_of_heart": "Beweis des Herzens",
+  "item.kingdomkeys.proof_of_heart": "Zeugnis des Herzens",
 
 
   // --MAGIC AND FORMS
@@ -1033,8 +1033,8 @@
 
   // -WEAPONS
 
-  "item.kingdomkeys.struggle_hammer": "Struggle-Schwert",
-  "item.kingdomkeys.struggle_sword": "Struggle-Knüppel",
+  "item.kingdomkeys.struggle_hammer": "Struggle-Knüppel", //schwert in kh2, knüppel in FM??
+  "item.kingdomkeys.struggle_sword": "Struggle-Schwert", //knüppel in kh2, schwert in FM?
   "item.kingdomkeys.struggle_wand": "Struggle-Stab",
 
   // --KEYBLADES
@@ -1248,7 +1248,7 @@
 
   // ---KH3
 
-  "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch dlc
+  "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
   "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
@@ -1276,7 +1276,7 @@
   "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
   "item.kingdomkeys.nano_gear": "Nano-Mod",
   "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
-  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX DLC
+  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
   "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
   "item.kingdomkeys.shooting_star": "Sternschnuppe",
   "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
@@ -1713,7 +1713,7 @@
   "item.kingdomkeys.true_lights_flight_chain": "Lichtflug-Anhänger",
   "item.kingdomkeys.twilight_blaze": "Zwielichtfeuer", //ultima
   "item.kingdomkeys.twilight_blaze_chain": "Zwielichtfeuer-Anhänger",
-  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //alt name: "Zweisamkeit" //zero + 2 ability
+  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //MoM name: "Aus Zwei wird Eins" --- alt name: "Zweisamkeit" //zero + 2 ability
   "item.kingdomkeys.two_become_one_chain": "Aus Zwei wird Eins-Anhänger",
   "item.kingdomkeys.omega_weapon": "Omega-Waffe", //pandora
   "item.kingdomkeys.omega_weapon_chain": "Omega-Waffe-Anhänger",
@@ -1817,7 +1817,7 @@
   "itemGroup.kingdomkeys_equipables": "Kingdom Keys: Ausrüstung",
   "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Schlüsselschwerter",
   "itemGroup.kingdomkeys_misc": "Kingdom Keys: Verschiedenes",
-  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation Waffen",
+  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation",
 
   // JEI
 
