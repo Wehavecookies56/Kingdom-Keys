@@ -47,6 +47,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.darkerThanDark, Strings.darkerThanDarkChain, 7, 8, "", 5.0F, "A weapon that offers high Magic and combo reach.");
 		addStats(Strings.darkgnaw, Strings.darkgnawChain, 6, 4, "", 5.0F, "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.");
 		addStats(Strings.dawnTillDusk, Strings.dawnTillDuskChain, 4, 4, "", 5.0F, "A Keyblade that courses with mystic power.");
+		addStats(Strings.deadOfNight, Strings.deadOfNightChain, 4, 4, ModAbilities.GRAND_MAGIC_HASTE.get().toString(), 5.0F, "A Keyblade that courses with mystic power.");
 		addStats(Strings.decisivePumpkin, Strings.decisivePumpkinChain, 8, 3, "", 5.0F, "The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!");
 		addStats(Strings.destinysEmbrace, Strings.destinysEmbraceChain, 4, 4, "", 5.0F, "A Keyblade that makes it easier to land critical hits.");
 		addStats(Strings.diamondDust, Strings.diamondDustChain, 4, 9, ModAbilities.BLIZZARD_BOOST.get().toString(), 5.0F, "Greatly enhances magic and summon power. Raises max MP by 3.");

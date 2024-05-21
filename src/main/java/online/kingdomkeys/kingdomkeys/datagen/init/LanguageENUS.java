@@ -592,6 +592,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDark, "Darker Than Dark");
         addItem(ModItems.darkgnaw, "Darkgnaw");
         addItem(ModItems.dawnTillDusk, "Dawn Till Dusk");
+        addItem(ModItems.deadOfNight, "Dead of Night");
         addItem(ModItems.decisivePumpkin, "Decisive Pumpkin");
         addItem(ModItems.destinysEmbrace, "Destiny's Embrace");
         addItem(ModItems.diamondDust, "Diamond Dust");
@@ -741,6 +742,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDarkChain, "Darker Than Dark Chain");
         addItem(ModItems.darkgnawChain, "Darkgnaw Chain");
         addItem(ModItems.dawnTillDuskChain, "Dawn Till Dusk Chain");
+        addItem(ModItems.deadOfNightChain, "Dead of Night Chain");
         addItem(ModItems.decisivePumpkinChain, "Decisive Pumpkin Chain");
         addItem(ModItems.destinysEmbraceChain, "Destiny's Embrace Chain");
         addItem(ModItems.diamondDustChain, "Diamond Dust Chain");
