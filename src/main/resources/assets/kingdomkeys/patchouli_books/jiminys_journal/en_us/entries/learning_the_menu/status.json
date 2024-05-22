@@ -3,11 +3,10 @@
 	"icon": "kingdomkeys:shooting_star_chain",
 	"sortnum": 5,
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
-			"text": "The $(thing)Status$() menu allows you to see your current statistics and the amount of XP needed to level up you and your Forms. (see section $(thing)Drive Forms$() for more information.)"
+			"text": "The $(item)Status$() menu allows you to see your current statistics and the amount of XP needed to level up you and your $(drive)Forms$()."
 		},
         {
             "type": "image",

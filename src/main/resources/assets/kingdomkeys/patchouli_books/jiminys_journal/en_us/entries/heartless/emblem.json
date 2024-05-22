@@ -2,12 +2,11 @@
 	"name": "Emblem-Heartless",
 	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:heartless",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Emblem-Heartless$() are easy to recognize by the $(thing)heartshaped symbol$() on their body. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)heart$() frei, wenn sie besiegt wurden. They have their prominent $(thing)Emblem$(), because they are artifically made."
+			"text": "$(item)Emblem-Heartless$() are easy to recognize by the $(thing)heartshaped symbol$() on their body. Different from $(pureblooded)Purebloods$() have these a strong will and set a $(thing)heart$() free, when they have been defeated. They have their prominent $(thing)Emblem$(), because they are artifically made."
 		},
 		{
 			"type": "patchouli:relations",

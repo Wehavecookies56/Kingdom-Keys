@@ -24,7 +24,10 @@
 		"$(spell)": "$(l:kingdomkeys:customize/magic_and_spells)",
 		"$(magic)": "$(l:kingdomkeys:customize/magic_and_spells)",
 		"$(munny)": "$(l:kingdomkeys:synthesize/munny)",
-		"$(moogle)": "$(l:kingdomkeys:synthesize/moogle)"
+		"$(moogle)": "$(l:kingdomkeys:synthesize/moogle)",
+		"$(orga)": "$(l:kingdomkeys:orgxii)",
+		"$(org)": "$(l:kingdomkeys:orgxii)",
+		"$(orgxiii)": "$(l:kingdomkeys:orgxii)"
 	},
 	"use_resource_pack": true
 }

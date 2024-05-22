@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The Pedestal is a block that can be used to showcase an item, with options to customize how it floats and how fast it spins. The recipe is as follows."
+			"text": "$(item)The Pedestal$() is a block that can be used to showcase an item, with options to customize how it floats and how fast it spins."
 		},
 		{
 			"type":"crafting",

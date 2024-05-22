@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Prone to self-detonation, these small $(heartless)Heartless$() will begin a countdown to explosion if you deflect their head-butts with a block.$(br)They can also be detonated on the spot using $(thing)Fire magic.$()$(p)$(lissa)$(l)$(o)[Days]$()"
+			"text": "Prone to self-detonation, these small $(heartless)Heartless$() will begin a countdown to explosion if you deflect their head-butts with a block.$(br)They can also be detonated on the spot using $(thing)Fire magic$().$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

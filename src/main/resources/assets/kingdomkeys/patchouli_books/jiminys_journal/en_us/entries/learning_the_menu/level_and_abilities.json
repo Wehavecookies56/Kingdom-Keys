@@ -3,7 +3,6 @@
 	"icon": "kingdomkeys:apboost",
 	"sortnum": 2,
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",

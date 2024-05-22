@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "A $(item)Nobody$() the vessel that remains, when the $(thing)heart$() that is filled with $(lissa)darkness$() disconnects from their $(thing)somebody(). Every $(heartless)Heartless$() that gets born, also causes a $(thing)nobody$() to be born, with the heart lost."
+			"text": "A $(item)Nobody$() the vessel that remains, when the $(thing)heart$() that is filled with $(lissa)darkness$() disconnects from their $(thing)somebody$(). Every $(heartless)Heartless$() that gets born, also causes a $(thing)nobody$() to be born, with the heart lost."
 		},
 		{
 			"type": "patchouli:image",

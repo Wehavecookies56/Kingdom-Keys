@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Spellcasting $(heartless)Heartless$(). While hovering about, they attack by casting Fire. Having low HP they keep their distance from their opponents, making them difficult to attack. $(o)They absorb fire attacks.$()$(p)$(lissa)$(l)$(o)[KH1]$()"
+			"text": "Spellcasting $(heartless)Heartless$(). While hovering about, they attack by casting Fire. Having low HP they keep their distance from their opponents, making them difficult to attack. $(thing)$(o)They absorb fire attacks$().$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

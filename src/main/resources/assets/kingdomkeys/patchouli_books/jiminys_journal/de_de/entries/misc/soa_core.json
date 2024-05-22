@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Um die $(item)Plattform des Ort des Erwachens$() zu bauen, wird eine unmenge an $(l:kingdomkeys:misc/mosaic)Buntem Mosaikglas$() (5867) benötigt, so wie $(thing)den Kern selbst$() und einen $(thing)Holzstock$() (die Kingdom Keys Waffe und NICHT das Minecraft Item). Baue die Struktur nach und plaziere in der Mitte, auf der obersten Ebene, und benutze auf diesen den Holzstock."
+			"text": "Um die $(item)Plattform des Ort des Erwachens$() zu bauen, wird eine unmenge an $(l:kingdomkeys:misc/mosaic)Buntem Mosaikglas$() (5867) benötigt, so wie $(thing)den Kern selbst$() und einen $(thing)Holzstock$() (die Kingdom Keys Waffe und NICHT den Minecraft Gegenstand). Baue die Struktur nach und plaziere in der Mitte, auf der obersten Ebene, und benutze auf diesen den Holzstock."
 		},
 		{
 			"type":"crafting",
-			"recipe2":"kingdomkeys:station_of_awakening_core"
+			"recipe":"kingdomkeys:station_of_awakening_core"
 		},
 		{
             "type": "multiblock",

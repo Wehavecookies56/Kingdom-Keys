@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Spellcasting $(heartless)Heartless$(). They heal themselves and other $(thing)Heartless$() with Cure. They are slow-moving but hover high in the air and $(thing)$(o)absorb most magic attacks.$()$(p)$(lissa)$(l)$(o)[KH1]$()"
+			"text": "Spellcasting $(heartless)Heartless$(). They heal themselves and other $(thing)Heartless$() with Cure. They are slow-moving but hover high in the air and $(thing)$(o)absorb most magic attacks$().$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

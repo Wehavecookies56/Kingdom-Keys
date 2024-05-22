@@ -2,12 +2,11 @@
 	"name": "Pureblooded",
 	"icon": "kingdomkeys:way_to_the_dawn_chain",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:heartless",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Pureblooded() are natural heartless, und einen schwachen Willen besitzen. Sie dann entstehen, wenn das $(thing)Herz$() einer Person von $(lissa)Dunkelheit$() eingehüllt wird. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
+			"text": "$(item)Pureblooded$() are natural $(heartless)heartless$() and have a weak will. They get born, when the $(thing)heart$() from somebody is engulfed by $(lissa)darkness$(). Unlilke $(emblem)Emblem-Heartless$() do these set free $(thing)no heart$(), once defeated."
 		},
 		{
 			"type": "patchouli:relations",
