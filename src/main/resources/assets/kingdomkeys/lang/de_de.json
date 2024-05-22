@@ -376,7 +376,7 @@
   "entity.kingdomkeys.entity_chakram": "Chakram",
 
   "entity.kingdomkeys.entity_drive_orb": "Drive-Kugel",
-  "entity.kingdomkeys.entity_hp_orb": "HP-Kugel",
+  "entity.kingdomkeys.entity_hp_orb": "LP-Kugel",
   "entity.kingdomkeys.entity_mp_orb": "MP-Kugel",
   "entity.kingdomkeys.entity_munny": "Taler",
   
@@ -548,7 +548,7 @@
 
   "gui.menu.main.hearts": "Herzen",
   "gui.menu.main.munny": "Taler",
-  "gui.menu.main.synthesis_tier": "Synthese-Stufe",
+  "gui.menu.main.synthesis_tier": "Schmiede-Stufe",
   "gui.menu.main.time": "Uhrzeit (Welt)",
   "gui.menu.main.time.spent": "Vergangene Zeit",
   "gui.menu.main.title": "Menü",
@@ -583,13 +583,13 @@
   "gui.menu.status.fireres": "Feuerresistenz",
   "gui.menu.status.fireresshort": "Feuerres.",
   "gui.menu.status.formgauge": "Form-Leiste",
-  "gui.menu.status.formlevel": "Form-Level",
+  "gui.menu.status.formlevel": "Form-Stufe",
   "gui.menu.status.hp": "LP",
-  "gui.menu.status.level": "Level",
+  "gui.menu.status.level": "Stufe",
   "gui.menu.status.magic": "Magie", //Magiekraft
   //"gui.menu.status.magiclong": "Magiekraft",
   "gui.menu.status.mp": "MP",
-  "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
+  "gui.menu.status.nextlevel": "Nächste Stufe", // Nächst. LV
   "gui.menu.status.strength": "Angriff", //Angriffskraft
   //"gui.menu.status.strengthlong": "Angriffskraft", //Angriffskraft
   "gui.menu.status.thunderres": "Blitzresistenz",
@@ -642,8 +642,8 @@
   "gui.synthesis.materials.deposit": "Einlagern",
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
-  "gui.synthesis.synthesise": "Item-Synthese",
-  "gui.synthesis.synthesise.title": "Synthese",
+  "gui.synthesis.synthesise": "Item-Schmiede",
+  "gui.synthesis.synthesise.title": "Schmiede",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",
@@ -667,7 +667,7 @@
   "item.kingdomkeys.dream_staff": "Alchera-Stab",
   "item.kingdomkeys.dream_sword": "Alchera-Schwert",
 
-  "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
+  "item.kingdomkeys.synthesis_bag": "Schmiedebeutel",
 
   "item.kingdomkeys.wayfinder": "Wegfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
@@ -721,7 +721,7 @@
 
   "item.kingdomkeys.electrum": "Elektrum",
 
-  "item.kingdomkeys.damascus": "Damaskus",
+  "item.kingdomkeys.damascus": "Damast",
 
   "item.kingdomkeys.evanescent_crystal": "Dunstkristall",
 
@@ -1254,16 +1254,21 @@
 
   "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
   "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
+  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
+  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
+  "item.kingdomkeys.dead_of_night": "Mondreign", //steam
+  "item.kingdomkeys.dead_of_night_chain": "Mondreign-Anhänger",
+  "item.kingdomkeys.elemental_encoder": "Elementarkodierer", //epic games
+  "item.kingdomkeys.elemental_encoder_chain": "Elementarkodierer-Anhänger",
+  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
+  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
+
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
   "item.kingdomkeys.classic_tone": "Klassische Klänge",
   "item.kingdomkeys.classic_tone_chain": "Klassische Klänge-Anhänger",
   "item.kingdomkeys.crystal_snow": "Pulverschnee",
   "item.kingdomkeys.crystal_snow_chain": "Pulverschnee-Anhänger",
-  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
-  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
-  "item.kingdomkeys.elemental_encoder": "Elemental Encoder", //epic games
-  "item.kingdomkeys.elemental_encoder_chain": "Elemental Encoder-Anhänger",
   "item.kingdomkeys.ever_after": "Immer und Ewig",
   "item.kingdomkeys.ever_after_chain": "Immer und Ewig-Anhänger",
   "item.kingdomkeys.favorite_deputy": "Hilfssheriff Nr. 1",
@@ -1280,8 +1285,6 @@
   "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
   "item.kingdomkeys.nano_gear": "Nano-Mod",
   "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
-  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
-  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
   "item.kingdomkeys.shooting_star": "Sternschnuppe",
   "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
   "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
@@ -1827,7 +1830,7 @@
 
   "jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
   "jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
-  "jei.category.kingdomkeys.synthesis": "Item Synthese",
+  "jei.category.kingdomkeys.synthesis": "Item-Schmiede",
   "jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
   "jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
 
@@ -1840,12 +1843,12 @@
   "jei.info.kingdomkeys.limit_orb": "Benutzen um die Limit-Form freizuschalten. Das Aktivieren benötigt 4 volle Drive-Leisten. Kann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.magnet_blox": "Ermöglicht das Anziehen oder Abstoßen andere Entititäten in die Richtung in die der Block schaut.\nWird mit einem Redstone-Signal aktiviert, Rechtsklick um die Reichweite zu ändern, und Schleichen + Rechtsklick um zwischen die beiden Modi zu wechseln.",
   "jei.info.kingdomkeys.master_orb": "Benutzen um die Meister-Form freizuschalten. Die Meister-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 4 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
-  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Synthese und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
+  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Schmiede und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
   "jei.info.kingdomkeys.organization_robes": "Trage eine ganze Robe der Organisations um ihr beizutreten. Ein Mitglied muss am Anfang ausgewählt werden. Am Ende kann jede Waffe aller Mitglieder benutzt werden, aber zum freischalten muss die voherige Waffe mit Herzen freigeschaltet werden.",
   "jei.info.kingdomkeys.organization_weapons": "Als Mitglied der Organisation kannst du Waffen innerhalb des Waffen-Menüs mit Herzen freischalten, die du durch das töten von Mobs erhälst. Du erhälst doppelte Anzahl an Herzen, wenn du eine Waffe deines ausgewählten Mitgliedes benutzt.\nRufe die Waffe mit der 'Waffe rufen'-Taste.",
   "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
   "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
-  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Synthese bei Mogrys freizuschalten.",
+  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
   "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
   "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
@@ -1943,12 +1946,12 @@
   "message.recipe.no_more_to_learn": "Keine weiteren Formeln zu erlernen",
 
   "message.wayfinder.player_not_found": "Der Spieler %s konnte nicht gefunden werden",
-  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder, gebe ihn an jemand anderen weiter",
-  "message.wayfinder.from_party": " aus deiner Gruppe",
+  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder. Gebe ihn jemanden",
   "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
   "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
-  "message.wayfinder.cooldown": "Abklingzeit: %s%%",
-  "message.wayfinder.in_your_party": "in deiner Gruppe",
+  "message.wayfinder.cooldown": "§7Abklingzeit: %s%%",
+  "message.wayfinder.owner": "§7Besitzer: %s",
+  "message.wayfinder.in_your_party": "aus deiner Gruppe",
   "message.wayfinder.player_not_online": "Der Spieler %s ist nicht online",
 
   "potion.desc.beginning": "Stellt %s%s %s wiederher ",
@@ -2014,7 +2017,7 @@
   "stats.levelUpAP": "Maximum-AP erhöht!",
   "stats.levelUpDef": "Abwehrkraft erhöht!",
   "stats.levelUpFG": "Form-Leiste verstärkt!",
-  "stats.levelUpHP": "Maximum-HP erhöht!",
+  "stats.levelUpHP": "Maximum-LP erhöht!",
   "stats.levelUpMP": "Maximum-MP erhöht!",
   "stats.levelUpMag": "Magischekraft erhöht!",
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",

@@ -1,0 +1,16 @@
+{
+	"name": "Wayfinder",
+	"icon": "kingdomkeys:wayfinder",
+	"sortnum": 4,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)The Wayfinder$() is an useful item, intended for the use of members in a $(l:kingdomkeys:learning_the_menu/party)Party$(). With this you can give your own crafted Wayfinder to another player, which they can use to $(thing)teleport$() to you at any time, as long as $(thing)both are online$() and in the $(thing)same party$(). However, due to it's pretty strong feature, it has a "
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:wayfinder"
+		}
+	]
+}
