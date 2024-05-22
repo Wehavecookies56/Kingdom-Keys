@@ -2,7 +2,6 @@
 	"name": "Playing Organization",
 	"icon": "kingdomkeys:evanescent_crystal",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{
@@ -11,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "You also obtain the ability to craft Organization Portals, which you can have 3 of active at a time and be able to teleport to whenever you wish. Be weary, because other players, even outside of the Organizations ranks, can follow you through your portal. The recipe for the portal is as follows."
+			"text": "You also obtain the ability to craft $(thing)Organization Portals$(), which you can have 3 of active at a time and be able to teleport to whenever you wish. Be weary, because other players, even outside of the Organizations ranks, can follow you through your portal."
 		},
 		{
 			"type":"crafting",

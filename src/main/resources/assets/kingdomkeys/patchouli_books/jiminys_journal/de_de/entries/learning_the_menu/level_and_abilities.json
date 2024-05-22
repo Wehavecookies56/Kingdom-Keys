@@ -8,7 +8,7 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "As you play the $(thing)Kingdom Keys$(), you'll gain XP toward your levels in Kingdom Keys by killing any hostile mob. Everytime you level up, you'll recieve stat increases and new abilities. These abilities can be equipped in the $(thing)Abilities$() tab in your menu. "
+			"text": "Während du mit $(thing)Kingdom Keys$() spielst, erhälst du EP für deine Stufe, wenn du feindliche Mobs erlgst. Mit jedem $(thing)Stufen-Aufstieg erhöhen$() sich deine $(l:kingdomkeys:learning_the_Menu/status)Werte$(), und du kannst $(thing)neue Abilitys$() freischalten. Diese Abilitys können im $(item)Abilitys$()-Reiter ausgerüstet werden. "
 		},
 		{
 			"type": "text",

@@ -1,12 +1,12 @@
 {
 	"name": "Creeper",
 	"icon": "kingdomkeys:nobody_creeper_spawn_egg",
-	"category": "kingdomkeys:hidden",
+	"category": "kingdomkeys:nobodies",
 	"sortnum": 1,
 	"pages": [
 		{
 			"type": "text",
-			"text": "The weakest of the Nobodies. It takes on various shapes, making it difficult to read its next move. When it is paired with Dusks, use Reversal to stop its movements before attacking."
+			"text": "The weakest of the $(nobody)Nobodies$(). It takes on various shapes, making it difficult to read its next move.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

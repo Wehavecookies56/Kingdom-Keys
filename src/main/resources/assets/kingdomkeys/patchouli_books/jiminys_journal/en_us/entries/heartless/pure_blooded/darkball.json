@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(heartless)Heartless$() hewn from the very shadows. Usually they just waft through the air, but they can be annoyingly unpredictable, bobbing around erratically or charging right at you without a moment's warning."
+			"text": "$(heartless)Heartless$() hewn from the very shadows. Usually they just waft through the air, but they can be annoyingly unpredictable, bobbing around erratically or charging right at you without a moment's warning.$(p)$(lissa)$(l)$(o)[Re:Coded]$()"
 		},
 		{
 			"type": "patchouli:entity",

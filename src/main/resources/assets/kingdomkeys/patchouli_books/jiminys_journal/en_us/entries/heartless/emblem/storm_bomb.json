@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These mid-sized $(heartless)Heartless begin a countdown to self-detonation if you deflect their head-butts with a block. Avoid being sucked in by the whirlwind they produce during the countdown by jumping or gliding away."
+			"text": "These mid-sized $(heartless)Heartless begin a countdown to self-detonation if you deflect their head-butts with a block. Avoid being sucked in by the whirlwind they produce during the countdown by jumping or gliding away.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

@@ -1543,8 +1543,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.not_in_party","You are not in a party");
         add("message.wayfinder.player_not_in_party","Player %s is not in your party");
         add("message.wayfinder.player_not_online","Player %s is not online");
-        add("message.wayfinder.owner","§7Owner: %s");
-        add("message.wayfinder.cooldown","§7Cooldown: %s%%");
+        add("message.wayfinder.owner","Owner: %s");
+        add("message.wayfinder.cooldown","Cooldown: %s%%");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "A large $(heartless)Heartless$() similar to a shadow. Like its $(l:kingdomkeys:heartless/pure_blooded/mega_shadow)predecessor$() its quite persistent and will chase its target around. If it just does the littlest ammount of damage to You it will fade out of sheer happiness. "
+			"text": "A large $(heartless)Heartless$() similar to a $(l:kingdomkeys:heartless/pure_blooded/shadow)Shadow$(). Like its $(l:kingdomkeys:heartless/pure_blooded/mega_shadow)predecessor$() its quite persistent and will chase its target around. If it just does the littlest ammount of damage to You it will fade out of sheer happiness.$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

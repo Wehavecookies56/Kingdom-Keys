@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Truhe ist sofern Spezial, indem sie sich nur öffnet lässt, mithilfe eines $(item)Schlüsselschwertes$() eines bestimmten Spielers, und kann auch nur von diesem Spieler geöffnet werden. Außerdem, hat es eine Reihe (oder auch 9 Plätze) mehr Speicherraum, als eine herkömmliche, einzelne Truhe, lässt sich aber dafür nicht verbinden."
+			"text": "$(item)Diese Truhe$() ist sofern besonders, indem sie sich nur öffnet lässt, mithilfe eines $(thing)Schlüsselschwertes$() eines bestimmten Spielers, und kann auch nur von diesem Spieler geöffnet werden. Außerdem, hat es eine Reihe (9 Plätze) $(thing)mehr Speicherraum$(), als eine herkömmliche, einzelne Truhe, $(thing)lässt sich$() aber dafür $(thing)nicht verbinden$()."
 		},
 		{
 			"type":"crafting",

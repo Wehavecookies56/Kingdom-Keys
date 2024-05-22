@@ -2,12 +2,12 @@
 	"name": "Drive Forms",
 	"icon": "kingdomkeys:hi_drive_recovery",
 	"category": "kingdomkeys:commands",
-	"read_by_default": false,
 	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Just like Spells, as you explore the world and find those cubes we mentioned before, you can also find $(thing)Form Orbs.$() These orbs can be used with a press of the Interact button to learn the form."
+			"text": "Just like $(spell)Spells$(), as you explore the world and find $(l:kingdomkeys:blox/prize)those cubes$() we mentioned before, you can also find $(item)Form Orbs.$() These orbs can be used with a press of the $(k:minecraft:key_key.use) $(thing)[$(k:minecraft:key.use)]-Button$() to learn the form."
 		},
 		{
 			"type": "text",

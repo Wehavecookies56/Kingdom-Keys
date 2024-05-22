@@ -1,8 +1,7 @@
 {
 	"name": "Joining the Organization",
-	"icon": "kingdomkeys:evanescent_crystal",
+	"icon": "kingdomkeys:organization_helmet",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Spellcasting $(heartless)Heartless$(). They approach their enemies by bouncing about and attack with Blizzard and absorb blizzard attacks.$(p)$(lissa)$(l)$(o)[KH1]$()"
+			"text": "Spellcasting $(heartless)Heartless$(). They approach their enemies by bouncing about and attack with Blizzard and $(thing)$(o)absorb blizzard attacks$().$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

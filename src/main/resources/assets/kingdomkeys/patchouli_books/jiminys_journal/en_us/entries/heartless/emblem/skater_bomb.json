@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These mid-sized $(heartless)Heartless$() begin a countdown to self-detonation if you deflect their head-butts with a block. Strike them during the countdown to send their payload hurtling into other enemies."
+			"text": "These mid-sized $(heartless)Heartless$() begin a countdown to self-detonation if you deflect their head-butts with a block. Strike them during the countdown to send their payload hurtling into other enemies.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

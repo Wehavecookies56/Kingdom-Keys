@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Attack from a safe distance, while watching out for its sudden tackle. When its HP gets low, a tornado forms, drawing the enemy close. It easily resists magic, so don't be shy about using the Keyblade!$(p)$(lissa)$(l)$(o)[KH2]$()"
+			"text": "Attack from a safe distance, while watching out for its sudden tackle. When its HP gets low, a tornado forms, drawing the enemy close. It easily $(thing)$(o)resists magic$(), so don't be shy about using the Keyblade!$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

@@ -1,12 +1,12 @@
 {
-	"name": "Mega Shadow",
+	"name": "Mega-Shadow",
 	"icon": "kingdomkeys:mega_shadow_spawn_egg",
 	"category": "kingdomkeys:pure_blooded",
 	"sortnum": 2,
 	"pages": [
 		{
 			"type": "text",
-			"text": "These mid-sized Purebloods retain the attack patterns of their smaller cousins, but also use a dangerous tackle. Block it, and they're left wide open."
+			"text": "These mid-sized $(pure_blooded)Purebloods$() retain the attack patterns of their $(l:kingdomkeys:heartless/pure_blooded/shadow)smaller cousins$(), but also use a dangerous tackle. Block it, and they're left wide open.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

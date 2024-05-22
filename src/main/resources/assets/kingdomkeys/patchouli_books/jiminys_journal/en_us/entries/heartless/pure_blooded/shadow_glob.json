@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These dark masses tend to attract Purebloods. Destroy them on sight."
+			"text": "These dark masses tend to $(thing)attract$() $(pureblooded)Purebloods$(). Destroy them on sight.$(p)$(lissa)$(l)$(o)[Days]$()"
 		},
 		{
 			"type": "patchouli:entity",

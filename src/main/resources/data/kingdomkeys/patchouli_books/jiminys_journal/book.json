@@ -14,15 +14,17 @@
 	"macros": {
 		"$(lissa)": "$(#fe84a3)",
 		"\n": "$(br)",
-		"$(heartless)": "$(l:kingdomkeys:heartless)$(item)",
-		"$(pure_blooded)": "$(l:kingdomkeys:heartless/pure_blooded)$(item)",
-		"$(pureblooded)": "$(l:kingdomkeys:heartless/pure_blooded)$(item)",
-		"$(emblem)": "$(l:kingdomkeys:heartless/emblem)$(item)",
-		"$(nobody)": "$(l:kingdomkeys:nobodies)$(item)",
-		"$(drive)": "$(l:kingdomkeys:drive)$(item)",
-		"$(blox)": "$(l:kingdomkeys:blox)$(item)",
-		"$(spell)": "$(l:kingdomkeys:customize/magic_and_spells)$(item)",
-		"$(magic)": "$(l:kingdomkeys:customize/magic_and_spells)$(item)"
+		"$(heartless)": "$(l:kingdomkeys:heartless)",
+		"$(pure_blooded)": "$(l:kingdomkeys:heartless/pure_blooded)",
+		"$(pureblooded)": "$(l:kingdomkeys:heartless/pure_blooded)",
+		"$(emblem)": "$(l:kingdomkeys:heartless/emblem)",
+		"$(nobody)": "$(l:kingdomkeys:nobodies)",
+		"$(drive)": "$(l:kingdomkeys:drive)",
+		"$(blox)": "$(l:kingdomkeys:blox)",
+		"$(spell)": "$(l:kingdomkeys:customize/magic_and_spells)",
+		"$(magic)": "$(l:kingdomkeys:customize/magic_and_spells)",
+		"$(munny)": "$(l:kingdomkeys:synthesize/munny)",
+		"$(moogle)": "$(l:kingdomkeys:synthesize/moogle)"
 	},
 	"use_resource_pack": true
 }

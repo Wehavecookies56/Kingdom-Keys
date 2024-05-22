@@ -1,12 +1,12 @@
 {
-	"name": "Danger Blox",
+	"name": "Schadensblock",
 	"icon": "kingdomkeys:danger_blox",
 	"sortnum": 4,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Danger Blox are, well... Dangerous. These Blox when stepped on without boots or hit with your tools or fists will deal damage to you, slowly but surely. They can be found in the world or crafted using Normal Blox and Cacti, the recipe is as follows."
+			"text": "$(item)Schadensblöcke$() sind, nun ja... $(thing)schädlich$(). Wenn man diese $(blox)Bug-Blöcke$() anfässt, egal ob mit den bloßen Füßen, deiner hand oder dem ganzen Körper, erleidest du Schaden. Ähnlich wie ein Kaktus, werden ebenfalls alle $(thing)Gegenstände oder Blöcke zerstört$(), die in $(thing)Berührung$() damit kommen. Man kann sie an der Oberfläche finden, meistens bei $(l:kingdomkeys:blox/prize)sternförmigen Blöcken$(), oder können auch mit $(l:kingdomkeys:blox/normal)Normalen Blöcken$() und $(thing)Kakteen$() hergestellt werden."
 		},
 		{
 			"type":"crafting",

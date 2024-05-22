@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Heartless that emerge from various places. They sneak up to their enemies with sharp claws. They are extremely tenacious, often chasing their prey to the end."
+			"text": "$(heartless)Heartless$() that emerge from various places. They sneak up to their enemies with sharp claws. They are extremely tenacious, often chasing their prey to the end.$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

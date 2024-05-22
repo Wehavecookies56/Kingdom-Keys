@@ -1,14 +1,12 @@
 {
-	"name": "Synthesis Bag",
+	"name": "Synthesebeutel",
 	"icon": "kingdomkeys:synthesis_bag",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "This familiar bag can automatically pick up and hold all your Synthesis materials. It can be easily crafter with 7 Leather and a String and can be upgraded using Munny, expanding its storage capacity."
+			"text": "Dieser $(item)vertraute Beutel$() hebt automatisch alle Synthesematerialien auf, und verstaut sie in dem Beutel. Mit etwas Leder und einem Faden kann dieser einfach hergestellt werden, und mit einigen $(l:kingdomkeys:/syntheize/munny)Talern$() kann der Speicherplatz vergrößert werden."
 		},
 		{
 			"type":"crafting",

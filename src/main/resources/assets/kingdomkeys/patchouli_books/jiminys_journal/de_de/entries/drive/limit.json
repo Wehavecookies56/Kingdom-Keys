@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Form erhält Erfahrung für jeden Maximal aufgeladenen Fokus, der erfolgreich abgefeuert wurde, während man in dieser Form ist. Ein $(lissa)$(l)nicht vollständig aufgeladener Fokus$() wird dir $(lissa)$(l)keine EP$() geben. $(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Purzelbaum-Ability$() belohnen."
+			"text": "Diese Form erhält Erfahrung für $(thing)jeden Maximal aufgeladenen Fokus$(), der $(thing)erfolgreich abgefeuert$() wurde, während man $(thing)in dieser Form$() ist. Ein $(lissa)$(l)nicht vollständig aufgeladener Fokus$() wird dir $(lissa)$(l)keine EP$() geben. $(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Purzelbaum-Ability$() belohnen."
 		}
 	]
 }

@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(l:kingdomkeys:customize/magic_and_spells)$(item)Zauber$(), $(l:kingdomkeys:customize/drive)$(item)Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)$(item)Synthese Materialien$() und $(l:kingdomkeys:synthesize/munny)$(item)Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
+			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(spell)Zauber$(), $(l:kingdomkeys:customize/drive)$Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)Schmiedematerialien$() und $(munny)$Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
 		},
 		{
 			"type": "text",
-			"text": "$(o)Anmerkung:$()$(br)Oft werden diese begleitet von $(l:kingdomkeys:blox/blast)$(item)Bombenblöcken$() oder $(l:kingdomkeys:blox/danger)$(item)Schadensblöcken$(). Um Gegenstandsverlust zu vermeiden, empfielt es sich erst um diese preiswerten Blöcke umherzugraben."
+			"text": "$(o)Anmerkung:$()$(br)Oft werden diese begleitet von $(l:kingdomkeys:blox/blast)Bombenblöcken$() oder $(l:kingdomkeys:blox/danger)Schadensblöcken$(). Um Gegenstandsverlust zu vermeiden, empfielt es sich erst um diese preiswerten Blöcke umherzugraben."
 		},
 		{
 			"type": "multiblock",

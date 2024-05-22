@@ -3,11 +3,11 @@
 	"icon": "kingdomkeys:spellfire",
 	"category": "kingdomkeys:commands",
 	"sortnum": 1,
-	"advancement": "kingdomkeys:obtain_spell",
+	"advancement": "kingdomkeys:obtain_magio",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Während du die Welt erkundest solltest du einige $(l:kingdomkeys:blox/prize)Würfel mit blauen und gelben Sternen drauf$() gesehen haben. Diese Blöcke können mit der Hand abgebaut werden, und haben eine Chance neue Zauber fallenzulassen, die du erlernen kannst. Wenn du diese Zauber lernst, kannst du sie von deinem $(thing)Magie()-Kommando sprechen, solange du genügend MP hast. Wenn deine MP ausgeht, dauert es etwas bis sie sich wieder auffüllt."
+			"text": "Während du die Welt erkundest solltest du einige $(l:kingdomkeys:blox/prize)Würfel mit blauen und gelben Sternen drauf$() gesehen haben. Diese Blöcke können mit einer Spizhacke abgebaut werden, und haben eine Chance neue $(item)Zauber$() fallenzulassen, die du erlernen kannst. Wenn du diese Zauber lernst, kannst du sie von deinem $(thing)Magie()-Kommando sprechen, solange du genügend MP hast. Wenn deine MP ausgeht, dauert es etwas bis sie sich wieder auffüllt."
 		},
 		{
 			"type": "text",

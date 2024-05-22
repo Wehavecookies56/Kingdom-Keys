@@ -2,7 +2,6 @@
 	"name": "Leaving the Organization",
 	"icon": "kingdomkeys:proof_of_heart",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{

@@ -2,7 +2,6 @@
 	"name": "Kriecher",
 	"icon": "kingdomkeys:nobody_creeper_spawn_egg",
 	"category": "kingdomkeys:nobodies",
-	"read_by_default": false,
 	"sortnum": 1,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [

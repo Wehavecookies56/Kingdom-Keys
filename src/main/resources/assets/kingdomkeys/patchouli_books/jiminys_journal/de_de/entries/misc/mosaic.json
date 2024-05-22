@@ -2,7 +2,6 @@
 	"name": "Buntes Mosaikglas",
 	"icon": "kingdomkeys:mosaic_stained_glass",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{

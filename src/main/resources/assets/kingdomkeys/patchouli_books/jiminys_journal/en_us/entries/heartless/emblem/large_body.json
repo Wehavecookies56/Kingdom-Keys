@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Big round $(heartless)Heartless$(). They seem tame and laid-back, but go berserk when they are angered. With their brute strength, they can inflict great damage so be un guard. "
+			"text": "Big round $(heartless)Heartless$(). They seem tame and laid-back, but go berserk when they are angered. With their brute strength, they can inflict great damage so be un guard.$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

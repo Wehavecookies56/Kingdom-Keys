@@ -4,11 +4,14 @@
 	"sortnum": 4,
 	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
-			"text": "Der $(thing)Gruppe$()-Reiter in deinem Menü, kann genutzt werden, um dich mit deinen Freunden zu verbünden. Standardmäßig ist dadurch der PvP mit den Gruppenmitgliedern deaktiviert, dafür werden aber die EP geteilt (sofern sie in Reichweite sind). Außerdem erlaubt es dir die Möglichkeit Unterstützungs-$(spell)Zauber$() sowie Items auf sie anzuwenden, sofern sie in der Nähe sind. Zusätzlich stirbst du nicht direkt, sobald deine LP auf 0 sinken, sondern wirst nur Aussergefecht (K.o.) gesetzt. (Geteilte EP und K.O. ist in der Config-Datei umstellbar.) "
+			"text": "Der $(item)Gruppe$()-Reiter in deinem Menü, kann genutzt werden, um dich mit deinen Freunden zu verbünden. Standardmäßig ist dadurch der PvP mit den Gruppenmitgliedern deaktiviert, dafür werden aber die EP geteilt (sofern sie in Reichweite sind). Außerdem erlaubt es dir die Möglichkeit Unterstützungs-$(spell)Zauber$() sowie Items auf sie anzuwenden, sofern sie in der Nähe sind."
+		},
+		{
+			"type": "text",
+			"text": "Zusätzlich stirbst du nicht direkt, sobald deine LP auf 0 sinken, sondern wirst nur Aussergefecht (K.o.) gesetzt.$(p)(Geteilte EP und K.O. ist in der Config-Datei umstellbar.)"
 		},
         {
             "type": "image",

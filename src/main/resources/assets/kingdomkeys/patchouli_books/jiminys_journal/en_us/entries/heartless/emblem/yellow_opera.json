@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Spellcasting $(heartless)Heartless$(). Besides attacking with Thunder, they hurl themselves against their enemies. They absorb Thunder attacks."
+			"text": "Spellcasting $(heartless)Heartless$(). Besides attacking with Thunder, they hurl themselves against their enemies. $(o)They absorb Thunder attacks.$()$(p)$(lissa)$(l)$(o)[KH1]$()"
 		},
 		{
 			"type": "patchouli:entity",

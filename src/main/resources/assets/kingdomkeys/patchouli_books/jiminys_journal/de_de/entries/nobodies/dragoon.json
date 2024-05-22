@@ -2,7 +2,6 @@
 	"name": "Dragoner",
 	"icon": "kingdomkeys:dragoon_spawn_egg",
 	"category": "kingdomkeys:nobodies",
-	"read_by_default": false,
 	"sortnum": 4,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [

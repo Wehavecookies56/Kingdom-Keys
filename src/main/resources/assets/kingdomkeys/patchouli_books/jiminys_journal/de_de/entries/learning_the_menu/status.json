@@ -8,7 +8,7 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "Das $(thing)Status$()-Menü erlaubt es dir deine aktuellen Werte über deinen Fortschritt anzusehen, wie Erfahrungspunkte allows you to see your current statistics and the amount of XP needed to level up you and your Forms."
+			"text": "Das $(item)Status-Menü$() erlaubt es dir deine $(thing)aktuellen Werte$() anzusehen, sowie die Menge an $(thing)Erfahrungspunkte$() die deiner Stufe, oder die Stufe deiner $(drive)Formen$() fehlen, anzuzeigen."
 		},
         {
             "type": "image",

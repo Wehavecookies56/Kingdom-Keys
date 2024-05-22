@@ -4,11 +4,10 @@
 	"sortnum": 3,
 	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
-			"text": "Während du fortlaufen neue Zauber erhälst (siehe den Abschnitt über $(l:kingdomkeys:customize/magic_and_spells)$(item)Magie und Zauber$(), für mehr Informationen), kannst du den $(thing)Einstellungen$()-Reiter in deinem Menü benutzen, um Kurzbefehle zu setzen und so das Zaubern zu erleichtern."
+			"text": "Während du fortlaufen neue $(magic)Zauber$() erhälst, kannst du den $(thing)Einstellungen$()-Reiter in deinem Menü benutzen, um $(item)Kurzbefehle$() zu setzen und so das Zaubern zu erleichtern."
 		},
         {
             "type": "image",

@@ -1,12 +1,12 @@
 {
 	"name": "Assassin",
 	"icon": "kingdomkeys:assassin_spawn_egg",
-	"category": "kingdomkeys:hidden",
+	"category": "kingdomkeys:nobodies",
 	"sortnum": 3,
 	"pages": [
 		{
 			"type": "text",
-			"text": "An assassin. A high-ranking Nobody. It hides in the ground and attacks quietly from behind. It cannot be attacked while it is in the ground. Parry its attacks to get it to surface. When it starts running around, look out! It'll begin to unleash powerful attacks. Don't miss any chances to use the reaction commands to defeat as many as possible at once!"
+			"text": "$(item)An assassin.$() A high-ranking $(nobody)Nobody$(). It hides in the ground and attacks quietly from behind.$(p)It cannot be attacked while it is in the ground. When it starts running around, look out! It'll begin to unleash powerful attacks.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

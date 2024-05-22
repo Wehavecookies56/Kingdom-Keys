@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Form erhält Erfahrung für jeden niedergestreckten $(thing)Niemand$() und Enderman, während man in dieser Form ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Gleiten-Ability$() belohnen."
+			"text": "Diese Form erhält Erfahrung für $(thing)jeden niedergestreckten$() $(nobody)Niemand$() und $(thing)Enderman$(), während man $(thing)in dieser Form$() ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Gleiten-Ability$() belohnen."
 		}
 	]
 }

@@ -1,14 +1,12 @@
 {
-	"name": "Munny",
+	"name": "Taler",
 	"icon": "kingdomkeys:mark_of_a_hero_chain",
 	"sortnum": 5,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "When a hostile mob is killed, it will drop little blue and yellow diamond-shaped orbs. These orbs are known as Munny and are used for currency in Kingdom Keys. Either using them at the Moogles to pay for items or using /kingdomkeys paymunny [Username] [Amount] in multiplayer to pay another player."
+			"text": "Wenn ein $(thing)feindlicher Mob$() erlegt wird, werden kleine, blau-gelbe, diamantförmige Kugeln fallen gelassen. Diese Kugeln werden $(item)\"Taler\"$() gennant, und sie die $(thing)Währung$() in Kingdom Keys. Hauptsächlich werden sie bei $(moogle)Mogrys$() benutzt um $(l:kingdomkeys:learning_the_menu/item_tab)Items oder andere Ausrüstung$() zu kaufen, jedoch kann man auch Taler $(thing)an andere Spieler weitergeben$() mit dem Befehl: $(l)/kingdomkeys paymunny [Username] [Amount]$()"
 		}
 	]
 }

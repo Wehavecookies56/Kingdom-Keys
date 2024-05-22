@@ -2,7 +2,6 @@
 	"name": "Meuchler",
 	"icon": "kingdomkeys:assassin_spawn_egg",
 	"category": "kingdomkeys:nobodies",
-	"read_by_default": false,
 	"sortnum": 3,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [

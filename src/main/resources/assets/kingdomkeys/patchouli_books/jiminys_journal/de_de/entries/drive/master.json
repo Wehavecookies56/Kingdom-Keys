@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Form erhält Erfahrung für jede aufgehobene Drive-Kugel (Die schwarz-gelben Kugeln, die von feindlichen Mobs fallengelassen werden.), während man in dieser Form ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(thing)Luftsprung-Ability$() belohnen."
+			"text": "Diese Form erhält Erfahrung für $(thing)jede aufgehobene Drive-Kugel$() (Die schwarz-gelben Kugeln, die von feindlichen Mobs fallengelassen werden.), während man $(thing)in dieser Form$() ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Luftsprung-Ability$() belohnen."
 		}
 	]
 }

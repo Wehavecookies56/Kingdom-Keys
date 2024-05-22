@@ -2,8 +2,8 @@
 	"name": "Magic and Spells",
 	"icon": "kingdomkeys:spellfire",
 	"category": "kingdomkeys:commands",
-	"read_by_default": false,
 	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_magio",
 	"pages": [
 		{
 			"type": "text",

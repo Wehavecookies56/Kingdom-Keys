@@ -1,5 +1,5 @@
 {
-	"name": "Drive Formen",
+	"name": "Drive-Formen",
 	"icon": "kingdomkeys:hi_drive_recovery",
 	"category": "kingdomkeys:commands",
 	"sortnum": 3,
@@ -7,11 +7,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ähnlich wie $(spell)Zauber$() - welche du in den $(blox)Würfeln$() findest, die in der Welt verstreut sind - Kannst du auch $(item)Form-Kugeln$() finden. Diese Kugeln können benutzt werden um die jeweilige Form zu erlernen, bzw. verbessern."
+			"text": "Ähnlich wie $(spell)Zauber$() - welche du in den $(l:kingdomkeys:blox/prize)Würfeln$() findest, die in der Welt verstreut sind - Kannst du auch $(item)Form-Kugeln$() finden. Diese Kugeln können benutzt werden um die jeweilige Form zu $(thing)erlernen, bzw. verbessern$()."
 		},
 		{
 			"type": "text",
-			"text": "Mit deiner $(thing)Drive-Leiste$(), welche sich unten rechts, über deiner LP-Leiste befindet, kannst du dich eine von vielen Formen verwandeln. Jede Form hat seine eigenen Fähigkeiten, Spielweise und Bewegungsarten. Mit dieser Mod kommen hinzu die Helden-, Weisen-, Meister-, Über- und Limit-Form."
+			"text": "Mit deiner $(thing)Drive-Leiste$(), welche sich unten rechts, über deiner LP-Leiste befindet, kannst du dich eine von vielen Formen verwandeln. Jede Form hat seine $(thing)eigenen Fähigkeiten, Spielweise und Bewegungsarten$(). Mit dieser Mod kommen hinzu die Helden-, Weisen-, Meister-, Über- und Limit-Form."
 		}
 	]
 }
