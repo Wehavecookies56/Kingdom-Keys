@@ -158,10 +158,10 @@ public class WayfinderItem extends Item {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.getTag() != null) {
-			tooltip.add(Component.translatable(ChatFormatting.GRAY + "Owner: " + stack.getTag().getString("ownerName").toString()));
+			tooltip.add(Component.translatable("message.wayfinder.owner", stack.getTag().getString("ownerName").toString()));
 			//tooltip.add(Component.translatable(""+new Color(stack.getTag().getInt("color"))));
 			if(Minecraft.getInstance().player.getCooldowns().isOnCooldown(this))
-				tooltip.add(Component.translatable(ChatFormatting.GRAY + "Cooldown: " + (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100) + "%"));
+				tooltip.add(Component.translatable("message.wayfinder.cooldown", (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100)));
 		}
 	}
 	
