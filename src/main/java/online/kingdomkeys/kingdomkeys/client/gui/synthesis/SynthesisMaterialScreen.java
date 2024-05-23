@@ -119,7 +119,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				e.printStackTrace();
 			}
 			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
-			PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
 			break;
 		case "back":
 			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle));
