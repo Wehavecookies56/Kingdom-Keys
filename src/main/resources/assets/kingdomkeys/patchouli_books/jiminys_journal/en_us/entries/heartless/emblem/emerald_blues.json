@@ -2,7 +2,8 @@
 	"name": "Emerald Blues",
 	"icon": "kingdomkeys:emerald_blues_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 15,
+	"sortnum": 207,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
@@ -12,7 +13,7 @@
 			"type": "patchouli:entity",
 			"entity": "kingdomkeys:emerald_blues",
 			"scale": 0.75,
-			"offset": 0.5
+			"offset": 0.75
 		}
 	]
 }

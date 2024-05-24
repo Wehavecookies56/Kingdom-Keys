@@ -2,12 +2,11 @@
 	"name": "Danger Blox",
 	"icon": "kingdomkeys:danger_blox",
 	"sortnum": 4,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Danger Blox are, well... Dangerous. These Blox when stepped on without boots or hit with your tools or fists will deal damage to you, slowly but surely. They can be found in the world or crafted using Normal Blox and Cacti, the recipe is as follows."
+			"text": "$(item)Danger Blox$() are, well... $(thing)Dangerous$(). These $(blox)Blox$() when stepped on $(thing)without boots$() or hit with your tools or fists will $(thing)deal damage$() to you, slowly but surely. Similar to a Cactus, will they $(lissa)destroy any thrown Blocks or Items$(), that touches them. They can be found in the world, usually around these $(l:kingdomkeys:blox/prize)star shaped Blox$(), or crafted using $(l:kingdomkeys:blox/normal)Normal Blox$() and $(thing)Cacti$()."
 		},
 		{
 			"type":"crafting",

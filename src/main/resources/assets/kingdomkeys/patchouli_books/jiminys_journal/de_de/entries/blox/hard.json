@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein $(item)Verstärkter Block$() ist robuster als ein $(l:kingdomkeys:blox/normal)$(item)Normaler Block$() und kann an der Oberfläche gefunden werden. Ihr einziger Nutzen ist es, zu einem $(l:kingdomkeys:blox/metal)$(item)Metallblock$() weiterverarbeitet zu werden. Andernfalls kann man sich einen herstellen, mit einer beliebigen Art von Stein sowie $(l:kingdomkeys:blox/normal)$(item)Normalen Blöcken$()."
+			"text": "Ein $(item)Verstärkter Block$() ist robuster als ein $(l:kingdomkeys:blox/normal)Normaler Block$() und kann an der Oberfläche gefunden werden. Ihr einziger Nutzen ist es, zu einem $(l:kingdomkeys:blox/metal)Metallblock$() weiterverarbeitet zu werden. Andernfalls kann man sich einen herstellen, mit einer beliebigen Art von Stein sowie $(l:kingdomkeys:blox/normal)Normalen Blöcken$()."
 		},
 		{
 			"type":"crafting",

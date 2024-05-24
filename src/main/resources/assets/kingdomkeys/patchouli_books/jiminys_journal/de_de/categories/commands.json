@@ -1,6 +1,6 @@
 {
 	"name": "Das Kommando-Menü",
-	"description": "Das Menü in der unten linken Ecke ist das $(item)Kommando-Menü$(). Es zu navigieren ist einfach: $(thing)[$(k:key.kingdomkeys.scrollup)]$() und $(thing)[$(k:key.kingdomkeys.scrolldown)]$() um das Kommando zu ändern, $(thing)[$(k:key.kingdomkeys.enter)]$() zum Bestätigen und $(thing)[$(k:key.kingdomkeys.back)]$() um zurückzugehen. Alternativ kannst du auch $(thing)[$(k:key.kingdomkeys.scrollactivator)]$() mit der Maus benutzen. $(lissa)Angriff$() ist wie in Minecraft, und wird daher $(lissa)übersprungen$().",
+	"description": "Das Menü in der unten linken Ecke ist das $(item)Kommando-Menü$(). Es zu navigieren ist einfach: $(thing)[$(k:key.kingdomkeys.scrollup)]$() und $(thing)[$(k:key.kingdomkeys.scrolldown)]$() um das Kommando zu ändern, $(thing)[$(k:key.kingdomkeys.enter)]$() zum Bestätigen und $(thing)[$(k:key.kingdomkeys.back)]$() um zurückzugehen. Alternativ kannst du auch $(thing)[$(k:key.kingdomkeys.scrollactivator)]$() mit dem Mausrad benutzen. $(lissa)Angriff$() ist wie in Minecraft, und wird daher $(lissa)übersprungen$().",
 	"icon": "kingdomkeys:kingdom_key_chain",
 	"sortnum": 3
 }

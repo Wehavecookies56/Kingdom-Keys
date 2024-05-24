@@ -3,6 +3,7 @@
 	"icon": "kingdomkeys:way_to_the_dawn_chain",
 	"sortnum": 1,
 	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

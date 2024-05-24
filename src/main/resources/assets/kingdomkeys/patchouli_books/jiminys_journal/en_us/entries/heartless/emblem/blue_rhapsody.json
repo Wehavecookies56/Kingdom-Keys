@@ -2,7 +2,8 @@
 	"name": "Blue Rhapsody",
 	"icon": "kingdomkeys:blue_rhapsody_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 11,
+	"sortnum": 104,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

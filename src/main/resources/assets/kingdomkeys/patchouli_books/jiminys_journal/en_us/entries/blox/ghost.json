@@ -2,12 +2,11 @@
 	"name": "Ghost Blox",
 	"icon": "kingdomkeys:ghost_blox",
 	"sortnum": 7,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Can be used with a redstone signal to open up hidden areas and items. When turned on, all blocks become intangible and can be moved through at will, when turned off they become solid blocks. Ghost Blox can be crafted using Normal Blox, any kind of Glass and a single Redstone Block. The recipe is as follows."
+			"text": "Can be used with a $(thing)redstone signal$() to open up hidden areas and items. When turned on, all blocks become intangible and can be moved through at will, when turned off they become solid blocks. $(item)Ghost Blox$() can be crafted using $(l:kingdomkeys:blox/normal)Normal Blox$(), any kind of Glass and a single Redstone Block."
 		},
 		{
 			"type":"crafting",

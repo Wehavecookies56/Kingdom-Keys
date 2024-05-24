@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Ein $(item)Magnetblock$() kann dazu benutzt werden, um Gegenstände oder andere Entititäten in seiner Reichweite an sich ran zu ziehen. Die Reichweite kann von 1-10 Blöcken verändert werden, sowie ob der Magnetblock, $(thing)anziehen$() oder §(thing)abstoßen$() soll, weshalb sich dieser $(blox)Bug-Block$() sehr für (Mob-)Farmen eignet. Mit einem $(l:kingdomkeys:blox/normal)$(item)Normalen Block$(), ein paar Eisen- und Goldbarren, sowie Redstonestaub, kann man sich einen $(item)Magnetblock$() selber herstellen."
+			"text": "Ein $(item)Magnetblock$() kann dazu benutzt werden, um $()Gegenstände oder Entititäten$() in seiner Reichweite an sich $(thing)ran zu ziehen$(). Die Reichweite kann von 1-10 Blöcken verändert werden, sowie ob der Magnetblock, $(thing)anziehen$() oder $(thing)abstoßen$() soll, weshalb sich dieser $(blox)Bug-Block$() sehr für (Mob-)Farmen eignet. Mit einem $(l:kingdomkeys:blox/normal)Normalen Block$(), ein paar Eisen- und Goldbarren, sowie Redstonestaub, kann man sich einen Magnetblock selber herstellen."
 		},
 		{
 			"type":"crafting",

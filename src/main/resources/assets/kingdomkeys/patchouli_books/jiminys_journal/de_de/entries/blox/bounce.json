@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Trampoplinblöcke$() haben mehr Wumms, als ein herkömmlicher Schleimblock, mit ihrer erheblichen Sprungkraft die sie verleihen. Hergestellt wird ein $(thing)Trampolinblock$() mit $(l:kingdomkeys/blox/normal)$(item)Normalen Blöcken$(), und einem einzigen Schleimblock."
+			"text": "$(item)Trampoplinblöcke$() haben mehr Wumms, als ein herkömmlicher Schleimblock, mit ihrer $(thing)erheblichen Sprungkraft$() die sie verleihen. Hergestellt wird ein Trampolinblock mit $(l:kingdomkeys:blox/normal)Normalen Blöcken$(), und einem einzigen Schleimblock."
 		},
 		{
 			"type":"crafting",

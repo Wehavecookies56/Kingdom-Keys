@@ -2,7 +2,8 @@
 	"name": "Darkball",
 	"icon": "kingdomkeys:darkball_spawn_egg",
 	"category": "kingdomkeys:pure_blooded",
-	"sortnum": 4,
+	"sortnum": 104,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

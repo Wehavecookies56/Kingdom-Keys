@@ -2,7 +2,8 @@
 	"name": "Detonator",
 	"icon": "kingdomkeys:detonator_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 9,
+	"sortnum": 211,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

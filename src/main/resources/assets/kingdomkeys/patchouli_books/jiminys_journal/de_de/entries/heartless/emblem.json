@@ -3,6 +3,7 @@
 	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
 	"sortnum": 2,
 	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

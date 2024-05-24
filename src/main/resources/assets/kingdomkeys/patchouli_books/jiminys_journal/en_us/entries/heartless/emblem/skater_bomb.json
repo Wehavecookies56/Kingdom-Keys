@@ -2,7 +2,7 @@
 	"name": "Skater Bomb",
 	"icon": "kingdomkeys:skater_bomb_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 7,
+	"sortnum": 209,
 	"pages": [
 		{
 			"type": "text",

@@ -6,7 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Der Wegfinder$() is an useful item, intended for the use of members in a $(l:kingdomkeys:learning_the_menu/party)Party$(). With this you can give your own crafted Wayfinder to another player, which they can use to $(thing)teleport$() to you at any time, as long as $(thing)both are online$() and in the $(thing)same party$(). However, due to it's pretty strong feature, it has a $(thing)long cooldown$() and requires you to reach $(lissa)the End$()."
+			"text": "$(item)Der Wegfinder$() ist ein nützlicher Gegenstand, der für $(l:kingdomkeys:learning_the_menu/party)Gruppen$() geeignet sind. Damit kannst du deinen selbst hergestellten Wegfinder an einen Spieler weitergeben, womit dieser sich zu dir $(thing)teleportieren$() kann, egal wo und wann, solange $(thing)beide Spieler online$() sind und in der $(thing)gleichen Gruppe$() sind."
+		},
+		{
+			"type": "text",
+			"text": "Da der Wegfinder ein starkes Werkzeug ist, wird dies ausgeglichen mit einer $(thing)langen Abklingzeit$(), sowie die Forderung $(lissa)das Ende$() zu Besuchen, um es herstellen zu können."
 		},
 		{
 			"type":"crafting",

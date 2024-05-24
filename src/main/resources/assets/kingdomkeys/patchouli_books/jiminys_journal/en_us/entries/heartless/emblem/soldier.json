@@ -2,7 +2,7 @@
 	"name": "Soldier",
 	"icon": "kingdomkeys:soldier_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 14,
+	"sortnum": 201,
 	"pages": [
 		{
 			"type": "text",

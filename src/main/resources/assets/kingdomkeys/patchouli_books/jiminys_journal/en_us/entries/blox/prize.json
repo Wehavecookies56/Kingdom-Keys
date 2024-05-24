@@ -2,7 +2,6 @@
 	"name": "Prize & Rare Prize Blox",
 	"icon": "kingdomkeys:prize_blox",
 	"sortnum": 8,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{

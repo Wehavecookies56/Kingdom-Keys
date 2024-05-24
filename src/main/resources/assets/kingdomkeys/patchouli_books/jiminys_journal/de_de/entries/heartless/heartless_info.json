@@ -4,6 +4,7 @@
 	"sortnum": 1,
 	"priority": true,
 	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

@@ -3,13 +3,20 @@
 	"icon": "kingdomkeys:way_to_the_dawn_chain",
 	"sortnum": 1,
 	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Pureblooded$() are natural $(heartless)heartless$() and have a weak will. They get born, when the $(thing)heart$() from somebody is engulfed by $(lissa)darkness$(). Unlilke $(emblem)Emblem-Heartless$() do these set free $(thing)no heart$(), once defeated."
+			"text": "$(item)Purebloods$() are natural $(heartless)heartless$() and have a weak will. They get born, when the $(thing)heart$() from somebody is engulfed by $(lissa)darkness$(). Unlilke $(emblem)Emblem-Heartless$() do these set free $(thing)no heart$(), once defeated."
+		},
+
+		{
+			"type": "text",
+			"text": "Usually are $(item)Pureblooded Heartless$() black with yellow eyes, but become more colorful the stronger they are."
 		},
 		{
 			"type": "patchouli:relations",
+			"title": "Pureblooded",
 			"entries": [
 				"kingdomkeys:heartless/pure_blooded/shadow",
 				"kingdomkeys:heartless/pure_blooded/mega_shadow",

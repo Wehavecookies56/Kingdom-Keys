@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(spell)Zauber$(), $(l:kingdomkeys:customize/drive)$Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)Schmiedematerialien$() und $(munny)$Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
+			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(spell)Zauber$(), $(l:kingdomkeys:customize/drive)Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)Schmiedematerialien$() und $(munny)Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
 		},
 		{
 			"type": "text",

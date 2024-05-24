@@ -2,7 +2,8 @@
 	"name": "Dire Plant",
 	"icon": "kingdomkeys:dire_plant_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 17,
+	"sortnum": 212,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

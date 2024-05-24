@@ -2,12 +2,11 @@
 	"name": "Normal Blox",
 	"icon": "kingdomkeys:normal_blox",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "The most common of the Blox. Can be used to craft many other different blox. You can mine Normal Blox in the world or craft them using Dirt and Stone, the recipe is as follows."
+			"text": "The most common of the $(blox)Blox$(). Can be used to craft many other different blox. You can mine Normal Blox in the world or craft them using Dirt and Stone."
 		},
 		{
 			"type":"crafting",

@@ -2,7 +2,7 @@
 	"name": "Red Nocturne",
 	"icon": "kingdomkeys:red_nocturne_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 10,
+	"sortnum": 203,
 	"pages": [
 		{
 			"type": "text",

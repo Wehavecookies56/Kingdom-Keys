@@ -3,6 +3,7 @@
 	"icon": "kingdomkeys:dusk_spawn_egg",
 	"category": "kingdomkeys:nobodies",
 	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

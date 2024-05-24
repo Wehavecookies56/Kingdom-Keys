@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Rüstungen wurden einst von den $(thing)Kriegern des Lichts$() aus $(lissa)Birth by Sleep$() getragen. The armor once protected its wearer from the darkness surrounding the lanes between, now it protects you in combat."
+			"text": "$(item)Diese Rüstungen$() wurden einst von den $(thing)Kriegern des Lichts$() aus $(lissa)Birth by Sleep$() getragen. Einst haben sie die Träger vor der $(lissa)Dunkelheit$(), jetzt schützen sie dich im Kampf."
 		},
 		{
 			"type": "text",
-			"text": "These armor sets can be crafted in the style of Terra, Ventus, Aqua, Eraqus, Xehanort and Albtraum-Ventus. Get in a Smithing Table and combine them with an orange, blue, lime green, black, white or gray dye."
+			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(F70)Terra$(), $(1F0)Ventus$(), $(00F)Aqua$(), $(FFF)Eraqus$(), $(999)Xehanort$() und $(000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(F70)Orange$(), $(00F)Blau$(), $(1F0)Hellgrün$(), $(000)Schwarz$(), $(FFF)Weiß$() oder $(999)Grau$()"
 		}
 	]
 }

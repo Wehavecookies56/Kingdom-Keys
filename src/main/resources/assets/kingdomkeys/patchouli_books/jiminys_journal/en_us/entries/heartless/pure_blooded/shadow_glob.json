@@ -2,7 +2,8 @@
 	"name": "Shadow Glob",
 	"icon": "kingdomkeys:shadow_glob_spawn_egg",
 	"category": "kingdomkeys:pure_blooded",
-	"sortnum": 5,
+	"sortnum": 105,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

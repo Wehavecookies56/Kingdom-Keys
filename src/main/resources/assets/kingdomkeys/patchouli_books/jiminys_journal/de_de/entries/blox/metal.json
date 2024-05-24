@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Metalblöcke$() sind die robustesten $(blox)Bug-blöcke$() und können, ähnlich wie $(l:kingdomkeys/blox/normal)$(item)Normale$() oder $(l:kingdomkeys/blox/hard)$(item)Verstärkte Blöcke$(), an der Oberfläche gefunden werden. Ihr einziger Nutzen ist für die Herstellung von $(l:kingdomkeys/misc/pedestal)$(item)Podesten$() zu dienen. Mit ein paar $(thing)Eisenbarren$(), sowie $(l:kingdomkeys/blox/hard)$(item)Verstärkte Blöcke$() kann sich welche selbst herstellen."
+			"text": "$(item)Metalblöcke$() sind die robustesten $(blox)Bug-blöcke$() und können, ähnlich wie $(l:kingdomkeys:blox/normal)$(item)Normale$() oder $(l:kingdomkeys:blox/hard)$(item)Verstärkte Blöcke$(), an der Oberfläche gefunden werden. Ihr einziger Nutzen ist für die Herstellung von $(l:kingdomkeys:misc/pedestal)Podesten$() zu dienen. Mit ein paar $(thing)Eisenbarren$(), sowie $(l:kingdomkeys:blox/hard)Verstärkte Blöcke$() kann sich welche selbst herstellen."
 		},
 		{
 			"type":"crafting",

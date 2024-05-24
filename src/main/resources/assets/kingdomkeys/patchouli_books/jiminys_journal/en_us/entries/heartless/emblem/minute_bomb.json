@@ -2,7 +2,8 @@
 	"name": "Minute Bomb",
 	"icon": "kingdomkeys:minute_bomb_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 6,
+	"sortnum": 208,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

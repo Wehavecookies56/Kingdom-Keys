@@ -3,10 +3,11 @@
 	"icon": "kingdomkeys:dragoon_spawn_egg",
 	"category": "kingdomkeys:nobodies",
 	"sortnum": 4,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)A dragoon.$() A high-ranking $(nobody)Nobody$(). When a ball of light appears after parrying its attacks, use Learn. Time it accurately, to use Jump to attack. Learn can be used as often as possible, so a series of Jump attacks is one strategy option.$(p)$(lissa)$(l)$(o)[KH2]$()"
+			"text": "$(item)A dragoon.$() A high-ranking $(nobody)Nobody$(). Jumping and parrying prove to be a good strategy to defeat them.$(p)$(lissa)$(l)$(o)[KH2]$()"
 		},
 		{
 			"type": "patchouli:entity",

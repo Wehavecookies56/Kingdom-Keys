@@ -6,20 +6,20 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "$(item)Formeln$() werden selten beim besiegen von $(thing)aggressives Mobs$() fallen gelassen. Diese Formeln kommen in verschiedenen Stufen von D bis SSS, wobei Mobs mit einer höheren Stufe, eine Formel mit einer höheren Stufe fallen lassen können. Jede Formel kann Schlüsselschwerter, Rüstungen oder Accesoires freischalten, die dann bei einem $(l:kingdomkeys:synthesize/moogles)Mogry$() synthetisiert werden können."
+			"text": "$(item)Formeln$() werden selten beim besiegen von $(thing)aggressiven Mobs$() fallen gelassen. Diese Formeln kommen in verschiedenen Stufen von D bis SSS, wobei Mobs mit einer höheren Stufe, eine Formel mit einer höheren Stufe fallen lassen können. Jede Formel kann Schlüsselschwerter, Rüstungen oder Accesoires freischalten, die dann bei einem $(moogle)Mogry$() geschmiedet werden können."
 		},
 		{
 			"type": "text",
-			"text": "Um die Stufe von Formeln zu ändern, kann man entweder 2 miteinander kombinieren, um eine Formel zu erhalten die eine Stufe besser ist, 4 kombinieren um eine um zwei höhere Stufen zu erhalten, oder eine einzelne, einer höheren Stufe, um sie in eine Stufe darunter zu verwandeln."
+			"text": "Um die Stufe von Formeln zu ändern, kann man entweder 2 gleichstufige Formeln miteinander kombinieren, um eine Formel zu erhalten die eine Stufe besser ist, 4 gleichstufige kombinieren um eine um zwei höhere Stufen zu erhalten, oder eine einzelne Formel einer höheren Stufe, um sie in eine Stufe darunter zu verwandeln."
 		},
 		{
 			"type":"crafting",
 			"recipe":"kingdomkeys:recipe_c",
-			"recipe2":"kingdomkeys:recipe_b3"
+			"recipe2":"kingdomkeys:recipe_d2"
 		},
 		{
 			"type":"crafting",
-			"recipe2":"kingdomkeys:recipe_c2"
+			"recipe2":"kingdomkeys:recipe_c3"
 		}
 	]
 }

@@ -2,7 +2,8 @@
 	"name": "Large Body",
 	"icon": "kingdomkeys:large_body_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 16,
+	"sortnum": 202,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

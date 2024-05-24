@@ -3,11 +3,15 @@
 	"icon": "kingdomkeys:spellfire",
 	"category": "kingdomkeys:commands",
 	"sortnum": 1,
-	"advancement": "kingdomkeys:obtain_magio",
+	"advancement": "kingdomkeys:obtain_magic",
 	"pages": [
 		{
 			"type": "text",
-			"text": "As you explore the world, you should find these Blue and Yellow cubes with stars in the middle of them. These cubes can be mined with your fist and have the chance to drop new spells for you to learn. When you learn these spells, they can be cast from your $(thing)Magic$() command menu tab, as long as you have the MP to cast them. If you run out of MP, it will take some time to recharge."
+			"text": "As you explore the world, you should find these $(l:kingdomkeys:blox/prize)Blue and Yellow cubes with stars$() in the middle of them. These cubes can be mined with a pickaxe and have the chance to drop new $(item)spells$() for you to learn."
+		},
+		{
+			"type": "text",
+			"text": "When you learn these spells, they can be cast from your $(thing)Magic$() command menu tab, as long as you have the MP to cast them. If you run out of MP, it will take some time to recharge.$(p)You'll usually receive your $(thing)first MP with Level 5$(). Prior to that, you won't be able to cast any spells."
 		}
 	]
 }

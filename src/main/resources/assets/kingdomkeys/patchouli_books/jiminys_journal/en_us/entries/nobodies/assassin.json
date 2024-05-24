@@ -3,6 +3,7 @@
 	"icon": "kingdomkeys:assassin_spawn_egg",
 	"category": "kingdomkeys:nobodies",
 	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

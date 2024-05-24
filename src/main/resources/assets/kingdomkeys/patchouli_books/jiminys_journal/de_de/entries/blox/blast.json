@@ -6,7 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Vor den Bombenblöcken sollte man sich um jeden Preis fernhalten. Sie funktionieren wie klassisches TNT und entzünden sich direkt bei jeglichen Kontakt. Die einzig sichere Methode um diese abzubauen ist mit einer sanften $(thing)Feder$(). Diese können in der Oberwelt, zusammen mit $(l:kingdomkeys:blox/prize)$(item)Kugel- oder Raritätenblöcken$(), gefunden werden und können ebenfalls hergestellt werden aus: $(l:kingdomkeys:blox/normal)$(item)Normaler Block$(), TNT und einen Lavaeimer."
+			"text": "Vor den $(item)Bombenblöcken$() sollte man sich um jeden Preis $(lissa)fernhalten$(). Sie funktionieren wie klassisches TNT und $(lissa)entzünden$() sich direkt $(lissa)bei jeglichen Kontakt$(). Die einzig sichere Methode um diese abzubauen ist mit einer sanften $(thing)Feder$()."
+		},
+		{
+			"type": "text",
+			"text": "Diese können in der Oberwelt, zusammen mit $(l:kingdomkeys:blox/prize)Kugel- oder Raritätenblöcken$(), gefunden werden und können ebenfalls hergestellt werden aus: $(l:kingdomkeys:blox/normal)Normaler Block$(), TNT und einen Lavaeimer."
 		},
 		{
 			"type":"crafting",

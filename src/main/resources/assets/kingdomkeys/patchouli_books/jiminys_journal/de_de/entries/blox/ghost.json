@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Dieser $(blox)Bug-Block$() kann zusammen mit einem Redstone-Signal genutzt werden, um versteckte Bereiche oder Gegenstände zu offenbaren. Wenn dieser in Kontakt mit einem aktiven Redstone-Signal kommt, werden alle verbundenen $(item)Phantomblöcke$() durchlässig. Ist das Redstone-Signal wieder aus, werden sie wieder fest, und sind undurchdringbar. Herstellbar sind diese mit $(l:kingdomkeys/blox/normal)$(item)Normalen Blöcken$(), ein beliebiger Glasblock, sowie ein einzielner Redstone-Block."
+			"text": "Dieser $(blox)Bug-Block$() kann zusammen mit einem $(thing)Redstone-Signal$() genutzt werden, um versteckte Bereiche oder Gegenstände zu offenbaren. Wenn dieser in Kontakt mit einem aktiven Redstone-Signal kommt, werden alle verbundenen $(item)Phantomblöcke$() durchlässig. Ist das Redstone-Signal wieder aus, werden sie wieder fest, und sind undurchdringbar."
 		},
 		{
 			"type":"crafting",

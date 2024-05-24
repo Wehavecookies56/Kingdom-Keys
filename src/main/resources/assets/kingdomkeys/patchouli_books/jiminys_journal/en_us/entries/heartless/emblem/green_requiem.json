@@ -2,7 +2,8 @@
 	"name": "Green Requiem",
 	"icon": "kingdomkeys:green_requiem_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 13,
+	"sortnum": 206,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",

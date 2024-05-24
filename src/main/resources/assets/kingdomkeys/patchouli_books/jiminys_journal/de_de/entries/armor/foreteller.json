@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Gewänder$() die ursprünglich von den $(thing)Propheten$() der 5 Zusammenschlüsse getragen wurden, die Propheten zählen zu den ersten bekannten Schlüssekschwertträgern. Diese sind am einfachsten herzustellen, sind aber dafür auch $(thing)am schwächsten$(). $(o)Genau wie die anderen Kleider, zerbrechen diese nicht$.$()"
+			"text": "$(item)Gewänder$() die ursprünglich von den $(thing)Propheten$() der 5 Zusammenschlüsse getragen wurden, die Propheten zählen zu den ersten bekannten Schlüssekschwertträgern. Diese sind am einfachsten herzustellen, sind aber dafür auch $(thing)am schwächsten$(). $(o)Genau wie die anderen Kleider, zerbrechen diese nicht.$()"
 		},
 		{
 			"type": "text",

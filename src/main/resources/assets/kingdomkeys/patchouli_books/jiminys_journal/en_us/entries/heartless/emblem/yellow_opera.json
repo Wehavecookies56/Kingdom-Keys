@@ -2,7 +2,8 @@
 	"name": "Yellow Opera",
 	"icon": "kingdomkeys:yellow_opera_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 12,
+	"sortnum": 105,
+	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
