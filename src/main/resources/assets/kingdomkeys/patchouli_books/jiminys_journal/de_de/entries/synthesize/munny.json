@@ -6,7 +6,7 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Wenn ein $(thing)feindlicher Mob$() erlegt wird, werden kleine, blau-gelbe, diamantförmige Kugeln fallen gelassen. Diese Kugeln werden $(item)\"Taler\"$() gennant, und sie die $(thing)Währung$() in Kingdom Keys."
+			"text": "Wenn ein $(thing)feindlicher Mob$() erlegt wird, werden $(thing)kleine, blau-gelbe, diamantförmige Kugeln$() fallen gelassen. Diese Kugeln werden $(item)\"Taler\"$() gennant, und sie die $(thing)Währung$() in Kingdom Keys."
 		},
 		{
 			"type": "text",

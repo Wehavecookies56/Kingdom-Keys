@@ -2,9 +2,7 @@
 	"name": "Synthesis Bag",
 	"icon": "kingdomkeys:synthesis_bag",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",

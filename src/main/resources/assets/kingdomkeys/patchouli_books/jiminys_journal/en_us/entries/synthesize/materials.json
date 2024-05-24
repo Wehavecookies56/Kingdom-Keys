@@ -2,9 +2,7 @@
 	"name": "Synthesis materials",
 	"icon": "kingdomkeys:orichalcum",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
