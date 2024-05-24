@@ -1,10 +1,9 @@
 {
-	"name": "KK Konfigurationen",
+	"name": "Konfigurationen",
 	"icon": "kingdomkeys:spellbinder_chain",
 	"sortnum": 8,
 	"advancement": "kingdomkeys:soa",
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
