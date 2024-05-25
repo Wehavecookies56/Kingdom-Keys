@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Mäntel haben sind gleichwertig wie der reguläre $(item)Mantel der Organisation$(), und lassen dich sogar diesen beitreten, weshalb ihr aussehen nur rein kosmetisch ist. "
+			"text": "Diese Mäntel haben sind gleichwertig wie der reguläre $(item)Mantel der Organisation$(), und lassen dich sogar diesen beitreten, weshalb ihr Aussehen nur rein kosmetisch ist. "
 		},
 		{
 			"type": "text",

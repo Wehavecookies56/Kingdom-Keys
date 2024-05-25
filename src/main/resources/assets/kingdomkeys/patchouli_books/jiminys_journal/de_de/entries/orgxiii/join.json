@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Wenn du der Organisation beitrittst, wirst du fürs erste auf deine $(l:synthesize/moogles)synthetisierten Schlüsselschwerter$() verzichten müssen (als Roxas zu spielen erlaubt zwar immernoch mit Schlüsselschwertern zu spielen, aber nicht mit den selbsthergestellten.) und deine $(l:kingdomkeys:drive)$(item)Drive-Formen$() werden durch $(thing)Limit-Moves$() ersetzt."
+			"text": "Wenn du der Organisation beitrittst, wirst du fürs erste auf deine $(l:synthesize/moogles)geschmiedeten Schlüsselschwerter$() verzichten müssen (als Roxas zu spielen erlaubt zwar immernoch mit Schlüsselschwertern zu spielen, aber nicht mit den selbsthergestellten.) und deine $(l:kingdomkeys:drive)Drive-Formen$() werden durch $(thing)Limit-Moves$() ersetzt."
 		},
 		{
 			"type":"crafting",

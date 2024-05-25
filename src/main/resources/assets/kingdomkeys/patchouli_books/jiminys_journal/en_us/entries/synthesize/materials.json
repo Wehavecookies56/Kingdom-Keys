@@ -6,7 +6,7 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "You can find Materials in Caves, The Nether and The End. There are 20 different types of Material, all having 4 tiers to work with. Each recipe will call for a different combination of Materials so it's best to grab whatever you can find! Remember, some materials can only be found in certain biomes and locations."
+			"text": "You can find $(item)Materials$() in $(thing)Caves$(), $(thing)The Nether$() and $(thing)The End$(). There are $(thing)20 different types$() of Material, all having $(thing)4 tiers$() to work with. Each $(l:kingdomkeys:synthesize/recipes)recipe$() will call for a different combination of Materials so it's best to grab whatever you can find! Remember, some materials can only be found in $(thing)certain biomes and locations$()."
 		}
 	]
 }

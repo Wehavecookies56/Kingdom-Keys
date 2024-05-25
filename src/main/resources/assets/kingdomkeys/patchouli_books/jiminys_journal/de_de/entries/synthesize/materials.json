@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Jede $(l:kingdomkeys:synthesize/recipes)$(item)Schmiede-Formel$() benötigt eine andere Zusammenstellung von Materialien, weshalb es sich lohnt alles zu nehmen was dir unter die Nase kommt! Denke dran, manche Materialien können nur in $(thing)bestimmten Biomen oder Gegenden$() gefunden werden."
+			"text": "Jede $(l:kingdomkeys:synthesize/recipes)Schmiede-Formel$() benötigt eine andere Zusammenstellung von Materialien, weshalb es sich lohnt alles zu nehmen was dir unter die Nase kommt! Denke dran, manche Materialien können nur in $(thing)bestimmten Biomen oder Gegenden$() gefunden werden."
 		}
 	]
 }

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Da du nun ein Mitglied der Organisation bist, fällt dir sicherlich auf, dass im Menü sich eine Währung befindet, die sich $(thing)Herzen$() nennt. $(thing)Herzen$() werden erhalten durch das besiegen von $(heartless)Emblem-Herzlosen$() und feindlichen Mobs und werden dazu benutzt, um neue und stärkere Waffen für dein ausgewähltes Mitglied zu erhalten. (Wenn du Mobs mit deiner Organisations-Waffe erlegst, erhältst du sogar doppelt so viele Herzen.) Das ist wichtig um Gegner mit einer höhren Stufe zu besiegen, während du deine eigene Stufe erhöhst."
+			"text": "Da du nun ein $(item)Mitglied der Organisation$() bist, fällt dir sicherlich auf, dass im Menü sich eine Währung befindet, die sich $(thing)Herzen$() nennt. $(thing)Herzen$() werden erhalten durch das besiegen von $(emblem)Emblem-Herzlosen$() und $(thing)feindlichen Mobs$() und werden dazu benutzt, um neue und $(thing)stärkere Waffen$() für dein ausgewähltes Mitglied zu erhalten. (Wenn du Mobs mit deiner Organisations-Waffe erlegst, erhältst du sogar doppelt so viele Herzen.) Das ist wichtig um Gegner mit einer höhren Stufe zu besiegen, während du deine eigene Stufe erhöhst."
 		},
 		{
 			"type": "text",

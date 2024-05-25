@@ -6,7 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These can be found all over the overworld and will carry many different kinds of goodies including: $(l:kingdomkeys:customize/magic_and_spells)Spells$(), $(l:kingdomkeys:customize/drive)Form orbs$(), $(l:kingdomkeys:synthesize/materials)Synthesis Materials$() and $(munny)Munny$(). They however are the only kind of Blox that cannot be crafted, but you should break these whenever you see them.$(p)Note:$(br)Often they will be accompanied by $(l:kingdomkeys:blox/blast)Blast Blox$() or $(l:kingdomkeys:blox/danger)Danger Blox$(). To avoid losing any valuable loot, it's recommended to dig around the Prize Blox' first."
+			"text": "These can be found all over the overworld and will carry many different kinds of goodies including: $(l:kingdomkeys:customize/magic_and_spells)Spells$(), $(l:kingdomkeys:customize/drive)Form orbs$(), $(l:kingdomkeys:synthesize/materials)Synthesis Materials$() and $(munny)Munny$(). They however are the only kind of Blox that cannot be crafted, but you should break these whenever you see them."
+		},
+		{
+			"type": "text",
+			"text": "Note:$(br)Often they will be accompanied by $(l:kingdomkeys:blox/blast)Blast Blox$() or $(l:kingdomkeys:blox/danger)Danger Blox$(). To avoid losing any valuable loot, it's recommended to dig around the Prize Blox' first."
 		},
 		{
       "type": "multiblock",

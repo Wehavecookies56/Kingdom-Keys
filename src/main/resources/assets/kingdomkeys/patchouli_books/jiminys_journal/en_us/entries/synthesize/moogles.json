@@ -6,7 +6,7 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "These little guys are here to help you with your Synthesis! They can make anything you desire as long as you know the recipe and bring them the materials. They will also sometimes sell you useful items such as Potions. If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
+			"text": "These $(item)little guys$() are here to help you with your $(thing)Synthesis$()! They can make anything you desire as long as you know the $(item)recipe$() and bring them the $(l:kingdomkeys:synthesize/materials)materials$(). They will also sometimes sell you useful $(l:kingdomkeys:customize/items)items$() such as Potions. If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
 		},
 		{
 			"type": "patchouli:entity",
@@ -17,7 +17,7 @@
 		},
 		{
 			"type": "text",
-			"text": "If you're having trouble finding them in the wild, You should consider keeping an Anvil on you. Dropping one on a $(thing)Moogle's'$() head can help you make them your permanent friend."
+			"text": "If you're having trouble finding them in the wild, You should consider keeping an $(thing)Anvil$() on you. Dropping one on a Moogle's head can help you make them your $(thing)permanent friend$()."
 		},
 		{
             "type": "image",

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The only way to leave the Organization is to defeat the Ender Dragon and obtain a Proof of Heart. Once used, you will be dismissed from the Organizations ranks and will return to being a normal Keyblade Wielder. You can rejoin at any time by repeating the same methods from when you originally joined."
+			"text": "The only way to $(item)leave the Organization$() is to defeat the $(thing)Ender Dragon$() and obtain a $(thing)Proof of Heart$(). Once used, you will be dismissed from the Organizations ranks and will return to being a normal Keyblade Wielder. You can rejoin at any time by repeating the same methods from when you originally joined."
 		}
 	]
 }

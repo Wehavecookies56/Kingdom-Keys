@@ -3,11 +3,10 @@
 	"icon": "kingdomkeys:moogle_o_glory_chain",
 	"sortnum": 1,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Diese $(item)kleinen Kerle$() sind hier um dir beim $(thing)schmieden$() zu helfen! Sie können dir alles anfertigen, solange du die passende $(item)Formel$() kennst und die notwendigen Materialien bei ihnen einlagerst. Gelegentlich erweisen sie sich auch als nützlich, um bei ihnen Potions oder andere $(l:kingdomkeys:customize/items)Items$() mit $(munny)Talern$() zu kaufen. Wenn du einen dieser $(thing)Mogrys$() deine ganzen Materialien abgibst, hat jeder von denen Zugriff auf diese. Fast schon $(o)magisch$()."
+			"text": "Diese $(item)kleinen Kerle$() sind hier um dir beim $(thing)schmieden$() zu helfen! Sie können dir alles anfertigen, solange du die passende $(item)Formel$() kennst und die notwendigen $(l:kingdomkeys:synthesize/materials)Materialien$() bei ihnen einlagerst. Gelegentlich erweisen sie sich auch als nützlich, um bei ihnen Potions oder andere $(l:kingdomkeys:customize/items)Items$() mit $(munny)Talern$() zu kaufen. Wenn du einen dieser $(thing)Mogrys$() deine ganzen Materialien abgibst, hat jeder von denen Zugriff auf diese. Fast schon $(o)magisch$()."
 		},
 		{
 			"type": "patchouli:entity",

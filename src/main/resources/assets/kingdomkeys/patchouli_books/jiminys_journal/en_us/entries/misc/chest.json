@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)This chest$() is special in the case as it can be locked to a specific players $(thing)Keyblade$() and will only be able to be opened by the player that locked it. It's has $(thing))one more row$() (9 slots) of storage than a normal single chest has, but $(lissa)can not be connected$() together into a large version."
+			"text": "$(item)This chest$() is special in the case as it can be locked to a specific players $(thing)Keyblade$() and will only be able to be opened by the player that locked it. It's has $(thing)one more row$() (9 slots) of storage than a normal single chest has, but $(lissa)can not be connected$() together into a large version."
 		},
 		{
 			"type":"crafting",

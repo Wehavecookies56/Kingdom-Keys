@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "While playing as a member of the Organization, you'll notice in your menu you have a currency called $(thing)Hearts. Hearts$() are obtained from killing Heartless and Nobodies and are used to obtain new and stronger weapons for whatever Organization member you choose to play as. Doing so is essential for being able to take out higher level enemies as you level up. "
+			"text": "While playing as a $(item)member of the Organization$(), you'll notice in your menu you have a currency called $(thing)Hearts$(). $(thing)Hearts$() are obtained from killing $(emblem)Emblem-Heartless and $(thing)hostile Mobs$() and are used to obtain new and $(thing)stronger weapons$() for whatever Organization member you choose to play as. (Defeating Mobs with your Orga-Weapon will grant you twice as many Hearts.) Doing so is essential for being able to take out higher level enemies as you level up. "
 		},
 		{
 			"type": "text",

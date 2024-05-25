@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "I would advice to $(lissa)stay away$() from $(item)these Blox$() at all times. Blast Blox work like old school TNT and will $(lissa)set off immediately on contact$(). The only safe way to break these is with a $(thing)feather$(). They can be found in the overworld together with $(l:kingdomkeys:blox/prize)$(item)Prize Blox$() and they can also be crafted using Normal Blox, TNT and a Lava Bucket."
+			"text": "I would advice to $(lissa)stay away$() from $(item)these Blox$() at all times. Blast Blox work like old school TNT and will $(lissa)set off immediately on contact$(). The only safe way to break these is with a $(thing)feather$(). They can be found in the overworld together with $(l:kingdomkeys:blox/prize)Prize Blox$() and they can also be crafted using Normal Blox, TNT and a Lava Bucket."
 		},
 		{
 			"type":"crafting",

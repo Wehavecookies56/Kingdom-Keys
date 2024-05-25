@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Diese Rüstungssets sind etwas schwächer als die $(l:kingdomkeys/armor/orgcoats)$(item)Mäntel der Organisation$(), aber zwingen dich nicht der Organisation beitreten zu müssen. Dafür dass du wie geowhnt spielen darfst, und die Krieger der $(lissa)Dunkelheit$() repräsentierst, sind sie auch einfacher herzustellen."
+			"text": "$(item)Diese Rüstungssets$() sind etwas schwächer als die $(l:kingdomkeys/armor/orgcoats)Mäntel der Organisation$(), aber zwingen dich nicht der Organisation beitreten zu müssen. Dafür dass du wie geowhnt spielen darfst, und die $(lissa)Krieger der Dunkelheit$() repräsentierst, sind sie auch einfacher herzustellen."
 		},
 		{
 			"type": "text",
