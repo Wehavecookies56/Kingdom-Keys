@@ -6,7 +6,7 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Let's start with $(item)Items$(). This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades/$(orgxiii)Organization XIII$() weapons, Kingdom Keys specific Armors/Accessories and consumable Items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
+			"text": "Let's start with $(item)Items$(). This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades / $(orgxiii)Organization XIII$() weapons, Kingdom Keys specific Armors/Accessories and consumable Items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
 		},
 		{
 			"type": "text",
