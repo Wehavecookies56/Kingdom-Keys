@@ -109,6 +109,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSStruggleSettings.class, CSStruggleSettings::encode, CSStruggleSettings::decode, CSStruggleSettings::handle);
 		HANDLER.registerMessage(packetID++, CSCloseMoogleGUI.class, CSCloseMoogleGUI::encode, CSCloseMoogleGUI::decode, CSCloseMoogleGUI::handle);
 		HANDLER.registerMessage(packetID++, CSSetAirStepPacket.class, CSSetAirStepPacket::encode, CSSetAirStepPacket::decode, CSSetAirStepPacket::handle);
+		HANDLER.registerMessage(packetID++, CSGiveUpKO.class, CSGiveUpKO::encode, CSGiveUpKO::decode, CSGiveUpKO::handle);
 
 	}
 

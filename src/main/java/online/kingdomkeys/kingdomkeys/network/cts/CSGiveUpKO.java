@@ -1,0 +1,42 @@
+package online.kingdomkeys.kingdomkeys.network.cts;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+
+import java.util.function.Supplier;
+
+public class CSGiveUpKO {
+
+
+    public CSGiveUpKO() {}
+
+
+    public void encode(FriendlyByteBuf buffer) {
+    }
+
+    public static CSGiveUpKO decode(FriendlyByteBuf buffer) {
+        CSGiveUpKO msg = new CSGiveUpKO();
+        return msg;
+    }
+
+    public static void handle(CSGiveUpKO message, final Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            Player player = ctx.get().getSender();
+            IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+
+            player.kill();
+            if(globalData != null){
+                globalData.setKO(false);
+                PacketHandler.syncToAllAround(player,globalData);
+            }
+            player.kill();
+
+        });
+        ctx.get().setPacketHandled(true);
+    }
+
+}

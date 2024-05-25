@@ -6,6 +6,7 @@
   "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
     "TellMeTheErrorMixin",
+    "LivingEntityMixin",
     "apotheosis.SalvagingMenuMixin"
   ],
   "client": [

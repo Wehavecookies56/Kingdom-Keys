@@ -592,6 +592,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDark, "Darker Than Dark");
         addItem(ModItems.darkgnaw, "Darkgnaw");
         addItem(ModItems.dawnTillDusk, "Dawn Till Dusk");
+        addItem(ModItems.deadOfNight, "Dead of Night");
         addItem(ModItems.decisivePumpkin, "Decisive Pumpkin");
         addItem(ModItems.destinysEmbrace, "Destiny's Embrace");
         addItem(ModItems.diamondDust, "Diamond Dust");
@@ -651,8 +652,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGear, "Nano Gear");
         addItem(ModItems.nightmaresEnd, "Nightmare's End");
         addItem(ModItems.nightmaresEndAndMirageSplit, "Combined Keyblade");
-        addItem(ModItems.noName, "No Name");
-        addItem(ModItems.noNameBBS, "No Name (BBS)");
+        addItem(ModItems.noName, "The Gazing Eye");
+        addItem(ModItems.noNameBBS, "No Name");
         addItem(ModItems.oathkeeper, "Oathkeeper");
         addItem(ModItems.oblivion, "Oblivion");
         addItem(ModItems.oceansRage, "Ocean's Rage");
@@ -741,6 +742,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDarkChain, "Darker Than Dark Chain");
         addItem(ModItems.darkgnawChain, "Darkgnaw Chain");
         addItem(ModItems.dawnTillDuskChain, "Dawn Till Dusk Chain");
+        addItem(ModItems.deadOfNightChain, "Dead of Night Chain");
         addItem(ModItems.decisivePumpkinChain, "Decisive Pumpkin Chain");
         addItem(ModItems.destinysEmbraceChain, "Destiny's Embrace Chain");
         addItem(ModItems.diamondDustChain, "Diamond Dust Chain");
@@ -800,8 +802,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGearChain, "Nano Gear Chain");
         addItem(ModItems.nightmaresEndChain, "Nightmare's End Chain");
         addItem(ModItems.nightmaresEndAndMirageSplitChain, "Combined Keyblade Chain");
-        addItem(ModItems.noNameChain, "No Name Chain");
-        addItem(ModItems.noNameBBSChain, "No Name (BBS) Chain");
+        addItem(ModItems.noNameChain, "The Gazing Eye Chain");
+        addItem(ModItems.noNameBBSChain, "No Name Chain");
         addItem(ModItems.oathkeeperChain, "Oathkeeper Chain");
         addItem(ModItems.oblivionChain, "Oblivion Chain");
         addItem(ModItems.oceansRageChain, "Ocean's Rage Chain");
@@ -1613,7 +1615,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization Weapons");
+        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");

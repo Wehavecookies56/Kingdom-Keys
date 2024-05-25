@@ -100,7 +100,7 @@ public class DamageCalculation {
 
             float finalDamage = 0;
 
-            if (player.getItemInHand(InteractionHand.MAIN_HAND) != null && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
+            if (!player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
                 if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem) {
                     finalDamage = getKBStrengthDamage(player, player.getMainHandItem());
                 } else if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
@@ -148,7 +148,6 @@ public class DamageCalculation {
             otherSymbols.setDecimalSeparator('.');
             DecimalFormat df = new DecimalFormat("###.##",otherSymbols);
             return Float.parseFloat(df.format(finalDamage));
-            
         } else {
             return 0;
         }

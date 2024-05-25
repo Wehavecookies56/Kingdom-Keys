@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -619,16 +618,22 @@ public class EntityEvents {
 		}
 
 		if (globalData != null) {
+			//t's time for the challenge
+			// globalData.setKO(true);
 			if(globalData.isKO()) {
 				if(event.getEntity().tickCount % 20 == 0) {
-					event.getEntity().setHealth(event.getEntity().getHealth()-1);
+					if(event.getEntity().getHealth() - 1 <= 0) {
+						event.getEntity().kill();
+						globalData.setKO(false);
+						PacketHandler.syncToAllAround(event.getEntity(), globalData);
+					} else {
+						event.getEntity().setHealth(event.getEntity().getHealth() - 1);
+					}
 				}
 				event.getEntity().setYRot(0);
 				event.getEntity().setYBodyRot(0);
 				event.getEntity().setXRot(0);
 			}
-
-
 
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);
@@ -830,20 +835,15 @@ public class EntityEvents {
 	public void addSynthesisMaterialToBag(IItemHandler inv, EntityItemPickupEvent event, ItemStack bag) {
 		CompoundTag nbt = bag.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
-		int maxSlots = 0;
-		switch (bagLevel) {
-		case 0:
-			maxSlots = 18;
-			break;
-		case 1:
-			maxSlots = 36;
-			break;
-		case 2:
-			maxSlots = 54;
-			break;
-		}
+		int maxSlots = switch (bagLevel) {
+            case 0 -> 18;
+            case 1 -> 36;
+            case 2 -> 54;
+            case 3 -> 72;
+            default -> 0;
+        };
 
-		for (int j = 0; j < maxSlots; j++) {
+        for (int j = 0; j < maxSlots; j++) {
 			ItemStack bagItem = inv.getStackInSlot(j);
 			ItemStack pickUp = event.getItem().getItem();
 			if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) {
@@ -885,7 +885,8 @@ public class EntityEvents {
 				event.setAmount((event.getAmount()-1)+dmg * player.getAttackStrengthScale(0));
 			}
 
-			if (ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti)) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setAmount(ModCapabilities.getPlayer(player).getStrength(true));
 			}
 		}
