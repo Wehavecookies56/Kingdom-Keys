@@ -1123,9 +1123,7 @@ public class EntityEvents {
 			}
 		}
 
-		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			
+		if (event.getEntity() instanceof Player player) {
 			if (player.level().getLevelData().isHardcore())
 				player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
 			else

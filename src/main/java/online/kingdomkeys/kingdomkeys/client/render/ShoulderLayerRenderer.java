@@ -50,7 +50,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 			if (ModCapabilities.getPlayer(player) != null) {
 				ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
 				String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
-				if (armorName.equals("") || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY))
+				if (armorName.isEmpty() || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY) || player.isInvisible())
 					return;
 
 				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "_shoulder.png");
