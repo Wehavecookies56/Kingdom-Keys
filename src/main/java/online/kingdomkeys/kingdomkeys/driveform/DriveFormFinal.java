@@ -103,8 +103,6 @@ public class DriveFormFinal extends DriveForm {
 				if (!player.onGround() && player.fallDistance > 0) { // Glide only when falling
 					if (mc.options.keyJump.isDown()) {
 						if (!playerData.getIsGliding() && !(player.level().getBlockState(player.blockPosition()).getBlock() instanceof LiquidBlock) && !(player.level().getBlockState(player.blockPosition().below()).getBlock() instanceof LiquidBlock)) {
-							player.jumpFromGround();
-
 							playerData.setIsGliding(true);// Set playerData clientside
 							playerData.setAerialDodgeTicks(0);
 							PacketHandler.sendToServer(new CSSetGlidingPacket(true)); // Set playerData serverside
