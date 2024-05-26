@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "To build the $(item)Station of Awakening Platform$(), you need a ton of $(l:kingdomkeys:misc/mosaic)Mosaic Stained Glass (1537), the $(thing)Core$() and a $(thing)Wooden Stick$() (the Kingdom Keys Weapon and NOT the Minecraft stick item). Build the structure as seen and put the core in the middle of the top layer, and then use your Wooden Stick on it."
+			"text": "To build the $(item)Station of Awakening Platform$(), you need a ton of $(l:kingdomkeys:misc/mosaic)Mosaic Stained Glass$() (1537), the $(thing)Core$() and a $(thing)Wooden Stick$() (the Kingdom Keys Weapon and NOT the Minecraft stick item). Build the structure as seen and put the core in the middle of the top layer, and then use your Wooden Stick on it."
 		},
 		{
 			"type":"crafting",
