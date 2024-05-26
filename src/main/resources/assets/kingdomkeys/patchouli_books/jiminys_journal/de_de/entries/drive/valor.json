@@ -1,0 +1,13 @@
+{
+	"name": "Helden-Form",
+	"icon": "kingdomkeys:levelupdrivevalor",
+	"sortnum": 1,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese Form erhält Erfahrung für $(thing)jeden Treffer$() den man bei einem $(thing)feindlichen Mob$() landet, während man $(thing)in dieser Form$() ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Sportsfreund-Ability$() belohnen."
+		}
+	]
+}

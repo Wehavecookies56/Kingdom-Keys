@@ -1,0 +1,67 @@
+{
+	"name": "Keyblade Armors",
+	"icon": "kingdomkeys:terra_helmet",
+	"sortnum": 3,
+	"priority": true,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These are Armor sets worn by the Warriors of light in Birth by Sleep. The armor once protected its wearer from the darkness surrounding the lanes between, now it protects you in combat."
+		},
+		{
+			"type": "text",
+			"text": "These armor sets can be crafted in the style of Terra, Ventus, Aqua, Eraqus, Xehanort and Ventus' Nightmare form. The recipes are as follows."
+		}/*,
+		{
+			"type":"smithing",
+			"recipe":"kingdomkeys:terra_helmet",
+			"recipe2":"kingdomkeys:terra_chestplate"
+		},
+		{
+			"type":"smithing",
+			"recipe":"kingdomkeys:terra_leggings",
+			"recipe2":"kingdomkeys:terra_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ventus_helmet",
+			"recipe2":"kingdomkeys:ventus_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ventus_leggings",
+			"recipe2":"kingdomkeys:ventus_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aqua_helmet",
+			"recipe2":"kingdomkeys:aqua_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aqua_leggings",
+			"recipe2":"kingdomkeys:aqua_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:eraqus_helmet",
+			"recipe2":"kingdomkeys:eraqus_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:eraqus_leggings",
+			"recipe2":"kingdomkeys:eraqus_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:nightmareventus_helmet",
+			"recipe2":"kingdomkeys:nightmareventus_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:nightmareventus_leggings",
+			"recipe2":"kingdomkeys:nightmareventus_boots"
+		}
+	]
+}

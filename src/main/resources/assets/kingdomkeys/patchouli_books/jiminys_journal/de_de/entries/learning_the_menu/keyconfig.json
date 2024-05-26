@@ -1,0 +1,21 @@
+{
+	"name": "Konfigurationen",
+	"icon": "kingdomkeys:spellbinder_chain",
+	"sortnum": 8,
+	"advancement": "kingdomkeys:soa",
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "Der $(thing)Konfiguration$()-Tab erlaubt es dir Anpassungen and dem HUD zu machen. Dabei kannst du die Position jedes HUD-Element der Mod nach deinen vorlieben anpassen. $(o)$(l)(Um die Mod zu genießen wird dieser Schritt direkt nach dem Zugang des Menüs empfohlen.)$()"
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/config.png"
+            ],
+            "title": "Konfiguration",
+            "border": true
+        }
+	]
+}

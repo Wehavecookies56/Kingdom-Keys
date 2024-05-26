@@ -1,0 +1,16 @@
+{
+	"name": "Soldier",
+	"icon": "kingdomkeys:soldier_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 201,
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Heartless$() that emerge from various places. They are brisk in their movement, and rush into their opponents. However, they are not that tenacious. They often appear in numbers, though they lack teamwork.$(p)$(lissa)$(l)$(o)[KH1]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:soldier"
+		}
+	]
+}

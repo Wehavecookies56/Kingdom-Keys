@@ -2,12 +2,11 @@
 	"name": "Metal Blox",
 	"icon": "kingdomkeys:metal_blox",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Metal Blox can be found in the world. They have a singular use in the form of crafting Pedestals. You can craft Metal Blox using Hard Blox and Iron ingots, the recipe is as follows."
+			"text": "$(item)Metal Blox$() are the toughest of all $(blox)Blox$() and can be found in the world. They have a singular use in the form of crafting $(l:kingdomkeys:misc/pedestal)Pedestals$(). You can craft Metal Blox using $(l:kingdomkeys:blox/hard)Hard Blox$() and $(thing)Iron ingots$(), the recipe is as follows."
 		},
 		{
 			"type":"crafting",

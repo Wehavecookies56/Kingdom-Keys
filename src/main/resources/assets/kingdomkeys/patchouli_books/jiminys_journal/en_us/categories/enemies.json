@@ -1,0 +1,6 @@
+{
+	"name": "Enemies",
+	"description": "The $(item)Enemy$() Registry keeps track of all the different kinds of hostile Mobs from the Kingdom Keys Mod that you have encountered, such as: $(heartless)Heartless$() and $(nobody)Nobodies$().",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 7
+}

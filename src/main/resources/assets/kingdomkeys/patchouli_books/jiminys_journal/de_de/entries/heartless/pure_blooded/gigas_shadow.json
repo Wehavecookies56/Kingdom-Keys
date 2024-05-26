@@ -1,0 +1,19 @@
+{
+	"name": "Giga-Schattenlurch",
+	"icon": "kingdomkeys:giga_shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 103,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese großen $(pure_blooded)reinblütigen$() $(heartless)Herzlosen$() haben dasselbe Angriffsmuster wie die $(l:kingdomkeys:heartless/pure_blooded/mega_shadow)$(item)Mega-Schattenlurche$(), verfügen allerdings über noch größere Körperkraft.$(br)Die einzige Möglichkeit sie zu besiegen besteht darin, ihren Angriff zu blocken.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:giga_shadow",
+			"scale": 0.85,
+			"offset": 0.5
+		}
+	]
+}

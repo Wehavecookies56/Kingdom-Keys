@@ -2,11 +2,12 @@
 	"name": "Dusk",
 	"icon": "kingdomkeys:dusk_spawn_egg",
 	"category": "kingdomkeys:nobodies",
-	"read_by_default": false,
 	"sortnum": 2,
-	"pages": [{
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
 			"type": "text",
-			"text": "Phantasmagorical frights that morph and stretch as they fight. Stay locked on, and all the fancy footwork in the world won't save them. As tough as they are to predict, there are moments when they just sort of... stand there. And when they space? Keyblade to the face."
+			"text": "Phantasmagorical frights that morph and stretch as they fight. Stay locked on, and all the fancy footwork in the world won't save them. As tough as they are to predict, there are moments when they just sort of... stand there. And when they space? Keyblade to the face.$(p)$(lissa)$(l)$(o)[KH3]$()"
 		},
 		{
 			"type": "patchouli:entity",

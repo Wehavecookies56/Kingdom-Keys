@@ -1,0 +1,16 @@
+{
+	"name": "Taler",
+	"icon": "kingdomkeys:mark_of_a_hero_chain",
+	"sortnum": 5,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Wenn ein $(thing)feindlicher Mob$() erlegt wird, werden $(thing)kleine, blau-gelbe, diamantförmige Kugeln$() fallen gelassen. Diese Kugeln werden $(item)\"Taler\"$() gennant, und sie die $(thing)Währung$() in Kingdom Keys."
+		},
+		{
+			"type": "text",
+			"text": "Hauptsächlich werden sie bei $(moogle)Mogrys$() benutzt um $(l:kingdomkeys:learning_the_menu/item_tab)Items oder andere Ausrüstung$() zu kaufen, jedoch kann man auch Taler $(thing)an andere Spieler weitergeben$() mit dem Befehl: $(l)/kingdomkeys paymunny [Username] [Amount]$()"
+		}
+	]
+}

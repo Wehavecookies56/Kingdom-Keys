@@ -1,0 +1,16 @@
+{
+	"name": "Phantomblock",
+	"icon": "kingdomkeys:ghost_blox",
+	"sortnum": 7,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Dieser $(blox)Bug-Block$() kann zusammen mit einem $(thing)Redstone-Signal$() genutzt werden, um versteckte Bereiche oder Gegenstände zu offenbaren. Wenn dieser in Kontakt mit einem aktiven Redstone-Signal kommt, werden alle verbundenen $(item)Phantomblöcke$() durchlässig. Ist das Redstone-Signal wieder aus, werden sie wieder fest, und sind undurchdringbar."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ghost_blox"
+		}
+	]
+}

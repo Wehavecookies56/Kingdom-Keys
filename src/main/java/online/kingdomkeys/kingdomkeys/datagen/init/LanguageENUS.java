@@ -1237,8 +1237,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Moogle Spawn Egg");
         addItem(ModEntities.SHADOW_EGG, "Shadow Spawn Egg");
-        addItem(ModEntities.MEGA_SHADOW_EGG, "Mega Shadow Spawn Egg");
-        addItem(ModEntities.GIGA_SHADOW_EGG, "Giga Shadow Spawn Egg");
+        addItem(ModEntities.MEGA_SHADOW_EGG, "Mega-Shadow Spawn Egg");
+        addItem(ModEntities.GIGA_SHADOW_EGG, "Gigas Shadow Spawn Egg");
         addItem(ModEntities.DARKBALL_EGG, "Darkball Spawn Egg");
         addItem(ModEntities.SHADOW_GLOB_EGG, "Shadow Glob Spawn Egg");
 
@@ -1446,6 +1446,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
 
+        add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
+        add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
+        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Key's$() Mod.$(p)In this book, you'll find all info you need to get started.");
+
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
         addEntityType(ModEntities.TYPE_PAIR_BLOX, "Pair Blox");
@@ -1468,8 +1472,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
         addEntityType(ModEntities.TYPE_SHADOW, "Shadow");
-        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "Mega Shadow");
-        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "Giga Shadow");
+        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "Mega-Shadow");
+        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "Gigas Shadow");
         addEntityType(ModEntities.TYPE_DARKBALL, "Darkball");
         addEntityType(ModEntities.TYPE_SHADOW_GLOB, "Shadow Glob");
 
@@ -1541,6 +1545,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.not_in_party","You are not in a party");
         add("message.wayfinder.player_not_in_party","Player %s is not in your party");
         add("message.wayfinder.player_not_online","Player %s is not online");
+        add("message.wayfinder.owner","Owner: %s");
+        add("message.wayfinder.cooldown","Cooldown: %s%%");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");

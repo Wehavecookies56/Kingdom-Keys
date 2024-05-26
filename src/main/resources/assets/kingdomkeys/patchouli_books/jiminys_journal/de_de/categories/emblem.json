@@ -1,0 +1,7 @@
+{
+	"name": "Emblem-Herzlose",
+	"description": "$(item)Emblem-Herzlose$() zählen zu den $(heartless)Herzlosen$() und sind erkennbar an dem $(thing)herzförmigen Symbol$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden.",
+	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 2
+}

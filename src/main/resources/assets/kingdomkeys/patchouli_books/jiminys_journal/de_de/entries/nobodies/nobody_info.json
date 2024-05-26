@@ -1,0 +1,27 @@
+{
+	"name": "Was ist ein Niemand?",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:nobodies",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(item)Niemand$() ist die Hülle die zurückbleibt, wenn das von der $(lissa)Dunkelheit$() umhüllte $(thing)Herz$() sich von dem $(thing)Jemand$() trennt. Bei jedem $(heartless)Herzlosen$() der geschaffen wird, wird ebenso ein $(thing)Niemand$() geschaffen."
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/nobody_symbol.png"
+			],
+			"title": "Niemande & Org XII",
+			"border": false,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 200,
+			"texture_width": 160
+		}
+	]
+}

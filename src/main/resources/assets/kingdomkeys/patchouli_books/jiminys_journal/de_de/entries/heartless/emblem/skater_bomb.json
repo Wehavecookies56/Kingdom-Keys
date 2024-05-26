@@ -1,0 +1,17 @@
+{
+	"name": "Eisbombe",
+	"icon": "kingdomkeys:skater_bomb_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 209,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese kleinen $(heartless)Herzlosen$() können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zur Selbstzerstöung ein. Triff sie während des Countdowns, um ihre Sprengladung gegen andere zu richten.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:skater_bomb"
+		}
+	]
+}

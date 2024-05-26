@@ -1,0 +1,17 @@
+{
+	"name": "Schattenlurch",
+	"icon": "kingdomkeys:shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 101,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Er versinkt im Boden, um sich fortzubewegen, es ist also gutes Timing gefragt, wenn man ihn besiegen will.$(p)Greife in dem Moment an, in dem er wieder aus dem Boden auftaucht!$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:shadow"
+		}
+	]
+}

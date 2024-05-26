@@ -1,0 +1,19 @@
+{
+	"name": "Emerald Blues",
+	"icon": "kingdomkeys:emerald_blues_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 207,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Attack from a safe distance, while watching out for its sudden tackle. When its HP gets low, a tornado forms, drawing the enemy close. It easily $(thing)$(o)resists magic$(), so don't be shy about using the Keyblade!$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:emerald_blues",
+			"scale": 0.75,
+			"offset": 0.75
+		}
+	]
+}

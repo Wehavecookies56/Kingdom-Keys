@@ -1,0 +1,6 @@
+{
+	"name": "Mäntel und Rüstungen",
+	"description": "$(item)Diese herstellbaren Rüstungen$() sind $(thing)mächtig und zerbrechen nie$(). Hier sind Anleitungen wie du die Rüstungssets der Krieger des Lichts/der Dunkelheit herstellen kannst.",
+	"icon": "kingdomkeys:dark_riku_chestplate",
+	"sortnum": 11
+}

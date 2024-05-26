@@ -1,0 +1,17 @@
+{
+	"name": "Sturmbombe",
+	"icon": "kingdomkeys:storm_bomb_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 210,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese kleinen $(heartless)Herzlosen$() können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zu Selbstzerstörung ein. Weiche durch Springen oder Gleiten dem Wirbelwind aus, den sie während des Countdowns verursachen.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:storm_bomb"
+		}
+	]
+}

@@ -1,0 +1,66 @@
+{
+	"name": "Gewänder der Propheten",
+	"icon": "kingdomkeys:ira_helmet",
+	"sortnum": 4,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Gewänder$() die ursprünglich von den $(thing)Propheten$() der 5 Zusammenschlüsse getragen wurden, die Propheten zählen zu den ersten bekannten Schlüssekschwertträgern. Diese sind am einfachsten herzustellen, sind aber dafür auch $(thing)am schwächsten$(). $(o)Genau wie die anderen Kleider, zerbrechen diese nicht.$()"
+		},
+		{
+			"type": "text",
+			"text": "Du kannst die Gewänder von Invi, Gula, Ira, Aced oder Ava tragen."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aced_helmet",
+			"recipe2":"kingdomkeys:aced_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aced_leggings",
+			"recipe2":"kingdomkeys:aced_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ava_helmet",
+			"recipe2":"kingdomkeys:ava_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ava_leggings",
+			"recipe2":"kingdomkeys:ava_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:gula_helmet",
+			"recipe2":"kingdomkeys:gula_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:gula_leggings",
+			"recipe2":"kingdomkeys:gula_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:invi_helmet",
+			"recipe2":"kingdomkeys:invi_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:invi_leggings",
+			"recipe2":"kingdomkeys:invi_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ira_helmet",
+			"recipe2":"kingdomkeys:ira_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ira_leggings",
+			"recipe2":"kingdomkeys:ira_boots"
+		}
+	]
+}

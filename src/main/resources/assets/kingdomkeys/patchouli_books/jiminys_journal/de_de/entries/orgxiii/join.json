@@ -1,0 +1,27 @@
+{
+	"name": "Der Org. XII beitreten",
+	"icon": "kingdomkeys:organization_helmet",
+	"sortnum": 1,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Der $(item)Organisation beizutreten$() ist ziemlich einfach, du musst einen vollständigen Mantel der Organisation herstellen, und sie anziehen. Einmal dafür entschieden, kann dies nicht rückgängig gemacht werden bis der Enderdrache besiegt wird und ein $(l:kingdomkeys:orgxiii/leave)Zeugnis des Herzens$() erhalten wurde."
+		},
+		{
+			"type": "text",
+			"text": "Wenn du der Organisation beitrittst, wirst du fürs erste auf deine $(l:synthesize/moogles)geschmiedeten Schlüsselschwerter$() verzichten müssen (als Roxas zu spielen erlaubt zwar immernoch mit Schlüsselschwertern zu spielen, aber nicht mit den selbsthergestellten.) und deine $(l:kingdomkeys:drive)Drive-Formen$() werden durch $(thing)Limit-Moves$() ersetzt."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:organization_helmet",
+			"recipe2":"kingdomkeys:organization_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:organization_leggings",
+			"recipe2":"kingdomkeys:organization_boots"
+		}
+
+	]
+}

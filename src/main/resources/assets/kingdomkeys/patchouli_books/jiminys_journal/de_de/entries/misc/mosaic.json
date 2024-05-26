@@ -1,0 +1,16 @@
+{
+	"name": "Buntes Mosaikglas",
+	"icon": "kingdomkeys:mosaic_stained_glass",
+	"sortnum": 3,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein dekorativer Glasblock, der dabei hilft, Häußern das klassische Kingdom Hearts-Gefühl zu geben."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:mosaic_stained_glass"
+		}
+	]
+}

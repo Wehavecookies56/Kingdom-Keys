@@ -1,0 +1,17 @@
+{
+	"name": "Podest",
+	"icon": "kingdomkeys:pedestal",
+	"sortnum": 2,
+	"priority": true,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Der Podest$() ist ein interaktiver Block, welcher genutzt werden kann um einen $(thing)beliebigen Gegenstand$() zu $(thing)präsentieren$(). Zusätzlich sind einige Faktoren $(thing)einstellbar$(), wie $(thing)Größe, Dreh- und Schwebe-Geschwindigkeit$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:pedestal"
+		}
+	]
+}

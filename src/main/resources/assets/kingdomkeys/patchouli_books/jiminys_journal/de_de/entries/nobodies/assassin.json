@@ -1,0 +1,19 @@
+{
+	"name": "Meuchler",
+	"icon": "kingdomkeys:assassin_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Ein Meuchler$() ist ein $(nobody)Niemand$() von hohem Rang. Er versteckt sich im Boden und greift leise und unbemerkt von hinten an.$(p)Er kann nicht angegriffen werden, während er Schutz im Boden sucht. Vorsicht ist geboten, wenn er beginnt an der Oberfläche herumzulaufen! Dann setzt er nämlich bald zu Verzweiglungsangriffen an.$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:assassin",
+			"scale": 0.65,
+			"offset": 0.5
+		}
+	]
+}
