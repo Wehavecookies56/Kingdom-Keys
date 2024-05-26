@@ -15,11 +15,13 @@ public class KKMixinPlugin implements IMixinConfigPlugin {
 
     private static final Supplier<Boolean> EFMLOADED = () -> LoadingModList.get().getModFileById("epicfight") != null;
     private static final Supplier<Boolean> APOTHEOSISLOADED = () -> LoadingModList.get().getModFileById("apotheosis") != null;
+    private static final Supplier<Boolean> JERLOADED = () -> LoadingModList.get().getModFileById("jeresources") != null;
 
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
             "online.kingdomkeys.kingdomkeys.mixin.epicfight.PHumanoidRendererMixin", EFMLOADED,
             "online.kingdomkeys.kingdomkeys.mixin.epicfight.RenderEngineEventsMixin", EFMLOADED,
-            "online.kingdomkeys.kingdomkeys.mixin.apotheosis.SalvaginMenuMixin", APOTHEOSISLOADED
+            "online.kingdomkeys.kingdomkeys.mixin.apotheosis.SalvaginMenuMixin", APOTHEOSISLOADED,
+            "online.kingdomkeys.kingdomkeys.mixin.jer.ForgePlatformHelperMixin", JERLOADED
     );
 
     @Override
