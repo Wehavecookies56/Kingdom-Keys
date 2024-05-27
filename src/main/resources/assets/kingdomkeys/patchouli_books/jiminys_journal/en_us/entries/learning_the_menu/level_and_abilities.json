@@ -6,7 +6,7 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "As you play the $(thing)Kingdom Keys$(), you'll gain XP toward your levels in Kingdom Keys by killing any hostile mob. Everytime you level up, you'll recieve stat increases and new abilities. These abilities can be equipped in the $(thing)Abilities$() tab in your menu. "
+			"text": "As you play the mod you'll gain XP toward your levels in Kingdom Keys by killing any hostile mob. Everytime you level up, you'll recieve stat increases and new abilities. These abilities can be equipped in the $(thing)Abilities$() tab in your menu. "
 		},
 		{
 			"type": "text",

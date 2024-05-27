@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Magnet Blox$() can be used to $(thing)attract$() or $(thing) repel items or entities$() towards it and you when you're in the Blox range. It's range can be set from 1-10 blocks away and it finds itself extremely useful in farms and grinders. Magnet Blox can be crafted using a Normal Blox, Iron ingots, Gold ingots and redstone dust."
+			"text": "$(item)Magnet Blox$() can be used to $(thing)attract$() or $(thing)repel items or entities$() towards it and you when you're in the Blox range. It's range can be set from 1-10 blocks away and it finds itself extremely useful in farms and grinders. Magnet Blox can be crafted using a Normal Blox, Iron ingots, Gold ingots and redstone dust."
 		},
 		{
 			"type":"crafting",
