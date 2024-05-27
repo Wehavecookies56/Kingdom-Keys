@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "To build the $(item)Station of Awakening Platform$(), you need a ton of $(l:kingdomkeys:misc/mosaic)Mosaic Stained Glass (1537), the $(thing)Core$() and a $(thing)Wooden Stick$() (the Kingdom Keys Weapon and NOT the Minecraft stick item). Build the structure as seen and put the core in the middle of the top layer, and then use your Wooden Stick on it."
+			"text": "To build the $(item)Station of Awakening Platform$(), you need a ton of $(l:kingdomkeys:misc/mosaic)Mosaic Stained Glass$() (1537), the $(thing)Core$() and a $(thing)Wooden Stick$() (the Kingdom Keys Weapon and NOT the Minecraft stick item). Build the structure as seen and put the core in the middle of the top layer, and then use your Wooden Stick on it."
 		},
 		{
 			"type":"crafting",
@@ -20,7 +20,7 @@
                 "pattern": [
 	                [
 		                "     mmmmmmm     ",
-		                "    mmmmmmmmm    ",
+		                "   mmmmmmmmmmm   ",
 		                "  mmmmmmmmmmmmm  ",
 		                " mmmmmmmmmmmmmmm ",
 		                " mmmmmmmmmmmmmmm ",
@@ -38,74 +38,74 @@
 		                "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
-		                "     mmmmmmm     ", "    mmmmmmmmm    ", "  mmmmmmmmmmmmm  ", " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm", "mmmmmmmmmmmmmmmmm",  " mmmmmmmmmmmmmmm ", " mmmmmmmmmmmmmmm ",  "  mmmmmmmmmmmmm  ", "    mmmmmmmmm    ", "     mmmmmmm     "
+		                "     mmmmmmm     ", "   mm       mm   ", "  m           m  ", " m             m ", " m             m ", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", "m               m", " m             m ", " m             m ", "  m           m  ", "   mm       mm   ", "     mmmmmmm     "
 	                ],
 	                [
 		                "     mmmmmmm     ",
-		                "    mmmmmmmmm    ",
+		                "   mmmmmmmmmmm   ",
 		                "  mmmmmmmmmmmmm  ",
 		                " mmmmmmmmmmmmmmm ",
 		                " mmmmmmmmmmmmmmm ",
@@ -119,7 +119,7 @@
 		                " mmmmmmmmmmmmmmm ",
 		                " mmmmmmmmmmmmmmm ",
 		                "  mmmmmmmmmmmmm  ",
-		                "    mmmmmmmmm    ",
+		                "   mmmmmmmmmmm   ",
 		                "     mmmmmmm     "
 	                ]
                 ],
