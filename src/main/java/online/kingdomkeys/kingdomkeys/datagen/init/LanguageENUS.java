@@ -319,6 +319,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
         addBlock(ModBlocks.savepoint, "Save Point");
+        addBlock(ModBlocks.linkedSavepoint, "Linked Save Point");
         addBlock(ModBlocks.soADoor, "Mysterious Door");
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");

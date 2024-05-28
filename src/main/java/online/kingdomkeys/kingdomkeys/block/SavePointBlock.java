@@ -24,6 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 
@@ -33,8 +34,10 @@ import java.util.UUID;
 public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
-	public SavePointBlock(Properties properties) {
+	boolean linked;
+	public SavePointBlock(Properties properties, boolean linked) {
 		super(properties);
+		this.linked = linked;
 	}
 
 	@Override
@@ -56,12 +59,6 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
 	}
-	
-	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-		// Tried to make animation here but random tick f*cks it all
-		super.animateTick(state, world, pos, random);
-	}
 
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
@@ -74,29 +71,46 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		return InteractionResult.CONSUME;
 	}
 
-	UUID lastPlayedSoundPlayer = null;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				
-			if (playerData.getMP() < playerData.getMaxMP() || player.getHealth() < playerData.getMaxHP() || player.getFoodData().getFoodLevel() < 20) { // TODO add the rest of things that you get back
-				if(player.tickCount % 5 == 0) {
-					player.playSound(ModSounds.savepoint.get(), 1F, 1F);
+		if (entity instanceof Player player) {
+            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if (playerData != null) {
+				String list = linked ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
+				if(list.contains("HP") && player.getHealth() < playerData.getMaxHP()){
+					player.heal(1);
+					showParticles(player,world,pos);
 				}
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.2, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.2, 0.0D, 0.0D, 0.0D);
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.8, pos.getY()+2.5, pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX()+0.5, pos.getY()+2.5, pos.getZ()+0.8, 0.0D, 0.0D, 0.0D);
-
-				playerData.addMP(1);
-				player.heal(1);
-				player.getFoodData().eat(1, 1);
+				if(list.contains("HUNGER") && player.getFoodData().getFoodLevel() < 20){
+					player.getFoodData().eat(1, 1);
+					showParticles(player,world,pos);
+				}
+				if(list.contains("MP") && playerData.getMP() < playerData.getMaxMP()){
+					playerData.addMP(1);
+					showParticles(player,world,pos);
+				}
+				if(list.contains("FOCUS") && playerData.getFocus() < playerData.getMaxFocus()){
+					playerData.addFocus(1);
+					showParticles(player,world,pos);
+				}
+				if(list.contains("DRIVE") && playerData.getDP() < playerData.getMaxDP()){
+					playerData.addDP(5);
+					showParticles(player,world,pos);
+				}
 			}
 		}
 		super.entityInside(state, world, pos, entity);
+	}
+
+	public void showParticles(Player player, Level world, BlockPos pos){
+		if (player.tickCount % 5 == 0) {
+			player.playSound(ModSounds.savepoint.get(), 1F, 1F);
+		}
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.2, pos.getY() + 2.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.2, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.8, pos.getY() + 2.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
+		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.8, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override

@@ -640,9 +640,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int getAccessoriesAP(String type) {
 		int res = 0;
 		for(Entry<Integer, ItemStack> accessory : getEquippedAccessories().entrySet()) {
-			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem) {
-				KKAccessoryItem a = (KKAccessoryItem) accessory.getValue().getItem();
-				switch(type) {
+			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem a) {
+                switch(type) {
 				case "ap":
 					res += a.getAp();
 					break;

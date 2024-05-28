@@ -50,6 +50,7 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.station_of_awakening_core.get());
         standardBlockLoot(ModBlocks.pedestal.get());        
         standardBlockLoot(ModBlocks.savepoint.get());
+		standardBlockLoot(ModBlocks.linkedSavepoint.get());
         standardBlockLoot(ModBlocks.magicalChest.get());
         
         standardBlockLoot(ModBlocks.rodStone.get());

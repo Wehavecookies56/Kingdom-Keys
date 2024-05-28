@@ -306,18 +306,18 @@ public class EntityEvents {
 				}
 
 				HashMap<Integer, ItemStack> accessoriesMap = (HashMap<Integer, ItemStack>) playerData.getEquippedAccessories();
-				if (accessoriesMap.size() == 0) {
-					for (int i = 0; i < 4; i++) {
+				if (accessoriesMap.isEmpty()) {
+					for (int i = 0; i < 4; i++) { //Initial for to initialize slots
 						accessoriesMap.put(i, ItemStack.EMPTY);
 					}
 				}
-				for (int i = accessoriesMap.size(); i < 4; i++) {
+				for (int i = accessoriesMap.size(); i < 4; i++) { //For needed to expand slots post update
 					accessoriesMap.put(i, ItemStack.EMPTY);
 				}
 				playerData.equipAllAccessories(accessoriesMap, true);
 
 				HashMap<Integer, ItemStack> armorsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedArmors();
-				if (armorsMap.size() == 0) {
+				if (armorsMap.isEmpty()) {
 					for (int i = 0; i < 4; i++) {
 						armorsMap.put(i, ItemStack.EMPTY);
 					}
