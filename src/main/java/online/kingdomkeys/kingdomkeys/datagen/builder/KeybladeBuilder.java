@@ -60,7 +60,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     public T levels(KeybladeStats.Recipe[] recipes) {
         int baseMag = this.baseMag;
         int baseStr = this.baseStr;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < recipes.length; i++) {
             if (i % 2 == 0) {
                 ++baseMag;
             } else {
