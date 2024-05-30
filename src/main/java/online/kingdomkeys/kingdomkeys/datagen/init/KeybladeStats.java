@@ -177,7 +177,8 @@ public class KeybladeStats extends KeybladeProvider {
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 1).addMaterial(Strings.SM_WrithingGem, 1),
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 2).addMaterial(Strings.SM_WrithingGem, 2),
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 3).addMaterial(Strings.SM_WrithingGem, 2),
-			new Recipe().addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1)
+			new Recipe().addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1),
+			new Recipe().addMaterial(Strings.SM_Electrum, 2).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1)
 	};
 
 	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, String ability, float reach, String description) {

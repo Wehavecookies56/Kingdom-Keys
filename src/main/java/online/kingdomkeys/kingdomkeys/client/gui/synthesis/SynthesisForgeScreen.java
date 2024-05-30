@@ -221,7 +221,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
-		if (selectedItemStack != null && (selectedItemStack.getItem() != ItemStack.EMPTY.getItem()) && ((KeychainItem)selectedItemStack.getItem()).getKeybladeLevel(selectedItemStack) < 10) {
+		if(selectedItemStack.getItem() instanceof KeychainItem keychain)
+			System.out.println( keychain.getKeyblade().getMaxLevel());
+		if (selectedItemStack != null && !selectedItemStack.isEmpty() && selectedItemStack.getItem() instanceof KeychainItem keychain && keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
@@ -231,13 +233,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				KeychainItem kChain = (KeychainItem) selectedItemStack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
 				upgrade.visible = true;
-				Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
-				while(materials.hasNext()) {
-					Entry<Material, Integer> m = materials.next();
-					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-						enoughMats = false;
-					}
-				}
+                for (Entry<Material, Integer> m : kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet()) {
+                    if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                        enoughMats = false;
+                    }
+                }
 			}
 			
 			upgrade.active = enoughMats && ticks > 10;
@@ -256,9 +256,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		for (int i = 0; i < inventory.size(); i++) {
-			inventory.get(i).active = false;
-		}
+        for (MenuStockItem menuStockItem : inventory) {
+            menuStockItem.active = false;
+        }
 
 		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
 			if (i < inventory.size() && i >= 0) {

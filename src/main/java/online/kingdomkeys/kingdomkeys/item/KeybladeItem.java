@@ -120,6 +120,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		stack.getTag().putInt("level", level);
 	}
 
+	public int getMaxLevel(){
+		return data.getMaxLevel();
+	}
+
 	public Item.Properties getProperties() {
 		return properties;
 	}
