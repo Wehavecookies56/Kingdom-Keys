@@ -23,8 +23,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 
@@ -56,6 +58,8 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
             munny.draw(guiGraphics, 5, 57);
             new TextDrawable(Component.translatable(String.valueOf(recipe.getCost())), 0xFFFF55).draw(guiGraphics, 5, 57);
         }
+        new TextDrawable(Component.translatable(Utils.translateToLocal(Strings.Gui_Shop_Tier)+" "+Utils.getTierFromInt(recipe.getTier())), 0xFFFF55).draw(guiGraphics, 70, 57);
+
         Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES).ifPresent(cap -> {
             if (cap.hasKnownRecipe(recipe.getRegistryName())) {
                 new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(guiGraphics, 5, 72);
