@@ -943,7 +943,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 
-			float damage = (float) Math.round((event.getAmount() * 100 / (200 + playerData.getDefense(true))));
+			float damage = (float) Math.round(event.getAmount() * 100 / (100 + playerData.getDefense(true)));
 			if (globalData.getAeroTicks() > 0) {
 				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
 
@@ -968,19 +968,19 @@ public class EntityEvents {
 			}
 			
 			// Protect Abilities
-			double protectReduction;
+			float protectReduction;
 			if (playerData.isAbilityEquipped(Strings.protect)){
-				protectReduction = damage * 0.1;
+				protectReduction = damage * 0.1F;
 				damage -= protectReduction;
 				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectra)){
-				protectReduction = damage *  0.2;
+				protectReduction = damage *  0.2F;
 				damage -= protectReduction;
 				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectga)){
-				protectReduction = damage *  0.4;
+				protectReduction = damage *  0.4F;
 				damage -= protectReduction;
 				//System.out.println(damage);
 			}
@@ -988,8 +988,7 @@ public class EntityEvents {
 
 
 			// Has to evaluate last
-			// Second chance (will save the player from a damage that would've killed him as
-			// long as he had 2 hp or more)
+			// Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more)
 			if (playerData.isAbilityEquipped(Strings.secondChance)) {
 				if (damage >= player.getHealth() && player.getHealth() > 1) {
 					if (player.hasEffect(MobEffects.REGENERATION)) {

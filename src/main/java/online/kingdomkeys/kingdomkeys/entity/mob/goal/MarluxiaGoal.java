@@ -166,7 +166,7 @@ public class MarluxiaGoal extends TargetGoal {
 		} else if(chasingTicks < 300) {
 			mob.absMoveTo(mob.getTarget().getX(), mob.getTarget().getY(), mob.getTarget().getZ(), mob.getTarget().getYRot(), mob.getTarget().getYRot());
 			//goalOwner.faceEntity(goalOwner.getAttackTarget(), 0, 0);
-			RandomSource rand = ((ServerLevel) mob.level()).getRandom();
+			RandomSource rand = mob.level().getRandom();
 			((ServerLevel) mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.6F, 0.6F), 1F), mob.getX() - 1 + rand.nextDouble() * 2, mob.getY(), mob.getZ() - 1 + rand.nextDouble() * 2, 10, 0.0D, 0.0D, 0.0D, 100);
 			
 			if(chasingTicks % 10 == 0) {
