@@ -1422,6 +1422,8 @@ public class EntityEvents {
 		newPlayerData.setArmorColor(oldPlayerData.getArmorColor());
 		newPlayerData.setArmorGlint(oldPlayerData.getArmorGlint());
 		newPlayerData.setRespawnROD(oldPlayerData.getRespawnROD());
+		newPlayerData.setSingleStyle(oldPlayerData.getSingleStyle());
+		newPlayerData.setDualStyle(oldPlayerData.getDualStyle());
 
 		nPlayer.setHealth(oldPlayerData.getMaxHP());
 		nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(oldPlayerData.getMaxHP());
