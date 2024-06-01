@@ -100,6 +100,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 						}
 						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
+							target.invulnerableTime = 0;
 							target.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg * dmgMult);
 						}
 					}

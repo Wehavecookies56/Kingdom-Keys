@@ -891,24 +891,22 @@ public class EntityEvents {
 			}
 		}
 
-		LivingEntity target = event.getEntity();
-
-		if (event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
+		/*if (event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
 			target.invulnerableTime = 0;
-		}
+		}*/
 
-		if (target instanceof Player player) {
+		if (event.getEntity() instanceof Player player) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 				if (playerData.isAbilityEquipped(Strings.mpRage)) {
 					playerData.addMP((event.getAmount() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) target);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 
 				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
 					playerData.addDP((event.getAmount() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) target);
+					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}
 			
@@ -941,8 +939,7 @@ public class EntityEvents {
 
 		// This is outside as it should apply the formula if you have been hit by non
 		// player too
-		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
+		if (event.getEntity() instanceof Player player) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 

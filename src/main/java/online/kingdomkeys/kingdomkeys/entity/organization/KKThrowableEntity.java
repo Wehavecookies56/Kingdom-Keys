@@ -130,7 +130,6 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 		hitSet.clear();
 		if(originalItem.getItem() instanceof KeybladeItem) {
 			this.remove(RemovalReason.KILLED);
-			return;
 		} else if(originalItem.getItem() instanceof ChakramItem) {
 			returning = true;
 			if (getProjOwner() != null)
@@ -179,7 +178,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
 					//TODO card absorbing entity?
 					hitSet.add(target);
-	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+					target.invulnerableTime = 0;
+					target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					setDeltaMovement(getDeltaMovement().scale(0.8));
 					dmg *= 0.9;
 					

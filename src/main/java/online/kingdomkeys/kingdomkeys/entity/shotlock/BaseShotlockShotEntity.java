@@ -95,9 +95,9 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		this.entityData.set(COLOR, compound.getInt("Color"));
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
 
 	public Player getCaster() {
 		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
