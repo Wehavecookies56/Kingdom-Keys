@@ -134,28 +134,12 @@ public class LargeBodyEntity extends BaseKHEntity {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
 					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
 	                attacker.setDeltaMovement(attacker.getDeltaMovement().x, 0.5F, attacker.getDeltaMovement().z);
-    			}
-                return false;    		
+                    return false;
+                }
     		}
     	}
     	return super.hurt(source, amount);
     }
-
-    
-    /*public boolean attackEntityAsMob(Entity ent) {
-        int i = 0;
-        float j = 1;
-
-        if(EntityHelper.getState(this) == 0) i = DAMAGE_HIT;
-        else if(EntityHelper.getState(this) == 1) i = DAMAGE_CHARGE;
-        else if(EntityHelper.getState(this) == 2) i = DAMAGE_MOWDOWN;
-        else if(EntityHelper.getState(this) == 3) i = DAMAGE_SHOCKWAVE;
-
-        if(this.isAngry)
-            j = 1.5F;
-
-        return ent.attackEntityFrom(DamageSource.causeMobDamage(this), i * j);
-    }*/
 
     public Level getWorld() {
         return this.level();
