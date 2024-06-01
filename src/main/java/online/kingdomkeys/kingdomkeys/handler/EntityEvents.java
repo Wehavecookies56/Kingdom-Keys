@@ -943,7 +943,7 @@ public class EntityEvents {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 
-			float damage = (float) Math.round(event.getAmount() * 100 / (100 + playerData.getDefense(true)));
+			float damage = event.getAmount() * 100 / (100 + playerData.getDefense(true));
 			if (globalData.getAeroTicks() > 0) {
 				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
 
