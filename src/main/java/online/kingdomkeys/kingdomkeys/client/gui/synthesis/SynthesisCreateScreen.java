@@ -280,7 +280,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
 			String ability = "";
-			int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, darkRes = 0;
+			int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
 			if(selectedItemStack.getItem() instanceof KeybladeItem) {
 				KeybladeItem kb = (KeybladeItem) selectedItemStack.getItem();
 				desc = kb.getDesc();
@@ -302,6 +302,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					case fire -> fireRes = resistanceType.getValue();
 					case ice -> iceRes = resistanceType.getValue();
 					case lightning -> thunderRes = resistanceType.getValue();
+					case light -> lightRes = resistanceType.getValue();
 					case darkness -> darkRes = resistanceType.getValue();
 					}
 				}
@@ -328,6 +329,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardResShort)+": "+iceRes+"%", 0, offset+=10, 0x55FFFF);
 				if(thunderRes != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%", 0, offset+=10, 0xFFFF44);
+				if(lightRes != 0)
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_LightResShort)+": "+lightRes+"%", 0, offset+=10, 0xCCCCCC);
 				if(darkRes != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%", 0, offset+=10, 0xAAAAAA);
 				if(ability != null) {

@@ -220,6 +220,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    String totalFireResStr = String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = String.valueOf(resistances.get(KKResistanceType.lightning));
+						String totalLightResStr = String.valueOf(resistances.get(KKResistanceType.light));
 	                    String totalDarknessResStr = String.valueOf(resistances.get(KKResistanceType.darkness));
 
 	                    
@@ -321,6 +322,17 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
+
+							type = KKResistanceType.light;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
+								String resVal = resistances.get(type).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 
 							type = KKResistanceType.darkness;

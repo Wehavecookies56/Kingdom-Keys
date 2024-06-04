@@ -1204,6 +1204,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.firagunBangle, "Firagun Bangle");
         addItem(ModItems.protectBelt, "Protect Belt");
         addItem(ModItems.gaiaBelt, "Gaia Belt");
+        addItem(ModItems.lightDefTest, "Light Res. Test");
         addItem(ModItems.midnightAnklet, "Midnight Anklet");
         addItem(ModItems.shadowAnklet, "Shadow Anklet");
         addItem(ModItems.shockCharm, "Shock Charm");

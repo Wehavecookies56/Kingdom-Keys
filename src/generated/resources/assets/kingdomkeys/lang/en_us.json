@@ -393,6 +393,8 @@
   "gui.menu.status.ap": "AP",
   "gui.menu.status.blizzardres": "Blizzard Resistance",
   "gui.menu.status.blizzardresshort": "Blizzard Res.",
+  "gui.menu.status.lightres": "Light Resistance",
+  "gui.menu.status.lightresshort": "Light Res.",
   "gui.menu.status.darkres": "Dark Resistance",
   "gui.menu.status.darkresshort": "Dark Res.",
   "gui.menu.status.defense": "Defense",

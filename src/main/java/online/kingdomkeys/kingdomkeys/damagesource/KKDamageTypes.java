@@ -17,6 +17,7 @@ public class KKDamageTypes {
         context.register(KKDamageTypes.ICE, new DamageType(KKResistanceType.ice.toString(), 0.1F));
         context.register(KKDamageTypes.STOP, new DamageType("stop", 0.1F));
         context.register(KKDamageTypes.OFFHAND, new DamageType("offhand", 0.1F));
+        context.register(KKDamageTypes.LIGHT, new DamageType("light",0.1F));
     }
 	
     public static final ResourceKey<DamageType> DARKNESS = register(KKResistanceType.darkness.toString());
@@ -25,6 +26,7 @@ public class KKDamageTypes {
     public static final ResourceKey<DamageType> ICE = register(KKResistanceType.ice.toString());
     public static final ResourceKey<DamageType> STOP = register("stop");
     public static final ResourceKey<DamageType> OFFHAND = register("offhand");
+    public static final ResourceKey<DamageType> LIGHT = register(KKResistanceType.light.toString());
     
     private static ResourceKey<DamageType> register(String name){
         return ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(KingdomKeys.MODID, name));
