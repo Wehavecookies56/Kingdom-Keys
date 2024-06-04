@@ -705,6 +705,10 @@ public class Utils {
 					if (kkArmorItem.CheckKey(KKResistanceType.darkness))
 						res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
 					break;
+				case "light":
+					if (kkArmorItem.CheckKey(KKResistanceType.light))
+						res += kkArmorItem.GetResValue(KKResistanceType.light, res == 0 ? 100 : 100 - res);
+					break;
 				case "ice":
 					if (kkArmorItem.CheckKey(KKResistanceType.ice))
 						res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);

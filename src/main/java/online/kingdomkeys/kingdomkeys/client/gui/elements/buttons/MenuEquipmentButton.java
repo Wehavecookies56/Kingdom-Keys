@@ -254,6 +254,7 @@ public class MenuEquipmentButton extends Button {
 	                    String totalFireResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.lightning));
+	                    String totalLightResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.light));
 	                    String totalDarknessResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.darkness));
 	                    
 	                    if (totalStrengthStr.length() == 1) {
@@ -347,6 +348,14 @@ public class MenuEquipmentButton extends Button {
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
+							if(resistances.containsKey(KKResistanceType.light)) {
+								String resVal = resistances.get(KKResistanceType.light).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.light.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
