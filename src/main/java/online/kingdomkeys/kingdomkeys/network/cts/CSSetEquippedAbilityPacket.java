@@ -3,8 +3,14 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.ability.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -38,12 +44,18 @@ public class CSSetEquippedAbilityPacket {
 
 	public static void handle(CSSetEquippedAbilityPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
+			ServerPlayer player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			
-			playerData.equipAbilityToggle(message.ability, message.level);
-
-			Utils.RefreshAbilityAttributes(player, playerData);
+			boolean cancelled;
+			if (playerData.isAbilityEquipped(message.ability, message.level)) {
+				cancelled = MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get().getValue(new ResourceLocation(message.ability)), message.level, player, false));
+			} else {
+				cancelled = MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get().getValue(new ResourceLocation(message.ability)), message.level, player, false));
+			}
+			if (!cancelled) {
+				playerData.equipAbilityToggle(message.ability, message.level);
+				Utils.RefreshAbilityAttributes(player, playerData);
+			}
 		});
 		ctx.get().setPacketHandled(true);
 	}
