@@ -43,11 +43,6 @@ public class FirazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRAZA.get(), world);
 	}
 
-	public FirazaEntity(Level world) {
-		super(ModEntities.TYPE_FIRAZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FirazaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 		this.dmgMult = dmgMult;
@@ -55,7 +50,7 @@ public class FirazaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -128,7 +123,7 @@ public class FirazaEntity extends ThrowableProjectile {
 								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 							}
 							if(blockstate.hasProperty(BlockStateProperties.LIT)) {
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 							}
 						}
 					}

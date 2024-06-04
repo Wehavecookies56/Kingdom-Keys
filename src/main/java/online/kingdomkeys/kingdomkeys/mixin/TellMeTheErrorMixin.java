@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.mixin;
 
-import java.util.ConcurrentModificationException;
-
+import io.netty.channel.ChannelHandlerContext;
+import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.netty.channel.ChannelHandlerContext;
-import net.minecraft.network.Connection;
+import java.util.ConcurrentModificationException;
 
 @Mixin(Connection.class)
 public class TellMeTheErrorMixin {

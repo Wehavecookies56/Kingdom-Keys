@@ -221,24 +221,21 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
-		if (selectedItemStack != null && (selectedItemStack.getItem() != ItemStack.EMPTY.getItem()) && ((KeychainItem)selectedItemStack.getItem()).getKeybladeLevel(selectedItemStack) < 10) {
+		if (selectedItemStack != null && !selectedItemStack.isEmpty() && selectedItemStack.getItem() instanceof KeychainItem keychain && keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
-			KeybladeItem kb = ((KeychainItem)selectedItemStack.getItem()).getKeyblade();
 
 			//Set create button state
-			if(kcItem.getKeybladeLevel(selectedItemStack) < 10) {
+			if(kcItem.getKeybladeLevel(selectedItemStack) < kcItem.getKeyblade().getMaxLevel()) {
 				KeychainItem kChain = (KeychainItem) selectedItemStack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
 				upgrade.visible = true;
-				Iterator<Entry<Material, Integer>> materials = kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
-				while(materials.hasNext()) {
-					Entry<Material, Integer> m = materials.next();
-					if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-						enoughMats = false;
-					}
-				}
+                for (Entry<Material, Integer> m : kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet()) {
+                    if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                        enoughMats = false;
+                    }
+                }
 			}
 			
 			upgrade.active = enoughMats && ticks > 10;
@@ -257,9 +254,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		for (int i = 0; i < inventory.size(); i++) {
-			inventory.get(i).active = false;
-		}
+        for (MenuStockItem menuStockItem : inventory) {
+            menuStockItem.active = false;
+        }
 
 		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
 			if (i < inventory.size() && i >= 0) {
@@ -316,7 +313,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				matrixStack.translate(boxM.getX()+10, height*0.58, 1);
 				int level = kb.getKeybladeLevel(selectedItemStack);
-				if(level < 10) {
+				if(level < kb.getMaxLevel()) {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+level+" -> "+(level+1), 0, -20, 0xFFFF00);
 					int actualStr = kb.getStrength(level);
 					int nextStr = kb.getStrength(level+1);
@@ -344,7 +341,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(iconPosX + 20, height*0.2, 1);
-				if(kb.getKeybladeLevel(selectedItemStack) < 10) {
+				if(kb.getKeybladeLevel(selectedItemStack) < kb.getMaxLevel()) {
 					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
 					int i = 0;
 					while(itMats.hasNext()) {

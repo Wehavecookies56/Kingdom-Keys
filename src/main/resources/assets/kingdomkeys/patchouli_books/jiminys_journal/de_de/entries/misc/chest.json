@@ -1,0 +1,16 @@
+{
+	"name": "Magische Truhe",
+	"icon": "kingdomkeys:magical_chest",
+	"sortnum": 1,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Diese Truhe$() ist sofern besonders, indem sie sich nur öffnet lässt, mithilfe eines $(thing)Schlüsselschwertes$() eines bestimmten Spielers, und kann auch nur von diesem Spieler geöffnet werden. Außerdem, hat es eine Reihe (9 Plätze) $(thing)mehr Speicherraum$(), als eine herkömmliche, einzelne Truhe, $(thing)lässt sich$() aber dafür $(thing)nicht verbinden$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:magical_chest"
+		}
+	]
+}

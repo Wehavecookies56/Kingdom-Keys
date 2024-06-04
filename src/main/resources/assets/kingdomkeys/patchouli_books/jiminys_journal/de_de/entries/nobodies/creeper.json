@@ -1,0 +1,17 @@
+{
+	"name": "Kriecher",
+	"icon": "kingdomkeys:nobody_creeper_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Der Schwächste unter den $(nobody)Niemanden$(). Nimmt verschiedene Formen an, was ihn unberechenbar macht.$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:nobody_creeper"
+		}
+	]
+}

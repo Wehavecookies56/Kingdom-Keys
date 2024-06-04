@@ -32,11 +32,6 @@ public class DirePlantEntity extends BaseKHEntity {
     public DirePlantEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(ModEntities.TYPE_DIRE_PLANT.get(), world);
     }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @Override
     protected void registerGoals() {

@@ -39,7 +39,7 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 			
     		matrixStackIn.scale(0.3F, 0.3F, 0.3F);
     		Color color = new Color(entity.getColor());
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed()/255, color.getGreen()/255F, color.getBlue()/255F, 1F);
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F);
      	}
      	matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

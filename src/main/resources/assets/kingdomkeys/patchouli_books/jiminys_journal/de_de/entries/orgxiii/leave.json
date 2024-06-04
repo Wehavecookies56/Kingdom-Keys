@@ -1,0 +1,12 @@
+{
+	"name": "Die Org. verlassen",
+	"icon": "kingdomkeys:proof_of_heart",
+	"sortnum": 3,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Der einzige Weg $(item)aus der Organisation XII auszutreten$(), ist in dem man ein $(thing)Zeugnis des Herzens$() erhält und dieses benutzt. Für gewöhnlich erhält man dies von dem $(thing)Enderdrachen$(). Wurde das Zeugnis angewandt, kehrst du zurück als ein regulärer Schlüsselschwertträger, wie davor. Aus der Organisation kann man beliebig oft ein- und austreten."
+		}
+	]
+}

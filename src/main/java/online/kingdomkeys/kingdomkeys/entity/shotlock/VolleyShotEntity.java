@@ -27,11 +27,6 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 	}
 
-	public VolleyShotEntity(Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public VolleyShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world, player, target, dmg);
 	}
@@ -45,7 +40,6 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		if(tickCount > 1) {
 			Color color = new Color(getColor());
 			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
-			//world.addParticle(ParticleTypes.DRAGON_BREATH, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
 		}
 		
 		if(tickCount % 10 == 0) {
@@ -70,22 +64,13 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 	protected void onHit(HitResult rtRes) {
 		super.onHit(rtRes);
 		if (!level().isClientSide) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-					super.remove(RemovalReason.KILLED);
+			if (rtRes instanceof EntityHitResult ertResult) {
+				if (ertResult.getEntity() instanceof LivingEntity target) {
+                    if (target != getOwner()) {
+						target.invulnerableTime = 0;
+						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+						super.remove(RemovalReason.KILLED);
+					}
 				}
 			}
 			remove(RemovalReason.KILLED);

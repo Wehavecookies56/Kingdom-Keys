@@ -1,0 +1,19 @@
+{
+	"name": "Dragoner",
+	"icon": "kingdomkeys:dragoon_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 4,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Ein Dragoner$() ist ein $(nobody)Niemand$() von hohem Rang. Sprünge und Blocken erweisen sich als eine gute Taktik um solch einen zu besiegen.$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dragoon",
+			"scale": 0.8,
+			"offset": 0.5
+		}
+	]
+}

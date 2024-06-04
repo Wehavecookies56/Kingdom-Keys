@@ -1,0 +1,48 @@
+{
+	"name": "Emblem-Herzlose",
+	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+	"sortnum": 2,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Emblem-Herzlose$() sind einfach zu erkennen, anhand des $(thing)herzförmigen Symbols$() auf ihrem Körper. Im Gegensatz zu $(pureblooded)Reinblütern$(), habe diese einen stärkeren Willen und setzen ein $(thing)Herz$() frei, wenn sie besiegt wurden. Ihr markantes $(thing)Emblem$() tragen sie, weil sie künstlich erschaffen wurden."
+		},
+		{
+			"type": "text",
+			"text": "$(item)Emblem-Herzlose$() zeichnen sich außerdem dadurch aus, dass sie bedeutend stärker sind, als natürliche $(thing)Reinblüter$()."
+		},
+		{
+			"type": "patchouli:relations",
+			"title": "Emblem-Herzlose",
+			"entries": [
+				"kingdomkeys:heartless/emblem/soldier",
+				"kingdomkeys:heartless/emblem/large_body",
+				"kingdomkeys:heartless/emblem/red_nocturne",
+				"kingdomkeys:heartless/emblem/blue_rhapsody",
+				"kingdomkeys:heartless/emblem/yellow_opera",
+				"kingdomkeys:heartless/emblem/green_requiem",
+				"kingdomkeys:heartless/emblem/emerald_blues",
+				"kingdomkeys:heartless/emblem/minute_bomb",
+				"kingdomkeys:heartless/emblem/skater_bomb",
+				"kingdomkeys:heartless/emblem/storm_bomb",
+				"kingdomkeys:heartless/emblem/detonator",
+				"kingdomkeys:heartless/emblem/dire_plant"
+			]
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/heartless_emblem.png"
+			],
+			"title": "Herzlosen-Emblem",
+			"border": false,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 200,
+			"texture_width": 147
+		}
+	]
+}

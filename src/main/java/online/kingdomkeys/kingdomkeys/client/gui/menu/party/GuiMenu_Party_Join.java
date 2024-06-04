@@ -23,10 +23,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GuiMenu_Party_Join extends MenuBackground {
-
-	boolean priv = false;
-	int pSize = ModConfigs.partyMembersLimit;
-	
 	MenuButton back;
 		
 	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -42,11 +38,11 @@ public class GuiMenu_Party_Join extends MenuBackground {
 
 	protected void action(String string) {
 		//Clear list as it should never be seen unless in phase 2
-		for(int i=0;i<parties.length;i++) {
-			if(parties[i] != null) {
-				parties[i].visible = false;
-			}
-		}
+        for (MenuButton party : parties) {
+            if (party != null) {
+                party.visible = false;
+            }
+        }
 		
 		switch(string) {
 		case "back":
@@ -66,8 +62,6 @@ public class GuiMenu_Party_Join extends MenuBackground {
 	
 					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					minecraft.setScreen(new GuiMenu_Party_Member());
-				} else {
-					
 				}
 			}
 		}
@@ -96,24 +90,27 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		
 		//Show private parties
 		int c = 0;
-		int j = 0;
-		for(j = 0;j<privateParties.size();j++) {
-			Party p = worldData.getPartyFromName(privateParties.get(j));
-			if(p != null) {
-				addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
-			}
-		}
+        for (String privateParty : privateParties) {
+            Party p = worldData.getPartyFromName(privateParty);
+            if (p != null) {
+                addRenderableWidget(parties[c] = new MenuButton((int) (width * 0.3F), button_statsY + (c++ * 18), (int) (buttonWidth * 2), "(P) [" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.BUTTON, (e) -> {
+                    action("party:" + e.getMessage().getString());
+                }));
+            }
+        }
+
 		//Show the buttons to join public parties
 		List<Party> partiesList = worldData.getParties();
-		for(int i=0;i<partiesList.size();i++) {
-			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
-				Party p = partiesList.get(i);
-				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
-				}
-			}
-		}
-	}	
+        for (Party p : partiesList) {
+            if (p != null && !p.getPriv()) {
+                if (!privateParties.contains(p.getName())) {//TODO test this xD
+                    addRenderableWidget(parties[c] = new MenuButton((int) (width * 0.3F), button_statsY + (c++ * 18), (int) (buttonWidth * 2), "[" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.BUTTON, (e) -> {
+                        action("party:" + e.getMessage().getString());
+                    }));
+                }
+            }
+        }
+	}
 
 	@Override
 	public void init() {

@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
 public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-	private final IItemHandler inv = new ItemStackHandler(54) {
+	private final IItemHandler inv = new ItemStackHandler(72) {
 		@Override
 		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 			return !stack.isEmpty() && stack.getItem() instanceof SynthesisItem;

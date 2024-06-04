@@ -43,11 +43,6 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public BaseBombEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(type, world);
     }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @OnlyIn(Dist.CLIENT)
     public abstract ResourceLocation getTexture();
@@ -91,7 +86,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

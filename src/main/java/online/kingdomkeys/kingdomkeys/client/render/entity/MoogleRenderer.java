@@ -34,7 +34,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 	            this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks);
 	            matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 	            this.scale(entityIn, matrixStackIn, partialTicks);
-	            matrixStackIn.translate(0.5D, (double) -1.501F, -0.5D);
+	            matrixStackIn.translate(0.5D, -1.501F, -0.5D);
 	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
 	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), 1.0F, 1.0F, 1.0F, entityIn.isFakeMoogle() ? 0.5F : 1.0F);
             }

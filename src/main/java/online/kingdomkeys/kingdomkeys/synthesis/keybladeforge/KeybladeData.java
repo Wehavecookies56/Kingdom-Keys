@@ -36,6 +36,9 @@ public class KeybladeData {
         this.baseMagic = baseMagic;
     }
 
+    public int getMaxLevel(){
+        return levels.size();
+    }
     //Returns the base strength if level is 0
     public int getStrength(int level) {
         return level == 0 ? baseStrength : levels.get(level-1).getStrength();

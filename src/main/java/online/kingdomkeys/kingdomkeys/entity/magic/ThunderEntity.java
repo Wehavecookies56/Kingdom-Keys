@@ -45,11 +45,6 @@ public class ThunderEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDER.get(), world);
 	}
 
-	public ThunderEntity(Level world) {
-		super(ModEntities.TYPE_THUNDER.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThunderEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDER.get(), player, world);
 		setCaster(player.getUUID());
@@ -59,7 +54,7 @@ public class ThunderEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public int getMaxTicks() {

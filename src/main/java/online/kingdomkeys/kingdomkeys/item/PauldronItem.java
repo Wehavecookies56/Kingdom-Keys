@@ -1,13 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
@@ -26,6 +22,10 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
+
 public class PauldronItem extends Item implements IItemCategory {
 	String textureName;
 
@@ -42,17 +42,16 @@ public class PauldronItem extends Item implements IItemCategory {
 		if(pRemainingUseDuration <= getUseDuration(pStack)-20) {
 			if (pLivingEntity instanceof Player player) {
 				player.stopUsingItem();
-				ItemStack shoulderArmorStack = pStack;
-				for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; i++) {
 					ItemStack armorPieceStack = player.getInventory().getItem(36 + i);
 		
 					if (!ItemStack.isSameItem(armorPieceStack, ItemStack.EMPTY)) {
 						if (armorPieceStack.isEnchanted() && !Utils.hasArmorID(armorPieceStack)) {
 							switch (i) {
-								case 0 -> shoulderArmorStack.getTag().put("boots", armorPieceStack.getTag());
-								case 1 -> shoulderArmorStack.getTag().put("leggings", armorPieceStack.getTag());
-								case 2 -> shoulderArmorStack.getTag().put("chestplate", armorPieceStack.getTag());
-								case 3 -> shoulderArmorStack.getTag().put("helmet", armorPieceStack.getTag());
+								case 0 -> pStack.getTag().put("boots", armorPieceStack.getTag());
+								case 1 -> pStack.getTag().put("leggings", armorPieceStack.getTag());
+								case 2 -> pStack.getTag().put("chestplate", armorPieceStack.getTag());
+								case 3 -> pStack.getTag().put("helmet", armorPieceStack.getTag());
 							}
 
 							levelIn.playSound(player, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -68,7 +67,6 @@ public class PauldronItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level levelIn, Player playerIn, InteractionHand handIn) {
-		ItemStack shoulderArmorStack = playerIn.getItemInHand(handIn);
 		boolean shouldSuck = false;
 		for (int i = 0; i < 4; i++) {
 			ItemStack armorPieceStack = playerIn.getInventory().getItem(36 + i);
@@ -165,13 +163,16 @@ public class PauldronItem extends Item implements IItemCategory {
 		return isFoil(stack);
 	}
 
-	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, CompoundTag pStoredEnchantments) {
-		if (pStoredEnchantments != null) {
+	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, CompoundTag pStoredTags) {
+		//Get only the enchantments list
+		ListTag enchantments = pStoredTags.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND);
+
+		if (enchantments != null) {
 			pTooltipComponents.add(Component.translatable(text));
-			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
-				CompoundTag compoundtag = pStoredEnchantments.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND).getCompound(i);
-				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
-					pTooltipComponents.add(Component.literal(ChatFormatting.GRAY + "- " + p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()));
+			for (int i = 0; i < enchantments.size(); ++i) {
+				CompoundTag compoundtag = enchantments.getCompound(i);
+				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((enchantment) -> {
+					pTooltipComponents.add(Component.literal(ChatFormatting.GRAY + "- " + enchantment.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()));
 				});
 			}
 		}

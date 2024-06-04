@@ -29,10 +29,6 @@ public class DragoonEntity extends BaseKHEntity {
         this(ModEntities.TYPE_DRAGOON.get(), world);
     }
     
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @Override
     protected void registerGoals() {

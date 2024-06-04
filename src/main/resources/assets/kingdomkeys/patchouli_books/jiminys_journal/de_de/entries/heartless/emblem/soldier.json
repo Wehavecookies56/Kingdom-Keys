@@ -1,0 +1,17 @@
+{
+	"name": "Klappersoldat",
+	"icon": "kingdomkeys:soldier_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 201,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Er greift von jeder Seite mit den gleichen ausgewogenen Attacken an. Sei auf der Hut, wenn du gegen ihn kämpfst!$(p)Er kontert mit gefährlichen Tritten.$(p)$(lissa)$(l)$(o)[KH2]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:soldier"
+		}
+	]
+}

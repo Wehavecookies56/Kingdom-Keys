@@ -49,11 +49,6 @@ public class WaterzaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_WATERZA.get(), world);
 	}
 
-	public WaterzaEntity(Level world) {
-		super(ModEntities.TYPE_WATERZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public WaterzaEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_WATERZA.get(), player, world);
 		this.player = player;
@@ -62,7 +57,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

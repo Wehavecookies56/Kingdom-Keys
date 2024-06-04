@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -15,6 +11,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.KKShieldItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
 	OrganizationData data = new OrganizationData();

@@ -41,11 +41,6 @@ public class MagnetEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_MAGNET.get(), world);
 	}
 
-	public MagnetEntity(Level world) {
-		super(ModEntities.TYPE_MAGNET.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public MagnetEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNET.get(), player, world);
 		setCaster(player.getUUID());
@@ -54,7 +49,7 @@ public class MagnetEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

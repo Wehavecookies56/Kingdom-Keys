@@ -45,11 +45,6 @@ public class ThundazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDAZA.get(), world);
 	}
 
-	public ThundazaEntity(Level world) {
-		super(ModEntities.TYPE_THUNDAZA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThundazaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAZA.get(), player, world);
 		setCaster(player.getUUID());
@@ -60,7 +55,7 @@ public class ThundazaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public int getMaxTicks() {

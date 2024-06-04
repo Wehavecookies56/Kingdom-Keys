@@ -25,8 +25,6 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
         FIRE, BLIZZARD, THUNDER, AERO, CURE
     }
 
-    Element elementToUse;
-
     protected BaseElementalMusicalHeartlessEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 8;
@@ -34,11 +32,6 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
 
     public BaseElementalMusicalHeartlessEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(type, world);
-    }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
     }
 
     protected abstract Goal goalToUse();

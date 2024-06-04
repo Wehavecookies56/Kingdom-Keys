@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import java.util.concurrent.CompletableFuture;
 
+import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup;
@@ -30,6 +31,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 	public static final TagKey<Item> ACCESSORIES = bind(KingdomKeys.MODID+":accessories");
 	public static final TagKey<Item> ARMORS = bind(KingdomKeys.MODID+":armors");
 	public static final TagKey<Item> MUSIC_DISCS = bind(KingdomKeys.MODID+":music_discs");
+	public static final TagKey<Item> SYNTHESIS_MATERIAL = bind(KingdomKeys.MODID+":synthesis_material");
 	
 	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, CompletableFuture<TagLookup<Block>> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
 		super(p_255871_, p_256035_, p_256467_, KingdomKeys.MODID, existingFileHelper);
@@ -69,6 +71,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof KKRecordItem) {
 				add(MUSIC_DISCS,item);
+			}
+			if(item instanceof SynthesisItem){
+				add(SYNTHESIS_MATERIAL,item);
 			}
 		}
 	}

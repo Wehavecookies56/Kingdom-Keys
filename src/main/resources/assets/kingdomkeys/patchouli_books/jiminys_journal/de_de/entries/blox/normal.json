@@ -1,0 +1,16 @@
+{
+	"name": "Normaler Block",
+	"icon": "kingdomkeys:normal_blox",
+	"sortnum": 1,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Der gewöhnlichste aller $(blox)Bug-Blöcke$(). Dieser kann genutzt werden um die meisten anderen Bug-Blöcke herzustellen. Man kann sie entweder einfach abbauen oder mit etwas Erde und einer beliebigen Art von Stein herstellen."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:normal_blox"
+		}
+	]
+}

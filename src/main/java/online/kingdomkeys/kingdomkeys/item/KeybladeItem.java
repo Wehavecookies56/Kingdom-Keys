@@ -1,12 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -37,6 +30,7 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,11 +50,18 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach {
 
@@ -117,6 +118,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			stack.setTag(new CompoundTag());
 		}
 		stack.getTag().putInt("level", level);
+	}
+
+	public int getMaxLevel(){
+		return data.getMaxLevel();
 	}
 
 	public Item.Properties getProperties() {
@@ -231,18 +236,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			}
 			return super.use(world, player, hand);
 		} else { //Attack offhand and wisdom attack
-			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
-				if (world.isClientSide && player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
-					HitResult rtr;
-					if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
-						float reach = ((IExtendedReach) player.getOffhandItem().getItem()).getReach();
-						rtr = InputHandler.getMouseOverExtended(Math.max(5, reach));
-					} else {
-						rtr = Minecraft.getInstance().hitResult;
-					}
+			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
+				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+					HitResult rtr = player.getOffhandItem().getItem() instanceof IExtendedReach item ? InputHandler.getMouseOverExtended(item.getReach()) : Minecraft.getInstance().hitResult;
 					if (rtr != null) {
-						player.swing(InteractionHand.OFF_HAND);
-
 						if (rtr.getType() == Type.ENTITY) {
 							EntityHitResult ertr = (EntityHitResult) rtr;
 							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
@@ -252,6 +249,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 								}
 								return InteractionResultHolder.fail(itemstack);
 							}
+						} else {
+							player.swing(InteractionHand.OFF_HAND);
 						}
 					}
 				}
@@ -351,13 +350,22 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	
 	@Mod.EventBusSubscriber
 	public static class KeybladeEvents {
+		@SubscribeEvent
+		public static void onItemToss(ItemTossEvent event) {
+			ItemStack droppedItem = event.getEntity().getItem();
+			UUID droppedID = Utils.getKeybladeID(droppedItem);
+			if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
+				Utils.summonKeyblade(event.getPlayer(), true, null);
+			}
+		}
 
 		@SubscribeEvent
 		public static void onItemDropped(EntityJoinLevelEvent event) {
-			if (event.getEntity() instanceof ItemEntity) {
-				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
+			if (event.getEntity() instanceof ItemEntity iEntity) {
+				ItemStack droppedItem = iEntity.getItem();
 				UUID droppedID = Utils.getKeybladeID(droppedItem);
 				if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
+					iEntity.level().playSound(null, iEntity.position().x(),iEntity.position().y(),iEntity.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					event.setCanceled(true);
 				}
 			}

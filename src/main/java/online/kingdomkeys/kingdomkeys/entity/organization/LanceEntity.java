@@ -43,15 +43,9 @@ public class LanceEntity extends KKThrowableEntity{
 		this.blocksBuilding = true;
 	}
 
-	public LanceEntity(Level world, Player player, float dmg) {
-		super(world);
-		setOwner(player);
-		this.dmg = dmg;
-	}
-
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

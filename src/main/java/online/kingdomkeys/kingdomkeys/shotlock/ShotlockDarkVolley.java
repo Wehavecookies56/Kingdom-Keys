@@ -27,12 +27,19 @@ public class ShotlockDarkVolley extends Shotlock {
 	@Override
 	public void onUse(Player player, List<Entity> targetList) {
 		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		playerData.setLimitCooldownTicks(cooldown);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+		super.onUse(player,targetList);
+	}
 
-		float damage = (float) (DamageCalculation.getMagicDamage(player) * ModConfigs.shotlockMult);
-		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.level(), player, targetList, damage);
+	@Override
+	public void doPartialShotlock(Player player, List<Entity> targetList) {
+		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.level(), player, targetList, getDamage(player));
+		core.setPos(player.getX(), player.getY(), player.getZ());
+		player.level().addFreshEntity(core);
+	}
+
+	@Override
+	public void doFullShotlock(Player player, List<Entity> targetList) {
+		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.level(), player, targetList, getDamage(player));
 		core.setPos(player.getX(), player.getY(), player.getZ());
 		player.level().addFreshEntity(core);
 	}

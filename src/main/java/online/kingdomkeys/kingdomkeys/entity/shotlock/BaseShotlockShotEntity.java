@@ -27,19 +27,9 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	
 	int maxTicks = 100;
 	public float dmg;
-	Entity target;
 
 	public BaseShotlockShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
-	}
-
-	public BaseShotlockShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
-	}
-
-	public BaseShotlockShotEntity(Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 		this.blocksBuilding = true;
 	}
 
@@ -51,7 +41,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -105,9 +95,9 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		this.entityData.set(COLOR, compound.getInt("Color"));
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
 
 	public Player getCaster() {
 		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;

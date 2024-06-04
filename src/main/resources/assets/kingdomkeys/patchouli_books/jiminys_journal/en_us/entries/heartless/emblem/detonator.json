@@ -1,0 +1,17 @@
+{
+	"name": "Detonator",
+	"icon": "kingdomkeys:detonator_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 211,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These large versions of the $(l:kingdomkeys/heartless/emblem/minute_bomb)Minute Bomb$() act similarly, but produce a much broader blast when they self-detonate. $(thing)$(o)They also won't stagger from regular attacks$(), making them a dangerous foe. Take ample care when facing them.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:detonator"
+		}
+	]
+}

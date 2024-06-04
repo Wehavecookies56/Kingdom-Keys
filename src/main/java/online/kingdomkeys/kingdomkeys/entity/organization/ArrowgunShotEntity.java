@@ -37,11 +37,6 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.setPos(x,y,z);
 	}
 
-	public ArrowgunShotEntity(Level world) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ArrowgunShotEntity(Level world, LivingEntity player, float damage) {
 		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), player, world);
 		this.dmg = damage;
@@ -49,7 +44,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -89,14 +84,8 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
-					/*float dmg = 0;
-					if(this.getOwner() instanceof Player) {
-						Player player = (Player) this.getOwner();
-						if(player.getMainHandItem() != null) {
-							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
-						}
-					}*/
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					target.invulnerableTime = 0;
+					target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}
 			} else { // Block (not ERTR)

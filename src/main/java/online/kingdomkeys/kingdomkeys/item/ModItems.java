@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.function.Supplier;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -24,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Flo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+
+import java.util.function.Supplier;
 
 public class ModItems {
 
@@ -52,6 +51,7 @@ public class ModItems {
 			darkerThanDark = createKeybladeItem(Strings.darkerThanDark),
 			darkgnaw = createKeybladeItem(Strings.darkgnaw),
 			dawnTillDusk = createKeybladeItem(Strings.dawnTillDusk),
+			deadOfNight = createKeybladeItem(Strings.deadOfNight),
 			decisivePumpkin = createKeybladeItem(Strings.decisivePumpkin),
 			destinysEmbrace = createKeybladeItem(Strings.destinysEmbrace),
 			diamondDust = createKeybladeItem(Strings.diamondDust),
@@ -199,6 +199,7 @@ public class ModItems {
 			darkerThanDarkChain = createNewItem(Strings.darkerThanDarkChain, KeychainItem::new),
 			darkgnawChain = createNewItem(Strings.darkgnawChain, KeychainItem::new),
 			dawnTillDuskChain = createNewItem(Strings.dawnTillDuskChain, KeychainItem::new),
+			deadOfNightChain = createNewItem(Strings.deadOfNightChain, KeychainItem::new),
 			decisivePumpkinChain = createNewItem(Strings.decisivePumpkinChain, KeychainItem::new),
 			destinysEmbraceChain = createNewItem(Strings.destinysEmbraceChain, KeychainItem::new),
 			diamondDustChain = createNewItem(Strings.diamondDustChain, KeychainItem::new),

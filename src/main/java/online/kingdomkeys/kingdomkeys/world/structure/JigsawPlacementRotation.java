@@ -1,16 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.structure;
 
-import java.util.Deque;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.commons.lang3.mutable.MutableObject;
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.mojang.logging.LogUtils;
-
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
@@ -37,6 +29,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.slf4j.Logger;
+
+import java.util.Deque;
+import java.util.List;
+import java.util.Optional;
 
 //Copy of JigsawPlacement to set the rotation instead of it being random, if there's a better solution that'd be ideal
 public class JigsawPlacementRotation {

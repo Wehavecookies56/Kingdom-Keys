@@ -8,6 +8,15 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -16,7 +25,6 @@ import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -762,6 +770,115 @@ public class ClientUtils {
         		//SoAMessages.INSTANCE.queueMessages((Title[]) message.titles.toArray());
             }
         };
+    }
+
+    public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
+        poseStack.pushPose();
+        poseStack.translate(-posX, -posY, -posZ);
+        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+
+        float screenX = posX + x;
+        float screenY = posY + y;
+        float screenZ = posZ + z;
+
+        Matrix4f viewMatrix = poseStack.last().pose();
+        Matrix4f finalMatrix = new Matrix4f();
+        finalMatrix.translate(-screenX, screenY, -screenZ);
+        poseStack.popPose();
+
+        if (lockRotation) {
+            finalMatrix.m00(viewMatrix.m00());
+            finalMatrix.m01(viewMatrix.m10());
+            finalMatrix.m02(viewMatrix.m20());
+            finalMatrix.m10(viewMatrix.m01());
+            finalMatrix.m11(viewMatrix.m11());
+            finalMatrix.m12(viewMatrix.m21());
+            finalMatrix.m20(viewMatrix.m02());
+            finalMatrix.m21(viewMatrix.m12());
+            finalMatrix.m22(viewMatrix.m22());
+        }
+
+        finalMatrix = viewMatrix.mul(finalMatrix);
+
+        return finalMatrix;
+    }
+
+    public static Matrix4f getMVMatrix(PoseStack poseStack, LivingEntity entity, float x, float y, float z, boolean lockRotation, float partialTicks) {
+        float posX = (float) Mth.lerp(partialTicks, entity.xOld, entity.getX());
+        float posY = (float)Mth.lerp(partialTicks, entity.yOld, entity.getY());
+        float posZ = (float)Mth.lerp(partialTicks, entity.zOld, entity.getZ());
+        return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
+    }
+
+    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
+      public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
+    public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+        Player localPlayer = Minecraft.getInstance().player;
+        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
+
+        if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
+            float x = (float) (localPlayer.getX() - entityIn.getX()) * 0.3F;
+            float y = (float) (localPlayer.getY() - entityIn.getY()) * 0.3F;
+            float z = (float) (localPlayer.getZ() - entityIn.getZ()) * 0.3F;
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x, y + entityIn.getBbHeight() / 2, z, true, partialTicks);
+            float renderSize = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+        }
+    }
+    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+        Player localPlayer = Minecraft.getInstance().player;
+        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
+
+        for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
+            float ex = (float) entityIn.getX(); //Random offsets
+            float ey = (float) entityIn.getY();
+            float ez = (float) entityIn.getZ();
+            float renderSize = 1.5F;
+            if(shotlock.getMaxLocks() > 1) {
+                ex += shotlockEnemy.x(); //Random offsets
+                ey += shotlockEnemy.y();
+                ez += shotlockEnemy.z();
+                renderSize = 0.1F;
+            }
+            float x = (float) (localPlayer.getX() - ex)*0.3F;
+            float y = (float) (localPlayer.getY() - ey)*0.3F;
+            float z = (float) (localPlayer.getZ() - ez)*0.3F;
+            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getBbHeight()/2,z, true, partialTicks);
+
+            //Random Circles
+            if(shotlockEnemy.id() == entityIn.getId()) {
+                ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(shotlock.getMaxLocks() == 1 ? ULTIMATE_SHOTLOCK_INDICATOR : SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
+            }
+        }
+    }
+
+    public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
+        Player localPlayer = Minecraft.getInstance().player;
+        float x = (float) (localPlayer.getX() - pos.getX())*0.8F;
+        float y = (float) (localPlayer.getY() - pos.getY())*0.8F;
+        float z = (float) (localPlayer.getZ() - pos.getZ())*0.8F;
+        Matrix4f mvMatrix = getMVMatrix(matStackIn, x,y,z, 0.5F, 0.5F, 0.5F, true, partialTicks);
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.6f,-0.6f,0.6f,0.6f, 0, 0, 256, 256);
+    }
+
+    public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
+        drawTexturedModalRect3DPlane(matrix, vertexBuilder, minX, minY, 0, maxX, maxY, 0, minTexU, minTexV, maxTexU, maxTexV);
+    }
+
+    public static void drawTexturedModalRect3DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float minTexU, float minTexV, float maxTexU, float maxTexV) {
+        float cor = 0.00390625F;
+        vertexBuilder.vertex(matrix, minX, minY, maxZ).uv((minTexU * cor), (maxTexV) * cor).endVertex();
+        vertexBuilder.vertex(matrix, maxX, minY, maxZ).uv((maxTexU * cor), (maxTexV) * cor).endVertex();
+        vertexBuilder.vertex(matrix, maxX, maxY, minZ).uv((maxTexU * cor), (minTexV) * cor).endVertex();
+        vertexBuilder.vertex(matrix, minX, maxY, minZ).uv((minTexU * cor), (minTexV) * cor).endVertex();
     }
 }
 

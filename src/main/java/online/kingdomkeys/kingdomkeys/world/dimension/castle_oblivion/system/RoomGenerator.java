@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -27,6 +22,10 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoomGenerator {
 

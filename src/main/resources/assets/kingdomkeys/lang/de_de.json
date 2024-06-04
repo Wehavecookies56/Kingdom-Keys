@@ -46,14 +46,14 @@
 
   "ability.ability_blizzaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Eiska zu erhalten.",
   "ability.ability_blizzaza.name": "Eiska",
-  "ability.ability_curaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Vitka zu erhalten.",
-  "ability.ability_curaza.name": "Vitka",
+  "ability.ability_curaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Vitkra zu erhalten.",
+  "ability.ability_curaza.name": "Vitkra",
   "ability.ability_firaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Feuka zu erhalten.",
   "ability.ability_firaza.name": "Feuka",
   "ability.ability_thundaza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Blitzka zu erhalten.",
   "ability.ability_thundaza.name": "Blitzka",
-  "ability.ability_waterza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Wasseka zu erhalten.",
-  "ability.ability_waterza.name": "Wasseka",
+  "ability.ability_waterza.desc": "Erlaubt es dem Nutzer das Reaktionskommando Wasska zu erhalten.",
+  "ability.ability_waterza.name": "Wasska",
 
   //Boosts
   "ability.ability_blizzard_boost.desc": "Erhöht den Schaden, der durch Eis-basierte Attacken verursacht wird.",
@@ -65,7 +65,7 @@
   "ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
   "ability.ability_water_boost.name": "Wasser-Boost",
 
-  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_critical_boost.name": "Volltreffer-Boost",
   "ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
   "ability.ability_drive_boost.name": "Drive-Boost",
@@ -73,15 +73,15 @@
   "ability.ability_experience_boost.name": "Erfahrungs-Boost",
   "ability.ability_form_boost.desc": "Erhöht die verweildauer in den Formen.",
   "ability.ability_form_boost.name": "Form-Boost",
-  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_item_boost.name": "Item-Boost",
 
-  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nMehrfaches Anlegen erhöht den Effekt. (Kein Combo-Abschlussangriff möglich?)",
+  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern. (Kein Combo-Abschlussangriff möglich?)",
   "ability.ability_berserk_charge.name": "Auflade-Berserker",
-  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nAusgerüstete Menge bestimmt die Anzahl der Zusatzhiebe.",
+  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nDiese Ability kann aufgestapelt werden, um noch weitere Kombo-Angriffe hinzuzufügen.",
   "ability.ability_combo_plus.name": "Combo +",
 
-  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_damage_control.name": "Schadenskontrolle",
   "ability.ability_damage_drive.desc": "Bei erlittenem Schaden füllt sich die Drive-Leiste.\nDie Leiste füllt sich proportional zum erlittenen Schaden.",
   "ability.ability_damage_drive.name": "Schadensbegrenzung",
@@ -90,7 +90,7 @@
 
   "ability.ability_drive_converter.desc": "Erhöhe den Wert aller Drive-Kugeln.",
   "ability.ability_drive_converter.name": "Drive-Konverter",
-  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_endless_magic.name": "Endlos-Magie",
   "ability.ability_extra_cast.desc": "Erlaubt das wirken eines letzten Zaubers bevor die MP leer gehen.",
   "ability.ability_extra_cast.name": "Extrazauber",
@@ -100,16 +100,16 @@
   "ability.ability_focus_converter.desc": "Erhöht den Wert aller Fokus-Kugeln.",
   "ability.ability_focus_converter.name": "Fokus-Konverter",
 
-  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_full_mp_blast.name": "Volle MP-Salve",
 
-  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
 
-  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_hp_gain.name": "HP-Gewinn",
 
-  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_jackpot.name": "Jackpot",
 
   "ability.ability_leaf_bracer.desc": "Das wirken von Vita auf sich selbst wird nicht unterbrochen, wird man attackiert.",
@@ -118,7 +118,7 @@
   "ability.ability_light_and_darkness.desc": "Hat eine spezielle geheime Wirkung.",
   "ability.ability_light_and_darkness.name": "Licht & Dunkelheit",
 
-  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_lucky_lucky.name": "Glückspilz",
   "ability.ability_magic_lock_on.desc": "Erlaubt es dem Benutzer einige Zauber bei der Position einer anvisierten Entitität zu benutzen.",
   "ability.ability_magic_lock_on.name": "Magie-Autovisieren",
@@ -133,10 +133,10 @@
   "ability.ability_mp_rage.name": "Esprit",
   "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
   "ability.ability_mp_safety.name": "MP-Aufladung",
-  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_mp_thrift.name": "MP Thrift",
 
-  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_negative_combo.name": "Combo -",
 
   "ability.ability_protect.desc":"Negiert 10% Schaden aus jeglichen Quellen.",
@@ -155,12 +155,17 @@
   "ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
   "ability.ability_synch_blade.name": "Synchrone Klingen",
 
-  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_treasure_magnet.name": "Charmeur",
-  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_wizards_ruse.name": "Hexertrick",
   "ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
   "ability.ability_zero_exp.name": "Null Erfahrung",
+
+  "ability.ability_stackable.prefix": "Diese Ability kann aufgestapelt werden, um ",
+  "ability.ability_stackable.increase_chance": "die Chance zu erhöhen.", // "Mehrfaches Anlegen erhöht die Chance."
+  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.", //"Ausgerüstete Menge bestimmt die Anzahl der Zusatzhiebe."
+  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.", // "Mehrfaches Anlegen erhöht den Effekt."
 
   //ADVANCEMENTS
 
@@ -172,7 +177,7 @@
   "advancements.kingdomkeys.levelup100.desc": "Erreiche Stufe 100",
   "advancements.kingdomkeys.levelup50": "Halbzeit",
   "advancements.kingdomkeys.levelup50.desc": "Erreiche Stufe 50",
-  "advancements.kingdomkeys.obtain_drive": "Das ist noch nicht Mal meine wahre Form",
+  "advancements.kingdomkeys.obtain_drive": "Das ist nicht meine wahre Form",
   "advancements.kingdomkeys.obtain_drive.desc": "Erhalte deine erste Drive Form",
   "advancements.kingdomkeys.obtain_keychain": "So ein Mogry kennt sich gut aus",
   "advancements.kingdomkeys.obtain_keychain.desc": "Lasse deinen ersten Anhänger anfertigen",
@@ -182,9 +187,9 @@
   "advancements.kingdomkeys.obtain_magic.desc": "Erhalte deinen ersten Zauber",
   "advancements.kingdomkeys.obtain_org": "Niemand trägt sowas",
   "advancements.kingdomkeys.obtain_org.desc": "Werde Miglied der Organisation",
-  "advancements.kingdomkeys.obtain_projector": "Manchmal muss man Opfer bringen",
+  "advancements.kingdomkeys.obtain_projector": "Opfer müssen gebracht werden",
   "advancements.kingdomkeys.obtain_projector.desc": "Erhalte einen Mogry-Projektor",
-  "advancements.kingdomkeys.obtain_recipe": "Ein Mogry kann damit mehr anfangen.",
+  "advancements.kingdomkeys.obtain_recipe": "Mogrys können das benutzen",
   "advancements.kingdomkeys.obtain_recipe.desc": "Erlange eine Formel",
   "advancements.kingdomkeys.root": "Willkommen zu Kingdom Keys!",
   "advancements.kingdomkeys.root.desc": "Installiere Kingdom Keys",
@@ -207,10 +212,13 @@
 
   //BLOCKS
 
-  // -MISC
+  // -NOT FULLY IMPLEMENTED
 
   "block.kingdomkeys.card_door": "Kartentür",
+  "block.kingdomkeys.data_portal": "Daten-Portal",
+  "block.kingdomkeys.savepoint": "Speicherpunkt",
   "block.kingdomkeys.structure_wall": "Struktur Wand",
+
 
   // -ORES
 
@@ -275,7 +283,7 @@
 
   // -other
 
-  "block.kingdomkeys.data_portal": "Daten-Portal",
+  "block.kingdomkeys.airstep_target": "Windschritt-Markierung",
 
   "block.kingdomkeys.gummi_editor": "Gumi-Editor",
   "block.kingdomkeys.magical_chest": "Magische Truhe",
@@ -286,8 +294,6 @@
   "block.kingdomkeys.rod_cracked_stone": "Rissiger Dunkel-Stein",
   "block.kingdomkeys.rod_sand": "Dunkel-Sand",
   "block.kingdomkeys.rod_stone": "Dunkel-Stein",
-
-  "block.kingdomkeys.savepoint": "Speicherpunkt",
 
   "block.kingdomkeys.soa_door": "Mysteriöse Tür",
   "block.kingdomkeys.sor_core": "Ort der Trauer-Kern",
@@ -370,7 +376,7 @@
   "entity.kingdomkeys.entity_chakram": "Chakram",
 
   "entity.kingdomkeys.entity_drive_orb": "Drive-Kugel",
-  "entity.kingdomkeys.entity_hp_orb": "HP-Kugel",
+  "entity.kingdomkeys.entity_hp_orb": "LP-Kugel",
   "entity.kingdomkeys.entity_mp_orb": "MP-Kugel",
   "entity.kingdomkeys.entity_munny": "Taler",
   
@@ -402,7 +408,7 @@
   "gear.chrono_gear_p.name": "Chrono-Mod+ (3)",
   "gear.phantom_gear.name": "Phantom-Mod (4)",
   "gear.phantom_gear_p.name": "Phantom-Mod+ (4)",
-  "gear.phantom_gear_p.name": "Phantom-Mod++ (5)",
+  "gear.phantom_gear_pp.name": "Phantom-Mod++ (5)",
   "gear.lift_gear.name": "Hebe-Mod (3)",
   "gear.lift_gear_p.name": "Hebe-Mod+ (3)",
   "gear.nimble_gear.name": "Flinkheitsmod (4)",
@@ -442,19 +448,19 @@
   "gui.commandmenu.attack": "Angriff",
   "gui.commandmenu.command": "KOMMANDOS",
   "gui.commandmenu.drive": "Drive",
-  "gui.commandmenu.drive.title": "Formen",
-  "gui.commandmenu.items": "Items",
-  "gui.commandmenu.items.title": "Items",
+  "gui.commandmenu.drive.title": "FORMEN",
+  "gui.commandmenu.items": "Item",
+  "gui.commandmenu.items.title": "ITEMS",
   "gui.commandmenu.limit": "Limit",
-  "gui.commandmenu.limit.title": "Limits",
+  "gui.commandmenu.limit.title": "LIMIT-MOVES",
   "gui.commandmenu.magic": "Magie",
-  "gui.commandmenu.magic.title": "Magie",
+  "gui.commandmenu.magic.title": "SPRÜCHE",
   "gui.commandmenu.portal": "Portal",
-  "gui.commandmenu.portal.title": "Portale",
+  "gui.commandmenu.portal.title": "PORTALE",
   "gui.commandmenu.revert": "Zurück",
 
   "gui.driveformorb.tooltip": "Verbessert die %s",
-  "gui.driveformorb.upgrade": "%s hat %s Exp erhalten",
+  "gui.driveformorb.upgrade": "%1$s hat %2$s Exp erhalten",
 
   "gui.magicspell.maxed": "%s ist bereits das Maximum",
   "gui.magicspell.unlock": "Schaltet %s frei",
@@ -473,6 +479,7 @@
   "gui.menu.config.armor.red": "Rüstung Rot",
 
   "gui.menu.config.bg": "Hintergrund Umschalten",
+  "gui.menu.config.classic_colors": "Klassiche Farben",
   "gui.menu.config.command_menu": "Kommando-Menü",
   "gui.menu.config.dp": "Drive-Balken",
   "gui.menu.config.focus": "Fokus-Balken",
@@ -513,10 +520,10 @@
   "gui.menu.items.equipment.armor": "Rüstung",
   "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
   "gui.menu.items.equipment.items": "Items",
-  "gui.menu.items.equipment.pauldron": "Pauldron",
-  "gui.menu.items.equipment.shotlock": "Fokussierung",
+  "gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
+  "gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
   "gui.menu.items.equipment.weapon": "Waffe",
-  "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
+  "gui.menu.items.equipment.weapon.keyblades": "Schlüssel.", // Schlüsselschwerter
   "gui.menu.items.stock": "Lager",
   "gui.menu.items.stock.desc": "Überprüfe dein Inventar.",
 
@@ -541,13 +548,13 @@
 
   "gui.menu.main.hearts": "Herzen",
   "gui.menu.main.munny": "Taler",
-  "gui.menu.main.synthesis_tier": "Synthese-Stufe",
+  "gui.menu.main.synthesis_tier": "Schmiede-Stufe",
   "gui.menu.main.time": "Uhrzeit (Welt)",
   "gui.menu.main.time.spent": "Vergangene Zeit",
   "gui.menu.main.title": "Menü",
 
   "gui.menu.party": "Gruppe",
-  "gui.menu.party.create": "Gruppe erstellen",
+  "gui.menu.party.create": "Erstellen", //"Gruppe erstellen"
   "gui.menu.party.create.accessibility": "Zugang",
   "gui.menu.party.create.accessibility.private": "Privat",
   "gui.menu.party.create.accessibility.public": "Öffentlich",
@@ -555,7 +562,7 @@
   "gui.menu.party.create.name": "Name",
   "gui.menu.party.disband": "Auflösen",
   "gui.menu.party.invite": "Einladen",
-  "gui.menu.party.join": "Gruppe beitreten",
+  "gui.menu.party.join": "Beitreten", //"Gruppe beitreten"
   "gui.menu.party.join.desc": "Trete einer bereits erstellten Gruppe bei.",
   "gui.menu.party.kick": "Rauswerfen",
   "gui.menu.party.leave": "Austreten",
@@ -571,17 +578,20 @@
   "gui.menu.status.darkres": "Dunkelresistenz",
   "gui.menu.status.darkresshort": "Dunkelres.",
   "gui.menu.status.defense": "Abwehr", //Abwehrkraft
+  //"gui.menu.status.defenselong": "Abwehrkraft", //Abwehrkraft
   "gui.menu.status.drivegauge": "Drive-Leiste",
   "gui.menu.status.fireres": "Feuerresistenz",
   "gui.menu.status.fireresshort": "Feuerres.",
   "gui.menu.status.formgauge": "Form-Leiste",
-  "gui.menu.status.formlevel": "Form-Level",
-  "gui.menu.status.hp": "HP",
-  "gui.menu.status.level": "Level",
+  "gui.menu.status.formlevel": "Form-Stufe",
+  "gui.menu.status.hp": "LP",
+  "gui.menu.status.level": "Stufe",
   "gui.menu.status.magic": "Magie", //Magiekraft
+  //"gui.menu.status.magiclong": "Magiekraft",
   "gui.menu.status.mp": "MP",
-  "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
+  "gui.menu.status.nextlevel": "Nächste Stufe", // Nächst. LV
   "gui.menu.status.strength": "Angriff", //Angriffskraft
+  //"gui.menu.status.strengthlong": "Angriffskraft", //Angriffskraft
   "gui.menu.status.thunderres": "Blitzresistenz",
   "gui.menu.status.thunderresshort": "Blitzres.",
   "gui.menu.status.totalexp": "Erfahrung",
@@ -632,8 +642,8 @@
   "gui.synthesis.materials.deposit": "Einlagern",
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
-  "gui.synthesis.synthesise": "Item-Synthese",
-  "gui.synthesis.synthesise.title": "Synthese",
+  "gui.synthesis.synthesise": "Item-Schmiede",
+  "gui.synthesis.synthesise.title": "Schmiede",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",
@@ -657,10 +667,14 @@
   "item.kingdomkeys.dream_staff": "Alchera-Stab",
   "item.kingdomkeys.dream_sword": "Alchera-Schwert",
 
-  "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
+  "item.kingdomkeys.synthesis_bag": "Schmiedebeutel",
 
   "item.kingdomkeys.wayfinder": "Wegfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
+
+  "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch",
+  "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
+  "patchouli.kingdomkeys.journal.hello": "Wilkommen, Schlüsselschwertträger, zur $(thing)Kingdom Key's$() Mod.$(p)Im diesem Buch, wirst du jegliche Informationen finden, um anzufangen.",
 
 
   // -SPAWN EGGS
@@ -682,7 +696,7 @@
   "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
   "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
   "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
-  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Schattenlurch-Spawn-Ei",
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
@@ -693,7 +707,7 @@
 
   // -MATERIALS
 
-  "item.kingdomkeys.adamantite": "Adamantit",
+  "item.kingdomkeys.adamantite": "Adamant",
 
   "item.kingdomkeys.betwixt_crystal": "Duktilkristall",
   "item.kingdomkeys.betwixt_gem": "Duktilstein",
@@ -707,7 +721,7 @@
 
   "item.kingdomkeys.electrum": "Elektrum",
 
-  "item.kingdomkeys.damascus": "Damaskus",
+  "item.kingdomkeys.damascus": "Damast",
 
   "item.kingdomkeys.evanescent_crystal": "Dunstkristall",
 
@@ -730,14 +744,14 @@
   "item.kingdomkeys.lightning_shard": "Donnersplitter",
   "item.kingdomkeys.lightning_stone": "Donnertropfen",
 
-  "item.kingdomkeys.lost_illusion": "Verlorene Illusion",
+  "item.kingdomkeys.lost_illusion": "Flüchtige Vision",
 
   "item.kingdomkeys.lucid_crystal": "Luzidkristall",
   "item.kingdomkeys.lucid_gem": "Luzidstein",
   "item.kingdomkeys.lucid_shard": "Luzidsplitter",
   "item.kingdomkeys.lucid_stone": "Luzidtropfen",
 
-  "item.kingdomkeys.manifest_illusion": "Manifestierte Illusion",
+  "item.kingdomkeys.manifest_illusion": "Beständige Vision",
 
   "item.kingdomkeys.mythril_crystal": "Mithrilkristall",
   "item.kingdomkeys.mythril_gem": "Mithrilstein",
@@ -836,7 +850,7 @@
 
   "item.kingdomkeys.aced_boots": "Aced Stiefel",
   "item.kingdomkeys.aced_chestplate": "Aced Mantel",
-  "item.kingdomkeys.aced_helmet": "Aced kapuze",
+  "item.kingdomkeys.aced_helmet": "Aced Kapuze",
   "item.kingdomkeys.aced_leggings": "Aced Hose",
 
   "item.kingdomkeys.anticoat_boots": "Antirobe Stiefel",
@@ -849,10 +863,10 @@
   "item.kingdomkeys.aqua_helmet": "Aqua Helm",
   "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
 
-  "item.kingdomkeys.ava_boots": "Ava Boots",
-  "item.kingdomkeys.ava_chestplate": "Ava Coat",
-  "item.kingdomkeys.ava_helmet": "Ava Hood",
-  "item.kingdomkeys.ava_leggings": "Ava Leggings",
+  "item.kingdomkeys.ava_boots": "Ava Stiefel",
+  "item.kingdomkeys.ava_chestplate": "Ava Mantel",
+  "item.kingdomkeys.ava_helmet": "Ava Kapuze",
+  "item.kingdomkeys.ava_leggings": "Ava Hose",
 
   "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
   "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
@@ -926,13 +940,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
-  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
+  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
 
 
   // -ACCESOIRES
@@ -998,7 +1012,7 @@
   "item.kingdomkeys.magicboost": "Magiesphäre",
   "item.kingdomkeys.powerboost": "Kraftbolzen",
 
-  "item.kingdomkeys.proof_of_heart": "Beweis des Herzens",
+  "item.kingdomkeys.proof_of_heart": "Zeugnis des Herzens",
 
 
   // --MAGIC AND FORMS
@@ -1023,9 +1037,9 @@
 
   // -WEAPONS
 
-  "item.kingdomkeys.struggle_hammer": "Struggle-Schwert",
-  "item.kingdomkeys.struggle_sword": "Struggle-Knüppel",
-  "item.kingdomkeys.struggle_wand": "Struggle-Stab",
+  "item.kingdomkeys.struggle_hammer": "Struggle-Knüppel", //schwert in kh2, knüppel in FM??
+  "item.kingdomkeys.struggle_sword": "Struggle-Schwert", //knüppel in kh2, schwert in FM?
+  "item.kingdomkeys.struggle_wand": "Struggle-Zauberstab",
 
   // --KEYBLADES
 
@@ -1095,8 +1109,8 @@
 
   // ---KH2
 
-  "item.kingdomkeys.circle_of_life": "Der Ewige Kreis",
-  "item.kingdomkeys.circle_of_life_chain": "Der Ewige Kreis-Anhänger",
+  "item.kingdomkeys.circle_of_life": "Der ewige Kreis",
+  "item.kingdomkeys.circle_of_life_chain": "Der ewige Kreis-Anhänger",
   "item.kingdomkeys.decisive_pumpkin": "St. Kürbinian",
   "item.kingdomkeys.decisive_pumpkin_chain": "St. Kürbinian-Anhänger",
   "item.kingdomkeys.destinys_embrace": "Schicksalswink", //kairi
@@ -1159,8 +1173,8 @@
   "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
   "item.kingdomkeys.mark_of_a_hero": "Heldenemblem",
   "item.kingdomkeys.mark_of_a_hero_chain": "Heldenemblem-Anhänger",
-  "item.kingdomkeys.no_name_bbs": "Namenlose Klinge (BBS)",
-  "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge (BBS)-Anhänger",
+  "item.kingdomkeys.no_name_bbs": "Namenlose Klinge",
+  "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge-Anhänger",
   "item.kingdomkeys.pixie_petal": "Feenblüte",
   "item.kingdomkeys.pixie_petal_chain": "Feenblüte-Anhänger",
   "item.kingdomkeys.rainfell": "Regenfall", //aqua og
@@ -1182,8 +1196,8 @@
   "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus og
   "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
 
-  "item.kingdomkeys.no_name": "Namenlose Klinge", //xehanort
-  "item.kingdomkeys.no_name_chain": "Namenlose Klinge-Anhänger",
+  "item.kingdomkeys.no_name": "Das starrende Auge", //xehanort / luxu
+  "item.kingdomkeys.no_name_chain": "Das starrende Auge-Anhänger",
 
   //Final Mix
   "item.kingdomkeys.masters_defender": "Meisterhüter", //Eraqus
@@ -1238,18 +1252,23 @@
 
   // ---KH3
 
-  "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch dlc
+  "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
   "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
+  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
+  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
+  "item.kingdomkeys.dead_of_night": "Mondreign", //steam
+  "item.kingdomkeys.dead_of_night_chain": "Mondreign-Anhänger",
+  "item.kingdomkeys.elemental_encoder": "Elementarkodierer", //epic games
+  "item.kingdomkeys.elemental_encoder_chain": "Elementarkodierer-Anhänger",
+  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
+  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
+
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
   "item.kingdomkeys.classic_tone": "Klassische Klänge",
   "item.kingdomkeys.classic_tone_chain": "Klassische Klänge-Anhänger",
   "item.kingdomkeys.crystal_snow": "Pulverschnee",
   "item.kingdomkeys.crystal_snow_chain": "Pulverschnee-Anhänger",
-  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
-  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
-  "item.kingdomkeys.elemental_encoder": "Elemental Encoder", //epic games
-  "item.kingdomkeys.elemental_encoder_chain": "Elemental Encoder-Anhänger",
   "item.kingdomkeys.ever_after": "Immer und Ewig",
   "item.kingdomkeys.ever_after_chain": "Immer und Ewig-Anhänger",
   "item.kingdomkeys.favorite_deputy": "Hilfssheriff Nr. 1",
@@ -1266,8 +1285,6 @@
   "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
   "item.kingdomkeys.nano_gear": "Nano-Mod",
   "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
-  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX DLC
-  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
   "item.kingdomkeys.shooting_star": "Sternschnuppe",
   "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
   "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
@@ -1567,7 +1584,6 @@
   "item.kingdomkeys.songbird": "Singvogel",
   "item.kingdomkeys.tune_up": "Plus",
   "item.kingdomkeys.up_to_eleven": "Auf Elf",
-  
 
   "item.kingdomkeys.prince_of_awesome": "Spitzenreiter", //casual
   "item.kingdomkeys.after_school": "Schulschluss", //mystery
@@ -1704,7 +1720,7 @@
   "item.kingdomkeys.true_lights_flight_chain": "Lichtflug-Anhänger",
   "item.kingdomkeys.twilight_blaze": "Zwielichtfeuer", //ultima
   "item.kingdomkeys.twilight_blaze_chain": "Zwielichtfeuer-Anhänger",
-  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //alt name: "Zweisamkeit" //zero + 2 ability
+  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //MoM name: "Aus Zwei wird Eins" --- alt name: "Zweisamkeit" //zero + 2 ability
   "item.kingdomkeys.two_become_one_chain": "Aus Zwei wird Eins-Anhänger",
   "item.kingdomkeys.omega_weapon": "Omega-Waffe", //pandora
   "item.kingdomkeys.omega_weapon_chain": "Omega-Waffe-Anhänger",
@@ -1808,13 +1824,13 @@
   "itemGroup.kingdomkeys_equipables": "Kingdom Keys: Ausrüstung",
   "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Schlüsselschwerter",
   "itemGroup.kingdomkeys_misc": "Kingdom Keys: Verschiedenes",
-  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation Waffen",
+  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation",
 
   // JEI
 
   "jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
   "jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
-  "jei.category.kingdomkeys.synthesis": "Item Synthese",
+  "jei.category.kingdomkeys.synthesis": "Item-Schmiede",
   "jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
   "jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
 
@@ -1827,12 +1843,12 @@
   "jei.info.kingdomkeys.limit_orb": "Benutzen um die Limit-Form freizuschalten. Das Aktivieren benötigt 4 volle Drive-Leisten. Kann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.magnet_blox": "Ermöglicht das Anziehen oder Abstoßen andere Entititäten in die Richtung in die der Block schaut.\nWird mit einem Redstone-Signal aktiviert, Rechtsklick um die Reichweite zu ändern, und Schleichen + Rechtsklick um zwischen die beiden Modi zu wechseln.",
   "jei.info.kingdomkeys.master_orb": "Benutzen um die Meister-Form freizuschalten. Die Meister-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 4 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
-  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Synthese und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
+  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Schmiede und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
   "jei.info.kingdomkeys.organization_robes": "Trage eine ganze Robe der Organisations um ihr beizutreten. Ein Mitglied muss am Anfang ausgewählt werden. Am Ende kann jede Waffe aller Mitglieder benutzt werden, aber zum freischalten muss die voherige Waffe mit Herzen freigeschaltet werden.",
   "jei.info.kingdomkeys.organization_weapons": "Als Mitglied der Organisation kannst du Waffen innerhalb des Waffen-Menüs mit Herzen freischalten, die du durch das töten von Mobs erhälst. Du erhälst doppelte Anzahl an Herzen, wenn du eine Waffe deines ausgewählten Mitgliedes benutzt.\nRufe die Waffe mit der 'Waffe rufen'-Taste.",
   "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
   "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
-  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Synthese bei Mogrys freizuschalten.",
+  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
   "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
   "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
@@ -1881,7 +1897,7 @@
   "magic.kingdomkeys.magic_cure0.name": "Vita",
   "magic.kingdomkeys.magic_cure1.name": "Vitra",
   "magic.kingdomkeys.magic_cure2.name": "Vigra",
-  "magic.kingdomkeys.magic_cure3.name": "Vitka",
+  "magic.kingdomkeys.magic_cure3.name": "Vitkra",
   "magic.kingdomkeys.magic_fire0.name": "Feuer",
   "magic.kingdomkeys.magic_fire1.name": "Feura",
   "magic.kingdomkeys.magic_fire2.name": "Feuga",
@@ -1903,9 +1919,9 @@
   "magic.kingdomkeys.magic_thunder2.name": "Blitzga",
   "magic.kingdomkeys.magic_thunder3.name": "Blitzka",
   "magic.kingdomkeys.magic_water0.name": "Wasser",
-  "magic.kingdomkeys.magic_water1.name": "Wassera",
-  "magic.kingdomkeys.magic_water2.name": "Wassega",
-  "magic.kingdomkeys.magic_water3.name": "Wasseka",
+  "magic.kingdomkeys.magic_water1.name": "Wassra",
+  "magic.kingdomkeys.magic_water2.name": "Wassga",
+  "magic.kingdomkeys.magic_water3.name": "Wasska",
 
   "message.chest.can_be_locked": "Kann mit einem Schlüsselschwert verschlossen werden",
   "message.chest.keyblade_set": "Dein Schlüsselschwert wurde zum aufschließen dieser Truhe festgelegt",
@@ -1913,7 +1929,10 @@
   "message.chest.locked": "Die Truhe ist verschlossen",
   "message.chest.unlocked": "Die Truhe ist aufgeschlossen",
 
-  "message.form_unlocked": "%s Freigeschaltet",
+  "message.form_unlocked": "%s freigeschaltet",
+  "message.unlocked": "%s freigeschaltet", //magic
+  "message.magic_max_level": "%s ist bereits die höchste Stufe",
+  "message.magic_upgrade": "%s wurde aufgewertet zu %s",
 
   "message.kingdomkeys.gui_toggle": "GUI-Anzeige wurde auf %s gesetzt",
 
@@ -1921,13 +1940,19 @@
   "message.magnet_blox.range": "Die Reichweite beträgt nun: %s",
   "message.magnet_blox.repel": "Abstoßungs-Modus",
 
+  "message.recipe.already_learnt": "Die Formel für %s ist bereits bekannt",
+  "message.recipe.cant_learn_yet": "Diese Formel wirkt noch zu komplex",
+  "message.recipe.learnt": "Formel für %s gelernt",
+  "message.recipe.no_more_to_learn": "Keine weiteren Formeln zu erlernen",
+
   "message.wayfinder.player_not_found": "Der Spieler %s konnte nicht gefunden werden",
-  "message.wayfinder.owner_use": "Dies ist dein Wegfinder, gebe ihn an Jemand anderen",
-  "message.wayfinder.from_party": " aus deiner Gruppe",
+  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder. Gebe ihn jemanden",
   "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
   "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
   "message.wayfinder.cooldown": "Abklingzeit: %s%%",
-
+  "message.wayfinder.owner": "Besitzer: %s",
+  "message.wayfinder.in_your_party": "aus deiner Gruppe",
+  "message.wayfinder.player_not_online": "Der Spieler %s ist nicht online",
 
   "potion.desc.beginning": "Stellt %s%s %s wiederher ",
   "potion.desc.drive": "§eDrive§r",
@@ -1992,7 +2017,7 @@
   "stats.levelUpAP": "Maximum-AP erhöht!",
   "stats.levelUpDef": "Abwehrkraft erhöht!",
   "stats.levelUpFG": "Form-Leiste verstärkt!",
-  "stats.levelUpHP": "Maximum-HP erhöht!",
+  "stats.levelUpHP": "Maximum-LP erhöht!",
   "stats.levelUpMP": "Maximum-MP erhöht!",
   "stats.levelUpMag": "Magischekraft erhöht!",
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",

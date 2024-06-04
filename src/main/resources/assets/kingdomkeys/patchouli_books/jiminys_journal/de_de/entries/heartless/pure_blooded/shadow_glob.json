@@ -1,0 +1,19 @@
+{
+	"name": "Schattenfleck",
+	"icon": "kingdomkeys:shadow_glob_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 105,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese dunklen Massen $(thing)ziehen$() $(pureblooded)Reinblüter$() $(thing)an$(). Vernichte sie, sobald du sie siehst.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:shadow_glob",
+			"scale": 0.6,
+			"offset": 0.3
+		}
+	]
+}

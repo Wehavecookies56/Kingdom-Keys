@@ -3,11 +3,10 @@
 	"icon": "kingdomkeys:spellfire",
 	"sortnum": 3,
 	"category": "kingdomkeys:learning_the_menu",
-	"read_by_default": false,
 		"pages": [
 		{
 			"type": "text",
-			"text": "As you gain new spells (see section $(thing)Magic and Spells$() for more information), you can use the $(thing)Customize$() tab in your menu to set shortcuts and make spells easier to cast."
+			"text": "As you gain new $(spell)spells, you can use the $(item)Customize$() tab in your menu to set $(thing)shortcuts$() and make spells easier to cast."
 		},
         {
             "type": "image",

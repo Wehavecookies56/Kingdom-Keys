@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ServerConfig {
 
-    public ForgeConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit;
+    public ForgeConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
 
     public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ForgeConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -74,6 +74,11 @@ public class ServerConfig {
                 .comment("If true other hostile mobs will level up alongside the player level the same way heartless do")
                 .translation(KingdomKeys.MODID + ".config.hostile_mobs_level")
                 .define("hostileMobsLevel", true);
+
+        shotlockMaxDist = builder
+                .comment("Shotlock max distance for locking")
+                .translation(KingdomKeys.MODID + ".config.shotlock_max_dist")
+                .defineInRange("shotlockMaxDist", 100, 1, 1000);
 
         builder.pop();
 

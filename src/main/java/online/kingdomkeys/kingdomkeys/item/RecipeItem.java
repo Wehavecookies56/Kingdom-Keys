@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,6 +22,9 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipeItem extends Item implements IItemCategory {
 	int tier=0;
 	
@@ -40,46 +40,42 @@ public class RecipeItem extends Item implements IItemCategory {
 				ItemStack stack = player.getMainHandItem();
 
 				//Allow recipes to be given with pre-set keyblades
-				//If a recipe already has a tag, it will try learn those
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				if (stack.hasTag()) {
-					//System.out.println(tier+" "+playerData.getSynthLevel());
-					if(tier <= playerData.getSynthLevel())
+				if(tier <= playerData.getSynthLevel()) { //If the player has the right tier
+					if (stack.hasTag()) { //If the recipe has been generated learn it
 						learnRecipes(player, stack);
-					else
-						player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
-				} else {
-					//System.out.println(tier);
-					List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
-					List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
-					
-					List<String> types = new ArrayList<String>();
-					types.add("keyblade");
-					types.add("item");
-					if(missingKeyblades.size() == 0) {
-						types.remove("keyblade");
-					}
-					if(missingItems.size() == 0) {
-						types.remove("item");
-					}
-					
-					String type = "";
-					if(types.size() > 1) {
-						int num = world.random.nextInt(types.size());
-						type = types.get(num);
-					} else if(types.size() == 1){
-						type = types.get(0);
-					} else {
-						player.displayClientMessage(Component.translatable("No more recipes to learn"), true);
-						return super.use(world, player, hand);
-					}
-					
-					player.displayClientMessage(Component.translatable("Opened "+type+" recipe"), true);
+					} else { //Otherwise generate it
+						List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
+						List<ResourceLocation> missingItems = getMissingRecipes(playerData, "item", tier);
 
-					//Set up the recipe item with the given type
-					//We get here if there are recipes still available to learn.
-					shuffleRecipes(stack, player, type);
+						List<String> types = new ArrayList<String>();
+						types.add("keyblade");
+						types.add("item");
+						if (missingKeyblades.size() == 0) {
+							types.remove("keyblade");
+						}
+						if (missingItems.size() == 0) {
+							types.remove("item");
+						}
+
+						String type = "";
+						if (types.size() > 1) {
+							int num = world.random.nextInt(types.size());
+							type = types.get(num);
+						} else if (types.size() == 1) {
+							type = types.get(0);
+						} else {
+							player.displayClientMessage(Component.translatable("message.recipe.no_more_to_learn"), true);
+							return super.use(world, player, hand);
+						}
+
+						//Set up the recipe item with the given type
+						//We get here if there are recipes still available to learn.
+						shuffleRecipes(stack, player, type);
+					}
+				} else { //If the player tier is not enough don't even try to generate it
+					player.displayClientMessage(Component.translatable("message.recipe.cant_learn_yet"), true);
 				}
 			}
 		}
@@ -92,9 +88,8 @@ public class RecipeItem extends Item implements IItemCategory {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
-		//System.out.println(tier+" "+playerData.getSynthLevel());
 		if(tier > playerData.getSynthLevel()) {
-			player.displayClientMessage(Component.translatable("You can't learn that recipe yet"), true);
+			player.displayClientMessage(Component.translatable("message.recipe.cant_learn_yet"), true);
 			return;
 		}
 		boolean consume = false;
@@ -106,21 +101,18 @@ public class RecipeItem extends Item implements IItemCategory {
 					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
 					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
 				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
-					String message = "Recipe for " + Utils.translateToLocal(outputStack.getDescriptionId()) + " already learnt";
-					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + message));
+					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.already_learnt"),ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
 				} else { // If recipe is not known, learn it
 					playerData.addKnownRecipe(rl);
 					consume = true;
-					String message = "Recipe " + Utils.translateToLocal(outputStack.getDescriptionId()) + " learnt successfully";
-					player.sendSystemMessage(Component.translatable(ChatFormatting.GREEN + message));
+					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}
 		}
 
 		if (consume) {
-			//remove all child tags so we don't contaminate the stack
-			//This will set the stack's tag field to null once all are removed.
+			//remove all child tags so we don't contaminate the stack, this will set the stack's tag field to null once all are removed.
 			stack.removeTagKey("recipe1");
 			stack.removeTagKey("recipe2");
 			stack.removeTagKey("recipe3");

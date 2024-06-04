@@ -41,11 +41,6 @@ public class MagnegaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_MAGNEGA.get(), world);
 	}
 
-	public MagnegaEntity(Level world) {
-		super(ModEntities.TYPE_MAGNEGA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public MagnegaEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNEGA.get(), player, world);
 		setCaster(player.getUUID());
@@ -54,7 +49,7 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -97,7 +92,6 @@ public class MagnegaEntity extends ThrowableProjectile {
 
 			this.setDeltaMovement(0, 0, 0);
 			this.hurtMarked = true;
-
 
 			List<Entity> list = level().getEntities(getCaster(), getBoundingBox().inflate(radius,radius*2,radius));
 			list = Utils.removePartyMembersFromList(getCaster(), list);

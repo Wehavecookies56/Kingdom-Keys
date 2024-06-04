@@ -3,37 +3,34 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.eventbus.api.EventPriority;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.CameraType;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -50,7 +47,6 @@ import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
@@ -80,7 +76,7 @@ public class ClientEvents {
 		if (e.getEntity() instanceof LivingEntity ent) {
 			if (e.getLevel().isClientSide) {
 				Minecraft minecraft = Minecraft.getInstance();
-				if (e.getEntity() == minecraft.player) {
+				if (ent == minecraft.player) {
 					minecraft.getSoundManager().play(new AlarmSoundInstance(minecraft.player));
 				}
 			}
@@ -121,6 +117,8 @@ public class ClientEvents {
             }
 		}
 	}
+
+	KOGui koScreen = new KOGui();
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
@@ -134,14 +132,15 @@ public class ClientEvents {
 				}
 				event.setCanceled(true);
 			}
-			
+
+			//globalData.setKO(true);
 			if(globalData.isKO()) {
 				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-					
-					if(Minecraft.getInstance().screen == null && event.getEntity().tickCount % 10 == 0)
-						Minecraft.getInstance().setScreen(new ChatScreen(""));
+
+					if(Minecraft.getInstance().screen != koScreen)
+						Minecraft.getInstance().setScreen(koScreen);
 				}
 			}
 			if(event.getEntity() instanceof Player player) {
@@ -164,8 +163,7 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post event) { //Hide the player shadow when KO'd
 		if(event.getEntity() != null) {
-			if(event.getEntity() instanceof Player) {
-				Player player = (Player) event.getEntity();
+			if(event.getEntity() instanceof Player player) {
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 				if(globalData != null) {
 					if(globalData.isKO()) {
@@ -177,12 +175,22 @@ public class ClientEvents {
 		}
 	}
 
-	
-	@SubscribeEvent
-	public void RenderEntity(RenderLivingEvent.Pre event) {
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
-			if(event.getEntity() instanceof Player) {
-				Player player = (Player) event.getEntity();
+			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+			if(tempShotlockEntity != null && event.getEntity() == tempShotlockEntity){
+				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+			}
+			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+				LivingEntity e = event.getEntity();
+				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+				}
+			}
+
+			if(event.getEntity() instanceof Player player) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 				if(globalData != null) {
@@ -207,8 +215,6 @@ public class ClientEvents {
 				if(playerData != null) {
 					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
 						Color c = new Color(playerData.getNotifColor());
-						//((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F),player.getX(), player.getY(), player.getZ(),50,0,0,0,0);
-
 						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
 						event.setCanceled(true);
 					}
@@ -232,18 +238,17 @@ public class ClientEvents {
 		}
 	}
 
+	private static int selectedSlot = 0;
+
 	@SubscribeEvent
 	public void clientTick(TickEvent.ClientTickEvent event) {
 		if (Minecraft.getInstance().level != null) {
 			if (event.phase == Phase.START) {
-				for (KeyMapping key : Minecraft.getInstance().options.keyHotbarSlots) {
-					if (KeyboardHelper.isScrollActivatorDown()) {
-						key.setKey(InputConstants.getKey(InputConstants.KEY_F25,InputConstants.KEY_F25));
-					} else {
-						if (!key.matches(key.getDefaultKey().getValue(), key.getKey().getValue())) {
-							key.setToDefault();
-						}
-					}
+				selectedSlot = Minecraft.getInstance().player.getInventory().selected;
+			}
+			if (event.phase == Phase.END) {
+				if (KeyboardHelper.isScrollActivatorDown()) {
+					Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 				}
 			}
 		}
@@ -251,11 +256,14 @@ public class ClientEvents {
 
 	public static boolean focusing = false;
 	int focusingTicks = 0;
+	public static int focusingAnEntityTicks = 0;
+	LivingEntity tempShotlockEntity = null;
 	public static double focusGaugeTemp = 100;
 	double cost = 0;
 
 	int cooldownTicks = 0;
-	BlockPos lockedAirStep = new BlockPos(0,0,0);
+	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
+
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent event) {
 		if (event.phase == Phase.END) {
@@ -265,12 +273,16 @@ public class ClientEvents {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(event.player);
 				if(playerData == null)
 					return;
+
 				Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
 				if (focusing) {
+					if(focusGaugeTemp <= 0){ //Clear temp shotlock icon if time has run out
+						tempShotlockEntity = null;
+					}
 					if (focusingTicks == 0) {
 						// Has started focusing
 						focusGaugeTemp = playerData.getFocus();
-						playerData.setShotlockEnemies(new ArrayList<Integer>());
+						playerData.setShotlockEnemies(new ArrayList<>());
 						event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 					}
 					
@@ -282,39 +294,64 @@ public class ClientEvents {
 					if(focusGaugeTemp > 0)
 						focusGaugeTemp-=0.8;
 
-					if (focusingTicks % shotlock.getCooldown() == 1 && focusGaugeTemp > 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
-						HitResult rt = InputHandler.getMouseOverExtended(100);
-						if(rt == null)
-							return;
+					HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.shotlockMaxDist);
+					if (rt == null)
+						return;
 
-						if (rt instanceof EntityHitResult ertr) {
-							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
-							if(ertr.getEntity() instanceof LivingEntity target) {
-								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-									playerData.addShotlockEnemy(ertr.getEntity().getId());
-									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
-									cost = playerData.getFocus() - focusGaugeTemp;
-	
-									if(playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
-										event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
-									}
-								}
+					if (rt instanceof BlockHitResult blockResult) { //Airstep
+						tempShotlockEntity = null;
+						if (event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()) {
+							if (!lockedAirStep.equals(blockResult.getBlockPos())) {
+								event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
+							}
+							if (mc.options.keyUse.isDown()) {
+								PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+								lockedAirStep = new BlockPos(0, 0, 0);
+								cooldownTicks = 20;
+								focusingAnEntityTicks = 0;
+								focusingTicks = 0;
+								focusing = false;
+								tempShotlockEntity = null;
+								focusGaugeTemp = playerData.getFocus();
+								return;
 							}
 						}
+						lockedAirStep = blockResult.getBlockPos();
+					}
 
-						if (rt instanceof BlockHitResult blockResult) {
-							if(event.player.level().getBlockState(blockResult.getBlockPos()) == ModBlocks.airstepTarget.get().defaultBlockState()){
-								if(!lockedAirStep.equals(blockResult.getBlockPos())){
-									lockedAirStep = blockResult.getBlockPos();
-									event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
+					if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity
+						if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
+							if (ertr.getEntity() instanceof LivingEntity target) {
+								if(target != tempShotlockEntity){
+									focusingAnEntityTicks = 0;
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 								}
+								tempShotlockEntity = target;
+								Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
+								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+									if(focusingAnEntityTicks >= shotlock.getCooldown()) {
+										playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
+										event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+										cost = playerData.getFocus() - focusGaugeTemp;
+										tempShotlockEntity = null;
+									}
+									focusingAnEntityTicks++;
+								}
+							}
+						} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
+							Party p = ModCapabilities.getWorld(mc.level).getPartyFromMember(event.player.getUUID());
+							if (ertr.getEntity() instanceof LivingEntity target) {
+								if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+									playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
 
-								if(mc.options.keyUse.isDown()) {
-									PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
-									cooldownTicks = 100;
-									focusingTicks = 0;
-									focusing = false;
-									return;
+									event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
+									cost = playerData.getFocus() - focusGaugeTemp;
+									tempShotlockEntity = null;
+
+									if (playerData.getShotlockEnemies().size() >= shotlock.getMaxLocks()) {
+										event.player.level().playSound(event.player, event.player.position().x(), event.player.position().y(), event.player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
+									}
 								}
 							}
 						}
@@ -322,8 +359,7 @@ public class ClientEvents {
 					
 					if(mc.options.keyAttack.isDown()) {
 						if (focusingTicks > 0) {
-							// Has stopped shotlocking
-							// Send packet to spawn entities and track enemies
+							// Has finished shotlocking, send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {
 								playerData.remFocus(cost);
 								event.player.level().playSound(event.player, event.player.position().x(),event.player.position().y(),event.player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -333,185 +369,23 @@ public class ClientEvents {
 							}
 						}
 						focusingTicks = 0;
+						focusingAnEntityTicks = 0;
+						tempShotlockEntity = null;
 						focusGaugeTemp = playerData.getFocus();
-						playerData.setShotlockEnemies(new ArrayList<Integer>());
+						playerData.setShotlockEnemies(new ArrayList<>());
 					}
 				} else {
 					lockedAirStep = new BlockPos(0,0,0);
 					focusingTicks = 0;
+					focusingAnEntityTicks = 0;
+					tempShotlockEntity = null;
 					focusGaugeTemp = playerData.getFocus();
-					playerData.setShotlockEnemies(new ArrayList<Integer>());
+					playerData.setShotlockEnemies(new ArrayList<>());
 				}
 			} else {
 				if(cooldownTicks > 0) {
 					cooldownTicks--;
 				}
-			}
-		}
-	}
-/*
-	@SubscribeEvent
-	public void WorldRender(RenderWorldLastEvent event) {
-		/*Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			MatrixStack matrixStackIn = event.getMatrixStack();
-			EntityRendererManager renderManager = mc.getRenderManager();
-
-			if(playerData.getShotlockEnemies() != null) {
-				for (int entID : playerData.getShotlockEnemies()) {
-					Entity entityIn = mc.world.getEntityByID(entID);
-					
-					if (playerData.getShotlockEnemies().contains(entityIn.getEntityId())) {
-						float f = entityIn.getHeight();
-						matrixStackIn.push();
-						{							
-							ClientPlayerEntity player = mc.player;
-					        double x = (double) entityIn.getPosX() - (player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * (double) event.getPartialTicks());
-					        double y = (double) entityIn.getPosY() - (player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * (double) event.getPartialTicks());
-					        double z = (double) entityIn.getPosZ() - (player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * (double) event.getPartialTicks());
-							renderManager.textureManager.bindTexture(new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-							
-					        matrixStackIn.translate(x, y, z);
-					        matrixStackIn.rotate(renderManager.getCameraOrientation());
-					        matrixStackIn.translate(0,-f,-entityIn.getWidth());
-					        float scale = entityIn.getHeight() / 1000;
-					        matrixStackIn.scale(-scale, -scale, scale);
-					        RenderSystem.enableBlend();
-							blit(matrixStackIn, -128, -128, 0, 0, 256, 256);
-
-						}
-						matrixStackIn.pop();
-					}
-				}
-			}
-		}
-
-	}*/
-	
-    public static void render(PoseStack matrixStack, Entity e, float partialTicks) {
-        Color color = new Color(0);
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
-        Entity player = Minecraft.getInstance().getCameraEntity();
-        double ix, iy, iz;
-        double x = (double) e.getX() - (player.xOld + (player.getX() - player.xOld) * (double) partialTicks);
-        double y = (double) e.getY() - (player.yOld + (player.getY() - player.yOld) * (double) partialTicks) + player.getBbHeight();
-        double z = (double) e.getZ() - (player.zOld + (player.getZ() - player.zOld) * (double) partialTicks);
-        ix = x;
-        iy = y;
-        iz = z;
-        float distance = (float) Math.sqrt((x + 0.5) * (x + 0.5) + y * y + (z + 0.5) * (z + 0.5));
-        float scaleDistance = 12.0f;
-        float scale = 0.02666667f;
-        float iconScale = (0.02666667f);//*5;
-        if (distance > 12.0f) {
-            int renderDistance = Minecraft.getInstance().options.getEffectiveRenderDistance() * 16;
-            if (distance > (float) renderDistance) {
-                float scaleFactor = (float) renderDistance /distance;
-                x *= scaleFactor;
-                y *= scaleFactor;
-                z *= scaleFactor;
-                // iy *= (MC.gameSettings.renderDistanceChunks * 16) / 18.0f;
-                //     iconScale *= renderDistance/12.0F;
-                scale *= (float) renderDistance / 12.0f;
-            } else {
-                iconScale *= (distance / scaleDistance);
-                scale *= distance / 12.0f;
-            }
-        }
-
-        //sound(GuiScreenKey.isSoundOn);
-        renderIcon(matrixStack, e, ix, iy, iz, red, green, blue, iconScale);
-        
-    }
-    
-    private static void renderIcon(PoseStack matrix, Entity entity, double x, double y, double z, int red, int green, int blue, float scale) {
-        EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-        scale *= 5;
-        RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-		matrix.pushPose();
-        GL11.glNormal3f(0.0f, 1.0f, 0.0f);
-        matrix.translate(x + 0.5, y + 3, z + 0.5);
-       // RenderSystem.rotate(-renderManager.playerViewY, 0.0f, 1.0f, 0.0f);
-       // RenderSystem.rotate(renderManager.playerViewX, 1.0f, 0.0f, 0.0f);
-        matrix.scale(-scale, -scale, scale);
-        matrix.translate(0.0f, 10.0f, 0.0f);
-        matrix.scale(10.0f, 10.0f, 10.0f);
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.disableBlend();
-        //RenderSystem.enableTexture(); //TODO disabled dis for 1.19.4, might not be the best way
-        
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferbuilder.vertex(-0.5, -0.5, 0.0).uv(1.0F, 1.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(-0.5, 0.5, 0.0).uv(1.0F, 0.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(0.5, 0.5, 0.0).uv(0.0F, 0.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.vertex(0.5, -0.5, 0.0).uv(0.0F, 1.0F).color(red, green, blue, 255).endVertex();
-		bufferbuilder.end();
-		RenderSystem.enableBlend();
-		//BufferUploader.end(bufferbuilder);
-		
-		RenderSystem.depthMask(true);
-		RenderSystem.enableDepthTest();
-		matrix.popPose();
-    }
-	
-	@SubscribeEvent
-	public void EntityRender(RenderLivingEvent.Post<LivingEntity, EntityModel<LivingEntity>> event) {
-		//Text
-
-		/*Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
-			if(true) {
-				MatrixStack matrixStackIn = event.getMatrixStack();
-				LivingEntity entityIn = event.getEntity();
-				
-				EntityRendererManager renderManager = event.getRenderer().getRenderManager();
-				TranslationTextComponent displayNameIn = new TranslationTextComponent("o");
-				float f = entityIn.getHeight();
-				matrixStackIn.push();
-				{
-					matrixStackIn.translate(0.0D, (double) f, 0.0D);
-					matrixStackIn.rotate(renderManager.getCameraOrientation());
-					matrixStackIn.scale(-0.25F, -0.25F, 0.25F);
-
-					Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
-					FontRenderer fontrenderer = renderManager.getFontRenderer();
-					float f2 = (float) (-fontrenderer.getStringPropertyWidth(displayNameIn) / 2);
-					fontrenderer.drawInBatch(displayNameIn, f2, 0, 0x00FFFF, false, matrix4f, event.getBuffers(), false, 0, event.getLight());
-				}
-				matrixStackIn.pop();
-			}
-		}*/
-		
-		//Icon
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && ModCapabilities.getPlayer(mc.player) != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
-			if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getId())) {
-				//if (playerData.getShotlockEnemies() != null && playerData.getShotlockEnemies().contains(event.getEntity().getEntityId())) {
-				PoseStack matrixStackIn = event.getPoseStack();
-				LivingEntity entityIn = event.getEntity();
-
-				EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-				MutableComponent displayNameIn = Component.translatable("o");
-				float f = entityIn.getBbHeight();
-				matrixStackIn.pushPose();
-				{
-					matrixStackIn.translate(0.0D, (double) f/2, 0.0D);
-					matrixStackIn.mulPose(renderManager.cameraOrientation());
-					float scale = Math.max(entityIn.getBbHeight()/2, entityIn.getBbWidth()/2)/100;
-
-					matrixStackIn.scale(-scale, -scale, scale);
-					RenderSystem.setShaderTexture(0,new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"));
-					blit(matrixStackIn,-128,-128,0,0,256,256);
-				}
-				matrixStackIn.popPose();
 			}
 		}
 	}

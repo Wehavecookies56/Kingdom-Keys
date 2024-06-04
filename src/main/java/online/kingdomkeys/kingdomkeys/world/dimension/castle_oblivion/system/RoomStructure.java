@@ -1,13 +1,12 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.util.Size2i;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
-
-import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Size2i;
 
 //metadata for each nbt file for rooms
 public class RoomStructure {

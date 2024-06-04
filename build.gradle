@@ -7,7 +7,7 @@ plugins {
 }
 
 def mcver = "1.20.1"
-version = mcver + '-2.3.9.3'
+version = mcver + '-2.3.10.2'
 
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
@@ -149,6 +149,7 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+    implementation fg.deobf("curse.maven:corail-tombstone-243707:5201363")
 }
 
 jar {

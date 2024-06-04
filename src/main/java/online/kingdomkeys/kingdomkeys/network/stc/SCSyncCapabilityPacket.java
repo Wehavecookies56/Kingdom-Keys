@@ -103,20 +103,20 @@ public class SCSyncCapabilityPacket {
 		this.focus = capability.getFocus();
 		this.maxFocus = capability.getMaxFocus();
 		
-		this.recipeList = capability.getKnownRecipeList();
-		this.magicsMap = capability.getMagicsMap();
-		this.shotlockList = capability.getShotlockList();
+		this.recipeList = new ArrayList<>(capability.getKnownRecipeList());
+		this.magicsMap = new LinkedHashMap<>(capability.getMagicsMap());
+		this.shotlockList = new ArrayList<>(capability.getShotlockList());
 		this.equippedShotlock = capability.getEquippedShotlock();
-		this.driveFormMap = capability.getDriveFormMap();
-		this.visibleDriveForms = capability.getVisibleDriveForms();
-		this.abilityMap = capability.getAbilityMap();
-		this.partyList = capability.getPartiesInvited();
-		this.materialMap = capability.getMaterialMap();
+		this.driveFormMap = new LinkedHashMap<>(capability.getDriveFormMap());
+		this.visibleDriveForms = new LinkedHashSet<>(capability.getVisibleDriveForms());
+		this.abilityMap = new LinkedHashMap<>(capability.getAbilityMap());
+		this.partyList = new ArrayList<>(capability.getPartiesInvited());
+		this.materialMap = new TreeMap<>(capability.getMaterialMap());
 		this.keychains = capability.getEquippedKeychains();
-		this.items = capability.getEquippedItems();
-		this.accessories = capability.getEquippedAccessories();
-		this.kbArmors = capability.getEquippedKBArmors();
-		this.armors = capability.getEquippedArmors();
+		this.items = new HashMap<>(capability.getEquippedItems());
+		this.accessories = new HashMap<>(capability.getEquippedAccessories());
+		this.kbArmors = new HashMap<>(capability.getEquippedKBArmors());
+		this.armors = new HashMap<>(capability.getEquippedArmors());
 		this.maxAccessories = capability.getMaxAccessories();
 		this.maxArmors = capability.getMaxArmors();
 		
@@ -176,19 +176,15 @@ public class SCSyncCapabilityPacket {
 		buffer.writeDouble(this.maxFocus);
 		
 		CompoundTag recipes = new CompoundTag();
-		Iterator<ResourceLocation> recipesIt = recipeList.iterator();
-		while (recipesIt.hasNext()) {
-			ResourceLocation r = recipesIt.next();
-			recipes.putString(r.toString(), r.toString());
-		}
+        for (ResourceLocation r : recipeList) {
+            recipes.putString(r.toString(), r.toString());
+        }
 		buffer.writeNbt(recipes);
 
 		CompoundTag magics = new CompoundTag();
-		Iterator<Map.Entry<String, int[]>> magicsIt = magicsMap.entrySet().iterator();
-		while (magicsIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) magicsIt.next();
-			magics.putIntArray(pair.getKey().toString(), pair.getValue());
-		}
+        for (Map.Entry<String, int[]> pair : magicsMap.entrySet()) {
+            magics.putIntArray(pair.getKey().toString(), pair.getValue());
+        }
 		buffer.writeNbt(magics);
 		
 		CompoundTag shotlocks = new CompoundTag();
@@ -202,11 +198,9 @@ public class SCSyncCapabilityPacket {
 		buffer.writeUtf(this.equippedShotlock, 100);
 		
 		CompoundTag forms = new CompoundTag();
-		Iterator<Map.Entry<String, int[]>> driveFormsIt = driveFormMap.entrySet().iterator();
-		while (driveFormsIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) driveFormsIt.next();
-			forms.putIntArray(pair.getKey().toString(), pair.getValue());
-		}
+        for (Map.Entry<String, int[]> pair : driveFormMap.entrySet()) {
+            forms.putIntArray(pair.getKey().toString(), pair.getValue());
+        }
 		buffer.writeNbt(forms);
 		
 		//TODO Here
@@ -219,11 +213,9 @@ public class SCSyncCapabilityPacket {
 		buffer.writeNbt(visibleForms);
 		
 		CompoundTag abilities = new CompoundTag();
-		Iterator<Map.Entry<String, int[]>> abilitiesIt = abilityMap.entrySet().iterator();
-		while (abilitiesIt.hasNext()) {
-			Map.Entry<String, int[]> pair = (Map.Entry<String, int[]>) abilitiesIt.next();
-			abilities.putIntArray(pair.getKey().toString(), pair.getValue());
-		}
+        for (Map.Entry<String, int[]> pair : abilityMap.entrySet()) {
+            abilities.putIntArray(pair.getKey().toString(), pair.getValue());
+        }
 		buffer.writeNbt(abilities);
 
 		CompoundTag keychains = new CompoundTag();
@@ -258,7 +250,7 @@ public class SCSyncCapabilityPacket {
 		CompoundTag materials = new CompoundTag();
 		Iterator<Map.Entry<String, Integer>> materialsIt = materialMap.entrySet().iterator();
 		while (materialsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>) materialsIt.next();
+			Map.Entry<String, Integer> pair = materialsIt.next();
 			materials.putInt(pair.getKey().toString(), pair.getValue());
 			if (materials.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
 				materials.remove(pair.getKey().toString());

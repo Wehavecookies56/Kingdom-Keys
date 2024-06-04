@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +12,10 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class DamageCalculation {
 
@@ -58,8 +58,7 @@ public class DamageCalculation {
         	if(playerData == null)
             	return 0;
 
-            float damage = (float) (weapon.getMagic() + playerData.getMagic(true));
-            return damage;
+            return (float) (weapon.getMagic() + playerData.getMagic(true));
         } else {
             return 0;
         }
@@ -90,6 +89,31 @@ public class DamageCalculation {
         }
     }
 
+    /**
+     * Strength generic
+     */
+    public static float getStrengthDamage(Player player) {
+        if (player != null) {
+            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            if(playerData == null)
+                return 0;
+
+            float finalDamage = 0;
+
+            if (!player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem || player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
+                if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof KeybladeItem) {
+                    finalDamage = getKBStrengthDamage(player, player.getMainHandItem());
+                } else if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IOrgWeapon) {
+                    finalDamage = getOrgStrengthDamage(player, player.getMainHandItem());
+                }
+            } else {
+                finalDamage = playerData.getStrength(true);
+            }
+            return finalDamage;
+        } else {
+            return 0;
+        }
+    }
 
     /**
      * Strength
@@ -111,8 +135,7 @@ public class DamageCalculation {
             }
             
             if(keyblade != null) {
-            
-	            damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
+                damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
@@ -125,7 +148,6 @@ public class DamageCalculation {
             otherSymbols.setDecimalSeparator('.');
             DecimalFormat df = new DecimalFormat("###.##",otherSymbols);
             return Float.parseFloat(df.format(finalDamage));
-            
         } else {
             return 0;
         }

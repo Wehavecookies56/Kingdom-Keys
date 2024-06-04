@@ -1,0 +1,13 @@
+{
+	"name": "Meister-Form",
+	"icon": "kingdomkeys:levelupdrivemaster",
+	"sortnum": 4,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese Form erhält Erfahrung für $(thing)jede aufgehobene Drive-Kugel$() $(o)(die schwarz-gelben Kugeln, die von feindlichen Mobs fallengelassen werden)$(), während man $(thing)in dieser Form$() ist.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Luftsprung-Ability$() belohnen."
+		}
+	]
+}

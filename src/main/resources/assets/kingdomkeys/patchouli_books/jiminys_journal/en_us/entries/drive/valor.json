@@ -2,12 +2,12 @@
 	"name": "Valor Form",
 	"icon": "kingdomkeys:levelupdrivevalor",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every hit you land on any hostile mob while in the form. Leveling this form will reward you with permenant access to the High Jump ability."
+			"text": "This form gains XP for $(thing)every hit$() you land on any $(thing)hostile mob$() while $(thing)in this form$(). Leveling this form will reward you with permenant access to the $(item)High Jump ability$()."
 		}
 	]
 }

@@ -47,11 +47,6 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_LASER_CIRCLE.get(), world);
 	}
 
-	public LaserCircleCoreEntity(Level world) {
-		super(ModEntities.TYPE_LASER_CIRCLE.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public LaserCircleCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_CIRCLE.get(), player, world);
 		setCaster(player.getUUID());
@@ -61,7 +56,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

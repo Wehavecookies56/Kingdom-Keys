@@ -116,7 +116,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								if(ModAbilities.registry.get().containsKey(new ResourceLocation(name))) {
 									level.setAbility(levelElement.getAsString());
 								} else {
-									KingdomKeys.LOGGER.error("Ability "+name+" does not exist");
+									KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+out.keychain);
 								}
 								break;
 							}

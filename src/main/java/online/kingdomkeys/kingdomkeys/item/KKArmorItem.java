@@ -1,12 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -19,6 +13,10 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
 
 public class KKArmorItem extends Item implements IItemCategory {
     private final int defence;

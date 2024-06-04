@@ -6,6 +6,5 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 
 public interface IKHMob {
     public MobType getKHMobType();
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn);
     public int getDefense();
 }

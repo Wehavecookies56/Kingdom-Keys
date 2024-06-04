@@ -130,22 +130,14 @@ public class MenuEquipmentButton extends Button {
                 matrixStack.translate(getX() + 0.6F, getY(), 0);
                 matrixStack.scale(0.5F, 0.5F, 1);
                 //Gradient Background
-                for (int i = 0; i < height * 2; i++) {
-                    matrixStack.pushPose();
-                    {
-                        matrixStack.scale(((gradientWidth + itemWidth + 5) * 2) / (32F), 1.1F, 1);
-                        gui.blit(texture, -14, i - 1, 166, 63, 32, 1);
-                    }
-                    matrixStack.popPose();
-                }
+				int pWidth = (int) (((gradientWidth + itemWidth + 5) * 2) / (4F));
+				gui.blit(texture, -pWidth+14, -1, pWidth, (int) ((height * 2) * 1.1F), 166, 63, 32, 1, 256, 256);
 
                 //Left item slot
                 gui.blit(texture, 0, 0, 166, 34, 18, 28);
                 //Middle item slot
-                for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                    gui.blit(texture, 16 + i, 0, 186, 34, 2, 28);
-                }
-                //Right item slot
+				gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+2), 28, 186, 34, 2, 28, 256, 256);
+				//Right item slot
                 gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
                 RenderSystem.setShaderColor(1, 1, 1, 1);
                 //Icon
@@ -175,10 +167,8 @@ public class MenuEquipmentButton extends Button {
                     //Left selected
                     gui.blit(texture, 0, 0, 128, 34, 18, 28);
                     //Middle selected
-                    for (int i = 0; i < (itemWidth * 2) - (17 * 2); i++) {
-                        gui.blit(texture, 16 + i, 0, 148, 34, 2, 28);
-                    }
-                    //Right selected
+					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+1), 28, 148, 34, 2, 28, 256, 256);
+					//Right selected
                     gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
                 }
                 matrixStack.popPose();
@@ -212,7 +202,7 @@ public class MenuEquipmentButton extends Button {
 					int ap = 0;
 					ImmutableMap<KKResistanceType, Integer> resistances = null;
 
-					List<String> abilities = new ArrayList<String>();
+					List<String> abilities = new ArrayList<>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
 						strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -373,8 +363,12 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-			                    gui.blit(texture, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
-								gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
+								if(ability != null) {
+									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
+									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
+								} else {
+									KingdomKeys.LOGGER.error("Ability "+abilities.get(i)+" does not exist for weapon "+stack.getItem());
+								}
 							}
 						}
 						
@@ -422,10 +416,9 @@ public class MenuEquipmentButton extends Button {
                     //Left label
                     gui.blit(texture, 0, 0, 166, 34, 17, 28);
                     //Middle label
-                    for (int i = 0; i  < (labelWidth * 2) - (17 + 14); i++) {
-                        gui.blit(texture, 17 + i, 0, 184, 34, 1, 28);
-                    }
-                    //Right label
+					gui.blit(texture, 17, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 184, 34, 1, 28, 256, 256);
+
+					//Right label
                     gui.blit(texture, (int)(labelWidth * 2) - 14, 0, 204, 34, 14, 28);
                 }
                 matrixStack.popPose();

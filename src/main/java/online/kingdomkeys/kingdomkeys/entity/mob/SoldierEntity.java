@@ -28,11 +28,6 @@ public class SoldierEntity extends BaseKHEntity {
     public SoldierEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(ModEntities.TYPE_SOLDIER.get(), world);
     }
-    
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return worldIn == null ? false : ModCapabilities.getWorld((Level)worldIn).getHeartlessSpawnLevel() > 0;
-    }
 
     @Override
     protected void registerGoals() {

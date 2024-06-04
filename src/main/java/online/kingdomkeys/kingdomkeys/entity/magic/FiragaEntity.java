@@ -44,11 +44,6 @@ public class FiragaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRAGA.get(), world);
 	}
 
-	public FiragaEntity(Level world) {
-		super(ModEntities.TYPE_FIRAGA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRAGA.get(), player, world);
 		this.dmgMult = dmgMult;
@@ -57,7 +52,7 @@ public class FiragaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -136,7 +131,7 @@ public class FiragaEntity extends ThrowableProjectile {
 								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 							}
 							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 						}
 					}
 				}
@@ -148,15 +143,14 @@ public class FiragaEntity extends ThrowableProjectile {
 			((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {
-				for (int i = 0; i < list.size(); i++) {
-					Entity e = (Entity) list.get(i);
-					if (e instanceof LivingEntity) {
-						e.setSecondsOnFire(15);
-						float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
-						float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-						e.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg);
-					}
-				}
+                for (Entity e : list) {
+                    if (e instanceof LivingEntity) {
+                        e.setSecondsOnFire(15);
+                        float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
+                        float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+                        e.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg);
+                    }
+                }
 			}
 
 			remove(RemovalReason.KILLED);

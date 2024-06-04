@@ -40,11 +40,6 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
 	}
 
-	public RagnarokCoreEntity(Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public RagnarokCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
 		setCaster(player.getUUID());
@@ -59,7 +54,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

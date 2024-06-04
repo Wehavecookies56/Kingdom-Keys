@@ -1,0 +1,27 @@
+{
+	"name": "What is a Nobody?",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:nobodies",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A $(item)Nobody$() the vessel that remains, when the $(thing)heart$() that is filled with $(lissa)darkness$() disconnects from their $(thing)somebody$(). Every $(heartless)Heartless$() that gets born, also causes a $(thing)nobody$() to be born, with the heart lost."
+		},
+		{
+			"type": "patchouli:image",
+			"images": [
+				"kingdomkeys:journal/nobody_symbol.png"
+			],
+			"title": "Nobody & Org XIII",
+			"border": false,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 200,
+			"texture_width": 160
+		}
+	]
+}

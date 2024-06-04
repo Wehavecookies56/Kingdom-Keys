@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.block;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -16,6 +13,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class ModBlocks {
 
@@ -67,7 +67,8 @@ public class ModBlocks {
             twilightOreN = createNewBlock("twilight_ore_n", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F))), //HL 2
             twilightOreD = createNewBlock("twilight_ore_d", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F))), //HL 2
 
-            savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
+            savepoint = createNewBlock("savepoint", () -> new SavePointBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F),false)), //HL 2
+            linkedSavepoint = createNewBlock("linked_savepoint", () -> new SavePointBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F),true)), //HL 2
     		magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2

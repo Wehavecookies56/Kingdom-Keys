@@ -49,7 +49,7 @@ public class CSLevelUpKeybladePacket {
 			
 			ItemStack stack = message.stack.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
-			KeybladeItem item = (KeybladeItem) kcItem.getKeyblade();
+			KeybladeItem item = kcItem.getKeyblade();
 			Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 			boolean hasMaterials = true;
 			while(itMats.hasNext()) { //Check if the player has the materials (checked serverside just in case)
@@ -60,12 +60,18 @@ public class CSLevelUpKeybladePacket {
 			}
 			
 			if(hasMaterials) { //If the player has the materials substract them and give the item
-			Iterator<Entry<Material, Integer>> ite = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
-				while(ite.hasNext()) {
-					Entry<Material, Integer> m = ite.next();
-					playerData.removeMaterial(m.getKey(), m.getValue());
-				}
+                for (Entry<Material, Integer> m : item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet()) {
+                    playerData.removeMaterial(m.getKey(), m.getValue());
+                }
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
+
+				//Sync that level to the keyblade
+				int id = Utils.findSummoned(player.getInventory(),stack);
+				if(id > -1){
+					ItemStack summonedKeyblade = player.getInventory().getItem(id);
+					if(summonedKeyblade!= null && summonedKeyblade.getItem() instanceof KeybladeItem kbItem)
+						kbItem.setKeybladeLevel(summonedKeyblade, kcItem.getKeybladeLevel(stack));
+				}
 				UUID keybladeID = Utils.getKeybladeID(stack);
 				if (keybladeID != null) {
 					ResourceLocation slot = null;

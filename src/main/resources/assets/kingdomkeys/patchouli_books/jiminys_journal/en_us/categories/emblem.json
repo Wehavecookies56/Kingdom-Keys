@@ -1,0 +1,7 @@
+{
+	"name": "Emblem Heartless",
+	"description": "$(item)Emblem Heartless$() are easy to notice btw their $(thing)heartshaped symbol$() on their body. Unlike $(pureblooded)Pureblooded Heartless$() they have a stronger will and set a $(thing)heart$() free once defeated.",
+	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 2
+}

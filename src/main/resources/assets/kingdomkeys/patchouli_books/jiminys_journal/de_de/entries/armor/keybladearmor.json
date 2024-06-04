@@ -1,0 +1,16 @@
+{
+	"name": "Schlüsselschwertrüstungen",
+	"icon": "kingdomkeys:terra_helmet",
+	"sortnum": 3,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Diese Rüstungen$() wurden einst von den $(thing)Kriegern des Lichts$() aus $(lissa)Birth by Sleep$() getragen. Einst haben sie die Träger vor der $(lissa)Dunkelheit$(), jetzt schützen sie dich im Kampf. Hast du ein komplettes set zusammen, kannst du sie miteinander kombinieren, um dann den entsprechenden $(item)Schulterschutz$() zu erhalten, welchen du dann in deinen $(l:kingdomkeys:learning_the_menu/item_tab)Schulterschutz-Platz$() legen kannst, um dann mit der $(thing)[$(k:key.kingdomkeys.summonarmor)]$()-Taste die Rüstung zu rufen."
+		},
+		{
+			"type": "text",
+			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AAA)Eraqus$(), $(#999)Xehanort$() und $(#000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(#F70)Orange$(), $(#00F)Blau$(), $(#1F0)Hellgrün$(), $(#000)Schwarz$(), $(#AAA)Weiß$() oder $(#999)Grau$()"
+		}
+	]
+}

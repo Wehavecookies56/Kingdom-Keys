@@ -1,12 +1,11 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class FloorType {
 

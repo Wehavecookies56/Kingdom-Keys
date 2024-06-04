@@ -2,12 +2,12 @@
 	"name": "Wisdom Form",
 	"icon": "kingdomkeys:levelupdrivewisdom",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every Heartless mob killed while in the form. Kills agaisnt other mobs won't give it any XP. Leveling this form will reward you with permenant access to the Quick Run ability."
+			"text": "This form gains XP for $(thing)every$() $(heartless)Heartless$() $(thing)struck down$() while in this form. Defeating other mobs won't give it any XP. Leveling this form will reward you with permenant access to the $(item)Quick Run ability$()."
 		}
 	]
 }

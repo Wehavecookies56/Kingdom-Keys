@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
-import java.util.function.Supplier;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -9,6 +7,8 @@ import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.function.Supplier;
 
 public class ModMagic {
 

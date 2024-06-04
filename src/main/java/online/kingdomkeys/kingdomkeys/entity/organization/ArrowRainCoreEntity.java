@@ -38,11 +38,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
 	}
 
-	public ArrowRainCoreEntity(Level world) {
-		super(ModEntities.TYPE_ARROW_RAIN.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ArrowRainCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_ARROW_RAIN.get(), player, world);
 		setCaster(player.getUUID());
@@ -52,7 +47,7 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

@@ -16,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
@@ -109,12 +111,22 @@ public class ShotlockGUI extends OverlayBase {
 				{
 					poseStack.pushPose();
 					{
+						Shotlock shotlock = Utils.getPlayerShotlock(minecraft.player);
+						playerData = ModCapabilities.getPlayer(minecraft.player);
+						if(playerData == null)
+							return;
+
 						poseStack.translate((screenWidth / 2) - (guiWidth / 2) * focusScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * focusScale / size - 0.5F, 0);
 						poseStack.scale(focusScale / size, focusScale / size, focusScale / size);
 						if(ClientEvents.focusGaugeTemp<= 0)
 							RenderSystem.setShaderColor(1, 0, 0, 1);
 						this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0, 0, 0, guiWidth, guiHeight);
-
+						poseStack.pushPose();
+						{
+							poseStack.scale(2,2,2);
+							this.drawString(guiGraphics, minecraft.font, playerData.getShotlockEnemies().size() + "/" + shotlock.getMaxLocks(), guiWidth/2, guiHeight / 4 - minecraft.font.lineHeight / 2, 0x88CC33);
+						}
+						poseStack.popPose();
 						if(ClientEvents.focusGaugeTemp> 0) {
 							double max = playerData.getFocus();
 							double actual = ClientEvents.focusGaugeTemp;

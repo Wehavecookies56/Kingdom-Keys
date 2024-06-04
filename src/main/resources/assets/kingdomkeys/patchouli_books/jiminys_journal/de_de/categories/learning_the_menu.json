@@ -1,0 +1,6 @@
+{
+	"name": "Das Menü kennenlernen",
+	"description": "Du hast deinen Weg entschieden, lass und nun lernen, wie man durch das Kingdom Keys-Menü navigiert. Um das Menü zu öffnen, drücke dazu erneut die $(thing)[$(k:key.kingdomkeys.openmenu)]$()-Taste. Dadruch wirst du von eine Reihe an verschiedenen Optionen gegrüßt, wobei die Option $(thing)\"Tagebuch\"$() noch keine Funktion hat, und wir diese daher überspringen werden.",
+	"icon": "kingdomkeys:potion",
+	"sortnum": 2
+}

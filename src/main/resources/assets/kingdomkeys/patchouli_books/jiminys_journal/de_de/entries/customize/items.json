@@ -1,0 +1,12 @@
+{
+	"name": "Items benutzen",
+	"icon": "kingdomkeys:potion",
+	"category": "kingdomkeys:commands",
+	"sortnum": 2,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Wenn du deine $(l:kingdomkeys:learning_the_menu/item_tab)verbrauchbaren Items im Menü ausrüstest$(), kannst du sie einfach von dem $(thing)Item$()-Kommando auswählen."
+		}
+	]
+}

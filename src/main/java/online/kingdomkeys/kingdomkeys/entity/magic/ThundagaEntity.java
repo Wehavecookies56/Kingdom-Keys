@@ -45,11 +45,6 @@ public class ThundagaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDAGA.get(), world);
 	}
 
-	public ThundagaEntity(Level world) {
-		super(ModEntities.TYPE_THUNDAGA.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThundagaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAGA.get(), player, world);
 		setCaster(player.getUUID());
@@ -60,7 +55,7 @@ public class ThundagaEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public int getMaxTicks() {

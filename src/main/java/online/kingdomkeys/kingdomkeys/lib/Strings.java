@@ -61,7 +61,8 @@ public class Strings {
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
        		SonicBlade = "sonic_blade",
-       		PrismRain = "prism_rain";       
+       		PrismRain = "prism_rain",
+			UltimaCannon = "ultima_cannon";
     
     // Reaction Commands
        public static final String
@@ -680,6 +681,7 @@ public class Strings {
         darkerThanDark = "darker_than_dark",
         darkgnaw = "darkgnaw",
 		dawnTillDusk = "dawn_till_dusk",
+		deadOfNight = "dead_of_night",
         decisivePumpkin = "decisive_pumpkin",
         destinysEmbrace = "destinys_embrace",
         diamondDust = "diamond_dust",
@@ -828,6 +830,7 @@ public class Strings {
         darkerThanDarkChain = "darker_than_dark_chain",
         darkgnawChain = "darkgnaw_chain",
 		dawnTillDuskChain = "dawn_till_dusk_chain",
+		deadOfNightChain = "dead_of_night_chain",
         decisivePumpkinChain = "decisive_pumpkin_chain",
         destinysEmbraceChain = "destinys_embrace_chain",
         diamondDustChain = "diamond_dust_chain",

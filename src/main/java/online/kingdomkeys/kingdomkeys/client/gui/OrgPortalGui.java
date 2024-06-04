@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
 public class OrgPortalGui extends Screen {
 
 	EditBox nameBox;
-	Button set;
 
 	BlockPos pos;
 
@@ -30,10 +29,7 @@ public class OrgPortalGui extends Screen {
 	protected void init() {
 		int tfWidth = minecraft.font.width("####################");
 		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, Component.translatable("")));
-		/*addRenderableWidget(set = new Button(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20, Component.translatable("Set name"), (e) -> {
-			action();
-		}));*/
-		
+
 		addRenderableWidget(Button.builder(Component.translatable("Set name"), (e) -> {
 			action();
 		}).bounds(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20).build());

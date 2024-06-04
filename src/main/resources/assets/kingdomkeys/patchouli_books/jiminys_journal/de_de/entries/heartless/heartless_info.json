@@ -1,0 +1,14 @@
+{
+	"name": "Was ist ein Herzloser?",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(item)Herzloser$() ist die manifestierte $(lissa)Dunkelheit$() die in einem $(thing)Herzen$() zurückbleibt, wenn ein $(thing)Jemand$() sein $(thing)Herz$() verliert, und sich von seiner $(nobody)leeren Hülle$() trennt."
+		}
+	]
+}

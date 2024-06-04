@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -64,7 +66,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
         detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
         
         int itemHeight = 14;
-        maxItems = (int) (listBox.getHeight() / itemHeight)-1;
+        maxItems = (listBox.getHeight() / itemHeight)-1;
         transformedScroll = scrollOffset * 15;
         
         float itemsX = width * 0.31F;
@@ -128,7 +130,7 @@ public class MenuEquipmentScreen extends MenuScrollScreen {
             hidden.getAndIncrement();
             
             //Synch blade
-            if (playerData.getAlignment() == Utils.OrgMember.NONE && playerData.isAbilityEquipped(Strings.synchBlade)) {
+            if (playerData.getAlignment() == Utils.OrgMember.NONE && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ) - transformedScroll, 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
             	if(showingKeyblades)
             		totalButtons.add(sbSlot);

@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,11 +41,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 
 	public BlizzazaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), world);
-	}
-
-	public BlizzazaEntity(Level world) {
-		super(ModEntities.TYPE_BLIZZAZA.get(), world);
-		this.blocksBuilding = true;
 	}
 
 	public BlizzazaEntity(Level world, LivingEntity player, float dmgMult) {
@@ -107,23 +103,19 @@ public class BlizzazaEntity extends ThrowableProjectile {
 	@Override
 	protected void onHit(HitResult rtRes) {
 		if (!level().isClientSide) {
-			if (rtRes instanceof EntityHitResult ertResult) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
+			if (rtRes instanceof EntityHitResult ertResult && ertResult.getEntity() instanceof LivingEntity target) {
 				if (target.isOnFire()) {
 					target.clearFire();
-				} else {
-					if (target != getOwner()) {
-						Party p = null;
-						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
-						}
-						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
-							target.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg * dmgMult);
-						}
-					}
-				}
+				} else if (target != getOwner()) {
+                    Party p = null;
+                    if (getOwner() != null) {
+                        p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+                    }
+                    if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+                        float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
+                        target.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg * dmgMult);
+                    }
+                }
 			}
 
 			if (rtRes instanceof BlockHitResult brtResult) {
@@ -135,13 +127,13 @@ public class BlizzazaEntity extends ThrowableProjectile {
 							BlockPos blockpos = new BlockPos(x,y,z);
 							BlockState blockstate = level().getBlockState(blockpos);
 							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
+								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, false), 11);
 						}
 					}
 				}
 			}
 
-			if (getOwner() instanceof Player) {
+			if (getOwner() instanceof Player player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				int r = 2;
 				for (int t = 1; t < 360; t += 20) {
@@ -166,21 +158,20 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
 				}
 
-				Party casterParty = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+				Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
-						if (e.isOnFire()) {
-							e.clearFire();
-						} else {
-							if(!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
-								float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
-								float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-								e.hurt(IceDamageSource.getIceDamage(this, this.getOwner()), dmg);
-							}
-						}
-					}
+                    for (LivingEntity e : list) {
+                        if (e.isOnFire()) {
+                            e.clearFire();
+                        } else {
+                            if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
+                                float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
+                                float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+                                e.hurt(IceDamageSource.getIceDamage(this, player), dmg);
+                            }
+                        }
+                    }
 				}
 			}
 			remove(RemovalReason.KILLED);

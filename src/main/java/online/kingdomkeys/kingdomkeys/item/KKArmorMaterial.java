@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import com.google.common.base.Supplier;
-
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;

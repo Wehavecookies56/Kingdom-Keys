@@ -1,17 +1,9 @@
 
 package online.kingdomkeys.kingdomkeys.loot;
 
-import java.util.Map;
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +27,11 @@ import net.minecraftforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.function.Supplier;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.

@@ -34,16 +34,6 @@ public class SaixShockwave extends ThrowableProjectile {
 		super(ModEntities.TYPE_SAIX_SHOCKWAVE.get(), world);
 	}
 
-	public SaixShockwave(Level world, LivingEntity player, float damage, double x, double y, double z) {
-		this(world, player, damage);
-		this.setPos(x, y, z);
-	}
-
-	public SaixShockwave(Level world) {
-		super(ModEntities.TYPE_SAIX_SHOCKWAVE.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public SaixShockwave(Level world, LivingEntity player, float damage) {
 		super(ModEntities.TYPE_SAIX_SHOCKWAVE.get(), player, world);
 		this.dmg = damage;
@@ -51,7 +41,7 @@ public class SaixShockwave extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

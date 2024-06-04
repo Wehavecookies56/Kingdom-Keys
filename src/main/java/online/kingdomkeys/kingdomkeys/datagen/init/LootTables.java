@@ -50,11 +50,14 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.station_of_awakening_core.get());
         standardBlockLoot(ModBlocks.pedestal.get());        
         standardBlockLoot(ModBlocks.savepoint.get());
+		standardBlockLoot(ModBlocks.linkedSavepoint.get());
         standardBlockLoot(ModBlocks.magicalChest.get());
         
         standardBlockLoot(ModBlocks.rodStone.get());
         standardBlockLoot(ModBlocks.rodSand.get());
         standardBlockLoot(ModBlocks.rodCrackedStone.get());
+
+		standardBlockLoot(ModBlocks.airstepTarget.get());
         
         lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(

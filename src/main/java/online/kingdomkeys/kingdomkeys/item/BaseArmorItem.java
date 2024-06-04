@@ -1,12 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.network.chat.Component;
@@ -36,6 +29,12 @@ import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class BaseArmorItem extends ArmorItem implements IItemCategory {
 

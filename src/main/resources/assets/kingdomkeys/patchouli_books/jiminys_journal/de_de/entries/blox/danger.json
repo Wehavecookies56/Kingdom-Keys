@@ -1,0 +1,20 @@
+{
+	"name": "Schadensblock",
+	"icon": "kingdomkeys:danger_blox",
+	"sortnum": 4,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Schadensblöcke$() sind, nun ja... $(thing)schädlich$(). Wenn man diese $(blox)Bug-Blöcke$() anfässt, egal ob mit den bloßen Füßen, deiner Hand oder dem ganzen Körper, erleidest du Schaden. Trägst du $(thing)Stiefel$() hörst du auf Schaden zu nehmen wenn du sie berührst. Ähnlich wie ein Kaktus, werden ebenfalls alle $(lissa)Gegenstände oder Blöcke zerstört$(), die in $(lissa)Berührung$() damit kommen."
+		},
+		{
+			"type": "text",
+			"text": "Man kann sie an der Oberfläche finden, meistens bei $(l:kingdomkeys:blox/prize)sternförmigen Blöcken$(), oder können auch mit $(l:kingdomkeys:blox/normal)Normalen Blöcken$() und $(thing)Kakteen$() hergestellt werden."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:danger_blox"
+		}
+	]
+}

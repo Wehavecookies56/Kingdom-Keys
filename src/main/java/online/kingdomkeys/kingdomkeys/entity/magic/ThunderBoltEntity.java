@@ -53,11 +53,6 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
 	}
 
-	public ThunderBoltEntity(Level world) {
-		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public ThunderBoltEntity(Level world, Player player, double x, double y, double z, float dmgMult) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
 		setCaster(player.getUUID());
@@ -105,6 +100,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 				for (LivingEntity entity : list) {
 					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.02F : 2;
+					entity.invulnerableTime = 0;
 					entity.hurt(LightningDamageSource.getLightningDamage(this, this.getOwner()), dmg * dmgMult);
 
 					if (entity instanceof Pig) {
@@ -209,7 +205,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRendere
 import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.org.*;
+import online.kingdomkeys.kingdomkeys.client.render.shotlock.UltimaCannonShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
@@ -173,7 +174,7 @@ public class ModEntities {
     public static final RegistryObject<Item> NOBODY_CREEPER_EGG = ModItems.ITEMS.register("nobody_creeper_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_NOBODY_CREEPER, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
     public static final RegistryObject<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.8F);
     public static final RegistryObject<Item> DUSK_EGG = ModItems.ITEMS.register("dusk_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DUSK, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
-    public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, MobCategory.MONSTER, "assassin", 1F, 1.5F);
+    public static final RegistryObject<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, AssassinEntity::new, MobCategory.MONSTER, "assassin", 1.2F, 2F);
     public static final RegistryObject<Item> ASSASSIN_EGG = ModItems.ITEMS.register("assassin_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_ASSASSIN, 0xc9c9c9, 0xd4ccff, PROPERTIES));
     public static final RegistryObject<EntityType<DragoonEntity>> TYPE_DRAGOON = createEntityType(DragoonEntity::new, DragoonEntity::new, MobCategory.MONSTER, "dragoon", 1F, 2F);
     public static final RegistryObject<Item> DRAGOON_EGG = ModItems.ITEMS.register("dragoon_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DRAGOON, 0xc9c9c9, 0xc2387f, PROPERTIES));
@@ -196,6 +197,7 @@ public class ModEntities {
 
 	public static final RegistryObject<EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, VolleyShotEntity::new, MobCategory.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
 	public static final RegistryObject<EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
+    public static final RegistryObject<EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
 
     /**
      * Helper method to create a new EntityType and set the registry name
@@ -328,6 +330,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PRISM_RAIN.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), UltimaCannonShotlockShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
@@ -340,6 +343,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
         event.registerBlockEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
         event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -507,7 +511,7 @@ public class ModEntities {
     public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, KingdomKeys.MODID);
 
     public static final RegistryObject<BlockEntityType<MagnetBloxTileEntity>> TYPE_MAGNET_BLOX = TILE_ENTITIES.register("magnet_blox", () -> BlockEntityType.Builder.of(MagnetBloxTileEntity::new, ModBlocks.magnetBlox.get()).build(null));
-    public static final RegistryObject<BlockEntityType<SavepointTileEntity>> TYPE_SAVEPOINT = TILE_ENTITIES.register("savepoint", () -> BlockEntityType.Builder.of(SavepointTileEntity::new, ModBlocks.savepoint.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SavepointTileEntity>> TYPE_SAVEPOINT = TILE_ENTITIES.register("savepoint", () -> BlockEntityType.Builder.of(SavepointTileEntity::new, ModBlocks.savepoint.get(), ModBlocks.linkedSavepoint.get()).build(null));
     public static final RegistryObject<BlockEntityType<PedestalTileEntity>> TYPE_PEDESTAL = TILE_ENTITIES.register("pedestal", () -> BlockEntityType.Builder.of(PedestalTileEntity::new, ModBlocks.pedestal.get()).build(null));
     public static final RegistryObject<BlockEntityType<MagicalChestTileEntity>> TYPE_MAGICAL_CHEST = TILE_ENTITIES.register("magical_chest", () -> BlockEntityType.Builder.of(MagicalChestTileEntity::new, ModBlocks.magicalChest.get()).build(null));
     public static final RegistryObject<BlockEntityType<OrgPortalTileEntity>> TYPE_ORG_PORTAL_TE = TILE_ENTITIES.register("org_portal", () -> BlockEntityType.Builder.of(OrgPortalTileEntity::new, ModBlocks.orgPortal.get()).build(null));
@@ -516,4 +520,5 @@ public class ModEntities {
     public static final RegistryObject<BlockEntityType<GummiEditorTileEntity>> TYPE_GUMMI_EDITOR = TILE_ENTITIES.register("gummi_editor", () -> BlockEntityType.Builder.of(GummiEditorTileEntity::new, ModBlocks.gummiEditor.get()).build(null));
     public static final RegistryObject<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
     public static final RegistryObject<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
+    public static final RegistryObject<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
 }

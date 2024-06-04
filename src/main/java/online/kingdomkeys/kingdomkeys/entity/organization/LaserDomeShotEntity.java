@@ -35,11 +35,6 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_LASER_SHOT.get(), world);
 	}
 
-	public LaserDomeShotEntity(Level world) {
-		super(ModEntities.TYPE_LASER_SHOT.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public LaserDomeShotEntity(Level world, LivingEntity player, double dmg) {
 		super(ModEntities.TYPE_LASER_SHOT.get(), player, world);
 		this.dmg = (float)dmg;
@@ -47,7 +42,7 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override

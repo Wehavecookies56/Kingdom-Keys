@@ -16,12 +16,13 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSShotlockShot {
 	
-	List<Integer> shotlockEnemies;
+	List<Utils.ShotlockPosition> shotlockEnemies;
+	List<Integer> shotlockList;
 	double cost;
 	
 	public CSShotlockShot() {}
 
-	public CSShotlockShot(double cost, List<Integer> shotlockEnemies) {
+	public CSShotlockShot(double cost, List<Utils.ShotlockPosition> shotlockEnemies) {
 		this.cost = cost;
 		this.shotlockEnemies = shotlockEnemies;
 	}
@@ -31,7 +32,7 @@ public class CSShotlockShot {
 		buffer.writeDouble(this.cost);
 		buffer.writeInt(this.shotlockEnemies.size());
 		for(int i= 0; i< this.shotlockEnemies.size(); i++) {
-			buffer.writeInt(this.shotlockEnemies.get(i));
+			buffer.writeInt(this.shotlockEnemies.get(i).id());
 		}
 	}
 
@@ -39,10 +40,10 @@ public class CSShotlockShot {
 		CSShotlockShot msg = new CSShotlockShot();
 		msg.cost = buffer.readDouble();
 		int size = buffer.readInt();
-		msg.shotlockEnemies = new ArrayList<Integer>();
+		msg.shotlockList = new ArrayList<Integer>();
 
 		for(int i= 0; i< size; i++) {
-			msg.shotlockEnemies.add(buffer.readInt());
+			msg.shotlockList.add(buffer.readInt());
 		}
 
 		return msg;
@@ -57,7 +58,7 @@ public class CSShotlockShot {
 			
 			List<Entity> targets = new ArrayList<Entity>();
 			
-			for(int enemyID : message.shotlockEnemies) {
+			for(int enemyID : message.shotlockList) {
 				Entity target = player.level().getEntity(enemyID);
 				targets.add(target);
 			}

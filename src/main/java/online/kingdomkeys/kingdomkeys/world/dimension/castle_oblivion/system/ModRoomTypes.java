@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import java.awt.Color;
-import java.util.function.Supplier;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.DeferredRegister;
@@ -12,6 +9,9 @@ import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomEnemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomSize;
+
+import java.awt.*;
+import java.util.function.Supplier;
 
 public class ModRoomTypes {
 

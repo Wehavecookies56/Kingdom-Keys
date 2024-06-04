@@ -1,8 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class RoomType {
 

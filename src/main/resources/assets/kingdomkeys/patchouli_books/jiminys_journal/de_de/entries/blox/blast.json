@@ -1,0 +1,20 @@
+{
+	"name": "Bombenblock",
+	"icon": "kingdomkeys:blast_blox",
+	"sortnum": 6,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Vor den $(item)Bombenblöcken$() sollte man sich um jeden Preis $(lissa)fernhalten$(). Sie funktionieren wie klassisches TNT und $(lissa)entzünden$() sich direkt $(lissa)bei jeglichen Kontakt$(). Die einzig sichere Methode um diese abzubauen ist mit einer sanften $(thing)Feder$()."
+		},
+		{
+			"type": "text",
+			"text": "Diese können in der Oberwelt, zusammen mit $(l:kingdomkeys:blox/prize)Kugel- oder Raritätenblöcken$(), gefunden werden und können ebenfalls hergestellt werden aus: $(l:kingdomkeys:blox/normal)Normaler Block$(), TNT und einen Lavaeimer."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:blast_blox"
+		}
+	]
+}

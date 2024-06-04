@@ -1,0 +1,6 @@
+{
+	"name": "Drive-Formen verbessern",
+	"description": "Dieses Kapitel fokussiert sich alleine darauf, dir die Vorraussetzungen zu erzählen damit du jede deiner $(item)Drive-Formen$() aufstufen kannst. Jede Form erhählt seine EP anders und bringt ihre eigenen Abilities mit, die man sich außerhalb der Form raus freischalten kann. $(br)Jede Form erreicht ihr Maximum bei Stufe 7.",
+	"icon": "kingdomkeys:hi_drive_recovery",
+	"sortnum": 5
+}

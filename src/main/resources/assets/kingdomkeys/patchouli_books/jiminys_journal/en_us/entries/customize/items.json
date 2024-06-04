@@ -2,12 +2,11 @@
 	"name": "Using your Items",
 	"icon": "kingdomkeys:potion",
 	"category": "kingdomkeys:commands",
-	"read_by_default": false,
 	"sortnum": 2,
 	"pages": [
 		{
 			"type": "text",
-			"text": "When you equip usable items in your menu (see section $(thing)The Items Tab$() for more information.), you can get a quick pick me up by using them from the $(thing)Items$() tab in your command menu."
+			"text": "When you $(l:kingdomkeys:learning_the_menu/item_tab)equip usable items in your menu$(), you can get a quick pick me up by using them from the $(thing)Items$() tab in your command menu."
 		}
 	]
 }

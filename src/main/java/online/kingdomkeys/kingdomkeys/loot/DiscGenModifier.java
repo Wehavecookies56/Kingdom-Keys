@@ -1,16 +1,9 @@
 
 package online.kingdomkeys.kingdomkeys.loot;
 
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -19,6 +12,10 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.

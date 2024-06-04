@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.api.item;
 
-import java.util.HashMap;
-
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.HashMap;
 
 public class ItemCategoryRegistry {
 

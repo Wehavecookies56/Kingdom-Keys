@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension;
 
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

@@ -1,0 +1,6 @@
+{
+	"name": "Organisation XIII",
+	"description": "Jeder der $(item)die Organisation$() beitreten will, wird $(thing)eine etwas andere Erfahrung$() haben, als ein gewöhnlicher Schlüsselschwertträger. Dieses Kapitel dient zum erklären, wie man als Mitglied der $(lissa)Organisation XIII$() spielt.",
+	"icon": "kingdomkeys:proof_of_heart",
+	"sortnum": 6
+}

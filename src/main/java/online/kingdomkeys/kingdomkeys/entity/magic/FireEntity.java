@@ -42,11 +42,6 @@ public class FireEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRE.get(), world);
 	}
 
-	public FireEntity(Level world) {
-		super(ModEntities.TYPE_FIRE.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public FireEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRE.get(), player, world);
 		this.dmgMult = dmgMult;
@@ -55,7 +50,7 @@ public class FireEntity extends ThrowableProjectile {
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -120,7 +115,7 @@ public class FireEntity extends ThrowableProjectile {
 					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 				}
 				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 				}
 			}
 			remove(RemovalReason.KILLED);

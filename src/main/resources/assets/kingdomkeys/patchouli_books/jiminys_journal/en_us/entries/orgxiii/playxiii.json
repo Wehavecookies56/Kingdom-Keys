@@ -2,16 +2,15 @@
 	"name": "Playing Organization",
 	"icon": "kingdomkeys:evanescent_crystal",
 	"sortnum": 2,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{
 			"type": "text",
-			"text": "While playing as a member of the Organization, you'll notice in your menu you have a currency called $(thing)Hearts. Hearts$() are obtained from killing Heartless and Nobodies and are used to obtain new and stronger weapons for whatever Organization member you choose to play as. Doing so is essential for being able to take out higher level enemies as you level up. "
+			"text": "While playing as a $(item)member of the Organization$(), you'll notice in your menu you have a currency called $(thing)Hearts$(). $(thing)Hearts$() are obtained from killing $(emblem)Emblem-Heartless and $(thing)hostile Mobs$() and are used to obtain new and $(thing)stronger weapons$() for whatever Organization member you choose to play as. (Defeating Mobs with your Orga-Weapon will grant you twice as many Hearts.) Doing so is essential for being able to take out higher level enemies as you level up. "
 		},
 		{
 			"type": "text",
-			"text": "You also obtain the ability to craft Organization Portals, which you can have 3 of active at a time and be able to teleport to whenever you wish. Be weary, because other players, even outside of the Organizations ranks, can follow you through your portal. The recipe for the portal is as follows."
+			"text": "You also obtain the ability to craft $(thing)Organization Portals$(), which you can have 3 of active at a time and be able to teleport to whenever you wish. Be weary, because other players, even outside of the Organizations ranks, can follow you through your portal."
 		},
 		{
 			"type":"crafting",
