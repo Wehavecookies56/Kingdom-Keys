@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
+import online.kingdomkeys.kingdomkeys.util.APITests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -213,6 +214,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
+		//MinecraftForge.EVENT_BUS.register(new APITests());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
