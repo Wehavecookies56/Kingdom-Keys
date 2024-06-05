@@ -21,7 +21,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -54,12 +56,14 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					PacketHandler.sendToServer(new CSEquipArmor(parent.slot, slot));
-				
-					ItemStack stackToEquip = player.getInventory().getItem(slot);
-					ItemStack stackPreviouslyEquipped = playerData.equipArmor(parent.slot, stackToEquip);
-					player.getInventory().setItem(slot, stackPreviouslyEquipped);
-					b.visible = false;
+					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Armour(player, playerData.getEquippedArmor(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+						PacketHandler.sendToServer(new CSEquipArmor(parent.slot, slot));
+
+						ItemStack stackToEquip = player.getInventory().getItem(slot);
+						ItemStack stackPreviouslyEquipped = playerData.equipArmor(parent.slot, stackToEquip);
+						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						b.visible = false;
+					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}

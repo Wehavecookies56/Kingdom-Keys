@@ -24,7 +24,7 @@ public class AxeSwordItem extends OrgSwordItem implements IOrgWeapon {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		float dmg = playerData.getStrengthStat().get();
+		float dmg = (float) playerData.getStrengthStat().get();
 
 		if (!player.isShiftKeyDown()){
 			// Helm Split (Heavy Attack)

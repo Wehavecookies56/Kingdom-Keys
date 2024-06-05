@@ -8,17 +8,17 @@ import net.minecraft.nbt.CompoundTag;
 public class Stat {
 
     String name;
-    int value;
+    double value;
     List<StatModifier> modifiers;
 
-    public Stat(String name, int value) {
+    public Stat(String name, double value) {
         this.name = name;
         this.value = value;
         modifiers = new ArrayList<>();
     }
 
-    public Stat addModifier(String name, int amount, boolean stackable) {
-        addModifier(new StatModifier(name, amount, stackable));
+    public Stat addModifier(String name, double amount, boolean stackable, boolean percentage) {
+        addModifier(new StatModifier(name, amount, stackable, percentage));
         return this;
     }
 
@@ -50,28 +50,34 @@ public class Stat {
     }
 
     //get value with modifiers applied
-    public int getStat() {
-        int modified = value;
+    public double getStat() {
+        double modified = value;
+        double percentageModifiers = 0;
         for (StatModifier modifier : modifiers) {
-            modified += modifier.amount;
+            if (modifier.percentage) {
+                percentageModifiers += modifier.amount;
+            } else {
+                modified += modifier.amount;
+            }
         }
-        return modified;
+        double percentageModified = value * (percentageModifiers / 100);
+        return modified + percentageModified;
     }
 
-    public int get() {
+    public double get() {
         return value;
     }
 
-    public void set(int value) {
+    public void set(double value) {
         this.value = value;
     }
 
-    public void add(int value) {
+    public void add(double value) {
         this.value += value;
     }
 
     public CompoundTag serialize(CompoundTag tag) {
-        tag.putInt(name, value);
+        tag.putDouble(name, value);
         tag.putInt(name + "_modifiers", modifiers.size());
         CompoundTag modifierTag = new CompoundTag();
         for (int i = 0; i < modifiers.size(); ++i) {
@@ -82,7 +88,7 @@ public class Stat {
     }
 
     public static Stat deserializeNBT(String name, CompoundTag tag) {
-        Stat stat = new Stat(name, tag.getInt(name));
+        Stat stat = new Stat(name, tag.getDouble(name));
         CompoundTag modifierTag = tag.getCompound(name + "_modifiers_list");
         for (int i = 0; i < tag.getInt(name + "_modifiers"); ++i) {
             stat.addModifier(StatModifier.deserialize(modifierTag.getCompound("modifier_" + i)));

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.common.MinecraftForge;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.platform.Lighting;
@@ -58,25 +60,27 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
-					int oldItemAP = 0;
-					int newItemAP = 0;
-					
-		            if(!ItemStack.matches(playerData.getEquippedAccessory(parent.slot),ItemStack.EMPTY)){
-		              	oldItemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
-		            }
-		            
-		            if(!ItemStack.matches(player.getInventory().getItem(slot),ItemStack.EMPTY)){
-		            	newItemAP = ((KKAccessoryItem)player.getInventory().getItem(slot).getItem()).getAp();
-		            }
+					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+						PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
+						int oldItemAP = 0;
+						int newItemAP = 0;
 
-		            if(playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) { 
-						ItemStack stackToEquip = player.getInventory().getItem(slot);
-						ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
-						player.getInventory().setItem(slot, stackPreviouslyEquipped);
-		            } else {
+						if (!ItemStack.matches(playerData.getEquippedAccessory(parent.slot), ItemStack.EMPTY)) {
+							oldItemAP = ((KKAccessoryItem) playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
+						}
+
+						if (!ItemStack.matches(player.getInventory().getItem(slot), ItemStack.EMPTY)) {
+							newItemAP = ((KKAccessoryItem) player.getInventory().getItem(slot).getItem()).getAp();
+						}
+
+						if (playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) {
+							ItemStack stackToEquip = player.getInventory().getItem(slot);
+							ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
+							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						}
+					} else {
 						player.playSound(ModSounds.error.get(), 1, 1);
-		            }
+					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}

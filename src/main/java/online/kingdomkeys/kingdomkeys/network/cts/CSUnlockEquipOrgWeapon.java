@@ -7,7 +7,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -62,7 +64,9 @@ public class CSUnlockEquipOrgWeapon {
                 if (playerData.isWeaponUnlocked(message.weapon.getItem())) {
                     playerData.getWeaponsUnlocked().forEach(itemStack -> {
                         if (itemStack.is(message.weapon.getItem())) {
-                            playerData.equipWeapon(itemStack);
+                            if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.OrgWeapon(player, playerData.getEquippedWeapon(), itemStack))) {
+                                playerData.equipWeapon(itemStack);
+                            }
                         }
                     });
                 }

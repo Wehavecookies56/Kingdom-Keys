@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.api.client;
+package online.kingdomkeys.kingdomkeys.api.event.client;
 
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;

@@ -70,16 +70,16 @@ public enum SoAState {
 			modifier = "sacrifice";
 		}
 		if (choice.getStr(choiceLevel) != 0) {
-			playerData.getStrengthStat().addModifier(modifier, choice.getStr(choiceLevel), false);
+			playerData.getStrengthStat().addModifier(modifier, choice.getStr(choiceLevel), false, false);
 		}
 		if (choice.getMag(choiceLevel) != 0) {
-			playerData.getMagicStat().addModifier(modifier, choice.getMag(choiceLevel), false);
+			playerData.getMagicStat().addModifier(modifier, choice.getMag(choiceLevel), false, false);
 		}
 		if (choice.getDef(choiceLevel) != 0) {
-			playerData.getDefenseStat().addModifier(modifier, choice.getDef(choiceLevel), false);
+			playerData.getDefenseStat().addModifier(modifier, choice.getDef(choiceLevel), false, false);
 		}
 		if (choice.getMaxAP(choiceLevel) != 0) {
-			playerData.getMaxAPStat().addModifier(modifier, choice.getMaxAP(choiceLevel), false);
+			playerData.getMaxAPStat().addModifier(modifier, choice.getMaxAP(choiceLevel), false, false);
 		}
 		if (choice.getMaxHp(choiceLevel) > 0) {
 			playerData.addMaxHP(choice.getMaxHp(choiceLevel));
