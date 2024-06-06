@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.client.gui.organization;
 
 import java.util.List;
 
+import net.minecraftforge.common.MinecraftForge;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -153,11 +155,13 @@ public class WeaponUnlockScreen extends Screen {
                     playerData.removeHearts(cost);
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
                 } else {
-                    playerData.equipWeapon(weapon);
-					if(Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon()) > -1)
-						PacketHandler.sendToServer(new CSSummonKeyblade(true));
-                    
-					PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
+                    if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.OrgWeapon(minecraft.player, playerData.getEquippedWeapon(), weapon))) {
+                        playerData.equipWeapon(weapon);
+                        if (Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon()) > -1)
+                            PacketHandler.sendToServer(new CSSummonKeyblade(true));
+
+                        PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon));
+                    }
                 }
                 break;
         }

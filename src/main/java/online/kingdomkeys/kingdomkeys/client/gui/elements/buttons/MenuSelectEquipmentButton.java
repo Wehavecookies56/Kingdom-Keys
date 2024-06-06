@@ -17,9 +17,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -54,12 +56,14 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
-						PacketHandler.sendToServer(new CSSummonKeyblade(true));
-					PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
-					ItemStack stackToEquip = player.getInventory().getItem(slot);
-					ItemStack stackPreviouslyEquipped = playerData.equipKeychain(parent.form, stackToEquip);
-					player.getInventory().setItem(slot, stackPreviouslyEquipped);
+					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), player.getInventory().getItem(slot), slot, parent.form))) {
+						if (Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
+							PacketHandler.sendToServer(new CSSummonKeyblade(true));
+						PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
+						ItemStack stackToEquip = player.getInventory().getItem(slot);
+						ItemStack stackPreviouslyEquipped = playerData.equipKeychain(parent.form, stackToEquip);
+						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}

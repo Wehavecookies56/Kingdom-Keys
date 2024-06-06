@@ -40,19 +40,19 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 				
 				switch (boost) {
 				case Strings.powerBoost:
-					playerData.getStrengthStat().addModifier("boost", 1, true);
+					playerData.getStrengthStat().addModifier("boost", 1, true, false);
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),playerData.getStrength(true)), true);
 					break;
 				case Strings.magicBoost:
-					playerData.getMagicStat().addModifier("boost", 1, true);
+					playerData.getMagicStat().addModifier("boost", 1, true, false);
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),playerData.getMagic(true)), true);
 					break;
 				case Strings.defenseBoost:
-					playerData.getDefenseStat().addModifier("boost", 1, true);
+					playerData.getDefenseStat().addModifier("boost", 1, true, false);
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),playerData.getDefense(true)), true);
 					break;
 				case Strings.apBoost:
-					playerData.getMaxAPStat().addModifier("boost", 1, true);
+					playerData.getMaxAPStat().addModifier("boost", 1, true, false);
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_AP),playerData.getMaxAP(true)), true);
 					break;
 				}

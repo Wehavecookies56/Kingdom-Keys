@@ -239,19 +239,19 @@ public class EntityEvents {
 					case WARRIOR -> {
 						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
 							playerData.setStrength(playerData.getStrength(false) - 1);
-							playerData.getStrengthStat().addModifier("choice", 1, false);
+							playerData.getStrengthStat().addModifier("choice", 1, false, false);
 						}
 					}
 					case GUARDIAN -> {
 						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
 							playerData.setDefense(playerData.getDefense(false) - 1);
-							playerData.getDefenseStat().addModifier("choice", 1, false);
+							playerData.getDefenseStat().addModifier("choice", 1, false, false);
 						}
 					}
 					case MYSTIC -> {
 						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
 							playerData.setMagic(playerData.getMagic(false) - 1);
-							playerData.getMagicStat().addModifier("choice", 1, false);
+							playerData.getMagicStat().addModifier("choice", 1, false, false);
 						}
 					}
 					}
@@ -259,19 +259,19 @@ public class EntityEvents {
 					case WARRIOR -> {
 						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
 							playerData.setStrength(playerData.getStrength(false) + 1);
-							playerData.getStrengthStat().addModifier("sacrifice", -1, false);
+							playerData.getStrengthStat().addModifier("sacrifice", -1, false, false);
 						}
 					}
 					case GUARDIAN -> {
 						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
 							playerData.setDefense(playerData.getDefense(false) + 1);
-							playerData.getDefenseStat().addModifier("sacrifice", -1, false);
+							playerData.getDefenseStat().addModifier("sacrifice", -1, false, false);
 						}
 					}
 					case MYSTIC -> {
 						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
 							playerData.setMagic(playerData.getMagic(false) + 1);
-							playerData.getMagicStat().addModifier("sacrifice", -1, false);
+							playerData.getMagicStat().addModifier("sacrifice", -1, false, false);
 						}
 					}
 					}
