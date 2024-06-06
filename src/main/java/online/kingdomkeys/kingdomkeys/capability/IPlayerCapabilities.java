@@ -329,10 +329,10 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
 
-	public SingleChoices getSingleStyle();
-	public void setSingleStyle(SingleChoices singleStyle) ;
-	public DualChoices getDualStyle();
-	public void setDualStyle(DualChoices dualStyle);
+	SingleChoices getSingleStyle();
+	void setSingleStyle(SingleChoices singleStyle) ;
+	DualChoices getDualStyle();
+	void setDualStyle(DualChoices dualStyle);
 
 	boolean getRespawnROD();
 	void setRespawnROD(boolean respawn);
@@ -342,4 +342,8 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 
 	BlockPos getAirStep();
 	void setAirStep(BlockPos pos);
+
+	List<UUID> discoveredSavePoints();
+	void addDiscoveredSavePoint(UUID id);
+	void setDiscoveredSavePoints(List<UUID> list);
 }

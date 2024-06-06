@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
+import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -879,6 +881,26 @@ public class ClientUtils {
         vertexBuilder.vertex(matrix, maxX, minY, maxZ).uv((maxTexU * cor), (maxTexV) * cor).endVertex();
         vertexBuilder.vertex(matrix, maxX, maxY, minZ).uv((maxTexU * cor), (minTexV) * cor).endVertex();
         vertexBuilder.vertex(matrix, minX, maxY, minZ).uv((minTexU * cor), (minTexV) * cor).endVertex();
+    }
+
+    public static DistExecutor.SafeRunnable openSavePointScreen(SCOpenSavePointScreen message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Minecraft.getInstance().setScreen(new SavePointScreen((SavepointTileEntity) Minecraft.getInstance().level.getBlockEntity(message.tileEntity()), message.savePoints(), message.create()));
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable updateSavePoints(SCUpdateSavePoints message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
+                    savePointScreen.updateSavePointsFromServer(message.tileEntityExists(), message.savePoints());
+                }
+            }
+        };
     }
 }
 
