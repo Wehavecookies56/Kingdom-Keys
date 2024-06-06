@@ -1,0 +1,6 @@
+{
+	"name": "Gegner",
+	"description": "Das $(item)Gegner$()-Register zeichnet alle verschiedenen Arten von $(thing)aggressiven Mobs$() der Kingdom Keys Mod auf, die dir auf deiner Reise begegnen.",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 7
+}

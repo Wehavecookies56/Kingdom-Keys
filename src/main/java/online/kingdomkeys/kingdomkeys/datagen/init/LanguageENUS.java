@@ -320,6 +320,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
         addBlock(ModBlocks.savepoint, "Save Point");
+        addBlock(ModBlocks.linkedSavepoint, "Linked Save Point");
         addBlock(ModBlocks.soADoor, "Mysterious Door");
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
@@ -593,6 +594,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDark, "Darker Than Dark");
         addItem(ModItems.darkgnaw, "Darkgnaw");
         addItem(ModItems.dawnTillDusk, "Dawn Till Dusk");
+        addItem(ModItems.deadOfNight, "Dead of Night");
         addItem(ModItems.decisivePumpkin, "Decisive Pumpkin");
         addItem(ModItems.destinysEmbrace, "Destiny's Embrace");
         addItem(ModItems.diamondDust, "Diamond Dust");
@@ -652,8 +654,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGear, "Nano Gear");
         addItem(ModItems.nightmaresEnd, "Nightmare's End");
         addItem(ModItems.nightmaresEndAndMirageSplit, "Combined Keyblade");
-        addItem(ModItems.noName, "No Name");
-        addItem(ModItems.noNameBBS, "No Name (BBS)");
+        addItem(ModItems.noName, "The Gazing Eye");
+        addItem(ModItems.noNameBBS, "No Name");
         addItem(ModItems.oathkeeper, "Oathkeeper");
         addItem(ModItems.oblivion, "Oblivion");
         addItem(ModItems.oceansRage, "Ocean's Rage");
@@ -742,6 +744,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.darkerThanDarkChain, "Darker Than Dark Chain");
         addItem(ModItems.darkgnawChain, "Darkgnaw Chain");
         addItem(ModItems.dawnTillDuskChain, "Dawn Till Dusk Chain");
+        addItem(ModItems.deadOfNightChain, "Dead of Night Chain");
         addItem(ModItems.decisivePumpkinChain, "Decisive Pumpkin Chain");
         addItem(ModItems.destinysEmbraceChain, "Destiny's Embrace Chain");
         addItem(ModItems.diamondDustChain, "Diamond Dust Chain");
@@ -801,8 +804,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.nanoGearChain, "Nano Gear Chain");
         addItem(ModItems.nightmaresEndChain, "Nightmare's End Chain");
         addItem(ModItems.nightmaresEndAndMirageSplitChain, "Combined Keyblade Chain");
-        addItem(ModItems.noNameChain, "No Name Chain");
-        addItem(ModItems.noNameBBSChain, "No Name (BBS) Chain");
+        addItem(ModItems.noNameChain, "The Gazing Eye Chain");
+        addItem(ModItems.noNameBBSChain, "No Name Chain");
         addItem(ModItems.oathkeeperChain, "Oathkeeper Chain");
         addItem(ModItems.oblivionChain, "Oblivion Chain");
         addItem(ModItems.oceansRageChain, "Ocean's Rage Chain");
@@ -1343,6 +1346,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.firagunBangle, "Firagun Bangle");
         addItem(ModItems.protectBelt, "Protect Belt");
         addItem(ModItems.gaiaBelt, "Gaia Belt");
+        addItem(ModItems.lightDefTest, "Light Res. Test");
         addItem(ModItems.midnightAnklet, "Midnight Anklet");
         addItem(ModItems.shadowAnklet, "Shadow Anklet");
         addItem(ModItems.shockCharm, "Shock Charm");
@@ -1377,8 +1381,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Spawn Eggs
         addItem(ModEntities.MOOGLE_EGG, "Moogle Spawn Egg");
         addItem(ModEntities.SHADOW_EGG, "Shadow Spawn Egg");
-        addItem(ModEntities.MEGA_SHADOW_EGG, "Mega Shadow Spawn Egg");
-        addItem(ModEntities.GIGA_SHADOW_EGG, "Giga Shadow Spawn Egg");
+        addItem(ModEntities.MEGA_SHADOW_EGG, "Mega-Shadow Spawn Egg");
+        addItem(ModEntities.GIGA_SHADOW_EGG, "Gigas Shadow Spawn Egg");
         addItem(ModEntities.DARKBALL_EGG, "Darkball Spawn Egg");
         addItem(ModEntities.SHADOW_GLOB_EGG, "Shadow Glob Spawn Egg");
 
@@ -1586,6 +1590,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
 
+        add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
+        add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
+        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Key's$() Mod.$(p)In this book, you'll find all info you need to get started.");
+
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
         addEntityType(ModEntities.TYPE_PAIR_BLOX, "Pair Blox");
@@ -1608,8 +1616,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
         addEntityType(ModEntities.TYPE_SHADOW, "Shadow");
-        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "Mega Shadow");
-        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "Giga Shadow");
+        addEntityType(ModEntities.TYPE_MEGA_SHADOW, "Mega-Shadow");
+        addEntityType(ModEntities.TYPE_GIGA_SHADOW, "Gigas Shadow");
         addEntityType(ModEntities.TYPE_DARKBALL, "Darkball");
         addEntityType(ModEntities.TYPE_SHADOW_GLOB, "Shadow Glob");
 
@@ -1681,6 +1689,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.not_in_party","You are not in a party");
         add("message.wayfinder.player_not_in_party","Player %s is not in your party");
         add("message.wayfinder.player_not_online","Player %s is not online");
+        add("message.wayfinder.owner","Owner: %s");
+        add("message.wayfinder.cooldown","Cooldown: %s%%");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");
@@ -1746,10 +1756,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SHOW_GUI, "Toggle HUD");
 
         //Groups
-        add("itemGroup.kingdomkeys_misc", "KK: Misc");
-        add("itemGroup.kingdomkeys_equipables", "KK: Equipables");
-        add("itemGroup.kingdomkeys_keyblades", "KK: Keyblades");
-        add("itemGroup.kingdomkeys_org_weapons", "KK: Organization");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
+        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");

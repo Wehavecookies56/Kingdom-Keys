@@ -1,0 +1,16 @@
+{
+	"name": "Synthesebeutel",
+	"icon": "kingdomkeys:synthesis_bag",
+	"sortnum": 3,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Dieser $(item)vertraute Beutel$() hebt automatisch alle Synthesematerialien auf, und verstaut sie in dem Beutel. Mit etwas Leder und einem Faden kann dieser einfach hergestellt werden, und mit einigen $(l:kingdomkeys:/syntheize/munny)Talern$() kann der Speicherplatz vergrößert werden."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:synthesis_bag"
+		}
+	]
+}

@@ -65,7 +65,7 @@
   "ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
   "ability.ability_water_boost.name": "Wasser-Boost",
 
-  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_critical_boost.name": "Volltreffer-Boost",
   "ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
   "ability.ability_drive_boost.name": "Drive-Boost",
@@ -73,15 +73,15 @@
   "ability.ability_experience_boost.name": "Erfahrungs-Boost",
   "ability.ability_form_boost.desc": "Erhöht die verweildauer in den Formen.",
   "ability.ability_form_boost.name": "Form-Boost",
-  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_item_boost.name": "Item-Boost",
 
-  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nMehrfaches Anlegen erhöht den Effekt. (Kein Combo-Abschlussangriff möglich?)",
+  "ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern. (Kein Combo-Abschlussangriff möglich?)",
   "ability.ability_berserk_charge.name": "Auflade-Berserker",
-  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nAusgerüstete Menge bestimmt die Anzahl der Zusatzhiebe.",
+  "ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nDiese Ability kann aufgestapelt werden, um noch weitere Kombo-Angriffe hinzuzufügen.",
   "ability.ability_combo_plus.name": "Combo +",
 
-  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_damage_control.name": "Schadenskontrolle",
   "ability.ability_damage_drive.desc": "Bei erlittenem Schaden füllt sich die Drive-Leiste.\nDie Leiste füllt sich proportional zum erlittenen Schaden.",
   "ability.ability_damage_drive.name": "Schadensbegrenzung",
@@ -90,7 +90,7 @@
 
   "ability.ability_drive_converter.desc": "Erhöhe den Wert aller Drive-Kugeln.",
   "ability.ability_drive_converter.name": "Drive-Konverter",
-  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_endless_magic.name": "Endlos-Magie",
   "ability.ability_extra_cast.desc": "Erlaubt das wirken eines letzten Zaubers bevor die MP leer gehen.",
   "ability.ability_extra_cast.name": "Extrazauber",
@@ -100,13 +100,13 @@
   "ability.ability_focus_converter.desc": "Erhöht den Wert aller Fokus-Kugeln.",
   "ability.ability_focus_converter.name": "Fokus-Konverter",
 
-  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_full_mp_blast.name": "Volle MP-Salve",
 
-  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nMehrfaches Anlegen erhöht die Chance.",
+  "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
 
-  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_hp_gain.name": "HP-Gewinn",
 
   "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
@@ -396,18 +396,18 @@
   "gear.no_gear.name": "Keine Mod",
   "gear.skill_gear.name": "Experten-Mod",
   "gear.skill_gear_p.name": "Experten-Mod+ (2)",
-  "gear.technical_gear.name": "Tech-Mod (3)",
-  "gear.technical_gear_p.name": "Tech-Mod+ (3)",
   "gear.duel_gear.name": "Duell-Mod (4)",
   "gear.duel_gear_p.name": "Duell-Mod+ (4)",
   "gear.duel_gear_pp.name": "Duell-Mod++ (5)",
+  "gear.technical_gear.name": "Tech-Mod (3)",
+  "gear.technical_gear_p.name": "Tech-Mod+ (3)",
   "gear.loaded_gear.name": "Geladene Ausrüstung (2)",
   "gear.loaded_gear_p.name": "Geladene Ausrüstung+ (2)",
   "gear.chrono_gear.name": "Chrono-Mod (3)",
   "gear.chrono_gear_p.name": "Chrono-Mod+ (3)",
   "gear.phantom_gear.name": "Phantom-Mod (4)",
   "gear.phantom_gear_p.name": "Phantom-Mod+ (4)",
-  "gear.phantom_gear_pp.name": "Phantom-Mod++ (5)",
+  "gear.phantom_gear_p.name": "Phantom-Mod++ (5)",
   "gear.lift_gear.name": "Hebe-Mod (3)",
   "gear.lift_gear_p.name": "Hebe-Mod+ (3)",
   "gear.nimble_gear.name": "Flinkheitsmod (4)",
@@ -439,32 +439,6 @@
   "gear.zero_gear.name": "Zero-Mod (5)",
   "gear.casual_gear.name": "Freizeit-Mod (2)",
   "gear.mystery_gear.name": "Mysterien-Mod (3)",
-
-  "gear.skill_gear.desc": "Deine Waffe ermöglicht schnellere und längere Boden-Kombos.",
-  "gear.technical_gear.desc": "Deine Waffe ermöglicht schnellere und viel längere Boden-Kombos.",
-  "gear.duel_gear.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
-  "gear.duel_gear_pp.desc": "Deine Waffe ermöglicht schnellere, wahnsinnig lange Boden-Kombos.",
-  "gear.loaded_gear.desc": "Deine Waffe verleiht deiner Magie größere Stärke.",
-  "gear.chrono_gear.desc": "Deine Waffe verleiht deiner Magie sehr große Stärke.",
-  "gear.phantom_gear.desc": "Deine Waffe verleiht deiner Magie unglaubliche Stärke.",
-  "gear.phantom_gear_pp.desc": "Deine Waffe verleiht deiner Magie überwältigende Stärke.",
-  "gear.lift_gear.desc": "Deine Waffe wird sehr gut für den Luftkampf geeignet.",
-  "gear.nimble_gear.desc": "Deine Waffe wird extrem gut für den Luftkampf geeignet.",
-  "gear.wild_gear.desc": "Deine Waffe richtet in einem großen Gebiet schweren Schaden an.",
-  "gear.ominous_gear.desc": "Deine Waffe richtet in einem großen Gebiet gewaltigen Schaden an.",
-  "gear.valor_gear.desc": "Steigert die Angriffskraft deiner Waffe.",
-  "gear.fearless_gear.desc": "Steigert die Angriffskraft deiner Waffe erheblich.",
-  "gear.prestige_gear.desc": "Steigert die Angriffskraft deiner Waffe drastisch.",
-  "gear.crisis_gear.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe.",
-  "gear.omega_gear.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe erheblich.",
-  "gear.hazard_gear.desc": "Deine Waffe bietet starke Magie und große Kombo-Reichweite.",
-  "gear.rage_gear.desc": "Deine Waffe ermöglicht längere Boden- und Luft-Kombos.",
-  "gear.champion_gear.desc": "Deine Waffe erhält hohe Angriffskraft und Boden-Kombogeschwindigkeit.",
-  "gear.ultimate_gear.desc": "Deine Waffe erhält überlegene Angriffskraft und Boden-Kombogeschwindigkeit.",
-  "gear.pandoras_gear.desc": "Deine Waffe erhält außergewöhnliche Fähigkeiten.",
-  "gear.zero_gear.desc": "Diese Waffe bringt den wahren Wert ihres Trägers zur Geltung.",
-  "gear.casual_gear.desc": "Transformiert deine Waffe in etwas erschreckend Vertrautes.",
-  "gear.mystery_gear.desc": "Diese Waffe bringt die Persönlichkeit ihres Trägers zur Geltung.",
 
   */
 
@@ -544,8 +518,8 @@
   "gui.menu.items.equipment.armor": "Rüstung",
   "gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
   "gui.menu.items.equipment.items": "Items",
-  "gui.menu.items.equipment.pauldron": "Schulterschutz",
-  "gui.menu.items.equipment.shotlock": "Fokussierung",
+  "gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
+  "gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
   "gui.menu.items.equipment.weapon": "Waffe",
   "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
   "gui.menu.items.stock": "Lager",
@@ -738,7 +712,7 @@
 
   "item.kingdomkeys.electrum": "Elektrum",
 
-  "item.kingdomkeys.damascus": "Damast",
+  "item.kingdomkeys.damascus": "Damaskus",
 
   "item.kingdomkeys.evanescent_crystal": "Dunstkristall",
 
@@ -957,13 +931,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
-  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
+  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
 
 
   // -ACCESOIRES
@@ -1079,10 +1053,8 @@
   "item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Schlüsselschwert der Herzen-Anhänger",
   "item.kingdomkeys.kingdom_key": "Königsanhänger", //sora
   "item.kingdomkeys.kingdom_key_chain": "Königsanhänger-Anhänger",
-  "item.kingdomkeys.kingdom_key.desc": "The key chain attached draws out the Keyblade's true form and power.",
   "item.kingdomkeys.kingdom_key_d": "Königsanhänger D", //mickey
   "item.kingdomkeys.kingdom_key_d_chain": "Königsanhänger D-Anhänger",
-  "item.kingdomkeys.kingdom_key_d.desc": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.",
   "item.kingdomkeys.lady_luck": "Herzensbrecher",
   "item.kingdomkeys.lady_luck_chain": "Herzensbrecher-Anhänger",
   "item.kingdomkeys.lionheart": "Löwenherz",
@@ -1117,10 +1089,6 @@
 
   // ---KH Days -- Non Roxas Weapons
 
-  "item.kingdomkeys.way_to_the_dawn": "Weg zur Dämmerung", //riku
-  "item.kingdomkeys.way_to_the_dawn_chain": "Weg zur Dämmerung-Anhänger",
-  "item.kingdomkeys.way_to_the_dawn.desc": "Rikus altes Schlüsselschwert. Besitzt überlegene Angriffskraft und Magie.",
-
   "item.kingdomkeys.wooden_stick": "Holzstock", //roxas final
 
 
@@ -1128,7 +1096,6 @@
 
   "item.kingdomkeys.zero_one": "Binär",
   "item.kingdomkeys.zero_one_chain": "Binär-Anhänger",
-  "item.kingdomkeys.zero_one.desc": "A Keyblade newly wrought within the datascape. Its powers render all opponents helpless.",
 
 
   // ---KH2
@@ -1138,7 +1105,7 @@
   "item.kingdomkeys.decisive_pumpkin": "St. Kürbinian",
   "item.kingdomkeys.decisive_pumpkin_chain": "St. Kürbinian-Anhänger",
   "item.kingdomkeys.destinys_embrace": "Schicksalswink", //kairi
-  "item.kingdomkeys.destinys_embrace_chain": "Schicksalswink-Anhänger",
+  "item.kingdomkeys.destinys_embrace_chain": "Schicksalswink-Anhänger", //aqua
   "item.kingdomkeys.fenrir": "Fenrir",
   "item.kingdomkeys.fenrir_chain": "Fenrir-Anhänger",
   "item.kingdomkeys.follow_the_wind": "Folge dem Wind",
@@ -1234,30 +1201,24 @@
 
   "item.kingdomkeys.all_for_one": "Alle für einen",
   "item.kingdomkeys.all_for_one_chain": "Alle für einen-Anhänger",
-  "item.kingdomkeys.all_for_one.desc": "Ein Schlüsselschwert, das weniger Realitätswandeln auslöst, aber einen hohen Magiewert hat und kritische Treffer erliechtert.",
   "item.kingdomkeys.bond_of_the_blaze": "Flammenbund", //name not full
   "item.kingdomkeys.bond_of_the_blaze_chain": "Flammenbund-Anhänger",
   "item.kingdomkeys.counterpoint": "Kontrapunkt",
   "item.kingdomkeys.counterpoint_chain": "Kontrapunkt-Anhänger",
-  "item.kingdomkeys.counterpoint.desc": "Ein Schlüsselschwert mit hoher Reichweite und hohem Magiewert, das das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.divewing": "Flügeltaucher",
   "item.kingdomkeys.divewing_chain": "Flügeltaucher-Anhänger",
   "item.kingdomkeys.dual_disc": "Doppeldiskus",
   "item.kingdomkeys.dual_disc_chain": "Doppeldiskus-Anhänger",
-  "item.kingdomkeys.dual_disc.desc": "Ein Schlüsselschwert mit hohem Angriffswert, mit dem kritische Treffer leichter werden.",
   "item.kingdomkeys.end_of_pain": "Garaus",
   "item.kingdomkeys.end_of_pain_chain": "Garaus-Anhänger",
   "item.kingdomkeys.fatal_crest": "Unheilbringer",
   "item.kingdomkeys.fatal_crest_chain": "Unheilbringer-Anhänger",
   "item.kingdomkeys.ferris_gear": "Riesenrad",
   "item.kingdomkeys.ferris_gear_chain": "Riesenrad-Anhänger",
-  "item.kingdomkeys.ferris_gear.desc": "Ein Schlüsselschwert, das weniger realitätswandel auslöst, aber hohe Angriffs- und Magiewerte besitzt.",
   "item.kingdomkeys.guardian_bell": "Schutzglocke",
   "item.kingdomkeys.guardian_bell_chain": "Schutzglocke-Anhänger",
-  "item.kingdomkeys.guardian_bell.desc": "Ein Schlüsselschwert mit großer Reichweite und hohem Magiewert.",
   "item.kingdomkeys.knockout_punch": "K.-o.-Schlag",
   "item.kingdomkeys.knockout_punch_chain": "K.-o.-Schlag-Anhänger",
-  "item.kingdomkeys.knockout_punch.desc": "Ein Schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandeln ermöglicht.",
   "item.kingdomkeys.mirage_split": "Desillusion",
   "item.kingdomkeys.mirage_split_chain": "Desillusion-Anhänger",
   "item.kingdomkeys.nightmares_end": "Albtraumende",
@@ -1266,21 +1227,18 @@
   "item.kingdomkeys.nightmares_end_and_mirage_split_chain": "Verbundene Klinge-Anhänger",
   "item.kingdomkeys.oceans_rage": "Tosende See",
   "item.kingdomkeys.oceans_rage_chain": "Tosende See-Anhänger",
-  "item.kingdomkeys.oceans_rage.desc": "Ein schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandel ermöglicht.",
   "item.kingdomkeys.skull_noise": "Schädelklopfer",
   "item.kingdomkeys.skull_noise_chain": "Schädelklopfer-Anhänger",
-  "item.kingdomkeys.skull_noise.desc": "Ein Schlüsselschwert mit ausgeglichenen Angriffs- und Magiewerten.",
   "item.kingdomkeys.sweet_dreams": "Süße Träume",
   "item.kingdomkeys.sweet_dreams_chain": "Süße Träume-Anhänger",
   "item.kingdomkeys.ultima_weapon_ddd": "Ultima (DDD)",
   "item.kingdomkeys.ultima_weapon_ddd_chain": "Ultima (DDD)-Anhänger",
-  "item.kingdomkeys.ultima_weapon_ddd.desc": "Ein außergewöhnliches Schlüsselschwert, mit allgemein hohen Werten, das kritische Treffer und das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.unbound": "Entfessler",
   "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
-  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert kritische Treffe und bes. das Auslösen von Realitätswandeln.",
+  "item.kingdomkeys.way_to_the_dawn": "Weg zur Dämmerung", //riku
+  "item.kingdomkeys.way_to_the_dawn_chain": "Weg zur Dämmerung-Anhänger",
   "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
   "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.young_xehanorts_keyblade.desc": "The Keyblade weilded by Young Xehanort.",
 
 
   // ---KH3
@@ -1288,6 +1246,15 @@
   "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
   "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
   "item.kingdomkeys.advent_red.desc": "Ein Schlüsselschwert voll mystischer Energie.",
+  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
+  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
+  "item.kingdomkeys.dead_of_night": "Mondreign", //steam
+  "item.kingdomkeys.dead_of_night_chain": "Mondreign-Anhänger",
+  "item.kingdomkeys.elemental_encoder": "Elementarkodierer", //epic games
+  "item.kingdomkeys.elemental_encoder_chain": "Elementarkodierer-Anhänger",
+  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
+  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
+
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
   "item.kingdomkeys.braveheart.desc": "Riku's Keyblade after the Way to the Dawn was broken.",
@@ -1296,44 +1263,28 @@
   "item.kingdomkeys.classic_tone.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.crystal_snow": "Pulverschnee",
   "item.kingdomkeys.crystal_snow_chain": "Pulverschnee-Anhänger",
-  "item.kingdomkeys.crystal_snow.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
-  "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
-  "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
-  "item.kingdomkeys.dawn_till_dusk.desc": "Ein Schlüsselschwert voll mystischer Energie.",
-  "item.kingdomkeys.elemental_encoder": "Elemental Encoder", //epic games
-  "item.kingdomkeys.elemental_encoder_chain": "Elemental Encoder-Anhänger",
-  "item.kingdomkeys.elemental_encoder.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.ever_after": "Immer und Ewig",
   "item.kingdomkeys.ever_after_chain": "Immer und Ewig-Anhänger",
-  "item.kingdomkeys.ever_after.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.favorite_deputy": "Hilfssheriff Nr. 1",
   "item.kingdomkeys.favorite_deputy_chain": "Hilfssheriff Nr. 1-Anhänger",
-  "item.kingdomkeys.favorite_deputy.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.grand_chef": "Meisterkoch",
   "item.kingdomkeys.grand_chef_chain": "Meisterkoch-Anhänger",
-  "item.kingdomkeys.grand_chef.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.happy_gear": "Frohklinge",
   "item.kingdomkeys.happy_gear_chain": "Frohklinge-Anhänger",
-  "item.kingdomkeys.happy_gear.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.heros_origin": "Heldenwiege",
   "item.kingdomkeys.heros_origin_chain": "Heldenwiege-Anhänger",
-  "item.kingdomkeys.heros_origin.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.hunny_spout": "Honigschnabel",
   "item.kingdomkeys.hunny_spout_chain": "Honigschnabel-Anhänger",
   "item.kingdomkeys.midnight_blue": "Mitternachtsblau",
   "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
   "item.kingdomkeys.nano_gear": "Nano-Mod",
   "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
-  "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
-  "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
   "item.kingdomkeys.shooting_star": "Sternschnuppe",
   "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
-  "item.kingdomkeys.shooting_star.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
   "item.kingdomkeys.star_cluster_chain": "Star Cluster-Anhänger",
   "item.kingdomkeys.ultima_weapon_kh3": "Ultima (KH3)",
   "item.kingdomkeys.ultima_weapon_kh3_chain": "Ultima (KH3)-Anhänger",
-  "item.kingdomkeys.ultima_weapon_kh3.desc": "The supreme Keyblade.",
   "item.kingdomkeys.wheel_of_fate": "Schicksalsruder",
   "item.kingdomkeys.wheel_of_fate_chain": "Schicksalsruder-Anhänger",
 
@@ -1359,7 +1310,6 @@
   "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
   "item.kingdomkeys.moogle_o_glory": "Stolzer Mogry",
   "item.kingdomkeys.moogle_o_glory_chain": "Stolzer Mogry-Anhänger",
-  "item.kingdomkeys.moogle_o_glory.desc": "Kupo.",
 
 
   // --ORGA WEAPONS
@@ -1729,7 +1679,6 @@
   "item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
   "item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
   "item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
-  "item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
   "item.kingdomkeys.astral_blast": "Sternenexplosion",
   "item.kingdomkeys.astral_blast_chain": "Sternenexplosion-Anhänger",
   "item.kingdomkeys.aubade": "Morgenröte (Days)",
@@ -1738,29 +1687,24 @@
   "item.kingdomkeys.bond_of_flame_chain": "Flammenfesseln-Anhänger",
   "item.kingdomkeys.crown_of_guilt": "Krone der Schuld", //phantom
   "item.kingdomkeys.crown_of_guilt_chain": "Krone der Schuld-Anhänger",
-  "item.kingdomkeys.crown_of_guilt.desc": "Eine Waffe, die dir unglaubliche Magie verleiht.",
   "item.kingdomkeys.darker_than_dark": "Tiefschwarz", //hazard
   "item.kingdomkeys.darker_than_dark_chain": "Tiefschwarz-Anhänger",
   "item.kingdomkeys.glimpse_of_darkness": "Dunkelschimmer", //fearless
   "item.kingdomkeys.glimpse_of_darkness_chain": "Dunkelschimmer-Anhänger",
   "item.kingdomkeys.leviathan": "Leviathan", //nimble
   "item.kingdomkeys.leviathan_chain": "Leviathan-Anhänger",
-  "item.kingdomkeys.leviathan.desc": "Extrem gute Waffe für den Luftkampf. Hervorragend gegen Flieger.",
   "item.kingdomkeys.lunar_eclipse": "Mondfinsternis", //omega
   "item.kingdomkeys.lunar_eclipse_chain": "Mondfinsternis-Anhänger",
   "item.kingdomkeys.maverick_flare": "Lichtschein", //champ
   "item.kingdomkeys.maverick_flare_chain": "Lichtschein-Anhänger",
   "item.kingdomkeys.midnight_roar": "Nachtschrei", //valor
   "item.kingdomkeys.midnight_roar_chain": "Nachtschrei-Anhänger",
-  "item.kingdomkeys.midnight_roar.desc": "Eine Waffe, die über hohe Angriffskraft verfügt. Gut gegen zähe Gegner.",
   "item.kingdomkeys.missing_ache": "Schmerzlos", //skill
   "item.kingdomkeys.missing_ache_chain": "Schmerzlos-Anhänger",
   "item.kingdomkeys.rejection_of_fate": "Schicksalsrefus", //ominous
   "item.kingdomkeys.rejection_of_fate_chain": "Schicksalsrefus-Anhänger",
-  "item.kingdomkeys.rejection_of_fate.desc": "Eine Waffe, die immensen Schaden in einem großen Bereich bewirkt.",
   "item.kingdomkeys.sign_of_innocence": "Rune der Unschuld",
   "item.kingdomkeys.sign_of_innocence_chain": "Rune der Unschuld-Anhänger",
-  "item.kingdomkeys.sign_of_innocence.desc": "Eine Waffe, die deine Magie deutlich verstärkt.",
   "item.kingdomkeys.silent_dirge": "Stumme Klage", //crisis
   "item.kingdomkeys.silent_dirge_chain": "Stumme Klage-Anhänger",
   "item.kingdomkeys.star_seeker": "Sternensucher", //pandora (mickey)
@@ -1769,14 +1713,12 @@
   "item.kingdomkeys.total_eclipse_chain": "Totale Finsternis-Anhänger",
   "item.kingdomkeys.true_lights_flight": "Lichtflug", //wild
   "item.kingdomkeys.true_lights_flight_chain": "Lichtflug-Anhänger",
-  "item.kingdomkeys.true_lights_flight.desc": "Eine Waffe, die schweren Schaden in einem großen Bereich bewirkt.",
   "item.kingdomkeys.twilight_blaze": "Zwielichtfeuer", //ultima
   "item.kingdomkeys.twilight_blaze_chain": "Zwielichtfeuer-Anhänger",
   "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //alt name: "Zweisamkeit" //zero + 2 ability
   "item.kingdomkeys.two_become_one_chain": "Aus Zwei wird Eins-Anhänger",
   "item.kingdomkeys.omega_weapon": "Omega-Waffe", //pandora
   "item.kingdomkeys.omega_weapon_chain": "Omega-Waffe-Anhänger",
-  "item.kingdomkeys.omega_weapon.desc": "Eine hervorragende Waffe mit herausragenden Fähigkeiten.",
   "item.kingdomkeys.ominous_blight": "Verfall", //tech
   "item.kingdomkeys.ominous_blight_chain": "Verfall-Anhänger",
   "item.kingdomkeys.pain_of_solitude": "Einsamkeit",
@@ -1784,160 +1726,6 @@
 
   "item.kingdomkeys.umbrella": "Regenschirm", //casual
   "item.kingdomkeys.umbrella_chain": "Regenschirm-Anhänger",
-
-
-
-
-  // descs based on gear
-
-  /*
-  // "no_gear_weapon.desc": "", //different on weapon?
-  "skill_gear_weapon.desc": "Deine Waffe ermöglicht schnellere und längere Boden-Kombos.",
-  "technical_gear_weapon.desc": "Deine Waffe ermöglicht schnellere und viel längere Boden-Kombos.",
-  "duel_gear_weapon.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
-  "loaded_gear_weapon.desc": "Deine Waffe verleiht deiner Magie größere Stärke.",
-  "chrono_gear_weapon.desc": "Eine, Waffe die deine Magie deutlich verstärkt.",
-  "phantom_gear_weapon.desc": "Eine Waffe, die dir unglaubliche Magie verleiht.",
-  "lift_gear_weapon.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
-  "nimble_gear_weapon.desc": "Extrem gute Waffe für den Luftkampf. Hervorragend gegen Flieger.",
-  "wild_gear_weapon.desc": "Eine Waffe, die schweren Schaden in einem großen Bereich bewirkt.",
-  "ominous_gear_weapon.desc": "Eine Waffe, die immensen Schaden in einem großen Bereich bewirkt.",
-  "valor_gear_weapon.desc": "Eine Waffe, die über hohe Angriffskraft verfügt. Gut gegen zähe Gegner.",
-  "fearless_gear_weapon.desc": "Steigert die Angriffskraft deiner Waffe erheblich.",
-  "prestige_gear_weapon.desc": "Steigert die Angriffskraft deiner Waffe drastisch.",
-  "crisis_gear_weapon.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe.",
-  "omega_gear_weapon.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe erheblich.",
-  "hazard_gear_weapon.desc": "Deine Waffe bietet starke Magie und große Kombo-Reichweite.",
-  "rage_gear_weapon.desc": "Deine Waffe ermöglicht längere Boden- und Luft-Kombos.",
-  "champion_gear_weapon.desc": "Deine Waffe erhält hohe Angriffskraft und Boden-Kombogeschwindigkeit.",
-  "ultimate_gear_weapon.desc": "Deine Waffe erhält überlegene Angriffskraft und Boden-Kombogeschwindigkeit.",
-  "pandoras_gear_weapon.desc": "Eine hervorragende Waffe mit herausragenden Fähigkeiten.",
-  "zero_gear_weapon.desc": "Diese Waffe bringt den wahren Wert ihres Trägers zur Geltung.",
-  "casual_gear_weapon.desc": "Transformiert deine Waffe in etwas erschreckend Vertrautes.",
-  "mystery_gear_weapon.desc": "Diese Waffe bringt die Persönlichkeit ihres Trägers zur Geltung.",
-
-  */
-
-  // KEYBLADE DESCS START
-
-  "item.kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
-  "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
-
-  "item.kingdomkeys.astral_blast.desc": "A weapon that lets you string together longer ground and aerial combos.",
-  "item.kingdomkeys.aubade.desc": "A weapon that draws forth its wielder's personality.",
-  "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
-  "item.kingdomkeys.bond_of_flame.desc": "Enhances magic to increase damage dealt by fire-based attacks.",
-  "item.kingdomkeys.bond_of_the_blaze.desc": "The Keyblade wielded by Lea.",
-
-  "item.kingdomkeys.brightcrest.desc": "A Keyblade with long reach that provides an outstanding boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
-  "item.kingdomkeys.chaos_ripper.desc": "A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength.",
-  "item.kingdomkeys.circle_of_life.desc": "Has great strength, increasing MP restoration speed after MP is consumed.",
-
-  "item.kingdomkeys.crabclaw.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.",
-  "item.kingdomkeys.darker_than_dark.desc": "A weapon that offers high Magic and combo reach.",
-  "item.kingdomkeys.darkgnaw.desc": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
-
-  "item.kingdomkeys.decisive_pumpkin.desc": "The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!",
-  "item.kingdomkeys.destinys_embrace.desc": "A Keyblade that makes it easier to land critical hits.",
-  "item.kingdomkeys.diamond_dust.desc": "Greatly enhances magic and summon power. Raises max MP by 3.",
-  "item.kingdomkeys.divewing.desc": "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.",
-  "item.kingdomkeys.divine_rose.desc": "A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows.",
-  "item.kingdomkeys.earthshaker.desc": "The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
-  
-  "item.kingdomkeys.end_of_pain.desc": "A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.",
-  "item.kingdomkeys.ends_of_the_earth.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
-
-  "item.kingdomkeys.fairy_harp.desc": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
-  "item.kingdomkeys.fairy_stars.desc": "A Keyblade that provides a balanced boost in Strength and Magic.",
-  "item.kingdomkeys.fatal_crest.desc": "Increases strength during MP Charge and allows unlimited chaining of combos.",
-  "item.kingdomkeys.fenrir.desc": "Has great range and strength, but maximum ground and midair combos are decreased by 1.",
-  "item.kingdomkeys.follow_the_wind.desc": "Draws in nearby orbs.",
-  "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
-  "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
-  
-  "item.kingdomkeys.guardian_soul.desc": "Has great strength, increasing the amount of damage dealt from Reaction Commands.",
-  "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
-  "item.kingdomkeys.gull_wing.desc": "Greatly increases the amount of experience gained when defeating an enemy at a critical moment.",
-  
-  "item.kingdomkeys.heros_crest.desc": "Increases the damage of the finishing move in the air relative to the number of hits in the combo.",
-  
-  "item.kingdomkeys.hidden_dragon.desc": "Restores MP relative to the amount of damage taken.",
-  "item.kingdomkeys.hunny_spout.desc": "A well-balanced Keyblade.",
-  "item.kingdomkeys.hyperdrive.desc": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
-  "item.kingdomkeys.incomplete_kiblade.desc": "An incomplete form of the legendary Keyblade, the χ-blade.",
-  "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
-  "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
-  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
-  "item.kingdomkeys.k111.desc": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
-  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "A keyblade with the ability to unlock a person's heart, releasing the darkness within.",
-  "item.kingdomkeys.kiblade.desc": "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.",
-  "item.kingdomkeys.lady_luck.desc": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
-  "item.kingdomkeys.lionheart.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
-  "item.kingdomkeys.lost_memory.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
-  "item.kingdomkeys.lunar_eclipse.desc": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
-  "item.kingdomkeys.mark_of_a_hero.desc": "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.",
-  "item.kingdomkeys.masters_defender.desc": "Master Eraqus's Keyblade. All of its stats are high.",
-  "item.kingdomkeys.maverick_flare.desc": "A weapon that offers high Strength and ground combo speed.",
-  "item.kingdomkeys.metal_chocobo.desc": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
-  "item.kingdomkeys.midnight_blue.desc": "A Keyblade imbued with wondrous power.",
-  "item.kingdomkeys.mirage_split.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
-  "item.kingdomkeys.missing_ache.desc": "A weapon that lets you string together faster, longer ground combos.",
-  "item.kingdomkeys.monochrome.desc": "Increases the effect of restoration items used on the field.",
-  "item.kingdomkeys.mysterious_abyss.desc": "Enhances magic to increase damage dealt by blizzard-based attacks.",
-  "item.kingdomkeys.nano_gear.desc": "A well-balanced Keyblade.",
-  "item.kingdomkeys.nightmares_end.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
-  "item.kingdomkeys.nightmares_end_and_mirage_split.desc": "A Keyblade formed by combining both the Mirage Split and Nightmare's End.",
-  "item.kingdomkeys.no_name.desc": "The Keyblade wielded by Master Xehanort.",
-  "item.kingdomkeys.no_name_bbs.desc": "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.",
-  "item.kingdomkeys.oathkeeper.desc": "Enhances magic and increases the duration of a Drive Form.",
-  "item.kingdomkeys.oblivion.desc": "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.",
-  "item.kingdomkeys.olympia.desc": "A powerful weapon that is difficult to deflect. Capable of inflicting mighty critical blows.",
-  "item.kingdomkeys.ominous_blight.desc": "A weapon that lets you string together faster, much longer ground combos.",
-  "item.kingdomkeys.one_winged_angel.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
-  "item.kingdomkeys.pain_of_solitude.desc": "A weapon that boosts your Magic to give it more power.",
-  "item.kingdomkeys.phantom_green.desc": "A Keyblade imbued with wondrous power.",
-  "item.kingdomkeys.photon_debugger.desc": "Increases damage done by thunder-based attacks.",
-  "item.kingdomkeys.pixie_petal.desc": "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
-  "item.kingdomkeys.pumpkinhead.desc": "Has a long reach and the ability to deal a string of critical blows.",
-  "item.kingdomkeys.rainfell.desc": "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
-
-  "item.kingdomkeys.royal_radiance.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
-  "item.kingdomkeys.rumbling_rose.desc": "Has great strength, allowing finishing combo moves to be unleashed successively.",
-  "item.kingdomkeys.silent_dirge.desc": "A weapon that provides versatility by boosting both Strength and Magic.",
-  "item.kingdomkeys.sleeping_lion.desc": "Well-balanced with strength and magic, increasing maximum ground-based combos by 1.",
-  "item.kingdomkeys.soul_eater.desc": "A sword that swims with darkness. Possesses high Strength.",
-  "item.kingdomkeys.spellbinder.desc": "Raises max MP by 2, and significantly enhances magic and summon power.",
-  "item.kingdomkeys.star_cluster.desc": "Mickey's Keyblade, also known as Kingdom Key W.",
-  "item.kingdomkeys.star_seeker.desc": "Increases maximum combo by 1 when in midair.",
-  "item.kingdomkeys.starlight.desc": "A basic Keyblade which is associated with the force of Light.",
-  "item.kingdomkeys.stormfall.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
-  "item.kingdomkeys.stroke_of_midnight.desc": "A Keyblade that makes it easier to land critical hits.",
-  "item.kingdomkeys.sweet_dreams.desc": "A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.",
-  "item.kingdomkeys.sweet_memories.desc": "Although it does not enhance attack strength, it increases the drop rate of items.",
-  "item.kingdomkeys.sweetstack.desc": "A Keyblade that provides an extra boost in Strength and ensures every strike is a critical hit.",
-  "item.kingdomkeys.three_wishes.desc": "A powerful weapon that is difficult to deflect.",
-  "item.kingdomkeys.total_eclipse.desc": "A weapon that possesses extreme Strength. Devastates tough enemies.",
-  "item.kingdomkeys.treasure_trove.desc": "A Keyblade that makes up for its poor reach with a balanced boost in Strength and Magic.",
-
-  "item.kingdomkeys.twilight_blaze.desc": "A weapon that boasts superior Strength and ground combo speed.",
-  "item.kingdomkeys.two_become_one.desc": "A weapon of great strength and magic that has a special effect.",
-  "item.kingdomkeys.ultima_weapon_bbs.desc": "The most powerful of Keyblades.",
-  "item.kingdomkeys.ultima_weapon_kh1.desc": "The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.",
-  "item.kingdomkeys.ultima_weapon_kh2.desc": "The Keyblade above all others, holding all power and will increase MP restoration rate, once all MP has been consumed.",
-  
-  "item.kingdomkeys.umbrella.desc": "This looks awfully familiar...",
-  "item.kingdomkeys.victory_line.desc": "A Keyblade with above-average reach that makes it easier to land critical hits.",
-  "item.kingdomkeys.void_gear.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
-  "item.kingdomkeys.void_gear_remnant.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
-  
-  "item.kingdomkeys.wayward_wind.desc": "The Keyblade Ventus started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
-  "item.kingdomkeys.wheel_of_fate.desc": "A Keyblade with an emphasis on Strength.",
-  "item.kingdomkeys.winners_proof.desc": "Has high strength and hold's an excellent magic power. When the enemies are defeated, experience points are not gained.",
-  "item.kingdomkeys.wishing_lamp.desc": "Wishes come true by increasing the drop rate of munny, HP and MP orbs.",
-  "item.kingdomkeys.wishing_star.desc": "Has a short reach, but always finishes up a combo attack with a powerful critical blow.",
-
-
-  // DESCS END
 
 
   // -CoM Map Cards
@@ -2028,10 +1816,10 @@
 
   // CREATIVE TABS
 
-  "itemGroup.kingdomkeys_equipables": "KK: Ausrüst.",
-  "itemGroup.kingdomkeys_keyblades": "KK: Schlüss.",
-  "itemGroup.kingdomkeys_misc": "KK: Versch.",
-  "itemGroup.kingdomkeys_org_weapons": "KK: Orga.",
+  "itemGroup.kingdomkeys_equipables": "Kingdom Keys: Ausrüstung",
+  "itemGroup.kingdomkeys_keyblades": "Kingdom Keys: Schlüsselschwerter",
+  "itemGroup.kingdomkeys_misc": "Kingdom Keys: Verschiedenes",
+  "itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organisation",
 
   // JEI
 

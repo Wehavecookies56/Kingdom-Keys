@@ -13,10 +13,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -94,8 +96,16 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				return;
 			}
 		}
-		playerData.equipAbilityToggle(abilityName, index);
-		PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
+		boolean cancelled;
+		if (playerData.isAbilityEquipped(abilityName, index)) {
+			cancelled = MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get().getValue(new ResourceLocation(abilityName)), index, Minecraft.getInstance().player, true));
+		} else {
+			cancelled = MinecraftForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get().getValue(new ResourceLocation(abilityName)), index, Minecraft.getInstance().player, true));
+		}
+		if (!cancelled) {
+			playerData.equipAbilityToggle(abilityName, index);
+			PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(abilityName, index));
+		}
 		updateButtons();
 	}
 

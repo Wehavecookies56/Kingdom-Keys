@@ -1,0 +1,16 @@
+{
+	"name": "Trampolinblock",
+	"icon": "kingdomkeys:bounce_blox",
+	"sortnum": 5,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Trampoplinblöcke$() haben mehr Wumms, als ein herkömmlicher Schleimblock, mit ihrer $(thing)erheblichen Sprungkraft$() die sie verleihen. Hergestellt wird ein Trampolinblock mit $(l:kingdomkeys:blox/normal)Normalen Blöcken$(), und einem einzigen Schleimblock."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:bounce_blox"
+		}
+	]
+}

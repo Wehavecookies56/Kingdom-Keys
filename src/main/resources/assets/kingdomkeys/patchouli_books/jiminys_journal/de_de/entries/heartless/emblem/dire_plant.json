@@ -1,0 +1,17 @@
+{
+	"name": "Unheilskraut",
+	"icon": "kingdomkeys:dire_plant_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 212,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese $(heartless)Herzlosen$() sind unbeweglich. Sie greifen aus der Entfernung mit ihrer Samenkanone an, die durch einen gut abgestimmten Block auch gegen andere Gegner gerichtet werden kann.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dire_plant"
+		}
+	]
+}

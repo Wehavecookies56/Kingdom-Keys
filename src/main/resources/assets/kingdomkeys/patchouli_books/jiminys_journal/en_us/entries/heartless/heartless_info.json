@@ -1,0 +1,14 @@
+{
+	"name": "What's a Heartless?",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A $(item)Heartless$() is a living manifestion of $(lissa)darkness$() that is left from a $(thing)heart$(), when a $(thing)somebody$() loses their $(thing)heart$(), and then seperates from their $(nobody)empty vessel$()."
+		}
+	]
+}

@@ -48,6 +48,7 @@ public class CommonConfig {
 
     public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
     public ForgeConfigSpec.BooleanValue needKeybladeForHeartless;
+    public ForgeConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers;
     
     CommonConfig(final ForgeConfigSpec.Builder builder) {
 		builder.push("general");
@@ -96,6 +97,16 @@ public class CommonConfig {
         		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
+
+        linkedSavePointRecovers = builder
+                .comment("Stats restored when using a full savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .translation(KingdomKeys.MODID + ".config.full_save_point_restore_list")
+                .define("fullSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
+
+        savePointRecovers = builder
+                .comment("Stats restored when using a partial savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .translation(KingdomKeys.MODID + ".config.partial_save_point_restore_list")
+                .define("partialSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
 
         builder.pop();
 

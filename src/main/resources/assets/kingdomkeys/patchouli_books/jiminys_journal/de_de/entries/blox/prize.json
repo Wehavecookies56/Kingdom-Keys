@@ -1,0 +1,44 @@
+{
+	"name": "Kugel- & Raritätenblock",
+	"icon": "kingdomkeys:prize_blox",
+	"sortnum": 8,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese können überall auf sämtlichen Oberflächen erscheinen und beinhalten zahlreiche Wertsachen mit sich, darunter: $(spell)Zauber$(), $(l:kingdomkeys:customize/drive)Form-Kugeln$(), $(l:kingdomkeys:synthesize/materials)Schmiedematerialien$() und $(munny)Taler$(). Jedoch sind sie die einzigen Bug-Blöcke, die nicht hergestellt werden können. Dennoch solltest du sie abbauen sobald du sie siehst."
+		},
+		{
+			"type": "text",
+			"text": "$(o)Anmerkung:$()$(br)Oft werden diese begleitet von $(l:kingdomkeys:blox/blast)Bombenblöcken$() oder $(l:kingdomkeys:blox/danger)Schadensblöcken$(). Um Gegenstandsverlust zu vermeiden, empfielt es sich erst um diese preiswerten Blöcke umherzugraben."
+		},
+		{
+			"type": "multiblock",
+			"name": "Kugelblock",
+			"enable_visualize": false,
+			"multiblock": {
+				"pattern": [
+					[" 0 "]
+				],
+				"mapping": {
+					"0": "kingdomkeys:prize_blox"
+				},
+				"symmetrical": true
+			}
+	    },
+		{
+			"type": "multiblock",
+			"name": "Raritätenblock",
+			"enable_visualize": false,
+			"multiblock": {
+				"pattern": [
+					[" 0 "]
+				],
+				"mapping": {
+					"0": "kingdomkeys:rare_prize_blox"
+				},
+				"symmetrical": true
+			}
+	    }
+	]
+}

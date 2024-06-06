@@ -67,6 +67,7 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 			if (rtRes instanceof EntityHitResult ertResult) {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
                     if (target != getOwner()) {
+						target.invulnerableTime = 0;
 						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 						super.remove(RemovalReason.KILLED);
 					}

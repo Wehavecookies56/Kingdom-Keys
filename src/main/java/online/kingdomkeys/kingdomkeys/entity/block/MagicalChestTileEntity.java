@@ -87,8 +87,9 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 		CompoundTag invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
 
-		owner = compound.getUUID("owner");
-
+		if (compound.hasUUID("owner")) {
+			owner = compound.getUUID("owner");
+		}
 		if (compound.hasUUID("keyblade")) {
 			keyblade = compound.getUUID("keyblade");
 		}

@@ -1,0 +1,21 @@
+{
+	"name": "Eigene Kurzbefehle",
+	"icon": "kingdomkeys:spellfire",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:soa",
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "Während du fortlaufen neue $(magic)Zauber$() erhälst, kannst du den $(thing)Einstellungen$()-Reiter in deinem Menü benutzen, um $(item)Kurzbefehle$() zu setzen und so das Zaubern zu erleichtern."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/shortcut.png"
+            ],
+            "title": "Kurzbefehle",
+            "border": true
+        }
+	]
+}

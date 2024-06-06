@@ -2,13 +2,11 @@
 	"name": "Munny",
 	"icon": "kingdomkeys:mark_of_a_hero_chain",
 	"sortnum": 5,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "When a hostile mob is killed, it will drop little blue and yellow diamond-shaped orbs. These orbs are known as Munny and are used for currency in Kingdom Keys. Either using them at the Moogles to pay for items or using /kingdomkeys paymunny [Username] [Amount] in multiplayer to pay another player."
+			"text": "When a $(thing)hostile mob$() is killed, it will drop $(thing)little blue and yellow diamond-shaped orbs$(). These orbs are known as $(item)Munny$() and are used for $(thing)currency$() in Kingdom Keys. Either using them at the $(moogle)Moogles$() to pay for $(l:kingdomkeys:learning_the_menu/item_tab)items or other equipment$(). You can also use $(l)/kingdomkeys paymunny [Username] [Amount]$() in multiplayer to $(thing)pay another player$()."
 		}
 	]
 }

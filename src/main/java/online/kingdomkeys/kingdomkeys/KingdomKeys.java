@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
+import online.kingdomkeys.kingdomkeys.util.APITests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -116,8 +117,9 @@ public class KingdomKeys {
 					keyblades.get().forEach(output::accept);
 					keychains.get().forEach(output::accept);
 				}))
-				.withSearchBar()
-				.backgroundSuffix("keyblades.png")
+				.withSearchBar(71)
+				.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
+				.hideTitle()
 				.build()),
 			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup." + Strings.organizationGroup))
@@ -128,8 +130,9 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						orgWeapons.get().forEach(output::accept);
 					}))
-					.withSearchBar()
-					.backgroundSuffix("organization.png")
+					.withSearchBar(71)
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
+					.hideTitle()
 					.build()),
 			
 			equipables_tab = TABS.register(Strings.equipablesGroup, () -> CreativeModeTab.builder()
@@ -141,8 +144,9 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						equipables.get().forEach(output::accept);
 					}))
-					.withSearchBar()
-					.backgroundSuffix("equipables.png")
+					.withSearchBar(71)
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
+					.hideTitle()
 					.build()),
 
 			misc_tab = TABS.register(Strings.miscGroup, () -> CreativeModeTab.builder()
@@ -151,14 +155,14 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						misc.get().forEach(output::accept);
 					}))
-					.withSearchBar()
-					.backgroundSuffix("misc.png")
+					.withSearchBar(71)
+					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
+					.hideTitle()
 					.build());
 
 	public KingdomKeys() {
 		final ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
 		//KKLivingMotionsEnum spell = KKLivingMotionsEnum.SPELL; // initialization
 		ModMagic.MAGIC.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);
@@ -210,6 +214,7 @@ public class KingdomKeys {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new DataGeneration());
 		MinecraftForge.EVENT_BUS.register(new CastleOblivionHandler());
+		//MinecraftForge.EVENT_BUS.register(new APITests());
 
 		modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
 		modLoadingContext.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);

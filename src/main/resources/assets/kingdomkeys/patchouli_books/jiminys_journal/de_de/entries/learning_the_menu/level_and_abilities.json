@@ -1,0 +1,21 @@
+{
+	"name": "Stufen und Abilitys",
+	"icon": "kingdomkeys:apboost",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:soa",
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "Während du mit $(thing)Kingdom Keys$() spielst, erhälst du EP für deine Stufe, wenn du feindliche Mobs erlgst. Mit jedem $(thing)Stufen-Aufstieg erhöhen$() sich deine $(l:kingdomkeys:learning_the_menu/status)Werte$(), und du kannst $(thing)neue Abilitys$() freischalten. Diese Abilitys können im $(item)Abilitys$()-Reiter ausgerüstet werden. "
+		},
+		{
+			"type": "text",
+			"text": "Diese Abilitys kosten dich $(item)Ability Punkte$() (AP) um diese auszurüsten, wobei du deine maximalen AP nicht überschreiten kannst. Deine $(thing)maximalen AP können$() jedoch $(thing)erhöht werden$() bei einem $(thing)Stufen-Aufstieg$(), durch $(l:kingdomkeys:learning_the_menu/item_tab)Accessoires$() die deine AP erhöhen, oder durch das $(moogle)schmieden$() und benutzen von $(thing)Abilitamin$()."
+		},
+		{
+			"type": "text",
+			"text": "Neue Abilities geben dir neue Bewegungsmöglichkeiten, erleichtern Kämpfe oder andere nützliche Effekte. Am besten hilft dabei immer die Beschreibungen zu lesen, und sie einfach mal auszutesten."
+		}
+	]
+}

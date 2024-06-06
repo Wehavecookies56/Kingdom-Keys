@@ -2,13 +2,11 @@
 	"name": "Synthesis Bag",
 	"icon": "kingdomkeys:synthesis_bag",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:synthesize",
-	"read_by_default": false,
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "This familiar bag can automatically pick up and hold all your Synthesis materials. It can be easily crafter with 7 Leather and a String and can be upgraded using Munny, expanding its storage capacity."
+			"text": "This $(item)familiar bag$() can automatically pick up and hold all your Synthesis materials. It can be easily crafted with 7 Leather and a String and can be upgraded using $(l:kingdomkeys:/syntheize/munny)Munny$(), expanding its storage capacity."
 		},
 		{
 			"type":"crafting",

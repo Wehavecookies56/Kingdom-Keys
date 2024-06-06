@@ -188,7 +188,7 @@ public class WorldGen {
     private void registerSynthOre(RegistryObject<Block> block, OreConfig config, RegistryObject<Item> shard, RegistryObject<Item> stone, RegistryObject<Item> gem, RegistryObject<Item> crystal) {
         registry.register(
                 new ItemStack(block.get()),
-                new DistributionSquare(config.veinSize(), config.count(), (config.maxHeight() - config.minHeight()) / 2, config.maxHeight() - config.minHeight()),
+                new DistributionSquare(config.veinSize(), config.count(), config.minHeight(), config.maxHeight()),
                 config.restriction(),
                 true,
                 createOreDrops(shard, stone, gem, crystal)

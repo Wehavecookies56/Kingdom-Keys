@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraftforge.common.MinecraftForge;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.platform.Lighting;
@@ -58,25 +60,27 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
-					int oldItemAP = 0;
-					int newItemAP = 0;
-					
-		            if(!ItemStack.matches(playerData.getEquippedAccessory(parent.slot),ItemStack.EMPTY)){
-		              	oldItemAP = ((KKAccessoryItem)playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
-		            }
-		            
-		            if(!ItemStack.matches(player.getInventory().getItem(slot),ItemStack.EMPTY)){
-		            	newItemAP = ((KKAccessoryItem)player.getInventory().getItem(slot).getItem()).getAp();
-		            }
+					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+						PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
+						int oldItemAP = 0;
+						int newItemAP = 0;
 
-		            if(playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) { 
-						ItemStack stackToEquip = player.getInventory().getItem(slot);
-						ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
-						player.getInventory().setItem(slot, stackPreviouslyEquipped);
-		            } else {
+						if (!ItemStack.matches(playerData.getEquippedAccessory(parent.slot), ItemStack.EMPTY)) {
+							oldItemAP = ((KKAccessoryItem) playerData.getEquippedAccessory(parent.slot).getItem()).getAp();
+						}
+
+						if (!ItemStack.matches(player.getInventory().getItem(slot), ItemStack.EMPTY)) {
+							newItemAP = ((KKAccessoryItem) player.getInventory().getItem(slot).getItem()).getAp();
+						}
+
+						if (playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) {
+							ItemStack stackToEquip = player.getInventory().getItem(slot);
+							ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
+							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						}
+					} else {
 						player.playSound(ModSounds.error.get(), 1, 1);
-		            }
+					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
@@ -118,7 +122,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+1, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
 			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);

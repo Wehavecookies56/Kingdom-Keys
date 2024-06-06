@@ -1,0 +1,14 @@
+{
+	"name": "Combat Style",
+	"icon": "kingdomkeys:wooden_keyblade",
+	"sortnum": 7,
+	"advancement": "kingdomkeys:soa",
+	"flag": "mod:epicfight",
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "As you have $(thing)Epic Fight$() installed, you can choose a $(item)Combat Style$() for wielding one, or two keyblades, which changes the attack animation when in $(thing)combat mode$()."
+		}
+	]
+}

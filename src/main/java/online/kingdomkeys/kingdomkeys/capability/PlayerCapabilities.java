@@ -226,25 +226,25 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		if (nbt.contains("boost_strength")) {
 			int boost = nbt.getInt("boost_strength");
 			nbt.remove("boost_strength");
-			strength.addModifier("legacy_boosts", boost, false);
+			strength.addModifier("legacy_boosts", boost, false, false);
 		}
 		magic = Stat.deserializeNBT("magic", nbt);
 		if (nbt.contains("boost_magic")) {
 			int boost = nbt.getInt("boost_magic");
 			nbt.remove("boost_magic");
-			magic.addModifier("legacy_boosts", boost, false);
+			magic.addModifier("legacy_boosts", boost, false, false);
 		}
 		defense = Stat.deserializeNBT("defense", nbt);
 		if (nbt.contains("boost_defense")) {
 			int boost = nbt.getInt("boost_defense");
 			nbt.remove("boost_defense");
-			defense.addModifier("legacy_boosts", boost, false);
+			defense.addModifier("legacy_boosts", boost, false, false);
 		}
 		maxAP = Stat.deserializeNBT("max_ap", nbt);
 		if (nbt.contains("boost_max_ap")) {
 			int boost = nbt.getInt("boost_max_ap");
 			nbt.remove("boost_max_ap");
-			maxAP.addModifier("legacy_boosts", boost, false);
+			maxAP.addModifier("legacy_boosts", boost, false, false);
 		}
 		this.setMaxHP(nbt.getInt("max_hp"));
 		this.setMP(nbt.getDouble("mp"));
@@ -521,7 +521,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getStrength(boolean combined) {
-		return combined ? ((ModConfigs.allowBoosts ? strength.getStat() : strength.get()) + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get();
+		return (int) (combined ? ((ModConfigs.allowBoosts ? strength.getStat() : strength.get()) + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get());
 	}
 
 	@Override
@@ -531,7 +531,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMagic(boolean combined) {
-		return combined ? ((ModConfigs.allowBoosts ? magic.getStat() : magic.get()) + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get();
+		return (int) (combined ? ((ModConfigs.allowBoosts ? magic.getStat() : magic.get()) + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get());
 	}
 
 	@Override
@@ -541,7 +541,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getDefense(boolean combined) {
-		return combined ? ((ModConfigs.allowBoosts ? defense.getStat() : defense.get()) + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get();
+		return (int) (combined ? ((ModConfigs.allowBoosts ? defense.getStat() : defense.get()) + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get());
 	}
 
 	@Override
@@ -624,7 +624,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	@Override
 	public int getMaxAP(boolean combined) {
-		return combined ? (maxAP.getStat() + getAccessoriesAP("ap")) : maxAP.get();
+		return (int) (combined ? (maxAP.getStat() + getAccessoriesAP("ap")) : maxAP.get());
 	}
 	
 	@Override
@@ -640,9 +640,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int getAccessoriesAP(String type) {
 		int res = 0;
 		for(Entry<Integer, ItemStack> accessory : getEquippedAccessories().entrySet()) {
-			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem) {
-				KKAccessoryItem a = (KKAccessoryItem) accessory.getValue().getItem();
-				switch(type) {
+			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem a) {
+                switch(type) {
 				case "ap":
 					res += a.getAp();
 					break;

@@ -156,8 +156,6 @@ public class MenuBackground extends Screen {
 		drawMunnyTime(gui);
 		drawBiomeDim(gui);
 		drawTip(gui);
-		//RenderHelper.disableStandardItemLighting();
-		//drawBackground(width, height, drawPlayerInfo);
 
 		gui.pose().pushPose();
 		{

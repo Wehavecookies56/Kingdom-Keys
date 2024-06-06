@@ -3,23 +3,24 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.CameraType;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -30,7 +31,6 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -117,6 +117,8 @@ public class ClientEvents {
             }
 		}
 	}
+
+	KOGui koScreen = new KOGui();
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
@@ -130,14 +132,15 @@ public class ClientEvents {
 				}
 				event.setCanceled(true);
 			}
-			
+
+			//globalData.setKO(true);
 			if(globalData.isKO()) {
 				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-					
-					if(Minecraft.getInstance().screen == null && event.getEntity().tickCount % 10 == 0)
-						Minecraft.getInstance().setScreen(new ChatScreen(""));
+
+					if(Minecraft.getInstance().screen != koScreen)
+						Minecraft.getInstance().setScreen(koScreen);
 				}
 			}
 			if(event.getEntity() instanceof Player player) {

@@ -188,7 +188,7 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 					MagicalChestTileEntity te = (MagicalChestTileEntity) event.getLevel().getBlockEntity(event.getPos());
 					if (te != null) {
 						//If player is not the same as the owner AND the chest has any keyblade assigned AND the player is in survival
-						if (!te.getOwner().equals(event.getPlayer().getGameProfile().getId()) && te.getKeyblade() != null && (event.getPlayer() != null && !event.getPlayer().isCreative())) {
+						if (te.getOwner() != null && !te.getOwner().equals(event.getPlayer().getGameProfile().getId()) && te.getKeyblade() != null && (event.getPlayer() != null && !event.getPlayer().isCreative())) {
 							event.setCanceled(true);
 						}
 					}

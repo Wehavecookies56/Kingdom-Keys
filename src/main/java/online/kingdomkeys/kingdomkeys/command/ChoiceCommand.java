@@ -17,7 +17,9 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -68,6 +70,7 @@ public class ChoiceCommand extends BaseCommand {
             IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
             if (targetData.getSoAState() == SoAState.COMPLETE) {
                 SoAState.applyStatsForChoices(target, targetData, true);
+                MinecraftForge.EVENT_BUS.post(new ChoiceEvent(target, SoAState.NONE, SoAState.NONE));
             }
             targetData.setSoAState(SoAState.NONE);
             targetData.setChoice(SoAState.NONE);

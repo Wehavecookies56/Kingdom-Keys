@@ -1,0 +1,28 @@
+{
+	"name": "Reinblüter",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
+	"sortnum": 1,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Reinblüter$() sind natürliche Herzlose, und einen schwachen Willen besitzen. Sie dann entstehen, wenn das $(thing)Herz$() einer Person von $(lissa)Dunkelheit$() eingehüllt wird. Anders als die $(emblem)Emblem-Herzlose$(), geben diese $(thing)kein Herz$(), wenn sie besigt wurden."
+		},
+		{
+			"type": "text",
+			"text": "In der Regel sind $(item)Reinblütige Herzlose$() schwarz mit gelben Augen, aber je stärker sie sind, umso bunter werden sie."
+		},
+		{
+			"type": "patchouli:relations",
+			"title": "Reinblüter",
+			"entries": [
+				"kingdomkeys:heartless/pure_blooded/shadow",
+				"kingdomkeys:heartless/pure_blooded/mega_shadow",
+				"kingdomkeys:heartless/pure_blooded/gigas_shadow",
+				"kingdomkeys:heartless/pure_blooded/darkball",
+				"kingdomkeys:heartless/pure_blooded/shadow_glob"
+			]
+		}
+	]
+}

@@ -44,9 +44,9 @@ public class CardSelectionScreen extends MenuBackground {
 		
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
-			if (!ItemStack.isSameItem(stack, ItemStack.EMPTY) && stack.getItem() instanceof MapCardItem card) {
+			if (!stack.isEmpty() && stack.getItem() instanceof MapCardItem card) {
 				CardSelectButton c = new CardSelectButton((int)(width * 0.25F+(x++ * 42)), (int)(height * 0.5F + y * 50), 42, 50, stack, this, (e) -> {
-					System.out.println(((MapCardItem) stack.getItem()).getCardValue(stack));
+					System.out.println(card.getCardValue(stack));
 					selectedCardStack = stack;
 				});
 				cards.add(c);

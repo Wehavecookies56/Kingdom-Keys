@@ -1,0 +1,17 @@
+{
+	"name": "Bombe",
+	"icon": "kingdomkeys:detonator_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 211,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese großen Verwandten des $(l:kingdomkeys/heartless/emblem/minute_bomb)Bombenmolchs$() ähneln diesem, verfügen aber über noch größere Sprengkraft. $(thing)$(o)Normale Angriffe sind gegen sie unwirksam$(), was sie zu gefährlichen Gegnern macht.$(br)Sei besonders vorsichtig!$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:detonator"
+		}
+	]
+}

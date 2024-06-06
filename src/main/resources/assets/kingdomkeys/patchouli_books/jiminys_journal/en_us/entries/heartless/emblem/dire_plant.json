@@ -1,0 +1,17 @@
+{
+	"name": "Dire Plant",
+	"icon": "kingdomkeys:dire_plant_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 212,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "These small plant $(heartless)Heartless$() are rooted to the ground. They strike from afar with a seed cannon that can be turned on other foes with a well-timed block, or even used to destroy the Dire Plant itself.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dire_plant"
+		}
+	]
+}

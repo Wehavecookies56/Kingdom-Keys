@@ -1,0 +1,17 @@
+{
+	"name": "Bombenmolch",
+	"icon": "kingdomkeys:minute_bomb_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 208,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese kleinen $(heartless)Herzlosen$() können sich selbst zerstören. Wenn du ihre Kopfnüsse blockst, setzt ein Countdown zur Selbstzerstörung ein.$(br)Mit $(thing)Feuermagie$() können sie auch sofort zur Explosion gebracht werden.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:minute_bomb"
+		}
+	]
+}

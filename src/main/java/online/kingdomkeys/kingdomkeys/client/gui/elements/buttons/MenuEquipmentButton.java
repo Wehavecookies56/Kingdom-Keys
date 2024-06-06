@@ -202,7 +202,7 @@ public class MenuEquipmentButton extends Button {
 					int ap = 0;
 					ImmutableMap<KKResistanceType, Integer> resistances = null;
 
-					List<String> abilities = new ArrayList<String>();
+					List<String> abilities = new ArrayList<>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
 						strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -254,6 +254,7 @@ public class MenuEquipmentButton extends Button {
 	                    String totalFireResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.lightning));
+	                    String totalLightResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.light));
 	                    String totalDarknessResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.darkness));
 	                    
 	                    if (totalStrengthStr.length() == 1) {
@@ -349,6 +350,14 @@ public class MenuEquipmentButton extends Button {
 								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
+							if(resistances.containsKey(KKResistanceType.light)) {
+								String resVal = resistances.get(KKResistanceType.light).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.light.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
 								String resVal = resistances.get(KKResistanceType.darkness).toString();
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
@@ -363,8 +372,12 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
-			                    gui.blit(texture, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
-								gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
+								if(ability != null) {
+									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
+									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
+								} else {
+									KingdomKeys.LOGGER.error("Ability "+abilities.get(i)+" does not exist for weapon "+stack.getItem());
+								}
 							}
 						}
 						

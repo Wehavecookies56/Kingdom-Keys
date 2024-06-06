@@ -1,0 +1,37 @@
+{
+	"name": "Andere Org. XIII Mäntel",
+	"icon": "kingdomkeys:xemnas_helmet",
+	"sortnum": 1,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese Mäntel haben sind gleichwertig wie der reguläre $(item)Mantel der Organisation$(), und lassen dich sogar diesen beitreten, weshalb ihr Aussehen nur rein kosmetisch ist. "
+		},
+		{
+			"type": "text",
+			"text": "Du kannst das Aussehen von $(thing)Xemnas$() am Ende von $(lissa)Kingdom Hearts II$() oder das Aussehen der $(thing)Antirobe$() aus $(lissa)Dream Drop Distance$() annehmen."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_helmet",
+			"recipe2":"kingdomkeys:xemnas_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_leggings",
+			"recipe2":"kingdomkeys:xemnas_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_helmet",
+			"recipe2":"kingdomkeys:anticoat_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_leggings",
+			"recipe2":"kingdomkeys:anticoat_boots"
+		}
+
+	]
+}

@@ -21,7 +21,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -54,12 +56,14 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					PacketHandler.sendToServer(new CSEquipArmor(parent.slot, slot));
-				
-					ItemStack stackToEquip = player.getInventory().getItem(slot);
-					ItemStack stackPreviouslyEquipped = playerData.equipArmor(parent.slot, stackToEquip);
-					player.getInventory().setItem(slot, stackPreviouslyEquipped);
-					b.visible = false;
+					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Armour(player, playerData.getEquippedArmor(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+						PacketHandler.sendToServer(new CSEquipArmor(parent.slot, slot));
+
+						ItemStack stackToEquip = player.getInventory().getItem(slot);
+						ItemStack stackPreviouslyEquipped = playerData.equipArmor(parent.slot, stackToEquip);
+						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						b.visible = false;
+					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 				}
@@ -100,7 +104,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+1, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
 			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
@@ -220,6 +224,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    String totalFireResStr = String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = String.valueOf(resistances.get(KKResistanceType.lightning));
+						String totalLightResStr = String.valueOf(resistances.get(KKResistanceType.light));
 	                    String totalDarknessResStr = String.valueOf(resistances.get(KKResistanceType.darkness));
 
 	                    
@@ -321,6 +326,17 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
+
+							type = KKResistanceType.light;
+							if(resistances.containsKey(type)) {
+								int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
+								String resVal = resistances.get(type).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, (Utils.getArmorsStat(equippedArmourWithSelected, type.toString())) - oldVal+"", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 
 							type = KKResistanceType.darkness;

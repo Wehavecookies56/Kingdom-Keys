@@ -1,0 +1,13 @@
+{
+	"name": "Weisen-Form",
+	"icon": "kingdomkeys:levelupdrivewisdom",
+	"sortnum": 2,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese Form erhält erfahrung für $(thing)jeden niedergestreckten $(heartless)Herzlosen$(), während man $(thing)in dieser Form$() ist. Das vernichten anderer Mobs gibt diese Form keine Erfahrung.$(br)Das Verbessern dieser Form wird dich mit einem permenanten Zugang zu der $(item)Sprint-Ability$() belohnen."
+		}
+	]
+}

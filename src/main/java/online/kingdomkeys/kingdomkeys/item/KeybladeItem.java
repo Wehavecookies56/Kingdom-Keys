@@ -30,6 +30,7 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -49,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -116,6 +118,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			stack.setTag(new CompoundTag());
 		}
 		stack.getTag().putInt("level", level);
+	}
+
+	public int getMaxLevel(){
+		return data.getMaxLevel();
 	}
 
 	public Item.Properties getProperties() {
@@ -344,13 +350,22 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	
 	@Mod.EventBusSubscriber
 	public static class KeybladeEvents {
+		@SubscribeEvent
+		public static void onItemToss(ItemTossEvent event) {
+			ItemStack droppedItem = event.getEntity().getItem();
+			UUID droppedID = Utils.getKeybladeID(droppedItem);
+			if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
+				Utils.summonKeyblade(event.getPlayer(), true, null);
+			}
+		}
 
 		@SubscribeEvent
 		public static void onItemDropped(EntityJoinLevelEvent event) {
-			if (event.getEntity() instanceof ItemEntity) {
-				ItemStack droppedItem = ((ItemEntity)event.getEntity()).getItem();
+			if (event.getEntity() instanceof ItemEntity iEntity) {
+				ItemStack droppedItem = iEntity.getItem();
 				UUID droppedID = Utils.getKeybladeID(droppedItem);
 				if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
+					iEntity.level().playSound(null, iEntity.position().x(),iEntity.position().y(),iEntity.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					event.setCanceled(true);
 				}
 			}

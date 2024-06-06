@@ -2,12 +2,12 @@
 	"name": "Limit Form",
 	"icon": "kingdomkeys:levelupdrivelimit",
 	"sortnum": 3,
-	"priority": true,
 	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every max charged Shotlock successfully preformed while in the form, not fully charging the Shotlock will not give you the XP. Leveling this form will reward you with permenant access to the Dodge Roll ability."
+			"text": "This form gains XP for every $(thing)max charged Shotlock successfully performed$() while $(thing)in this form$(), $(lissa)$(l)not fully charging$() the Shotlock will give you $(lissa)$(l)no XP$(). Leveling this form will reward you with permenant access to the $(item)Dodge Roll ability$()."
 		}
 	]
 }

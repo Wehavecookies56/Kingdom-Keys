@@ -1,17 +1,16 @@
 {
 	"name": "Joining the Organization",
-	"icon": "kingdomkeys:evanescent_crystal",
+	"icon": "kingdomkeys:organization_helmet",
 	"sortnum": 1,
-	"priority": true,
 	"category": "kingdomkeys:orgxiii",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Joining the Organization is fairly simple, you must craft all 4 pieces of the basic Organization Armor and equip all four of them at once. Once you make this decision, you cannot go back unless you defeat the Ender Dragon and obtain a Proof of Heart. (see section $(thing)Leaving the Organization$() for more information.) "
+			"text": "$(item)Joining the Organization$() is fairly simple, you must craft all 4 pieces of the basic Organization Armor and equip all four of them at once. Once you make this decision, you cannot go back unless you defeat the Ender Dragon and obtain a $(l:kingdomkeys:orgxiii/leave)Proof of Heart$(). "
 		},
 		{
 			"type": "text",
-			"text": "When you join the Organization, you may no longer use Keyblades that you synthesize (playing as Roxas will still allow the use of Keyblades, but not ones you make yourself.) and you may no longer go into Drive Forms. The crafting recipes for the armor are as follows."
+			"text": "When you join the Organization, you may no longer use $(l:synthesize/moogles)Keyblades that you synthesize$() (playing as Roxas will still allow the use of Keyblades, but not ones you make yourself.) and you may no longer go into $(l:kingdomkeys:drive)Drive Forms$(), but will have access to $(thing)Limits$()."
 		},
 		{
 			"type":"crafting",

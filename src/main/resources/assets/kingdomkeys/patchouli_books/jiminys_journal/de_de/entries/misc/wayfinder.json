@@ -1,0 +1,20 @@
+{
+	"name": "Wegfinder",
+	"icon": "kingdomkeys:wayfinder",
+	"sortnum": 4,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Der Wegfinder$() ist ein nützlicher Gegenstand, der für $(l:kingdomkeys:learning_the_menu/party)Gruppen$() geeignet sind. Damit kannst du deinen selbst hergestellten Wegfinder an einen Spieler weitergeben, womit dieser sich zu dir $(thing)teleportieren$() kann, egal wo und wann, solange $(thing)beide Spieler online$() sind und in der $(thing)gleichen Gruppe$() sind."
+		},
+		{
+			"type": "text",
+			"text": "Da der Wegfinder ein starkes Werkzeug ist, wird dies ausgeglichen mit einer $(thing)langen Abklingzeit$(), sowie die Forderung $(lissa)das Ende$() zu Besuchen, um es herstellen zu können."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:wayfinder"
+		}
+	]
+}

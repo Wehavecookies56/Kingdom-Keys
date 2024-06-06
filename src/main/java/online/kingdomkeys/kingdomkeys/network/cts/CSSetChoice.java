@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -60,6 +62,7 @@ public class CSSetChoice {
                     ServerLevel dimension = player.level().getServer().getLevel(playerData.getReturnDimension());
                     player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
                     SoAState.applyStatsForChoices(player, playerData, false);
+                    MinecraftForge.EVENT_BUS.post(new ChoiceEvent(player, playerData.getChosen(), playerData.getSacrificed()));
                 } else {
                     //reset to before choice
                     playerData.setChoicePedestal(new BlockPos(0, 0, 0));

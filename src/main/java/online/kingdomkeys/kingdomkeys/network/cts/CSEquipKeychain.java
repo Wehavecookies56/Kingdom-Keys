@@ -7,7 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -43,13 +45,15 @@ public class CSEquipKeychain {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
-            ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.slotToEquipTo, stackToEquip);
-            player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
-            PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
-            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
+            if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(message.slotToEquipTo), player.getInventory().getItem(message.slotToEquipFrom), message.slotToEquipFrom, message.slotToEquipTo))) {
+                ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
+                ItemStack stackPreviouslyEquipped = playerData.equipKeychain(message.slotToEquipTo, stackToEquip);
+                player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
+                PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+                PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
 
-            Utils.RefreshAbilityAttributes(player, playerData);
+                Utils.RefreshAbilityAttributes(player, playerData);
+            }
         });
         ctx.get().setPacketHandled(true);
     }

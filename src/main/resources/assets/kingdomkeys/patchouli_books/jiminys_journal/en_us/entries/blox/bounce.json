@@ -2,12 +2,11 @@
 	"name": "Bounce Blox",
 	"icon": "kingdomkeys:bounce_blox",
 	"sortnum": 5,
-	"priority": true,
 	"category": "kingdomkeys:blox",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Bounce Blox have a lot more MMPH to them than Slime Blocks do, increasing the bounce even further when used. You can craft Bounce Blox using Normal Blox and a singular Slime Block, the recipe is as follows."
+			"text": "$(item)Bounce Blox$() have a lot more MMPH to them than Slime Blocks do, increasing the $(thing)bounce even further$() when used. You can craft Bounce Blox using $(l:kingdomkeys:blox/normal)Normal Blox$() and a singular Slime Block."
 		},
 		{
 			"type":"crafting",

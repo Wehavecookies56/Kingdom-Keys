@@ -1,0 +1,19 @@
+{
+	"name": "Mega-Schattenlurch",
+	"icon": "kingdomkeys:mega_shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 102,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Diese mittelgroßen $(pure_blooded)Reinblüter$() haben dasselbe Angriffsmuster wie ihre $(l:kingdomkeys:heartless/pure_blooded/shadow)$(item)kleineren Verwandten$(), verfügen aber zusätzlich noch über einen gefährlichen Angriff. Blocke sie, dann haben sie keine Deckung mehr.$(p)$(lissa)$(l)$(o)[Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:mega_shadow",
+			"scale": 0.7,
+			"offset": 0.5
+		}
+	]
+}

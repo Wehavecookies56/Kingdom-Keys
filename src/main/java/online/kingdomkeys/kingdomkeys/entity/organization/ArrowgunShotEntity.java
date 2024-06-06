@@ -84,14 +84,8 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
-					/*float dmg = 0;
-					if(this.getOwner() instanceof Player) {
-						Player player = (Player) this.getOwner();
-						if(player.getMainHandItem() != null) {
-							dmg = DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3;
-						}
-					}*/
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+					target.invulnerableTime = 0;
+					target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}
 			} else { // Block (not ERTR)

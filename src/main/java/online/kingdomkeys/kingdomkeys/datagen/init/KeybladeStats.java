@@ -50,6 +50,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.darkerThanDark, Strings.darkerThanDarkChain, 7, 8, "", 5.0F, "A weapon that offers high Magic and combo reach.");
 		addStats(Strings.darkgnaw, Strings.darkgnawChain, 6, 4, "", 5.0F, "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.");
 		addStats(Strings.dawnTillDusk, Strings.dawnTillDuskChain, 4, 4, "", 5.0F, "A Keyblade that courses with mystic power.");
+		addStats(Strings.deadOfNight, Strings.deadOfNightChain, 4, 4, ModAbilities.GRAND_MAGIC_HASTE.get().toString(), 5.0F, "A Keyblade that courses with mystic power.");
 		addStats(Strings.decisivePumpkin, Strings.decisivePumpkinChain, 8, 3, "", 5.0F, "The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!");
 		addStats(Strings.destinysEmbrace, Strings.destinysEmbraceChain, 4, 4, "", 5.0F, "A Keyblade that makes it easier to land critical hits.");
 		addStats(Strings.diamondDust, Strings.diamondDustChain, 4, 9, ModAbilities.BLIZZARD_BOOST.get().toString(), 5.0F, "Greatly enhances magic and summon power. Raises max MP by 3.");
@@ -109,7 +110,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.nanoGear, Strings.nanoGearChain, 5, 4, "", 5.0F, "A well-balanced Keyblade.");
 		addStats(Strings.nightmaresEnd, Strings.nightmaresEndChain, 7, 7, "", 5.0F, "A Keyblade formed from a Reality Shift in The World That Never Was.");
 		addStats(Strings.nightmaresEndAndMirageSplit, Strings.nightmaresEndAndMirageSplitChain, 9, 8, "", 5.0F, "A Keyblade formed by combining both the Mirage Split and Nightmare's End.");
-		addStats(Strings.noName, Strings.noNameChain, 9, 7, "", 5.0F, "The Keyblade wielded by Master Xehanort.");
+		addStats(Strings.noName, Strings.noNameChain, 9, 7, "", 5.0F, "The Keyblade that Luxu received from the Master of Masters, containing his very own eye.");
 		addStats(Strings.noNameBBS, Strings.noNameBBSChain, 7, 7, "", 6.0F, "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.");
 		addStats(Strings.oathkeeper, Strings.oathkeeperChain, 7, 7, ModAbilities.FORM_BOOST.get().toString(), 5.0F, "Enhances magic and increases the duration of a Drive Form.");
 		addStats(Strings.oblivion, Strings.oblivionChain, 8, 5, ModAbilities.DRIVE_BOOST.get().toString(), 5.0F, "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.");
@@ -179,7 +180,7 @@ public class KeybladeStats extends KeybladeProvider {
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 1).addMaterial(Strings.SM_WrithingGem, 1),
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 2).addMaterial(Strings.SM_WrithingGem, 2),
 			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 3).addMaterial(Strings.SM_WrithingGem, 2),
-			new Recipe().addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1)
+			new Recipe().addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1),
 	};
 
 	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, String ability, float reach, String description) {

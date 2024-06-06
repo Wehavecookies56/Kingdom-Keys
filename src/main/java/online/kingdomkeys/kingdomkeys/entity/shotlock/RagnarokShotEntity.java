@@ -40,29 +40,8 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		if(tickCount > 1) {
 			Color color = new Color(getColor());
 			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
-			//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F);
 		}
-		
-		/*if(ticksExisted < 20) {
-			//Open
-			double X = getPosX();
-			double Y = getPosY();
-			double Z = getPosZ();
-			
-			float r = 2;
-			double alpha = Math.toRadians(getCaster().rotationYaw);						
-			double theta = 2 * Math.PI / getTargets().size();
-			double x = X + r * ((Math.cos(i * theta) + Math.sin(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.cos(alpha) + (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));
-			double y = Y + r * ((Math.cos(alpha) * Math.sin(i * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(i * theta) * Math.sin(alpha));
-			double z = Z + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(i * theta)) * Math.cos(alpha) + (Math.cos(i * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(i * theta))) * Math.sin(alpha));*			double x = getCaster().getPosX() + X;
-			double y = getCaster().getPosY() + Y;
-			double z = getCaster().getPosZ() + Z;
-			
-			this.shoot(x,y,z,0.3F,0);
-			
-			//this.setPosition(x,y,z);
-			//this.setMaxTicks(maxTicks + 20);
-		}*/
+
 		if(tickCount % 10 == 0 && tickCount - 10 >= 6) {
 			updateMovement();
 		}
@@ -89,6 +68,7 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 			if (rtRes instanceof EntityHitResult ertResult) {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
 					if (target != getOwner()) {
+						target.invulnerableTime = 0;
 						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 						super.remove(RemovalReason.KILLED);
 					}

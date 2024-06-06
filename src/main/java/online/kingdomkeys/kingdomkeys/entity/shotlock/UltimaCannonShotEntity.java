@@ -78,13 +78,13 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 				((ServerLevel) level()).sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 500, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, 0.1);
 			}
 
-			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(5));
+			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(8));
 			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
 
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
-                    if (e instanceof LivingEntity) {
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg / e.distanceTo(this));
+                    if (e instanceof LivingEntity) { //If distance is 3 or less do full damage otherwise scale it down
+						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg / e.distanceTo(this) > 5 ? e.distanceTo(this):1F);
                     }
                 }
 			}

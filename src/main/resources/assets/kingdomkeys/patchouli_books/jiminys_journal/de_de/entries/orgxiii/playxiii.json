@@ -1,0 +1,20 @@
+{
+	"name": "Als Org.-Mitglied spielen",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 2,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Da du nun ein $(item)Mitglied der Organisation$() bist, fällt dir sicherlich auf, dass im Menü sich eine Währung befindet, die sich $(thing)Herzen$() nennt. $(thing)Herzen$() werden erhalten durch das besiegen von $(emblem)Emblem-Herzlosen$() und $(thing)feindlichen Mobs$() und werden dazu benutzt, um neue und $(thing)stärkere Waffen$() für dein ausgewähltes Mitglied zu erhalten. (Wenn du Mobs mit deiner Organisations-Waffe erlegst, erhältst du sogar doppelt so viele Herzen.) Das ist wichtig um Gegner mit einer höhren Stufe zu besiegen, während du deine eigene Stufe erhöhst."
+		},
+		{
+			"type": "text",
+			"text": "Außerdem erhälst du die Fähigkeit $(thing)Organisations-Portale$() herzustellen, und zu nutzen. Jeder Spieler kann maximal 3 Portale gleichzeitig besitzen, und ist in der Lage sich zwischen denen beliebig hin und her zu teleportieren. Doch pass auf, denn andere Spieler, auch welche außerhalb der Organisation, können dir durch dein Portal folgen."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:org_portal"
+		}
+	]
+}

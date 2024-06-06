@@ -1,6 +1,6 @@
 {
 	"name": "Organization XIII",
-	"description": "Anyone who chooses to join the Organization will experience a slight change in gameplay. This chapter is here to explain how playing as a member of Organization XIII works.",
+	"description": "Anyone who chooses to join $(item)the Organization$() will experience a $(thing)slight change in gameplay$(). This chapter is here to explain how playing as a member of $(lissa)Organization XIII$() works.",
 	"icon": "kingdomkeys:proof_of_heart",
 	"sortnum": 6
 }

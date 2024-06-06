@@ -1,0 +1,6 @@
+{
+	"name": "Grundlagen der Schmiede",
+	"description": "Ab einem bestimmten Punkt, musst du $(item)dein Arsenal erweitern$(), Schlüsselschwertträger. Nützlich dafür sind ein paar $(l:kingdomkeys:synthesize/materials)Materialien$() und ein $(moogle)Mogry$(), fang an zu suchen!",
+	"icon": "kingdomkeys:mythril_crystal",
+	"sortnum": 4
+}

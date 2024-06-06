@@ -1,0 +1,15 @@
+{
+	"name": "Kampfstile",
+	"icon": "kingdomkeys:wooden_keyblade",
+	"sortnum": 7,
+	"advancement": "kingdomkeys:soa",
+	"flag": "mod:epicfight",
+	"category": "kingdomkeys:learning_the_menu",
+	"read_by_default": false,
+		"pages": [
+		{
+			"type": "text",
+			"text": "Da du die Epic Fight-Mod installiert hast, kannst du deinen Kampfstil für das Tragen eines, oder zwei Schlüsselschwerter, wählen, welches die Angriffsanimation im Kampfmodus (Combat Mode) verändert."
+		}
+	]
+}
