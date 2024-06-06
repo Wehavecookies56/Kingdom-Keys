@@ -28,7 +28,7 @@ public class KeybladeStats extends KeybladeProvider {
 
     @Override
     protected void registerKeyblades() {
-		addStats(Strings.abaddonPlasma, Strings.abaddonPlasmaChain, 7, 3, "", 5.0F, Utils.translateToLocal("item." + MODID + "." + Strings.abaddonPlasma + ".desc"));
+		addStats(Strings.abaddonPlasma, Strings.abaddonPlasmaChain, 7, 3, "", 5.0F, MODID + "." + Strings.abaddonPlasma + ".desc");
 		addStats(Strings.abyssalTide, Strings.abyssalTideChain, 5, 2, "", 5.0F, "item." + MODID + "." + Strings.abyssalTide + ".desc");
 		addStats(Strings.acedsKeyblade, Strings.acedsKeybladeChain, 8, 7, "", 5.0F, "The Keyblade owned by Ursus' Foreteller.");
 		addStats(Strings.adventRed, Strings.adventRedChain, 4, 4, "", 5.0F, "A Keyblade that courses with mystic power.");

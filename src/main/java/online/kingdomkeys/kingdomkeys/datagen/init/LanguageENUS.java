@@ -864,7 +864,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.k111c, "K111c");
 
         //Keyblade Descriptions
-        add("item." + MODID + "." + Strings.abaddonPlasma + ".desc", "A weapon that lets you string together faster, incredibly long ground combos.");
+        add(MODID + "." + Strings.abaddonPlasma + ".desc", "A weapon that lets you string together faster, incredibly long ground combos.");
         add("item." + MODID + "." + Strings.abyssalTide + ".desc", "A weapon that performs very well in midair. Excellent for taking on fliers.");
         add("item." + MODID + "." + Strings.acedsKeyblade + ".desc", "The Keyblade owned by Ursus' Foreteller.");
         add("item." + MODID + "." + Strings.adventRed + ".desc", "A Keyblade that courses with mystic power.");
@@ -886,6 +886,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.darkerThanDark + ".desc", "A weapon that offers high Magic and combo reach.");
         add("item." + MODID + "." + Strings.darkgnaw + ".desc", "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.");
         add("item." + MODID + "." + Strings.dawnTillDusk + ".desc", "A Keyblade that courses with mystic power.");
+        add("item." + MODID + "." + Strings.deadOfNight + ".desc", "A Keyblade that courses with mystic power.");
         add("item." + MODID + "." + Strings.decisivePumpkin + ".desc", "The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!");
         add("item." + MODID + "." + Strings.destinysEmbrace + ".desc", "A Keyblade that makes it easier to land critical hits.");
         add("item." + MODID + "." + Strings.diamondDust + ".desc", "Greatly enhances magic and summon power. Raises max MP by 3.");
@@ -945,7 +946,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.nanoGear + ".desc", "A well-balanced Keyblade.");
         add("item." + MODID + "." + Strings.nightmaresEnd + ".desc", "A Keyblade formed from a Reality Shift in The World That Never Was.");
         add("item." + MODID + "." + Strings.nightmaresEndAndMirageSplit + ".desc", "A Keyblade formed by combining both the Mirage Split and Nightmare's End.");
-        add("item." + MODID + "." + Strings.noName + ".desc", "The Keyblade wielded by Master Xehanort.");
+        add("item." + MODID + "." + Strings.noName + ".desc", "The Keyblade that Luxu received from the Master of Masters, containing his very own eye.");
         add("item." + MODID + "." + Strings.noNameBBS + ".desc", "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.");
         add("item." + MODID + "." + Strings.oathkeeper + ".desc", "Enhances magic and increases the duration of a Drive Form.");
         add("item." + MODID + "." + Strings.oblivion + ".desc", "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.");
