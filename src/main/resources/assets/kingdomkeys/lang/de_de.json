@@ -1194,10 +1194,12 @@
   "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
   "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
   "item.kingdomkeys.stroke_of_midnight_chain": "Punkt Mitternacht-Anhänger",
+  "item.kingdomkeys.stroke_of_midnight.desc": "Dieses Schlüsselschwert ermöglicht kritische Treffer häufiger.",
   "item.kingdomkeys.sweetstack": "Süßer Traum",
   "item.kingdomkeys.sweetstack_chain": "Süßer Traum-Anhänger",
   "item.kingdomkeys.treasure_trove": "Schatzsucher",
   "item.kingdomkeys.treasure_trove_chain": "Schatzsucher-Anhänger",
+  "item.kingdomkeys.treasure_trove.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft, aber geringer Reichweite.",
   "item.kingdomkeys.ultima_weapon_bbs": "Ultima (BBS)",
   "item.kingdomkeys.ultima_weapon_bbs_chain": "Ultima (BBS)-Anhänger",
   "item.kingdomkeys.victory_line": "Freudenjubel",
@@ -1728,6 +1730,8 @@
 
   "item.kingdomkeys.abaddon_plasma": "Plasma der Unschuld", //duel
   "item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
+  "item.kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
+  "kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
   "item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
   "item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
   "item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
@@ -1821,7 +1825,6 @@
 
   // KEYBLADE DESCS START
 
-  "item.kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
   "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
 
   "item.kingdomkeys.astral_blast.desc": "A weapon that lets you string together longer ground and aerial combos.",
@@ -1895,12 +1898,11 @@
   "item.kingdomkeys.spellbinder.desc": "Raises max MP by 2, and significantly enhances magic and summon power.",
 
   "item.kingdomkeys.stormfall.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
-  "item.kingdomkeys.stroke_of_midnight.desc": "A Keyblade that makes it easier to land critical hits.",
   "item.kingdomkeys.sweet_dreams.desc": "A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.",
   "item.kingdomkeys.sweetstack.desc": "A Keyblade that provides an extra boost in Strength and ensures every strike is a critical hit.",
   "item.kingdomkeys.three_wishes.desc": "A powerful weapon that is difficult to deflect.",
   "item.kingdomkeys.total_eclipse.desc": "A weapon that possesses extreme Strength. Devastates tough enemies.",
-  "item.kingdomkeys.treasure_trove.desc": "A Keyblade that makes up for its poor reach with a balanced boost in Strength and Magic.",
+
 
   "item.kingdomkeys.twilight_blaze.desc": "A weapon that boasts superior Strength and ground combo speed.",
   "item.kingdomkeys.ultima_weapon_bbs.desc": "The most powerful of Keyblades.",
