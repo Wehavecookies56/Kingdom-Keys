@@ -29,7 +29,7 @@ public class SitarItem extends OrgSwordItem implements IOrgWeapon {
             cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
             playerData.remMP(Math.max(1, cost));
 
-            WatergaEntity shot = new WatergaEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.08F);
+            WatergaEntity shot = new WatergaEntity(player.level(), player, 0.75f);
             shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
             world.addFreshEntity(shot);
             player.level().playSound(null, player.blockPosition(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
