@@ -1179,6 +1179,7 @@
   "item.kingdomkeys.ends_of_the_earth_chain": "Hinter dem Horizont-Anhänger",
   "item.kingdomkeys.fairy_stars": "Feengestirn",
   "item.kingdomkeys.fairy_stars_chain": "Feengestirn-Anhänger",
+  "item.kingdomkeys.fairy_stars.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.frolic_flame": "Flammende Flausen", //ventus
   "item.kingdomkeys.frolic_flame_chain": "Flammende Flausen-Anhänger",
   "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
@@ -1857,7 +1858,6 @@
   "item.kingdomkeys.ends_of_the_earth.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
 
   "item.kingdomkeys.fairy_harp.desc": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
-  "item.kingdomkeys.fairy_stars.desc": "A Keyblade that provides a balanced boost in Strength and Magic.",
 
   "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
   "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
