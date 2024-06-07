@@ -52,7 +52,7 @@ public class CardItem extends OrgSwordItem implements IOrgWeapon {
                     }
 
 
-                    entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
+                    entity.setData(DamageCalculation.getMagicDamage(player) * (playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky) * 0.2f), player.getUUID(), slot, stack);
                     entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
                     entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
