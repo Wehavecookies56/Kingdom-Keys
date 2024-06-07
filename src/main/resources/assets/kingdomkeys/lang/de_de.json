@@ -1172,6 +1172,7 @@
   "item.kingdomkeys.chaos_ripper_chain": "Chaosbringer-Anhänger",
   "item.kingdomkeys.darkgnaw": "Schattenlefzen",
   "item.kingdomkeys.darkgnaw_chain": "Schattenlefzen-Anhänger",
+  "item.kingdomkeys.darkgnaw.desc": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
   "item.kingdomkeys.earthshaker": "Erderschütterer", //terra og
   "item.kingdomkeys.earthshaker_chain": "Erderschütterer-Anhänger",
   "item.kingdomkeys.ends_of_the_earth": "Hinter dem Horizont",
@@ -1208,7 +1209,7 @@
   "item.kingdomkeys.void_gear_chain": "Vanitas' Schlüsselschwert-Anhänger",
   "item.kingdomkeys.void_gear_remnant": "Clavis Vanitatum", // "Clavis Vanitatum Fragmentum",
   "item.kingdomkeys.void_gear_remnant_chain": "Clavis Vanitatum-Anhänger",
-  "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus og
+  "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus main
   "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
   "item.kingdomkeys.wayward_wind.desc": "Das Schlüsselschwert mit dem Ventus seine Reise begann. Es hat eine geringe Reichweite, aber eine relativ hohe Angriffskraft.",
 
@@ -1342,21 +1343,26 @@
   "item.kingdomkeys.incomplete_kiblade.desc": "Eine unvollständige Version des legendären Schlüsselschwertes, der χ-Klinge.",
   "item.kingdomkeys.kiblade": "\u03c7-Klinge",
   "item.kingdomkeys.kiblade_chain": "\u03c7-Klinge-Anhänger",
-  "item.kingdomkeys.kiblade.desc": "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.",
+  "item.kingdomkeys.kiblade.desc": "Eine legendäre Waffe, das Ur-Schlüsselschwert, dass als Beispiel für alle Anderen diente.",
 
 
   // Union Cross
 
   "item.kingdomkeys.aceds_keyblade": "Aced's Schlüsselschwert",
   "item.kingdomkeys.aceds_keyblade_chain": "Aced's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
   "item.kingdomkeys.avas_keyblade": "Ava's Schlüsselschwert",
   "item.kingdomkeys.avas_keyblade_chain": "Ava's Schlüsselanhänger",
+  "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
   "item.kingdomkeys.gulas_keyblade": "Gula's Schlüsselschwert",
   "item.kingdomkeys.gulas_keyblade_chain": "Gula's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
   "item.kingdomkeys.invis_keyblade": "Invi's Schlüsselschwert",
   "item.kingdomkeys.invis_keyblade_chain": "Invi's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
   "item.kingdomkeys.iras_keyblade": "Ira's Schlüsselschwert",
   "item.kingdomkeys.iras_keyblade_chain": "Ira's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
   "item.kingdomkeys.starlight": "Sternenlicht",
   "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
   "item.kingdomkeys.starlight.desc": "Ein Schlüsselschwert aus antiken Tagen.", //from kh3
@@ -1737,6 +1743,7 @@
   "item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
   "item.kingdomkeys.astral_blast": "Sternenexplosion",
   "item.kingdomkeys.astral_blast_chain": "Sternenexplosion-Anhänger",
+  "item.kingdomkeys.astral_blast.desc": "A weapon that lets you string together longer ground and aerial combos.",
   "item.kingdomkeys.aubade": "Morgenröte (Days)",
   "item.kingdomkeys.aubade_chain": "Morgenröte (Days)-Anhänger",
   "item.kingdomkeys.bond_of_flame": "Flammenfesseln", //pandora (sora)
@@ -1825,11 +1832,11 @@
 
   // KEYBLADE DESCS START
 
-  "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
 
-  "item.kingdomkeys.astral_blast.desc": "A weapon that lets you string together longer ground and aerial combos.",
+
+
   "item.kingdomkeys.aubade.desc": "A weapon that draws forth its wielder's personality.",
-  "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
+
   "item.kingdomkeys.bond_of_the_blaze.desc": "Das Schlüsselschwert, dass von Lea getragen wird.",
 
   "item.kingdomkeys.brightcrest.desc": "A Keyblade with long reach that provides an outstanding boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
@@ -1838,7 +1845,7 @@
 
   "item.kingdomkeys.crabclaw.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.",
   "item.kingdomkeys.darker_than_dark.desc": "A weapon that offers high Magic and combo reach.",
-  "item.kingdomkeys.darkgnaw.desc": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
+
 
   "item.kingdomkeys.destinys_embrace.desc": "A Keyblade that makes it easier to land critical hits.",
   "item.kingdomkeys.diamond_dust.desc": "Greatly enhances magic and summon power. Raises max MP by 3.",
@@ -1855,14 +1862,9 @@
   "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
   "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
 
-
-  "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
-
-
   "item.kingdomkeys.hyperdrive.desc": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
 
-  "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
-  "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
+
   "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
   "item.kingdomkeys.k111.desc": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
   "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "A keyblade with the ability to unlock a person's heart, releasing the darkness within.",
