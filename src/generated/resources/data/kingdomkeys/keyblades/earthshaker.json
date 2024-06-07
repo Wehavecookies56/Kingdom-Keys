@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 4
   },
-  "description": "The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
+  "description": "item.kingdomkeys.earthshaker.desc",
   "keychain": "kingdomkeys:earthshaker_chain",
   "levels": [
     {

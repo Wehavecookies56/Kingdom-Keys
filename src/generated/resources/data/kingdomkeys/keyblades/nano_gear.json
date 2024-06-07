@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 5
   },
-  "description": "A well-balanced Keyblade.",
+  "description": "item.kingdomkeys.nano_gear.desc",
   "keychain": "kingdomkeys:nano_gear_chain",
   "levels": [
     {

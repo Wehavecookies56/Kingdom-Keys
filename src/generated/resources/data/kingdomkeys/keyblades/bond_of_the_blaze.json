@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 6
   },
-  "description": "The Keyblade wielded by Lea.",
+  "description": "item.kingdomkeys.bond_of_the_blaze.desc",
   "keychain": "kingdomkeys:bond_of_the_blaze_chain",
   "levels": [
     {

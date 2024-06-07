@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.",
+  "description": "item.kingdomkeys.kingdom_key_d.desc",
   "keychain": "kingdomkeys:kingdom_key_d_chain",
   "levels": [
     {

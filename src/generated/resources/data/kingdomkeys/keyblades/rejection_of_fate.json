@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 5
   },
-  "description": "A weapon that enables your attacks to reach a wide area and deal immense damage.",
+  "description": "item.kingdomkeys.rejection_of_fate.desc",
   "keychain": "kingdomkeys:rejection_of_fate_chain",
   "levels": [
     {

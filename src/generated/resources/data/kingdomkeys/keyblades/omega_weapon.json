@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 8
   },
-  "description": "A formidable weapon with exceptional capabilities.",
+  "description": "item.kingdomkeys.omega_weapon.desc",
   "keychain": "kingdomkeys:omega_weapon_chain",
   "levels": [
     {

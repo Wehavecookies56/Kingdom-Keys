@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 5
   },
-  "description": "Increases damage done by thunder-based attacks.",
+  "description": "item.kingdomkeys.photon_debugger.desc",
   "keychain": "kingdomkeys:photon_debugger_chain",
   "levels": [
     {

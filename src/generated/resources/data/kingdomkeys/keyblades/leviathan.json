@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 5
   },
-  "description": "A weapon that performs extremely well in midair. Outstanding for taking on fliers.",
+  "description": "item.kingdomkeys.leviathan.desc",
   "keychain": "kingdomkeys:leviathan_chain",
   "levels": [
     {

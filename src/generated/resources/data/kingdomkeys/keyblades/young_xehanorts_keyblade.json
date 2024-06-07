@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 9
   },
-  "description": "The Keyblade weilded by Young Xehanort.",
+  "description": "item.kingdomkeys.young_xehanorts_keyblade.desc",
   "keychain": "kingdomkeys:young_xehanorts_keyblade_chain",
   "levels": [
     {

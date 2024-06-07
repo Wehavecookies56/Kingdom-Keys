@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 7
   },
-  "description": "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.",
+  "description": "item.kingdomkeys.no_name_bbs.desc",
   "keychain": "kingdomkeys:no_name_bbs_chain",
   "levels": [
     {

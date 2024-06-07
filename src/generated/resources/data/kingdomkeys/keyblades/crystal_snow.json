@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 3
   },
-  "description": "A Keyblade with an emphasis on Magic.",
+  "description": "item.kingdomkeys.crystal_snow.desc",
   "keychain": "kingdomkeys:crystal_snow_chain",
   "levels": [
     {

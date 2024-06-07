@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 9
   },
-  "description": "A weapon that boasts superior Strength and ground combo speed.",
+  "description": "item.kingdomkeys.twilight_blaze.desc",
   "keychain": "kingdomkeys:twilight_blaze_chain",
   "levels": [
     {

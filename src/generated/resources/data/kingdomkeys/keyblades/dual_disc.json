@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 6
   },
-  "description": "A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.",
+  "description": "item.kingdomkeys.dual_disc.desc",
   "keychain": "kingdomkeys:dual_disc_chain",
   "levels": [
     {

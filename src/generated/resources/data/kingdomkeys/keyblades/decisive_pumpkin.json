@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 8
   },
-  "description": "The greater number of combos landed, the more damage is dealt, leading to a strong finishing move!",
+  "description": "item.kingdomkeys.decisive_pumpkin.desc",
   "keychain": "kingdomkeys:decisive_pumpkin_chain",
   "levels": [
     {

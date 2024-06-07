@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "Restores MP relative to the amount of damage taken.",
+  "description": "item.kingdomkeys.hidden_dragon.desc",
   "keychain": "kingdomkeys:hidden_dragon_chain",
   "levels": [
     {

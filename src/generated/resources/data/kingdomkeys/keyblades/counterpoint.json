@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 7
   },
-  "description": "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.",
+  "description": "item.kingdomkeys.counterpoint.desc",
   "keychain": "kingdomkeys:counterpoint_chain",
   "levels": [
     {

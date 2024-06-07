@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 7
   },
-  "description": "A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.",
+  "description": "item.kingdomkeys.knockout_punch.desc",
   "keychain": "kingdomkeys:knockout_punch_chain",
   "levels": [
     {

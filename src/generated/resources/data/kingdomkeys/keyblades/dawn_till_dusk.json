@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A Keyblade that courses with mystic power.",
+  "description": "item.kingdomkeys.dawn_till_dusk.desc",
   "keychain": "kingdomkeys:dawn_till_dusk_chain",
   "levels": [
     {

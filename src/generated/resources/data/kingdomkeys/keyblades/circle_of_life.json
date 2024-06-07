@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 6
   },
-  "description": "Has great strength, increasing MP restoration speed after MP is consumed.",
+  "description": "item.kingdomkeys.circle_of_life.desc",
   "keychain": "kingdomkeys:circle_of_life_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 9
   },
-  "description": "A Keyblade formed by combining both the Mirage Split and Nightmare's End.",
+  "description": "item.kingdomkeys.nightmares_end_and_mirage_split.desc",
   "keychain": "kingdomkeys:nightmares_end_and_mirage_split_chain",
   "levels": [
     {

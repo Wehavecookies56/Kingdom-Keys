@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 6
   },
-  "description": "A Keyblade newly wrought within the datascape. Its powers render all opponents helpless.",
+  "description": "item.kingdomkeys.zero_one.desc",
   "keychain": "kingdomkeys:zero_one_chain",
   "levels": [
     {

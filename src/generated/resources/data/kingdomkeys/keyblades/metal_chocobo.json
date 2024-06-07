@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 7
   },
-  "description": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
+  "description": "item.kingdomkeys.metal_chocobo.desc",
   "keychain": "kingdomkeys:metal_chocobo_chain",
   "levels": [
     {

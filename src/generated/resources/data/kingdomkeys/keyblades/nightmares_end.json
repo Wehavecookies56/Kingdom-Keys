@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 7
   },
-  "description": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+  "description": "item.kingdomkeys.nightmares_end.desc",
   "keychain": "kingdomkeys:nightmares_end_chain",
   "levels": [
     {

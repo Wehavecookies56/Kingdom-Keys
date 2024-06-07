@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 8
   },
-  "description": "A weapon that offers high Strength and ground combo speed.",
+  "description": "item.kingdomkeys.maverick_flare.desc",
   "keychain": "kingdomkeys:maverick_flare_chain",
   "levels": [
     {

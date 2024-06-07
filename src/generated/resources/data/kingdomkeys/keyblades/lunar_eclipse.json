@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 9
   },
-  "description": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
+  "description": "item.kingdomkeys.lunar_eclipse.desc",
   "keychain": "kingdomkeys:lunar_eclipse_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A Keyblade that courses with mystic power.",
+  "description": "item.kingdomkeys.dead_of_night.desc",
   "keychain": "kingdomkeys:dead_of_night_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 8
   },
-  "description": "The Keyblade owned by Vulpeus' Foreteller.",
+  "description": "item.kingdomkeys.avas_keyblade.desc",
   "keychain": "kingdomkeys:avas_keyblade_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 4
   },
-  "description": "A weapon that boosts your Magic to give it more power.",
+  "description": "item.kingdomkeys.pain_of_solitude.desc",
   "keychain": "kingdomkeys:pain_of_solitude_chain",
   "levels": [
     {

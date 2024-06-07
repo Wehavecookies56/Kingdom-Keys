@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 7
   },
-  "description": "Well-balanced with strength and magic, increasing maximum ground-based combos by 1.",
+  "description": "item.kingdomkeys.sleeping_lion.desc",
   "keychain": "kingdomkeys:sleeping_lion_chain",
   "levels": [
     {

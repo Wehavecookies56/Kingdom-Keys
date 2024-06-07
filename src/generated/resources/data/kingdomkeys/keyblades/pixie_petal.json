@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 4
   },
-  "description": "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
+  "description": "item.kingdomkeys.pixie_petal.desc",
   "keychain": "kingdomkeys:pixie_petal_chain",
   "levels": [
     {

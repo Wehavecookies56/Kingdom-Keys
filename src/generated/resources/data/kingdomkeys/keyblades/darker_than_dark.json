@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 7
   },
-  "description": "A weapon that offers high Magic and combo reach.",
+  "description": "item.kingdomkeys.darker_than_dark.desc",
   "keychain": "kingdomkeys:darker_than_dark_chain",
   "levels": [
     {

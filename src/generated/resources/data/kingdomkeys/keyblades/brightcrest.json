@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 5
   },
-  "description": "A Keyblade with long reach that provides an outstanding boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
+  "description": "item.kingdomkeys.brightcrest.desc",
   "keychain": "kingdomkeys:brightcrest_chain",
   "levels": [
     {

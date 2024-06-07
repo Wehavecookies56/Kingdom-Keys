@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "A weapon that lets you string together faster, longer ground combos.",
+  "description": "item.kingdomkeys.missing_ache.desc",
   "keychain": "kingdomkeys:missing_ache_chain",
   "levels": [
     {

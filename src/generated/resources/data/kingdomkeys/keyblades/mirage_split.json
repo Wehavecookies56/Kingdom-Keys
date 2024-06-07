@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 7
   },
-  "description": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+  "description": "item.kingdomkeys.mirage_split.desc",
   "keychain": "kingdomkeys:mirage_split_chain",
   "levels": [
     {

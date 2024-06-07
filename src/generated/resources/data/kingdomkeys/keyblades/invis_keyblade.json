@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 8
   },
-  "description": "The Keyblade owned by Anguis' Foreteller.",
+  "description": "item.kingdomkeys.invis_keyblade.desc",
   "keychain": "kingdomkeys:invis_keyblade_chain",
   "levels": [
     {

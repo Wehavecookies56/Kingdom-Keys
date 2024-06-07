@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 9
   },
-  "description": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
+  "description": "item.kingdomkeys.royal_radiance.desc",
   "keychain": "kingdomkeys:royal_radiance_chain",
   "levels": [
     {

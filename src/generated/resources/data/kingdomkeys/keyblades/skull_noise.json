@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A Keyblade that provides a balanced boost in Strength and Magic.",
+  "description": "item.kingdomkeys.skull_noise.desc",
   "keychain": "kingdomkeys:skull_noise_chain",
   "levels": [
     {

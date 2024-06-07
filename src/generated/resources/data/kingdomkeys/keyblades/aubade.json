@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 8
   },
-  "description": "A weapon that draws forth its wielder's personality.",
+  "description": "item.kingdomkeys.aubade.desc",
   "keychain": "kingdomkeys:aubade_chain",
   "levels": [
     {

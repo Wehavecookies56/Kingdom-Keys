@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 8
   },
-  "description": "Has great strength, and allows the Drive Gauge to restore quickly during MP Charge.",
+  "description": "item.kingdomkeys.oblivion.desc",
   "keychain": "kingdomkeys:oblivion_chain",
   "levels": [
     {

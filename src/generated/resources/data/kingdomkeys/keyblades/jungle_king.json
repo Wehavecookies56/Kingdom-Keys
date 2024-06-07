@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 5
   },
-  "description": "Has a long reach, but seldom deals critical blows.",
+  "description": "item.kingdomkeys.jungle_king.desc",
   "keychain": "kingdomkeys:jungle_king_chain",
   "levels": [
     {

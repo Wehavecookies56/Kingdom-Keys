@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 8
   },
-  "description": "The Keyblade owned by Unicornis' Foreteller.",
+  "description": "item.kingdomkeys.iras_keyblade.desc",
   "keychain": "kingdomkeys:iras_keyblade_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 5
   },
-  "description": "A Keyblade that provides an extra boost in Strength and makes it easier to land critical hits.",
+  "description": "item.kingdomkeys.ferris_gear.desc",
   "keychain": "kingdomkeys:ferris_gear_chain",
   "levels": [
     {

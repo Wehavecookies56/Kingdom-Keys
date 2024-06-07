@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 5
   },
-  "description": "A Keyblade with above-average reach that makes it easier to land critical hits.",
+  "description": "item.kingdomkeys.victory_line.desc",
   "keychain": "kingdomkeys:victory_line_chain",
   "levels": [
     {
