@@ -1737,8 +1737,8 @@
 
   "item.kingdomkeys.abaddon_plasma": "Plasma der Unschuld", //duel
   "item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
-  "item.kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
-  "kingdomkeys.abaddon_plasma.desc": "A weapon that lets you string together faster, incredibly long ground combos.",
+  "item.kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
+  //"kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
   "item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
   "item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
   "item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",

@@ -74,7 +74,6 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 
     public T desc(String desc) {
         this.desc = desc;
-        //this.desc = Utils.translateToLocal(desc);
         return self();
     }
 

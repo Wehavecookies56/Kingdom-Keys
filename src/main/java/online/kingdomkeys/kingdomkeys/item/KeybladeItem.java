@@ -99,7 +99,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	public String getDesc() {
-		return data.getDescription();
+		return Utils.translateToLocal(data.getDescription());
 	}
 
 	public void setKeybladeData(KeybladeData data) {

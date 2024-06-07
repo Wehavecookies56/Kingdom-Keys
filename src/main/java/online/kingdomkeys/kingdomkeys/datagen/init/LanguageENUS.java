@@ -864,7 +864,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.k111c, "K111c");
 
         //Keyblade Descriptions
-        add(MODID + "." + Strings.abaddonPlasma + ".desc", "A weapon that lets you string together faster, incredibly long ground combos.");
+        add("item." + MODID + "." + Strings.abaddonPlasma + ".desc", "A weapon that lets you string together faster, incredibly long ground combos.");
         add("item." + MODID + "." + Strings.abyssalTide + ".desc", "A weapon that performs very well in midair. Excellent for taking on fliers.");
         add("item." + MODID + "." + Strings.acedsKeyblade + ".desc", "The Keyblade owned by Ursus' Foreteller.");
         add("item." + MODID + "." + Strings.adventRed + ".desc", "A Keyblade that courses with mystic power.");
