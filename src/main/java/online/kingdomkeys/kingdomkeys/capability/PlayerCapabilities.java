@@ -6,8 +6,9 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -214,6 +215,12 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		returnCompound.putDouble("y", airstepVec.y);
 		returnCompound.putDouble("z", airstepVec.z);
 		storage.put("airstep_pos_compound", airstepCompound);
+
+		ListTag savePoints = new ListTag();
+		for (int i = 0; i < discoveredSavePoints.size(); i++) {
+			savePoints.add(i, NbtUtils.createUUID(discoveredSavePoints.get(i)));
+		}
+		storage.put("save_points", savePoints);
 		return storage;
 	}
 
@@ -373,6 +380,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag airStepCompound = nbt.getCompound("airstep_pos_compound");
 		this.setAirStep(new BlockPos((int)airStepCompound.getDouble("x"), (int)airStepCompound.getDouble("y"), (int)airStepCompound.getDouble("z")));
 
+		ListTag savePoints = nbt.getList("save_points", CompoundTag.TAG_INT_ARRAY);
+		for (int i = 0; i < savePoints.size(); i++) {
+			addDiscoveredSavePoint(UUIDUtil.uuidFromIntArray(savePoints.getIntArray(i)));
+		}
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -439,6 +450,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 	private boolean respawnROD = false;
 	private int notifColor = 16777215;
+
+	private List<UUID> discoveredSavePoints = new ArrayList<>();
 
 	//private String armorName = "";
 	
@@ -2313,6 +2326,21 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setAirStep(BlockPos pos) {
 		this.airStepPos = pos;
+	}
+
+	@Override
+	public List<UUID> discoveredSavePoints() {
+		return discoveredSavePoints;
+	}
+
+	@Override
+	public void addDiscoveredSavePoint(UUID id) {
+		discoveredSavePoints.add(id);
+	}
+
+	@Override
+	public void setDiscoveredSavePoints(List<UUID> list) {
+		discoveredSavePoints = list;
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class KnifeItem extends OrgSwordItem implements IOrgWeapon {
 						break;
 					}
 
-					entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
+					entity.setData(DamageCalculation.getMagicDamage(player) * (playerData.getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2f), player.getUUID(), slot, stack);
 					entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
 					entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);

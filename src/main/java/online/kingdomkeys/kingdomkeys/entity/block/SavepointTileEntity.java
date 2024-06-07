@@ -2,19 +2,70 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+
+import java.util.UUID;
 
 public class SavepointTileEntity extends BlockEntity {
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
 	long ticks;
+
+	private UUID id = UUID.randomUUID();
+
+	public UUID getID() {
+		return id;
+	}
+
+	@Override
+	public void load(CompoundTag pTag) {
+		super.load(pTag);
+		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+			id = pTag.getUUID("savepoint_id");
+		}
+	}
+
+	@Override
+	protected void saveAdditional(CompoundTag pTag) {
+		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+			pTag.putUUID("savepoint_id", id);
+		}
+		super.saveAdditional(pTag);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		return serializeNBT();
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag) {
+		this.load(tag);
+	}
+
+	@Override
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		this.load(pkt.getTag());
+	}
+
+	@Nullable
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		if(blockEntity instanceof SavepointTileEntity savepoint) {

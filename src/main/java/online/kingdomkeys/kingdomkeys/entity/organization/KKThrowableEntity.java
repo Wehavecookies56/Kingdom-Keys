@@ -181,7 +181,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 					target.invulnerableTime = 0;
 					target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					setDeltaMovement(getDeltaMovement().scale(0.8));
-					dmg *= 0.9;
+					dmg *= 1.2;
 					
 				}
 			} else { // Block (not ERTR)

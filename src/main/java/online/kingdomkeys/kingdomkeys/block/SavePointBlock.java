@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -27,17 +26,24 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSavePointScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
+import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
-	boolean linked;
-	public SavePointBlock(Properties properties, boolean linked) {
+	SavePointStorage.SavePointType type;
+	public SavePointBlock(Properties properties, SavePointStorage.SavePointType type) {
 		super(properties);
-		this.linked = linked;
+		this.type = type;
+	}
+
+	public SavePointStorage.SavePointType getType() {
+		return type;
 	}
 
 	@Override
@@ -61,14 +67,22 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		if(!worldIn.isClientSide) {
-	    	((ServerPlayer)player).setRespawnPosition(worldIn.dimension(), pos.above(), 0F, true, false);
-			player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
-		} else {
-			player.playSound(ModSounds.savespawn.get(), 1F, 1F);
+	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+		if (pNewState.getBlock() != this) {
+			if (getType() != SavePointStorage.SavePointType.NORMAL) {
+				if (!pLevel.isClientSide()) {
+					SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
+					SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
+					storage.removeSavePoint(te.getID());
+					for (Level level : pLevel.getServer().getAllLevels()) {
+						for (Player playerFromList : level.players()) {
+							PacketHandler.sendTo(new SCUpdateSavePoints(null, storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+						}
+					}
+				}
+			}
 		}
-		return InteractionResult.CONSUME;
+		super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -77,7 +91,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		if (entity instanceof Player player) {
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (playerData != null) {
-				String list = linked ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
+				String list = type != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
 				if(list.contains("HP") && player.getHealth() < playerData.getMaxHP()){
 					player.heal(1);
 					showParticles(player,world,pos);

@@ -53,6 +53,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCAeroSoundPacket.class, SCAeroSoundPacket::encode, SCAeroSoundPacket::decode, SCAeroSoundPacket::handle);
 		HANDLER.registerMessage(packetID++, SCShowMessagesPacket.class, SCShowMessagesPacket::encode, SCShowMessagesPacket::decode, SCShowMessagesPacket::handle);
 		HANDLER.registerMessage(packetID++, SCSyncMoogleNames.class, SCSyncMoogleNames::encode, SCSyncMoogleNames::decode, SCSyncMoogleNames::handle);
+		HANDLER.registerMessage(packetID++, SCOpenSavePointScreen.class, SCOpenSavePointScreen::encode, SCOpenSavePointScreen::new, SCOpenSavePointScreen::handle);
+		HANDLER.registerMessage(packetID++, SCUpdateSavePoints.class, SCUpdateSavePoints::encode, SCUpdateSavePoints::new, SCUpdateSavePoints::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
@@ -110,7 +112,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSCloseMoogleGUI.class, CSCloseMoogleGUI::encode, CSCloseMoogleGUI::decode, CSCloseMoogleGUI::handle);
 		HANDLER.registerMessage(packetID++, CSSetAirStepPacket.class, CSSetAirStepPacket::encode, CSSetAirStepPacket::decode, CSSetAirStepPacket::handle);
 		HANDLER.registerMessage(packetID++, CSGiveUpKO.class, CSGiveUpKO::encode, CSGiveUpKO::decode, CSGiveUpKO::handle);
-
+		HANDLER.registerMessage(packetID++, CSCreateSavePoint.class, CSCreateSavePoint::encode, CSCreateSavePoint::new, CSCreateSavePoint::handle);
+		HANDLER.registerMessage(packetID++, CSSavePointTP.class, CSSavePointTP::encode, CSSavePointTP::new, CSSavePointTP::handle);
 	}
 
 	public static <MSG> void sendToServer(MSG msg) {

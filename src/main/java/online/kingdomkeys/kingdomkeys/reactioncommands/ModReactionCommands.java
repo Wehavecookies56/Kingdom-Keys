@@ -31,6 +31,8 @@ public class ModReactionCommands {
 		MAGNET = REACTION_COMMANDS.register(new ResourceLocation(Strings.Magic_Magnet).getPath(), () -> new ReactionMagic(Strings.Magic_Magnet)),
 		REFLECT = REACTION_COMMANDS.register(new ResourceLocation(Strings.Magic_Reflect).getPath(), () -> new ReactionMagic(Strings.Magic_Reflect)),
 		GRAVITY = REACTION_COMMANDS.register(new ResourceLocation(Strings.Magic_Gravity).getPath(), () -> new ReactionMagic(Strings.Magic_Gravity)),
-		STOP = REACTION_COMMANDS.register(new ResourceLocation(Strings.Magic_Stop).getPath(), () -> new ReactionMagic(Strings.Magic_Stop))
+		STOP = REACTION_COMMANDS.register(new ResourceLocation(Strings.Magic_Stop).getPath(), () -> new ReactionMagic(Strings.Magic_Stop)),
+
+		SAVE = REACTION_COMMANDS.register("save_rc", () -> new ReactionSave(new ResourceLocation(KingdomKeys.MODID, "save_rc")));
 	;
 }

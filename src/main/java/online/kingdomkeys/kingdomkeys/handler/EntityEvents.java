@@ -1434,6 +1434,8 @@ public class EntityEvents {
 		newPlayerData.setSynthExperience(oldPlayerData.getSynthExperience());
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
+		newPlayerData.setDiscoveredSavePoints(oldPlayerData.discoveredSavePoints());
+
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level())), (ServerPlayer) nPlayer);
 		oPlayer.invalidateCaps();
 	}
