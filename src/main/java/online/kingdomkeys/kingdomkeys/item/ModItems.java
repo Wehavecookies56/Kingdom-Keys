@@ -938,7 +938,7 @@ public class ModItems {
 			chaosAnklet = createNewItem(Strings.chaosAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness, 25))),
 			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
 			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20))),
-			lightDefTest = createNewItem(Strings.lightDefTest, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.light,20,KKResistanceType.darkness,20))),
+			//lightDefTest = createNewItem(Strings.lightDefTest, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.light,20,KKResistanceType.darkness,20))),
 
 			
 			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),

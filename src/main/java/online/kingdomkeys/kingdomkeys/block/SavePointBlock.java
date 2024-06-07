@@ -67,18 +67,6 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		if(!worldIn.isClientSide) {
-	    	((ServerPlayer)player).setRespawnPosition(worldIn.dimension(), pos.above(), 0F, true, false);
-			player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
-			PacketHandler.sendTo(new SCOpenSavePointScreen((SavepointTileEntity) worldIn.getBlockEntity(pos), player), (ServerPlayer) player);
-		} else {
-			player.playSound(ModSounds.savespawn.get(), 1F, 1F);
-		}
-		return InteractionResult.CONSUME;
-	}
-
-	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
 		if (pNewState.getBlock() != this) {
 			if (getType() != SavePointStorage.SavePointType.NORMAL) {

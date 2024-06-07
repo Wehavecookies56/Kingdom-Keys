@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.ChatFormatting;
@@ -838,8 +840,14 @@ public class InputHandler {
     	loadLists();
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
-			CommandMenuGui.reactionSelected = 0;
-			playInSound();
+            String reactionName = playerData.getReactionCommands().get(CommandMenuGui.reactionSelected);
+            ReactionCommand reaction = ModReactionCommands.registry.get().getValue(new ResourceLocation(reactionName));
+            CommandMenuGui.reactionSelected = 0;
+            if (reaction != null) {
+                playSound(reaction.getUseSound(player, InputHandler.lockOn));
+            } else {
+                playInSound();
+            }
 		}
 	}
 
