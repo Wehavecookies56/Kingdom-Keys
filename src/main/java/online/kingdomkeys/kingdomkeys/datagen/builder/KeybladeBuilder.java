@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
 

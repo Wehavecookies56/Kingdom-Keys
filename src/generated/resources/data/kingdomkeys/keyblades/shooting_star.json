@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 4
   },
-  "description": "A Keyblade with an emphasis on Magic.",
+  "description": "item.kingdomkeys.shooting_star.desc",
   "keychain": "kingdomkeys:shooting_star_chain",
   "levels": [
     {

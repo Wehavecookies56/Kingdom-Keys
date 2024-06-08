@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 5
   },
-  "description": "Increases strength during MP Charge and allows unlimited chaining of combos.",
+  "description": "item.kingdomkeys.fatal_crest.desc",
   "keychain": "kingdomkeys:fatal_crest_chain",
   "levels": [
     {

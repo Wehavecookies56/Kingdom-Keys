@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 5
   },
-  "description": "A Keyblade that lands fewer critical hits, but compensates with a boost in Magic and more frequent Reality Shifts.",
+  "description": "item.kingdomkeys.oceans_rage.desc",
   "keychain": "kingdomkeys:oceans_rage_chain",
   "levels": [
     {

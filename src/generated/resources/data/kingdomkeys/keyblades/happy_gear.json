@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 6
   },
-  "description": "A Keyblade with an emphasis on Strength.",
+  "description": "item.kingdomkeys.happy_gear.desc",
   "keychain": "kingdomkeys:happy_gear_chain",
   "levels": [
     {

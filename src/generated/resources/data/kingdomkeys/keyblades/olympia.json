@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 7
   },
-  "description": "A powerful weapon that is difficult to deflect. Capable of inflicting mighty critical blows.",
+  "description": "item.kingdomkeys.olympia.desc",
   "keychain": "kingdomkeys:olympia_chain",
   "levels": [
     {

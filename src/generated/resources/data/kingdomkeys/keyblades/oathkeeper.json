@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 7
   },
-  "description": "Enhances magic and increases the duration of a Drive Form.",
+  "description": "item.kingdomkeys.oathkeeper.desc",
   "keychain": "kingdomkeys:oathkeeper_chain",
   "levels": [
     {

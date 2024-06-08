@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "Increases maximum combo by 1 when in midair.",
+  "description": "item.kingdomkeys.star_seeker.desc",
   "keychain": "kingdomkeys:star_seeker_chain",
   "levels": [
     {

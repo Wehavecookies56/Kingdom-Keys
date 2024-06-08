@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 10
   },
-  "description": "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.",
+  "description": "item.kingdomkeys.kiblade.desc",
   "keychain": "kingdomkeys:kiblade_chain",
   "levels": [
     {

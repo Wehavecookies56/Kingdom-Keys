@@ -109,7 +109,7 @@
   "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_hp_gain.name": "HP-Gewinn",
 
-  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_jackpot.name": "Jackpot",
 
   "ability.ability_leaf_bracer.desc": "Das wirken von Vita auf sich selbst wird nicht unterbrochen, wird man attackiert.",
@@ -118,7 +118,7 @@
   "ability.ability_light_and_darkness.desc": "Hat eine spezielle geheime Wirkung.",
   "ability.ability_light_and_darkness.name": "Licht & Dunkelheit",
 
-  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_lucky_lucky.desc": "Wirkt Glück (Effekt & Verzauberung), und Plünderung auf den Träger, erhöht die Drop-Rate von Items.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_lucky_lucky.name": "Glückspilz",
   "ability.ability_magic_lock_on.desc": "Erlaubt es dem Benutzer einige Zauber bei der Position einer anvisierten Entitität zu benutzen.",
   "ability.ability_magic_lock_on.name": "Magie-Autovisieren",
@@ -133,10 +133,10 @@
   "ability.ability_mp_rage.name": "Esprit",
   "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
   "ability.ability_mp_safety.name": "MP-Aufladung",
-  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_mp_thrift.name": "MP Thrift",
 
-  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_negative_combo.name": "Combo -",
 
   "ability.ability_protect.desc":"Negiert 10% Schaden aus jeglichen Quellen.",
@@ -155,17 +155,16 @@
   "ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
   "ability.ability_synch_blade.name": "Synchrone Klingen",
 
-  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_treasure_magnet.name": "Charmeur",
-  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
+  "ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nMehrfaches Anlegen erhöht die Chance.",
   "ability.ability_wizards_ruse.name": "Hexertrick",
   "ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
   "ability.ability_zero_exp.name": "Null Erfahrung",
 
   "ability.ability_stackable.prefix": "Diese Ability kann aufgestapelt werden, um ",
-  "ability.ability_stackable.increase_chance": "die Chance zu erhöhen.", // "Mehrfaches Anlegen erhöht die Chance."
-  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.", //"Ausgerüstete Menge bestimmt die Anzahl der Zusatzhiebe."
-  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.", // "Mehrfaches Anlegen erhöht den Effekt."
+  "ability.ability_stackable.increase_effect": "den Effekt zu steigern.",
+  "ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.",
 
   //ADVANCEMENTS
 
@@ -177,7 +176,7 @@
   "advancements.kingdomkeys.levelup100.desc": "Erreiche Stufe 100",
   "advancements.kingdomkeys.levelup50": "Halbzeit",
   "advancements.kingdomkeys.levelup50.desc": "Erreiche Stufe 50",
-  "advancements.kingdomkeys.obtain_drive": "Das ist nicht meine wahre Form",
+  "advancements.kingdomkeys.obtain_drive": "Das ist noch nicht Mal meine wahre Form",
   "advancements.kingdomkeys.obtain_drive.desc": "Erhalte deine erste Drive Form",
   "advancements.kingdomkeys.obtain_keychain": "So ein Mogry kennt sich gut aus",
   "advancements.kingdomkeys.obtain_keychain.desc": "Lasse deinen ersten Anhänger anfertigen",
@@ -187,9 +186,9 @@
   "advancements.kingdomkeys.obtain_magic.desc": "Erhalte deinen ersten Zauber",
   "advancements.kingdomkeys.obtain_org": "Niemand trägt sowas",
   "advancements.kingdomkeys.obtain_org.desc": "Werde Miglied der Organisation",
-  "advancements.kingdomkeys.obtain_projector": "Opfer müssen gebracht werden",
+  "advancements.kingdomkeys.obtain_projector": "Manchmal muss man Opfer bringen",
   "advancements.kingdomkeys.obtain_projector.desc": "Erhalte einen Mogry-Projektor",
-  "advancements.kingdomkeys.obtain_recipe": "Mogrys können das benutzen",
+  "advancements.kingdomkeys.obtain_recipe": "Ein Mogry kann damit mehr anfangen.",
   "advancements.kingdomkeys.obtain_recipe.desc": "Erlange eine Formel",
   "advancements.kingdomkeys.root": "Willkommen zu Kingdom Keys!",
   "advancements.kingdomkeys.root.desc": "Installiere Kingdom Keys",
@@ -376,7 +375,7 @@
   "entity.kingdomkeys.entity_chakram": "Chakram",
 
   "entity.kingdomkeys.entity_drive_orb": "Drive-Kugel",
-  "entity.kingdomkeys.entity_hp_orb": "LP-Kugel",
+  "entity.kingdomkeys.entity_hp_orb": "HP-Kugel",
   "entity.kingdomkeys.entity_mp_orb": "MP-Kugel",
   "entity.kingdomkeys.entity_munny": "Taler",
   
@@ -408,7 +407,7 @@
   "gear.chrono_gear_p.name": "Chrono-Mod+ (3)",
   "gear.phantom_gear.name": "Phantom-Mod (4)",
   "gear.phantom_gear_p.name": "Phantom-Mod+ (4)",
-  "gear.phantom_gear_pp.name": "Phantom-Mod++ (5)",
+  "gear.phantom_gear_p.name": "Phantom-Mod++ (5)",
   "gear.lift_gear.name": "Hebe-Mod (3)",
   "gear.lift_gear_p.name": "Hebe-Mod+ (3)",
   "gear.nimble_gear.name": "Flinkheitsmod (4)",
@@ -448,19 +447,19 @@
   "gui.commandmenu.attack": "Angriff",
   "gui.commandmenu.command": "KOMMANDOS",
   "gui.commandmenu.drive": "Drive",
-  "gui.commandmenu.drive.title": "FORMEN",
-  "gui.commandmenu.items": "Item",
-  "gui.commandmenu.items.title": "ITEMS",
+  "gui.commandmenu.drive.title": "Formen",
+  "gui.commandmenu.items": "Items",
+  "gui.commandmenu.items.title": "Items",
   "gui.commandmenu.limit": "Limit",
-  "gui.commandmenu.limit.title": "LIMIT-MOVES",
+  "gui.commandmenu.limit.title": "Limits",
   "gui.commandmenu.magic": "Magie",
-  "gui.commandmenu.magic.title": "SPRÜCHE",
+  "gui.commandmenu.magic.title": "Magie",
   "gui.commandmenu.portal": "Portal",
-  "gui.commandmenu.portal.title": "PORTALE",
+  "gui.commandmenu.portal.title": "Portale",
   "gui.commandmenu.revert": "Zurück",
 
   "gui.driveformorb.tooltip": "Verbessert die %s",
-  "gui.driveformorb.upgrade": "%1$s hat %2$s Exp erhalten",
+  "gui.driveformorb.upgrade": "%s hat %s Exp erhalten",
 
   "gui.magicspell.maxed": "%s ist bereits das Maximum",
   "gui.magicspell.unlock": "Schaltet %s frei",
@@ -479,7 +478,6 @@
   "gui.menu.config.armor.red": "Rüstung Rot",
 
   "gui.menu.config.bg": "Hintergrund Umschalten",
-  "gui.menu.config.classic_colors": "Klassiche Farben",
   "gui.menu.config.command_menu": "Kommando-Menü",
   "gui.menu.config.dp": "Drive-Balken",
   "gui.menu.config.focus": "Fokus-Balken",
@@ -523,7 +521,7 @@
   "gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
   "gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
   "gui.menu.items.equipment.weapon": "Waffe",
-  "gui.menu.items.equipment.weapon.keyblades": "Schlüssel.", // Schlüsselschwerter
+  "gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
   "gui.menu.items.stock": "Lager",
   "gui.menu.items.stock.desc": "Überprüfe dein Inventar.",
 
@@ -548,13 +546,13 @@
 
   "gui.menu.main.hearts": "Herzen",
   "gui.menu.main.munny": "Taler",
-  "gui.menu.main.synthesis_tier": "Schmiede-Stufe",
+  "gui.menu.main.synthesis_tier": "Synthese-Stufe",
   "gui.menu.main.time": "Uhrzeit (Welt)",
   "gui.menu.main.time.spent": "Vergangene Zeit",
   "gui.menu.main.title": "Menü",
 
   "gui.menu.party": "Gruppe",
-  "gui.menu.party.create": "Erstellen", //"Gruppe erstellen"
+  "gui.menu.party.create": "Gruppe erstellen",
   "gui.menu.party.create.accessibility": "Zugang",
   "gui.menu.party.create.accessibility.private": "Privat",
   "gui.menu.party.create.accessibility.public": "Öffentlich",
@@ -562,7 +560,7 @@
   "gui.menu.party.create.name": "Name",
   "gui.menu.party.disband": "Auflösen",
   "gui.menu.party.invite": "Einladen",
-  "gui.menu.party.join": "Beitreten", //"Gruppe beitreten"
+  "gui.menu.party.join": "Gruppe beitreten",
   "gui.menu.party.join.desc": "Trete einer bereits erstellten Gruppe bei.",
   "gui.menu.party.kick": "Rauswerfen",
   "gui.menu.party.leave": "Austreten",
@@ -578,20 +576,17 @@
   "gui.menu.status.darkres": "Dunkelresistenz",
   "gui.menu.status.darkresshort": "Dunkelres.",
   "gui.menu.status.defense": "Abwehr", //Abwehrkraft
-  //"gui.menu.status.defenselong": "Abwehrkraft", //Abwehrkraft
   "gui.menu.status.drivegauge": "Drive-Leiste",
   "gui.menu.status.fireres": "Feuerresistenz",
   "gui.menu.status.fireresshort": "Feuerres.",
   "gui.menu.status.formgauge": "Form-Leiste",
-  "gui.menu.status.formlevel": "Form-Stufe",
-  "gui.menu.status.hp": "LP",
-  "gui.menu.status.level": "Stufe",
+  "gui.menu.status.formlevel": "Form-Level",
+  "gui.menu.status.hp": "HP",
+  "gui.menu.status.level": "Level",
   "gui.menu.status.magic": "Magie", //Magiekraft
-  //"gui.menu.status.magiclong": "Magiekraft",
   "gui.menu.status.mp": "MP",
-  "gui.menu.status.nextlevel": "Nächste Stufe", // Nächst. LV
+  "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
   "gui.menu.status.strength": "Angriff", //Angriffskraft
-  //"gui.menu.status.strengthlong": "Angriffskraft", //Angriffskraft
   "gui.menu.status.thunderres": "Blitzresistenz",
   "gui.menu.status.thunderresshort": "Blitzres.",
   "gui.menu.status.totalexp": "Erfahrung",
@@ -642,8 +637,8 @@
   "gui.synthesis.materials.deposit": "Einlagern",
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
-  "gui.synthesis.synthesise": "Item-Schmiede",
-  "gui.synthesis.synthesise.title": "Schmiede",
+  "gui.synthesis.synthesise": "Item-Synthese",
+  "gui.synthesis.synthesise.title": "Synthese",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",
@@ -667,14 +662,10 @@
   "item.kingdomkeys.dream_staff": "Alchera-Stab",
   "item.kingdomkeys.dream_sword": "Alchera-Schwert",
 
-  "item.kingdomkeys.synthesis_bag": "Schmiedebeutel",
+  "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
 
   "item.kingdomkeys.wayfinder": "Wegfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
-
-  "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch",
-  "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
-  "patchouli.kingdomkeys.journal.hello": "Wilkommen, Schlüsselschwertträger, zur $(thing)Kingdom Key's$() Mod.$(p)Im diesem Buch, wirst du jegliche Informationen finden, um anzufangen.",
 
 
   // -SPAWN EGGS
@@ -696,7 +687,7 @@
   "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
   "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
   "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
-  "item.kingdomkeys.shadow_spawn_egg": "Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
@@ -707,7 +698,7 @@
 
   // -MATERIALS
 
-  "item.kingdomkeys.adamantite": "Adamant",
+  "item.kingdomkeys.adamantite": "Adamantit",
 
   "item.kingdomkeys.betwixt_crystal": "Duktilkristall",
   "item.kingdomkeys.betwixt_gem": "Duktilstein",
@@ -721,7 +712,7 @@
 
   "item.kingdomkeys.electrum": "Elektrum",
 
-  "item.kingdomkeys.damascus": "Damast",
+  "item.kingdomkeys.damascus": "Damaskus",
 
   "item.kingdomkeys.evanescent_crystal": "Dunstkristall",
 
@@ -744,14 +735,14 @@
   "item.kingdomkeys.lightning_shard": "Donnersplitter",
   "item.kingdomkeys.lightning_stone": "Donnertropfen",
 
-  "item.kingdomkeys.lost_illusion": "Flüchtige Vision",
+  "item.kingdomkeys.lost_illusion": "Verlorene Illusion",
 
   "item.kingdomkeys.lucid_crystal": "Luzidkristall",
   "item.kingdomkeys.lucid_gem": "Luzidstein",
   "item.kingdomkeys.lucid_shard": "Luzidsplitter",
   "item.kingdomkeys.lucid_stone": "Luzidtropfen",
 
-  "item.kingdomkeys.manifest_illusion": "Beständige Vision",
+  "item.kingdomkeys.manifest_illusion": "Manifestierte Illusion",
 
   "item.kingdomkeys.mythril_crystal": "Mithrilkristall",
   "item.kingdomkeys.mythril_gem": "Mithrilstein",
@@ -850,7 +841,7 @@
 
   "item.kingdomkeys.aced_boots": "Aced Stiefel",
   "item.kingdomkeys.aced_chestplate": "Aced Mantel",
-  "item.kingdomkeys.aced_helmet": "Aced Kapuze",
+  "item.kingdomkeys.aced_helmet": "Aced kapuze",
   "item.kingdomkeys.aced_leggings": "Aced Hose",
 
   "item.kingdomkeys.anticoat_boots": "Antirobe Stiefel",
@@ -863,10 +854,10 @@
   "item.kingdomkeys.aqua_helmet": "Aqua Helm",
   "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
 
-  "item.kingdomkeys.ava_boots": "Ava Stiefel",
-  "item.kingdomkeys.ava_chestplate": "Ava Mantel",
-  "item.kingdomkeys.ava_helmet": "Ava Kapuze",
-  "item.kingdomkeys.ava_leggings": "Ava Hose",
+  "item.kingdomkeys.ava_boots": "Ava Boots",
+  "item.kingdomkeys.ava_chestplate": "Ava Coat",
+  "item.kingdomkeys.ava_helmet": "Ava Hood",
+  "item.kingdomkeys.ava_leggings": "Ava Leggings",
 
   "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
   "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
@@ -940,13 +931,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
-  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
+  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
 
 
   // -ACCESOIRES
@@ -1012,7 +1003,7 @@
   "item.kingdomkeys.magicboost": "Magiesphäre",
   "item.kingdomkeys.powerboost": "Kraftbolzen",
 
-  "item.kingdomkeys.proof_of_heart": "Zeugnis des Herzens",
+  "item.kingdomkeys.proof_of_heart": "Beweis des Herzens",
 
 
   // --MAGIC AND FORMS
@@ -1037,9 +1028,9 @@
 
   // -WEAPONS
 
-  "item.kingdomkeys.struggle_hammer": "Struggle-Knüppel", //schwert in kh2, knüppel in FM??
-  "item.kingdomkeys.struggle_sword": "Struggle-Schwert", //knüppel in kh2, schwert in FM?
-  "item.kingdomkeys.struggle_wand": "Struggle-Zauberstab",
+  "item.kingdomkeys.struggle_hammer": "Struggle-Schwert",
+  "item.kingdomkeys.struggle_sword": "Struggle-Knüppel",
+  "item.kingdomkeys.struggle_wand": "Struggle-Stab",
 
   // --KEYBLADES
 
@@ -1062,8 +1053,10 @@
   "item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Schlüsselschwert der Herzen-Anhänger",
   "item.kingdomkeys.kingdom_key": "Königsanhänger", //sora
   "item.kingdomkeys.kingdom_key_chain": "Königsanhänger-Anhänger",
+  "item.kingdomkeys.kingdom_key.desc": "Ein Schlüsselanhänger, der am Schlüsselschwert angebracht ist. Halbiert erlittenen Schaden in kritischen Situationen", //from kh2
   "item.kingdomkeys.kingdom_key_d": "Königsanhänger D", //mickey
   "item.kingdomkeys.kingdom_key_d_chain": "Königsanhänger D-Anhänger",
+  "item.kingdomkeys.kingdom_key_d.desc": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.", //from kh2
   "item.kingdomkeys.lady_luck": "Herzensbrecher",
   "item.kingdomkeys.lady_luck_chain": "Herzensbrecher-Anhänger",
   "item.kingdomkeys.lionheart": "Löwenherz",
@@ -1072,8 +1065,10 @@
   "item.kingdomkeys.metal_chocobo_chain": "Metall-Chocobo-Anhänger",
   "item.kingdomkeys.oathkeeper": "Sternentreue", //zero + 1 ability
   "item.kingdomkeys.oathkeeper_chain": "Sternentreue-Anhänger",
+  "item.kingdomkeys.oathkeeper.desc": "Besitzt hohe Magiekraft und erhöht die Verweildauer in den Formen.", //from kh2
   "item.kingdomkeys.oblivion": "Memoire", //pandora (riku)
   "item.kingdomkeys.oblivion_chain": "Memoire-Anhänger",
+  "item.kingdomkeys.oblivion.desc": "Besitzt sehr große Angriffskraft und erhöht die Rate, mit der sich sie Drive-Leiste während der MP-Aufladung füllt.", //from kh2
   "item.kingdomkeys.olympia": "Heros",
   "item.kingdomkeys.olympia_chain": "Heros-Anhänger",
   "item.kingdomkeys.pumpkinhead": "Cucurbita",
@@ -1105,50 +1100,68 @@
 
   "item.kingdomkeys.zero_one": "Binär",
   "item.kingdomkeys.zero_one_chain": "Binär-Anhänger",
+  "item.kingdomkeys.zero_one.desc": "A Keyblade newly wrought within the datascape. Its powers render all opponents helpless.",
 
 
   // ---KH2
 
-  "item.kingdomkeys.circle_of_life": "Der ewige Kreis",
-  "item.kingdomkeys.circle_of_life_chain": "Der ewige Kreis-Anhänger",
+  "item.kingdomkeys.circle_of_life": "Der Ewige Kreis",
+  "item.kingdomkeys.circle_of_life_chain": "Der Ewige Kreis-Anhänger",
+  "item.kingdomkeys.circle_of_life.desc": "Besitzt sehr große Angriffskraft und erhöht die Geschwindigkeit, mit der sich die MP nach komplettem Verbrauch aufladen.",
   "item.kingdomkeys.decisive_pumpkin": "St. Kürbinian",
   "item.kingdomkeys.decisive_pumpkin_chain": "St. Kürbinian-Anhänger",
+  "item.kingdomkeys.decisive_pumpkin.desc": "Besitzt sehr große Angriffskraft und erhöht den Schaden, den ein Combo-Abschlussangriff verursacht, proportional zu der Anzahl der Schläge einer Boden-Combo.",
   "item.kingdomkeys.destinys_embrace": "Schicksalswink", //kairi
   "item.kingdomkeys.destinys_embrace_chain": "Schicksalswink-Anhänger", //aqua
   "item.kingdomkeys.fenrir": "Fenrir",
   "item.kingdomkeys.fenrir_chain": "Fenrir-Anhänger",
+  "item.kingdomkeys.fenrir.desc": "Gute Reichweite und unvergleichliche Angriffskraft. Reduziert die maximale Anzahl der Schläge von Boden- und Luft-Combos um 1.",
   "item.kingdomkeys.follow_the_wind": "Folge dem Wind",
   "item.kingdomkeys.follow_the_wind_chain": "Folge dem Wind-Anhänger",
+  "item.kingdomkeys.follow_the_wind.desc": "Zieht Kugeln in der Nähe heran.",
   "item.kingdomkeys.guardian_soul": "Seelenwächter",
   "item.kingdomkeys.guardian_soul_chain": "Seelenwächter-Anhänger",
+  "item.kingdomkeys.guardian_soul.desc": "Besitzt große Angriffskraft und erhöht den Schaden, der durch Situations-Kommandos verursacht wird.",
   "item.kingdomkeys.gull_wing": "Möwenflügel",
   "item.kingdomkeys.gull_wing_chain": "Möwenflügel-Anhänger",
+  "item.kingdomkeys.gull_wing.desc": "Besitzt hohe Magiekraft. Erhöht die erhalten Erfahrungspunkte drastisch, wenn dir weniger als die Hälfte deiner HP beim Sieg über einen Gegner verbleiben.",
   "item.kingdomkeys.heros_crest": "Heldenwappen",
   "item.kingdomkeys.heros_crest_chain": "Heldenwappen-Anhänger",
+  "item.kingdomkeys.heros_crest.desc": "Erhöht den Schaden, den ein Combo-Abschlussangriff verursacht, proportional zu der Anzahl der Schläge einer Luft-Combo.",
   "item.kingdomkeys.hidden_dragon": "Verborgener Drache",
   "item.kingdomkeys.hidden_dragon_chain": "Verborgener Drache-Anhänger",
+  "item.kingdomkeys.hidden_dragon.desc": "Stellt proportional zu erlittenem Schaden die MP wieder her.",
   "item.kingdomkeys.monochrome": "Monochrom",
   "item.kingdomkeys.monochrome_chain": "Monochrom-Anhänger",
+  "item.kingdomkeys.monochrome.desc": "Erhöht den Effekt von im Kampf eingesetzen Items, die HP wiederherstellen.",
   "item.kingdomkeys.mysterious_abyss": "Mysteriöser Graben",
   "item.kingdomkeys.mysterious_abyss_chain": "Mysteriöser Graben-Anhänger",
+  "item.kingdomkeys.mysterious_abyss.desc": "Besitzt hohe Magiekraft und erhöht den Schaden, der durch Eis-basierte Attacken verursacht wird.",
   "item.kingdomkeys.photon_debugger": "Photonen-Debugger",
   "item.kingdomkeys.photon_debugger_chain": "Photonen-Debugger-Anhänger",
+  "item.kingdomkeys.photon_debugger.desc": "Erhöht den Schaden, der durch Blitz-basierte Attacken verursacht wird.",
   "item.kingdomkeys.rumbling_rose": "Donnerrose",
   "item.kingdomkeys.rumbling_rose_chain": "Donnerrose-Anhänger",
+  "item.kingdomkeys.rumbling_rose.desc": "Besitzt große Angriffskraft und löst kontinuierliche Abschlussangriffe nach Combos aus.",
   "item.kingdomkeys.sleeping_lion": "Schlafender Löwe",
   "item.kingdomkeys.sleeping_lion_chain": "Schlafender Löwe-Anhänger",
+  "item.kingdomkeys.sleeping_lion.desc": "Gut Balance aus großer Angriffskraft und hoher Magiekraft, und erhöht die maximale Anzahl der Schläge einer Boden-Combo um 1.",
   "item.kingdomkeys.sweet_memories": "Süße Nostalgie",
   "item.kingdomkeys.sweet_memories_chain": "Süße Nostalgie-Anhänger",
+  "item.kingdomkeys.sweet_memories.desc": "Erhöht die Angriffskraft nicht, aber erhöht die Wahrscheinlichkeit, dass besiegte Gegner Drive-Kugeln anstelle von Talern hinterlassen.",
   "item.kingdomkeys.ultima_weapon_kh2": "Ultima (KH2)",
   "item.kingdomkeys.ultima_weapon_kh2_chain": "Ultima (KH2)-Anhänger",
+  "item.kingdomkeys.ultima_weapon_kh2.desc": "Das Schlüsselschwert mit der ultimativen Balance. Erhöht die Geschwindigkeit, mit der sich die MP nach komplettem Verbrauch aufladen.",
   "item.kingdomkeys.wishing_lamp": "Wunderklinge",
   "item.kingdomkeys.wishing_lamp_chain": "Wunderklinge-Anhänger",
+  "item.kingdomkeys.wishing_lamp.desc": "Besitzt hohe Magiekraft, und erhöht die Menge an Talern, HP- und MP-Kugeln, die besiegte Gegner hinterlassen.",
 
   //Final Mix
   "item.kingdomkeys.stormfall": "Regensturm",
   "item.kingdomkeys.stormfall_chain": "Regensturm-Anhänger", //aqua
   "item.kingdomkeys.winners_proof": "Siegesbeweis",
   "item.kingdomkeys.winners_proof_chain": "Siegesbeweis-Anhänger",
+  "item.kingdomkeys.winners_proof.desc": "Gute Kombination aus exessiver Magiekraft und sehr großer Angriffskraft. Deaktiviert das Erlangen von Erfahrungspunkten beim Sieg über Gegner.",
 
 
   // ---KH BBS
@@ -1159,12 +1172,14 @@
   "item.kingdomkeys.chaos_ripper_chain": "Chaosbringer-Anhänger",
   "item.kingdomkeys.darkgnaw": "Schattenlefzen",
   "item.kingdomkeys.darkgnaw_chain": "Schattenlefzen-Anhänger",
+  "item.kingdomkeys.darkgnaw.desc": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
   "item.kingdomkeys.earthshaker": "Erderschütterer", //terra og
   "item.kingdomkeys.earthshaker_chain": "Erderschütterer-Anhänger",
   "item.kingdomkeys.ends_of_the_earth": "Hinter dem Horizont",
   "item.kingdomkeys.ends_of_the_earth_chain": "Hinter dem Horizont-Anhänger",
   "item.kingdomkeys.fairy_stars": "Feengestirn",
   "item.kingdomkeys.fairy_stars_chain": "Feengestirn-Anhänger",
+  "item.kingdomkeys.fairy_stars.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.frolic_flame": "Flammende Flausen", //ventus
   "item.kingdomkeys.frolic_flame_chain": "Flammende Flausen-Anhänger",
   "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
@@ -1181,10 +1196,12 @@
   "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
   "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
   "item.kingdomkeys.stroke_of_midnight_chain": "Punkt Mitternacht-Anhänger",
+  "item.kingdomkeys.stroke_of_midnight.desc": "Dieses Schlüsselschwert ermöglicht kritische Treffer häufiger.",
   "item.kingdomkeys.sweetstack": "Süßer Traum",
   "item.kingdomkeys.sweetstack_chain": "Süßer Traum-Anhänger",
   "item.kingdomkeys.treasure_trove": "Schatzsucher",
   "item.kingdomkeys.treasure_trove_chain": "Schatzsucher-Anhänger",
+  "item.kingdomkeys.treasure_trove.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft, aber geringer Reichweite.",
   "item.kingdomkeys.ultima_weapon_bbs": "Ultima (BBS)",
   "item.kingdomkeys.ultima_weapon_bbs_chain": "Ultima (BBS)-Anhänger",
   "item.kingdomkeys.victory_line": "Freudenjubel",
@@ -1193,10 +1210,11 @@
   "item.kingdomkeys.void_gear_chain": "Vanitas' Schlüsselschwert-Anhänger",
   "item.kingdomkeys.void_gear_remnant": "Clavis Vanitatum", // "Clavis Vanitatum Fragmentum",
   "item.kingdomkeys.void_gear_remnant_chain": "Clavis Vanitatum-Anhänger",
-  "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus og
+  "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus main
   "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
+  "item.kingdomkeys.wayward_wind.desc": "Das Schlüsselschwert mit dem Ventus seine Reise begann. Es hat eine geringe Reichweite, aber eine relativ hohe Angriffskraft.",
 
-  "item.kingdomkeys.no_name": "Das starrende Auge", //xehanort / luxu
+  "item.kingdomkeys.no_name": "Das starrende Auge", //luxu
   "item.kingdomkeys.no_name_chain": "Das starrende Auge-Anhänger",
 
   //Final Mix
@@ -1210,24 +1228,31 @@
 
   "item.kingdomkeys.all_for_one": "Alle für einen",
   "item.kingdomkeys.all_for_one_chain": "Alle für einen-Anhänger",
+  "item.kingdomkeys.all_for_one.desc": "Ein Schlüsselschwert, das weniger Realitätswandeln auslöst, aber einen hohen Magiewert hat und kritische Treffer erliechtert.",
   "item.kingdomkeys.bond_of_the_blaze": "Flammenbund", //name not full
   "item.kingdomkeys.bond_of_the_blaze_chain": "Flammenbund-Anhänger",
   "item.kingdomkeys.counterpoint": "Kontrapunkt",
   "item.kingdomkeys.counterpoint_chain": "Kontrapunkt-Anhänger",
+  "item.kingdomkeys.counterpoint.desc": "Ein Schlüsselschwert mit hoher Reichweite und hohem Magiewert, das das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.divewing": "Flügeltaucher",
   "item.kingdomkeys.divewing_chain": "Flügeltaucher-Anhänger",
   "item.kingdomkeys.dual_disc": "Doppeldiskus",
   "item.kingdomkeys.dual_disc_chain": "Doppeldiskus-Anhänger",
+  "item.kingdomkeys.dual_disc.desc": "Ein Schlüsselschwert mit hohem Angriffswert, mit dem kritische Treffer leichter werden.",
   "item.kingdomkeys.end_of_pain": "Garaus",
   "item.kingdomkeys.end_of_pain_chain": "Garaus-Anhänger",
   "item.kingdomkeys.fatal_crest": "Unheilbringer",
   "item.kingdomkeys.fatal_crest_chain": "Unheilbringer-Anhänger",
+  "item.kingdomkeys.fatal_crest.desc": "Erhöht die Angriffskraft während der MP-Aufladung und ermöglicht endlose Combos. Kein Combo-Abschlussangriff möglich.",
   "item.kingdomkeys.ferris_gear": "Riesenrad",
   "item.kingdomkeys.ferris_gear_chain": "Riesenrad-Anhänger",
+  "item.kingdomkeys.ferris_gear.desc": "Ein Schlüsselschwert, das weniger realitätswandel auslöst, aber hohe Angriffs- und Magiewerte besitzt.",
   "item.kingdomkeys.guardian_bell": "Schutzglocke",
   "item.kingdomkeys.guardian_bell_chain": "Schutzglocke-Anhänger",
+  "item.kingdomkeys.guardian_bell.desc": "Ein Schlüsselschwert mit großer Reichweite und hohem Magiewert.",
   "item.kingdomkeys.knockout_punch": "K.-o.-Schlag",
   "item.kingdomkeys.knockout_punch_chain": "K.-o.-Schlag-Anhänger",
+  "item.kingdomkeys.knockout_punch.desc": "Ein Schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandeln ermöglicht.",
   "item.kingdomkeys.mirage_split": "Desillusion",
   "item.kingdomkeys.mirage_split_chain": "Desillusion-Anhänger",
   "item.kingdomkeys.nightmares_end": "Albtraumende",
@@ -1236,86 +1261,115 @@
   "item.kingdomkeys.nightmares_end_and_mirage_split_chain": "Verbundene Klinge-Anhänger",
   "item.kingdomkeys.oceans_rage": "Tosende See",
   "item.kingdomkeys.oceans_rage_chain": "Tosende See-Anhänger",
+  "item.kingdomkeys.oceans_rage.desc": "Ein schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandel ermöglicht.",
   "item.kingdomkeys.skull_noise": "Schädelklopfer",
   "item.kingdomkeys.skull_noise_chain": "Schädelklopfer-Anhänger",
+  "item.kingdomkeys.skull_noise.desc": "Ein Schlüsselschwert mit ausgeglichenen Angriffs- und Magiewerten.",
   "item.kingdomkeys.sweet_dreams": "Süße Träume",
   "item.kingdomkeys.sweet_dreams_chain": "Süße Träume-Anhänger",
   "item.kingdomkeys.ultima_weapon_ddd": "Ultima (DDD)",
   "item.kingdomkeys.ultima_weapon_ddd_chain": "Ultima (DDD)-Anhänger",
+  "item.kingdomkeys.ultima_weapon_ddd.desc": "Ein außergewöhnliches Schlüsselschwert, mit allgemein hohen Werten, das kritische Treffer und das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.unbound": "Entfessler",
   "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
-  "item.kingdomkeys.way_to_the_dawn": "Weg zur Dämmerung", //riku
-  "item.kingdomkeys.way_to_the_dawn_chain": "Weg zur Dämmerung-Anhänger",
+  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert kritische Treffe und bes. das Auslösen von Realitätswandeln.",
   "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
   "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.young_xehanorts_keyblade.desc": "The Keyblade weilded by Young Xehanort.",
 
 
   // ---KH3
 
   "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
   "item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
+  "item.kingdomkeys.advent_red.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
   "item.kingdomkeys.dawn_till_dusk_chain": "Abendgrauen-Anhänger",
+  "item.kingdomkeys.dawn_till_dusk.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.dead_of_night": "Mondreign", //steam
   "item.kingdomkeys.dead_of_night_chain": "Mondreign-Anhänger",
   "item.kingdomkeys.elemental_encoder": "Elementarkodierer", //epic games
   "item.kingdomkeys.elemental_encoder_chain": "Elementarkodierer-Anhänger",
+  "item.kingdomkeys.elemental_encoder.desc": "Ein Schlüsselschwert voll mystischer Energie.",
+  "item.kingdomkeys.midnight_blue": "Mitternachtsblau", //pre-order
+  "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
   "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
   "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
 
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
+  "item.kingdomkeys.braveheart.desc": "Riku's Keyblade after the Way to the Dawn was broken.",
   "item.kingdomkeys.classic_tone": "Klassische Klänge",
   "item.kingdomkeys.classic_tone_chain": "Klassische Klänge-Anhänger",
+  "item.kingdomkeys.classic_tone.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.crystal_snow": "Pulverschnee",
   "item.kingdomkeys.crystal_snow_chain": "Pulverschnee-Anhänger",
+  "item.kingdomkeys.crystal_snow.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.ever_after": "Immer und Ewig",
   "item.kingdomkeys.ever_after_chain": "Immer und Ewig-Anhänger",
+  "item.kingdomkeys.ever_after.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.favorite_deputy": "Hilfssheriff Nr. 1",
   "item.kingdomkeys.favorite_deputy_chain": "Hilfssheriff Nr. 1-Anhänger",
+  "item.kingdomkeys.favorite_deputy.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.grand_chef": "Meisterkoch",
   "item.kingdomkeys.grand_chef_chain": "Meisterkoch-Anhänger",
+  "item.kingdomkeys.grand_chef.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.happy_gear": "Frohklinge",
   "item.kingdomkeys.happy_gear_chain": "Frohklinge-Anhänger",
+  "item.kingdomkeys.happy_gear.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.heros_origin": "Heldenwiege",
   "item.kingdomkeys.heros_origin_chain": "Heldenwiege-Anhänger",
+  "item.kingdomkeys.heros_origin.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
   "item.kingdomkeys.hunny_spout": "Honigschnabel",
   "item.kingdomkeys.hunny_spout_chain": "Honigschnabel-Anhänger",
-  "item.kingdomkeys.midnight_blue": "Mitternachtsblau",
-  "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
+  "item.kingdomkeys.hunny_spout.desc": "Ein Schlüsselschwert, das Angriff und Magie ausbalanciert.",
   "item.kingdomkeys.nano_gear": "Nano-Mod",
   "item.kingdomkeys.nano_gear_chain": "Nano-Mod-Anhänger",
+  "item.kingdomkeys.nano_gear.desc": "Ein Schlüsselschwert, das Angriff und Magie ausbalanciert.",
   "item.kingdomkeys.shooting_star": "Sternschnuppe",
   "item.kingdomkeys.shooting_star_chain": "Sternschnuppe-Anhänger",
+  "item.kingdomkeys.shooting_star.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
   "item.kingdomkeys.star_cluster_chain": "Star Cluster-Anhänger",
+  "item.kingdomkeys.star_cluster.desc": "Micky's Schlüsselschwert, auch bekannt als Schlüsselanhänger W.",
   "item.kingdomkeys.ultima_weapon_kh3": "Ultima (KH3)",
   "item.kingdomkeys.ultima_weapon_kh3_chain": "Ultima (KH3)-Anhänger",
+  "item.kingdomkeys.ultima_weapon_kh3.desc": "The supreme Keyblade.",
   "item.kingdomkeys.wheel_of_fate": "Schicksalsruder",
   "item.kingdomkeys.wheel_of_fate_chain": "Schicksalsruder-Anhänger",
+  "item.kingdomkeys.wheel_of_fate.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
 
   "item.kingdomkeys.incomplete_kiblade": "Unvollständige χ-Klinge",
   "item.kingdomkeys.incomplete_kiblade_chain": "Unvollständige χ-Klinge-Anhänger",
-  "item.kingdomkeys.kiblade": "χ-Klinge",
-  "item.kingdomkeys.kiblade_chain": "χ-Klinge-Anhänger",
+  "item.kingdomkeys.incomplete_kiblade.desc": "Eine unvollständige Version des legendären Schlüsselschwertes, der χ-Klinge.",
+  "item.kingdomkeys.kiblade": "\u03c7-Klinge",
+  "item.kingdomkeys.kiblade_chain": "\u03c7-Klinge-Anhänger",
+  "item.kingdomkeys.kiblade.desc": "Eine legendäre Waffe, das Ur-Schlüsselschwert, dass als Beispiel für alle Anderen diente.",
 
 
   // Union Cross
 
   "item.kingdomkeys.aceds_keyblade": "Aced's Schlüsselschwert",
   "item.kingdomkeys.aceds_keyblade_chain": "Aced's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
   "item.kingdomkeys.avas_keyblade": "Ava's Schlüsselschwert",
   "item.kingdomkeys.avas_keyblade_chain": "Ava's Schlüsselanhänger",
+  "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
   "item.kingdomkeys.gulas_keyblade": "Gula's Schlüsselschwert",
   "item.kingdomkeys.gulas_keyblade_chain": "Gula's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
   "item.kingdomkeys.invis_keyblade": "Invi's Schlüsselschwert",
   "item.kingdomkeys.invis_keyblade_chain": "Invi's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
   "item.kingdomkeys.iras_keyblade": "Ira's Schlüsselschwert",
   "item.kingdomkeys.iras_keyblade_chain": "Ira's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
   "item.kingdomkeys.starlight": "Sternenlicht",
   "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
+  "item.kingdomkeys.starlight.desc": "Ein Schlüsselschwert aus antiken Tagen.", //from kh3
   "item.kingdomkeys.moogle_o_glory": "Stolzer Mogry",
   "item.kingdomkeys.moogle_o_glory_chain": "Stolzer Mogry-Anhänger",
+  "item.kingdomkeys.moogle_o_glory.desc": "Kupo.",
 
 
   // --ORGA WEAPONS
@@ -1584,6 +1638,7 @@
   "item.kingdomkeys.songbird": "Singvogel",
   "item.kingdomkeys.tune_up": "Plus",
   "item.kingdomkeys.up_to_eleven": "Auf Elf",
+  
 
   "item.kingdomkeys.prince_of_awesome": "Spitzenreiter", //casual
   "item.kingdomkeys.after_school": "Schulschluss", //mystery
@@ -1682,48 +1737,62 @@
 
   "item.kingdomkeys.abaddon_plasma": "Plasma der Unschuld", //duel
   "item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
+  "item.kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
+  //"kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
   "item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
   "item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
+  "item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
   "item.kingdomkeys.astral_blast": "Sternenexplosion",
   "item.kingdomkeys.astral_blast_chain": "Sternenexplosion-Anhänger",
+  "item.kingdomkeys.astral_blast.desc": "A weapon that lets you string together longer ground and aerial combos.",
   "item.kingdomkeys.aubade": "Morgenröte (Days)",
   "item.kingdomkeys.aubade_chain": "Morgenröte (Days)-Anhänger",
   "item.kingdomkeys.bond_of_flame": "Flammenfesseln", //pandora (sora)
   "item.kingdomkeys.bond_of_flame_chain": "Flammenfesseln-Anhänger",
+  "item.kingdomkeys.bond_of_flame.desc": "Besitzt sehr hohe Magiekraft und erhöht den Schaden, der durch Feuer-basierte Attacken verursacht wird.", //from kh2
   "item.kingdomkeys.crown_of_guilt": "Krone der Schuld", //phantom
   "item.kingdomkeys.crown_of_guilt_chain": "Krone der Schuld-Anhänger",
+  "item.kingdomkeys.crown_of_guilt.desc": "Eine Waffe, die dir unglaubliche Magie verleiht.",
   "item.kingdomkeys.darker_than_dark": "Tiefschwarz", //hazard
   "item.kingdomkeys.darker_than_dark_chain": "Tiefschwarz-Anhänger",
   "item.kingdomkeys.glimpse_of_darkness": "Dunkelschimmer", //fearless
   "item.kingdomkeys.glimpse_of_darkness_chain": "Dunkelschimmer-Anhänger",
   "item.kingdomkeys.leviathan": "Leviathan", //nimble
   "item.kingdomkeys.leviathan_chain": "Leviathan-Anhänger",
+  "item.kingdomkeys.leviathan.desc": "Extrem gute Waffe für den Luftkampf. Hervorragend gegen Flieger.",
   "item.kingdomkeys.lunar_eclipse": "Mondfinsternis", //omega
   "item.kingdomkeys.lunar_eclipse_chain": "Mondfinsternis-Anhänger",
   "item.kingdomkeys.maverick_flare": "Lichtschein", //champ
   "item.kingdomkeys.maverick_flare_chain": "Lichtschein-Anhänger",
   "item.kingdomkeys.midnight_roar": "Nachtschrei", //valor
   "item.kingdomkeys.midnight_roar_chain": "Nachtschrei-Anhänger",
+  "item.kingdomkeys.midnight_roar.desc": "Eine Waffe, die über hohe Angriffskraft verfügt. Gut gegen zähe Gegner.",
   "item.kingdomkeys.missing_ache": "Schmerzlos", //skill
   "item.kingdomkeys.missing_ache_chain": "Schmerzlos-Anhänger",
   "item.kingdomkeys.rejection_of_fate": "Schicksalsrefus", //ominous
   "item.kingdomkeys.rejection_of_fate_chain": "Schicksalsrefus-Anhänger",
+  "item.kingdomkeys.rejection_of_fate.desc": "Eine Waffe, die immensen Schaden in einem großen Bereich bewirkt.",
   "item.kingdomkeys.sign_of_innocence": "Rune der Unschuld",
   "item.kingdomkeys.sign_of_innocence_chain": "Rune der Unschuld-Anhänger",
+  "item.kingdomkeys.sign_of_innocence.desc": "Eine Waffe, die deine Magie deutlich verstärkt.",
   "item.kingdomkeys.silent_dirge": "Stumme Klage", //crisis
   "item.kingdomkeys.silent_dirge_chain": "Stumme Klage-Anhänger",
   "item.kingdomkeys.star_seeker": "Sternensucher", //pandora (mickey)
   "item.kingdomkeys.star_seeker_chain": "Sternensucher-Anhänger",
+  "item.kingdomkeys.star_seeker.desc": "Erhöht die maximale Anzahl der Schläge einer Luft-Combo um 1.", //from kh2
   "item.kingdomkeys.total_eclipse": "Totale Finsternis",
   "item.kingdomkeys.total_eclipse_chain": "Totale Finsternis-Anhänger",
   "item.kingdomkeys.true_lights_flight": "Lichtflug", //wild
   "item.kingdomkeys.true_lights_flight_chain": "Lichtflug-Anhänger",
+  "item.kingdomkeys.true_lights_flight.desc": "Eine Waffe, die schweren Schaden in einem großen Bereich bewirkt.",
   "item.kingdomkeys.twilight_blaze": "Zwielichtfeuer", //ultima
   "item.kingdomkeys.twilight_blaze_chain": "Zwielichtfeuer-Anhänger",
-  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //MoM name: "Aus Zwei wird Eins" --- alt name: "Zweisamkeit" //zero + 2 ability
+  "item.kingdomkeys.two_become_one": "Aus Zwei wird Eins", //alt name: "Zweisamkeit" //zero + 2 ability
   "item.kingdomkeys.two_become_one_chain": "Aus Zwei wird Eins-Anhänger",
+  "item.kingdomkeys.two_become_one.desc": "Große Angriffskraft und hohe Magiekraft. Scheint außerdem über einen besonderen Effekt zu verfügen.", //from KH2
   "item.kingdomkeys.omega_weapon": "Omega-Waffe", //pandora
   "item.kingdomkeys.omega_weapon_chain": "Omega-Waffe-Anhänger",
+  "item.kingdomkeys.omega_weapon.desc": "Eine hervorragende Waffe mit herausragenden Fähigkeiten.",
   "item.kingdomkeys.ominous_blight": "Verfall", //tech
   "item.kingdomkeys.ominous_blight_chain": "Verfall-Anhänger",
   "item.kingdomkeys.pain_of_solitude": "Einsamkeit",
@@ -1731,6 +1800,126 @@
 
   "item.kingdomkeys.umbrella": "Regenschirm", //casual
   "item.kingdomkeys.umbrella_chain": "Regenschirm-Anhänger",
+
+  // descs based on gear
+
+  /*
+  // "no_gear_weapon.desc": "", //different on weapon?
+  "skill_gear_weapon.desc": "Deine Waffe ermöglicht schnellere und längere Boden-Kombos.",
+  "technical_gear_weapon.desc": "Deine Waffe ermöglicht schnellere und viel längere Boden-Kombos.",
+  "duel_gear_weapon.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
+  "loaded_gear_weapon.desc": "Deine Waffe verleiht deiner Magie größere Stärke.",
+  "chrono_gear_weapon.desc": "Eine, Waffe die deine Magie deutlich verstärkt.",
+  "phantom_gear_weapon.desc": "Eine Waffe, die dir unglaubliche Magie verleiht.",
+  "lift_gear_weapon.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
+  "nimble_gear_weapon.desc": "Extrem gute Waffe für den Luftkampf. Hervorragend gegen Flieger.",
+  "wild_gear_weapon.desc": "Eine Waffe, die schweren Schaden in einem großen Bereich bewirkt.",
+  "ominous_gear_weapon.desc": "Eine Waffe, die immensen Schaden in einem großen Bereich bewirkt.",
+  "valor_gear_weapon.desc": "Eine Waffe, die über hohe Angriffskraft verfügt. Gut gegen zähe Gegner.",
+  "fearless_gear_weapon.desc": "Steigert die Angriffskraft deiner Waffe erheblich.",
+  "prestige_gear_weapon.desc": "Steigert die Angriffskraft deiner Waffe drastisch.",
+  "crisis_gear_weapon.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe.",
+  "omega_gear_weapon.desc": "Steigert sowohl Angriffskraft, als auch Magie deiner Waffe erheblich.",
+  "hazard_gear_weapon.desc": "Deine Waffe bietet starke Magie und große Kombo-Reichweite.",
+  "rage_gear_weapon.desc": "Deine Waffe ermöglicht längere Boden- und Luft-Kombos.",
+  "champion_gear_weapon.desc": "Deine Waffe erhält hohe Angriffskraft und Boden-Kombogeschwindigkeit.",
+  "ultimate_gear_weapon.desc": "Deine Waffe erhält überlegene Angriffskraft und Boden-Kombogeschwindigkeit.",
+  "pandoras_gear_weapon.desc": "Eine hervorragende Waffe mit herausragenden Fähigkeiten.",
+  "zero_gear_weapon.desc": "Diese Waffe bringt den wahren Wert ihres Trägers zur Geltung.",
+  "casual_gear_weapon.desc": "Transformiert deine Waffe in etwas erschreckend Vertrautes.",
+  "mystery_gear_weapon.desc": "Diese Waffe bringt die Persönlichkeit ihres Trägers zur Geltung.",
+
+  */
+
+  // KEYBLADE DESCS START
+
+
+
+
+  "item.kingdomkeys.aubade.desc": "A weapon that draws forth its wielder's personality.",
+
+  "item.kingdomkeys.bond_of_the_blaze.desc": "Das Schlüsselschwert, dass von Lea getragen wird.",
+
+  "item.kingdomkeys.brightcrest.desc": "A Keyblade with long reach that provides an outstanding boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
+  "item.kingdomkeys.chaos_ripper.desc": "A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength.",
+
+
+  "item.kingdomkeys.crabclaw.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.",
+  "item.kingdomkeys.darker_than_dark.desc": "A weapon that offers high Magic and combo reach.",
+
+
+  "item.kingdomkeys.destinys_embrace.desc": "A Keyblade that makes it easier to land critical hits.",
+  "item.kingdomkeys.diamond_dust.desc": "Greatly enhances magic and summon power. Raises max MP by 3.",
+  "item.kingdomkeys.divewing.desc": "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.",
+  "item.kingdomkeys.divine_rose.desc": "A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows.",
+  "item.kingdomkeys.earthshaker.desc": "The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
+
+  "item.kingdomkeys.end_of_pain.desc": "A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.",
+  "item.kingdomkeys.ends_of_the_earth.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
+
+  "item.kingdomkeys.fairy_harp.desc": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
+
+  "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
+  "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
+
+  "item.kingdomkeys.hyperdrive.desc": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
+
+
+  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
+  "item.kingdomkeys.k111.desc": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
+  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "A keyblade with the ability to unlock a person's heart, releasing the darkness within.",
+
+  "item.kingdomkeys.lady_luck.desc": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
+  "item.kingdomkeys.lionheart.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
+  "item.kingdomkeys.lost_memory.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
+  "item.kingdomkeys.lunar_eclipse.desc": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
+  "item.kingdomkeys.mark_of_a_hero.desc": "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.",
+  "item.kingdomkeys.masters_defender.desc": "Master Eraqus's Keyblade. All of its stats are high.",
+  "item.kingdomkeys.maverick_flare.desc": "A weapon that offers high Strength and ground combo speed.",
+  "item.kingdomkeys.metal_chocobo.desc": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
+  "item.kingdomkeys.midnight_blue.desc": "A Keyblade imbued with wondrous power.",
+  "item.kingdomkeys.mirage_split.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+  "item.kingdomkeys.missing_ache.desc": "A weapon that lets you string together faster, longer ground combos.",
+
+  "item.kingdomkeys.nightmares_end.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+  "item.kingdomkeys.nightmares_end_and_mirage_split.desc": "A Keyblade formed by combining both the Mirage Split and Nightmare's End.",
+  "item.kingdomkeys.no_name.desc": "Das Schlüsselschwert, welches Luxu vom Meister der Meister erhalten hat. Das Auge seines Meisters ist eingebaut.",
+  "item.kingdomkeys.no_name_bbs.desc": "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.",
+  "item.kingdomkeys.olympia.desc": "A powerful weapon that is difficult to deflect. Capable of inflicting mighty critical blows.",
+  "item.kingdomkeys.ominous_blight.desc": "A weapon that lets you string together faster, much longer ground combos.",
+  "item.kingdomkeys.one_winged_angel.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
+  "item.kingdomkeys.pain_of_solitude.desc": "A weapon that boosts your Magic to give it more power.",
+  "item.kingdomkeys.phantom_green.desc": "A Keyblade imbued with wondrous power.",
+  "item.kingdomkeys.pixie_petal.desc": "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
+  "item.kingdomkeys.pumpkinhead.desc": "Has a long reach and the ability to deal a string of critical blows.",
+  "item.kingdomkeys.rainfell.desc": "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
+
+  "item.kingdomkeys.royal_radiance.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
+  "item.kingdomkeys.silent_dirge.desc": "A weapon that provides versatility by boosting both Strength and Magic.",
+  "item.kingdomkeys.soul_eater.desc": "A sword that swims with darkness. Possesses high Strength.",
+  "item.kingdomkeys.spellbinder.desc": "Raises max MP by 2, and significantly enhances magic and summon power.",
+
+  "item.kingdomkeys.stormfall.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
+  "item.kingdomkeys.sweet_dreams.desc": "A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.",
+  "item.kingdomkeys.sweetstack.desc": "A Keyblade that provides an extra boost in Strength and ensures every strike is a critical hit.",
+  "item.kingdomkeys.three_wishes.desc": "A powerful weapon that is difficult to deflect.",
+  "item.kingdomkeys.total_eclipse.desc": "A weapon that possesses extreme Strength. Devastates tough enemies.",
+
+
+  "item.kingdomkeys.twilight_blaze.desc": "A weapon that boasts superior Strength and ground combo speed.",
+  "item.kingdomkeys.ultima_weapon_bbs.desc": "The most powerful of Keyblades.",
+  "item.kingdomkeys.ultima_weapon_kh1.desc": "The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.",
+
+  "item.kingdomkeys.umbrella.desc": "This looks awfully familiar...",
+  "item.kingdomkeys.victory_line.desc": "A Keyblade with above-average reach that makes it easier to land critical hits.",
+  "item.kingdomkeys.void_gear.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
+  "item.kingdomkeys.void_gear_remnant.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
+
+
+  "item.kingdomkeys.wishing_star.desc": "Has a short reach, but always finishes up a combo attack with a powerful critical blow.",
+
+
+  // DESCS END
 
 
   // -CoM Map Cards
@@ -1830,7 +2019,7 @@
 
   "jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
   "jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
-  "jei.category.kingdomkeys.synthesis": "Item-Schmiede",
+  "jei.category.kingdomkeys.synthesis": "Item Synthese",
   "jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
   "jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
 
@@ -1843,12 +2032,12 @@
   "jei.info.kingdomkeys.limit_orb": "Benutzen um die Limit-Form freizuschalten. Das Aktivieren benötigt 4 volle Drive-Leisten. Kann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.magnet_blox": "Ermöglicht das Anziehen oder Abstoßen andere Entititäten in die Richtung in die der Block schaut.\nWird mit einem Redstone-Signal aktiviert, Rechtsklick um die Reichweite zu ändern, und Schleichen + Rechtsklick um zwischen die beiden Modi zu wechseln.",
   "jei.info.kingdomkeys.master_orb": "Benutzen um die Meister-Form freizuschalten. Die Meister-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 4 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
-  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Schmiede und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
+  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Synthese und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
   "jei.info.kingdomkeys.organization_robes": "Trage eine ganze Robe der Organisations um ihr beizutreten. Ein Mitglied muss am Anfang ausgewählt werden. Am Ende kann jede Waffe aller Mitglieder benutzt werden, aber zum freischalten muss die voherige Waffe mit Herzen freigeschaltet werden.",
   "jei.info.kingdomkeys.organization_weapons": "Als Mitglied der Organisation kannst du Waffen innerhalb des Waffen-Menüs mit Herzen freischalten, die du durch das töten von Mobs erhälst. Du erhälst doppelte Anzahl an Herzen, wenn du eine Waffe deines ausgewählten Mitgliedes benutzt.\nRufe die Waffe mit der 'Waffe rufen'-Taste.",
   "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
   "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
-  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
+  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Synthese bei Mogrys freizuschalten.",
   "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
   "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
@@ -1929,8 +2118,8 @@
   "message.chest.locked": "Die Truhe ist verschlossen",
   "message.chest.unlocked": "Die Truhe ist aufgeschlossen",
 
-  "message.form_unlocked": "%s freigeschaltet",
-  "message.unlocked": "%s freigeschaltet", //magic
+  "message.form_unlocked": "%s Freigeschaltet",
+  "message.unlocked": "%s Freigeschaltet", //magic
   "message.magic_max_level": "%s ist bereits die höchste Stufe",
   "message.magic_upgrade": "%s wurde aufgewertet zu %s",
 
@@ -1946,12 +2135,12 @@
   "message.recipe.no_more_to_learn": "Keine weiteren Formeln zu erlernen",
 
   "message.wayfinder.player_not_found": "Der Spieler %s konnte nicht gefunden werden",
-  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder. Gebe ihn jemanden",
+  "message.wayfinder.your_wayfinder": "Dies ist dein Wegfinder, gebe ihn an jemand anderen weiter",
+  "message.wayfinder.from_party": " aus deiner Gruppe",
   "message.wayfinder.not_in_party": "Du bist nicht in einer Gruppe",
   "message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
   "message.wayfinder.cooldown": "Abklingzeit: %s%%",
-  "message.wayfinder.owner": "Besitzer: %s",
-  "message.wayfinder.in_your_party": "aus deiner Gruppe",
+  "message.wayfinder.in_your_party": "in deiner Gruppe",
   "message.wayfinder.player_not_online": "Der Spieler %s ist nicht online",
 
   "potion.desc.beginning": "Stellt %s%s %s wiederher ",
@@ -2017,7 +2206,7 @@
   "stats.levelUpAP": "Maximum-AP erhöht!",
   "stats.levelUpDef": "Abwehrkraft erhöht!",
   "stats.levelUpFG": "Form-Leiste verstärkt!",
-  "stats.levelUpHP": "Maximum-LP erhöht!",
+  "stats.levelUpHP": "Maximum-HP erhöht!",
   "stats.levelUpMP": "Maximum-MP erhöht!",
   "stats.levelUpMag": "Magischekraft erhöht!",
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",

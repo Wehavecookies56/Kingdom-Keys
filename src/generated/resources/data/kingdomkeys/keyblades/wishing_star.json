@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 5
   },
-  "description": "Has a short reach, but always finishes up a combo attack with a powerful critical blow.",
+  "description": "item.kingdomkeys.wishing_star.desc",
   "keychain": "kingdomkeys:wishing_star_chain",
   "levels": [
     {

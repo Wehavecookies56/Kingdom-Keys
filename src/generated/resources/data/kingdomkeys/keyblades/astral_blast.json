@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 8
   },
-  "description": "A weapon that lets you string together longer ground and aerial combos.",
+  "description": "item.kingdomkeys.astral_blast.desc",
   "keychain": "kingdomkeys:astral_blast_chain",
   "levels": [
     {

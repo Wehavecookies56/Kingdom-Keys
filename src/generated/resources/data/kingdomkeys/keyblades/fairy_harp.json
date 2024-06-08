@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 6
   },
-  "description": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
+  "description": "item.kingdomkeys.fairy_harp.desc",
   "keychain": "kingdomkeys:fairy_harp_chain",
   "levels": [
     {

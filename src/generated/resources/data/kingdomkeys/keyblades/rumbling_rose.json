@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 7
   },
-  "description": "Has great strength, allowing finishing combo moves to be unleashed successively.",
+  "description": "item.kingdomkeys.rumbling_rose.desc",
   "keychain": "kingdomkeys:rumbling_rose_chain",
   "levels": [
     {

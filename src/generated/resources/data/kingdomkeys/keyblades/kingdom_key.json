@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "The key chain attached draws out the Keyblade's true form and power.",
+  "description": "item.kingdomkeys.kingdom_key.desc",
   "keychain": "kingdomkeys:kingdom_key_chain",
   "levels": [
     {

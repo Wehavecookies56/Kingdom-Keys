@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 6
   },
-  "description": "A weapon that boosts your Magic to give it a lot more power.",
+  "description": "item.kingdomkeys.sign_of_innocence.desc",
   "keychain": "kingdomkeys:sign_of_innocence_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 9
   },
-  "description": "The supreme Keyblade.",
+  "description": "item.kingdomkeys.ultima_weapon_kh3.desc",
   "keychain": "kingdomkeys:ultima_weapon_kh3_chain",
   "levels": [
     {

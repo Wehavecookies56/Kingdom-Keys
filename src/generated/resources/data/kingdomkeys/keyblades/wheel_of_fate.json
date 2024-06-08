@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 6
   },
-  "description": "A Keyblade with an emphasis on Strength.",
+  "description": "item.kingdomkeys.wheel_of_fate.desc",
   "keychain": "kingdomkeys:wheel_of_fate_chain",
   "levels": [
     {

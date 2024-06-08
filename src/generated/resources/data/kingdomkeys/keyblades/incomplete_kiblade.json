@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 5
   },
-  "description": "An incomplete form of the legendary Keyblade, the χ-blade.",
+  "description": "item.kingdomkeys.incomplete_kiblade.desc",
   "keychain": "kingdomkeys:incomplete_kiblade_chain",
   "levels": [
     {

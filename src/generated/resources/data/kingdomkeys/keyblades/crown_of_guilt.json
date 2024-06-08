@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 6
   },
-  "description": "A weapon that boosts your Magic to give it incredible power.",
+  "description": "item.kingdomkeys.crown_of_guilt.desc",
   "keychain": "kingdomkeys:crown_of_guilt_chain",
   "levels": [
     {

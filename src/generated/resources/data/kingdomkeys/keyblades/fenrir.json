@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 9
   },
-  "description": "Has great range and strength, but maximum ground and midair combos are decreased by 1.",
+  "description": "item.kingdomkeys.fenrir.desc",
   "keychain": "kingdomkeys:fenrir_chain",
   "levels": [
     {

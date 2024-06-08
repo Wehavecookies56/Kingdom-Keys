@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 6
   },
-  "description": "A weapon that possesses extreme Strength. Devastates tough enemies.",
+  "description": "item.kingdomkeys.total_eclipse.desc",
   "keychain": "kingdomkeys:total_eclipse_chain",
   "levels": [
     {

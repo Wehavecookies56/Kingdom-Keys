@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 9
   },
-  "description": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
+  "description": "item.kingdomkeys.void_gear.desc",
   "keychain": "kingdomkeys:void_gear_chain",
   "levels": [
     {

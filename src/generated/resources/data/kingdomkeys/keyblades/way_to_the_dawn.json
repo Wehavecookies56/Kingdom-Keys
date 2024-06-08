@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "Deals various attacks.",
+  "description": "item.kingdomkeys.way_to_the_dawn.desc",
   "keychain": "kingdomkeys:way_to_the_dawn_chain",
   "levels": [
     {

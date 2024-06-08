@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 6
   },
-  "description": "A Keyblade that triggers fewer Reality Shifts, but compensates with a boost in Magic and more frequent critical hits.",
+  "description": "item.kingdomkeys.all_for_one.desc",
   "keychain": "kingdomkeys:all_for_one_chain",
   "levels": [
     {

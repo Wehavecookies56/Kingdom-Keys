@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 7
   },
-  "description": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
+  "description": "item.kingdomkeys.lost_memory.desc",
   "keychain": "kingdomkeys:lost_memory_chain",
   "levels": [
     {

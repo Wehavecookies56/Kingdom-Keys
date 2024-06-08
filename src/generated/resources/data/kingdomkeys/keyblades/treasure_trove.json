@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 4
   },
-  "description": "A Keyblade that makes up for its poor reach with a balanced boost in Strength and Magic.",
+  "description": "item.kingdomkeys.treasure_trove.desc",
   "keychain": "kingdomkeys:treasure_trove_chain",
   "levels": [
     {

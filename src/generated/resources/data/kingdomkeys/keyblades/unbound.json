@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 9
   },
-  "description": "Keyblade perfection. It boosts all stats, while making it easy to land critical hits and even easier to trigger Reality Shifts.",
+  "description": "item.kingdomkeys.unbound.desc",
   "keychain": "kingdomkeys:unbound_chain",
   "levels": [
     {

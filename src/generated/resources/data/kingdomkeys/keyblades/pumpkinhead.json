@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 6
   },
-  "description": "Has a long reach and the ability to deal a string of critical blows.",
+  "description": "item.kingdomkeys.pumpkinhead.desc",
   "keychain": "kingdomkeys:pumpkinhead_chain",
   "levels": [
     {

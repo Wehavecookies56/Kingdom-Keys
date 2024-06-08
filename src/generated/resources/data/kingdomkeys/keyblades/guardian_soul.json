@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 7
   },
-  "description": "Has great strength, increasing the amount of damage dealt from Reaction Commands.",
+  "description": "item.kingdomkeys.guardian_soul.desc",
   "keychain": "kingdomkeys:guardian_soul_chain",
   "levels": [
     {

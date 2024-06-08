@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 4
   },
-  "description": "A Keyblade with long reach that provides an extra boost in Magic.",
+  "description": "item.kingdomkeys.guardian_bell.desc",
   "keychain": "kingdomkeys:guardian_bell_chain",
   "levels": [
     {

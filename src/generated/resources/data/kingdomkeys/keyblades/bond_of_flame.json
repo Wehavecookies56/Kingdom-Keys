@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 6
   },
-  "description": "Enhances magic to increase damage dealt by fire-based attacks.",
+  "description": "item.kingdomkeys.bond_of_flame.desc",
   "keychain": "kingdomkeys:bond_of_flame_chain",
   "levels": [
     {

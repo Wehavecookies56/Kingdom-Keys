@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 10
   },
-  "description": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
+  "description": "item.kingdomkeys.k111.desc",
   "keychain": "kingdomkeys:k111c",
   "levels": [
     {

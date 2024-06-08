@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 8
   },
-  "description": "A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.",
+  "description": "item.kingdomkeys.end_of_pain.desc",
   "keychain": "kingdomkeys:end_of_pain_chain",
   "levels": [
     {

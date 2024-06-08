@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 5
   },
-  "description": "A weapon that performs very well in midair. Excellent for taking on fliers.",
+  "description": "item.kingdomkeys.abyssal_tide.desc",
   "keychain": "kingdomkeys:abyssal_tide_chain",
   "levels": [
     {

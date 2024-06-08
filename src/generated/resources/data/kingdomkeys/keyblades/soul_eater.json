@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "A sword that swims with darkness. Possesses high Strength.",
+  "description": "item.kingdomkeys.soul_eater.desc",
   "keychain": "kingdomkeys:soul_eater_chain",
   "levels": [
     {

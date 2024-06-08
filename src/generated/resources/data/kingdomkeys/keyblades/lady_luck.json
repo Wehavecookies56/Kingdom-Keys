@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 6
   },
-  "description": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
+  "description": "item.kingdomkeys.lady_luck.desc",
   "keychain": "kingdomkeys:lady_luck_chain",
   "levels": [
     {

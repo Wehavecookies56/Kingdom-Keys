@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 5
   },
-  "description": "A Keyblade with an emphasis on Strength.",
+  "description": "item.kingdomkeys.favorite_deputy.desc",
   "keychain": "kingdomkeys:favorite_deputy_chain",
   "levels": [
     {
