@@ -18,23 +18,38 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 public class MenuScrollBar extends Button {
 
 	double clickX, clickY;
-	public int startX, startY, top, bottom;
-	int scrollBarHeight;
-	int minHeight, maxHeight;
+	public int startX, startY, bottom, scrollY, scrollTop, localScrollY, localScrollMax, visibleHeight;
+	float scrollPercent;
+	private int contentHeight, scrollBarHeight;
+
+	public float scrollOffset;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	public MenuScrollBar(int x, int y, int widthIn, int minHeight, int top, int bottom) {
-		super(new Builder(Component.empty(),button -> {}).bounds(x, y, widthIn, minHeight));		
-		this.top = top;
-		this.minHeight = minHeight;
-		this.scrollBarHeight = minHeight;
+	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight) {
+		super(new Builder(Component.empty(),button -> {}).bounds(x, y, 14, bottom));
+		this.visibleHeight = visibleHeight;
 		this.bottom = bottom;
-		this.maxHeight = bottom - top;
+		this.scrollTop = getY() + 3 + barTopBotDims.Y;
+		int scrollBottom = getHeight() - 3 - barTopBotDims.Y - 1;
+		scrollY = scrollTop;
+		localScrollMax = scrollBottom - scrollTop + 1;
+		setContentHeight(contentHeight);
 	}
 
-	public int getBottom() {
-		return bottom + scrollBarHeight;
+	public void setScrollHeight(int height) {
+		this.scrollBarHeight = height;
+	}
+
+	public int getScrollBottom() {
+		return bottom - 3 - barTopBotDims.Y - scrollBarHeight;
+	}
+
+	public void setContentHeight(int contentHeight) {
+		this.contentHeight = contentHeight;
+		float visiblePercentage = ((float) visibleHeight / contentHeight) * 100;
+		KingdomKeys.LOGGER.debug("{}/{} = {}%", visibleHeight, contentHeight, visiblePercentage);
+		setScrollHeight((int) (localScrollMax * (visiblePercentage / 100)));
 	}
 
 	record Vec2(int X, int Y){}
@@ -52,30 +67,30 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (visible) {
+		if (visible && contentHeight > visibleHeight) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
-			gui.fill(getX(), top-(barTopBotDims.Y/2), getX() + width, getBottom()+buttonDims.Y, new Color(0, 0, 0, 0.5F).hashCode());
+			gui.fill(getX(), getY() + 7, getX() + width, bottom - 7, new Color(0, 0, 0, 0.5F).hashCode());
 			RenderSystem.disableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			//Top of bar
-			ClientUtils.blitScaled(texture, gui, getX(), top-renderOffset, barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), getY(), barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 
 			//Button top
-			ClientUtils.blitScaled(texture, gui, getX(), getY()-buttonDims.Y, buttonTopUV.X, buttonTopUV.Y, buttonDims.X, buttonDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), scrollY - buttonDims.Y, buttonTopUV.X, buttonTopUV.Y, buttonDims.X, buttonDims.Y, 1);
 
 			//Button middle
-			//for (int i = 0; i < scrollBarHeight; i++) {
-			ClientUtils.blitScaled(texture, gui, getX(), getY(), buttonMiddleUV.X, buttonMiddleUV.Y, buttonDims.X, 1, 1, scrollBarHeight);
-			//}
+			for (int i = 0; i < scrollBarHeight; i++) {
+				ClientUtils.blitScaled(texture, gui, getX(), scrollY, buttonMiddleUV.X, buttonMiddleUV.Y, buttonDims.X, 1, 1, scrollBarHeight);
+			}
 
 			//Button bottom
-			ClientUtils.blitScaled(texture, gui, getX(), getY()+scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), scrollY + scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(texture, gui, getX(), getBottom()+4, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), bottom - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 
@@ -84,19 +99,30 @@ public class MenuScrollBar extends Button {
 
 	}
 
+	public void updateScroll() {
+		localScrollY = scrollY - scrollTop;
+		scrollPercent = ((float) localScrollY / (localScrollMax - scrollBarHeight+1)) * 100;
+		int totalScroll = contentHeight - visibleHeight;
+		scrollOffset = totalScroll * (scrollPercent/100);
+		KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localScrollY, (localScrollMax - scrollBarHeight+1), scrollPercent, scrollOffset);
+	}
+
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (clickX >= getX() && clickX <= getX() + width) {
-			if (active) {
-				if (startY - (clickY - mouseY) >= bottom+1) {
-					this.setY(bottom+1);
-				} else if (startY - (clickY - mouseY) <= top) {
-					this.setY(top);
-				} else {
-					this.setY((int) (startY - (clickY - mouseY)));
+		if (visible && contentHeight > visibleHeight) {
+			if (clickX >= getX() && clickX <= getX() + width) {
+				updateScroll();
+				if (active) {
+					if (startY - (clickY - mouseY) >= getScrollBottom() + 1) {
+						scrollY = getScrollBottom() + 1;
+					} else if (startY - (clickY - mouseY) <= scrollTop) {
+						scrollY = scrollTop;
+					} else {
+						scrollY = (int) (startY - (clickY - mouseY));
+					}
 				}
-			}
 
+			}
 		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
@@ -111,7 +137,7 @@ public class MenuScrollBar extends Button {
 		clickX = mouseX;
 		clickY = mouseY;
 		startX = getX();
-		startY = getY();
+		startY = scrollY;
 		if (clickX >= getX() && clickX <= getX() + width && visible) {
 			playDownSound(Minecraft.getInstance().getSoundManager());
 		}
@@ -120,16 +146,17 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
-		if (visible) {
+		if (visible && contentHeight > visibleHeight) {
+			updateScroll();
 			int scrollFactor = 5;
-			int oldY = getY();
+			int oldY = scrollY;
 			if (scrollDelta > 0) {
-				setY((int) Math.max(getY() - (scrollDelta * scrollFactor), top));
+				scrollY = (int) Math.max(scrollY - (scrollDelta * scrollFactor), scrollTop);
 			}
 			if (scrollDelta < 0) {
-				setY((int) Math.min(getY() - (scrollDelta * scrollFactor), bottom+1));
+				scrollY = (int) Math.min(scrollY - (scrollDelta * scrollFactor), getScrollBottom()+1);
 			}
-			if(oldY != getY()) {
+			if(oldY != scrollY) {
 				Minecraft.getInstance().player.playSound(ModSounds.menu_move.get(), 1, 1);
 			}
 		}

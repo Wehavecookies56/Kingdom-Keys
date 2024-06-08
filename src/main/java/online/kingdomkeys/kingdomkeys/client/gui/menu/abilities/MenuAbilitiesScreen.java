@@ -58,7 +58,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	int hoveredIndex;
 	AbilityType hoveredType;
 
-	float scrollOffset = 0;
 	MenuScrollBar scrollBar;
 
 	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
@@ -147,8 +146,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		scrollTop = (int) topBarHeight;
 		scrollBot = (int) (scrollTop + middleHeight);
-
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, 14, 1, scrollTop, scrollBot);
 
 		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 
@@ -361,6 +358,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
         addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
 		addRenderableWidget(scrollBar);
 		
 		updateButtons();
@@ -380,10 +378,11 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
-		if(abilities.size() <= 0)
+		int scrollBarHeight = scrollBar.getHeight();
+		if(abilities.isEmpty())
 			return;
-		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
+		int listHeight = (int) ((abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() - topBarHeight);
+		scrollBar.setContentHeight(listHeight);
 		if (scrollBarHeight >= listHeight) {
 			scrollBar.visible = false;
 			scrollBar.active = false;
@@ -391,9 +390,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			scrollBar.visible = true;
 			scrollBar.active = true;
 		}
-		float buttonRelativeToBar = scrollBar.getY() - (scrollBar.top);
+		float buttonRelativeToBar = scrollBar.scrollY - (scrollBar.getY());
 		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
-		scrollOffset = scrollPos*(listHeight-scrollBarHeight);
 
 		//prev.visible = page > 0;
 		//next.visible = page < abilities.size() / itemsPerPage;
@@ -421,7 +419,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollBar.scrollOffset));
 				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active =true;;
 										String abilityName = abilities.get(i).getText();
