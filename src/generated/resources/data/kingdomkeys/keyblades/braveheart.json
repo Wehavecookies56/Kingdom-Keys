@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 5
   },
-  "description": "Riku's Keyblade after the Way to the Dawn was broken.",
+  "description": "item.kingdomkeys.braveheart.desc",
   "keychain": "kingdomkeys:braveheart_chain",
   "levels": [
     {

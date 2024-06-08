@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 7
   },
-  "description": "A weapon that lets you string together faster, incredibly long ground combos.",
+  "description": "item.kingdomkeys.abaddon_plasma.desc",
   "keychain": "kingdomkeys:abaddon_plasma_chain",
   "levels": [
     {

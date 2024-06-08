@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 6
   },
-  "description": "A well-balanced Keyblade that provides an extra boost to all your stats.",
+  "description": "item.kingdomkeys.ends_of_the_earth.desc",
   "keychain": "kingdomkeys:ends_of_the_earth_chain",
   "levels": [
     {

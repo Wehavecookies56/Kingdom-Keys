@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 8
   },
-  "description": "A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows.",
+  "description": "item.kingdomkeys.divine_rose.desc",
   "keychain": "kingdomkeys:divine_rose_chain",
   "levels": [
     {

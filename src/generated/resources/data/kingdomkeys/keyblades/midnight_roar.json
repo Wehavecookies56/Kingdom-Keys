@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 7
   },
-  "description": "A weapon that possesses high Strength. Useful against tough enemies.",
+  "description": "item.kingdomkeys.midnight_roar.desc",
   "keychain": "kingdomkeys:midnight_roar_chain",
   "levels": [
     {

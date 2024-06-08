@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 7
   },
-  "description": "A weapon of great strength and magic that has a special effect.",
+  "description": "item.kingdomkeys.two_become_one.desc",
   "keychain": "kingdomkeys:two_become_one_chain",
   "levels": [
     {

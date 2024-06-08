@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 5
   },
-  "description": "A powerful weapon that is difficult to deflect.",
+  "description": "item.kingdomkeys.three_wishes.desc",
   "keychain": "kingdomkeys:three_wishes_chain",
   "levels": [
     {

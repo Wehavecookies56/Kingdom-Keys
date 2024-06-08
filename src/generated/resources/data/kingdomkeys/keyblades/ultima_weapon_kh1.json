@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 9
   },
-  "description": "The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.",
+  "description": "item.kingdomkeys.ultima_weapon_kh1.desc",
   "keychain": "kingdomkeys:ultima_weapon_kh1_chain",
   "levels": [
     {

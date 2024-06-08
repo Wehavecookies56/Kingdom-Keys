@@ -4,7 +4,7 @@
     "mag": 9,
     "str": 6
   },
-  "description": "A Keyblade with an emphasis on Magic.",
+  "description": "item.kingdomkeys.classic_tone.desc",
   "keychain": "kingdomkeys:classic_tone_chain",
   "levels": [
     {

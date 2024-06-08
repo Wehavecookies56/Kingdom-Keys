@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 5
   },
-  "description": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
+  "description": "item.kingdomkeys.frolic_flame.desc",
   "keychain": "kingdomkeys:frolic_flame_chain",
   "levels": [
     {

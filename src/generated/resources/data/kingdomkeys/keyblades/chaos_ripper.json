@@ -4,7 +4,7 @@
     "mag": 0,
     "str": 9
   },
-  "description": "A Keyblade with long reach that does little for your Magic, but provides an outstanding boost in Strength.",
+  "description": "item.kingdomkeys.chaos_ripper.desc",
   "keychain": "kingdomkeys:chaos_ripper_chain",
   "levels": [
     {

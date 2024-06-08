@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 9
   },
-  "description": "The Keyblade above all others, holding all power and will increase MP restoration rate, once all MP has been consumed.",
+  "description": "item.kingdomkeys.ultima_weapon_kh2.desc",
   "keychain": "kingdomkeys:ultima_weapon_kh2_chain",
   "levels": [
     {

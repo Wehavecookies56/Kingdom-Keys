@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A Keyblade that courses with mystic power.",
+  "description": "item.kingdomkeys.advent_red.desc",
   "keychain": "kingdomkeys:advent_red_chain",
   "levels": [
     {

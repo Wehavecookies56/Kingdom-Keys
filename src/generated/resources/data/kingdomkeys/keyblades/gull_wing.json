@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 4
   },
-  "description": "Greatly increases the amount of experience gained when defeating an enemy at a critical moment.",
+  "description": "item.kingdomkeys.gull_wing.desc",
   "keychain": "kingdomkeys:gull_wing_chain",
   "levels": [
     {

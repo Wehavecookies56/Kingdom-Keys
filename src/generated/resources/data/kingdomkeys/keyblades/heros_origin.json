@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 5
   },
-  "description": "A Keyblade with an emphasis on Strength.",
+  "description": "item.kingdomkeys.heros_origin.desc",
   "keychain": "kingdomkeys:heros_origin_chain",
   "levels": [
     {

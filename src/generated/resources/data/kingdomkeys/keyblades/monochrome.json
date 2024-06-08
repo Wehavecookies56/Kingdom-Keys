@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 4
   },
-  "description": "Increases the effect of restoration items used on the field.",
+  "description": "item.kingdomkeys.monochrome.desc",
   "keychain": "kingdomkeys:monochrome_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 2,
     "str": 4
   },
-  "description": "Draws in nearby orbs.",
+  "description": "item.kingdomkeys.follow_the_wind.desc",
   "keychain": "kingdomkeys:follow_the_wind_chain",
   "levels": [
     {

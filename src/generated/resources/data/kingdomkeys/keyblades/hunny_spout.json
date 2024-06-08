@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A well-balanced Keyblade.",
+  "description": "item.kingdomkeys.hunny_spout.desc",
   "keychain": "kingdomkeys:hunny_spout_chain",
   "levels": [
     {

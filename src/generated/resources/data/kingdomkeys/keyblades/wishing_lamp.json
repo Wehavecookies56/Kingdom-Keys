@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 6
   },
-  "description": "Wishes come true by increasing the drop rate of munny, HP and MP orbs.",
+  "description": "item.kingdomkeys.wishing_lamp.desc",
   "keychain": "kingdomkeys:wishing_lamp_chain",
   "levels": [
     {

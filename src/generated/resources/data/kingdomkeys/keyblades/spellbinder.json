@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 4
   },
-  "description": "Raises max MP by 2, and significantly enhances magic and summon power.",
+  "description": "item.kingdomkeys.spellbinder.desc",
   "keychain": "kingdomkeys:spellbinder_chain",
   "levels": [
     {

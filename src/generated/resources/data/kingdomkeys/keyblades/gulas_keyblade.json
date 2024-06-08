@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 8
   },
-  "description": "The Keyblade owned by Leopardos' Foreteller.",
+  "description": "item.kingdomkeys.gulas_keyblade.desc",
   "keychain": "kingdomkeys:gulas_keyblade_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 7
   },
-  "description": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
+  "description": "item.kingdomkeys.lionheart.desc",
   "keychain": "kingdomkeys:lionheart_chain",
   "levels": [
     {

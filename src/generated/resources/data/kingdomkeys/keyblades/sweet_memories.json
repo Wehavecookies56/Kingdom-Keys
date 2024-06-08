@@ -4,7 +4,7 @@
     "mag": 8,
     "str": 4
   },
-  "description": "Although it does not enhance attack strength, it increases the drop rate of items.",
+  "description": "item.kingdomkeys.sweet_memories.desc",
   "keychain": "kingdomkeys:sweet_memories_chain",
   "levels": [
     {

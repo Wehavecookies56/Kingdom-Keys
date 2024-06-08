@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "A Keyblade imbued with wondrous power.",
+  "description": "item.kingdomkeys.midnight_blue.desc",
   "keychain": "kingdomkeys:midnight_blue_chain",
   "levels": [
     {

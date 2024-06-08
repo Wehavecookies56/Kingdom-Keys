@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 5
   },
-  "description": "Raises max MP by 1, and enhances magic and summon power. Also deals good physical damage.",
+  "description": "item.kingdomkeys.crabclaw.desc",
   "keychain": "kingdomkeys:crabclaw_chain",
   "levels": [
     {

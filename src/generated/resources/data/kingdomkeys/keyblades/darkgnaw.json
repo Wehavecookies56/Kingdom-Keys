@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 6
   },
-  "description": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
+  "description": "item.kingdomkeys.darkgnaw.desc",
   "keychain": "kingdomkeys:darkgnaw_chain",
   "levels": [
     {

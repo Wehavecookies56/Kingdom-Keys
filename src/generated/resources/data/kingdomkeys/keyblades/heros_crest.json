@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 6
   },
-  "description": "Increases the damage of the finishing move in the air relative to the number of hits in the combo.",
+  "description": "item.kingdomkeys.heros_crest.desc",
   "keychain": "kingdomkeys:heros_crest_chain",
   "levels": [
     {

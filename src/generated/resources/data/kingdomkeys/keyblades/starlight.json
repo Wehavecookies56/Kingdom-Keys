@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 5
   },
-  "description": "A basic Keyblade which is associated with the force of Light.",
+  "description": "item.kingdomkeys.starlight.desc",
   "keychain": "kingdomkeys:starlight_chain",
   "levels": [
     {

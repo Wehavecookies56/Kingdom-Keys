@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 7
   },
-  "description": "A Keyblade that provides an extra boost in Strength and ensures every strike is a critical hit.",
+  "description": "item.kingdomkeys.sweetstack.desc",
   "keychain": "kingdomkeys:sweetstack_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 4
   },
-  "description": "A Keyblade with an emphasis on Magic.",
+  "description": "item.kingdomkeys.ever_after.desc",
   "keychain": "kingdomkeys:ever_after_chain",
   "levels": [
     {

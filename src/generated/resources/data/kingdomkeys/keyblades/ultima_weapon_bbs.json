@@ -4,7 +4,7 @@
     "mag": 7,
     "str": 9
   },
-  "description": "The most powerful of Keyblades.",
+  "description": "item.kingdomkeys.ultima_weapon_bbs.desc",
   "keychain": "kingdomkeys:ultima_weapon_bbs_chain",
   "levels": [
     {

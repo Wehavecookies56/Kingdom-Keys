@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 5
   },
-  "description": "Mickey's Keyblade, also known as Kingdom Key W.",
+  "description": "item.kingdomkeys.star_cluster.desc",
   "keychain": "kingdomkeys:star_cluster_chain",
   "levels": [
     {

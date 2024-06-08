@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 6
   },
-  "description": "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.",
+  "description": "item.kingdomkeys.mark_of_a_hero.desc",
   "keychain": "kingdomkeys:mark_of_a_hero_chain",
   "levels": [
     {

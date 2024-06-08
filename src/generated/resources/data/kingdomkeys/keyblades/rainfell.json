@@ -4,7 +4,7 @@
     "mag": 4,
     "str": 4
   },
-  "description": "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
+  "description": "item.kingdomkeys.rainfell.desc",
   "keychain": "kingdomkeys:rainfell_chain",
   "levels": [
     {

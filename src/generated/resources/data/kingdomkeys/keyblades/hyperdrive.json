@@ -4,7 +4,7 @@
     "mag": 5,
     "str": 5
   },
-  "description": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
+  "description": "item.kingdomkeys.hyperdrive.desc",
   "keychain": "kingdomkeys:hyperdrive_chain",
   "levels": [
     {

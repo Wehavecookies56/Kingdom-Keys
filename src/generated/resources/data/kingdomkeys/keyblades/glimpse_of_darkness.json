@@ -4,7 +4,7 @@
     "mag": 3,
     "str": 7
   },
-  "description": "A weapon that possesses very high Strength. Effective against tough enemies.",
+  "description": "item.kingdomkeys.glimpse_of_darkness.desc",
   "keychain": "kingdomkeys:glimpse_of_darkness_chain",
   "levels": [
     {

@@ -4,7 +4,7 @@
     "mag": 1,
     "str": 4
   },
-  "description": "The Keyblade Ventus started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
+  "description": "item.kingdomkeys.wayward_wind.desc",
   "keychain": "kingdomkeys:wayward_wind_chain",
   "levels": [
     {

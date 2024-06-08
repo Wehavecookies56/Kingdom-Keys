@@ -4,7 +4,7 @@
     "mag": 6,
     "str": 8
   },
-  "description": "A Keyblade with long reach that provides an extra boost in Strength and makes it easier to land critical hits.",
+  "description": "item.kingdomkeys.sweet_dreams.desc",
   "keychain": "kingdomkeys:sweet_dreams_chain",
   "levels": [
     {
