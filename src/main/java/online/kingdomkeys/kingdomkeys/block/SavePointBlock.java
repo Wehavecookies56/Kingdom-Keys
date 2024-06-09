@@ -96,53 +96,53 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 			String list = type != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
 
 			if(stack.getItem() == ModItems.orichalcum.get()){
-				if(savepoint.heal > 1 && list.contains("HP")){
+				if(savepoint.getHeal() > 1 && list.contains("HP")){
 					stack.shrink(1);
-					savepoint.heal = Math.max(savepoint.heal - 4, 1);
+					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
 					//worldIn.sendBlockUpdated(pos, state, state, 3);
 					worldIn.setBlockAndUpdate(pos, state);
 
-					player.displayClientMessage(Component.translatable("Savepoint healing cooldown is now "+savepoint.heal), true);
+					player.displayClientMessage(Component.translatable("Savepoint healing cooldown is now "+savepoint.getHeal()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint healing is already at minimum cooldown"), true);
 				}
 			} else if(stack.getItem() == ModItems.illusory_crystal.get()){
-				if(savepoint.magic > 1 && list.contains("MP")){
+				if(savepoint.getMagic() > 1 && list.contains("MP")){
 					stack.shrink(1);
-					savepoint.magic = Math.max(savepoint.magic - 4, 1);
-					player.displayClientMessage(Component.translatable("Savepoint magic cooldown is now "+savepoint.magic), true);
+					savepoint.setMagic(Math.max(savepoint.getMagic() - 4, 1));
+					player.displayClientMessage(Component.translatable("Savepoint magic cooldown is now "+savepoint.getMagic()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint magic is already at minimum cooldown"), true);
 				}
 			} else if(stack.getItem() == ModItems.hungry_crystal.get()){
-				if(savepoint.hunger > 1 && list.contains("HUNGER")){
+				if(savepoint.getHunger() > 1 && list.contains("HUNGER")){
 					stack.shrink(1);
-					savepoint.hunger = Math.max(savepoint.hunger - 4, 1);
-					player.displayClientMessage(Component.translatable("Savepoint hunger cooldown is now "+savepoint.hunger), true);
+					savepoint.setHunger(Math.max(savepoint.getHunger() - 4, 1));
+					player.displayClientMessage(Component.translatable("Savepoint hunger cooldown is now "+savepoint.getHunger()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint hunger is already at minimum cooldown"), true);
 				}
 			} else if(stack.getItem() == ModItems.remembrance_crystal.get()){
-				if(savepoint.focus > 1 && list.contains("FOCUS")){
+				if(savepoint.getFocus() > 1 && list.contains("FOCUS")){
 					stack.shrink(1);
-					savepoint.focus = Math.max(savepoint.focus - 4, 1);
-					player.displayClientMessage(Component.translatable("Savepoint focus cooldown is now "+savepoint.focus), true);
+					savepoint.setFocus(Math.max(savepoint.getFocus() - 4, 1));
+					player.displayClientMessage(Component.translatable("Savepoint focus cooldown is now "+savepoint.getFocus()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint focus is already at minimum cooldown"), true);
 				}
 			} else if(stack.getItem() == ModItems.evanescent_crystal.get()){
-				if(savepoint.drive > 1 && list.contains("DRIVE")){
+				if(savepoint.getDrive() > 1 && list.contains("DRIVE")){
 					stack.shrink(1);
-					savepoint.drive = Math.max(savepoint.drive - 4, 1);
-					player.displayClientMessage(Component.translatable("Savepoint drive cooldown is now "+savepoint.drive), true);
+					savepoint.setDrive(Math.max(savepoint.getDrive() - 4, 1));
+					player.displayClientMessage(Component.translatable("Savepoint drive cooldown is now "+savepoint.getDrive()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint drive is already at minimum cooldown"), true);
 				}
 			} else if(stack.getItem() == ModItems.orichalcumplus.get()){
-				if(savepoint.tier < 2){
+				if(savepoint.getTier() < 2){
 					stack.shrink(1);
-					savepoint.tier++;
-					player.displayClientMessage(Component.translatable("Savepoint tier is now "+savepoint.tier), true);
+					savepoint.setTier(savepoint.getTier()+1);
+					player.displayClientMessage(Component.translatable("Savepoint tier is now "+savepoint.getTier()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint tier is already maxed"), true);
 				}
@@ -158,26 +158,26 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
 				String list = type != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
-				if(savepoint.heal == 0 || savepoint.hunger == 0 || savepoint.focus == 0 || savepoint.magic == 0 || savepoint.drive == 0) {
+				if(savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0) {
 					player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
 				} else {
-					if (list.contains("HP") && entity.tickCount % savepoint.heal == 0 && player.getHealth() < playerData.getMaxHP()) {
+					if (list.contains("HP") && entity.tickCount % savepoint.getHeal() == 0 && player.getHealth() < playerData.getMaxHP()) {
 						player.heal(1);
 						showParticles(player, world, pos);
 					}
-					if (list.contains("HUNGER") && entity.tickCount % savepoint.hunger == 0 && player.getFoodData().getFoodLevel() < 20) {
+					if (list.contains("HUNGER") && entity.tickCount % savepoint.getHunger() == 0 && player.getFoodData().getFoodLevel() < 20) {
 						player.getFoodData().eat(1, 1);
 						showParticles(player, world, pos);
 					}
-					if (list.contains("MP") && entity.tickCount % savepoint.magic == 0 && playerData.getMP() < playerData.getMaxMP()) {
+					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
 						playerData.addMP(1);
 						showParticles(player, world, pos);
 					}
-					if (list.contains("FOCUS") && entity.tickCount % savepoint.focus == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
+					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
 						playerData.addFocus(1);
 						showParticles(player, world, pos);
 					}
-					if (list.contains("DRIVE") && entity.tickCount % savepoint.drive == 0 && playerData.getDP() < playerData.getMaxDP()) {
+					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
 						playerData.addDP(5);
 						showParticles(player, world, pos);
 					}
