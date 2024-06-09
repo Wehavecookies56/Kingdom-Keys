@@ -43,7 +43,7 @@ public class SavePointButton extends Button {
             }
             if (isHovered) {
                 //TODO Display savepoint stats on tooltip
-                SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination);
+                SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination).getFirst();
                 if(sPoint == null)
                     return;
                 BlockPos pos = sPoint.pos();

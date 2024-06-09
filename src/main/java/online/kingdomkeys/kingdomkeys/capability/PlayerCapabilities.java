@@ -1,12 +1,13 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceKey;
@@ -216,10 +217,13 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		returnCompound.putDouble("z", airstepVec.z);
 		storage.put("airstep_pos_compound", airstepCompound);
 
-		ListTag savePoints = new ListTag();
-		for (int i = 0; i < discoveredSavePoints.size(); i++) {
-			savePoints.add(i, NbtUtils.createUUID(discoveredSavePoints.get(i)));
-		}
+		CompoundTag savePoints = new CompoundTag();
+		discoveredSavePoints.forEach((uuid, instant) -> {
+			CompoundTag timeTag = new CompoundTag();
+			timeTag.putLong("second", instant.getEpochSecond());
+			timeTag.putInt("nano", instant.getNano());
+			savePoints.put(uuid.toString(), timeTag);
+		});
 		storage.put("save_points", savePoints);
 		return storage;
 	}
@@ -380,9 +384,11 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		CompoundTag airStepCompound = nbt.getCompound("airstep_pos_compound");
 		this.setAirStep(new BlockPos((int)airStepCompound.getDouble("x"), (int)airStepCompound.getDouble("y"), (int)airStepCompound.getDouble("z")));
 
-		ListTag savePoints = nbt.getList("save_points", CompoundTag.TAG_INT_ARRAY);
-		for (int i = 0; i < savePoints.size(); i++) {
-			addDiscoveredSavePoint(UUIDUtil.uuidFromIntArray(savePoints.getIntArray(i)));
+		CompoundTag savePoints = nbt.getCompound("save_points");
+		for (String key : savePoints.getAllKeys()) {
+			UUID uuid = UUID.fromString(key);
+			CompoundTag time = savePoints.getCompound(key);
+			addDiscoveredSavePoint(uuid, Instant.ofEpochSecond(time.getLong("second"), time.getInt("nano")));
 		}
 	}
 
@@ -451,7 +457,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private boolean respawnROD = false;
 	private int notifColor = 16777215;
 
-	private List<UUID> discoveredSavePoints = new ArrayList<>();
+	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
 
 	//private String armorName = "";
 	
@@ -2329,17 +2335,17 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 
 	@Override
-	public List<UUID> discoveredSavePoints() {
+	public Map<UUID, Instant> discoveredSavePoints() {
 		return discoveredSavePoints;
 	}
 
 	@Override
-	public void addDiscoveredSavePoint(UUID id) {
-		discoveredSavePoints.add(id);
+	public void addDiscoveredSavePoint(UUID id, Instant time) {
+		discoveredSavePoints.put(id, time);
 	}
 
 	@Override
-	public void setDiscoveredSavePoints(List<UUID> list) {
+	public void setDiscoveredSavePoints(Map<UUID, Instant> list) {
 		discoveredSavePoints = list;
 	}
 
