@@ -378,20 +378,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		int scrollBarHeight = scrollBar.getHeight();
 		if(abilities.isEmpty())
 			return;
 		int listHeight = (int) ((abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() - topBarHeight);
 		scrollBar.setContentHeight(listHeight);
-		if (scrollBarHeight >= listHeight) {
-			scrollBar.visible = false;
-			scrollBar.active = false;
-		} else {
-			scrollBar.visible = true;
-			scrollBar.active = true;
-		}
-		float buttonRelativeToBar = scrollBar.scrollY - (scrollBar.getY());
-		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
 
 		//prev.visible = page > 0;
 		//next.visible = page < abilities.size() / itemsPerPage;
