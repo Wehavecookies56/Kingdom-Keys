@@ -109,16 +109,15 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		for(int i = 0; i < abilities.size(); i++) { //Somehow buttons get disabled so we reenable them all and allow the later check to calculate AP
-			MenuAbilitiesButton button = abilities.get(i);
-			button.active = true;
-		}
+        for (MenuAbilitiesButton button : abilities) { //Somehow buttons get disabled so we reenable them all and allow the later check to calculate AP
+            button.active = true;
+        }
 		
 		playerButton.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
-		for(int i = 0; i < driveSelector.size();i++) {//Iterate through all the buttons to update their state
-			driveSelector.get(i).active = !form.equals(driveSelector.get(i).getData()) && playerData.getDriveFormMap().containsKey(driveSelector.get(i).getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
-			driveSelector.get(i).setSelected(!driveSelector.get(i).active); //Set it selected if it's not active (so it renders a bit to the right)
-		}
+        for (MenuButton menuButton : driveSelector) {//Iterate through all the buttons to update their state
+            menuButton.active = !form.equals(menuButton.getData()) && playerData.getDriveFormMap().containsKey(menuButton.getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+            menuButton.setSelected(!menuButton.active); //Set it selected if it's not active (so it renders a bit to the right)
+        }
 
 	}
 

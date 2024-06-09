@@ -30,23 +30,18 @@ public class SavepointTileEntity extends BlockEntity {
 		return id;
 	}
 
+	public void setID(UUID id) {
+		this.id = id;
+		setChanged();
+	}
+
 	private int
-			tier = 0,
 			heal = 20,
 			hunger = 20,
 			magic = 20,
 			drive = 20,
 			focus = 20
 	;
-
-	public int getTier() {
-		return tier;
-	}
-
-	public void setTier(int tier) {
-		this.tier = tier;
-		setChanged();
-	}
 
 	public int getHeal() {
 		return heal;
@@ -99,7 +94,6 @@ public class SavepointTileEntity extends BlockEntity {
 		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
 			id = pTag.getUUID("savepoint_id");
 		}
-		tier = pTag.getInt("tier");
 		heal = pTag.getInt("heal");
 		hunger = pTag.getInt("hunger");
 		magic = pTag.getInt("magic");
@@ -112,7 +106,6 @@ public class SavepointTileEntity extends BlockEntity {
 		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
 			pTag.putUUID("savepoint_id", id);
 		}
-		pTag.putInt("tier",tier);
 		pTag.putInt("heal",heal);
 		pTag.putInt("hunger",hunger);
 		pTag.putInt("magic",magic);
@@ -165,4 +158,3 @@ public class SavepointTileEntity extends BlockEntity {
 		}
 	}
 }
-

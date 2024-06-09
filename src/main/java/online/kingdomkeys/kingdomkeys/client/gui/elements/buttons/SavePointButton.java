@@ -42,19 +42,18 @@ public class SavePointButton extends Button {
                 }
             }
             if (isHovered) {
-                //TODO Display savepoint stats on tooltip
                 SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination).getFirst();
                 if(sPoint == null)
                     return;
-                BlockPos pos = sPoint.pos();
 
-                if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof SavepointTileEntity savepoint){
-                    Tooltip tooltip = Tooltip.create(Component.literal("Tier: "+ SavePointStorage.SavePointType.values()[savepoint.getTier()]+
-                            "\nHealing cooldown: "+savepoint.getHeal()+
-                            "\nFood cooldown: "+savepoint.getHunger()+
-                            "\nMagic cooldown: "+savepoint.getMagic()+
-                            "\nFocus cooldown: "+savepoint.getFocus()+
-                            "\nDrive cooldown: "+savepoint.getDrive()));
+                if(Minecraft.getInstance().level.getBlockEntity(sPoint.pos()) instanceof SavepointTileEntity savepoint){
+                    Tooltip tooltip = Tooltip.create(Component.literal(
+                      "UUID: "+savepoint.getID()+
+                            "\nHealing: "+Math.round(100 - (((savepoint.getHeal()-1) /(20F-1F)) * 100F))+
+                            "%\nFood: "+Math.round(100 - (((savepoint.getHunger()-1) /(20F-1F)) * 100F))+
+                            "%\nMagic: "+Math.round(100 - (((savepoint.getMagic()-1) /(20F-1F)) * 100F))+
+                            "%\nFocus: "+Math.round(100 - (((savepoint.getFocus()-1) /(20F-1F)) * 100F))+
+                            "%\nDrive: "+Math.round(100 - (((savepoint.getDrive()-1) /(20F-1F)) * 100F))+"%"));
                     setTooltip(tooltip);
                 }
 
