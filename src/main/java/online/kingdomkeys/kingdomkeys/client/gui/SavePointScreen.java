@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -32,6 +33,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
@@ -39,7 +41,7 @@ import javax.annotation.Nullable;
 public class SavePointScreen extends MenuBackground {
 
     SavepointTileEntity tileEntity;
-    public Map<UUID, SavePointStorage.SavePoint> savePoints;
+    public Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints;
     public Map<UUID, Screenshot> savePointScreenshots = new HashMap<>();
     boolean create;
 
@@ -50,11 +52,10 @@ public class SavePointScreen extends MenuBackground {
     EditBoxLength nameField;
     MenuButton save;
     MenuScrollBar bar;
-    float scrollOffset;
 
     SavePointStorage.SavePointType type;
 
-    public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, SavePointStorage.SavePoint> savePoints, boolean create) {
+    public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
         super("", Color.green);
         this.tileEntity = tileEntity;
         type = ((SavePointBlock)tileEntity.getBlockState().getBlock()).getType();
@@ -68,7 +69,7 @@ public class SavePointScreen extends MenuBackground {
         }
     }
 
-    public void updateSavePointsFromServer(boolean tileEntityExists, Map<UUID, SavePointStorage.SavePoint> savePoints) {
+    public void updateSavePointsFromServer(boolean tileEntityExists, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
         if (!tileEntityExists) {
             onClose();
         }
@@ -172,7 +173,7 @@ public class SavePointScreen extends MenuBackground {
                 if (!files.isEmpty()) {
                     files.forEach((uuid, file) -> {
                         if (savePoints.containsKey(uuid)) {
-                            String nameNoInvalid = savePoints.get(uuid).name().replaceAll("[\\\\/:*?\"<>|]", "_").toLowerCase();
+                            String nameNoInvalid = savePoints.get(uuid).getFirst().name().replaceAll("[\\\\/:*?\"<>|]", "_").toLowerCase();
                             if (file.isFile() && file.getName().equals(nameNoInvalid + "_" + uuid.toString() + ".png")) {
                                 fileMap.put(uuid, file);
                             }
@@ -219,14 +220,14 @@ public class SavePointScreen extends MenuBackground {
             int column = 0;
             int row = 0;
             int yPos = 0;
-            for (Map.Entry<UUID, SavePointStorage.SavePoint> entry : savePoints.entrySet()) {
-                if (type == SavePointStorage.SavePointType.WARP || entry.getValue().dimension() == tileEntity.getLevel().dimension()) {
+            for (Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> entry : savePoints.entrySet()) {
+                if (type == SavePointStorage.SavePointType.WARP || entry.getValue().getFirst().dimension() == tileEntity.getLevel().dimension()) {
                     if (column == elementsPerRow) {
                         column = 0;
                         row++;
                     }
                     yPos = (int) (this.topBarHeight + 2 + ((elementHeight + 2) * row));
-                    addRenderableWidget(new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(entry.getValue().name()), entry.getKey()));
+                    addRenderableWidget(new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(entry.getValue().getFirst().name()), entry.getKey()));
                     column++;
                 }
             }
@@ -246,7 +247,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
-            bar.mouseClicked(pMouseX, pMouseY, pButton);
+            //bar.mouseClicked(pMouseX, pMouseY, pButton);
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
@@ -254,7 +255,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
         if (bar != null) {
-            bar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+            //bar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
             updateScroll(bar);
         }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
@@ -263,7 +264,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
-            bar.mouseReleased(pMouseX, pMouseY, pButton);
+            //bar.mouseReleased(pMouseX, pMouseY, pButton);
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
@@ -271,7 +272,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
         if (bar != null) {
-            bar.mouseScrolled(pMouseX, pMouseY, pDelta);
+            //bar.mouseScrolled(pMouseX, pMouseY, pDelta);
             updateScroll(bar);
         }
         return super.mouseScrolled(pMouseX, pMouseY, pDelta);

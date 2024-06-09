@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
+import java.time.Instant;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -42,7 +43,7 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
             SavePointStorage storage = SavePointStorage.getStorage(player.server);
             SavepointTileEntity te = (SavepointTileEntity) level.getBlockEntity(message.tileEntity);
             storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), ((SavePointBlock)te.getBlockState().getBlock()).getType(), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension()));
-            ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID());
+            ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID(), Instant.now());
             MinecraftServer server = level.getServer();
             Iterable<ServerLevel> levels = server.getAllLevels();
             for (Level level1 : levels) {

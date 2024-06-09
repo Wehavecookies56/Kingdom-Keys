@@ -42,7 +42,7 @@ public class SavePointButton extends Button {
                 }
             }
             if (isHovered) {
-                SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination);
+                SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination).getFirst();
                 if(sPoint == null)
                     return;
 

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -10,32 +11,33 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, SavePointStorage.SavePoint> savePoints, boolean create) {
+public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
     public SCOpenSavePointScreen(FriendlyByteBuf buf) {
         this(buf.readBlockPos(), readSavePoints(buf), buf.readBoolean());
     }
 
-    public static Map<UUID, SavePointStorage.SavePoint> readSavePoints(FriendlyByteBuf buf) {
-        Map<UUID, SavePointStorage.SavePoint> points = new HashMap<>();
+    public static Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> readSavePoints(FriendlyByteBuf buf) {
+        Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> points = new HashMap<>();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
             SavePointStorage.SavePoint savePoint = new SavePointStorage.SavePoint(buf.readNbt());
-            points.put(savePoint.id(), savePoint);
+            points.put(savePoint.id(), Pair.of(savePoint, Instant.ofEpochSecond(buf.readLong(), buf.readInt())));
         }
         return points;
     }
 
-    private static Map<UUID, SavePointStorage.SavePoint> getAndAddSavePoints(SavepointTileEntity tileEntity, Player player) {
+    private static Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> getAndAddSavePoints(SavepointTileEntity tileEntity, Player player) {
         SavePointStorage storage = SavePointStorage.getStorage(player.getServer());
-        Map<UUID, SavePointStorage.SavePoint> savePoints = storage.getDiscoveredSavePoints(player);
+        Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints = storage.getDiscoveredSavePoints(player);
         if (storage.savePointRegistered(tileEntity.getID())) {
             if (!savePoints.containsKey(tileEntity.getID())) {
-                savePoints.put(tileEntity.getID(), SavePointStorage.getStorage(player.getServer()).getSavePoint(tileEntity.getID()));
+                savePoints.put(tileEntity.getID(), Pair.of(SavePointStorage.getStorage(player.getServer()).getSavePoint(tileEntity.getID()), Instant.now()));
             }
         }
         return savePoints;
@@ -53,7 +55,11 @@ public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, SavePointStor
     public void encode(FriendlyByteBuf buf) {
         buf.writeBlockPos(tileEntity);
         buf.writeInt(savePoints.size());
-        savePoints.values().forEach(savePoint -> buf.writeNbt(savePoint.serializeNBT()));
+        savePoints.values().forEach(savePoint -> {
+            buf.writeNbt(savePoint.getFirst().serializeNBT());
+            buf.writeLong(savePoint.getSecond().getEpochSecond());
+            buf.writeInt(savePoint.getSecond().getNano());
+        });
         buf.writeBoolean(create);
     }
 

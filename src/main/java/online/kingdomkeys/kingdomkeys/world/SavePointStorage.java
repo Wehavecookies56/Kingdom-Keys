@@ -13,7 +13,9 @@ import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SavePointStorage extends SavedData {
 
@@ -54,12 +56,12 @@ public class SavePointStorage extends SavedData {
         return savePointRegistry;
     }
 
-    public Map<UUID, SavePoint> getDiscoveredSavePoints(Player player) {
-        Map<UUID, SavePoint> filteredRegistry = new HashMap<>();
-        List<UUID> uuids = new ArrayList<>(ModCapabilities.getPlayer(player).discoveredSavePoints().stream().filter(savePointRegistry::containsKey).toList());
+    public Map<UUID, Pair<SavePoint, Instant>> getDiscoveredSavePoints(Player player) {
+        Map<UUID, Pair<SavePoint, Instant>> filteredRegistry = new HashMap<>();
+        Map<UUID, Instant> uuids = ModCapabilities.getPlayer(player).discoveredSavePoints().entrySet().stream().filter(uuidInstantEntry -> savePointRegistry.containsKey(uuidInstantEntry.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         ModCapabilities.getPlayer(player).setDiscoveredSavePoints(uuids);
-        List<SavePoint> savePointList = savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuids.contains(uuidSavePointEntry.getKey())).map(Map.Entry::getValue).toList();
-        savePointList.forEach(savePoint -> filteredRegistry.put(savePoint.id, savePoint));
+        List<SavePoint> savePointList = savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuids.containsKey(uuidSavePointEntry.getKey())).map(Map.Entry::getValue).toList();
+        savePointList.forEach(savePoint -> filteredRegistry.put(savePoint.id, Pair.of(savePoint, uuids.get(savePoint.id))));
         return filteredRegistry;
     }
 
