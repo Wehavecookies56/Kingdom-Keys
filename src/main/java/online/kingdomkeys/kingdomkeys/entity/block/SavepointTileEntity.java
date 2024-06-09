@@ -23,12 +23,21 @@ public class SavepointTileEntity extends BlockEntity {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
 	long ticks;
-
+	//TODO Change savepoint type to tier
 	private UUID id = UUID.randomUUID();
 
 	public UUID getID() {
 		return id;
 	}
+
+	public int
+			tier = 0,
+			heal = 20,
+			hunger = 20,
+			magic = 20,
+			drive = 20,
+			focus = 20
+	;
 
 	@Override
 	public void load(CompoundTag pTag) {
@@ -36,6 +45,13 @@ public class SavepointTileEntity extends BlockEntity {
 		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
 			id = pTag.getUUID("savepoint_id");
 		}
+		tier = pTag.getInt("tier");
+		heal = pTag.getInt("heal");
+		System.out.println("Heal load: "+heal);
+		hunger = pTag.getInt("hunger");
+		magic = pTag.getInt("magic");
+		drive = pTag.getInt("drive");
+		focus = pTag.getInt("focus");
 	}
 
 	@Override
@@ -43,6 +59,13 @@ public class SavepointTileEntity extends BlockEntity {
 		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
 			pTag.putUUID("savepoint_id", id);
 		}
+		pTag.putInt("tier",tier);
+		pTag.putInt("heal",heal);
+		System.out.println("Heal save: "+heal);
+		pTag.putInt("hunger",hunger);
+		pTag.putInt("magic",magic);
+		pTag.putInt("drive",drive);
+		pTag.putInt("focus",focus);
 		super.saveAdditional(pTag);
 	}
 

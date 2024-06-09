@@ -84,7 +84,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 			this.remove(RemovalReason.KILLED);
 		}
 		
-		if(tickCount > 1) {
+		if(tickCount > 1 && getOwner() != null) {
 			Color color = new Color(255,255,255);
 			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getOwner().getX(), getOwner().getY()+1, getOwner().getZ(), 1,1,1);
 		}
