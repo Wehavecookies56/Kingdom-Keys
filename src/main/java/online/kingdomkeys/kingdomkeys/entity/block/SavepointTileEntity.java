@@ -30,7 +30,7 @@ public class SavepointTileEntity extends BlockEntity {
 		return id;
 	}
 
-	public int
+	private int
 			tier = 0,
 			heal = 20,
 			hunger = 20,
@@ -38,6 +38,60 @@ public class SavepointTileEntity extends BlockEntity {
 			drive = 20,
 			focus = 20
 	;
+
+	public int getTier() {
+		return tier;
+	}
+
+	public void setTier(int tier) {
+		this.tier = tier;
+		setChanged();
+	}
+
+	public int getHeal() {
+		return heal;
+	}
+
+	public void setHeal(int heal) {
+		this.heal = heal;
+		setChanged();
+	}
+
+	public int getHunger() {
+		return hunger;
+	}
+
+	public void setHunger(int hunger) {
+		this.hunger = hunger;
+		setChanged();
+	}
+
+	public int getMagic() {
+		return magic;
+	}
+
+	public void setMagic(int magic) {
+		this.magic = magic;
+		setChanged();
+	}
+
+	public int getDrive() {
+		return drive;
+	}
+
+	public void setDrive(int drive) {
+		this.drive = drive;
+		setChanged();
+	}
+
+	public int getFocus() {
+		return focus;
+	}
+
+	public void setFocus(int focus) {
+		this.focus = focus;
+		setChanged();
+	}
 
 	@Override
 	public void load(CompoundTag pTag) {
@@ -47,7 +101,6 @@ public class SavepointTileEntity extends BlockEntity {
 		}
 		tier = pTag.getInt("tier");
 		heal = pTag.getInt("heal");
-		System.out.println("Heal load: "+heal);
 		hunger = pTag.getInt("hunger");
 		magic = pTag.getInt("magic");
 		drive = pTag.getInt("drive");
@@ -61,7 +114,6 @@ public class SavepointTileEntity extends BlockEntity {
 		}
 		pTag.putInt("tier",tier);
 		pTag.putInt("heal",heal);
-		System.out.println("Heal save: "+heal);
 		pTag.putInt("hunger",hunger);
 		pTag.putInt("magic",magic);
 		pTag.putInt("drive",drive);
