@@ -34,7 +34,7 @@ public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) {
                 @Override
                 public Entity placeEntity(Entity entity, ServerLevel currentWorld, ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
                     player.setDeltaMovement(0, 0, 0);
-                    player.connection.teleport(destination.pos().getX() + 0.5D, destination.pos().getY(), destination.pos().getZ() + 0.5D, player.getYRot(), player.getXRot());
+                    player.connection.teleport(destination.pos().getX() + 0.5D, destination.pos().getY()+0.07D, destination.pos().getZ() + 0.5D, player.getYRot(), player.getXRot());
                     return repositionEntity.apply(false);
                 }
             };

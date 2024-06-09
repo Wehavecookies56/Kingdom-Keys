@@ -4,9 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
+import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import java.awt.*;
 import java.util.UUID;
@@ -40,6 +42,22 @@ public class SavePointButton extends Button {
                 }
             }
             if (isHovered) {
+                //TODO Display savepoint stats on tooltip
+                SavePointStorage.SavePoint sPoint = parent.savePoints.get(destination);
+                if(sPoint == null)
+                    return;
+                BlockPos pos = sPoint.pos();
+
+                if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof SavepointTileEntity savepoint){
+                    Tooltip tooltip = Tooltip.create(Component.literal("Tier: "+ SavePointStorage.SavePointType.values()[savepoint.getTier()]+
+                            "\nHealing cooldown: "+savepoint.getHeal()+
+                            "\nFood cooldown: "+savepoint.getHunger()+
+                            "\nMagic cooldown: "+savepoint.getMagic()+
+                            "\nFocus cooldown: "+savepoint.getFocus()+
+                            "\nDrive cooldown: "+savepoint.getDrive()));
+                    setTooltip(tooltip);
+                }
+
                 gui.setColor(1, 1, 1, 0.5F);
                 gui.fill(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight(), Color.BLACK.getRGB());
                 gui.setColor(1, 1, 1, 1);
@@ -50,6 +68,7 @@ public class SavePointButton extends Button {
                 } else {
                     gui.drawCenteredString(Minecraft.getInstance().font, getMessage(), getX() + (getWidth() / 2), getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
                 }
+
             }
             if (parent.hovered == null || !parent.hovered.equals(destination)) {
                 gui.setColor(1, 1, 1, 0.4F);
