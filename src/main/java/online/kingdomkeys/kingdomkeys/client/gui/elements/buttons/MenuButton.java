@@ -74,11 +74,8 @@ public class MenuButton extends MenuButtonBase {
 	@ParametersAreNonnullByDefault
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		//if(!isSelected())
-			isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
-		/*if(isHovered()) {
-			selected = false;
-		}*/
+		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
+
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
@@ -131,7 +128,6 @@ public class MenuButton extends MenuButtonBase {
 			vPos = sbVPos;
 			selVPos = sbSelectedVPos;
 			break;
-
 		}
 
 		vPos = hovered || selected ? selVPos : vPos;

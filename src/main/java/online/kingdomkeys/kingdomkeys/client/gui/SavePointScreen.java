@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSCreateSavePoint;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSavePointTP;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.io.File;
@@ -38,7 +39,7 @@ import javax.annotation.Nullable;
 public class SavePointScreen extends MenuBackground {
 
     SavepointTileEntity tileEntity;
-    Map<UUID, SavePointStorage.SavePoint> savePoints;
+    public Map<UUID, SavePointStorage.SavePoint> savePoints;
     public Map<UUID, Screenshot> savePointScreenshots = new HashMap<>();
     boolean create;
 
@@ -185,7 +186,7 @@ public class SavePointScreen extends MenuBackground {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (nameField != null && nameField.isFocused() && keyCode != 256) {
+        if (nameField != null && nameField.isFocused() && keyCode != GLFW.GLFW_KEY_ESCAPE) {
             return false;
         } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
