@@ -36,12 +36,22 @@ public class SavepointTileEntity extends BlockEntity {
 	}
 
 	private int
+			tier = 0,
 			heal = 20,
 			hunger = 20,
 			magic = 20,
 			drive = 20,
 			focus = 20
 	;
+
+	public int getTier() {
+		return tier;
+	}
+
+	public void setTier(int tier) {
+		this.tier = tier;
+		setChanged();
+	}
 
 	public int getHeal() {
 		return heal;
