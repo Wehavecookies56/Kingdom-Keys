@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -120,6 +122,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
     float boxRightPosX;
     float topBarHeight;
     float boxWidth;
+    int rightListHeight = 0;
+    int leftListHeight = 0;
 
     @Override
     public void init() {
@@ -136,25 +140,16 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         buttonPosY = (int) (topBarHeight + 5);
 
         super.init();
-        addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, 0));
-        addRenderableWidget(leftScroll = new MenuScrollBar((int) (boxLeftPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, 0));
+        addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight - 3 - font.lineHeight, 0));
+        addRenderableWidget(leftScroll = new MenuScrollBar((int) (boxLeftPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight - 3 - font.lineHeight, 0));
         updateMagicButtons(true);
-        int rightListHeight = 0;
-        int leftListHeight = 0;
-        if (!displayedMagic.isEmpty()) {
-            rightListHeight = displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[displayedMagic.size()-1]).button.getY()+20 - displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[0]).button.getY();
-        }
-        if (!allMagic.isEmpty()) {
-            leftListHeight = (allMagic.get((ResourceLocation) allMagic.keySet().toArray()[allMagic.size() - 1]).button.getY() + 20) - allMagic.get((ResourceLocation) allMagic.keySet().toArray()[0]).button.getY();
-        }
-        rightScroll.setContentHeight(rightListHeight);
-        leftScroll.setContentHeight(leftListHeight);
         addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 
     public void updateMagicButtons(boolean init) {
         this.renderables.clear();
+        this.children().clear();
         for (int i = 0; i < displayedMagic.size(); i++) {
             ResourceLocation key = displayedMagic.keySet().stream().toList().get(i);
             MenuButton button = displayedMagic.get(key).button;
@@ -176,20 +171,38 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
             addRenderableWidget(leftScroll);
             addRenderableWidget(back);
         }
-
+        if (!displayedMagic.isEmpty()) {
+            rightListHeight = displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[displayedMagic.size()-1]).button.getY()+20 - displayedMagic.get((ResourceLocation) displayedMagic.keySet().toArray()[0]).button.getY() + 5;
+        }
+        if (!allMagic.isEmpty()) {
+            leftListHeight = (allMagic.get((ResourceLocation) allMagic.keySet().toArray()[allMagic.size() - 1]).button.getY() + 20) - allMagic.get((ResourceLocation) allMagic.keySet().toArray()[0]).button.getY() + 5;
+        }
+        rightScroll.setContentHeight(rightListHeight);
+        leftScroll.setContentHeight(leftListHeight);
     }
 
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+        drawMenuBackground(gui, mouseX, mouseY, partialTicks);
         boxLeft.renderWidget(gui, mouseX, mouseY, partialTicks);
         boxRight.renderWidget(gui, mouseX, mouseY, partialTicks);
 
         updateMagicButtons(false);
         drawSeparately = true;
-        drawMenuBackground(gui, mouseX, mouseY, partialTicks);
         gui.drawCenteredString(Minecraft.getInstance().font, "Hidden", (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
         gui.drawCenteredString(Minecraft.getInstance().font, "Command Menu", (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
-        super.render(gui, mouseX, mouseY, partialTicks);
+        gui.enableScissor((int) boxLeftPosX, (int) topBarHeight + 3 + font.lineHeight, (int) boxLeft.getWidth()*4, (int) (topBarHeight + middleHeight));
+        for(Renderable renderable : this.renderables) {
+            if (renderable instanceof Button button) {
+                if (button.getX() >= boxLeftPosX-1) {
+                    renderable.render(gui, mouseX, mouseY, partialTicks);
+                }
+            }
+        }
+        gui.disableScissor();
+        back.render(gui, mouseX, mouseY, partialTicks);
+        rightScroll.render(gui, mouseX, mouseY, partialTicks);
+        leftScroll.render(gui, mouseX, mouseY, partialTicks);
   }
 
     @Override

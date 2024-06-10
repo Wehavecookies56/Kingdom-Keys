@@ -75,6 +75,7 @@ public class MenuBox extends AbstractWidget{
         gui.blit(texture, 0, 0, mCenterU, mCenterV, 1, 1);
         matrixStack.popPose();
         matrixStack.popPose();
+        RenderSystem.setShaderColor(1,1,1,1);
         //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
         //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }

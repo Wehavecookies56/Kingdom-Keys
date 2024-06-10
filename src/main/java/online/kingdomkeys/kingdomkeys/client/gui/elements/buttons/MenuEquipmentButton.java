@@ -50,6 +50,7 @@ public class MenuEquipmentButton extends Button {
     String label;
     boolean hasLabel;
     ItemCategory category;
+	public int offsetY;
 
 	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -98,7 +99,12 @@ public class MenuEquipmentButton extends Button {
         this.label = label;
     }
 
-    @Override
+	@Override
+	public int getY() {
+		return super.getY() - offsetY;
+	}
+
+	@Override
     public void playDownSound(SoundManager soundHandler) {
         soundHandler.play(SimpleSoundInstance.forUI(ModSounds.menu_select.get(), 1.0F, 1.0F));
     }
@@ -109,10 +115,6 @@ public class MenuEquipmentButton extends Button {
         Font fr = mc.font;
 
 		PoseStack matrixStack = gui.pose();
-
-        float itemY = parent.height * 0.1907F;
-        float bottomY = parent.height - (parent.height * 0.25F);
-        if (this.getY() < itemY - 1 || this.getY() > bottomY - 1) return;
 
         isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         Color col = Color.decode(String.valueOf(colour));

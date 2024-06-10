@@ -132,11 +132,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		renderables.clear();
 		children().clear();
 		abilities.clear();
-		
+
 		float boxPosX = (float) width * 0.2F;
-		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.5F;
-		float middleHeight = (float) height * 0.6F;
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
 		int buttonPosX = (int) (boxPosX * 1.3F);
@@ -379,32 +377,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		if(abilities.isEmpty())
 			return;
-		int listHeight = (int) ((abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() - topBarHeight);
+		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() + 3;
 		scrollBar.setContentHeight(listHeight);
 
-		//prev.visible = page > 0;
-		//next.visible = page < abilities.size() / itemsPerPage;
-
-		//Page renderer
-		/*
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(prev.getX()+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
-		}
-		matrixStack.popPose();
-		 */
-
-		//for (int i = 0; i < abilities.size(); i++) {
-		//	abilities.get(i).visible = false;
-		//}
-		double scale = Minecraft.getInstance().getWindow().getGuiScale();
-		
-		float scissorOffset = 0.0036F;
-
-		int scissorY = (int) (Minecraft.getInstance().getWindow().getHeight() * (0.23F + scissorOffset));
-
-		RenderSystem.enableScissor(0, scissorY, Minecraft.getInstance().getWindow().getWidth(), (int) (Minecraft.getInstance().getWindow().getHeight() * (0.6F-scissorOffset)));
+		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
@@ -426,7 +402,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			}
 		}
-		RenderSystem.disableScissor();
+		gui.disableScissor();
 
 		playerButton.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);

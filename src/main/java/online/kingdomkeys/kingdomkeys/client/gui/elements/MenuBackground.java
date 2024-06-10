@@ -38,12 +38,16 @@ public class MenuBackground extends Screen {
 	
 	String tip = null;
 	Color color;
+	protected Component title;
+
+	public boolean shouldCloseOnMenu;
 	
 	public MenuBackground(String name, Color rgb) {
 		super(Component.translatable(name));
 		minecraft = Minecraft.getInstance();
 		selected = -1;
 		this.color = rgb;
+		this.title = super.title;
 	}
 	//TODO Make menus work with arrow keys?
 	
@@ -55,7 +59,7 @@ public class MenuBackground extends Screen {
 		InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
 		if (super.keyPressed(keyCode, scanCode, modifiers)) {
 			return true;
-		} else if (InputHandler.Keybinds.OPENMENU.getKeybind().isActiveAndMatches(mouseKey)) {
+		} else if (InputHandler.Keybinds.OPENMENU.getKeybind().isActiveAndMatches(mouseKey) && shouldCloseOnMenu) {
 			//Close screen if already open and pushed this key. Example copied from keyPressed of ContainerScreen
 			Minecraft mc = Minecraft.getInstance();
 			mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -148,6 +152,11 @@ public class MenuBackground extends Screen {
 	protected float buttonPosX;
     protected int buttonPosY;
     protected float buttonWidth;
+
+	@Override
+	public Component getTitle() {
+		return title;
+	}
 
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {

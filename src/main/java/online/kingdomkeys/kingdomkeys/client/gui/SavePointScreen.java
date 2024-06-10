@@ -56,7 +56,7 @@ public class SavePointScreen extends MenuBackground {
     SavePointStorage.SavePointType type;
 
     public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
-        super("", Color.green);
+        super(create ? "Name Save Point" : savePoints.get(tileEntity.getID()).getFirst().name(), Color.green);
         this.tileEntity = tileEntity;
         type = ((SavePointBlock)tileEntity.getBlockState().getBlock()).getType();
         this.savePoints = savePoints;
@@ -67,6 +67,7 @@ public class SavePointScreen extends MenuBackground {
         if (!create) {
             loadSavePointScreenshots();
         }
+        shouldCloseOnMenu = false;
     }
 
     public void updateSavePointsFromServer(boolean tileEntityExists, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
@@ -96,6 +97,18 @@ public class SavePointScreen extends MenuBackground {
                 }
             }
         }
+        if (create) {
+            String text = "Enter a name for this Save Point";
+            gui.drawString(minecraft.font, text, (width/2) - (minecraft.font.width(text)/2), (height/2) - (minecraft.font.lineHeight/2) - 60, Color.WHITE.getRGB());
+        }
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (create && save.active && keyCode == GLFW.GLFW_KEY_ENTER) {
+            action(SAVE);
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -116,6 +129,7 @@ public class SavePointScreen extends MenuBackground {
                     nameField.visible = false;
                     save.visible = false;
                     ScreenshotManager.screenshot(nameField.getValue(), tileEntity.getID());
+                    title = Component.literal(nameField.getValue());
                 }
             }
         }
@@ -186,19 +200,10 @@ public class SavePointScreen extends MenuBackground {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (nameField != null && nameField.isFocused() && keyCode != GLFW.GLFW_KEY_ESCAPE) {
-            return false;
-        } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
-        }
-    }
-
-    @Override
     public void init() {
         super.init();
         if (create) {
-            addRenderableWidget(nameField = new EditBoxLength(Minecraft.getInstance().font, 0, 0, 100, 20, 32, Component.empty()){
+            addRenderableWidget(nameField = new EditBoxLength(Minecraft.getInstance().font, (width/2) - 50, (height/2) - 10 - 40, 100, 20, 32, Component.empty()){
                 @Override
                 public boolean charTyped(char pCodePoint, int pModifiers) {
                     boolean b = super.charTyped(pCodePoint, pModifiers);
@@ -212,7 +217,7 @@ public class SavePointScreen extends MenuBackground {
                     updateButtons();
                 }
             });
-            addRenderableWidget(save = new MenuButton(0, 40, 100, "Save", MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
+            addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2) - 14, 100, "Save", MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
         } else {
             int elementHeight = (font.lineHeight * 5) + 4;
             int elementWidth = (int) (elementHeight * (16F/9F));
@@ -247,15 +252,19 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
-            //bar.mouseClicked(pMouseX, pMouseY, pButton);
+            bar.mouseClicked(pMouseX, pMouseY, pButton);
         }
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
+        if ((pMouseY > topBarHeight + middleHeight || pMouseY < topBarHeight) && !create) {
+            return false;
+        } else {
+            return super.mouseClicked(pMouseX, pMouseY, pButton);
+        }
     }
 
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
         if (bar != null) {
-            //bar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+            bar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
             updateScroll(bar);
         }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
@@ -264,7 +273,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
-            //bar.mouseReleased(pMouseX, pMouseY, pButton);
+            bar.mouseReleased(pMouseX, pMouseY, pButton);
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
@@ -272,7 +281,7 @@ public class SavePointScreen extends MenuBackground {
     @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
         if (bar != null) {
-            //bar.mouseScrolled(pMouseX, pMouseY, pDelta);
+            bar.mouseScrolled(pMouseX, pMouseY, pDelta);
             updateScroll(bar);
         }
         return super.mouseScrolled(pMouseX, pMouseY, pDelta);

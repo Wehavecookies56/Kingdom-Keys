@@ -27,10 +27,12 @@ public class MenuScrollBar extends Button {
 	//The top and bottom part of the handle that stick out touch the top and bottom of the bar 3 pixels from the middle part so this is so it stops before overlapping with the top/bottom texture
 	final int handleEndOffset = 3;
 
+	public static final int WIDTH = 14;
+
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuScrollBar(int x, int y, int height, int visibleHeight, int contentHeight) {
-		super(new Builder(Component.empty(),button -> {}).bounds(x, y, 14, height));
+		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, height));
 		this.visibleHeight = visibleHeight;
 		//The highest point on the scroll bar for the handle
 		this.handleYMax = getY() + handleEndOffset + barTopBotDims.Y;
@@ -40,8 +42,21 @@ public class MenuScrollBar extends Button {
 		setContentHeight(contentHeight);
 	}
 
+	public void setHandleY(int handleY) {
+		if (handleY < handleYMax) {
+			this.handleY = handleYMax;
+		} else {
+			this.handleY = handleY;
+		}
+	}
+
 	public void setHandleHeight(int height) {
 		this.handleHeight = height;
+		if (handleY > getHandleBottom()) {
+			handleY = getHandleBottom() + 1;
+		} else if (handleY < handleYMax) {
+			handleY = handleYMax;
+		}
 	}
 
 	public int getHandleBottom() {
@@ -59,6 +74,9 @@ public class MenuScrollBar extends Button {
 		//KingdomKeys.LOGGER.debug("{}/{} = {}%", visibleHeight, contentHeight, visiblePercentage);
 		//Handle height to same percentage as the visible area of the scroll bar height
 		setHandleHeight((int) (localHandleYMax * (visiblePercentage / 100)));
+		if (visibleHeight > contentHeight) {
+			scrollOffset = 0;
+		}
 	}
 
 	record Vec2(int X, int Y){}
@@ -103,48 +121,56 @@ public class MenuScrollBar extends Button {
 	}
 
 	public void updateScroll() {
-		//get the local handle position so 0 is at the top of the scroll bar
-		localHandleY = handleY - handleYMax;
-		//percentage of how far down the bar the handle is
-		scrollPercent = ((float) localHandleY / (localHandleYMax - handleHeight)) * 100;
-		int totalScroll = contentHeight - visibleHeight;
-		scrollOffset = totalScroll * (scrollPercent/100);
-		//KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localHandleY, (localHandleYMax - handleHeight), scrollPercent, scrollOffset);
+		if (visible && contentHeight > visibleHeight) {
+			//get the local handle position so 0 is at the top of the scroll bar
+			localHandleY = handleY - handleYMax;
+			//percentage of how far down the bar the handle is
+			scrollPercent = ((float) localHandleY / (localHandleYMax - handleHeight)) * 100;
+			int totalScroll = contentHeight - visibleHeight;
+			scrollOffset = totalScroll * (scrollPercent/100);
+			//KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localHandleY, (localHandleYMax - handleHeight), scrollPercent, scrollOffset);
+		} else {
+		scrollOffset = 0;
+		}
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (visible && contentHeight > visibleHeight) {
-			if (clickX >= getX() && clickX <= getX() + width) {
-				updateScroll();
-				if (active) {
-					if (startY - (clickY - mouseY) >= getHandleBottom() + 1) {
-						handleY = getHandleBottom() + 1;
-					} else if (startY - (clickY - mouseY) <= handleYMax) {
-						handleY = handleYMax;
-					} else {
-						handleY = (int) (startY - (clickY - mouseY));
+		if (button == 0) {
+			if (visible && contentHeight > visibleHeight) {
+				if (clickX >= getX() && clickX <= getX() + width) {
+					updateScroll();
+					if (active) {
+						if (startY - (clickY - mouseY) >= getHandleBottom() + 1) {
+							handleY = getHandleBottom() + 1;
+						} else if (startY - (clickY - mouseY) <= handleYMax) {
+							handleY = handleYMax;
+						} else {
+							handleY = (int) (startY - (clickY - mouseY));
+						}
 					}
-				}
 
+				}
 			}
 		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 
 	@Override
-	public boolean mouseReleased(double p_231048_1_, double p_231048_3_, int p_231048_5_) {
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
 		return true;
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		clickX = mouseX;
-		clickY = mouseY;
-		startX = getX();
-		startY = handleY;
-		if (clickY >= getY() && clickY <= getY() + height && clickX >= getX() && clickX <= getX() + width && visible) {
-			playDownSound(Minecraft.getInstance().getSoundManager());
+		if (button == 0) {
+			clickX = mouseX;
+			clickY = mouseY;
+			startX = getX();
+			startY = handleY;
+			if (clickY >= getY() && clickY <= getY() + height && clickX >= getX() && clickX <= getX() + width && visible) {
+				playDownSound(Minecraft.getInstance().getSoundManager());
+			}
 		}
 		return false;
 	}
