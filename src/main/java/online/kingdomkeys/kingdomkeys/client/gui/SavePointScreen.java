@@ -35,6 +35,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
@@ -221,18 +222,26 @@ public class SavePointScreen extends MenuBackground {
         } else {
             int elementHeight = (font.lineHeight * 5) + 4;
             int elementWidth = (int) (elementHeight * (16F/9F));
-            int elementsPerRow = 3; //TODO maybe calculate how many can fit on the screen, need to leave room on left and right though
+            int maxRowWidth = (int) (width/1.5F);
+            int elementsPerRow = (int) Math.max(1, (float) maxRowWidth/(elementWidth+2));
             int column = 0;
             int row = 0;
             int yPos = 0;
-            for (Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> entry : savePoints.entrySet()) {
-                if (type == SavePointStorage.SavePointType.WARP || entry.getValue().getFirst().dimension() == tileEntity.getLevel().dimension()) {
+            List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getSecond())).map(Map.Entry::getKey).collect(Collectors.toList());
+            sortedList.add(0, tileEntity.getID());
+            for (UUID uuid : sortedList) {
+                SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
+                if (type == SavePointStorage.SavePointType.WARP || savePoint.dimension() == tileEntity.getLevel().dimension()) {
                     if (column == elementsPerRow) {
                         column = 0;
                         row++;
                     }
                     yPos = (int) (this.topBarHeight + 2 + ((elementHeight + 2) * row));
-                    addRenderableWidget(new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(entry.getValue().getFirst().name()), entry.getKey()));
+                    SavePointButton button = new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
+                    if (uuid.equals(tileEntity.getID())) {
+                        button.active = false;
+                    }
+                    addRenderableWidget(button);
                     column++;
                 }
             }

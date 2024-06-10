@@ -32,9 +32,13 @@ public class SavePointButton extends Button {
     @Override
     protected void renderWidget(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
         isHovered = isMouseOver(pMouseX, pMouseY);
-        if (visible && active) {
-            int labelHeight = Minecraft.getInstance().font.lineHeight + 2;
-            gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Color.GREEN.getRGB());
+        int labelHeight = Minecraft.getInstance().font.lineHeight + 2;
+        if (visible) {
+            if (!active || isHovered) {
+                gui.fill(getX()-1, getY()-1, getX() + getWidth()+1, getY() + getHeight()+1, Color.GREEN.getRGB());
+            } else {
+                gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Color.GREEN.getRGB());
+            }
             if (!parent.savePointScreenshots.isEmpty()) {
                 SavePointScreen.Screenshot screenshot = parent.savePointScreenshots.get(destination);
                 if (screenshot != null && screenshot.textureLocation() != null) {
@@ -56,24 +60,35 @@ public class SavePointButton extends Button {
                             "%\nDrive: "+Math.round(100 - (((savepoint.getDrive()-1) /(20F-1F)) * 100F))+"%"));
                     setTooltip(tooltip);
                 }
-
-                gui.setColor(1, 1, 1, 0.5F);
-                gui.fill(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight(), Color.BLACK.getRGB());
-                gui.setColor(1, 1, 1, 1);
-                if (Minecraft.getInstance().font.width(getMessage().getVisualOrderText()) > getWidth()) {
-                    gui.enableScissor(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight());
-                    gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 1, getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
-                    gui.disableScissor();
-                } else {
-                    gui.drawCenteredString(Minecraft.getInstance().font, getMessage(), getX() + (getWidth() / 2), getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
-                }
+                drawLabel(getMessage(), gui, labelHeight);
 
             }
             if (parent.hovered == null || !parent.hovered.equals(destination)) {
-                gui.setColor(1, 1, 1, 0.4F);
-                gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Color.BLACK.getRGB());
-                gui.setColor(1, 1, 1, 1F);
+                drawDark(gui, Color.BLACK);
             }
+        }
+        if (!active) {
+            //gui.drawCenteredString(Minecraft.getInstance().font, Component.translatable("You are here"), getX() + (getWidth() / 2), getY() + (getHeight() - (height/2) - (Minecraft.getInstance().font.lineHeight/2)) + 1, Color.WHITE.getRGB());
+            drawLabel(Component.translatable("You are here"), gui, labelHeight);
+        }
+    }
+
+    public void drawDark(GuiGraphics gui, Color colour) {
+        gui.setColor(1, 1, 1, 0.4F);
+        gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), colour.getRGB());
+        gui.setColor(1, 1, 1, 1F);
+    }
+
+    public void drawLabel(Component text, GuiGraphics gui, int labelHeight) {
+        gui.setColor(1, 1, 1, 0.5F);
+        gui.fill(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight(), Color.BLACK.getRGB());
+        gui.setColor(1, 1, 1, 1);
+        if (Minecraft.getInstance().font.width(getMessage().getVisualOrderText()) > getWidth()) {
+            gui.enableScissor(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight());
+            gui.drawString(Minecraft.getInstance().font, text, getX() + 1, getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
+            gui.disableScissor();
+        } else {
+            gui.drawCenteredString(Minecraft.getInstance().font, text, getX() + (getWidth() / 2), getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
         }
     }
 

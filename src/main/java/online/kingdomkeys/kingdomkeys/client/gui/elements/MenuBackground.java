@@ -49,10 +49,6 @@ public class MenuBackground extends Screen {
 		this.color = rgb;
 		this.title = super.title;
 	}
-	//TODO Make menus work with arrow keys?
-	
-	//public static final int UP = Keybinds.SCROLL_UP.getKeybind().getKey().getKeyCode();
-	//public static final int DOWN = Keybinds.SCROLL_DOWN.getKeybind().getKey().getKeyCode();
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -68,66 +64,6 @@ public class MenuBackground extends Screen {
 		}
 		return false;
 	}
-
-	/*@Override
-	public boolean keyPressed(int keyId, int p_keyPressed_2_, int p_keyPressed_3_) {
-		System.out.println(keyId+" "+p_keyPressed_2_+" "+p_keyPressed_3_);
-		//minecraft.gameSettings.keyBindForward.getKey().getKeyCode()
-		if(selected >= 0 && selected <= buttons.size() -1) {
-			BaseKKGuiButton oldBtn = (BaseKKGuiButton)buttons.get(selected);
-			oldBtn.setSelected(false);
-		}
-		
-		if(keyId == DOWN) {
-			selected++;
-			if(selected > buttons.size()-1) {
-				selected = 0;
-			}
-			
-			if(selected >= 0 && selected <= buttons.size() -1) {
-				while(!buttons.get(selected).active) {
-					selected++;
-				}
-				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-				if(btn.active)
-					btn.setSelected(true);
-				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-
-				
-			}
-			
-		}
-		
-		if(keyId == UP) {
-			selected--;
-			if(selected < 0) {
-				selected = buttons.size()-1;
-			}
-			while(!buttons.get(selected).active) {
-				selected--;
-				if(selected == -1)
-					selected = buttons.size()-1;
-				if(buttons.get(selected) instanceof BaseKKGuiButton)
-					break;
-			}
-			BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-			if(btn.active)
-				btn.setSelected(true);
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-
-		}
-		
-		if(keyId == 262) {
-			if(selected > -1) {
-				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-				btn.onPress();
-			}
-		}
-		
-		System.out.println(selected);
-
-		return super.keyPressed(keyId, p_keyPressed_2_, p_keyPressed_3_);
-	}*/
 	
 	public boolean drawPlayerInfo;
 
