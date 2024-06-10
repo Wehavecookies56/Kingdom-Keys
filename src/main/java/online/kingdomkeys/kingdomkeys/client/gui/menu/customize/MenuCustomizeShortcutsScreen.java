@@ -84,49 +84,46 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		this.children().clear();
 		this.magics.clear();
 
-
 		for(int i = 0; i< shortcuts.length;i++) {
 			int j = i;
 			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, buttonPosY +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init(scrollBar.scrollOffset, scrollBar.handleY);}));
 		}		
 		
-		//if(selectedShortcut > -1) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			int totalMagics = 0;
-			int magicLine = 0;
-			addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 18, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
-			
-			for (ResourceLocation entry : allMagic) {
-				Magic magic = ModMagic.registry.get().getValue(entry);
-				if(magic != null) {
-					int level = playerData.getMagicLevel(entry);
-					while(level >= 0) {
-						int lvl = level;
-						MenuButton button = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), buttonPosY +  (magicLine * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.SUBBUTTON, (e) -> { select(magic,lvl); });
-						magics.add(button);
-						addRenderableWidget(button);
-						magics.get(totalMagics).setData(magic.getRegistryName().toString()+","+level);
-						level--;
-						totalMagics++;
-					}
-					magicLine++;
-				}
-			}
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		int totalMagics = 0;
+		int magicLine = 0;
+		addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 18, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
-		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight)-2, (int) middleHeight, magics.get(magics.size()-1).getY() - magics.get(0).getY() + 28));
+		for (ResourceLocation entry : allMagic) {
+			Magic magic = ModMagic.registry.get().getValue(entry);
+			if(magic != null) {
+				int level = playerData.getMagicLevel(entry);
+				while(level >= 0) {
+					int lvl = level;
+					MenuButton button = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), buttonPosY +  (magicLine * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.SUBBUTTON, (e) -> { select(magic,lvl); });
+					magics.add(button);
+					addRenderableWidget(button);
+					magics.get(totalMagics).setData(magic.getRegistryName().toString()+","+level);
+					level--;
+					totalMagics++;
+				}
+				magicLine++;
+			}
+		}
+
+		int contentHeight = !magics.isEmpty() ? magics.get(magics.size()-1).getY() - magics.get(0).getY() + 28 : 0;
+		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight)-2, (int) middleHeight, contentHeight));
 		scrollBar.scrollOffset = scrollOffset;
 		scrollBar.setHandleY(handleY);
 
-		for(int i = 0; i < magics.size(); i++) {
-				if(magics.get(i) != null) {
-					magics.get(i).active = !isMagicAlreadyEquipped(magics.get(i).getData());
-					magics.get(i).offsetY = (int) scrollBar.scrollOffset;
-				}
-			}
-		//}
+        for (MenuButton magic : magics) {
+            if (magic != null) {
+                magic.active = !isMagicAlreadyEquipped(magic.getData());
+                magic.offsetY = (int) scrollBar.scrollOffset;
+            }
+        }
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> action("back")));
-		
 	}
 
 	@Override
