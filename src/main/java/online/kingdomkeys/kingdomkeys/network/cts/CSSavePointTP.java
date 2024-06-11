@@ -39,7 +39,7 @@ public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) {
                 }
             };
             if (te != null) {
-                if (((SavePointBlock)te.getBlockState().getBlock()).getType() == SavePointStorage.SavePointType.WARP) {
+                if (te.getBlockState().getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP) {
                     player.changeDimension(player.getServer().getLevel(destination.dimension()), tp);
                 } else if (!storage.getSavePoint(message.currentSavePoint).dimension().equals(destination.dimension())) {
                     return;

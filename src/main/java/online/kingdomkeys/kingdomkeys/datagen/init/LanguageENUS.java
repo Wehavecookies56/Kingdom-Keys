@@ -4,6 +4,7 @@ import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 import net.minecraft.data.DataGenerator;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
@@ -320,8 +321,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
         addBlock(ModBlocks.savepoint, "Save Point");
-        addBlock(ModBlocks.linkedSavepoint, "Linked Save Point");
-        addBlock(ModBlocks.warpPoint, "Warp Point");
+        add("block." + MODID + ".linked_savepoint", "Linked Save Point");
+        add("block." + MODID + ".warp_point", "Warp Point");
         addBlock(ModBlocks.soADoor, "Mysterious Door");
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");

@@ -36,22 +36,12 @@ public class SavepointTileEntity extends BlockEntity {
 	}
 
 	private int
-			tier = 0,
 			heal = 20,
 			hunger = 20,
 			magic = 20,
 			drive = 20,
 			focus = 20
 	;
-
-	public int getTier() {
-		return tier;
-	}
-
-	public void setTier(int tier) {
-		this.tier = tier;
-		setChanged();
-	}
 
 	public int getHeal() {
 		return heal;
@@ -101,7 +91,7 @@ public class SavepointTileEntity extends BlockEntity {
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			id = pTag.getUUID("savepoint_id");
 		}
 		heal = pTag.getInt("heal");
@@ -113,7 +103,7 @@ public class SavepointTileEntity extends BlockEntity {
 
 	@Override
 	protected void saveAdditional(CompoundTag pTag) {
-		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			pTag.putUUID("savepoint_id", id);
 		}
 		pTag.putInt("heal",heal);

@@ -53,6 +53,8 @@ public class SavePointButton extends Button {
                 if(Minecraft.getInstance().level.getBlockEntity(sPoint.pos()) instanceof SavepointTileEntity savepoint){
                     Tooltip tooltip = Tooltip.create(Component.literal(
                       "UUID: "+savepoint.getID()+
+                            "\nDimension: "+sPoint.dimension().location()+
+                            "\nOwner: "+sPoint.owner().getSecond()+
                             "\nHealing: "+Math.round(100 - (((savepoint.getHeal()-1) /(20F-1F)) * 100F))+
                             "%\nFood: "+Math.round(100 - (((savepoint.getHunger()-1) /(20F-1F)) * 100F))+
                             "%\nMagic: "+Math.round(100 - (((savepoint.getMagic()-1) /(20F-1F)) * 100F))+

@@ -60,7 +60,7 @@ public class SavePointScreen extends MenuBackground {
     public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
         super(create ? "Name Save Point" : savePoints.get(tileEntity.getID()).getFirst().name(), Color.green);
         this.tileEntity = tileEntity;
-        type = ((SavePointBlock)tileEntity.getBlockState().getBlock()).getType();
+        type = tileEntity.getBlockState().getValue(SavePointBlock.TIER);
         this.savePoints = savePoints;
         this.create = create;
         savePoints.forEach((uuid, savePoint) -> {
@@ -328,7 +328,7 @@ public class SavePointScreen extends MenuBackground {
         if (bar != null) {
             bar.mouseReleased(pMouseX, pMouseY, pButton);
         }
-        if (!create) {
+        if (sortDropDown != null && orderDropDown != null) {
             orderDropDown.active = !sortDropDown.isOpen();
             sortDropDown.active = !orderDropDown.isOpen();
             if (sortDropDown.getSelected() != sorting || orderDropDown.getSelected() != ordering) {

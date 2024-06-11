@@ -1,5 +1,7 @@
 {
 	"variants": {
-		"": { "model": "kingdomkeys:block/savepoint"}
+		"tier=normal": { "model": "kingdomkeys:block/savepoint" },
+		"tier=linked": { "model": "kingdomkeys:block/linked_savepoint" },
+		"tier=warp": { "model": "kingdomkeys:block/warp_point" }
 	}
 }

@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -19,8 +20,13 @@ import java.util.stream.Collectors;
 
 public class SavePointStorage extends SavedData {
 
-    public enum SavePointType {
-        NORMAL, LINKED, WARP
+    public enum SavePointType implements StringRepresentable {
+        NORMAL, LINKED, WARP;
+
+        @Override
+        public String getSerializedName() {
+            return name().toLowerCase();
+        }
     }
 
     public record SavePoint(UUID id, SavePointType type, String name, BlockPos pos, Pair<UUID, String> owner, ResourceKey<Level> dimension) {

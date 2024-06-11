@@ -42,7 +42,7 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
             Level level = player.level();
             SavePointStorage storage = SavePointStorage.getStorage(player.server);
             SavepointTileEntity te = (SavepointTileEntity) level.getBlockEntity(message.tileEntity);
-            storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), ((SavePointBlock)te.getBlockState().getBlock()).getType(), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension()));
+            storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), te.getBlockState().getValue(SavePointBlock.TIER), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension()));
             ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID(), Instant.now());
             MinecraftServer server = level.getServer();
             Iterable<ServerLevel> levels = server.getAllLevels();
