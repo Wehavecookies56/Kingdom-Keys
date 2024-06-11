@@ -21,7 +21,8 @@ public class KKMixinPlugin implements IMixinConfigPlugin {
             "online.kingdomkeys.kingdomkeys.mixin.epicfight.PHumanoidRendererMixin", EFMLOADED,
             "online.kingdomkeys.kingdomkeys.mixin.epicfight.RenderEngineEventsMixin", EFMLOADED,
             "online.kingdomkeys.kingdomkeys.mixin.apotheosis.SalvaginMenuMixin", APOTHEOSISLOADED,
-            "online.kingdomkeys.kingdomkeys.mixin.jer.ForgePlatformHelperMixin", JERLOADED
+            "online.kingdomkeys.kingdomkeys.mixin.jer.ForgePlatformHelperMixin", JERLOADED,
+            "online.kingdomkeys.kingdomkeys.mixin.jer.RegistrySetBuilderMixin", JERLOADED
     );
 
     @Override

@@ -150,6 +150,10 @@ dependencies {
     implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
     implementation fg.deobf("curse.maven:corail-tombstone-243707:5201363")
+    implementation fg.deobf("curse.maven:terrablender-563928:5378180")
+    implementation fg.deobf("curse.maven:river-redux-380548:4587201")
+
+
 }
 
 jar {

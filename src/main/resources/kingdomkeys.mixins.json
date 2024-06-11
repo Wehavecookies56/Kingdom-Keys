@@ -5,10 +5,11 @@
   "refmap": "kingdomkeys.refmap.json",
   "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
-    "TellMeTheErrorMixin",
     "LivingEntityMixin",
+    "TellMeTheErrorMixin",
     "apotheosis.SalvagingMenuMixin",
-    "jer.ForgePlatformHelperMixin"
+    "jer.ForgePlatformHelperMixin",
+    "jer.RegistrySetBuilderMixin"
   ],
   "client": [
     "LivingEntityRendererMixin",
