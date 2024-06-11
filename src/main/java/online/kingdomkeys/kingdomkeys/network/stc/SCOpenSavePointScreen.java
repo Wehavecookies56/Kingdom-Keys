@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
@@ -37,7 +38,9 @@ public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, Pair<SavePoin
         Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints = storage.getDiscoveredSavePoints(player);
         if (storage.savePointRegistered(tileEntity.getID())) {
             if (!savePoints.containsKey(tileEntity.getID())) {
-                savePoints.put(tileEntity.getID(), Pair.of(SavePointStorage.getStorage(player.getServer()).getSavePoint(tileEntity.getID()), Instant.now()));
+                Instant instant = Instant.now();
+                savePoints.put(tileEntity.getID(), Pair.of(storage.getSavePoint(tileEntity.getID()), instant));
+                ModCapabilities.getPlayer(player).addDiscoveredSavePoint(tileEntity.getID(), instant);
             }
         }
         return savePoints;

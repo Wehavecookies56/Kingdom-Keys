@@ -29,7 +29,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSavePointScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -75,10 +75,14 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				if (!pLevel.isClientSide()) {
 					SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
 					SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
-					storage.removeSavePoint(te.getID());
-					for (Level level : pLevel.getServer().getAllLevels()) {
-						for (Player playerFromList : level.players()) {
-							PacketHandler.sendTo(new SCUpdateSavePoints(null, storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+					if (storage.savePointRegistered(te.getID())) {
+						SavePointStorage.SavePoint removed = storage.getSavePoint(te.getID());
+						storage.removeSavePoint(te.getID());
+						for (Level level : pLevel.getServer().getAllLevels()) {
+							for (Player playerFromList : level.players()) {
+								PacketHandler.sendTo(new SCUpdateSavePoints(null, storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+								PacketHandler.sendTo(new SCDeleteSavePointScreenshot(removed.name(), removed.id()), (ServerPlayer) playerFromList);
+							}
 						}
 					}
 				}

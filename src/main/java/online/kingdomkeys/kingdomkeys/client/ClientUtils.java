@@ -2,7 +2,10 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -898,6 +901,25 @@ public class ClientUtils {
             public void run() {
                 if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
                     savePointScreen.updateSavePointsFromServer(message.tileEntityExists(), message.savePoints());
+                }
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable deleteScreenshot(SCDeleteSavePointScreenshot message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                Path screenshotsDir = Paths.get(Minecraft.getInstance().gameDirectory.getPath(), "kingdomkeys/save_points/");
+                String fileName = ScreenshotManager.getFileNameString(message.name(), message.uuid());
+                File screenshotFile = new File(screenshotsDir.toFile(), fileName);
+                if (screenshotFile.exists() && screenshotFile.isFile()) {
+                    String path = screenshotFile.getPath();
+                    if (!screenshotFile.delete()) {
+                        KingdomKeys.LOGGER.warn("Failed to delete screenshot file {}", path);
+                    } else {
+                        KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", fileName);
+                    }
                 }
             }
         };
