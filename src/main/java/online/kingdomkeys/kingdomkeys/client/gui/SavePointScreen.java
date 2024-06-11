@@ -14,10 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.client.ScreenshotManager;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.SavePointButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.*;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateSavePoint;
@@ -50,9 +47,13 @@ public class SavePointScreen extends MenuBackground {
 
     private final int SAVE = 0;
 
+    int sorting = 0, ordering = 0;
+
     EditBoxLength nameField;
     MenuButton save;
     MenuScrollBar bar;
+    DropDownButton sortDropDown;
+    DropDownButton orderDropDown;
 
     SavePointStorage.SavePointType type;
 
@@ -93,9 +94,16 @@ public class SavePointScreen extends MenuBackground {
                     gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                     gui.disableScissor();
+                } else if (renderable instanceof DropDownButton)  {
+
                 } else {
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                 }
+            }
+            if (orderDropDown != null && sortDropDown != null) {
+                orderDropDown.render(gui, mouseX, mouseY, partialTicks);
+                gui.pose().translate(0, 0, 1);
+                sortDropDown.render(gui, mouseX, mouseY, partialTicks);
             }
         }
         if (create) {
@@ -220,34 +228,62 @@ public class SavePointScreen extends MenuBackground {
             });
             addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2) - 14, 100, "Save", MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
         } else {
-            int elementHeight = (font.lineHeight * 5) + 4;
-            int elementWidth = (int) (elementHeight * (16F/9F));
-            int maxRowWidth = (int) (width/1.5F);
-            int elementsPerRow = (int) Math.max(1, (float) maxRowWidth/(elementWidth+2));
-            int column = 0;
-            int row = 0;
-            int yPos = 0;
-            List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getSecond())).map(Map.Entry::getKey).collect(Collectors.toList());
-            sortedList.add(0, tileEntity.getID());
-            for (UUID uuid : sortedList) {
-                SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
-                if (type == SavePointStorage.SavePointType.WARP || savePoint.dimension() == tileEntity.getLevel().dimension()) {
-                    if (column == elementsPerRow) {
-                        column = 0;
-                        row++;
-                    }
-                    yPos = (int) (this.topBarHeight + 2 + ((elementHeight + 2) * row));
-                    SavePointButton button = new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
-                    if (uuid.equals(tileEntity.getID())) {
-                        button.active = false;
-                    }
-                    addRenderableWidget(button);
-                    column++;
-                }
-            }
-            addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2));
+            init(recent, 0);
         }
         updateButtons();
+    }
+
+    final int recent = 0, name = 1, dimension = 2, owner = 3;
+
+    public Comparator<? super Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>>> getSortedList(int sorting) {
+        return switch (sorting) {
+            case recent ->
+                Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getSecond()).reversed();
+            case name ->
+                Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name().toLowerCase()).thenComparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name());
+            case dimension ->
+                Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().dimension());
+            case owner ->
+                Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().owner().getSecond());
+            default -> Map.Entry.comparingByKey();
+        };
+    }
+
+    public void init(int sorting, int ordering) {
+        int elementHeight = (font.lineHeight * 5) + 4;
+        int elementWidth = (int) (elementHeight * (16F/9F));
+        int maxRowWidth = (int) (width/1.5F);
+        int elementsPerRow = (int) Math.max(1, (float) maxRowWidth/(elementWidth+2));
+        int column = 0;
+        int row = 0;
+        int yPos = 0;
+        Comparator<? super Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>>> comparator = getSortedList(sorting);
+        comparator = ordering == 0 ? comparator : comparator.reversed();
+        List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(comparator).map(Map.Entry::getKey).collect(Collectors.toList());;
+        sortedList.add(0, tileEntity.getID());
+        for (UUID uuid : sortedList) {
+            SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
+            if (type == SavePointStorage.SavePointType.WARP || savePoint.dimension() == tileEntity.getLevel().dimension()) {
+                if (column == elementsPerRow) {
+                    column = 0;
+                    row++;
+                }
+                yPos = (int) (this.topBarHeight + 2 + ((elementHeight + 2) * row));
+                SavePointButton button = new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
+                if (uuid.equals(tileEntity.getID())) {
+                    button.active = false;
+                }
+                addRenderableWidget(button);
+                column++;
+            }
+        }
+        addRenderableWidget(sortDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 62, (int) topBarHeight, 60, font.lineHeight, List.of(Component.literal("Recent"), Component.literal("Name"), Component.literal("Dimension"), Component.literal("Owner")), Component.literal("Sort:")));
+        addRenderableWidget(orderDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 72, (int) topBarHeight + font.lineHeight + 4, 70, font.lineHeight, List.of(Component.literal("Ascending"), Component.literal("Descending")), Component.empty()));
+        sortDropDown.setSelected(sorting);
+        orderDropDown.setSelected(ordering);
+        this.sorting = sorting;
+        this.ordering = ordering;
+        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2));
     }
 
     public void updateScroll(MenuScrollBar bar) {
@@ -262,6 +298,14 @@ public class SavePointScreen extends MenuBackground {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
             bar.mouseClicked(pMouseX, pMouseY, pButton);
+        }
+        if (sortDropDown != null && orderDropDown != null) {
+            if (sortDropDown.isOpen() && !orderDropDown.isOpen()) {
+                return sortDropDown.mouseClicked(pMouseX, pMouseY, pButton);
+            }
+            if (!sortDropDown.isOpen() && orderDropDown.isOpen()) {
+                return orderDropDown.mouseClicked(pMouseX, pMouseY, pButton);
+            }
         }
         if ((pMouseY > topBarHeight + middleHeight || pMouseY < topBarHeight) && !create) {
             return false;
@@ -283,6 +327,15 @@ public class SavePointScreen extends MenuBackground {
     public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
         if (bar != null) {
             bar.mouseReleased(pMouseX, pMouseY, pButton);
+        }
+        if (!create) {
+            orderDropDown.active = !sortDropDown.isOpen();
+            sortDropDown.active = !orderDropDown.isOpen();
+            if (sortDropDown.getSelected() != sorting || orderDropDown.getSelected() != ordering) {
+                renderables.clear();
+                children().clear();
+                init(sortDropDown.getSelected(), orderDropDown.getSelected());
+            }
         }
         return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
