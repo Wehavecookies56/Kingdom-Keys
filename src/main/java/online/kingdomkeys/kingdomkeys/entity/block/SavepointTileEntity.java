@@ -33,11 +33,6 @@ public class SavepointTileEntity extends BlockEntity {
 		return id;
 	}
 
-	public void setID(UUID id) {
-		this.id = id;
-		setChanged();
-	}
-
 	private int
 			heal = 20,
 			hunger = 20,

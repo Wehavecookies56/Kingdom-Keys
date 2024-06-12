@@ -38,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -136,15 +137,17 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		if (!stack.isEmpty() && worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
 			if (worldIn.isClientSide)
 				return InteractionResult.SUCCESS;
-			String list = state.getValue(TIER) != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
+
+			String list = switch(state.getValue(TIER)){
+                case NORMAL -> ModConfigs.savePointRecovers;
+                case LINKED -> ModConfigs.linkedSavePointRecovers;
+                case WARP -> ModConfigs.warpPointRecovers;
+            };
 
 			if(stack.getItem() == ModItems.orichalcum.get()){
 				if(savepoint.getHeal() > 1 && list.contains("HP")){
 					stack.shrink(1);
 					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
-					//worldIn.sendBlockUpdated(pos, state, state, 3);
-					worldIn.setBlockAndUpdate(pos, state);
-
 					player.displayClientMessage(Component.translatable("Savepoint healing cooldown is now "+savepoint.getHeal()), true);
 				} else {
 					player.displayClientMessage(Component.translatable("Savepoint healing is already at minimum cooldown"), true);
@@ -203,10 +206,15 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (entity instanceof Player player) {
+		if (entity instanceof Player player && !world.isClientSide()) {
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
-				String list = state.getValue(TIER) != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
+				String list = switch(state.getValue(TIER)){
+					case NORMAL -> ModConfigs.savePointRecovers;
+					case LINKED -> ModConfigs.linkedSavePointRecovers;
+					case WARP -> ModConfigs.warpPointRecovers;
+				};
+
 				if(savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0) {
 					player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
 				} else {
@@ -220,14 +228,17 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 					}
 					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
 						playerData.addMP(1);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
 						playerData.addFocus(1);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
 						playerData.addDP(5);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 
