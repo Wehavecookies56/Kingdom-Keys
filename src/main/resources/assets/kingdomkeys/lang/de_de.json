@@ -1038,6 +1038,7 @@
 
   "item.kingdomkeys.k111": "K111",
   "item.kingdomkeys.k111c": "K111a",
+  "item.kingdomkeys.k111.desc": "Ein Schlüsselschwert aus einer lang vergessenen Zeit, es sieht ziemlich vertraut aus...",
 
   // ---KH1
 
@@ -1049,11 +1050,13 @@
   "item.kingdomkeys.fairy_harp_chain": "Feenharfe-Anhänger",
   "item.kingdomkeys.jungle_king": "Simplexus",
   "item.kingdomkeys.jungle_king_chain": "Simplexus-Anhänger",
+  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
   "item.kingdomkeys.keyblade_of_peoples_hearts": "Schlüsselschwert der Herzen", //dark riku
   "item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Schlüsselschwert der Herzen-Anhänger",
+  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "Ein Schlüsselschwert mit der Fähigkeit das Herz einer Person freizusetzen, somit auch die darin schlummernde Dunkelheit.",
   "item.kingdomkeys.kingdom_key": "Königsanhänger", //sora
   "item.kingdomkeys.kingdom_key_chain": "Königsanhänger-Anhänger",
-  "item.kingdomkeys.kingdom_key.desc": "Ein Schlüsselanhänger, der am Schlüsselschwert angebracht ist. Halbiert erlittenen Schaden in kritischen Situationen", //from kh2
+  "item.kingdomkeys.kingdom_key.desc": "Ein Schlüsselanhänger, der am Schlüsselschwert angebracht ist. Halbiert erlittenen Schaden in kritischen Situationen.", //from kh2
   "item.kingdomkeys.kingdom_key_d": "Königsanhänger D", //mickey
   "item.kingdomkeys.kingdom_key_d_chain": "Königsanhänger D-Anhänger",
   "item.kingdomkeys.kingdom_key_d.desc": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.", //from kh2
@@ -1182,12 +1185,15 @@
   "item.kingdomkeys.fairy_stars.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.frolic_flame": "Flammende Flausen", //ventus
   "item.kingdomkeys.frolic_flame_chain": "Flammende Flausen-Anhänger",
+  "item.kingdomkeys.frolic_flame.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft und hoher Reichweite.",
   "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
   "item.kingdomkeys.lost_memory_chain": "Verlorene Erinnerung-Anhänger",
   "item.kingdomkeys.hyperdrive": "Hyperantrieb",
   "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
+  "item.kingdomkeys.hyperdrive.desc": "Ein Schlüsselschwert mit relativ hoher Reichweite und ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.mark_of_a_hero": "Heldenemblem",
   "item.kingdomkeys.mark_of_a_hero_chain": "Heldenemblem-Anhänger",
+  "item.kingdomkeys.mark_of_a_hero.desc": "Ein Schlüsselschwert mit hoher Angriffskraft und hohem Schaden bei kritischen Treffern.",
   "item.kingdomkeys.no_name_bbs": "Namenlose Klinge",
   "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge-Anhänger",
   "item.kingdomkeys.pixie_petal": "Feenblüte",
@@ -1220,6 +1226,7 @@
   //Final Mix
   "item.kingdomkeys.masters_defender": "Meisterhüter", //Eraqus
   "item.kingdomkeys.masters_defender_chain": "Meisterhüter-Anhänger",
+  "item.kingdomkeys.masters_defender.desc": "Meister Eraqus' Schlüsselschwert. All of its stats are high.",
   "item.kingdomkeys.royal_radiance": "Königsglanz",
   "item.kingdomkeys.royal_radiance_chain": "Königsglanz-Anhänger",
 
@@ -1859,22 +1866,12 @@
 
   "item.kingdomkeys.fairy_harp.desc": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
 
-  "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
   "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
-
-  "item.kingdomkeys.hyperdrive.desc": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
-
-
-  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
-  "item.kingdomkeys.k111.desc": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
-  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "A keyblade with the ability to unlock a person's heart, releasing the darkness within.",
 
   "item.kingdomkeys.lady_luck.desc": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
   "item.kingdomkeys.lionheart.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
   "item.kingdomkeys.lost_memory.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.lunar_eclipse.desc": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
-  "item.kingdomkeys.mark_of_a_hero.desc": "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.",
-  "item.kingdomkeys.masters_defender.desc": "Master Eraqus's Keyblade. All of its stats are high.",
   "item.kingdomkeys.maverick_flare.desc": "A weapon that offers high Strength and ground combo speed.",
   "item.kingdomkeys.metal_chocobo.desc": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
   "item.kingdomkeys.midnight_blue.desc": "A Keyblade imbued with wondrous power.",
