@@ -19,6 +19,9 @@ import org.joml.Vector3f;
 import java.util.UUID;
 
 public class SavepointTileEntity extends BlockEntity {
+	public static float[] WARP_COLOR = new float[]{0.6F, 1F, 1F};
+	public static float[] SAVEPOINT_COLOR = new float[]{0.3F, 1F, 0.3F};
+
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
@@ -153,8 +156,10 @@ public class SavepointTileEntity extends BlockEntity {
 			double x2 = cx + (r * Math.cos(Math.toRadians(-savepoint.ticks)));
 			double z2 = cz + (r * Math.sin(Math.toRadians(-savepoint.ticks)));
 
-			level.addParticle(new DustParticleOptions(new Vector3f(0F, 1F, 0F), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(new DustParticleOptions(new Vector3f(0.3F, 1F, 0.3F), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
+			float[] color = state.getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLOR : SAVEPOINT_COLOR;
+
+			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
+			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
 		}
 	}
 }
