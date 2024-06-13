@@ -69,6 +69,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * Created by Toby on 19/07/2016.
@@ -319,21 +320,14 @@ public class Utils {
 	}
 
 	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {
-		List<Ability> list = new ArrayList<>();
-
-		Iterator<String> it = abilities.keySet().iterator();
-		while (it.hasNext()) {
-			String entry = it.next();
-			list.add(ModAbilities.registry.get().getValue(new ResourceLocation(entry)));
-		}
-
-		list.sort(Comparator.comparingInt(Ability::getOrder));
-
-		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
-		for (int i = 0; i < list.size(); i++) {
-			map.put(list.get(i).getRegistryName().toString(), abilities.get(list.get(i).getRegistryName().toString()));
-		}
-		return map;
+        return abilities.entrySet().stream().sorted((entry, entry2) -> {
+			Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(entry.getKey()));
+			Ability ability2 = ModAbilities.registry.get().getValue(new ResourceLocation(entry2.getKey()));
+			if (ability != null && ability2 != null) {
+                return ability.compareTo(ability2);
+			}
+			return entry.getKey().compareTo(entry2.getKey());
+		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
 	}
 
 	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, LinkedHashSet<String> visibleForms) {
@@ -415,7 +409,7 @@ public class Utils {
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
 		List<Player> list = new ArrayList<Player>();
-		java.util.Iterator<ServerLevel> it = ms.getAllLevels().iterator();
+		Iterator<ServerLevel> it = ms.getAllLevels().iterator();
 		while (it.hasNext()) {
 			ServerLevel world = it.next();
 			for (Player p : world.players()) {
@@ -1099,7 +1093,7 @@ public class Utils {
 				Party p = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 				int total = 0;
 				int membersOnline = 0;
-				for (Party.Member m : p.getMembers()) {
+				for (Member m : p.getMembers()) {
 					if (Utils.getPlayerByName(player.level(), m.getUsername()) != null) {
 						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername())).getLevel();
 						membersOnline++;
@@ -1152,7 +1146,7 @@ public class Utils {
 		ItemStack offHeldStack = player.getOffhandItem();
 		ItemStack chain = playerData.getEquippedKeychain(DriveForm.NONE);
 		boolean useOrg = false;
-		if (playerData.getAlignment() != Utils.OrgMember.NONE) {
+		if (playerData.getAlignment() != OrgMember.NONE) {
 			chain = playerData.getEquippedWeapon().copy();
 			useOrg = true;
 		}

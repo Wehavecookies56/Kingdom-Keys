@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Ability {
 
@@ -57,5 +58,10 @@ public class Ability {
 
 	public ResourceLocation getRegistryName() {
 		return name;
+	}
+
+	public int compareTo(Ability other) {
+		int typeOrder = type.compareTo(other.getType());
+		return typeOrder == 0 ? Integer.compare(order, other.getOrder()) : typeOrder;
 	}
 }
