@@ -917,7 +917,7 @@ public class EntityEvents {
 					Party p = worldData.getPartyFromMember(player.getUUID());
 					if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
 						if (ModConfigs.allowPartyKO) {
-							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already //TODO death
+							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
 								event.setCanceled(true);
 								player.removeAllEffects();
 								player.setHealth(player.getMaxHealth());
@@ -1497,6 +1497,8 @@ public class EntityEvents {
 		Player localPlayer = e.getEntity();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
+		if(playerData == null || globalData == null)
+			return;
 		PacketHandler.syncToAllAround(localPlayer, playerData);
 		PacketHandler.syncToAllAround(localPlayer, globalData);
 		if (e.getTarget() instanceof Player targetPlayer) {

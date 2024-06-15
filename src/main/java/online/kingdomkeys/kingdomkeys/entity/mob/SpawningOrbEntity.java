@@ -49,6 +49,9 @@ public class SpawningOrbEntity extends Monster {
 		
 		if(player != null) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData == null)
+				return;
+
 			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level());
 			setEntityType(((IKHMob)this.mob).getKHMobType().name());
 			
@@ -57,7 +60,7 @@ public class SpawningOrbEntity extends Monster {
 			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
 			if(mobData != null) {
 				mobData.setLevel(randomLevel);
-				PacketHandler.syncToAllAround((LivingEntity) mob, mobData);
+				PacketHandler.syncToAllAround(mob, mobData);
 			}
 		}
 	}
@@ -141,6 +144,9 @@ public class SpawningOrbEntity extends Monster {
 		if(getPortal()) {
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("kingdomkeys:realm_of_darkness"));
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
+			if(playerData == null)
+				return;
+
 			playerData.setRespawnROD(true);
 			if(!nPlayer.level().isClientSide()) {
 				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)nPlayer);

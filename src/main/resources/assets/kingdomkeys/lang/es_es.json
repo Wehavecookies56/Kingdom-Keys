@@ -415,6 +415,17 @@
 	"block.kingdomkeys.rod_sand": "Arena Oscura",
 	"block.kingdomkeys.rod_stone": "Piedra Oscura",
 	"block.kingdomkeys.airstep_target": "Punto de modo ágil",
+	
+	"savepoint.drive": "recuperación de fusión",
+	"savepoint.feed": "alimentación",
+	"savepoint.focus": "recuperación de tino",
+	"savepoint.healing": "curación",
+	"savepoint.magic": "recuperación de magia",
+	"savepoint.max_upgrade": "Último nivel alcanzado",
+	"savepoint.maxed": "Velocidad de %s está al máximo",
+	"savepoint.upgrade": "La velocidad de %s está al %s%%",
+	"savepoint.upgrade_type": "Punto de guardado mejorado a {0}",
+
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
 	"block.kingdomkeys.blazing_ore_d": "Mena Ígnea",

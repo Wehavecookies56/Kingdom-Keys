@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import java.awt.*;
@@ -55,11 +56,11 @@ public class SavePointButton extends Button {
                       "UUID: "+savepoint.getID()+
                             "\nDimension: "+sPoint.dimension().location()+
                             "\nOwner: "+sPoint.owner().getSecond()+
-                            "\nHealing: "+Math.round(100 - (((savepoint.getHeal()-1) /(20F-1F)) * 100F))+
-                            "%\nFood: "+Math.round(100 - (((savepoint.getHunger()-1) /(20F-1F)) * 100F))+
-                            "%\nMagic: "+Math.round(100 - (((savepoint.getMagic()-1) /(20F-1F)) * 100F))+
-                            "%\nFocus: "+Math.round(100 - (((savepoint.getFocus()-1) /(20F-1F)) * 100F))+
-                            "%\nDrive: "+Math.round(100 - (((savepoint.getDrive()-1) /(20F-1F)) * 100F))+"%"));
+                            "\nHealing: "+ Utils.getSavepointPercent(savepoint.getHeal())+
+                            "%\nFood: "+Utils.getSavepointPercent(savepoint.getHunger())+
+                            "%\nMagic: "+Utils.getSavepointPercent(savepoint.getMagic())+
+                            "%\nFocus: "+Utils.getSavepointPercent(savepoint.getFocus())+
+                            "%\nDrive: "+Utils.getSavepointPercent(savepoint.getDrive())+"%"));
                     setTooltip(tooltip);
                 }
                 drawLabel(getMessage(), gui, labelHeight);

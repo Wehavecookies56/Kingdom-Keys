@@ -40,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import java.util.List;
@@ -148,41 +149,41 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				if(savepoint.getHeal() > 1 && list.contains("HP")){
 					stack.shrink(1);
 					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
-					player.displayClientMessage(Component.translatable("Savepoint healing cooldown is now "+savepoint.getHeal()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.healing"),Utils.getSavepointPercent(savepoint.getHeal())), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Savepoint healing is already at minimum cooldown"), true);
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.healing")), true);
 				}
 			} else if(stack.getItem() == ModItems.illusory_crystal.get()){
 				if(savepoint.getMagic() > 1 && list.contains("MP")){
 					stack.shrink(1);
 					savepoint.setMagic(Math.max(savepoint.getMagic() - 4, 1));
-					player.displayClientMessage(Component.translatable("Savepoint magic cooldown is now "+savepoint.getMagic()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.magic"),Utils.getSavepointPercent(savepoint.getMagic())), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Savepoint magic is already at minimum cooldown"), true);
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.magic")), true);
 				}
 			} else if(stack.getItem() == ModItems.hungry_crystal.get()){
 				if(savepoint.getHunger() > 1 && list.contains("HUNGER")){
 					stack.shrink(1);
 					savepoint.setHunger(Math.max(savepoint.getHunger() - 4, 1));
-					player.displayClientMessage(Component.translatable("Savepoint hunger cooldown is now "+savepoint.getHunger()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.feed"),Utils.getSavepointPercent(savepoint.getHunger())), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Savepoint hunger is already at minimum cooldown"), true);
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.feed")), true);
 				}
 			} else if(stack.getItem() == ModItems.remembrance_crystal.get()){
 				if(savepoint.getFocus() > 1 && list.contains("FOCUS")){
 					stack.shrink(1);
 					savepoint.setFocus(Math.max(savepoint.getFocus() - 4, 1));
-					player.displayClientMessage(Component.translatable("Savepoint focus cooldown is now "+savepoint.getFocus()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.focus"),Utils.getSavepointPercent(savepoint.getFocus())), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Savepoint focus is already at minimum cooldown"), true);
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.focus")), true);
 				}
 			} else if(stack.getItem() == ModItems.evanescent_crystal.get()){
 				if(savepoint.getDrive() > 1 && list.contains("DRIVE")){
 					stack.shrink(1);
 					savepoint.setDrive(Math.max(savepoint.getDrive() - 4, 1));
-					player.displayClientMessage(Component.translatable("Savepoint drive cooldown is now "+savepoint.getDrive()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.drive"),Utils.getSavepointPercent(savepoint.getDrive())), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Savepoint drive is already at minimum cooldown"), true);
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.drive")), true);
 				}
 			} else if(stack.getItem() == ModItems.orichalcumplus.get()){
 				if(state.getValue(TIER) != SavePointStorage.SavePointType.WARP){
@@ -194,9 +195,9 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 						newState = state.setValue(TIER, SavePointStorage.SavePointType.WARP);
 					}
 					worldIn.setBlockAndUpdate(pos, newState);
-					player.displayClientMessage(Component.translatable("Upgraded to {0}", newState.getValue(TIER).getSerializedName()), true);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade_type", newState.getValue(TIER).getSerializedName()), true);
 				} else {
-					player.displayClientMessage(Component.translatable("Max upgrade reached"), true);
+					player.displayClientMessage(Component.translatable("savepoint.max_upgrade"), true);
 				}
 			}
 		}

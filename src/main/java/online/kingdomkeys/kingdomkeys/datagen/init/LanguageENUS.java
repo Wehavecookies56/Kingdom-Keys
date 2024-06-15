@@ -329,6 +329,16 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
 
+        add("savepoint.healing","healing");
+        add("savepoint.magic","magic restoration");
+        add("savepoint.feed","feeding");
+        add("savepoint.focus","focus restoration");
+        add("savepoint.drive","drive restoration");
+        add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
+        add("savepoint.maxed","Savepoint %s speed is already maxed");
+        add("savepoint.upgrade_type","Savepoint upgraded to {0}");
+        add("savepoint.max_upgrade","Max upgrade reached");
+
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
         addBlock(ModBlocks.structureWall, "Structure Wall");

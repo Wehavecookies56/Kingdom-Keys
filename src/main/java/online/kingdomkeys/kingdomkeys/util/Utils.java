@@ -85,9 +85,12 @@ public class Utils {
 		return null;
     }
 
+	public static int getSavepointPercent(int ticks) {
+		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+	}
 
 
-    public static class Title {
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
