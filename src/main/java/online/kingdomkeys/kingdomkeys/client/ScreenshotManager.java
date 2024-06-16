@@ -32,6 +32,17 @@ public class ScreenshotManager {
         return nameNoInvalid + "_" + savePointID.toString() + ".png";
     }
 
+    public static File getScreenshotFile(String savePointName, UUID savePointID) {
+        Path screenshotsDir = Paths.get(Minecraft.getInstance().gameDirectory.getPath(), "kingdomkeys/save_points/");
+        String fileName = ScreenshotManager.getFileNameString(savePointName, savePointID);
+        File screenshotFile = new File(screenshotsDir.toFile(), fileName);
+        if (screenshotFile.exists() && screenshotFile.isFile()) {
+            return screenshotFile;
+        } else {
+            return null;
+        }
+    }
+
     public static void screenshot(String savePointName, UUID savePointID) {
         name = savePointName;
         uuid = savePointID;

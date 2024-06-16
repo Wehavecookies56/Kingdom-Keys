@@ -57,6 +57,8 @@ public class SavePointScreen extends MenuBackground {
 
     SavePointStorage.SavePointType type;
 
+    SavePointStorage.SavePoint current;
+
     public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
         super(create ? "Name Save Point" : savePoints.get(tileEntity.getID()).getFirst().name(), Color.green);
         this.tileEntity = tileEntity;
@@ -67,6 +69,10 @@ public class SavePointScreen extends MenuBackground {
             savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().textureManager, new ResourceLocation(KingdomKeys.MODID, "save_points/" + uuid)));
         });
         if (!create) {
+            current = savePoints.get(tileEntity.getID()).getFirst();
+            if (ScreenshotManager.getScreenshotFile(current.name(), current.id()) == null) {
+                ScreenshotManager.screenshot(current.name(), current.id());
+            }
             loadSavePointScreenshots();
         }
         shouldCloseOnMenu = false;
@@ -76,6 +82,7 @@ public class SavePointScreen extends MenuBackground {
         if (!tileEntityExists) {
             onClose();
         }
+        this.current = savePoints.get(tileEntity.getID()).getFirst();
         this.savePoints = savePoints;
         init();
         updateButtons();
@@ -164,21 +171,21 @@ public class SavePointScreen extends MenuBackground {
 
     public void loadSavePointScreenshots() {
         long timeStarted = System.currentTimeMillis();
-        KingdomKeys.LOGGER.info("Loading screenshots...");
+        KingdomKeys.LOGGER.debug("Loading screenshots...");
         Map<UUID, File> files = getSavePointScreenshots();
-        KingdomKeys.LOGGER.info("Got files in {}ms", System.currentTimeMillis() - timeStarted);
+        KingdomKeys.LOGGER.debug("Got files in {}ms", System.currentTimeMillis() - timeStarted);
         if (!files.isEmpty()) {
             files.forEach((uuid, file) -> {
                 try (InputStream inputStream = Files.newInputStream(file.toPath())) {
                     long timeStartedReading = System.currentTimeMillis();
                     savePointScreenshots.get(uuid).upload(NativeImage.read(inputStream));
-                    KingdomKeys.LOGGER.info("Read image for {} in {}ms", file.getName(), System.currentTimeMillis() - timeStartedReading);
+                    KingdomKeys.LOGGER.debug("Read image for {} in {}ms", file.getName(), System.currentTimeMillis() - timeStartedReading);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
         }
-        KingdomKeys.LOGGER.info("Screenshots loaded in {}ms", System.currentTimeMillis() - timeStarted);
+        KingdomKeys.LOGGER.debug("Screenshots loaded in {}ms", System.currentTimeMillis() - timeStarted);
     }
 
     Map<UUID, File> getSavePointScreenshots() {

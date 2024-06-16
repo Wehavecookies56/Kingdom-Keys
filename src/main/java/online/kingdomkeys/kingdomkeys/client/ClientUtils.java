@@ -910,15 +910,13 @@ public class ClientUtils {
         return new DistExecutor.SafeRunnable() {
             @Override
             public void run() {
-                Path screenshotsDir = Paths.get(Minecraft.getInstance().gameDirectory.getPath(), "kingdomkeys/save_points/");
-                String fileName = ScreenshotManager.getFileNameString(message.name(), message.uuid());
-                File screenshotFile = new File(screenshotsDir.toFile(), fileName);
-                if (screenshotFile.exists() && screenshotFile.isFile()) {
+                File screenshotFile = ScreenshotManager.getScreenshotFile(message.name(), message.uuid());
+                if (screenshotFile != null) {
                     String path = screenshotFile.getPath();
                     if (!screenshotFile.delete()) {
                         KingdomKeys.LOGGER.warn("Failed to delete screenshot file {}", path);
                     } else {
-                        KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", fileName);
+                        KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", screenshotFile.getName());
                     }
                 }
             }
