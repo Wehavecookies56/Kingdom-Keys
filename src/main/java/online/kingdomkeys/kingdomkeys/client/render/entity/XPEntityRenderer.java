@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,7 +30,11 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
     @Override
     public void render(XPEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
-        if (entityIn.getExp() != 0 && entityIn.getCaster() == Minecraft.getInstance().player && ModCapabilities.getPlayer(entityIn.getCaster()).getSoAState() == SoAState.COMPLETE) {
+        IPlayerCapabilities playerData = ModCapabilities.getPlayer(entityIn.getCaster());
+        if(playerData == null)
+            return;
+
+        if (entityIn.getExp() != 0 && entityIn.getCaster() == Minecraft.getInstance().player && playerData.getSoAState() == SoAState.COMPLETE) {
             int xp = Math.max(entityIn.getExp(), 0);
             String text = "+"+xp+"xp";
             matrixStackIn.pushPose();
