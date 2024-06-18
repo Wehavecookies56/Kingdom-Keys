@@ -270,7 +270,7 @@ public class SavePointScreen extends MenuBackground {
         sortedList.add(0, tileEntity.getID());
         for (UUID uuid : sortedList) {
             SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
-            if (type == SavePointStorage.SavePointType.WARP || savePoint.dimension() == tileEntity.getLevel().dimension()) {
+            if ((type == SavePointStorage.SavePointType.WARP && savePoint.type() == SavePointStorage.SavePointType.WARP) || savePoint.dimension() == tileEntity.getLevel().dimension()) {
                 if (column == elementsPerRow) {
                     column = 0;
                     row++;
