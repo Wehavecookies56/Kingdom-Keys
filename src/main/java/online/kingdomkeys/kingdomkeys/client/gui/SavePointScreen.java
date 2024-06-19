@@ -16,9 +16,11 @@ import online.kingdomkeys.kingdomkeys.client.ScreenshotManager;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.*;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateSavePoint;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSavePointTP;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -60,7 +62,7 @@ public class SavePointScreen extends MenuBackground {
     SavePointStorage.SavePoint current;
 
     public SavePointScreen(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) {
-        super(create ? "Name Save Point" : savePoints.get(tileEntity.getID()).getFirst().name(), Color.green);
+        super(create ? Strings.Gui_Save_Creation_Title : savePoints.get(tileEntity.getID()).getFirst().name(), Color.green);
         this.tileEntity = tileEntity;
         type = tileEntity.getBlockState().getValue(SavePointBlock.TIER);
         this.savePoints = savePoints;
@@ -114,7 +116,7 @@ public class SavePointScreen extends MenuBackground {
             }
         }
         if (create) {
-            String text = "Enter a name for this Save Point";
+            String text = Utils.translateToLocal(Strings.Gui_Save_Creation_Prompt);
             gui.drawString(minecraft.font, text, (width/2) - (minecraft.font.width(text)/2), (height/2) - (minecraft.font.lineHeight/2) - 60, Color.WHITE.getRGB());
         }
     }
@@ -233,7 +235,7 @@ public class SavePointScreen extends MenuBackground {
                     updateButtons();
                 }
             });
-            addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2) - 14, 100, "Save", MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
+            addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2) - 14, 100, Utils.translateToLocal(Strings.Gui_Save_Creation_Accept), MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
         } else {
             init(recent, 0);
         }
@@ -284,8 +286,8 @@ public class SavePointScreen extends MenuBackground {
                 column++;
             }
         }
-        addRenderableWidget(sortDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 62, (int) topBarHeight, 60, font.lineHeight, List.of(Component.literal("Recent"), Component.literal("Name"), Component.literal("Dimension"), Component.literal("Owner")), Component.literal("Sort:")));
-        addRenderableWidget(orderDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 72, (int) topBarHeight + font.lineHeight + 4, 70, font.lineHeight, List.of(Component.literal("Ascending"), Component.literal("Descending")), Component.empty()));
+        addRenderableWidget(sortDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 62, (int) topBarHeight, 60, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_ByRecent), Component.translatable(Strings.Gui_Save_Sorting_ByName), Component.translatable(Strings.Gui_Save_Sorting_ByDimension), Component.translatable(Strings.Gui_Save_Sorting_ByOwner)), Component.translatable(Strings.Gui_Save_Main_Sort)));
+        addRenderableWidget(orderDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 72, (int) topBarHeight + font.lineHeight + 4, 70, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_Ascending), Component.translatable(Strings.Gui_Save_Sorting_Descending)), Component.empty()));
         sortDropDown.setSelected(sorting);
         orderDropDown.setSelected(ordering);
         this.sorting = sorting;

@@ -622,6 +622,21 @@
   "gui.proofofheart.notinorg": "Du bist nicht in der Organisation XIII",
   "gui.proofofheart.unequip": "Lege zuerst deine Organisation XIII Rüstung ab",
 
+  "gui.save.create.title": "Neuer Speicherpunkt",
+  "gui.save.create.prompt": "Gib diesem Speicherpunkt einen Namen",
+  "gui.save.create.accept": "Einspeichern",
+  "gui.save.main.here": "Du bist hier",
+  "gui.save.main.sort": "Filter:",
+  "gui.save.sort.recent": "Neuste",
+  "gui.save.sort.name": "Name",
+  "gui.save.sort.dimension": "Dimension",
+  "gui.save.sort.owner": "Besitzer",
+  "gui.save.sort.ascending": "Aufsteigend",
+  "gui.save.sort.descending": "Absteigend",
+
+  "gui.ko.give_up": "Aufgeben",
+  "gui.ko.exit": "Verlassen",
+
   "gui.shop": "Laden",
   "gui.shop.cost": "Kosten",
   "gui.shop.tier": "Stufe:",
@@ -2225,5 +2240,9 @@
   "stats.levelUpMag": "Magischekraft erhöht!",
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",
   "stats.levelUpMaxArmors": "Ausrüstungsplatz erhalten!",
-  "stats.levelUpStr": "Angriffskraft erhöht!"
+  "stats.levelUpStr": "Angriffskraft erhöht!",
+
+  "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
+  "patchouli.kingdomkeys.journal.hello": "Willkommen, Schlüsselschwertträger zur $(thing)Kingdom Keys$() Mod.$(p)In diesem Buch wirst du alles Nötige finden um anzufangen, sowie einige hilfreiche Tipps.",
+  "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch"
 }

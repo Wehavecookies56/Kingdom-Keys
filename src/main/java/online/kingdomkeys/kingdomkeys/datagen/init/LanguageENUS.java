@@ -255,6 +255,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.org.cancel", "Cancel");
         add("gui.org.confirm", "Confirm");
 
+        //Save Point
+        add(Gui_Save_Creation_Title, "Name Save Point");
+        add(Gui_Save_Creation_Prompt, "Enter a name for this Save Point");
+        add(Gui_Save_Creation_Accept, "Save");
+
+        add(Gui_Save_Main_CurrentPosition, "You are Here");
+        add(Gui_Save_Main_Sort, "Sort:");
+
+        add(Gui_Save_Sorting_ByRecent, "Recent");
+        add(Gui_Save_Sorting_ByName, "Name");
+        add(Gui_Save_Sorting_ByDimension, "Dimension");
+        add(Gui_Save_Sorting_ByOwner, "Owner");
+        add(Gui_Save_Sorting_Ascending, "Ascending");
+        add(Gui_Save_Sorting_Descending, "Descending");
+
+        //K.O. Screen
+        add(Gui_KO_Die, "Give Up");
+        add(Gui_KO_Quit, "Exit");
+
         //Level up messages
         add("stats.levelUpStr", "Strength increased!");
         add("stats.levelUpDef", "Defense increased!");
@@ -1606,7 +1625,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
         add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
-        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Key's$() Mod.$(p)In this book, you'll find all info you need to get started.");
+        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Keys$() Mod.$(p)In this book, you'll find all info you need to get started, as well as helpful tips.");
 
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");

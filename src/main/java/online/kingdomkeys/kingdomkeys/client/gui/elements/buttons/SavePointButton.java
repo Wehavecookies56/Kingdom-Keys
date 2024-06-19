@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -72,7 +73,7 @@ public class SavePointButton extends Button {
         }
         if (!active) {
             //gui.drawCenteredString(Minecraft.getInstance().font, Component.translatable("You are here"), getX() + (getWidth() / 2), getY() + (getHeight() - (height/2) - (Minecraft.getInstance().font.lineHeight/2)) + 1, Color.WHITE.getRGB());
-            drawLabel(Component.translatable("You are here"), gui, labelHeight);
+            drawLabel(Component.translatable(Strings.Gui_Save_Main_CurrentPosition), gui, labelHeight);
         }
     }
 

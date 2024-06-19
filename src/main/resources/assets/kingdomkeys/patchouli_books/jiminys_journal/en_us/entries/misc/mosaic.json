@@ -1,7 +1,7 @@
 {
 	"name": "Mosaic Stained Glass",
 	"icon": "kingdomkeys:mosaic_stained_glass",
-	"sortnum": 3,
+	"sortnum": 10,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{

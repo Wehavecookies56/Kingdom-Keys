@@ -1,0 +1,16 @@
+{
+	"name": "Save Points",
+	"icon": "kingdomkeys:warp_point",
+	"sortnum": 2,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Save Points$() are a really useful tool when it comes to long distance transportation."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:save_point"
+		}
+	]
+}
