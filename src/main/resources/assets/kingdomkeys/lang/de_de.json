@@ -106,7 +106,7 @@
   "ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
   "ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
 
-  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn ein Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+  "ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn eine Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
   "ability.ability_hp_gain.name": "HP-Gewinn",
 
   "ability.ability_jackpot.desc": "Erhöht den Wert von HP, MP und Taler-Kugeln.\nMehrfaches Anlegen erhöht den Effekt.",
@@ -857,19 +857,19 @@
   "item.kingdomkeys.aqua_helmet": "Aqua Helm",
   "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
 
-  "item.kingdomkeys.ava_boots": "Ava Boots",
-  "item.kingdomkeys.ava_chestplate": "Ava Coat",
-  "item.kingdomkeys.ava_helmet": "Ava Hood",
-  "item.kingdomkeys.ava_leggings": "Ava Leggings",
+  "item.kingdomkeys.ava_boots": "Ava Stiefel",
+  "item.kingdomkeys.ava_chestplate": "Ava Mantel",
+  "item.kingdomkeys.ava_helmet": "Ava Kapuze",
+  "item.kingdomkeys.ava_leggings": "Ava Hose",
 
   "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
   "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
   "item.kingdomkeys.dark_riku_leggings": "Dunkel-Riku Beinschutz",
 
-  "item.kingdomkeys.eraqus_boots": "Eraqus Boots",
-  "item.kingdomkeys.eraqus_chestplate": "Eraqus Chestplate",
-  "item.kingdomkeys.eraqus_helmet": "Eraqus Helmet",
-  "item.kingdomkeys.eraqus_leggings": "Eraqus Leggings",
+  "item.kingdomkeys.eraqus_boots": "Eraqus Schuhe",
+  "item.kingdomkeys.eraqus_chestplate": "Eraqus Brustplatte",
+  "item.kingdomkeys.eraqus_helmet": "Eraqus Helm",
+  "item.kingdomkeys.eraqus_leggings": "Eraqus Beinschutz",
 
   "item.kingdomkeys.gula_boots": "Gula Stiefel",
   "item.kingdomkeys.gula_chestplate": "Gula Mantel",
@@ -934,13 +934,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Pauldron",
-  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Pauldron",
-  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Pauldron",
-  "item.kingdomkeys.terra_shoulder": "Terra's Pauldron",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Pauldron",
-  "item.kingdomkeys.ventus_shoulder": "Ventus' Pauldron",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Pauldron",
+  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
+  "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
+  "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
+  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
+  "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
 
 
   // -ACCESOIRES
@@ -988,11 +988,11 @@
   "item.kingdomkeys.ether": "Äther",
   "item.kingdomkeys.elixir": "Elixier",
   "item.kingdomkeys.potion": "Potion",
-  "item.kingdomkeys.refocuser": "Refocuser",
+  "item.kingdomkeys.refocuser": "Fokustrank",
   "item.kingdomkeys.drive_recovery": "Driver",
   "item.kingdomkeys.hi_ether": "Hi-Äther",
   "item.kingdomkeys.hi_potion": "Hi-Potion",
-  "item.kingdomkeys.hi_refocuser": "Hi-Refocuser",
+  "item.kingdomkeys.hi_refocuser": "Hi-Fokustrank",
   "item.kingdomkeys.hi_drive_recovery": "High Driver",
   "item.kingdomkeys.mega_ether": "Mega-Äther",
   "item.kingdomkeys.mega_lixir": "Final-Elixier",
@@ -1006,7 +1006,7 @@
   "item.kingdomkeys.magicboost": "Magiesphäre",
   "item.kingdomkeys.powerboost": "Kraftbolzen",
 
-  "item.kingdomkeys.proof_of_heart": "Beweis des Herzens",
+  "item.kingdomkeys.proof_of_heart": "Zeugnis des Herzens",
 
 
   // --MAGIC AND FORMS

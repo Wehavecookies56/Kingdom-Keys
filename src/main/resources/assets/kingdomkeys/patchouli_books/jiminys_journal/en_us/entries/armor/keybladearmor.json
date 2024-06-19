@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These are $(item)Armor sets$() worn by the $8thing)Warriors of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you own an entire set, you can craft them together, to obtain it's corresponding $(item)Pauldron$(), which you can place into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
+			"text": "These are $(item)Armor sets$() worn by the $(thing)Warriors of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you own an entire set, you can craft them together, to obtain it's corresponding $(item)Pauldron$(), which you can place into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
 		},
 		{
 			"type": "text",
