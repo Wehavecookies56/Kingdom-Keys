@@ -56,6 +56,7 @@ public class SavePointScreen extends MenuBackground {
     MenuScrollBar bar;
     DropDownButton sortDropDown;
     DropDownButton orderDropDown;
+    CheckboxButton setGlobal;
 
     SavePointStorage.SavePointType type;
 
@@ -80,18 +81,22 @@ public class SavePointScreen extends MenuBackground {
         shouldCloseOnMenu = false;
     }
 
-    public void updateSavePointsFromServer(boolean tileEntityExists, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
-        if (!tileEntityExists) {
+    public void updateSavePointsFromServer(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
+        if (!savePoints.containsKey(tileEntity.getID())) {
             onClose();
         }
-        this.current = savePoints.get(tileEntity.getID()).getFirst();
-        this.savePoints = savePoints;
-        init();
-        updateButtons();
-        savePoints.forEach((uuid, savePoint) -> {
-            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().textureManager, new ResourceLocation(KingdomKeys.MODID, "save_points/" + uuid)));
-        });
-        loadSavePointScreenshots();
+        if (!create) {
+            this.current = savePoints.get(tileEntity.getID()).getFirst();
+            this.savePoints = savePoints;
+            renderables.clear();
+            children().clear();
+            init();
+            updateButtons();
+            savePoints.forEach((uuid, savePoint) -> {
+                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().textureManager, new ResourceLocation(KingdomKeys.MODID, "save_points/" + uuid)));
+            });
+            loadSavePointScreenshots();
+        }
     }
 
     @Override
@@ -142,10 +147,11 @@ public class SavePointScreen extends MenuBackground {
             case SAVE -> {
                 if (!nameField.getValue().isEmpty()) {
                     Player player = Minecraft.getInstance().player;
-                    PacketHandler.sendToServer(new CSCreateSavePoint(tileEntity, nameField.getValue(), player));
+                    PacketHandler.sendToServer(new CSCreateSavePoint(tileEntity, nameField.getValue(), player, setGlobal.isChecked()));
                     create = false;
                     nameField.visible = false;
                     save.visible = false;
+                    setGlobal.visible = false;
                     ScreenshotManager.screenshot(nameField.getValue(), tileEntity.getID());
                     title = Component.literal(nameField.getValue());
                 }
@@ -235,7 +241,8 @@ public class SavePointScreen extends MenuBackground {
                     updateButtons();
                 }
             });
-            addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2) - 14, 100, Utils.translateToLocal(Strings.Gui_Save_Creation_Accept), MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
+            addRenderableWidget(setGlobal = new CheckboxButton((width/2) - 60, (height/2) - 14, Strings.Gui_Save_Creation_Global, false, Strings.Gui_Save_Creation_Global_Desc, Color.WHITE.getRGB()));
+            addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2), 100, Utils.translateToLocal(Strings.Gui_Save_Creation_Accept), MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
         } else {
             init(recent, 0);
         }

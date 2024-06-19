@@ -14,18 +14,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SCUpdateSavePoints(boolean tileEntityExists, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
-
-    public SCUpdateSavePoints(SavepointTileEntity tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
-        this(tileEntity != null, savePoints);
-    }
+public record SCUpdateSavePoints(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
 
     public SCUpdateSavePoints(FriendlyByteBuf buf) {
-        this(buf.readBoolean(), SCOpenSavePointScreen.readSavePoints(buf));
+        this(SCOpenSavePointScreen.readSavePoints(buf));
     }
 
     public void encode(FriendlyByteBuf buf) {
-        buf.writeBoolean(tileEntityExists);
         buf.writeInt(savePoints.size());
         savePoints.values().forEach(savePoint -> {
             buf.writeNbt(savePoint.getFirst().serializeNBT());

@@ -900,7 +900,7 @@ public class ClientUtils {
             @Override
             public void run() {
                 if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
-                    savePointScreen.updateSavePointsFromServer(message.tileEntityExists(), message.savePoints());
+                    savePointScreen.updateSavePointsFromServer(message.savePoints());
                 }
             }
         };

@@ -258,6 +258,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Save Point
         add(Gui_Save_Creation_Title, "Name Save Point");
         add(Gui_Save_Creation_Prompt, "Enter a name for this Save Point");
+        add(Gui_Save_Creation_Global, "Set globally visible");
+        add(Gui_Save_Creation_Global_Desc, "Makes this save point accessible to all players");
         add(Gui_Save_Creation_Accept, "Save");
 
         add(Gui_Save_Main_CurrentPosition, "You are Here");

@@ -36,7 +36,7 @@ public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, Pair<SavePoin
     private static Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> getAndAddSavePoints(SavepointTileEntity tileEntity, Player player) {
         SavePointStorage storage = SavePointStorage.getStorage(player.getServer());
         Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints = storage.getDiscoveredSavePoints(player);
-        if (storage.savePointRegistered(tileEntity.getID())) {
+        if (storage.savePointRegistered(tileEntity.getID()) && !storage.getSavePoint(tileEntity.getID()).global()) {
             if (!savePoints.containsKey(tileEntity.getID())) {
                 Instant instant = Instant.now();
                 savePoints.put(tileEntity.getID(), Pair.of(storage.getSavePoint(tileEntity.getID()), instant));

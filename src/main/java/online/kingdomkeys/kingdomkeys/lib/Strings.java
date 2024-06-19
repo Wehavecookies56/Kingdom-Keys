@@ -518,6 +518,8 @@ public class Strings {
 			Gui_Save_Creation = Gui_Save + ".create",
 			Gui_Save_Creation_Title = Gui_Save_Creation + ".title",
 			Gui_Save_Creation_Prompt = Gui_Save_Creation + ".prompt",
+			Gui_Save_Creation_Global = Gui_Save_Creation + ".global",
+			Gui_Save_Creation_Global_Desc = Gui_Save_Creation_Global + ".desc",
 			Gui_Save_Creation_Accept = Gui_Save_Creation + ".accept",
 
 			Gui_Save_Main = Gui_Save + ".main",

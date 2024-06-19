@@ -121,7 +121,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 						storage.removeSavePoint(te.getID());
 						for (Level level : pLevel.getServer().getAllLevels()) {
 							for (Player playerFromList : level.players()) {
-								PacketHandler.sendTo(new SCUpdateSavePoints(null, storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+								PacketHandler.sendTo(new SCUpdateSavePoints(storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
 								PacketHandler.sendTo(new SCDeleteSavePointScreenshot(removed.name(), removed.id()), (ServerPlayer) playerFromList);
 							}
 						}
