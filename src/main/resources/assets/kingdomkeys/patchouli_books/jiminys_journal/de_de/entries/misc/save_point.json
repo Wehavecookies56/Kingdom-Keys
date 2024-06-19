@@ -1,0 +1,48 @@
+{
+	"name": "Speicherpunkte",
+	"icon": "kingdomkeys:savepoint",
+	"sortnum": 2,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Speicherpunkte$() sind ein sehr nützliches Werkzeug, wenn es um $(thing)Teleportation zwischen großen Entfernungen$() geht. Speicherpunkte kommen in drei verschiedenen Varianten: Normale Speicherpunkte, $(#0F0)Verbundene Speicherpunkte$(), und $(#00F)Warp Punkte$(), wobei jede davon eine verbesserte Version der vorherigen ist. Normale haben zwei grüne, fliegende Schweife, ein Verbundener hat zusätzlich eine runde Platte darunter und ein Warp-Punkt sieht genauso aus wie ein Verbundener Speicherpunkt, nur in einem blauen Farbton."
+		},
+		{
+			"type": "text",
+			"text": "Jeder Speicherpunkt dient als ein $(thing)Wiedereinstiegspunkt$(), solltest du mal deine Seele aufgegeben haben, genauso wie ein herkömliches Bett. Dafür muss das Situationskommando benutzt werden, welches erscheint sobald man auf einem Spiecherpunkt draufsteht. Falls es ein Verbundener oder Warp-Punkt ist, kann es sein, dass du dazu aufgefordert wirst, den Speicherpunkt einen Namen zu geben.$(br)$(o)(Anmerkung: Die aktuelle Sicht entscheidet dabei wie die Vorschau dieses speicherpunktes aussieht.)$()"
+		},
+		{
+			"type": "text",
+			"text": "Wenn du mehr als einen Verbunden oder Warp-Punkt eingespeichert hast, kannst du dich $(thing)zwischen ihnen hin und her teleportieren$(). Verbundenene Speicherpunkte können dich zu jedem eingespeicherten Punkt innerhalb der gleichen Dimension bringen, wobei ein Warp-Punkt hingegen zusätzlich dich zu anderen Warp-Punkten aus anderen Dimensionen befördern können.$(p)Wird ein Speicherpunkt $(lissa)zerstört$(), gehen $(lissa)alle Verbesserungen verloren$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:savepoint"
+		},
+		{
+			"type": "text",
+			"text": "Außerdem können $(thing)Speicherpunkte verbessern werden$() durch das Verwenden von bestimmten $(l:kingdomkeys:synthesize/materials)Schmiedematerialien$(). Jedes Material kann bis zu 5 Mal benutzt werden um die Wiederherstellungsrate zu erhöhen, wobei einige nur bei einer verbesserten Version benutzt werden können."
+		},
+		{
+			"type": "text",
+			"text": "$(li)Orichalkum: Leben $(li)Illusionskristall: Magie $(li)$(#0F0)Freudenkristall$(): Hunger $(li)$(#0F0)Gedächtniskristall$(): Fokus $(li)$(#00F)Dunstkristall$(): Drive $(li)Orichalkum+: Erhöht die Stufe $(li2)Normal -> $(#0F0)Verbunden$() -> $(#00F)Warp$()"
+		},
+		{
+			"type": "image",
+			"images": [
+				"kingdomkeys:journal/save.png",
+				"kingdomkeys:journal/save_linked.png",
+				"kingdomkeys:journal/save_warp.png"
+			],
+			"title": "Speicherpunkte",
+			"text":"Normal - $(#0F0)Verbunden$() - $(#00F)Warp$()",
+			"border": true,
+			"centered": true,
+			"height": 480,
+			"width": 384,
+			"texture_height": 480,
+			"texture_width": 384
+		}
+	]
+}

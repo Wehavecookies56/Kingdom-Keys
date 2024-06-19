@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These are $(item)Armor sets$() worn by the $8thing)Warriors of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you own an entire set, you can craft them together, to obtain it's corresponding $(item)Pauldron$(), which you can place into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
+			"text": "These are $(item)Armor sets$() worn by the $(thing)Warriors of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you own an entire set, you can craft them together, to obtain it's corresponding $(item)Pauldron$(), which you can place into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
 		},
 		{
 			"type": "text",
-			"text": "These armor sets can be crafted in the style of $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AA)Eraqus$(), $(#999)Xehanort$() and $(#000)Ventus' Nightmare form$(). Get in a Smithing Table and combine some netherite armor and an upgrade template with an $(#F70)orange$(), $(#00F)blue$(), $(#1F0)lime green$(), $(#000)black$(), $(#AAA)white$() or $(#999)gray$() dye."
+			"text": "These armor sets can be crafted in the style of $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AA)Eraqus$(), $(#999)Xehanort$() and $(#000)Ventus' Nightmare form$(). Get in a Smithing Table and combine some netherite armor and an upgrade template with an $(#F70)orange$(), $(#00F)blue$(), $(#1F0)lime green$(), $(#000)black$(), $(#AAA)white$() or $(#999)gray$() dye.$(p)Additionally a Pauldron can be enchanted by holding it and holding down RMB, while wearing a set of armor with the desired enchantments. $(thing)Attention$(): The currently worn armor will be disentchanted in the process!"
 		}
 	]
 }

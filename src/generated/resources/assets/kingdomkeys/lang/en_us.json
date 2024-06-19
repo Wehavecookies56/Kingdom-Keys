@@ -1636,7 +1636,7 @@
   "message.wayfinder.player_not_online": "Player %s is not online",
   "message.wayfinder.your_wayfinder": "This is your Wayfinder, hand it over to someone else",
   "patchouli.kingdomkeys.journal.desc": "Thank Naminé.",
-  "patchouli.kingdomkeys.journal.hello": "Welcome, Keyblade wielder to the $(thing)Kingdom Key's$() Mod.$(p)In this book, you'll find all info you need to get started.",
+  "patchouli.kingdomkeys.journal.hello": "Welcome, Keyblade wielder to the $(thing)Kingdom Keys$() Mod.$(p)In this book, you'll find all info you need to get started.",
   "patchouli.kingdomkeys.journal.name": "Jiminy's Journal",
   "potion.desc.beginning": "Will restore %s%s %s ",
   "potion.desc.drive": "§eDrive§r",
