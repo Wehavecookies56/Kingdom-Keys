@@ -10,7 +10,11 @@
 		},
 		{
 			"type": "text",
-			"text": "Every Save Point serves as a $(thing)respawn point$(), should you have ever lost your soul, similar to how a bed does. For that, the reaction command has to be used that appears once you stand ontop of a Save Point. If it happens to be a Linked or Warp Save Point, then you might also be prompted to give it a name. (Note that the current view will serve as the preview image to this save.) If you have more than one Linked or Warped save added, you can teleport between them. Linked Saves can teleport to any of your save points within the same dimension, where Warped ones can additionally teleport you to Other Warp Points of other Dimensions."
+			"text": "Every Save Point serves as a $(thing)respawn point$(), should you have ever lost your soul, similar to how a bed does. For that, the reaction command has to be used that appears once you stand ontop of a Save Point. If it happens to be a Linked or Warp Save Point, then you might also be prompted to give it a name.$(br)$(o)(Note that the current view will serve as the preview image to this save.)$()"
+		},
+		{
+			"type": "text",
+			"text": "If you have more than one Linked or Warp Save Point added, you can $(thing)teleport between them$(). Linked Save POints can teleport to any of your save points within the same dimension, where Warped ones can additionally teleport you to other Warp Points of other Dimensions.$(p)$(lissa)Breaking$() a Save Point will $(lissa)lose all upgrades$()."
 		},
 		{
 			"type":"crafting",
@@ -18,7 +22,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Additionally, $(thing)Save Points can be upgraded$() with the use of specific $(l:kingdomkeys:synthesize/materials)synthesis items$(). Every Item increases the recovery rate up to 5 times, where some can only be used on an upgraded version: $(li)Orichalcum: Health $(li)Illusory Crytsal: Magic $(li)$(#0F0)Hungry Crystal$(): Hunger $(li)$(#0F0)Remembrance Crytsal$(): Focus $(li)$(#00F)Evanescent Crystal$(): Drive $(li)Orichalcum Plus: Increase tier $(li2)Normal -> $(#0F0)Linked$() -> $(#00F)Warp$()$(p)Breaking a Save Point will $(lissa)not$() return the materials spent."
+			"text": "Additionally, $(thing)Save Points can be upgraded$() with the use of specific $(l:kingdomkeys:synthesize/materials)synthesis materials$(). Each Material increases the recovery rate up to 5 times, where some can only be used on an upgraded version: $(li)Orichalcum: Health $(li)Illusory Crytsal: Magic $(li)$(#0F0)Hungry Crystal$(): Hunger $(li)$(#0F0)Remembrance Crytsal$(): Focus $(li)$(#00F)Evanescent Crystal$(): Drive $(li)Orichalcum Plus: Increases tier $(li2)Normal -> $(#0F0)Linked$() -> $(#00F)Warp$()"
 		},
 		{
 			"type": "image",
@@ -28,7 +32,7 @@
 				"kingdomkeys:journal/save_warp.png"
 			],
 			"title": "Save Points",
-			"text":"Normal - Linked - Warp",
+			"text":"Normal - $(#0F0)Linked$() - $(#00F)Warp$()",
 			"border": true,
 			"centered": true,
 			"height": 480,

@@ -1,8 +1,7 @@
 {
 	"name": "Podest",
 	"icon": "kingdomkeys:pedestal",
-	"sortnum": 2,
-	"priority": true,
+	"sortnum": 5,
 	"category": "kingdomkeys:misc",
 	"pages": [
 		{
