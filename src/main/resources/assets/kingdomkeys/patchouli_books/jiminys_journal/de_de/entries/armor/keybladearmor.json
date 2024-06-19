@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AAA)Eraqus$(), $(#999)Xehanort$() und $(#000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(#F70)Orange$(), $(#00F)Blau$(), $(#1F0)Hellgrün$(), $(#000)Schwarz$(), $(#AAA)Weiß$() oder $(#999)Grau$()"
+			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AAA)Eraqus$(), $(#999)Xehanort$() und $(#000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(#F70)Orange$(), $(#00F)Blau$(), $(#1F0)Hellgrün$(), $(#000)Schwarz$(), $(#AAA)Weiß$() oder $(#999)Grau$()$(p)Außerdem kann ein Schulterschuttz verzaubt werden, indem man ihn in der Hand gedrückt hält, während man die gewünschte Verzauberungen trägt. $(thing)Vorsicht$(): Die getragene Rüstung wird dabei entzaubert!"
 		}
 	]
 }

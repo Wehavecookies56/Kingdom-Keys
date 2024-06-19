@@ -549,7 +549,7 @@
 
   "gui.menu.main.hearts": "Herzen",
   "gui.menu.main.munny": "Taler",
-  "gui.menu.main.synthesis_tier": "Synthese-Stufe",
+  "gui.menu.main.synthesis_tier": "Schmiede-Stufe",
   "gui.menu.main.time": "Uhrzeit (Welt)",
   "gui.menu.main.time.spent": "Vergangene Zeit",
   "gui.menu.main.title": "Menü",
@@ -655,8 +655,8 @@
   "gui.synthesis.materials.deposit": "Einlagern",
   "gui.synthesis.materials.take": "Entnehmen",
   "gui.synthesis.moogle.title": "%ss Mogry-Laden",
-  "gui.synthesis.synthesise": "Item-Synthese",
-  "gui.synthesis.synthesise.title": "Synthese",
+  "gui.synthesis.synthesise": "Item-Schmiede",
+  "gui.synthesis.synthesise.title": "Schmiede",
   "gui.synthesis.synthesise.create": "Erschaffen",
 
   "gui.synthesisbag.munny": "Taler",
@@ -680,7 +680,7 @@
   "item.kingdomkeys.dream_staff": "Alchera-Stab",
   "item.kingdomkeys.dream_sword": "Alchera-Schwert",
 
-  "item.kingdomkeys.synthesis_bag": "Synthesebeutel",
+  "item.kingdomkeys.synthesis_bag": "Schmiedebeutel",
 
   "item.kingdomkeys.wayfinder": "Wegfinder",
   "item.kingdomkeys.winner_stick": "Gewinner-Stiel",
@@ -857,91 +857,91 @@
 
   // --MC ARMOR
 
-  "item.kingdomkeys.aced_boots": "Aced Stiefel",
+  "item.kingdomkeys.aced_boots": "Aced Schuhe",
   "item.kingdomkeys.aced_chestplate": "Aced Mantel",
   "item.kingdomkeys.aced_helmet": "Aced kapuze",
   "item.kingdomkeys.aced_leggings": "Aced Hose",
 
-  "item.kingdomkeys.anticoat_boots": "Antirobe Stiefel",
+  "item.kingdomkeys.anticoat_boots": "Antirobe Schuhe",
   "item.kingdomkeys.anticoat_chestplate": "Antirobe Mantel",
   "item.kingdomkeys.anticoat_helmet": "Antirobe Kapuze",
   "item.kingdomkeys.anticoat_leggings": "Antirobe Hose",
 
-  "item.kingdomkeys.aqua_boots": "Aqua Schuhe",
-  "item.kingdomkeys.aqua_chestplate": "Aqua Brustplatte",
+  "item.kingdomkeys.aqua_boots": "Aqua Stiefel",
+  "item.kingdomkeys.aqua_chestplate": "Aqua Harnisch",
   "item.kingdomkeys.aqua_helmet": "Aqua Helm",
   "item.kingdomkeys.aqua_leggings": "Aqua Beinschutz",
 
-  "item.kingdomkeys.ava_boots": "Ava Stiefel",
+  "item.kingdomkeys.ava_boots": "Ava Schuhe",
   "item.kingdomkeys.ava_chestplate": "Ava Mantel",
   "item.kingdomkeys.ava_helmet": "Ava Kapuze",
   "item.kingdomkeys.ava_leggings": "Ava Hose",
 
-  "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Schuhe",
-  "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Brustplatte",
+  "item.kingdomkeys.dark_riku_boots": "Dunkel-Riku Stiefel",
+  "item.kingdomkeys.dark_riku_chestplate": "Dunkel-Riku Harnisch",
   "item.kingdomkeys.dark_riku_leggings": "Dunkel-Riku Beinschutz",
 
-  "item.kingdomkeys.eraqus_boots": "Eraqus Schuhe",
-  "item.kingdomkeys.eraqus_chestplate": "Eraqus Brustplatte",
+  "item.kingdomkeys.eraqus_boots": "Eraqus Stiefel",
+  "item.kingdomkeys.eraqus_chestplate": "Eraqus Harnisch",
   "item.kingdomkeys.eraqus_helmet": "Eraqus Helm",
   "item.kingdomkeys.eraqus_leggings": "Eraqus Beinschutz",
 
-  "item.kingdomkeys.gula_boots": "Gula Stiefel",
+  "item.kingdomkeys.gula_boots": "Gula Schuhe",
   "item.kingdomkeys.gula_chestplate": "Gula Mantel",
   "item.kingdomkeys.gula_helmet": "Gula Kapuze",
   "item.kingdomkeys.gula_leggings": "Gula Hose",
 
-  "item.kingdomkeys.invi_boots": "Invi Stiefel",
+  "item.kingdomkeys.invi_boots": "Invi Schuhe",
   "item.kingdomkeys.invi_chestplate": "Invi Mantel",
   "item.kingdomkeys.invi_helmet": "Invi Kapuze",
   "item.kingdomkeys.invi_leggings": "Invi Hose",
 
-  "item.kingdomkeys.ira_boots": "Ira Stiefel",
+  "item.kingdomkeys.ira_boots": "Ira Schuhe",
   "item.kingdomkeys.ira_chestplate": "Ira Mantel",
   "item.kingdomkeys.ira_helmet": "Ira Kapuze",
   "item.kingdomkeys.ira_leggings": "Ira Hose",
 
-  "item.kingdomkeys.nightmareventus_boots": "Albtraum-Ventus Schuhe",
-  "item.kingdomkeys.nightmareventus_chestplate": "Albtraum-Ventus Brustplatte",
+  "item.kingdomkeys.nightmareventus_boots": "Albtraum-Ventus Stiefel",
+  "item.kingdomkeys.nightmareventus_chestplate": "Albtraum-Ventus Harnisch",
   "item.kingdomkeys.nightmareventus_helmet": "Albtraum-Ventus Helm",
   "item.kingdomkeys.nightmareventus_leggings": "Albtraum-Ventus Beinschutz",
 
-  "item.kingdomkeys.organization_boots": "Stiefel der Organisation",
+  "item.kingdomkeys.organization_boots": "Schuhe der Organisation",
   "item.kingdomkeys.organization_chestplate": "Mantel der Organisation",
   "item.kingdomkeys.organization_helmet": "Kapuze der Organisation",
   "item.kingdomkeys.organization_leggings": "Hose der Organisation",
 
-  "item.kingdomkeys.terra_boots": "Terra Schuhe",
-  "item.kingdomkeys.terra_chestplate": "Terra Brustplatte",
+  "item.kingdomkeys.terra_boots": "Terra Stiefel",
+  "item.kingdomkeys.terra_chestplate": "Terra Harnisch",
   "item.kingdomkeys.terra_helmet": "Terra Helm",
   "item.kingdomkeys.terra_leggings": "Terra Beinschutz",
 
-  "item.kingdomkeys.ux_boots": "UX-Rüstung Schuhe",
-  "item.kingdomkeys.ux_chestplate": "UX-Rüstung Brustplatte",
+  "item.kingdomkeys.ux_boots": "UX-Rüstung Stiefel",
+  "item.kingdomkeys.ux_chestplate": "UX-Rüstung Harnisch",
   "item.kingdomkeys.ux_helmet": "UX-Rüstung Helm",
   "item.kingdomkeys.ux_leggings": "UX-Rüstung Beinschutz",
 
-  "item.kingdomkeys.vanitas_boots": "Vanitas Schuhe",
-  "item.kingdomkeys.vanitas_chestplate": "Vanitas Brustplatte",
+  "item.kingdomkeys.vanitas_boots": "Vanitas Stiefel",
+  "item.kingdomkeys.vanitas_chestplate": "Vanitas Harnisch",
   "item.kingdomkeys.vanitas_helmet": "Vanitas Helm",
   "item.kingdomkeys.vanitas_leggings": "Vanitas Beinschutz",
 
-  "item.kingdomkeys.vanitas_remnant_boots": "Vanitas' Vermächtnis Schuhe",
-  "item.kingdomkeys.vanitas_remnant_chestplate": "Vanitas' Vermächtnis Brustplatte",
+  "item.kingdomkeys.vanitas_remnant_boots": "Vanitas' Vermächtnis Stiefel",
+  "item.kingdomkeys.vanitas_remnant_chestplate": "Vanitas' Vermächtnis Harnisch",
   "item.kingdomkeys.vanitas_remnant_helmet": "Vanitas' Vermächtnis Helm",
   "item.kingdomkeys.vanitas_remnant_leggings": "Vanitas' Vermächtnis Beinschutz",
 
-  "item.kingdomkeys.ventus_boots": "Ventus Schuhe",
-  "item.kingdomkeys.ventus_chestplate": "Ventus Brustplatte",
+  "item.kingdomkeys.ventus_boots": "Ventus Stiefel",
+  "item.kingdomkeys.ventus_chestplate": "Ventus Harnisch",
   "item.kingdomkeys.ventus_helmet": "Ventus Helm",
   "item.kingdomkeys.ventus_leggings": "Ventus Beinschutz",
 
-  "item.kingdomkeys.xehanort_boots": "Xehanort Schuhe",
-  "item.kingdomkeys.xehanort_chestplate": "Xehanort Brustplatte",
+  "item.kingdomkeys.xehanort_boots": "Xehanort Stiefel",
+  "item.kingdomkeys.xehanort_chestplate": "Xehanort Harnisch",
   "item.kingdomkeys.xehanort_helmet": "Xehanort Helm",
   "item.kingdomkeys.xehanort_leggings": "Xehanort Beinschutz",
 
-  "item.kingdomkeys.xemnas_boots": "Xemnas Stiefel",
+  "item.kingdomkeys.xemnas_boots": "Xemnas Schuhe",
   "item.kingdomkeys.xemnas_chestplate": "Xemnas Mantel",
   "item.kingdomkeys.xemnas_helmet": "Xemnas Kapuze",
   "item.kingdomkeys.xemnas_leggings": "Xemnas Hose",
@@ -949,13 +949,13 @@
 
   // -PAULDRONS
 
-  "item.kingdomkeys.aqua_shoulder": "Aqua's Schulterschutz",
+  "item.kingdomkeys.aqua_shoulder": "Aquas Schulterschutz",
   "item.kingdomkeys.eraqus_shoulder": "Eraqus' Schulterschutz",
   "item.kingdomkeys.nightmareventus_shoulder": "Albtraum-Ventus' Schulterschutz",
-  "item.kingdomkeys.terra_shoulder": "Terra's Schulterschutz",
-  "item.kingdomkeys.ux_shoulder": "UX-Rüstung's Schulterschutz",
+  "item.kingdomkeys.terra_shoulder": "Terras Schulterschutz",
+  "item.kingdomkeys.ux_shoulder": "UX-Rüstungs Schulterschutz",
   "item.kingdomkeys.ventus_shoulder": "Ventus' Schulterschutz",
-  "item.kingdomkeys.xehanort_shoulder": "Xehanort's Schulterschutz",
+  "item.kingdomkeys.xehanort_shoulder": "Xehanorts Schulterschutz",
 
 
   // -ACCESOIRES
@@ -1291,8 +1291,8 @@
   "item.kingdomkeys.unbound": "Entfessler",
   "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
   "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert kritische Treffe und bes. das Auslösen von Realitätswandeln.",
-  "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
-  "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanorts Schlüsselschwert",
+  "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanorts Schlüsselschwert-Anhänger",
   "item.kingdomkeys.young_xehanorts_keyblade.desc": "The Keyblade weilded by Young Xehanort.",
 
 
@@ -1316,7 +1316,7 @@
 
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
-  "item.kingdomkeys.braveheart.desc": "Riku's Keyblade after the Way to the Dawn was broken.",
+  "item.kingdomkeys.braveheart.desc": "Rikus Keyblade after the Way to the Dawn was broken.",
   "item.kingdomkeys.classic_tone": "Klassische Klänge",
   "item.kingdomkeys.classic_tone_chain": "Klassische Klänge-Anhänger",
   "item.kingdomkeys.classic_tone.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
@@ -1349,7 +1349,7 @@
   "item.kingdomkeys.shooting_star.desc": "Ein Schlüsselschwert mit Fokus auf Magie.",
   "item.kingdomkeys.star_cluster": "Star Cluster", //kingdom key w / mickey
   "item.kingdomkeys.star_cluster_chain": "Star Cluster-Anhänger",
-  "item.kingdomkeys.star_cluster.desc": "Micky's Schlüsselschwert, auch bekannt als Schlüsselanhänger W.",
+  "item.kingdomkeys.star_cluster.desc": "Micky Schlüsselschwert, auch bekannt als Schlüsselanhänger W.",
   "item.kingdomkeys.ultima_weapon_kh3": "Ultima (KH3)",
   "item.kingdomkeys.ultima_weapon_kh3_chain": "Ultima (KH3)-Anhänger",
   "item.kingdomkeys.ultima_weapon_kh3.desc": "The supreme Keyblade.",
@@ -1367,20 +1367,20 @@
 
   // Union Cross
 
-  "item.kingdomkeys.aceds_keyblade": "Aced's Schlüsselschwert",
-  "item.kingdomkeys.aceds_keyblade_chain": "Aced's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.aceds_keyblade": "Aceds Schlüsselschwert",
+  "item.kingdomkeys.aceds_keyblade_chain": "Aceds Schlüsselschwert-Anhänger",
   "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
-  "item.kingdomkeys.avas_keyblade": "Ava's Schlüsselschwert",
-  "item.kingdomkeys.avas_keyblade_chain": "Ava's Schlüsselanhänger",
+  "item.kingdomkeys.avas_keyblade": "Avas Schlüsselschwert",
+  "item.kingdomkeys.avas_keyblade_chain": "Avas Schlüsselanhänger",
   "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
-  "item.kingdomkeys.gulas_keyblade": "Gula's Schlüsselschwert",
-  "item.kingdomkeys.gulas_keyblade_chain": "Gula's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.gulas_keyblade": "Gulas Schlüsselschwert",
+  "item.kingdomkeys.gulas_keyblade_chain": "Gula' Schlüsselschwert-Anhänger",
   "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
-  "item.kingdomkeys.invis_keyblade": "Invi's Schlüsselschwert",
-  "item.kingdomkeys.invis_keyblade_chain": "Invi's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.invis_keyblade": "Invis Schlüsselschwert",
+  "item.kingdomkeys.invis_keyblade_chain": "Invis Schlüsselschwert-Anhänger",
   "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
-  "item.kingdomkeys.iras_keyblade": "Ira's Schlüsselschwert",
-  "item.kingdomkeys.iras_keyblade_chain": "Ira's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.iras_keyblade": "Iras Schlüsselschwert",
+  "item.kingdomkeys.iras_keyblade_chain": "Iras Schlüsselschwert-Anhänger",
   "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
   "item.kingdomkeys.starlight": "Sternenlicht",
   "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
@@ -2037,25 +2037,25 @@
 
   "jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
   "jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
-  "jei.category.kingdomkeys.synthesis": "Item Synthese",
+  "jei.category.kingdomkeys.synthesis": "Item-Schmiede",
   "jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
   "jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
 
   "jei.info.kingdomkeys.blast_blox": "Wie TNT nur zerstörerischer, wird gezündet bei jeglichem Kontakt. Es sei denn du hast eine Feder in der Hand.",
   "jei.info.kingdomkeys.bounce_blox": "Entititäten die auf diesen Block laufen, werden hüpfen, schleiche auf den Block zu laufen ohne dabei zu hüpfen.",
-  "jei.info.kingdomkeys.danger_blox": "Ähnlich wie ein Kaktus, aber verursacht mehr Schaden bei Kontakt, so wie bei dem Schlagen. Im Gegensatz zu einem Kaktus, hat er keine Einschränkungen beim plazieren, und kann auch nicht wachsen.\n\nTrage Schuhe um Schaden beim laufen auf dem Block zu verhindern.",
+  "jei.info.kingdomkeys.danger_blox": "Ähnlich wie ein Kaktus, aber verursacht mehr Schaden bei Kontakt, so wie bei dem Schlagen. Im Gegensatz zu einem Kaktus, hat er keine Einschränkungen beim plazieren, und kann auch nicht wachsen.\n\nTrage Stiefel um Schaden beim laufen auf dem Block zu verhindern.",
   "jei.info.kingdomkeys.final_orb": "Benutzen um die Über-Form freizuschalten. Die Über-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 5 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.ghost_blox": "Wende ein Redstone-Signal an, um die Sichtbarkeit von diesem und alle benachbarten Phantomblöcke zu ändern. Unsichtbare Phantomblöcke haben keine Kollision.",
   "jei.info.kingdomkeys.keychains": "Anhänger können benutzt werden um das zugehörige Schlüsselschwert zu rufen, durch das Ausrüsten des Anhängers im Kingdom Keys-Menü. Drücke die 'Waffe rufen'-Taste um das Schlüsselschwert herbei zu rufen.",
   "jei.info.kingdomkeys.limit_orb": "Benutzen um die Limit-Form freizuschalten. Das Aktivieren benötigt 4 volle Drive-Leisten. Kann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.magnet_blox": "Ermöglicht das Anziehen oder Abstoßen andere Entititäten in die Richtung in die der Block schaut.\nWird mit einem Redstone-Signal aktiviert, Rechtsklick um die Reichweite zu ändern, und Schleichen + Rechtsklick um zwischen die beiden Modi zu wechseln.",
   "jei.info.kingdomkeys.master_orb": "Benutzen um die Meister-Form freizuschalten. Die Meister-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 4 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
-  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Synthese und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
+  "jei.info.kingdomkeys.moogle_projector": "Wird erlangt wenn man einen Mogry mit einem Amboss zerquetscht. Wird zur Item-Schmiede und zum verbessern von Schlüsselschwertern verwendet. Ein lebendiger Mogry hat die selbe Funktionen. Der Projektor hat jedoch keinen Laden.",
   "jei.info.kingdomkeys.organization_robes": "Trage eine ganze Robe der Organisations um ihr beizutreten. Ein Mitglied muss am Anfang ausgewählt werden. Am Ende kann jede Waffe aller Mitglieder benutzt werden, aber zum freischalten muss die voherige Waffe mit Herzen freigeschaltet werden.",
   "jei.info.kingdomkeys.organization_weapons": "Als Mitglied der Organisation kannst du Waffen innerhalb des Waffen-Menüs mit Herzen freischalten, die du durch das töten von Mobs erhälst. Du erhälst doppelte Anzahl an Herzen, wenn du eine Waffe deines ausgewählten Mitgliedes benutzt.\nRufe die Waffe mit der 'Waffe rufen'-Taste.",
   "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
   "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
-  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Synthese bei Mogrys freizuschalten.",
+  "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
   "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
   "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
@@ -2079,8 +2079,8 @@
 
   "keybladedamage.death": "%s wurde erschlagen von %s",
 
-  "kingdomkeys.boots": "Schuhe",
-  "kingdomkeys.chestplate": "Brustplatte",
+  "kingdomkeys.boots": "Stiefel",
+  "kingdomkeys.chestplate": "Harnisch",
   "kingdomkeys.helmet": "Helm",
   "kingdomkeys.leggings": "Beinschutz",
 
@@ -2178,13 +2178,13 @@
   "reactioncommand.save_rc.name": "Speichern",
 
   "savepoint.drive": "Drive",
-  "savepoint.feed": "Essens",
+  "savepoint.feed": "Hunger",
   "savepoint.focus": "Fokus",
-  "savepoint.healing": "Heilungs",
+  "savepoint.healing": "Leben",
   "savepoint.magic": "Magie",
   "savepoint.max_upgrade": "Höchste Stufe erreicht",
-  "savepoint.maxed": "Die %s-Wiederherstellungsgeschwindigkeit des Speicherpunktes ist bereits das Maximum",
-  "savepoint.upgrade": "Die %s-Wiederherstellungsgeschwindigkeit des Speicherpunktes beträgt nun %s%%",
+  "savepoint.maxed": "Die %s-Wiederherstellungrate ist bereits das Maximum",
+  "savepoint.upgrade": "Die %s-Wiederherstellungsrate beträgt nun %s%%",
   "savepoint.upgrade_type": "Speicherpunkt wurde zum {0} aufgewertet",
 
   "shotlock.circular_shotlock.name": "Ragnarök",
@@ -2244,5 +2244,5 @@
 
   "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
   "patchouli.kingdomkeys.journal.hello": "Willkommen, Schlüsselschwertträger zur $(thing)Kingdom Keys$() Mod.$(p)In diesem Buch wirst du alles Nötige finden um anzufangen, sowie einige hilfreiche Tipps.",
-  "patchouli.kingdomkeys.journal.name": "Jiminy's Tagebuch"
+  "patchouli.kingdomkeys.journal.name": "Jiminys Tagebuch"
 }
