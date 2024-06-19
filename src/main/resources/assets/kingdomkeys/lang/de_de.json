@@ -215,7 +215,6 @@
 
   "block.kingdomkeys.card_door": "Kartentür",
   "block.kingdomkeys.data_portal": "Daten-Portal",
-  "block.kingdomkeys.savepoint": "Speicherpunkt",
   "block.kingdomkeys.structure_wall": "Struktur Wand",
 
 
@@ -283,6 +282,10 @@
   // -other
 
   "block.kingdomkeys.airstep_target": "Windschritt-Markierung",
+
+  "block.kingdomkeys.savepoint": "Speicherpunkt",
+  "block.kingdomkeys.linked_savepoint": "Verbundener Speicherpunkt",
+  "block.kingdomkeys.warp_point": "Warp-Punkt",
 
   "block.kingdomkeys.gummi_editor": "Gumi-Editor",
   "block.kingdomkeys.magical_chest": "Magische Truhe",
@@ -2157,6 +2160,17 @@
   "reactioncommand.rc_auto_master.name": "Auto-Meister",
   "reactioncommand.rc_auto_valor.name": "Auto-Held",
   "reactioncommand.rc_auto_wisdom.name": "Auto-Weise",
+  "reactioncommand.save_rc.name": "Speichern",
+
+  "savepoint.drive": "Drive",
+  "savepoint.feed": "Essens",
+  "savepoint.focus": "Fokus",
+  "savepoint.healing": "Heilungs",
+  "savepoint.magic": "Magie",
+  "savepoint.max_upgrade": "Höchste Stufe erreicht",
+  "savepoint.maxed": "Die %s-Wiederherstellungsgeschwindigkeit des Speicherpunktes ist bereits das Maximum",
+  "savepoint.upgrade": "Die %s-Wiederherstellungsgeschwindigkeit des Speicherpunktes beträgt nun %s%%",
+  "savepoint.upgrade_type": "Speicherpunkt wurde zum {0} aufgewertet",
 
   "shotlock.circular_shotlock.name": "Ragnarök",
   "shotlock.dark_volley.name": "Düsterhagel",
