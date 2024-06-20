@@ -219,7 +219,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				if(savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0) {
 					player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
 				} else {
-					if (list.contains("HP") && entity.tickCount % savepoint.getHeal() == 0 && player.getHealth() < playerData.getMaxHP()) {
+					if (list.contains("HP") && entity.tickCount % savepoint.getHeal() == 0 && player.getHealth() < player.getMaxHealth()) {
 						player.heal(1);
 						showParticles(player, world, pos);
 					}
