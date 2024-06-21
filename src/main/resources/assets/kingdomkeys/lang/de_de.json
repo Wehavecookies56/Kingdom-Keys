@@ -619,6 +619,9 @@
   "gui.proofofheart.notinorg": "Du bist nicht in der Organisation XIII",
   "gui.proofofheart.unequip": "Lege zuerst deine Organisation XIII Rüstung ab",
 
+  "gui.save.create.global": "Für alle freigeben",
+  "gui.save.create.global.desc": "Ermöglicht den Zugriff auf diesen Speicherpunkt für alle Spieler",
+
   "gui.shop": "Laden",
   "gui.shop.cost": "Kosten",
   "gui.shop.tier": "Stufe:",
@@ -2211,5 +2214,6 @@
   "stats.levelUpMag": "Magischekraft erhöht!",
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",
   "stats.levelUpMaxArmors": "Ausrüstungsplatz erhalten!",
-  "stats.levelUpStr": "Angriffskraft erhöht!"
+  "stats.levelUpStr": "Angriffskraft erhöht!",
+
 }
