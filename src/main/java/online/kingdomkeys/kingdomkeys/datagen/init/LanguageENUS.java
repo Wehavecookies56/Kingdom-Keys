@@ -264,6 +264,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add(Gui_Save_Main_CurrentPosition, "You are Here");
         add(Gui_Save_Main_Sort, "Sort:");
+        add(Gui_Save_Main_Rename, "Rename");
+        add(Gui_Save_Main_Retake, "Retake");
 
         add(Gui_Save_Sorting_ByRecent, "Recent");
         add(Gui_Save_Sorting_ByName, "Name");

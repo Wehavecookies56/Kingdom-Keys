@@ -15,10 +15,9 @@ import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import java.awt.*;
 import java.util.UUID;
 
-public class SavePointButton extends Button {
+public class SavePointButton extends ScrollableButtonBase {
     SavePointScreen parent;
     UUID destination;
-    public int offsetY;
 
     public SavePointButton(SavePointScreen parent, int pX, int pY, int pWidth, int pHeight, Component pMessage, UUID destination) {
         super(new Builder(pMessage, pButton -> parent.clickSavePoint(destination)).bounds(pX, pY, pWidth, pHeight));
@@ -26,9 +25,8 @@ public class SavePointButton extends Button {
         this.destination = destination;
     }
 
-    @Override
-    public int getY() {
-        return super.getY() - offsetY;
+    public UUID getDestination() {
+        return destination;
     }
 
     @Override
@@ -94,6 +92,10 @@ public class SavePointButton extends Button {
         } else {
             gui.drawCenteredString(Minecraft.getInstance().font, text, getX() + (getWidth() / 2), getY() + (getHeight() - labelHeight) + 1, Color.WHITE.getRGB());
         }
+    }
+
+    public boolean isMouseOverInactive(double pMouseX, double pMouseY) {
+        return !this.active && this.visible && pMouseX >= (double)this.getX() && pMouseY >= (double)this.getY() && pMouseX < (double)(this.getX() + this.width) && pMouseY < (double)(this.getY() + this.height);
     }
 
     @Override

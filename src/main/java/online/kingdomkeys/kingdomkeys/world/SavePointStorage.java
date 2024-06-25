@@ -91,12 +91,12 @@ public class SavePointStorage extends SavedData {
     }
 
     public void addSavePoint(SavePoint savePoint) {
-        if (!savePointRegistry.containsKey(savePoint.id)) {
+        //if (!savePointRegistry.containsKey(savePoint.id)) {
             savePointRegistry.put(savePoint.id, savePoint);
             setDirty();
-        } else {
-            KingdomKeys.LOGGER.error("Attempted to add duplicate save point with ID:{}", savePoint.id);
-        }
+        //} else {
+        //    KingdomKeys.LOGGER.error("Attempted to add duplicate save point with ID:{}", savePoint.id);
+        //}
     }
 
     public void removeSavePoint(UUID id) {

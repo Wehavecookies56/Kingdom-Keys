@@ -525,6 +525,8 @@ public class Strings {
 			Gui_Save_Main = Gui_Save + ".main",
 			Gui_Save_Main_CurrentPosition = Gui_Save_Main + ".here",
 			Gui_Save_Main_Sort = Gui_Save_Main + ".sort",
+			Gui_Save_Main_Rename = Gui_Save_Main + ".rename",
+			Gui_Save_Main_Retake = Gui_Save_Main + ".retake",
 
 			Gui_Save_Sorting = Gui_Save + ".sort",
 			Gui_Save_Sorting_ByRecent = Gui_Save_Sorting + ".recent",

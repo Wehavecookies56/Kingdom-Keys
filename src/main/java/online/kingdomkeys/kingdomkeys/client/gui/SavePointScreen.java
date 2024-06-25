@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -47,7 +48,7 @@ public class SavePointScreen extends MenuBackground {
 
     public UUID hovered = null;
 
-    private final int SAVE = 0;
+    private final int SAVE = 0, RENAME = 1, RETAKE = 2;
 
     int sorting = 0, ordering = 0;
 
@@ -57,6 +58,8 @@ public class SavePointScreen extends MenuBackground {
     DropDownButton sortDropDown;
     DropDownButton orderDropDown;
     CheckboxButton setGlobal;
+
+    SavePointExtrasButton rename, retake;
 
     SavePointStorage.SavePointType type;
 
@@ -103,8 +106,14 @@ public class SavePointScreen extends MenuBackground {
     public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         if (!ScreenshotManager.isTakingScreenshot()) {
             drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+            boolean mouseOverCurrent = false;
             for(Renderable renderable : this.renderables) {
-                if (renderable instanceof SavePointButton) {
+                if (renderable instanceof SavePointButton savePointButton) {
+                    if (savePointButton.getDestination().equals(tileEntity.getID())) {
+                       mouseOverCurrent = savePointButton.isMouseOverInactive(mouseX, mouseY);
+                    }
+                }
+                if (renderable instanceof SavePointButton || renderable == rename || renderable == retake) {
                     gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                     gui.disableScissor();
@@ -113,6 +122,12 @@ public class SavePointScreen extends MenuBackground {
                 } else {
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                 }
+            }
+            if (rename != null) {
+                rename.visible = mouseOverCurrent;
+            }
+            if (retake != null) {
+                retake.visible = mouseOverCurrent;
             }
             if (orderDropDown != null && sortDropDown != null) {
                 orderDropDown.render(gui, mouseX, mouseY, partialTicks);
@@ -146,6 +161,16 @@ public class SavePointScreen extends MenuBackground {
         switch (id) {
             case SAVE -> {
                 if (!nameField.getValue().isEmpty()) {
+                    if (savePointScreenshots.containsKey(tileEntity.getID())) {
+                        File currentName = getSavePointScreenshots().get(tileEntity.getID());
+                        if (currentName != null) {
+                            if (currentName.delete()) {
+                                KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", currentName.getName());
+                            } else {
+                                KingdomKeys.LOGGER.error("Failed to delete save point screenshot: {}", currentName.getName());
+                            }
+                        }
+                    }
                     Player player = Minecraft.getInstance().player;
                     PacketHandler.sendToServer(new CSCreateSavePoint(tileEntity, nameField.getValue(), player, setGlobal.isChecked()));
                     create = false;
@@ -156,6 +181,14 @@ public class SavePointScreen extends MenuBackground {
                     title = Component.literal(nameField.getValue());
                 }
             }
+            case RENAME -> {
+                create = true;
+                sortDropDown = null;
+                renderables.clear();
+                children().clear();
+                init();
+            }
+            case RETAKE -> ScreenshotManager.screenshot(savePoints.get(tileEntity.getID()).getFirst().name(), tileEntity.getID());
         }
         updateButtons();
     }
@@ -288,6 +321,14 @@ public class SavePointScreen extends MenuBackground {
                 SavePointButton button = new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
                 if (uuid.equals(tileEntity.getID())) {
                     button.active = false;
+                    int bwidth = elementWidth;
+                    int retakeOffset = 0;
+                    if (current.owner().getFirst().equals(Minecraft.getInstance().player.getUUID())) {
+                        bwidth /= 2;
+                        retakeOffset = bwidth + 1;
+                        addRenderableWidget(rename = new SavePointExtrasButton((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Rename), pButton -> action(RENAME)));
+                    }
+                    addRenderableWidget(retake = new SavePointExtrasButton((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column) + retakeOffset, yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Retake), pButton -> action(RETAKE)));
                 }
                 addRenderableWidget(button);
                 column++;
@@ -307,6 +348,12 @@ public class SavePointScreen extends MenuBackground {
             if (renderable instanceof SavePointButton button) {
                 button.offsetY = (int) bar.scrollOffset;
             }
+        }
+        if (rename != null) {
+            rename.offsetY = (int) bar.scrollOffset;
+        }
+        if (retake != null) {
+            retake.offsetY = (int) bar.scrollOffset;
         }
     }
 
