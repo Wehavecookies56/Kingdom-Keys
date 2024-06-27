@@ -49,10 +49,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -93,6 +90,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class EntityEvents {
@@ -360,6 +358,9 @@ public class EntityEvents {
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
 					SCSyncCastleOblivionInteriorCapability.syncClients(player.level());
+					PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
+				} else {
+					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
 				}
 			}
 

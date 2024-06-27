@@ -226,6 +226,7 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "party_info", PartyHUDGui.INSTANCE);
 		event.registerBelow(VanillaGuiOverlay.CROSSHAIR.id(), "shotlock", ShotlockGUI.INSTANCE);
 		event.registerBelow(VanillaGuiOverlay.TITLE_TEXT.id(), "station_of_awakening_messages", SoAMessages.INSTANCE);
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "castle_oblivion_minimap", COMinimap.INSTANCE);
 	}
 
 	@SubscribeEvent

@@ -119,7 +119,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         entrance.setParent(this);
         RoomData currentRoom = entrance;
         rooms.put(entrance.pos, entrance);
-        for (int i = 0; i < type.critPathLength; i++) {
+        for (int i = 0; i < type.critPathLength+20; i++) {
             Map<RoomData, RoomUtils.Direction> adjRooms = getAdjacentRooms(currentRoom);
             List<RoomUtils.Direction> directions = new ArrayList<>(List.of(RoomUtils.Direction.values()));
             //prevent rooms going further south

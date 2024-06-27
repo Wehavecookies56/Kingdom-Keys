@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.COMinimap;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -919,6 +920,15 @@ public class ClientUtils {
                         KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", screenshotFile.getName());
                     }
                 }
+            }
+        };
+    }
+
+    public static DistExecutor.SafeRunnable updateCORooms(SCUpdateCORooms message) {
+        return new DistExecutor.SafeRunnable() {
+            @Override
+            public void run() {
+                COMinimap.rooms = message.rooms();
             }
         };
     }

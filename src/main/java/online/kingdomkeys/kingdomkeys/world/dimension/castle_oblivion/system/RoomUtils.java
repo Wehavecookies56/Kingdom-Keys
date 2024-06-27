@@ -55,6 +55,14 @@ public class RoomUtils {
             this.y = pos.y;
         }
 
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
         public static RoomPos inDirection(RoomPos prevPos, Direction direction) {
             return new RoomPos(prevPos.add(direction));
         }
