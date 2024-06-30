@@ -425,6 +425,22 @@
 	"savepoint.maxed": "Velocidad de %s está al máximo",
 	"savepoint.upgrade": "La velocidad de %s está al %s%%",
 	"savepoint.upgrade_type": "Punto de guardado mejorado a {0}",
+	
+	"gui.save.create.accept": "Guardar",
+	"gui.save.create.global": "Establecer visibilidad global",
+	"gui.save.create.global.desc": "Convierte este punto en accesible para todos los jugadores",
+	"gui.save.create.prompt": "Introduce un nombre para este punto de guardado",
+	"gui.save.create.title": "Nombre punto de guardado",
+	"gui.save.main.here": "Estás aquí",
+	"gui.save.main.rename": "Nombre",
+	"gui.save.main.retake": "Foto",
+	"gui.save.main.sort": "Ordenar:",
+	"gui.save.sort.ascending": "Ascendiente",
+	"gui.save.sort.descending": "Descendiente",
+	"gui.save.sort.dimension": "Dimensión",
+	"gui.save.sort.name": "Nombre",
+	"gui.save.sort.owner": "Dueño",
+	"gui.save.sort.recent": "Reciente",
 
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
@@ -510,6 +526,8 @@
 	"reactioncommand.rc_auto_limit.name": "Auto-suma",
 	"reactioncommand.rc_auto_master.name": "Auto-maestra",
 	"reactioncommand.rc_auto_final.name": "Auto-final",
+	"reactioncommand.save_rc.name": "Guardar",
+
 
 	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Receta",

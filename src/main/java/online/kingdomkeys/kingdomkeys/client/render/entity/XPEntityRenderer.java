@@ -30,6 +30,8 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
     @Override
     public void render(XPEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
+        if(entityIn.getCaster() == null)
+            return;
         IPlayerCapabilities playerData = ModCapabilities.getPlayer(entityIn.getCaster());
         if(playerData == null)
             return;
