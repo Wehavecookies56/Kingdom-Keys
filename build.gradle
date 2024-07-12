@@ -6,8 +6,7 @@ plugins {
 	id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-def mcver = "1.20.1"
-version = mcver + '-2.4.1'
+version = "${mc_version}-${kk_version}"
 
 group = 'online.kingdomkeys.kingdomkeys'
 archivesBaseName = 'Kingdom Keys'
