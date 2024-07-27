@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -59,6 +61,12 @@ public class KOGui extends ChatScreen {
 		if(minecraft.player != null) {
 			if(minecraft.player.getHealth() <= 0) {
 				onClose();
+			}
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(minecraft.player);
+			if(globalData != null){
+				if(!globalData.isKO()){
+					onClose();
+				}
 			}
 		}
 		super.render(gui, p_render_1_, p_render_2_, p_render_3_);
