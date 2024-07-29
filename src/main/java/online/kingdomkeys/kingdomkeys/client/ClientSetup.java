@@ -244,18 +244,18 @@ public class ClientSetup {
 		if(playerData == null || globalData == null)
 			return;
 		
-		if(!Utils.shouldRenderOverlay(player)) {
-			event.setCanceled(o == COMMAND_MENU || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK);
+		if(!Utils.shouldRenderOverlay(player)) { //If it shouldn't render cause it's set to HIDE or WEAPON and not holding one
+			event.setCanceled(o == COMMAND_MENU || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK); //Remove all these 4 bars
 			if(o == HP_BAR || o == PLAYER_PORTRAIT) { //Allow HP to be shown if KO'd
 				event.setCanceled(!globalData.isKO());
 			}
-		} else {
-			if(o == MP_BAR) {
-				event.setCanceled(playerData.getMagicsMap().size() == 0);
+		} else { //If mode is set to SHOW or WEAPON while holding one
+			if(o == MP_BAR) { //Remove MP Bar is magics map is empty
+				event.setCanceled(playerData.getMagicsMap().isEmpty());
 				return;
 			}
 			if(o == SHOTLOCK) {
-				event.setCanceled(playerData.getEquippedShotlock().equals(""));
+				event.setCanceled(playerData.getEquippedShotlock().isEmpty());
 				return;
 			}
 			if(o == DRIVE_BAR) {
@@ -265,7 +265,7 @@ public class ClientSetup {
 		}
 
 		if (!ModConfigs.hpShowHearts) {
-			event.setCanceled(event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type());
+			event.setCanceled(o == VanillaGuiOverlay.PLAYER_HEALTH.type());
 		}
 	}
 
