@@ -292,6 +292,7 @@
   "gui.commandmenu.portal": "Portal",
   "gui.commandmenu.portal.title": "Portals",
   "gui.commandmenu.revert": "Revert",
+  "gui.commandmenu.target": "Target",
   "gui.driveformorb.tooltip": "Upgrades %s Form",
   "gui.driveformorb.upgrade": "%s Form has obtained %s exp",
   "gui.ko.exit": "Exit",

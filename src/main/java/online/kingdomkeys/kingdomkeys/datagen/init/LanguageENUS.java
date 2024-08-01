@@ -211,6 +211,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive, "Drive");
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
+        add(Gui_CommandMenu_Target,"Target");
         add(Gui_CommandMenu_Portals_Title, "Portals");
         add(Gui_CommandMenu_Magic_Title, "Magic");
         add(Gui_CommandMenu_Items_Title, "Items");

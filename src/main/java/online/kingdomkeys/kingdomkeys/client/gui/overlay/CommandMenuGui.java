@@ -207,7 +207,7 @@ public class CommandMenuGui extends OverlayBase {
 			blit(gui, texture, 0, 0, 0, 30, TOP_WIDTH, TOP_HEIGHT);
 		}
 		matrixStack.popPose();
-		
+
 		if(ModConfigs.cmHeaderTextVisible) {
 			drawString(gui, minecraft.font, Utils.translateToLocal(text), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, getColor(0xFFFFFF,subMenu));
 		}
@@ -253,10 +253,7 @@ public class CommandMenuGui extends OverlayBase {
 		blit(gui, texture, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18, iconWidth, iconWidth);
 		RenderSystem.setShaderColor(1,1,1, alpha);
 		blit(gui, texture, (int) (TOP_WIDTH * (ModConfigs.cmXScale / 100D) - (TOP_WIDTH * (ModConfigs.cmXScale / 100D)) * 0.15) + ModConfigs.cmSelectedXOffset - 5, 2, 140 + (selected * iconWidth) - iconWidth, 18 + 30, iconWidth, iconWidth);
-
-
 		RenderSystem.disableBlend();
-
 	}
 	
 	private String getCommandMenuName(int i) {
@@ -265,7 +262,7 @@ public class CommandMenuGui extends OverlayBase {
 		case ATTACK:
 			return playerData.getAlignment() == OrgMember.NONE ? Strings.Gui_CommandMenu_Attack : Strings.Gui_CommandMenu_Portal;
 		case MAGIC:
-			return playerData.getMagicsMap().size() > 0 ? Strings.Gui_CommandMenu_Magic : "???";
+			return !playerData.getMagicsMap().isEmpty() ? Strings.Gui_CommandMenu_Magic : "???";
 		case ITEMS:
 			return Strings.Gui_CommandMenu_Items;
 		case DRIVE:
@@ -301,17 +298,18 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 1);
+				matrixStack.translate(0, (height - MENU_HEIGHT * scale * TOP - (15*scale)*i), 0.5F);
 				matrixStack.scale(scale, scale, scale);
 				matrixStack.pushPose();
 				{
+					ReactionCommand command = ModReactionCommands.registry.get().getValue(new ResourceLocation(list.get(i)));
+					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
+
 					matrixStack.scale(ModConfigs.cmXScale / 75F, 1, 1);
 					blit(gui, texture, 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
 				}
 				matrixStack.popPose();
 				
-				ReactionCommand command = ModReactionCommands.registry.get().getValue(new ResourceLocation(list.get(i)));
-				drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 			}
 			matrixStack.popPose();
 		}
@@ -323,7 +321,7 @@ public class CommandMenuGui extends OverlayBase {
 			for(int i = 1; i <= ATTACK; i++) {
 				matrixStack.pushPose();
 				{
-					matrixStack.translate(x, (height - MENU_HEIGHT * scale * i), 0);
+					matrixStack.translate(x, (height - MENU_HEIGHT * scale * i), -1);
 					matrixStack.scale(scale, scale, scale);
 		
 					paintWithColorArray(gui, normalModeColor, alpha);
@@ -348,7 +346,7 @@ public class CommandMenuGui extends OverlayBase {
 						color = playerData.getMagicsMap().isEmpty() || ModConfigs.magicDisplayedInCommandMenu.isEmpty() || playerData.getMaxMP() == 0 || playerData.getMagicCasttimeTicks() > 0 || playerData.getMagicCooldownTicks() > 0 || playerData.getRecharge() || form != null && !form.canUseMagic() ? 0x888888 : getColor(0xFFFFFF,SUB_MAIN);
 					}
 					if(i == ITEMS) {
-						color = getColor(Utils.getEquippedItems(playerData.getEquippedItems()).size() > 0 ? 0xFFFFFF : 0x888888,SUB_MAIN);
+						color = getColor(!Utils.getEquippedItems(playerData.getEquippedItems()).isEmpty() ? 0xFFFFFF : 0x888888,SUB_MAIN);
 					}
 					if (i == DRIVE) {// If it's an org member / in antiform / has no drive unlocked be gray
 						if (playerData.getAlignment() != OrgMember.NONE) {
@@ -412,7 +410,6 @@ public class CommandMenuGui extends OverlayBase {
 						textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 						if (portalSelected == i) {
-							//System.out.println(textX);
 							textX += ModConfigs.cmSelectedXOffset;
 							drawSelectedSlot(gui);
 							drawIcon(gui, selected, SUB_PORTALS);
@@ -448,7 +445,7 @@ public class CommandMenuGui extends OverlayBase {
 			paintWithColorArray(gui, targetModeColor, alpha);
 			matrixStack.translate(x, (height - MENU_HEIGHT * scale * (worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers().size() + 1)), 2);
 			matrixStack.scale(scale, scale, scale);
-			drawHeader(gui, "TARGET", SUB_TARGET);
+			drawHeader(gui, Utils.translateToLocal(Strings.Gui_CommandMenu_Target), SUB_TARGET);
 		}
 		matrixStack.popPose();
 

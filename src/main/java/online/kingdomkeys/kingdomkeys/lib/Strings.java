@@ -365,6 +365,7 @@ public class Strings {
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
             Gui_CommandMenu_Drive_Revert = Gui_CommandMenu + ".revert",
+			Gui_CommandMenu_Target = Gui_CommandMenu + ".target",
           
             // Submenus
 			Gui_CommandMenu_Items_Title = Gui_CommandMenu_Items + ".title",
