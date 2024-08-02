@@ -34,8 +34,8 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
         if(ModConfigs.showDriveForms && e != null && !ModCapabilities.getPlayer((Player) e).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
             String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
             DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
-            if (form.getTextureLocation() != null) {
-                VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation()), true, false);
+            if (form.getTextureLocation((Player) e) != null) {
+                VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation((Player) e)), true, false);
                 HumanoidMesh model = getModel(e);
                 model.drawModelWithPose(poseStack, vertexConsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
             }

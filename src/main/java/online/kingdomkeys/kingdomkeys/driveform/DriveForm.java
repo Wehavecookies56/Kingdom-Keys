@@ -97,7 +97,7 @@ public abstract class DriveForm {
 		return color;
 	}
 	
-	public ResourceLocation getTextureLocation() {
+	public ResourceLocation getTextureLocation(Player player) {
 		return skinRL;
 	}
 
