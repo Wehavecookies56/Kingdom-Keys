@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import net.minecraft.client.gui.components.Renderable;
+import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -45,7 +48,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ShopScreen extends MenuFilterable {
 
-	// MenuFilterBar filterBar;
 	MenuScrollBar scrollBar;
 	MenuBox boxL, boxM, boxR;
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
@@ -66,7 +68,7 @@ public class ShopScreen extends MenuFilterable {
 		this(parent);
 	}
 
-	@Override
+	/*@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
 		if (delta > 0 && prev.visible) {
 			action("prev");
@@ -75,6 +77,22 @@ public class ShopScreen extends MenuFilterable {
 			action("next");
 			return true;
 		}
+
+		return false;
+	}*/
+
+	public void updateScroll() {
+		renderables.forEach(renderable -> {
+			if (renderable instanceof MenuEquipmentButton button) {
+				button.offsetY = (int) scrollBar.scrollOffset;
+			}
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		scrollBar.mouseScrolled(mouseX, mouseY, delta);
+		updateScroll();
 
 		return false;
 	}
@@ -105,17 +123,18 @@ public class ShopScreen extends MenuFilterable {
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
 		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
-		
+		int scrollTop = (int) topBarHeight;
+		int scrollBot = (int) (scrollTop + middleHeight);
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		filterBar.init();
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		addRenderableWidget(scrollBar);
 		initItems();
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
-		
 		itemsPerPage = (int) (middleHeight / 14);
 	}
 
@@ -129,7 +148,7 @@ public class ShopScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 		
 		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
-		
+
 		List<ResourceLocation> items = new ArrayList<>();
 		for (int i = 0; i < shopList.getList().size(); i++) {
 			ResourceLocation itemName = null;
@@ -188,6 +207,13 @@ public class ShopScreen extends MenuFilterable {
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
+		if(inventory.isEmpty())
+			return;
+
+		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
+		scrollBar.setContentHeight(listHeight);
+
+
 		prev.visible = page > 0;
 		next.visible = page < inventory.size() / itemsPerPage;
 		if (selectedItemStack != ItemStack.EMPTY) {
@@ -211,7 +237,7 @@ public class ShopScreen extends MenuFilterable {
 			}			
 			if(item != null) {
 				enoughMunny = playerData.getMunny() >= item.getCost();
-				enoughTier = ModConfigs.requireSynthTier ? playerData.getSynthLevel() >= item.getTier() : true;
+				enoughTier = !ModConfigs.requireSynthTier || playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
 	
 				create.active = enoughMunny && enoughTier;
@@ -233,11 +259,20 @@ public class ShopScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		for (int i = 0; i < inventory.size(); i++) {
-			inventory.get(i).active = false;
-		}
+        for (MenuStockItem menuStockItem : inventory) {
+            menuStockItem.active = false;
+        }
 
-		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
+		for(Renderable renderable : this.inventory){
+			if(renderable instanceof MenuStockItem){
+				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-6); //Arbitrary number to hide the cut one
+				renderable.render(gui,mouseX,mouseY,partialTicks);
+				gui.disableScissor();
+			} else {
+				renderable.render(gui,mouseX,mouseY,partialTicks);
+			}
+		}
+		/*for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
 			if (i < inventory.size() && i >= 0) {
 				if (inventory.get(i) != null) {
 					inventory.get(i).visible = true;
@@ -246,7 +281,7 @@ public class ShopScreen extends MenuFilterable {
 					inventory.get(i).active = true;
 				}
 			}
-		}
+		}*/
 		
 		prev.render(gui, mouseX,  mouseY,  partialTicks);
 		next.render(gui, mouseX,  mouseY,  partialTicks);
@@ -310,9 +345,8 @@ public class ShopScreen extends MenuFilterable {
 				str= kb.getStrength(0);
 				mag = kb.getMagic(0);
 				
-			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem) {
-				KKAccessoryItem accessory = (KKAccessoryItem) selectedItemStack.getItem();
-				ability = accessory.getAbilities().size() > 0 ? accessory.getAbilities().get(0) : null;
+			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
+                ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().get(0) : null;
 				str = accessory.getStr();
 				mag = accessory.getMag();
 				ap = accessory.getAp();
@@ -366,6 +400,27 @@ public class ShopScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSCloseMoogleGUI(parent.moogle));
 		}
 		super.onClose();
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		if (mouseButton == 1) {
+			GuiHelper.openMenu();
+		}
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
 
 }

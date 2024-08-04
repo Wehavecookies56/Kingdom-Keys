@@ -179,18 +179,16 @@ public class MenuEquipmentButton extends Button {
                 float iconHeight = parent.height * 0.3148F;
                 if (stack != null) {
                 	ItemStack item;
-                    if (stack.getItem() instanceof IKeychain) {
-                    	item = new ItemStack(((IKeychain) stack.getItem()).toSummon());
+                    if (stack.getItem() instanceof IKeychain kc) {
+                    	item = new ItemStack(kc.toSummon());
                     } else {
                     	item = stack;
                     }
                     
                     matrixStack.pushPose();
                     {
-                        
                         matrixStack.translate(iconPosX, iconPosY, 0);
-                        matrixStack.scale((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
-                        //mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
+                        matrixStack.scale(0.075F * iconHeight, 0.075F * iconHeight, 1);
                         ClientUtils.drawItemAsIcon(item, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
