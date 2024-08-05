@@ -158,7 +158,6 @@ public class ShopScreen extends MenuFilterable {
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
-		//scrollBar.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())

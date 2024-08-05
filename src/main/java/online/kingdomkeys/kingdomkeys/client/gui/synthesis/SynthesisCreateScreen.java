@@ -158,6 +158,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
+		if(inventory.isEmpty())
+			return;
+
 		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
 		scrollBar.setContentHeight(listHeight);
 

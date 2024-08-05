@@ -128,9 +128,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		//float filterPosY = height * 0.02F;
 		//filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		//filterBar.init();
-		initItems();
 		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
 		addRenderableWidget(scrollBar);
+
+		initItems();
 
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
@@ -188,6 +189,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
+
+		if(inventory.isEmpty())
+			return;
 
 		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
 		scrollBar.setContentHeight(listHeight);
