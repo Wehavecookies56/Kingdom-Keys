@@ -82,10 +82,8 @@ public class ShopScreen extends MenuFilterable {
 	}*/
 
 	public void updateScroll() {
-		renderables.forEach(renderable -> {
-			if (renderable instanceof MenuEquipmentButton button) {
-				button.offsetY = (int) scrollBar.scrollOffset;
-			}
+		inventory.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
 		});
 	}
 
@@ -420,6 +418,7 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
 
