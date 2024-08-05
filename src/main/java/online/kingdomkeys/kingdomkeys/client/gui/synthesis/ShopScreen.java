@@ -47,12 +47,10 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ShopScreen extends MenuFilterable {
-
-	MenuScrollBar scrollBar;
 	MenuBox boxL, boxM, boxR;
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
-	Button prev, next, create;
+	Button create;
 	int itemsPerPage;
 	private MenuButton back;
 	
@@ -68,43 +66,8 @@ public class ShopScreen extends MenuFilterable {
 		this(parent);
 	}
 
-	/*@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (delta > 0 && prev.visible) {
-			action("prev");
-			return true;
-		} else if (delta < 0 && next.visible) {
-			action("next");
-			return true;
-		}
-
-		return false;
-	}*/
-
-	public void updateScroll() {
-		inventory.forEach(button -> {
-			button.offsetY = (int) scrollBar.scrollOffset;
-		});
-	}
-
-	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		scrollBar.mouseScrolled(mouseX, mouseY, delta);
-		updateScroll();
-
-		return false;
-	}
-
 	protected void action(String string) {
 		switch (string) {
-		case "prev":
-			page--;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
-		case "next":
-			page++;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
 		case "create":
 			PacketHandler.sendToServer(new CSShopBuy(new ResourceLocation(parent.invFile), selectedItemStack));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -172,7 +135,7 @@ public class ShopScreen extends MenuFilterable {
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
 				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
 			}
-			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.28F), false));
+			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false));
 		}
 		
 		inventory.forEach(this::addWidget);
@@ -180,18 +143,10 @@ public class ShopScreen extends MenuFilterable {
 		super.init();
 		
 		float buttonPosX = (float) width * 0.03F;
-		
-        addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
-			action("prev");
-		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
 
-		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
-			action("next");
-		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
-        
         addRenderableWidget(create = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
-		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+		}).bounds((boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
 		
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
 	}
@@ -203,6 +158,7 @@ public class ShopScreen extends MenuFilterable {
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		//scrollBar.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())
@@ -211,9 +167,6 @@ public class ShopScreen extends MenuFilterable {
 		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
 		scrollBar.setContentHeight(listHeight);
 
-
-		prev.visible = page > 0;
-		next.visible = page < inventory.size() / itemsPerPage;
 		if (selectedItemStack != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 			boolean enoughMunny = false;
@@ -248,41 +201,17 @@ public class ShopScreen extends MenuFilterable {
 		} else {
 			create.visible = false;
 		}
-		
-		//Page renderer
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(width * 0.03F + 45, (height * 0.15) - 18, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page) + " " + (page + 1), 0, 10, 0xFF9900);
-		}
-		matrixStack.popPose();
-
-        for (MenuStockItem menuStockItem : inventory) {
-            menuStockItem.active = false;
-        }
 
 		for(Renderable renderable : this.inventory){
-			if(renderable instanceof MenuStockItem){
-				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-6); //Arbitrary number to hide the cut one
+			if(renderable instanceof MenuStockItem menuStockItem){
+				menuStockItem.active = true;
+				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 				gui.disableScissor();
 			} else {
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 			}
 		}
-		/*for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
-			if (i < inventory.size() && i >= 0) {
-				if (inventory.get(i) != null) {
-					inventory.get(i).visible = true;
-					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
-					inventory.get(i).render(gui, mouseX, mouseY, partialTicks);
-					inventory.get(i).active = true;
-				}
-			}
-		}*/
-		
-		prev.render(gui, mouseX,  mouseY,  partialTicks);
-		next.render(gui, mouseX,  mouseY,  partialTicks);
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 	}
@@ -383,7 +312,6 @@ public class ShopScreen extends MenuFilterable {
 				}
 				matrixStack.popPose();
 			}
-			
 		}
 	}
 
@@ -422,4 +350,16 @@ public class ShopScreen extends MenuFilterable {
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
 
+	public void updateScroll() {
+		inventory.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		scrollBar.mouseScrolled(mouseX, mouseY, delta);
+		updateScroll();
+		return false;
+	}
 }
