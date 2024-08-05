@@ -9,9 +9,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -19,6 +21,9 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.WhiteMushroomGoal;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import static com.ibm.icu.impl.ValidIdentifiers.Datatype.x;
 
 public class WhiteMushroomEntity extends BaseKHEntity {
 
@@ -30,24 +35,46 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     public WhiteMushroomEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(ModEntities.TYPE_WHITE_MUSHROOM.get(), world);
     }
+    int satisfied = 0;
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!level().isClientSide()){
             if(source.getMsgId().equals(KKResistanceType.fire.toString())){
-                System.out.println("Fire");
                 extinguishFire();
-            }
-            if(source.getMsgId().equals(KKResistanceType.ice.toString())) {
-                System.out.println("Blizzard");
-            }
-            if(source.getMsgId().equals(KKResistanceType.lightning.toString())) {
-                System.out.println("Thunder");
+                checkSatisfy(1);
+            } else if(source.getMsgId().equals(KKResistanceType.ice.toString())) {
+                checkSatisfy(2);
+            } else if(source.getMsgId().equals(KKResistanceType.lightning.toString())) {
+                checkSatisfy(3);
+            } else {
+                EntityHelper.setState(this, -2);
             }
         }
 
         //TODO angry animation and despawn
         return false;
+    }
+
+    private void checkSatisfy(int i) {
+        if(EntityHelper.getState(this) >= 0) { //Prevents multiple hitting attacks from counting at the wrong moment
+            if (EntityHelper.getState(this) == i) { //If the magic is right
+                //System.out.println("Happy");
+                EntityHelper.setState(this, -1); //Set to satisfied pose
+                satisfied++;
+                if (satisfied >= 3) { //If it's the 3rd time in a row
+                    //System.out.println("Drop smth");
+                    EntityHelper.setState(this, -3); //Set to victory pose
+
+                    ItemEntity ie = new ItemEntity(level(), getX(), getY(), getZ(), new ItemStack(ModItems.orichalcum.get()));
+                    level().addFreshEntity(ie);
+                }
+            } else { //If magic is wrong set to angry pose
+                //System.out.println("Not happy");
+                EntityHelper.setState(this, -2);
+
+            }
+        }
     }
 
     @Override

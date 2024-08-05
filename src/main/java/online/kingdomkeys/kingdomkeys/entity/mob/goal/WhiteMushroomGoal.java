@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -19,29 +20,57 @@ public class WhiteMushroomGoal extends TargetGoal {
 
 	public WhiteMushroomGoal(PathfinderMob creature) {
 		super(creature, true);
-		ticksToChooseCharade = 20;
+		ticksToChooseCharade = 0;
 	}
 
 	@Override
 	public boolean canContinueToUse() {
 		if (this.mob.getTarget() != null) {
 			//Set AI to use
-			//-1 and -2 for victory and angry ?
-			if(getCharade(mob) == 0){ //If is not posing wait and pose a random charade from 1-3
-				if(ticksToChooseCharade <= 0) {
-					int randomCharade = mob.level().getRandom().nextInt(3) + 1;
-					setCharade(mob, randomCharade);
-					ticksToChooseCharade = MAX_NO_CHARADE_DURATION;
-				} else {
-					ticksToChooseCharade-=2;
-				}
-			} else { //If is posing and charade time reaches 0 return to normal
-				if(charadeDuration <= 0) {
-					setCharade(mob, 0);
-					charadeDuration = MAX_CHARADE_DURATION;
-				} else {
-					charadeDuration-=2;
-				}
+			//-1, -2 and -3 for satisfied, angry and victory
+			//System.out.println("Charade: "+getCharade(mob)+" charadeDuration: "+charadeDuration);
+			switch(getCharade(mob)){
+				case 0:
+					if(ticksToChooseCharade <= 0) {
+						int randomCharade = mob.level().getRandom().nextInt(3) + 1;
+						setCharade(mob, randomCharade);
+						ticksToChooseCharade = MAX_NO_CHARADE_DURATION;
+					} else {
+						ticksToChooseCharade-=2;
+					}
+					break;
+				case -1: //Satisfied
+					if(charadeDuration <= 0) {
+						charadeDuration = MAX_CHARADE_DURATION;
+						setCharade(mob,0);
+					} else {
+						charadeDuration-=2; //Time to complain
+					}
+					break;
+				case -2: //Failed
+					if(charadeDuration <= 0) {
+						charadeDuration = MAX_CHARADE_DURATION;
+						mob.remove(Entity.RemovalReason.KILLED);
+					} else {
+						charadeDuration-=2; //Time to complain
+					}
+					break;
+				case -3: //Victory
+					if(charadeDuration <= 0) {
+						charadeDuration = MAX_CHARADE_DURATION;
+						mob.remove(Entity.RemovalReason.KILLED);
+					} else {
+						charadeDuration-=2; //Time to complain
+					}
+					break;
+				default:
+					if(charadeDuration <= 0) {
+						setCharade(mob, 0);
+						charadeDuration = MAX_CHARADE_DURATION;
+					} else {
+						charadeDuration-=2;
+					}
+					break;
 			}
 			return true;
 		} else { //If no target

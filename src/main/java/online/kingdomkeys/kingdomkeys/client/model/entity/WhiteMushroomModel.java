@@ -78,13 +78,56 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 	public void setupAnim(T entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		if(!Minecraft.getInstance().isPaused()) {
 			switch(EntityHelper.getState(entity)) {
+			//switch(-2) {
+				case -3 ->{ //Full victory
+					this.main.y = 0;
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					rightarm.zRot = (float) Math.toRadians(150);
+					leftarm.zRot = (float) Math.toRadians(-150);
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+				}
+				case -2 ->{ //Complaining
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					this.rightarm.yRot = (float) Math.toRadians(entity.tickCount % 16 < 8 ? 90 : -90);
+					this.leftarm.yRot = (float) Math.toRadians(entity.tickCount % 16 < 8 ? 90 : -90);
+
+					rightarm.zRot = (float) Math.toRadians(90);
+					leftarm.zRot = (float) Math.toRadians(-90);
+					rightarm2.xRot = (float) Math.toRadians(90);
+					leftarm2.xRot = (float) Math.toRadians(90);
+				}
+				case -1 -> { //Satisfied
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					rightarm.zRot = (float) Math.toRadians(150);
+					leftarm.zRot = (float) Math.toRadians(-150);
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+				}
 				case 0 -> {//Normal, no charade
+					this.main.y = 24;
+
 					System.out.println("Normal arms");
 					this.main.xRot = (float) Math.toRadians(0);
 					this.head.xRot = (float) Math.toRadians(0);
 
 					this.rightarm.xRot = (float) Math.toRadians(0);
 					this.leftarm.xRot = (float) Math.toRadians(0);
+					this.rightarm.yRot = (float) Math.toRadians(0);
+					this.leftarm.yRot = (float) Math.toRadians(0);
+
 					rightarm.zRot = (float) Math.toRadians(0);
 					leftarm.zRot = (float) Math.toRadians(0);
 					rightarm2.xRot = (float) Math.toRadians(180);
