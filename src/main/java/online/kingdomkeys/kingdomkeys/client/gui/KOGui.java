@@ -58,7 +58,7 @@ public class KOGui extends ChatScreen {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
-		if(minecraft.player != null) {
+        if(minecraft != null && minecraft.player != null) {
 			if(minecraft.player.getHealth() <= 0) {
 				onClose();
 			}

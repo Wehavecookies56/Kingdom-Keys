@@ -154,8 +154,11 @@ public class ModEntities {
     public static final RegistryObject<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, SoldierEntity::new, MobCategory.MONSTER, "soldier", 0.8F, 1.6F);
     public static final RegistryObject<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
 
-    public static final RegistryObject<EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.8F, 1.6F);
-    public static final RegistryObject<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_WHITE_MUSHROOM, Color.yellow.getRGB(), Color.RED.getRGB(), PROPERTIES));
+    public static final RegistryObject<EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.6F, 1.1F);
+    public static final RegistryObject<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_WHITE_MUSHROOM, Color.YELLOW.getRGB(), Color.RED.getRGB(), PROPERTIES));
+
+    public static final RegistryObject<EntityType<BlackFungusEntity>> TYPE_BLACK_FUNGUS = createEntityType(BlackFungusEntity::new, BlackFungusEntity::new, MobCategory.MONSTER, "black_fungus", 0.6F, 1.1F);
+    public static final RegistryObject<Item> BLACK_FUNGUS_EGG = ModItems.ITEMS.register("black_fungus_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_BLACK_FUNGUS, Color.DARK_GRAY.getRGB(), Color.MAGENTA.getRGB(), PROPERTIES));
 
 
     //TODO update textures to work with newer model, make magic for
@@ -170,7 +173,6 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LargeBodyEntity>> TYPE_LARGE_BODY = createEntityType(LargeBodyEntity::new, LargeBodyEntity::new, MobCategory.MONSTER, "large_body", 1.3F, 1.6F);
     public static final RegistryObject<Item> LARGE_BODY_EGG = ModItems.ITEMS.register("large_body_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_LARGE_BODY, 0x4d177c, 0x29014c, PROPERTIES));
     //TODO make AI
-    //public static final RegistryObject<EntityType<ShadowEntity>> TYPE_WHITE_MUSHROOM = createEntityType(ShadowEntity::new, ShadowEntity::new, EntityClassification.MONSTER, "white_mushroom", 0.5F, 0.5F, HEARTLESS_EMBLEM, 0xe3e5e8, 0xffffff);
     public static final RegistryObject<EntityType<DirePlantEntity>> TYPE_DIRE_PLANT = createEntityType(DirePlantEntity::new, DirePlantEntity::new, MobCategory.MONSTER, "dire_plant", 0.75F, 1.5F);
     public static final RegistryObject<Item> DIRE_PLANT_EGG = ModItems.ITEMS.register("dire_plant_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_DIRE_PLANT, 0x4ba04e, 0xedc2c2, PROPERTIES));
 
@@ -312,6 +314,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
+        event.registerEntityRenderer(TYPE_BLACK_FUNGUS.get(), BlackFungusRenderer::new);
 
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
@@ -361,6 +364,7 @@ public class ModEntities {
         event.registerLayerDefinition(DirePlantModel.LAYER_LOCATION, DirePlantModel::createBodyLayer);
         event.registerLayerDefinition(SoldierModel.LAYER_LOCATION, SoldierModel::createBodyLayer);
         event.registerLayerDefinition(WhiteMushroomModel.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
+        //event.registerLayerDefinition(.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
         event.registerLayerDefinition(DragoonModel.LAYER_LOCATION, DragoonModel::createBodyLayer);
         event.registerLayerDefinition(DuskModel.LAYER_LOCATION, DuskModel::createBodyLayer);
         event.registerLayerDefinition(ElementalMusicalHeartlessModel.LAYER_LOCATION, ElementalMusicalHeartlessModel::createBodyLayer);
@@ -422,6 +426,7 @@ public class ModEntities {
         event.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().build());
         event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
+        event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
         
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
@@ -452,6 +457,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
         addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 3);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 3);
 
 
         addToGroup(NOBODY, TYPE_NOBODY_CREEPER.get(), 4);
@@ -515,6 +521,7 @@ public class ModEntities {
         event.register(TYPE_SPAWNING_ORB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(TYPE_SOLDIER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(TYPE_WHITE_MUSHROOM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(TYPE_BLACK_FUNGUS.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(TYPE_DRAGOON.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         
         event.register(TYPE_MARLUXIA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);

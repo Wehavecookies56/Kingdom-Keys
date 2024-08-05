@@ -1504,6 +1504,8 @@
 	"entity.kingdomkeys.large_body": "Grandullón",
 	"entity.kingdomkeys.dire_plant": "Mala Hierba",
 	"entity.kingdomkeys.soldier": "Soldado",
+	"entity.kingdomkeys.white_mushroom": "Seta Blanca",
+	"entity.kingdomkeys.black_fungus": "Hongo Negro",
 
 	"entity.kingdomkeys.nobody_creeper": "Trepador",
 	"entity.kingdomkeys.dusk": "Umbrío",
@@ -1532,6 +1534,9 @@
 	"item.kingdomkeys.large_body_spawn_egg": "Generar Grandullón",
 	"item.kingdomkeys.dire_plant_spawn_egg": "Generar Mala Hierba",
 	"item.kingdomkeys.soldier_spawn_egg": "Generar Soldado",
+	"item.kingdomkeys.white_mushroom_spawn_egg": "Generar Seta Blanca",
+	"item.kingdomkeys.black_fungus_spawn_egg": "Generar Hongo Negro",
+
 
 	"item.kingdomkeys.nobody_creeper_spawn_egg": "Generar Trepador",
 	"item.kingdomkeys.dusk_spawn_egg": "Generar Umbrío",

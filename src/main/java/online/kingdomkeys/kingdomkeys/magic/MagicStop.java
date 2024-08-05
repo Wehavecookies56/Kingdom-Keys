@@ -52,8 +52,6 @@ public class MagicStop extends Magic {
 			casterGlobalData.setStopModelTicks(10);
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
-		
-		
 
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
