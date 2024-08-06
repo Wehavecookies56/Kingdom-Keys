@@ -80,10 +80,10 @@ public class KKAnimations {
     }
 
     private static void build() {
-        List<Pair<Joint, Collider>> dualKeyblade = List.of(Pair.of(Armatures.BIPED.toolR, KKCollider.KEYBLADE), Pair.of(Armatures.BIPED.toolL, KKCollider.KEYBLADE));
+        AttackAnimation.JointColliderPair[] dualKeyblade = new AttackAnimation.JointColliderPair[]{AttackAnimation.JointColliderPair.of(Armatures.BIPED.toolR, KKCollider.KEYBLADE), AttackAnimation.JointColliderPair.of(Armatures.BIPED.toolL, KKCollider.KEYBLADE)};
         DRIVE_SUMMON = new ActionAnimation(0.05F, "biped/living/drive_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.7F)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
                         PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
@@ -92,22 +92,21 @@ public class KKAnimations {
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
         VALOR_AUTO1 = new BasicAttackAnimation(0.05F, "biped/combat/valor_auto1", Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.7F);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F);
         VALOR_AUTO2 = new BasicAttackAnimation(0.05F, "biped/combat/valor_auto2", Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.7F);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F);
         VALOR_AUTO3 = new BasicAttackAnimation(0.05F, "biped/combat/valor_auto3", Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.7F);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F);
 
-        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.7F);
+        WISDOM_IDLE = new StaticAnimation(true, "biped/living/wisdom_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F);
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED) {
             @Override
-            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, float time) {
+            protected TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, DynamicAnimation animation, float time) {
                 TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
                 stateMap.put(EntityState.MOVEMENT_LOCKED, (Object) false);
-
                 return stateMap;
             }
 
@@ -121,12 +120,12 @@ public class KKAnimations {
                 super.end(entitypatch, nextAnimation, isEnd);
 
                 if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
-                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch);
+                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch, nextAnimation);
                     entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
                 }
             }
         }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 1.0F)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.0F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) ->
@@ -135,7 +134,7 @@ public class KKAnimations {
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
         WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_finisher", Armatures.BIPED) {
             @Override
-            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, float time) {
+            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, DynamicAnimation animation,  float time) {
                 TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
                 stateMap.put(EntityState.MOVEMENT_LOCKED, (Object) false);
 
@@ -152,12 +151,12 @@ public class KKAnimations {
                 super.end(entitypatch, nextAnimation, isEnd);
 
                 if (!isEnd && !nextAnimation.isMainFrameAnimation() && entitypatch.isLogicalClient()) {
-                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch);
+                    float playbackSpeed = EpicFightOptions.A_TICK * this.getPlaySpeed(entitypatch, nextAnimation);
                     entitypatch.getClientAnimator().baseLayer.copyLayerTo(entitypatch.getClientAnimator().baseLayer.getLayer(Layer.Priority.HIGHEST), playbackSpeed);
                 }
             }
         }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 1.0F).addEvents(
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.0F).addEvents(
                         AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) ->
@@ -177,28 +176,28 @@ public class KKAnimations {
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 
-        FINAL_IDLE = new StaticAnimation(true, "biped/living/final_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .8f);
+        FINAL_IDLE = new StaticAnimation(true, "biped/living/final_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f);
         FINAL_AUTO1 = new BasicAttackAnimation(0.16F, "biped/combat/final_auto1", Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .8f);
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f);
 
         ROXAS_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/roxas_auto_1", Armatures.BIPED);
-        ROXAS_IDLE = new StaticAnimation(true, "biped/living/sora_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .6f);
+        ROXAS_IDLE = new StaticAnimation(true, "biped/living/sora_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
         ROXAS_RUN = new StaticAnimation(true, "biped/living/roxas_run", Armatures.BIPED);
 
 
         SORA_SUMMON = new ActionAnimation(0.05F, "biped/living/sora_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
-                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> 0.8F)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
                         PacketHandler.sendToServer(new CSSummonKeyblade());
                 }, AnimationEvent.Side.BOTH));
 
-        SORA_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .7f);
-        SORA_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .9f);
-        SORA_AUTO3 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .65f);
-        SORA_FINISHER1 = new BasicAttackAnimation(0.16F, 0.05F, 0.59F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_finisher1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, elapsedTime) -> .65f);
+        SORA_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .7f);
+        SORA_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto2", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f);
+        SORA_AUTO3 = new BasicAttackAnimation(0.16F, 0.05F, 0.5F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto3", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .65f);
+        SORA_FINISHER1 = new BasicAttackAnimation(0.16F, 0.05F, 0.59F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_finisher1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .65f);
 
         KK_SHIELD_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_1", Armatures.BIPED);
         KK_SHIELD_AUTO2 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_2", Armatures.BIPED);

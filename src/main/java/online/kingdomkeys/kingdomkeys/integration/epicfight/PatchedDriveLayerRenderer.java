@@ -25,9 +25,9 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>, AM> {
+public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
 
-    public PatchedDriveLayerRenderer(AM mesh) { super(mesh); }
+    public PatchedDriveLayerRenderer() {  }
 
     @Override
     public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
@@ -35,9 +35,9 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
             String drive = ModCapabilities.getPlayer((Player) e).getActiveDriveForm();
             DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(drive));
             if (form.getTextureLocation((Player) e) != null) {
-                VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation((Player) e)), true, false);
+                //VertexConsumer vertexConsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.armorCutoutNoCull(form.getTextureLocation((Player) e)), true, false);
                 HumanoidMesh model = getModel(e);
-                model.drawModelWithPose(poseStack, vertexConsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
+                model.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(form.getTextureLocation((Player) e)), i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
             }
 
         }

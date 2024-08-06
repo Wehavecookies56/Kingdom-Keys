@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '6.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 	id 'org.spongepowered.mixin' version '0.7.+'
 }
@@ -128,7 +128,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.30'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.3.5'
 
     //JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
@@ -137,7 +137,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:jer-240630:4689044")
 	implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
 	//implementation fg.deobf("curse.maven:epic-fight-mod-405076:4945239")
-    implementation fg.deobf("curse.maven:epic-fight-mod-405076:5159623")
+    implementation fg.deobf("curse.maven:epic-fight-mod-405076:5601221")
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf("curse.maven:apothic-attributes-898963:5209162")

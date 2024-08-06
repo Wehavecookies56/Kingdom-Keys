@@ -218,7 +218,7 @@ public class KingdomKeys {
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
 			MinecraftForge.EVENT_BUS.register(new KKSkills());
-			KKSkills.register();
+			KKSkills.SKILLS.register(modEventBus);
 			ComboExtender.DATA_KEYS.register(modEventBus);
 		}
 

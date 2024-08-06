@@ -12,11 +12,11 @@ public class EpicFightRendering {
     public static void patchedRenderersEventModify(PatchedRenderersEvent.Modify event) {
         //PatchedLivingEntityRenderer playerRenderer = (PatchedLivingEntityRenderer) event.get(EntityType.PLAYER);
         //playerRenderer.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
-        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
+        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
         //playerRenderer.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(Meshes.BIPED, false));
-        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(Meshes.BIPED, true));
+        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(true));
         //playerRenderer.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>(Meshes.BIPED));
-        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>(Meshes.BIPED));
+        ClientEngine.getInstance().renderEngine.getFirstPersonRenderer().addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
     }
 
 }

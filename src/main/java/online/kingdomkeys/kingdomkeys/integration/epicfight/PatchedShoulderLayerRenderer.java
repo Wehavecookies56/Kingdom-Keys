@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import yesman.epicfight.api.client.model.AnimatedMesh;
-import yesman.epicfight.api.client.model.armor.CustomModelBakery;
+import yesman.epicfight.api.client.model.transformer.CustomModelBakery;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
@@ -31,9 +31,8 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>, AM> {
-    public PatchedShoulderLayerRenderer(AM mesh) {
-        super(mesh);
+public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
+    public PatchedShoulderLayerRenderer() {
     }
 
     ResourceLocation texture;
@@ -50,17 +49,16 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
             model = models.get(armorName);
             if (model != null) {
                 texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
-                VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, false);
+                //VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, false);
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getModelName().equals("default");
-                boolean debuggingMode = ClientEngine.getInstance().isArmorModelDebuggingMode();
                 //Item doesn't matter
-                AnimatedMesh modelAnimated = CustomModelBakery.bake(model, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST, debuggingMode);
+                AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(model, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST);
 
                 poseStack.pushPose();
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);
-                modelAnimated.drawModelWithPose(poseStack, vertexconsumer, i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
+                modelAnimated.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(texture), i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
                 poseStack.popPose();
             }
         }

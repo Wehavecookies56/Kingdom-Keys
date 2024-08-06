@@ -115,7 +115,7 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .livingMotionModifier(KKStyles.MASTER, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
                     .livingMotionModifier(KKStyles.FINAL, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
-                    .passiveSkill(KKSkills.comboExtender);
+                    .passiveSkill(KKSkills.comboExtender.get());
 
     public static final Function<Item, CapabilityItem.Builder> KK_SHIELD = item ->
             WeaponCapability.builder()
