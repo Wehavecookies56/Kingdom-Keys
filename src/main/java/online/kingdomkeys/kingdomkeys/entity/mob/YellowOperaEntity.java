@@ -166,10 +166,11 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
                 else if (EntityHelper.getState(mob) == 1) {
                     if(shotChargeTimer > 0){
                         shotChargeTimer--;
+                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         ((ServerLevel)this.mob.level()).sendParticles(new DustParticleOptions(new Vector3f(1,1,0),1F), this.mob.getX(), this.mob.getY()+2.5, this.mob.getZ(), 1, 0,0,0, 0.0);
                     } else {
-                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.mob.getLookControl().setLookAt(target, 0F, 0F);
+                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                         if(!level().isClientSide) {
                             LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(level());
                             lightningboltentity.moveTo(target.position());

@@ -143,11 +143,11 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
                 else if (EntityHelper.getState(mob) == 1) {
                     if(shotChargeTimer > 0){
                         shotChargeTimer--;
+                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         ((ServerLevel)this.mob.level()).sendParticles(ParticleTypes.FLAME, this.mob.getX(), this.mob.getY()+2.5, this.mob.getZ(), 1, 0,0,0, 0.0);
                     } else {
-                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
                         this.mob.getLookControl().setLookAt(target, 0F, 0F);
-
+                        this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                         double d1 = this.mob.getTarget().getX() - this.mob.getX();
                         double d2 = this.mob.getTarget().getBoundingBox().minY + (double) (this.mob.getTarget().getBbHeight() / 2.0F) - (this.mob.getY() + (double) (this.mob.getBbHeight() / 2.0F));
                         double d3 = this.mob.getTarget().getZ() - this.mob.getZ();
