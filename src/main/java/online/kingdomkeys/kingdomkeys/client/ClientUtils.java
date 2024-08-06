@@ -148,9 +148,9 @@ public class ClientUtils {
                 Player player = Minecraft.getInstance().player;
                 OrgPortalEntity portal;
                 if (msg.pos != msg.destPos)
-                    portal = new OrgPortalEntity(player.level(), player, msg.pos, msg.destPos, msg.dimension, true);
+                    portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, true);
                 else
-                    portal = new OrgPortalEntity(player.level(), player, msg.pos, msg.destPos, msg.dimension, false);
+                    portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, false);
 
                 player.level().addFreshEntity(portal);
             }
@@ -554,7 +554,6 @@ public class ClientUtils {
 		
 		public void setDefault() {
             if(model != null) {
-                
                 switch(angle) {
                 case X:
                     model.xRot = (float) Math.toRadians(defVal);

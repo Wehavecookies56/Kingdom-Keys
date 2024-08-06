@@ -38,12 +38,7 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
 	}
 
-	public OrgPortalEntity(Level world) {
-		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
-		this.blocksBuilding = true;
-	}
-
-	public OrgPortalEntity(Level world, Player player, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
+	public OrgPortalEntity(Level world, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
 		this.setPos(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
         this.destinationPos = destinationPos;

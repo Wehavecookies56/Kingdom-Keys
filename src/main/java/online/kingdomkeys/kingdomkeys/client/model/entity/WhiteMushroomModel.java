@@ -93,12 +93,12 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 				}
 				case -2 ->{ //Complaining
 					this.main.xRot = (float) Math.toRadians(0);
-					this.head.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(-20);
 
 					this.rightarm.xRot = (float) Math.toRadians(0);
 					this.leftarm.xRot = (float) Math.toRadians(0);
-					this.rightarm.yRot = (float) Math.toRadians(entity.tickCount % 16 < 8 ? 90 : -90);
-					this.leftarm.yRot = (float) Math.toRadians(entity.tickCount % 16 < 8 ? 90 : -90);
+					this.rightarm.yRot = (float) Math.toRadians(entity.tickCount % 10 < 5 ? 90 : -90);
+					this.leftarm.yRot = (float) Math.toRadians(entity.tickCount % 10 < 5 ? 90 : -90);
 
 					rightarm.zRot = (float) Math.toRadians(90);
 					leftarm.zRot = (float) Math.toRadians(-90);
@@ -118,8 +118,6 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 				}
 				case 0 -> {//Normal, no charade
 					this.main.y = 24;
-
-					System.out.println("Normal arms");
 					this.main.xRot = (float) Math.toRadians(0);
 					this.head.xRot = (float) Math.toRadians(0);
 
@@ -134,7 +132,6 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 					leftarm2.xRot = (float) Math.toRadians(180);
 				}
 				case 1 -> {
-					System.out.println("Waiting for fire");
 					this.main.xRot = (float) Math.toRadians(10);
 					this.head.xRot = (float) Math.toRadians(20);
 					this.rightarm.xRot = (float) Math.toRadians(-30);
@@ -147,7 +144,6 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 					leftarm2.xRot = (float) Math.toRadians(90);
 				}
 				case 2 -> {
-					System.out.println("Waiting for blizzard");
 					this.main.xRot = (float) Math.toRadians(-20);
 					this.head.xRot = (float) Math.toRadians(0);
 
@@ -163,7 +159,6 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 					leftarm.zRot = (float) Math.toRadians(-15);
 				}
 				case 3 -> {
-					System.out.println("Waiting for thunder");
 					this.main.xRot = (float) Math.toRadians(15);
 					this.head.xRot = (float) Math.toRadians(40);
 

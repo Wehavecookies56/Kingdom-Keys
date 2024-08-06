@@ -6,9 +6,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 
 import java.util.List;
+
+import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.portal;
 
 public class WhiteMushroomGoal extends TargetGoal {
 	// 0-Normal, 1-Fire, 2-Blizzard, 3- Thunder
@@ -28,7 +33,6 @@ public class WhiteMushroomGoal extends TargetGoal {
 		if (this.mob.getTarget() != null) {
 			//Set AI to use
 			//-1, -2 and -3 for satisfied, angry and victory
-			//System.out.println("Charade: "+getCharade(mob)+" charadeDuration: "+charadeDuration);
 			switch(getCharade(mob)){
 				case 0:
 					if(ticksToChooseCharade <= 0) {
@@ -52,7 +56,7 @@ public class WhiteMushroomGoal extends TargetGoal {
 						charadeDuration = MAX_CHARADE_DURATION;
 						mob.remove(Entity.RemovalReason.KILLED);
 					} else {
-						charadeDuration-=2; //Time to complain
+						charadeDuration-=4; //Time to complain
 					}
 					break;
 				case -3: //Victory
