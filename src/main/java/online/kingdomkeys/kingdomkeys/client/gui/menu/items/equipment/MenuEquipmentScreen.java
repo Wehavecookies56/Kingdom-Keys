@@ -1,30 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import java.awt.Color;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import net.minecraft.client.gui.components.Renderable;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuScrollScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -33,6 +22,13 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MenuEquipmentScreen extends MenuBackground {
 
@@ -61,7 +57,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         buttonWidth = ((float)width * 0.07F);
         float listBoxX = width * 0.16F;
         float boxY = height * 0.174F;
-	float topBarHeight = height * 0.17F;
+        float topBarHeight = height * 0.17F;
         float listBoxWidth = width * 0.452F;
         float boxHeight = height * 0.5972F;
         float detailsWidth = width * 0.2588F;

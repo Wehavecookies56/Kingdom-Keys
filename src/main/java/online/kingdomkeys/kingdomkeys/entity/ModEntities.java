@@ -456,8 +456,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
-        addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 3);
-        addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 3);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 20);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 25);
 
 
         addToGroup(NOBODY, TYPE_NOBODY_CREEPER.get(), 4);

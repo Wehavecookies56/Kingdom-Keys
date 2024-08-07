@@ -1,15 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import java.awt.Color;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -20,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -37,6 +30,13 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+
+import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 //TODO cleanup
 public class CommandMenuGui extends OverlayBase {
@@ -67,7 +67,15 @@ public class CommandMenuGui extends OverlayBase {
 	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
 		super.render(gui, guiGraphics, partialTick, width, height);
 		textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+		texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu/default.png");
 		drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
+
+		System.out.println(minecraft.player.level().dimension().location().getPath());
+		String filePath = "textures/gui/commandmenu/"+minecraft.player.level().dimension().location().getPath()+".png";
+		if(ClientUtils.getResourceExists(filePath)) {
+			texture = new ResourceLocation(KingdomKeys.MODID, filePath);
+			drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
+		}
 	}
 
 	float alpha = 1F;
@@ -95,6 +103,9 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
+		System.out.println(texture.getPath());
+		if(!texture.getPath().endsWith("default.png"))
+			return;
 		if (submenu == 0) { //Menu on top should always be of the original color
 			if (EntityEvents.isBoss) { // Red
 				RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
@@ -148,7 +159,9 @@ public class CommandMenuGui extends OverlayBase {
 		if(ModCapabilities.getPlayer(minecraft.player) != null) {
 			gui.pose().pushPose();
 			{
-				gui.pose().translate(ModConfigs.cmXPos, 0, 0);
+				float pos = 1F; //TODO add config for the scale
+				gui.pose().translate(ModConfigs.cmXPos, -height * (pos-1), 0);
+				gui.pose().scale(pos,pos,1);
 				drawMain(gui, width, height);
 			
 				if (submenu == SUB_PORTALS) {

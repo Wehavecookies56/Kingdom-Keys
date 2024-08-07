@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
@@ -104,6 +101,14 @@ import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
 public class ClientUtils {
 
+    public static boolean getResourceExists(String path){
+        try {
+            Minecraft.getInstance().getResourceManager().getResourceOrThrow(new ResourceLocation(KingdomKeys.MODID, path));
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+    }
 	public static DistExecutor.SafeRunnable openMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
         return new DistExecutor.SafeRunnable() {
             @Override
