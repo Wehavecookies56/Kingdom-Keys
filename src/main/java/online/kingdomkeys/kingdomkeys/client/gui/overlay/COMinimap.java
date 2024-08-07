@@ -7,18 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
-import org.joml.Quaternionf;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class COMinimap extends OverlayBase {
     public static final IGuiOverlay INSTANCE = new COMinimap();

@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.journal;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -14,6 +10,9 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class MenuJournalScreen extends MenuBackground {
 	

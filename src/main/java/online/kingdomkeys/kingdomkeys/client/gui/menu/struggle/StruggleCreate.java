@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -24,6 +20,9 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class StruggleCreate extends MenuBackground {
 	BlockPos boardPos;

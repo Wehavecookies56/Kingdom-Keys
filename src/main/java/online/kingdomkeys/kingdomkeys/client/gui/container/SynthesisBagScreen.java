@@ -1,16 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -20,13 +10,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
 

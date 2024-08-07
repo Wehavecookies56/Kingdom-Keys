@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.styles;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.gui.GuiGraphics;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -17,6 +13,10 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSChangeStyle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 public class StylesMenu extends MenuBackground {
     ActualWindow window = ActualWindow.SINGLE;
     private MenuButton backButton, singleButton, dualButton;

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;

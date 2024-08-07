@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
@@ -15,6 +10,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.Title;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 //Text rendering from IngameGui with an added message queue system
 public class SoAMessages extends OverlayBase {

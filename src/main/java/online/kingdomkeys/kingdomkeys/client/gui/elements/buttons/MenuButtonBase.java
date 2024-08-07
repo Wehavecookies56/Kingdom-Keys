@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
 public class MenuButtonBase extends ScrollableButtonBase {

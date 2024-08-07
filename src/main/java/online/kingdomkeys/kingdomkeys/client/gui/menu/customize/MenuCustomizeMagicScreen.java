@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
-import java.awt.Color;
-import java.util.LinkedHashMap;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -17,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
+import java.util.LinkedHashMap;
 
 public class MenuCustomizeMagicScreen extends MenuBackground {
 

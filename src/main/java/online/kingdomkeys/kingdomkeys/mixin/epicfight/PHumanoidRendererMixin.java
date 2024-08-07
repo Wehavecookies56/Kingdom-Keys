@@ -13,8 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import yesman.epicfight.api.client.model.MeshProvider;
-import yesman.epicfight.api.client.model.Meshes;
-import yesman.epicfight.client.mesh.HumanoidMesh;
 import yesman.epicfight.client.renderer.patched.entity.PHumanoidRenderer;
 
 @Mixin(PHumanoidRenderer.class)

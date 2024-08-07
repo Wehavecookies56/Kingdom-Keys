@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
@@ -14,6 +11,9 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTravelToSoA;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class NoChoiceMenuPopup extends MenuPopup {
 

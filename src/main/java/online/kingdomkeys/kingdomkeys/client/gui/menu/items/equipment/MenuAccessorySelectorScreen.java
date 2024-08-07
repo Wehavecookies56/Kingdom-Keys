@@ -1,13 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -25,6 +18,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectAcce
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuAccessorySelectorScreen extends MenuBackground {
 

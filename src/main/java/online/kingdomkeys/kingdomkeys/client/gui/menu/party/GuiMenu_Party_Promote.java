@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
-import java.awt.Color;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
@@ -24,6 +18,10 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPromote;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.awt.*;
 
 public class GuiMenu_Party_Promote extends MenuBackground {
 	

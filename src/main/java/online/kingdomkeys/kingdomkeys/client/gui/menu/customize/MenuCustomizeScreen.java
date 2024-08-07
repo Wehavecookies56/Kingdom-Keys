@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -14,6 +10,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class MenuCustomizeScreen extends MenuBackground {
 
