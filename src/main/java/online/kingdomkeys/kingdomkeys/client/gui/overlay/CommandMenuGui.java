@@ -67,15 +67,14 @@ public class CommandMenuGui extends OverlayBase {
 	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
 		super.render(gui, guiGraphics, partialTick, width, height);
 		textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
-		texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu/default.png");
-		drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 
-		System.out.println(minecraft.player.level().dimension().location().getPath());
 		String filePath = "textures/gui/commandmenu/"+minecraft.player.level().dimension().location().getPath()+".png";
 		if(ClientUtils.getResourceExists(filePath)) {
 			texture = new ResourceLocation(KingdomKeys.MODID, filePath);
-			drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
+		} else {
+			texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/commandmenu/default.png");
 		}
+		drawCommandMenu(guiGraphics, Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 	}
 
 	float alpha = 1F;
@@ -103,9 +102,6 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	private void paintWithColorArray(GuiGraphics gui, float[] array, float alpha) {
-		System.out.println(texture.getPath());
-		if(!texture.getPath().endsWith("default.png"))
-			return;
 		if (submenu == 0) { //Menu on top should always be of the original color
 			if (EntityEvents.isBoss) { // Red
 				RenderSystem.setShaderColor(bossModeColor[0], bossModeColor[1], bossModeColor[2], alpha);
