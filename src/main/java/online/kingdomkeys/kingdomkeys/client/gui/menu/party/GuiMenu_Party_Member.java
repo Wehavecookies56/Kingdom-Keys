@@ -101,8 +101,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		
 		if(party == null) {
 			GuiHelper.openMenu();
-			return;
-		} else {			
+		} else {
 			if(party.getMember(minecraft.player.getUUID()).isLeader()) {
 				minecraft.setScreen(new GuiMenu_Party_Leader());
 				return;
@@ -143,8 +142,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		float playerPosX = 140F+ (space *(order)*1000);
 		float playerPosY = height * 0.7F;
 		
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
-		
+		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername().toLowerCase());
 				
 		matrixStack.pushPose();
 		{

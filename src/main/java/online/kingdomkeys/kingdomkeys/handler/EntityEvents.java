@@ -656,7 +656,7 @@ public class EntityEvents {
 
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster())), globalData.getStopDamage() / 2);
+						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
 					}
 
 					if (event.getEntity() instanceof ServerPlayer) // Packet to unfreeze client

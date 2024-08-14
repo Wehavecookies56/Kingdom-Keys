@@ -62,7 +62,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 			String[] data = string.split(":");
 			String name = data[1];
 			
-			UUID targetUUID = Utils.getPlayerByName(minecraft.level, name).getUUID();
+			UUID targetUUID = Utils.getPlayerByName(minecraft.level, name.toLowerCase()).getUUID();
 			PacketHandler.sendToServer(new CSPartyInvite(party, targetUUID));
 			//party.removeMember(targetUUID);
 			refreshMembers();

@@ -458,8 +458,8 @@ public class Utils {
 	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
 		boolean membersOn = false;
 		for (Member member : p.getMembers()) {
-			if (Utils.getPlayerByName(level, member.getUsername()) != null) {
-				if (Utils.getPlayerByName(level, member.getUsername()) != player) {
+			if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != null) {
+				if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != player) {
 					membersOn = true;
 				}
 			}
@@ -1097,8 +1097,8 @@ public class Utils {
 				int total = 0;
 				int membersOnline = 0;
 				for (Member m : p.getMembers()) {
-					if (Utils.getPlayerByName(player.level(), m.getUsername()) != null) {
-						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername())).getLevel();
+					if (Utils.getPlayerByName(player.level(), m.getUsername().toLowerCase()) != null) {
+						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername().toLowerCase())).getLevel();
 						membersOnline++;
 					}
 				}

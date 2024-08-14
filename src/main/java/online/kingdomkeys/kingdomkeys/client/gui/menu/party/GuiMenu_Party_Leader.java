@@ -169,7 +169,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 		float playerPosX = 140F+ (space *(order)*1000);
 		float playerPosY = height * 0.7F;
 		
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername().toLowerCase());
 		
 				
 		matrixStack.pushPose();
