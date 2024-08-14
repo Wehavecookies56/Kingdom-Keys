@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,36 +11,37 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
+import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSUseLimitPacket {
 	
-	int index;
+	ResourceLocation limit;
 	int targetID;
 	
 	public CSUseLimitPacket() {}
 
 	
-	public CSUseLimitPacket(int level) {
-		this.index = level;
+	public CSUseLimitPacket(ResourceLocation limit) {
+		this.limit = limit;
 		this.targetID = -1;
 	}
 
-	public CSUseLimitPacket(LivingEntity target, int level) {
-		this.index = level;
+	public CSUseLimitPacket(LivingEntity target, ResourceLocation limit) {
+		this.limit = limit;
 		this.targetID = target.getId();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.index);
+		buffer.writeResourceLocation(this.limit);
 		buffer.writeInt(this.targetID);
 	}
 
 	public static CSUseLimitPacket decode(FriendlyByteBuf buffer) {
 		CSUseLimitPacket msg = new CSUseLimitPacket();
-		msg.index = buffer.readInt();
+		msg.limit = buffer.readResourceLocation();
 		msg.targetID = buffer.readInt();
 		return msg;
 	}
@@ -48,7 +50,7 @@ public class CSUseLimitPacket {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				Limit limit = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(player)).get(message.index);
+				Limit limit = ModLimits.registry.get().getValue(message.limit);
 				int cost = limit.getCost();
 				if (playerData.getDP() >= cost) {
 					playerData.remDP(cost);

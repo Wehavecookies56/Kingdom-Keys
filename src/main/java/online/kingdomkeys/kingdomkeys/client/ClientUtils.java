@@ -109,6 +109,11 @@ public class ClientUtils {
             return false;
         }
     }
+
+    public static ResourceLocation getResourceExistsOrDefault(String path, String name, String defaultName){
+        return new ResourceLocation(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
+    }
+
 	public static DistExecutor.SafeRunnable openMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
         return new DistExecutor.SafeRunnable() {
             @Override

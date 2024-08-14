@@ -46,4 +46,5 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestCont
 		int yPos = (height / 2) - (imageHeight / 2);
 		gui.blit(texture, xPos, yPos, 0, 0, imageWidth, imageHeight);
 	}
+
 }

@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.world.entity.player.Player;
+
 public class DriveFormNone extends DriveForm {
 
     public DriveFormNone(String registryName, int order, boolean hasKeychain) {
@@ -20,5 +22,10 @@ public class DriveFormNone extends DriveForm {
     @Override
     public boolean canUseMagic() {
     	return true;
+    }
+
+    @Override
+    public boolean displayInCommandMenu(Player player) {
+        return false;
     }
 }

@@ -381,7 +381,7 @@ public class Utils {
 	public static Player getPlayerByName(Level world, String name) {
 		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
 		for (Player p : players) {
-			if (p.getDisplayName().getString().equals(name)) {
+			if (p.getDisplayName().getString().toLowerCase().equals(name)) {
 				return p;
 			}
 		}

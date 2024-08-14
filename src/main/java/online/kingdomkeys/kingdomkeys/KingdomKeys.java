@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BlockItem;
+import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import online.kingdomkeys.kingdomkeys.util.APITests;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
@@ -248,6 +250,7 @@ public class KingdomKeys {
 				if (ModList.get().isLoaded("epicfight")) {
 					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
+				MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 			}
 		});
 	}
