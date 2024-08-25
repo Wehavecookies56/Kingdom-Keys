@@ -29,6 +29,7 @@ public class KOGui extends ChatScreen {
 			case "giveup" -> {
 				PacketHandler.sendToServer(new CSGiveUpKO());
 				this.minecraft.setScreen(null);
+				ModCapabilities.getGlobal(minecraft.player).setKO(false);
 			}
 			case "exit" -> {
 				if (this.minecraft.level != null) {
