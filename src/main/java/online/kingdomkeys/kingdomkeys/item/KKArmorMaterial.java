@@ -114,7 +114,6 @@ public enum KKArmorMaterial implements ArmorMaterial {
 		return this.repairMaterial.get();
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public String getName() {
 		return this.name;
