@@ -2,14 +2,11 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -33,14 +30,14 @@ public class BaseKHEntity extends Monster implements IKHMob {
 	}
 
 	@Override
-	public int getExperienceReward() {
+	protected int getBaseExperienceReward() {
 		if (getKHMobType() != MobType.NPC) {
-			IGlobalCapabilities mobData = ModCapabilities.getGlobal(this);
+			IGlobalCapabilities mobData = ModData.getGlobal(this);
 			if (mobData != null && mobData.getLevel() > 0) {
-				return (int) (super.getExperienceReward() * (mobData.getLevel() / 10F));
+				return (int) (super.getBaseExperienceReward() * (mobData.getLevel() / 10F));
 			}
 		}
-		return super.getExperienceReward();
+		return super.getBaseExperienceReward();
 	}
 
 	@Override //True = can't get hit

@@ -7,8 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 
 import java.util.function.Supplier;
@@ -29,7 +29,7 @@ public class WorldCardItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
     	if(!pLevel.isClientSide) {
-	        CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(pLevel);
+	        CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(pLevel);
 	        if (cap != null) {
 	            Room currentRoom = cap.getRoomAtPos(pLevel, pPlayer.blockPosition());
 	            if (currentRoom == null) {

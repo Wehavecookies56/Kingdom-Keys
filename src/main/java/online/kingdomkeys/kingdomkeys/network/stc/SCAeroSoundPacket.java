@@ -1,38 +1,34 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCAeroSoundPacket {
+public record SCAeroSoundPacket(int entID) implements Packet {
+	public static final Type<SCAeroSoundPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_aero_sound"));
 
-	int entID;
-	public SCAeroSoundPacket() {
-		
+	public static final StreamCodec<FriendlyByteBuf, SCAeroSoundPacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.INT,
+			SCAeroSoundPacket::entID,
+			SCAeroSoundPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.aeroSoundInstance(entID);
+		}
 	}
 
-	public SCAeroSoundPacket(LivingEntity ent) {
-		this.entID = ent.getId();
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(entID);
-	}
-
-	public static SCAeroSoundPacket decode(FriendlyByteBuf buffer) {
-		SCAeroSoundPacket msg = new SCAeroSoundPacket();
-		msg.entID = buffer.readInt();
-		return msg;
-	}
-
-	public static void handle(final SCAeroSoundPacket message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.aeroSoundInstance(message.entID)));
-		ctx.get().setPacketHandled(true);
-	}
-
 }

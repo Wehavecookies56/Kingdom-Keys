@@ -10,10 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class RagnarokShotEntity extends BaseShotlockShotEntity {
@@ -21,10 +19,6 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	public RagnarokShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public RagnarokShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world);
 	}
 
 	public RagnarokShotEntity(Level world, LivingEntity player, Entity target, double dmg) {

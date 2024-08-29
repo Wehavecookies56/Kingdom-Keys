@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
@@ -30,12 +31,12 @@ public class CastleOblivionInteriorChunkGenerator extends ChunkGenerator {
 
     BiomeSource biomeSource;
 
-	public static final Codec<CastleOblivionInteriorChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
+	public static final MapCodec<CastleOblivionInteriorChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
                     .apply(instance, instance.stable(CastleOblivionInteriorChunkGenerator::new)));
     
     @Override
-    protected Codec<? extends ChunkGenerator> codec() {
+    protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
@@ -50,6 +51,11 @@ public class CastleOblivionInteriorChunkGenerator extends ChunkGenerator {
     @Override
     public int getGenDepth() {
         return 0;
+    }
+
+    @Override
+    public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
+        return CompletableFuture.completedFuture(chunk);
     }
 
     @Override
@@ -81,10 +87,4 @@ public class CastleOblivionInteriorChunkGenerator extends ChunkGenerator {
     public void addDebugScreenInfo(List<String> pInfo, RandomState pRandom, BlockPos pPos) {
 
     }
-
-    @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor pExecutor, Blender pBlender, RandomState pRandom, StructureManager pStructureManager, ChunkAccess pChunk) {
-        return CompletableFuture.completedFuture(pChunk);
-    }
-    
 }

@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class AquaShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "aqua_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "aqua_shoulder"), "main");
 
     public AquaShoulderModel(ModelPart root) {
         super(root);
@@ -41,10 +41,10 @@ public class AquaShoulderModel<T extends LivingEntity> extends HumanoidModel<T> 
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        leftArm.render(poseStack, buffer, packedLight, packedOverlay, color);
     }
-    
+
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     	if (entity instanceof ArmorStand) {

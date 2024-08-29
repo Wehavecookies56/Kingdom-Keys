@@ -3,13 +3,11 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import static online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer.armorModels;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.NonNullList;
@@ -19,8 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -48,7 +45,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
     @Override
     public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLightIn, OpenMatrix4f[] poses, float bob, float netYawHead, float pitchHead, float partialTicks) {
         if (e instanceof Player player) {
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
             int color = playerData.getArmorColor();
             float red = ((color >> 16) & 0xff) / 255F;
             float green = ((color >> 8) & 0xff) / 255F;

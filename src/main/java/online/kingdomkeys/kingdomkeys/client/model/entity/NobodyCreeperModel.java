@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "nobodycreeper"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nobodycreeper"), "main");
     public final ModelPart BodyLower;
     public final ModelPart BodyMiddle;
     public final ModelPart LeftLegUpper;
@@ -316,7 +316,7 @@ public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
 
     }
 }

@@ -6,15 +6,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -64,19 +63,19 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
     public void action(ResourceLocation stackRL, ItemStack stack) {
     	super.action(stackRL, stack);
-    	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
+    	Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
     	if(mat == null)
     		return;
-    	int amount = ModCapabilities.getPlayer(minecraft.player).getMaterialAmount(mat);
+    	int amount = ModData.getPlayer(minecraft.player).getMaterialAmount(mat);
 		amountBox.setValue(""+Math.min(64, amount));
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (delta > 0 && prev.visible) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if (deltaY > 0 && prev.visible) {
 			action("prev");
 			return true;
-		} else if (delta < 0 && next.visible) {
+		} else if (deltaY < 0 && next.visible) {
 			action("next");
 			return true;
 		}
@@ -98,15 +97,15 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			
 			LocalPlayer player = minecraft.player;
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			try {
 				for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
 					ItemStack stack = player.getInventory().getItem(i);
 
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
 
-						if (ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
-							Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
+						if (ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
+							Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
 							playerData.addMaterial(mat, stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
@@ -121,7 +120,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle));
 			break;
 		case "take":
-			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+			ItemStack selectedItemstack = new ItemStack(BuiltInRegistries.ITEM.get(selectedRL));
 
 			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
@@ -173,10 +172,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		for (Entry<String, Integer> mat : playerData.getMaterialMap().entrySet()) {
-			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(mat.getKey()));
+			Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(mat.getKey()));
 			items.add(new ItemStack(item, mat.getValue()));
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(ItemStack::getDescriptionId));

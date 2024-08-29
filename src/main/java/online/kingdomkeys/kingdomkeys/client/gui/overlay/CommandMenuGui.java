@@ -1,13 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import dev.architectury.platform.Mod;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,12 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -32,11 +25,9 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
@@ -53,7 +44,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO cleanup
@@ -86,15 +76,15 @@ public class CommandMenuGui extends OverlayBase {
 
 	private CommandMenuGui() {
 		super();
-		root = new ResourceLocation(KingdomKeys.MODID, "root");
-		attack = new ResourceLocation(KingdomKeys.MODID, "attack");
-		magic = new ResourceLocation(KingdomKeys.MODID, "magic");
-		items = new ResourceLocation(KingdomKeys.MODID, "items");
-		drive = new ResourceLocation(KingdomKeys.MODID, "drive");
-		portals = new ResourceLocation(KingdomKeys.MODID, "portals");
-		limit = new ResourceLocation(KingdomKeys.MODID, "limit");
-		target = new ResourceLocation(KingdomKeys.MODID, "target");
-		revert = new ResourceLocation(KingdomKeys.MODID, "revert");
+		root = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "root");
+		attack = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "attack");
+		magic = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "magic");
+		items = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "items");
+		drive = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive");
+		portals = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "portals");
+		limit = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "limit");
+		target = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "target");
+		revert = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "revert");
 		currentSubmenu = root;
 		commandMenuElements = new HashMap<>();
 		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command))
@@ -110,7 +100,7 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(150, 18),
 						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(140, 18),
 						new CommandMenuItem.Builder(revert, Component.translatable(Strings.Gui_CommandMenu_Drive_Revert), item -> {
-							IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+							IPlayerData playerData = ModData.getPlayer(minecraft.player);
 							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
 								playErrorSound();
 							} else {
@@ -119,7 +109,7 @@ public class CommandMenuGui extends OverlayBase {
 							}
 						}).invisibleByDefault().onUpdate((item, guiGraphics) -> {
 							if (item.isVisible()) {
-								if (ModCapabilities.getPlayer(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+								if (ModData.getPlayer(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 									item.setVisible(false);
 									item.getParent().getChild(drive).setVisible(true);
 								}
@@ -174,7 +164,7 @@ public class CommandMenuGui extends OverlayBase {
 		return (subMenu, guiGraphics) -> {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> magicList = new HashMap<>();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			ModConfigs.magicDisplayedInCommandMenu.stream().filter(m -> playerData.getMagicsMap().containsKey(m)).toList().forEach(s -> {
 				magicList.put(s, i.getAndIncrement());
 			});
@@ -182,7 +172,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setSorting(0);
 				if (magicList.containsKey(item.getId().toString())) {
 					item.setSorting(magicList.get(item.getId().toString()));
-					item.setMessage(Component.translatable(ModMagic.registry.get().getValue(item.getId()).getTranslationKey(playerData.getMagicLevel(item.getId()))));
+					item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey(playerData.getMagicLevel(item.getId()))));
 					item.setVisible(true);
 				} else {
 					item.setVisible(false);
@@ -195,7 +185,7 @@ public class CommandMenuGui extends OverlayBase {
 		return (subMenu, guiGraphics) -> {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> limits = new HashMap<>();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			Utils.getSortedLimits(Utils.getPlayerLimitAttacks(minecraft.player)).forEach(limit -> {
 				limits.put(limit.getRegistryName().toString(), i.getAndIncrement());
 			});
@@ -215,9 +205,9 @@ public class CommandMenuGui extends OverlayBase {
 		return (subMenu, guiGraphics) -> {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> formList = new HashMap<>();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			playerData.getDriveFormMap().forEach((s, ints) -> {
-				formList.put(s, ModDriveForms.registry.get().getValue(new ResourceLocation(s)).getOrder());
+				formList.put(s, ModDriveForms.registry.get(ResourceLocation.parse(s)).getOrder());
 			});
 			subMenu.getChildren().forEach(item -> {
 				item.setSorting(0);
@@ -234,8 +224,8 @@ public class CommandMenuGui extends OverlayBase {
 	public CommandMenuItem.Builder[] createMagicFromRegistry() {
 		List<CommandMenuItem.Builder> magic = new ArrayList<>();
 		ModMagic.MAGIC.getEntries().forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getId(), Component.translatable(magicRegistryObject.get().getTranslationKey()), item -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-			IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
 			int[] mag = playerData.getMagicsMap().get(magicRegistryObject.getId().toString());
 			double cost = magicRegistryObject.get().getCost(mag[0], minecraft.player);
 
@@ -243,7 +233,7 @@ public class CommandMenuGui extends OverlayBase {
 				playErrorSound();
 				changeSubmenu(root, true);
 			} else {
-				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get().getValue(magicRegistryObject.getId()).getHasToSelect()) { //Open party target selector
+				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getId()).getHasToSelect()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
 						String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
 						int level = playerData.getMagicLevel(magicRegistryObject.getId());
@@ -263,8 +253,8 @@ public class CommandMenuGui extends OverlayBase {
 			}
 		})
 				.onUpdate((item, guiGraphics) -> {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-					Magic magicInst = ModMagic.registry.get().getValue(item.getId());
+					IPlayerData playerData = ModData.getPlayer(minecraft.player);
+					Magic magicInst = ModMagic.registry.get(item.getId());
 					if (playerData.getMP() > 0 && !playerData.getRecharge()) {
 						item.setActive(true);
 						item.setTextColour(Color.WHITE);
@@ -282,7 +272,7 @@ public class CommandMenuGui extends OverlayBase {
 	public CommandMenuItem.Builder[] createDriveFormsFromRegistry() {
 		List<CommandMenuItem.Builder> forms = new ArrayList<>();
 		ModDriveForms.DRIVE_FORMS.getEntries().stream().filter(driveFormRegistryObject -> driveFormRegistryObject.get().displayInCommandMenu(minecraft.player)).forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getId(), Component.translatable(driveFormRegistryObject.get().getTranslationKey()), item -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			if (playerData.getDP() >= driveFormRegistryObject.get().getDriveCost()) {
 				if (!antiFormCheck(playerData, driveFormRegistryObject.get())) {
 					PacketHandler.sendToServer(new CSUseDriveFormPacket(driveFormRegistryObject.getId().toString()));
@@ -294,7 +284,7 @@ public class CommandMenuGui extends OverlayBase {
 				playErrorSound();
 			}
 		}).onUpdate((item, guiGraphics) -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			DriveForm form = ModDriveForms.registry.get().getValue(item.getId());
 			if (playerData.getDP() >= form.getDriveCost()) {
 				item.setActive(true);
@@ -308,7 +298,7 @@ public class CommandMenuGui extends OverlayBase {
 	public CommandMenuItem.Builder[] createLimitsFromRegistry() {
 		List<CommandMenuItem.Builder> limits = new ArrayList<>();
 		ModLimits.LIMITS.getEntries().forEach(limitRegistryObject -> limits.add(new CommandMenuItem.Builder(limitRegistryObject.getId(), Component.translatable(limitRegistryObject.get().getTranslationKey()), item -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			if (playerData.getDP() < limitRegistryObject.get().getCost()) {
 				playErrorSound();
 			} else {
@@ -320,7 +310,7 @@ public class CommandMenuGui extends OverlayBase {
 				playInSound();
 			}
 		}).onUpdate((item, guiGraphics) -> {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			Limit limit = ModLimits.registry.get().getValue(item.getId());
 			item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + ":  "));
 			if (playerData.getDP() >= limit.getCost()) {
@@ -336,11 +326,11 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	public boolean isOrgMode() {
-		return ModCapabilities.getPlayer(minecraft.player).getAlignment() != OrgMember.NONE;
+		return ModData.getPlayer(minecraft.player).getAlignment() != OrgMember.NONE;
 	}
 
 	public void updateRootItem(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		if (item.getId().equals(portals) && isOrgMode() && item.getParent().getSelected().equals(item)) {
 			if (minecraft.player.getMainHandItem() != null && minecraft.player.getMainHandItem().getItem() instanceof ArrowgunItem) {
 				ItemStack weapon = minecraft.player.getMainHandItem();
@@ -373,7 +363,7 @@ public class CommandMenuGui extends OverlayBase {
 				});
 				return;
 			} else if (submenu.equals(portals)) {
-				item.setActive(!ModCapabilities.getWorld(minecraft.level).getAllPortalsFromOwnerID(minecraft.player.getUUID()).isEmpty());
+				item.setActive(!ModData.getWorld(minecraft.level).getAllPortalsFromOwnerID(minecraft.player.getUUID()).isEmpty());
 				return;
 			} else if (!commandMenuElements.get(submenu).getVisibleChildren().isEmpty()) {
 				item.setActive(true);
@@ -385,7 +375,7 @@ public class CommandMenuGui extends OverlayBase {
 
 	public void createTargets(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
-		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+		IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
 		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
 			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
 			targets.forEach(member -> {
@@ -400,11 +390,11 @@ public class CommandMenuGui extends OverlayBase {
 
 	public void createPortals(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
-		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+		IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
 		worldData.getAllPortalsFromOwnerID(minecraft.player.getUUID()).forEach(uuid -> {
 			PortalData portalData = worldData.getPortalFromUUID(uuid);
 			String rlUUID = uuid.toString().replaceAll("-", "_");
-			subMenu.addChild(new CommandMenuItem.Builder(new ResourceLocation(rlUUID), Component.translatable(portalData.getName()), item -> {
+			subMenu.addChild(new CommandMenuItem.Builder(ResourceLocation.parse(rlUUID), Component.translatable(portalData.getName()), item -> {
 				PortalData portal = worldData.getPortalFromUUID(UUID.fromString(item.getId().getPath().replaceAll("_", "-")));
 				if (!portal.getPos().equals(new BlockPos(0,0,0))) { //If the portal is not default coords
 					summonPortal(portal);
@@ -446,13 +436,13 @@ public class CommandMenuGui extends OverlayBase {
 
 	public void createItems(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
 		playerData.getEquippedItems().forEach((integer, stack) -> {
 				if (!stack.isEmpty()) {
 					subMenu.addChild(
 					new CommandMenuItem.Builder(
-							new ResourceLocation(KingdomKeys.MODID, integer.toString()),
+							ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, integer.toString()),
 							Component.literal(stack.getDisplayName().getString().substring(1, stack.getDisplayName().getString().length()-1)),
 							item -> {
 								if(stack.getItem() instanceof KKPotionItem) {
@@ -548,7 +538,7 @@ public class CommandMenuGui extends OverlayBase {
 		}
 	}
 
-	public boolean antiFormCheck(IPlayerCapabilities playerData, DriveForm driveForm) { //Only checks if form is not final
+	public boolean antiFormCheck(IPlayerData playerData, DriveForm driveForm) { //Only checks if form is not final
 		if(!driveForm.canGoAnti()) {
 			return false;
 		}
@@ -590,15 +580,15 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
-		drawReactionCommands(guiGraphics, width, height);
+		drawReactionCommands(guiGraphics, deltaTracker);
 
 		List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
 		submenus.forEach(submenu -> {
-			submenu.render(guiGraphics, width, height, partialTick);
+			submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
 			submenu.onUpdate(guiGraphics);
 		});
 
@@ -625,10 +615,10 @@ public class CommandMenuGui extends OverlayBase {
 		System.out.println(commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().getId().toString());
 	}
 
-	public void drawReactionCommands(GuiGraphics gui, int width, int height) {
+	public void drawReactionCommands(GuiGraphics gui, DeltaTracker deltaTracker) {
 		float alpha = 1F;
 		float scale = 1.05f;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		List<String> list = playerData.getReactionCommands();
 
 		for(int i = 0; i < list.size(); i++) {

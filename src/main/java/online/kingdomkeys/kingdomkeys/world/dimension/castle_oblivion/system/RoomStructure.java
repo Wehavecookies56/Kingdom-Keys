@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Size2i;
+import net.neoforged.neoforge.common.util.Size2i;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;

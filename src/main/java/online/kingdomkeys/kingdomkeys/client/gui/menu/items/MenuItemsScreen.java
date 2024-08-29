@@ -3,8 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -33,7 +32,7 @@ public class MenuItemsScreen extends MenuBackground {
 
         Minecraft mc = Minecraft.getInstance();
 
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+        IPlayerData playerData = ModData.getPlayer(mc.player);
 
         addRenderableWidget(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
         addRenderableWidget(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
@@ -41,7 +40,7 @@ public class MenuItemsScreen extends MenuBackground {
 
     }
 
-    public void openItems(IPlayerCapabilities playerData) {
+    public void openItems(IPlayerData playerData) {
         //if (playerData.getAlignment() == Utils.OrgMember.NONE) {
             Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
        // } else {

@@ -27,7 +27,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -163,7 +163,7 @@ public class WatergaEntity extends ThrowableProjectile {
 					if (target != getOwner()) {
 						Party p = null;
 						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+							p = ModData.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.6F : 2;
@@ -211,7 +211,7 @@ public class WatergaEntity extends ThrowableProjectile {
 					}
 				}
 
-				Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+				Party casterParty = ModData.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {

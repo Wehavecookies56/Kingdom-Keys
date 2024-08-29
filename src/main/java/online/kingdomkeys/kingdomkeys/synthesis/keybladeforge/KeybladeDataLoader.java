@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -18,8 +20,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -63,9 +63,9 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
         System.out.print("Loading Keyblades: ");
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
         	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
-            ResourceLocation keybladeDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
+            ResourceLocation keybladeDataID = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             try {
-                KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(keybladeDataID);
+                KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(keybladeDataID);
                 BufferedReader br = manager.getResource(file).get().openAsReader();
             	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	String data = "";

@@ -2,8 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.journal;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -31,7 +30,7 @@ public class MenuJournalScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		
 		//updateScreen();

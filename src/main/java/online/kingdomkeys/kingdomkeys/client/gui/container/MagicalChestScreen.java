@@ -9,14 +9,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.container.MagicalChestContainer;
+import online.kingdomkeys.kingdomkeys.menu.MagicalChestMenu;
 import org.jetbrains.annotations.NotNull;
 
-public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestContainer> {
+public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestMenu> {
 
-	private static final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/magical_chest.png");
+	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/magical_chest.png");
 
-    public MagicalChestScreen(MagicalChestContainer container, Inventory inventory, Component title) {
+    public MagicalChestScreen(MagicalChestMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
         this.imageHeight = 186;
 
@@ -24,7 +24,7 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestCont
 
     @Override
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
-        this.renderBackground(gui);
+        this.renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         super.render(gui, p_render_1_, p_render_2_, p_render_3_);
         this.renderTooltip(gui, p_render_1_, p_render_2_);
     }

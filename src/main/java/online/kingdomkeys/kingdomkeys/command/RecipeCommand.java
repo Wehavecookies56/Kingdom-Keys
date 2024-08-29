@@ -19,8 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -89,8 +88,8 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.addKnownRecipe(new ResourceLocation(recipe));
+			IPlayerData playerData = ModData.getPlayer(player);
+			playerData.addKnownRecipe(ResourceLocation.parse(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
 			}
@@ -105,8 +104,8 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			playerData.removeKnownRecipe(new ResourceLocation(recipe));
+			IPlayerData playerData = ModData.getPlayer(player);
+			playerData.removeKnownRecipe(ResourceLocation.parse(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
 			}
@@ -120,7 +119,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				playerData.addKnownRecipe(actual.getRegistryName());
 			}
@@ -138,7 +137,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				if(actual.getType().equals("keyblade"))
 					playerData.addKnownRecipe(actual.getRegistryName());
@@ -158,7 +157,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				if(actual.getType().equals("item"))
 					playerData.addKnownRecipe(actual.getRegistryName());
@@ -178,7 +177,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.clearRecipes("all");
 
 			if (player != context.getSource().getPlayerOrException()) {
@@ -194,7 +193,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			
 			playerData.clearRecipes("keyblade");
 
@@ -211,7 +210,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.clearRecipes("item");
 
 			if (player != context.getSource().getPlayerOrException()) {

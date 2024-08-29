@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LanceEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -39,7 +39,7 @@ public class LanceItem extends OrgSwordItem implements IOrgWeapon {
 			player.getCooldowns().addCooldown(this, 10);
 			LanceEntity entity = new LanceEntity(level);
 			
-			switch(ForgeRegistries.ITEMS.getKey(this).getPath()) {
+			switch(BuiltInRegistries.ITEM.getKey(this).getPath()) {
 	    	case Strings.lindworm:
 	    		entity.setRotationPoint(0);
 	    		break;

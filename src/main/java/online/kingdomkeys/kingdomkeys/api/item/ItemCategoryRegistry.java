@@ -1,30 +1,32 @@
 package online.kingdomkeys.kingdomkeys.api.item;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 
+//TODO probably replace with data map
 public class ItemCategoryRegistry {
 
     public static HashMap<String, ItemCategory> categories = new HashMap<>();
 
     static {
-    	ForgeRegistries.BLOCKS.forEach(block -> {
+        BuiltInRegistries.BLOCK.forEach(block -> {
     		register(block, ItemCategory.BUILDING);
     	});
     	
-    	ForgeRegistries.ITEMS.forEach(item -> {
+    	BuiltInRegistries.ITEM.forEach(item -> {
     		if(item instanceof SwordItem || item instanceof ShieldItem || item instanceof PickaxeItem || item instanceof ShovelItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof CrossbowItem || item instanceof BowItem) {
     			register(item, ItemCategory.TOOL);
-    		} else if(item.isEdible() || item instanceof PotionItem) {
+    		} else if(item.getDefaultInstance().getFoodProperties(null) != null || item instanceof PotionItem) {
     			register(item, ItemCategory.CONSUMABLE);
     		} else if(item instanceof ArmorItem || item instanceof ElytraItem) {
     			register(item, ItemCategory.EQUIPMENT);
     		}
-    		
     	});
 
         register(Items.FLINT_AND_STEEL, ItemCategory.TOOL);
@@ -44,11 +46,11 @@ public class ItemCategoryRegistry {
     }
 
     public static void register(Item item, ItemCategory category) {
-        categories.put(ForgeRegistries.ITEMS.getKey(item).toString(), category);
+        categories.put(BuiltInRegistries.ITEM.getKey(item).toString(), category);
     }
 
     public static void register(Block block, ItemCategory category) {
-        categories.put(ForgeRegistries.BLOCKS.getKey(block).toString(), category);
+        categories.put(BuiltInRegistries.BLOCK.getKey(block).toString(), category);
     }
 
     //TODO work with tags better
@@ -60,11 +62,11 @@ public class ItemCategoryRegistry {
     }**/
 
     public static boolean hasCategory(Item item) {
-        return categories.containsKey(ForgeRegistries.ITEMS.getKey(item).toString());
+        return categories.containsKey(BuiltInRegistries.ITEM.getKey(item).toString());
     }
 
     public static ItemCategory getCategory(Item item) {
-        return categories.get(ForgeRegistries.ITEMS.getKey(item).toString());
+        return categories.get(BuiltInRegistries.ITEM.getKey(item).toString());
     }
 
 }

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -12,7 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class SavePointStorage extends SavedData {
                     nbt.getString("NAME"),
                     new BlockPos(nbt.getInt("POSX"), nbt.getInt("POSY"), nbt.getInt("POSZ")),
                     Pair.of(nbt.getUUID("OWNER_UUID"), nbt.getString("OWNER_NAME")),
-                    ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("DIM"))),
+                    ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(nbt.getString("DIM"))),
                     nbt.getBoolean("GLOBAL"),
                     getCreatedTime(nbt)
             );
@@ -85,8 +87,8 @@ public class SavePointStorage extends SavedData {
     public Map<UUID, Pair<SavePoint, Instant>> getDiscoveredSavePoints(Player player) {
         Map<UUID, Pair<SavePoint, Instant>> filteredRegistry = new HashMap<>();
         //Filter out any save points that no longer exist and any global save points
-        Map<UUID, Instant> uuids = ModCapabilities.getPlayer(player).discoveredSavePoints().entrySet().stream().filter(uuidInstantEntry -> savePointRegistry.containsKey(uuidInstantEntry.getKey()) && !savePointRegistry.get(uuidInstantEntry.getKey()).global).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        ModCapabilities.getPlayer(player).setDiscoveredSavePoints(uuids);
+        Map<UUID, Instant> uuids = PlayerData.get(player).discoveredSavePoints().entrySet().stream().filter(uuidInstantEntry -> savePointRegistry.containsKey(uuidInstantEntry.getKey()) && !savePointRegistry.get(uuidInstantEntry.getKey()).global).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        PlayerData.get(player).setDiscoveredSavePoints(uuids);
         List<SavePoint> savePointList = savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuids.containsKey(uuidSavePointEntry.getKey())).map(Map.Entry::getValue).toList();
         savePointList.forEach(savePoint -> filteredRegistry.put(savePoint.id, Pair.of(savePoint, uuids.get(savePoint.id))));
         getGlobalSavePoints().forEach((uuid, savePoint) -> filteredRegistry.put(uuid, Pair.of(savePoint, savePoint.timeCreated)));
@@ -122,14 +124,14 @@ public class SavePointStorage extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
+    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider provider) {
         for (SavePoint savePoint : savePointRegistry.values()) {
             nbt.put(savePoint.id.toString(), savePoint.serializeNBT());
         }
         return nbt;
     }
 
-    private static SavePointStorage load(CompoundTag nbt) {
+    private static SavePointStorage load(CompoundTag nbt, HolderLookup.Provider provider) {
         SavePointStorage data = SavePointStorage.create();
         for (String key : nbt.getAllKeys()) {
             data.addSavePoint(new SavePoint(nbt.getCompound(key)));
@@ -142,6 +144,6 @@ public class SavePointStorage extends SavedData {
     }
 
     public static SavePointStorage getStorage(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(SavePointStorage::load, SavePointStorage::create, KingdomKeys.MODID + "_savepoints");
+        return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(SavePointStorage::create, SavePointStorage::load), KingdomKeys.MODID + "_savepoints");
     }
 }

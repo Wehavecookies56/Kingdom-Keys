@@ -3,17 +3,15 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -36,12 +34,12 @@ public class PartyHUDGui extends OverlayBase {
 
 	public ResourceLocation getLocationSkin(Player player) {
 		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
-		return networkplayerinfo == null ? DefaultPlayerSkin.getDefaultSkin(player.getUUID()) : networkplayerinfo.getSkinLocation();
+		return networkplayerinfo == null ? DefaultPlayerSkin.get(player.getUUID()).texture() : networkplayerinfo.getSkin().texture();
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		Player player = minecraft.player;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -49,7 +47,7 @@ public class PartyHUDGui extends OverlayBase {
 
 		float scale = 0.5f;
 
-		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
+		IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
 		Party p = worldData.getPartyFromMember(player.getUUID());
 		if (p == null) {
 			return;
@@ -82,7 +80,7 @@ public class PartyHUDGui extends OverlayBase {
 		if (playerAlly != null) {
 			skin = getLocationSkin(playerAlly);
 		} else {
-			skin = new ResourceLocation("minecraft", "textures/entity/player/wide/steve.png");
+			skin = ResourceLocation.withDefaultNamespace("textures/entity/player/wide/steve.png");
 		}
 
 		PoseStack matrixStack = gui.pose();
@@ -148,7 +146,7 @@ public class PartyHUDGui extends OverlayBase {
 				// HP
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
-				ResourceLocation hptexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png");
+				ResourceLocation hptexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
 				matrixStack.translate(-4, 0, 1);
 				// Top
 				matrixStack.pushPose();
@@ -185,11 +183,11 @@ public class PartyHUDGui extends OverlayBase {
 				matrixStack.popPose();
 
 				// MP
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerAlly);
+				IPlayerData playerData = ModData.getPlayer(playerAlly);
 				if (playerData != null) {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
-					ResourceLocation mptexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png");
+					ResourceLocation mptexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
 					matrixStack.translate(20, 0, 1);
 					// Top
 					matrixStack.pushPose();

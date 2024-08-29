@@ -8,16 +8,21 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import org.lwjgl.glfw.GLFW;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -27,15 +32,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.*;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseScrollingEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -46,11 +43,9 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
-import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
-import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
@@ -74,9 +69,9 @@ public class InputHandler {
     public Minecraft mc;
     public LocalPlayer player;
     @Nullable public ClientLevel level;
-    public IPlayerCapabilities playerData;
-    public IGlobalCapabilities globalData;
-    @Nullable public IWorldCapabilities worldData;
+    public PlayerData playerData;
+    public GlobalData globalData;
+    @Nullable public WorldData worldData;
     public InputHandler() {
         mc = Minecraft.getInstance();
     }
@@ -85,11 +80,11 @@ public class InputHandler {
         player = mc.player;
         level = mc.level;
         if (level != null) {
-            worldData = ModCapabilities.getWorld(level);
+            worldData = WorldData.getClient();
         }
         if (player != null) {
-            playerData = ModCapabilities.getPlayer(player);
-            globalData = ModCapabilities.getGlobal(player);
+            playerData = PlayerData.get(player);
+            globalData = GlobalData.get(player);
         }
     }
 
@@ -103,7 +98,7 @@ public class InputHandler {
                 return;
 
             if (key != null) {
-                if (!MinecraftForge.EVENT_BUS.post(new KKInputEvent.Pre(key, this))) {
+                if (!NeoForge.EVENT_BUS.post(new KKInputEvent.Pre(key, this)).isCanceled()) {
                     switch (key) {
                         case OPENMENU -> openMenu();
                         case SHOW_GUI -> showGui();
@@ -129,7 +124,7 @@ public class InputHandler {
                         case LOCK_ON -> lockOn();
                         case REACTION_COMMAND -> reactionCommand();
                     }
-                    MinecraftForge.EVENT_BUS.post(new KKInputEvent.Post(key, this));
+                    NeoForge.EVENT_BUS.post(new KKInputEvent.Post(key, this));
                 }
             } else {
                 otherKeyPressed(event);
@@ -184,15 +179,15 @@ public class InputHandler {
     }
 
     @SubscribeEvent
-    public void OnMouseWheelScroll(MouseScrollingEvent event) {
+    public void OnMouseWheelScroll(InputEvent.MouseScrollingEvent event) {
         init();
         if (mc.isWindowActive() && KeyboardHelper.isScrollActivatorDown()) {
             event.setCanceled(true);
             if(!Utils.shouldRenderOverlay(player))
                 return;
-            if(event.getScrollDelta() == Constants.WHEEL_DOWN) {
+            if(event.getScrollDeltaY() == Constants.WHEEL_DOWN) {
                 commandDown();
-            }else if(event.getScrollDelta() == Constants.WHEEL_UP) {
+            }else if(event.getScrollDeltaY() == Constants.WHEEL_UP) {
                 commandUp();
             }
         }
@@ -234,7 +229,7 @@ public class InputHandler {
             if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player) && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1)
                 PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             else
-                PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(playerData.getActiveDriveForm())));
+                PacketHandler.sendToServer(new CSSummonKeyblade(ResourceLocation.parse(playerData.getActiveDriveForm())));
         }
 
         if(ModConfigs.summonTogether)
@@ -311,7 +306,7 @@ public class InputHandler {
         int wisdomLevel = playerData.getDriveFormLevel(Strings.Form_Wisdom);
 
         double power = 0;
-        DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
         // Wisdom Form
         if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
@@ -335,7 +330,7 @@ public class InputHandler {
     public void dodgeRoll() {
         int limitLevel = playerData.getDriveFormLevel(Strings.Form_Limit);
         double power = 0;
-        DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
         if (playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
             power = Constants.LIMIT_DR[limitLevel];
@@ -369,7 +364,7 @@ public class InputHandler {
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
             String reactionName = playerData.getReactionCommands().get(CommandMenuGui.reactionSelected);
-            ReactionCommand reaction = ModReactionCommands.registry.get().getValue(new ResourceLocation(reactionName));
+            ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
             CommandMenuGui.reactionSelected = 0;
             if (reaction != null) {
                 playSound(reaction.getUseSound(player, InputHandler.lockOn));
@@ -380,7 +375,7 @@ public class InputHandler {
 	}
 
     public void otherKeyPressed(InputEvent.Key event) {
-        DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
             if (globalData != null && globalData.getStoppedTicks() <= 0) {

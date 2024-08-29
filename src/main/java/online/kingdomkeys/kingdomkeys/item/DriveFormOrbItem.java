@@ -10,8 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -31,9 +30,9 @@ public class DriveFormOrbItem extends Item {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {		
 		if (!world.isClientSide) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			if (playerData != null && playerData.getDriveFormMap() != null) {
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
+				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
 				playerData.addVisibleDriveForm(formName);
 
 				if (playerData.getDriveFormMap().containsKey(formName)) { // If you have the form add some exp
@@ -60,7 +59,7 @@ public class DriveFormOrbItem extends Item {
 
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
-					playerData.setNewKeychain(new ResourceLocation(formName), ItemStack.EMPTY);
+					playerData.setNewKeychain(ResourceLocation.parse(formName), ItemStack.EMPTY);
 					player.displayClientMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), true);
 					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 						player.getMainHandItem().shrink(1);
@@ -68,18 +67,18 @@ public class DriveFormOrbItem extends Item {
 						player.getOffhandItem().shrink(1);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(player)), (ServerPlayer) player);
 			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(formName));
+	public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
+		DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
 		if (form != null) {
 			tooltip.add(Component.translatable(Utils.translateToLocal("gui.driveformorb.tooltip",Utils.translateToLocal(form.getTranslationKey()))));
 		}
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(pStack, pContext, tooltip, pTooltipFlag);
 	}
 }

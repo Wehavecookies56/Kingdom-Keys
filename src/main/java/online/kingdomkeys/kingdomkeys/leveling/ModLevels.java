@@ -1,32 +1,24 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
-import java.util.function.Supplier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.function.Supplier;
 
 public class ModLevels {
 
-	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "levels"), KingdomKeys.MODID);
+	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "levels"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Level>> registry = LEVELS.makeRegistry(RegistryBuilder::new);
+	public static final ResourceKey<Registry<Level>> LEVE£L_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "levels"));
+	public static Registry<Level> registry = new RegistryBuilder<>(LEVE£L_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
 
-	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class Registry {
 
-		@SubscribeEvent
-		public static void registerDriveForms(RegisterEvent event) {
-			event.register(registry.get().getRegistryKey(), helper -> {
-				helper.register("warrior", new Level(KingdomKeys.MODID + ":" + "warrior"));
-				helper.register("mystic", new Level(KingdomKeys.MODID + ":" + "mystic"));
-				helper.register("guardian", new Level(KingdomKeys.MODID + ":" + "guardian"));
-			});
-		}
-	}
+	public static final Supplier<Level>
+		WARRIOR = LEVELS.register("warrior", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "warrior"))),
+		MYSTIC = LEVELS.register("mystic", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mystic"))),
+		GUARDIAN = LEVELS.register("guardian", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "guardian")));
 }

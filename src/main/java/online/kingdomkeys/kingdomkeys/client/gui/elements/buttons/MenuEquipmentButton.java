@@ -15,6 +15,7 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -22,8 +23,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -51,7 +51,7 @@ public class MenuEquipmentButton extends Button {
     ItemCategory category;
 	public int offsetY;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
         super(new Builder(Component.literal(""), b -> {
@@ -83,7 +83,7 @@ public class MenuEquipmentButton extends Button {
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
     	
     	this.stack = null;
-        this.shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
+        this.shotlock = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
         this.colour = colour;
         this.toOpen = toOpen;
         this.parent = parent;
@@ -109,7 +109,7 @@ public class MenuEquipmentButton extends Button {
     }
 
     @Override
-    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         Font fr = mc.font;
 
@@ -240,7 +240,7 @@ public class MenuEquipmentButton extends Button {
 	                    String magicStr = String.valueOf(magic);
 	                    String apStr = String.valueOf(ap);
 	                    
-	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+	                    IPlayerData playerData = ModData.getPlayer(mc.player);
 	                    int totalStrength = playerData.getStrength(true) + strength;
 	                    int totalMagic = playerData.getMagic(true) + magic;
 	                    int totalAP =  playerData.getMaxAP(true) + ap;
@@ -370,7 +370,7 @@ public class MenuEquipmentButton extends Button {
 						if(abilities.size() > 0) {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
-								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
+								Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
 								if(ability != null) {
 									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
 									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
@@ -387,7 +387,7 @@ public class MenuEquipmentButton extends Button {
 						} else if(stack.getItem() instanceof KKAccessoryItem) {
 	                    	//Utils.drawSplitString(fr,stack.getTooltip(Minecraft.getInstance().player, TooltipFlags.NORMAL).toString(), (int) tooltipPosX + 3, (int) tooltipPosY + 3, (int)(parent.width * 0.46875F), 0x43B5E9);
 						} else if(stack.getItem() instanceof KKPotionItem) {
-                            ClientUtils.drawSplitString(gui, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
+                            ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(mc.level), mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof PauldronItem kbArmor){
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.getTag().getCompound("helmet"))) {

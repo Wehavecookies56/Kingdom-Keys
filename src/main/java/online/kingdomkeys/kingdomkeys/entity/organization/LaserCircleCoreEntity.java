@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import java.util.*;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,9 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -43,9 +39,6 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public LaserCircleCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_LASER_CIRCLE.get(), world);
-	}
 
 	public LaserCircleCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_CIRCLE.get(), player, world);
@@ -55,12 +48,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
+	protected double getDefaultGravity() {
 		return 0F;
 	}
 
@@ -128,7 +116,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	private void updateList() {
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(level()).getPartyFromMember(getCaster().getUUID());
+		Party casterParty = ModData.getWorld(level()).getPartyFromMember(getCaster().getUUID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Party.Member m : casterParty.getMembers()) {
@@ -195,8 +183,8 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGET, Optional.of(new UUID(0L, 0L)));
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGET, Optional.of(new UUID(0L, 0L)));
 	}
 }

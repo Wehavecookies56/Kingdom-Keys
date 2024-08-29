@@ -36,16 +36,16 @@ public class MenuScrollScreen extends MenuBackground {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-    	if(delta < 0 && scrollOffset < totalButtons.size() - maxItems) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+    	if(deltaY < 0 && scrollOffset < totalButtons.size() - maxItems) {
     		scrollOffset++;
     		minecraft.player.playSound(ModSounds.menu_move.get(), 1, 1);
-    	} else if (delta > 0 && scrollOffset > 0) {
+    	} else if (deltaY > 0 && scrollOffset > 0) {
     		scrollOffset--;
     		minecraft.player.playSound(ModSounds.menu_move.get(), 1, 1);
     	}
     
     	init();
-    	return super.mouseScrolled(mouseX, mouseY, delta);
+    	return super.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
     }
 }

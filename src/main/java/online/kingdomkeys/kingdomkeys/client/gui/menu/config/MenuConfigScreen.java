@@ -10,10 +10,10 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
+import net.minecraftforge.client.gui.widget.ExtendedSlider;
+import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -65,7 +65,7 @@ public class MenuConfigScreen extends MenuBackground {
 	
 	//PlayerSkin
 	EditBox playerSkinXPosBox, playerSkinYPosBox;
-	ForgeSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
+	ExtendedSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
 	Button glintButton;
 	boolean glint;
 
@@ -100,7 +100,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	
 	protected void action(String string) {
-		IPlayerCapabilities playerData;
+		IPlayerData playerData;
 		switch(string) {
 		case "back":
 			GuiHelper.openMenu();
@@ -123,7 +123,7 @@ public class MenuConfigScreen extends MenuBackground {
 		case "glint":
 			glint = !glint;
 			glintButton.setMessage(Component.translatable(glint+""));
-			playerData = ModCapabilities.getPlayer(minecraft.player);
+			playerData = ModData.getPlayer(minecraft.player);
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 
 			break;
@@ -165,7 +165,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModCapabilities.getPlayer(minecraft.player).getArmorColor(),glint)); action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModData.getPlayer(minecraft.player).getArmorColor(),glint)); action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -203,7 +203,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 			@Override
-			public void render(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
+			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				super.render(gui, pMouseX, pMouseY, pPartialTick);
 			}
@@ -684,14 +684,14 @@ public class MenuConfigScreen extends MenuBackground {
 	}
 	
 	private void initPlayerSkin() {
-		glint = ModCapabilities.getPlayer(minecraft.player).getArmorGlint();
+		glint = ModData.getPlayer(minecraft.player).getArmorGlint();
 
 		int pos = 0;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		int[] notifColors = Utils.getRGBFromDec(playerData.getNotifColor());
 
-		addRenderableWidget(notifColorRed = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable("asd"), 0, 255, notifColors[0], 0, 0, false) {
+		addRenderableWidget(notifColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable("asd"), 0, 255, notifColors[0], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
@@ -705,7 +705,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 		});
 		
-		addRenderableWidget(notifColorGreen = new ForgeSlider(buttonsX + 30, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[1], 0, 0, false) {
+		addRenderableWidget(notifColorGreen = new ExtendedSlider(buttonsX + 30, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[1], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
@@ -719,7 +719,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 		});
 		
-		addRenderableWidget(notifColorBlue = new ForgeSlider(buttonsX+60, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[2], 0, 0, false) {
+		addRenderableWidget(notifColorBlue = new ExtendedSlider(buttonsX+60, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[2], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
@@ -786,7 +786,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 		int[] armorColors = Utils.getRGBFromDec(playerData.getArmorColor());
 		
-		addRenderableWidget(armorColorRed = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[0], 0, 0, false) {
+		addRenderableWidget(armorColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[0], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
@@ -800,7 +800,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 		});
 		
-		addRenderableWidget(armorColorGreen = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[1], 0, 0, false) {
+		addRenderableWidget(armorColorGreen = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[1], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
@@ -814,7 +814,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 		});
 		
-		addRenderableWidget(armorColorBlue = new ForgeSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[2], 0, 0, false) {
+		addRenderableWidget(armorColorBlue = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[2], 0, 0, false) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
 				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
@@ -851,7 +851,7 @@ public class MenuConfigScreen extends MenuBackground {
 	@Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
-    		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+    		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
 			playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
@@ -1418,7 +1418,7 @@ public class MenuConfigScreen extends MenuBackground {
 					matrixStack.translate(-(width*0.35F), 4, 0);
 					RenderSystem.enableBlend();
 					RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
-					ResourceLocation levelUpTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
+					ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
 	
 					// Top
 					matrixStack.pushPose();

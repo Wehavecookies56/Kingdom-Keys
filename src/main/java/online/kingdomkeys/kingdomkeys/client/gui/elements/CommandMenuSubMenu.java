@@ -4,14 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
@@ -179,7 +178,7 @@ public class CommandMenuSubMenu {
     public void onOpen() {
         if (active) {
             if (this.onOpen != null && !CommandMenuGui.INSTANCE.currentSubmenu.equals(CommandMenuGui.INSTANCE.target)) {
-                if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuOpen(getId(), this))) {
+                if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuOpen(getId(), this)).isCanceled()) {
                     this.onOpen.onOpen(this);
                 }
             }
@@ -197,7 +196,7 @@ public class CommandMenuSubMenu {
             setActive(false);
         }
         if (this.onUpdate != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics))) {
+            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics)).isCanceled()) {
                 this.onUpdate.onUpdate(this, guiGraphics);
             }
         }
@@ -270,7 +269,7 @@ public class CommandMenuSubMenu {
             return active ? BOSS_COLOUR : BOSS_COLOUR.darker().darker();
         } else if (useHostileColour && EntityEvents.isHostiles) {
             return active ? HOSTILE_COLOUR : HOSTILE_COLOUR.darker().darker();
-        } else if (useOrgColour && ModCapabilities.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
+        } else if (useOrgColour && ModData.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
             return active ? ORG_COLOUR : ORG_COLOUR.darker().darker();
         }
         return active ? colour : colour.darker().darker();

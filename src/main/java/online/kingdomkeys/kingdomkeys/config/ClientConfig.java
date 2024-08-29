@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 /**
@@ -12,35 +12,35 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class ClientConfig {
 
-    public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
+    public ModConfigSpec.BooleanValue corsairKeyboardLighting;
     
-    public ForgeConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors;
-    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors;
+    public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
     
-    public ForgeConfigSpec.BooleanValue hpShowHearts;
-    public ForgeConfigSpec.IntValue hpAlarm;
+    public ModConfigSpec.BooleanValue hpShowHearts;
+    public ModConfigSpec.IntValue hpAlarm;
     
-    public ForgeConfigSpec.IntValue hpXPos, hpYPos, hpXScale;
+    public ModConfigSpec.IntValue hpXPos, hpYPos, hpXScale;
     
-    public ForgeConfigSpec.IntValue mpXPos, mpYPos, mpXScale;
+    public ModConfigSpec.IntValue mpXPos, mpYPos, mpXScale;
     
-    public ForgeConfigSpec.IntValue dpXPos, dpYPos, dpXScale, dpYScale;
+    public ModConfigSpec.IntValue dpXPos, dpYPos, dpXScale, dpYScale;
     
-    public ForgeConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
+    public ModConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
     
-    public ForgeConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
+    public ModConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
     
-    public ForgeConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
+    public ModConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
     
-    public ForgeConfigSpec.IntValue focusXPos, focusYPos, focusXScale, focusYScale;
+    public ModConfigSpec.IntValue focusXPos, focusYPos, focusXScale, focusYScale;
     
-    public ForgeConfigSpec.BooleanValue showDriveForms, summonTogether;
+    public ModConfigSpec.BooleanValue showDriveForms, summonTogether;
 
-	public ForgeConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
+	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
-	public ForgeConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
+	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
 
-	ClientConfig(final ForgeConfigSpec.Builder builder) {
+	ClientConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
         	summonTogether = builder
                 .comment("Summon both Keyblade and Armor with Summon Keyblade key")

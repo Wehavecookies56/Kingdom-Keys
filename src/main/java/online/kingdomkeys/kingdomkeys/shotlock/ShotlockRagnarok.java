@@ -2,16 +2,17 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 
 import java.util.List;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockRagnarok extends Shotlock {
 
-	public ShotlockRagnarok(String registryName, int order, int cooldown, int max) {
+	public ShotlockRagnarok(ResourceLocation registryName, int order, int cooldown, int max) {
 		super(registryName, order, cooldown, max);
 	}
 

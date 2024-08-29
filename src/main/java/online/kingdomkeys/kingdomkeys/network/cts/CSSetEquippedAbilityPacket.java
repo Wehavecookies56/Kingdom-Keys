@@ -9,8 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSetEquippedAbilityPacket {
@@ -43,7 +42,7 @@ public class CSSetEquippedAbilityPacket {
 	public static void handle(CSSetEquippedAbilityPacket message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ServerPlayer player = ctx.get().getSender();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			boolean cancelled;
 			if (playerData.isAbilityEquipped(message.ability, message.level)) {
 				cancelled = MinecraftForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get().getValue(new ResourceLocation(message.ability)), message.level, player, false));

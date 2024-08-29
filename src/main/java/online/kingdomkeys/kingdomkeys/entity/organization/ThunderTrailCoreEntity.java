@@ -19,8 +19,6 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 
@@ -36,10 +34,6 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThunderTrailCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_THUNDER_TRAIL.get(), world);
-	}
-
 	public ThunderTrailCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_THUNDER_TRAIL.get(), player, world);
 		setCaster(player.getUUID());
@@ -49,13 +43,8 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -146,9 +135,9 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGET, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(OGPOS, new BlockPos(0,0,0));
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGET, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(OGPOS, new BlockPos(0,0,0));
 	}
 }

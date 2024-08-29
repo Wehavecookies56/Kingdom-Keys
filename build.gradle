@@ -1,117 +1,29 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '6.+'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-	id 'org.spongepowered.mixin' version '0.7.+'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
 }
 
-version = "${mc_version}-${kk_version}"
-
-group = 'online.kingdomkeys.kingdomkeys'
-archivesBaseName = 'Kingdom Keys'
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-minecraft {
-	mappings channel: 'parchment', version: '2023.09.03-1.20.1'
-
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            taskName '[KingdomKeys]-Client'
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                kingdomkeys {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            taskName '[KingdomKeys]-Server'
-        
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                kingdomkeys {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            taskName '[KingdomKeys]-Datagen'
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-			
-            args '--mod', 'kingdomkeys', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                kingdomkeys {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-mixin {
-    add sourceSets.main, "kingdomkeys.refmap.json"
-
-    config "kingdomkeys.mixins.json"
-}
+version = mod_version
+group = mod_group_id
 
 repositories {
+    mavenLocal()
     maven {
-		url 'https://maven.blamejared.com'
-	}
-
-
-
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
     }
     maven {
-        // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
     maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-
-    flatDir {
-        dir 'libs'
-    }
-
-    maven {
-        // Shedaniel's maven (Architectury API)
         url = "https://maven.architectury.dev"
         content {
             includeGroup "dev.architectury"
@@ -127,63 +39,111 @@ repositories {
     }
 }
 
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.3.7'
-
-    //JEI
-    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
-    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
-    implementation fg.deobf("curse.maven:patchouli-306770:4633797")
-    //implementation fg.deobf("curse.maven:jer-240630:4689044")
-	implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
-	//implementation fg.deobf("curse.maven:epic-fight-mod-405076:4945239")
-    implementation fg.deobf("curse.maven:epic-fight-mod-405076:5601221")
-    runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:apothic-attributes-898963:5209162")
-    implementation fg.deobf("curse.maven:placebo-283644:5098182")
-    implementation fg.deobf("curse.maven:apotheosis-313970:5209354")
-    //implementation fg.deobf("curse.maven:real-camera-851574:5174036")
-
-    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
-    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-    implementation fg.deobf("curse.maven:corail-tombstone-243707:5201363")
-    implementation fg.deobf("curse.maven:terrablender-563928:5378180")
-    implementation fg.deobf("curse.maven:river-redux-380548:4587201")
-
-
+base {
+    archivesName = mod_id
 }
 
-jar {
-    manifest {
-        attributes([
-            "Specification-Title": "kingdomkeys",
-            "Specification-Vendor": "wehavecookies56",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"wehavecookies56",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        modSource project.sourceSets.main
+    }
+
+    client {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
+
+    gameTestServer {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    data {
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
-jar.finalizedBy('reobfJar')
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            artifact jar
+        register('mavenJava', MavenPublication) {
+            from components.java
         }
     }
     repositories {
         maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+            url "file://${project.projectDir}/repo"
         }
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    sourceSets {
+        main {
+            java {
+                exclude '**/integration/epicfight/**'
+                exclude '**/integration/kubejs/**'
+                exclude '**/integration/jer/**'
+            }
+        }
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

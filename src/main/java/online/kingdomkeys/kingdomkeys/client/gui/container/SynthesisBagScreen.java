@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
-import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
+import online.kingdomkeys.kingdomkeys.menu.SynthesisBagMenu;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeSynthesisBagPacket;
@@ -25,14 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagContainer> {
+public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu> {
 
 	private static final String textureBase = KingdomKeys.MODID + ":textures/gui/synthesis_bag_";
 	int[] texHeight = { 140, 176, 212, 248 };
 	int bagLevel = 0;
 	HiddenButton upgradeButton;
 
-	public SynthesisBagScreen(SynthesisBagContainer container, Inventory playerInv, Component title) {
+	public SynthesisBagScreen(SynthesisBagMenu container, Inventory playerInv, Component title) {
 		super(container, playerInv, title);
 		minecraft = Minecraft.getInstance();
 	}
@@ -52,7 +52,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 	
 	private void upgrade() {
 		if (bagLevel < 3) {
-			if(ModCapabilities.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
+			if(ModData.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
 				PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
 				onClose();
 			}
@@ -67,7 +67,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 			onClose();
 		}
 
-		this.renderBackground(gui);
+		this.renderBackground(gui, x, y, partialTicks);
 		super.render(gui, x, y, partialTicks);
 		this.renderTooltip(gui, x, y);
 		List<Component> list = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagCont
 				if (y >= upgradeButton.getY() && y <= upgradeButton.getY() + upgradeButton.getHeight()) {
 					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
 					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
-					if(ModCapabilities.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
+					if(ModData.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
 						list.add(Component.translatable(ChatFormatting.RED+ Component.translatable("gui.synthesisbag.notenoughmunny").getString()));
 					}
 					gui.renderTooltip(font, list, Optional.empty(), x, y);

@@ -13,15 +13,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -47,15 +46,15 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), player.getInventory().getItem(slot), slot, parent.form))) {
+					IPlayerData playerData = ModData.getPlayer(player);
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), player.getInventory().getItem(slot), slot, parent.form)).isCanceled()) {
 						if (Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
 							PacketHandler.sendToServer(new CSSummonKeyblade(true));
 						PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
@@ -79,7 +78,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
@@ -135,7 +134,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				int level = keyblade.getKeybladeLevel(stack);
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade, level);
 				if (abilities.size() > 0) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(0)));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(0)));
 					ab = Utils.translateToLocal(a.getTranslationKey());
 					if(abilities.size() > 1) {
 						ab+= " [+"+(abilities.size()-1)+"]";
@@ -183,7 +182,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					
 					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
 					String magicStr = String.valueOf(((int) keyblade.getMagic(stack)));
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+					IPlayerData playerData = ModData.getPlayer(minecraft.player);
 					int strength = playerData.getStrength(true) + ((int) keyblade.getStrength(stack)); //TODO a
 					int magic = playerData.getMagic(true) + ((int) keyblade.getMagic(stack));
 					
@@ -218,7 +217,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					if(abilities.size() > 0) {
 						gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);
 						for(int i = 0; i < abilities.size();i++) {
-							Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
+							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
 							gui.blit(texture, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
 							gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 						}

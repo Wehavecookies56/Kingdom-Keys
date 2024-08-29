@@ -12,9 +12,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.MagicDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -24,11 +23,6 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
     public GreenRequiemEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        xpReward = 4;
-    }
-
-    public GreenRequiemEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_GREEN_REQUIEM.get(), spawnEntity, world);
         xpReward = 4;
     }
 
@@ -51,7 +45,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/green_requiem.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/green_requiem.png");
     }
 
     @Override

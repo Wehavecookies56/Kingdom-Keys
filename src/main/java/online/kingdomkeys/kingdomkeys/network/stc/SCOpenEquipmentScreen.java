@@ -1,35 +1,32 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCOpenEquipmentScreen {
+public record SCOpenEquipmentScreen() implements Packet {
 
-    public SCOpenEquipmentScreen() {}
+    public static final Type<SCOpenEquipmentScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_equipment_screen"));
 
-    public void encode(FriendlyByteBuf buffer) {}
+    public static final StreamCodec<FriendlyByteBuf, SCOpenEquipmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenEquipmentScreen());
 
-    public static SCOpenEquipmentScreen decode(FriendlyByteBuf buffer) { return new SCOpenEquipmentScreen(); }
-
-    public static void handle(final SCOpenEquipmentScreen msg, Supplier<NetworkEvent.Context> ctx) {
-        if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
-            ctx.get().enqueueWork(() -> SCOpenEquipmentScreen.Client.handle(msg));
-        ctx.get().setPacketHandled(true);
-    }
-
-
-    public static class Client {
-        @OnlyIn(Dist.CLIENT)
-        public static void handle(SCOpenEquipmentScreen msg) {
+    @Override
+    public void handle(IPayloadContext context) {
+        if (FMLEnvironment.dist.isClient()) {
             Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
         }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
 }

@@ -8,8 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -63,7 +62,7 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 		int itemHeight = 15;
 
 		int pos = 0;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		ItemStack equippedAccessory = playerData.getEquippedAccessory(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
 		String equippedAccessoryName = (equippedAccessory != null && equippedAccessory.getItem() instanceof KKAccessoryItem) ? ((KKAccessoryItem) equippedAccessory.getItem()).getDescriptionId() : "---";
@@ -103,6 +102,6 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
 
 		super.render(gui, mouseX, mouseY, partialTicks);
-		RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+		RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 	}
 }

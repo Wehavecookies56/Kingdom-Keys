@@ -40,8 +40,8 @@ public class BlackFungusRenderer<Type extends BlackFungusEntity> extends MobRend
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
 		if(EntityHelper.getState(pEntity) == -4)
-			return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/black_fungus_stone.png");
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/black_fungus.png");
+			return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus_stone.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus.png");
 	}
 
 }

@@ -20,8 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -33,7 +32,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MATERIALS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		for (ResourceLocation actual : ModMaterials.registry.get().getKeys()) {
+		for (ResourceLocation actual : ModMaterials.registry.keySet()) {
 			list.add(actual.toString());
 		}
 		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
@@ -64,10 +63,10 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Collection<ServerPlayer> players = getPlayers(context, 5);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
-		Material material = ModMaterials.registry.get().getValue(new ResourceLocation(materialName));
+		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.addMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
@@ -82,10 +81,10 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Collection<ServerPlayer> players = getPlayers(context, 5);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
-		Material material = ModMaterials.registry.get().getValue(new ResourceLocation(materialName));
+		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.removeMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
@@ -101,8 +100,8 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for (Material material : ModMaterials.registry.get().getValues()) {
+			IPlayerData playerData = ModData.getPlayer(player);
+			for (Material material : ModMaterials.registry) {
 				playerData.addMaterial(material, amount);
 			}
 
@@ -118,7 +117,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.clearMaterials();
 
 			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
@@ -136,7 +135,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Material material = ModMaterials.registry.get().getValue(new ResourceLocation(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.setMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
@@ -152,8 +151,8 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for (Material material : ModMaterials.registry.get().getValues()) {
+			IPlayerData playerData = ModData.getPlayer(player);
+			for (Material material : ModMaterials.registry) {
 				playerData.setMaterial(material, amount);
 			}
 

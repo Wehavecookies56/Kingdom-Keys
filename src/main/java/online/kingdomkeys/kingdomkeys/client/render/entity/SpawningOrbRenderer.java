@@ -13,8 +13,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
@@ -30,7 +31,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 		matrixStackIn.pushPose();
 		{
 			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
 
 			matrixStackIn.pushPose();
 			{
@@ -62,7 +63,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/portal.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/portal.png");
 
     @Override
     public ResourceLocation getTextureLocation(SpawningOrbEntity entity) {

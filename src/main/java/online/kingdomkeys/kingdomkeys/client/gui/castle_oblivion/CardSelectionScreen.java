@@ -4,8 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CardSelectButton;
@@ -73,7 +73,7 @@ public class CardSelectionScreen extends MenuBackground {
 			selectedCardStack.shrink(1);
 			
 			Level level = minecraft.level;
-            CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+            CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
 			Room currentRoom = cap.getRoomAtPos(level, te.getBlockPos());
             te.openDoor(null);
             minecraft.setScreen(null);

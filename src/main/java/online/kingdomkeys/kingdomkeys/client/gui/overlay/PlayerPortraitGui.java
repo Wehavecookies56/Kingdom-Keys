@@ -2,15 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -26,15 +25,15 @@ public class PlayerPortraitGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		// if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		RenderSystem.setShaderColor(1, 1, 1, 1);
-		ResourceLocation skin = minecraft.player.getSkinTextureLocation();
+		ResourceLocation skin = minecraft.player.getSkin().texture();
 		RenderSystem.setShaderTexture(0, skin);
 		float scale = 0.5f;
 		switch (minecraft.options.guiScale().get()) {
@@ -57,9 +56,9 @@ public class PlayerPortraitGui extends OverlayBase {
 			poseStack.pushPose();
 			{
 				//3D render
-				float playerHeight = (height/2F) * scale;
-				float playerPosX = width * (1-(scale/10));
-				float playerPosY = height + (playerHeight*0.95F);
+				float playerHeight = (screenHeight/2F) * scale;
+				float playerPosX = screenWidth * (1-(scale/10));
+				float playerPosY = screenHeight + (playerHeight*0.95F);
 				poseStack.pushPose();
 				{
 					if(minecraft.player == null)

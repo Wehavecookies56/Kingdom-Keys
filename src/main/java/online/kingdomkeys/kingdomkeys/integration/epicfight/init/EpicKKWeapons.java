@@ -7,7 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
@@ -41,19 +41,19 @@ public class EpicKKWeapons {
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
-                            switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                            switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
                                 case Strings.Form_Valor -> KKStyles.VALOR;
                                 case Strings.Form_Master -> KKStyles.MASTER;
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
                                 case Strings.Form_Final -> KKStyles.FINAL;
                                 default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
                                         == CapabilityItem.WeaponCategories.SWORD ?
-                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
+                                        switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
                                             case KH2_ROXAS_DUAL -> KKStyles.KH2_ROXAS_DUAL;
                                             case DAYS_ROXAS_DUAL -> KKStyles.DAYS_ROXAS_DUAL;
                                         }
                                         :
-                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getSingleStyle()) {
+                                        switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getSingleStyle()) {
                                             case ROXAS -> KKStyles.ROXAS;
                                             case SORA -> KKStyles.SORA;
                                             case RIKU -> KKStyles.RIKU;

@@ -34,7 +34,7 @@ public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<
     	matrixStackIn.popPose();
     }
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/assassin.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/assassin.png");
 
     @Override
     public ResourceLocation getTextureLocation(AssassinEntity entity) {

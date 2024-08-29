@@ -71,7 +71,7 @@ public class SavePointScreen extends MenuBackground {
         this.savePoints = savePoints;
         this.create = create;
         savePoints.forEach((uuid, savePoint) -> {
-            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().textureManager, new ResourceLocation(KingdomKeys.MODID, "save_points/" + uuid)));
+            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
         });
         if (!create) {
             current = savePoints.get(tileEntity.getID()).getFirst();
@@ -95,7 +95,7 @@ public class SavePointScreen extends MenuBackground {
             init();
             updateButtons();
             savePoints.forEach((uuid, savePoint) -> {
-                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().textureManager, new ResourceLocation(KingdomKeys.MODID, "save_points/" + uuid)));
+                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
             });
             loadSavePointScreenshots();
         }
@@ -403,12 +403,12 @@ public class SavePointScreen extends MenuBackground {
     }
 
     @Override
-    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
+    public boolean mouseScrolled(double pMouseX, double pMouseY, double deltaX, double deltaY) {
         if (bar != null) {
-            bar.mouseScrolled(pMouseX, pMouseY, pDelta);
+            bar.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
             updateScroll(bar);
         }
-        return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        return super.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
     }
 
     public static class Screenshot implements AutoCloseable {

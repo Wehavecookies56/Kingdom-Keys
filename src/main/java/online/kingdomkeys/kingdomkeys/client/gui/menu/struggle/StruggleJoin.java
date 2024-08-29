@@ -4,9 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -30,7 +28,7 @@ public class StruggleJoin extends MenuBackground {
 	
 	MenuButton back;
 		
-	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	MenuButton[] parties = new MenuButton[100];
@@ -38,7 +36,7 @@ public class StruggleJoin extends MenuBackground {
 	public StruggleJoin(BlockPos pos) {
 		super("Join Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		boardPos = pos;
 	}
 
@@ -81,10 +79,10 @@ public class StruggleJoin extends MenuBackground {
 	}
 
 	private void refreshParties() {
-		playerData = ModCapabilities.getPlayer(minecraft.player);
+		playerData = ModData.getPlayer(minecraft.player);
 		List<String> privateParties = playerData.getPartiesInvited();
 		
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -137,7 +135,7 @@ public class StruggleJoin extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		refreshParties();
 	}
 	

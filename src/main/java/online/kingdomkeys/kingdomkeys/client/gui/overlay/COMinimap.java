@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.math.Axis;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class COMinimap extends OverlayBase {
-    public static final IGuiOverlay INSTANCE = new COMinimap();
+    public static final LayeredDraw.Layer INSTANCE = new COMinimap();
 
     public static List<RoomData> rooms = new ArrayList<>();
 
@@ -24,8 +24,8 @@ public class COMinimap extends OverlayBase {
     }
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        super.render(gui, guiGraphics, partialTick, width, height);
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        super.render(guiGraphics, deltaTracker);
         if (!rooms.isEmpty()) {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(200, 200, 0);

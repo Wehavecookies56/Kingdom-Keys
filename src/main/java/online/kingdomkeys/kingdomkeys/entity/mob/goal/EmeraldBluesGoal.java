@@ -5,8 +5,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
@@ -27,7 +26,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 		@Override
 		public boolean canContinueToUse() {
 			if (this.mob.getTarget() != null) {
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
+				IGlobalCapabilities globalData = ModData.getGlobal(mob);
 				if(EntityHelper.getState(mob) == 1 && globalData.getAeroTicks() <= 0) {
 					EntityHelper.setState(mob, 0);
 					PacketHandler.syncToAllAround(mob, globalData);
@@ -55,7 +54,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 		}
 
 		private void aeroAI() {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
+			IGlobalCapabilities globalData = ModData.getGlobal(mob);
    		
 			switch(globalData.getAeroLevel()) {
 			case 0:
@@ -75,7 +74,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 		}
 	
 		public void setAero(Mob mob) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
+			IGlobalCapabilities globalData = ModData.getGlobal(mob);
 			globalData.setAeroTicks(MAX_AERO_TICKS, 1);
 			PacketHandler.syncToAllAround(mob, globalData);
 			EntityHelper.setState(mob, 1);

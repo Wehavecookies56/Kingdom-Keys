@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Size2i;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.util.Size2i;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomEnemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomSize;
@@ -15,12 +15,13 @@ import java.util.function.Supplier;
 
 public class ModRoomTypes {
 
-    public static DeferredRegister<RoomType> ROOM_TYPES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "roomtypes"), KingdomKeys.MODID);
+    public static DeferredRegister<RoomType> ROOM_TYPES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomtypes"), KingdomKeys.MODID);
 
-    public static Supplier<IForgeRegistry<RoomType>> registry = ROOM_TYPES.makeRegistry(RegistryBuilder::new);
+    public static final ResourceKey<Registry<RoomType>> ROOM_TYPES_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomtypes"));
+    public static Registry<RoomType> registry = new RegistryBuilder<>(ROOM_TYPES_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
 
     //TODO create modifiers
-    public static final RegistryObject<RoomType>
+    public static final Supplier<RoomType>
         //Special
         LOBBY = createRoomType("lobby", new RoomProperties.Builder(RoomSize.SPECIAL, RoomProperties.RoomCategory.SPECIAL, new Size2i(33, 69)).isLobby()),
 
@@ -51,7 +52,7 @@ public class ModRoomTypes {
         REPOSEFUL_GROVE = createRoomType("reposeful_grove", RoomProperties.bounty(RoomSize.M)); //fixed
 
 
-    public static RegistryObject<RoomType> createRoomType(String name, RoomProperties.Builder properties) {
-        return ROOM_TYPES.register(name, () -> new RoomType(properties).setRegistryName(new ResourceLocation(KingdomKeys.MODID, name)));
+    public static Supplier<RoomType> createRoomType(String name, RoomProperties.Builder properties) {
+        return ROOM_TYPES.register(name, () -> new RoomType(properties).setRegistryName(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name)));
     }
 }

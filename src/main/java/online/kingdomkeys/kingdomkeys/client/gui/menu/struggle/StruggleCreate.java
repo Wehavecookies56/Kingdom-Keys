@@ -6,9 +6,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -34,7 +32,7 @@ public class StruggleCreate extends MenuBackground {
 	Button togglePriv, accept, size;
 	MenuButton back;
 		
-	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	Party party;
@@ -42,7 +40,7 @@ public class StruggleCreate extends MenuBackground {
 	public StruggleCreate(BlockPos pos) {
 		super("Start Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		this.boardPos = pos;
 	}
 
@@ -151,7 +149,7 @@ public class StruggleCreate extends MenuBackground {
 		
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
 		int buttonX = (int)(width*0.25);

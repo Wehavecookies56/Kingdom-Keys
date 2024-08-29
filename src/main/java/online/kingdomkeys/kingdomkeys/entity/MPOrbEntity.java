@@ -7,19 +7,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class MPOrbEntity extends ItemDropEntity {
 
 	public MPOrbEntity(Level worldIn, double x, double y, double z, int expValue) {
 		super(ModEntities.TYPE_MPORB.get(), worldIn, x, y, z, expValue);
-	}
-
-	public MPOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_MPORB.get(), world);
 	}
 
 	public MPOrbEntity(EntityType<? extends Entity> type, Level world) {
@@ -29,7 +23,7 @@ public class MPOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.addMP(value);
 	}
 

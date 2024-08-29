@@ -1,16 +1,16 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.INBTSerializable;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class RoomData implements INBTSerializable<CompoundTag> {
+public class RoomData {
 
     Map<RoomUtils.Direction, DoorData> doors;
     public final RoomUtils.RoomPos pos;
@@ -26,7 +26,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     }
 
     public Floor getParentFloor(Level level) {
-        return ModCapabilities.getCastleOblivionInterior(level).getFloorByID(parent);
+        return CastleOblivionData.InteriorData.get((ServerLevel) level).getFloorByID(parent);
     }
 
     public void setParent(Floor parent) {
@@ -63,7 +63,6 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         return generatedRoom;
     }
 
-    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("parent", parent);
@@ -85,7 +84,6 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         return tag;
     }
 
-    @Override
     public void deserializeNBT(CompoundTag tag) {
         parent = tag.getUUID("parent");
         int doorCount = tag.getInt("door_count");

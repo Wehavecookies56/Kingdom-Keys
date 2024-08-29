@@ -1,16 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-public abstract class OverlayBase implements IGuiOverlay {
+public abstract class OverlayBase implements LayeredDraw.Layer {
 
     Minecraft minecraft;
-    ForgeGui gui;
     GuiGraphics guiGraphics;
     Font font;
 
@@ -34,8 +33,7 @@ public abstract class OverlayBase implements IGuiOverlay {
     }
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-         this.gui = gui;
-         this.guiGraphics = guiGraphics;
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        this.guiGraphics = guiGraphics;
     }
 }

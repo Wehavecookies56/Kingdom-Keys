@@ -2,15 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -26,22 +25,22 @@ public class ShotlockGUI extends OverlayBase {
 	int guiHeight = 70;
 	int noborderguiwidth = 98;
 	int noborderguiheight = 68;
-	IPlayerCapabilities playerData;
+	IPlayerData playerData;
 
 	private ShotlockGUI() {
 		super();
 	}
 
 	@SubscribeEvent
-	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
+	public void renderOverlays(RenderGuiLayerEvent.Pre event) {
 		/*if (ClientEvents.focusing && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type()) {
 			event.setCanceled(true);
 		}*/
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 
 		Player player = minecraft.player;
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -56,7 +55,7 @@ public class ShotlockGUI extends OverlayBase {
 		float scaleX = rawScale * ModConfigs.focusXScale/100F;
 		float scaleY = rawScale * ModConfigs.focusYScale/100F;
 		
-		playerData = ModCapabilities.getPlayer(player);
+		playerData = ModData.getPlayer(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
 			return;
 
@@ -110,7 +109,7 @@ public class ShotlockGUI extends OverlayBase {
 					poseStack.pushPose();
 					{
 						Shotlock shotlock = Utils.getPlayerShotlock(minecraft.player);
-						playerData = ModCapabilities.getPlayer(minecraft.player);
+						playerData = ModData.getPlayer(minecraft.player);
 						if(playerData == null)
 							return;
 
@@ -118,7 +117,7 @@ public class ShotlockGUI extends OverlayBase {
 						poseStack.scale(focusScale / size, focusScale / size, focusScale / size);
 						if(ClientEvents.focusGaugeTemp<= 0)
 							RenderSystem.setShaderColor(1, 0, 0, 1);
-						this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+						this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 						poseStack.pushPose();
 						{
 							poseStack.scale(2,2,2);
@@ -133,7 +132,7 @@ public class ShotlockGUI extends OverlayBase {
 
 							int realGuiHeight = (guiHeight-botOffset) - topOffset;
 							int n = (int)(actual * realGuiHeight / max);
-							blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focus2.png"), 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
+							blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus2.png"), 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
 						}
 						RenderSystem.setShaderColor(1, 1, 1, 1);
 
@@ -153,7 +152,7 @@ public class ShotlockGUI extends OverlayBase {
 		{
 			matrixStack.translate((posX) * scale, posY * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 		}
 		matrixStack.popPose();
 	}
@@ -166,7 +165,7 @@ public class ShotlockGUI extends OverlayBase {
 			int h = (int) (focus * noborderguiheight / 100);
 			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 208 - h, noborderguiwidth, h);
+			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 208 - h, noborderguiwidth, h);
 		}
 		matrixStack.popPose();
 	}
@@ -179,7 +178,7 @@ public class ShotlockGUI extends OverlayBase {
 			int h = (int) (amount * noborderguiheight / 100F);
 			matrixStack.translate(posX * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 139 - h, noborderguiwidth, h);
+			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 139 - h, noborderguiwidth, h);
 		}
 		matrixStack.popPose();
 	}

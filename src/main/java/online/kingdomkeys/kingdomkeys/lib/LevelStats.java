@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
@@ -13,15 +13,15 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
-/** Mainly here just to reduce the size of {@link online.kingdomkeys.kingdomkeys.capability.PlayerCapabilities} */
+/** Mainly here just to reduce the size of {@link PlayerData} */
 public class LevelStats {
 
-    public static void applyStatsForLevel(int level, Player player, IPlayerCapabilities cap) {
+    public static void applyStatsForLevel(int level, Player player, PlayerData cap) {
     	if(cap.getSoAState() != SoAState.COMPLETE) {
     		return;
     	}
     	
-    	Level levelData = ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID+":"+ cap.getChosen().toString().toLowerCase()));
+    	Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
 		
     	if (levelData.getStr(level) > 0) {
 			cap.addStrength(levelData.getStr(level));
@@ -50,7 +50,7 @@ public class LevelStats {
 		if (levelData.getAbilities(level).length > 0) {
 			for (String ability : levelData.getAbilities(level)) {
 				if (ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if (a != null) {
 						cap.addAbility(ability, true);
 					}
@@ -61,7 +61,7 @@ public class LevelStats {
 		if (levelData.getShotlocks(level).length > 0) {
 			for (String shotlock : levelData.getShotlocks(level)) {
 				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
+					Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 					if (a != null) {
 						cap.addShotlockToList(shotlock, true);
 					}
@@ -72,13 +72,13 @@ public class LevelStats {
 		if (levelData.getSpells(level).length > 0) {
 			for (String magic : levelData.getSpells(level)) {
 				if (magic != null) {
-					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 					if (magicInstance != null) {
 						if (cap != null && cap.getMagicsMap() != null) {
 							if (!cap.getMagicsMap().containsKey(magic)) {
-								cap.setMagicLevel(new ResourceLocation(magic), cap.getMagicLevel(new ResourceLocation(magic)), true);
+								cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)), true);
 							} else {
-								cap.setMagicLevel(new ResourceLocation(magic), cap.getMagicLevel(new ResourceLocation(magic))+1, true);
+								cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic))+1, true);
 							}
 						}
 					}

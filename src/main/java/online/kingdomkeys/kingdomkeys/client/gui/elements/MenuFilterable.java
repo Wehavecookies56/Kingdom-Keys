@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,7 +43,7 @@ public abstract class MenuFilterable extends MenuBackground {
         if(scrollBar != null)
             scrollBar.render(gui, mouseX, mouseY, partialTicks);
         if (selectedItemStack == null)
-            selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+            selectedItemStack = new ItemStack(BuiltInRegistries.ITEM.get(selectedRL));
 	    if (!ItemStack.matches(selectedItemStack, ItemStack.EMPTY)) {
 	        renderSelectedData(gui, mouseX, mouseY, partialTicks);
 	    }

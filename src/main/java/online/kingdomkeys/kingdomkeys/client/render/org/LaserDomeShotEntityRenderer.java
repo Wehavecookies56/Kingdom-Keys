@@ -11,11 +11,13 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+
+import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEntity> {
@@ -40,7 +42,7 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
     		} else {
     			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
     		}
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 0.2F, 0.2F, 1F);
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color(255, 0.2F * 255, 0.2F * 255, 255).getRGB());
      	}
      	matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -49,7 +51,7 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(LaserDomeShotEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
 }

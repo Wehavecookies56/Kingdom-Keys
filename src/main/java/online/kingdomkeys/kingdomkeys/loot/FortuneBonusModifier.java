@@ -2,16 +2,16 @@
 package online.kingdomkeys.kingdomkeys.loot;
 
 import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,22 +22,20 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 import java.util.function.Supplier;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.
 
 public class FortuneBonusModifier extends LootModifier {
-    public static final Supplier<Codec<FortuneBonusModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, FortuneBonusModifier::new)));
+    public static final Supplier<MapCodec<FortuneBonusModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, FortuneBonusModifier::new)));
 
     protected FortuneBonusModifier(LootItemCondition[] conditions)
     {
@@ -61,7 +59,7 @@ public class FortuneBonusModifier extends LootModifier {
             if (blockState != null && entity instanceof Player player)
             {
                 // bonus for lucky amplifier.
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
 				if (totalFortuneBonus > 0) {
@@ -69,10 +67,8 @@ public class FortuneBonusModifier extends LootModifier {
 
 					fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
 
-                    Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
-                    enchantments.put(Enchantments.BLOCK_FORTUNE, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, fakeTool) + totalFortuneBonus);
-
-					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
+                    Holder<Enchantment> fortune = player.level().registryAccess().holderOrThrow(Enchantments.FORTUNE);
+                    fakeTool.enchant(fortune, fakeTool.getEnchantmentLevel(fortune) + totalFortuneBonus);
 
                     if (origin == null) {
                         origin = player.position();
@@ -85,7 +81,7 @@ public class FortuneBonusModifier extends LootModifier {
                     builder.withParameter(LootContextParams.BLOCK_ENTITY, blockEntity);
 
                     LootParams newContext = builder.create(LootContextParamSets.BLOCK);
-                    LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
+                    LootTable lootTable = context.getLevel().getServer().reloadableRegistries().getLootTable(blockState.getBlock().getLootTable());
 
                     return lootTable.getRandomItems(newContext);
                 }
@@ -97,7 +93,7 @@ public class FortuneBonusModifier extends LootModifier {
 	}
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+    public MapCodec<? extends IGlobalLootModifier> codec() {
+        return (MapCodec<? extends IGlobalLootModifier>) CODEC;
     }
 }

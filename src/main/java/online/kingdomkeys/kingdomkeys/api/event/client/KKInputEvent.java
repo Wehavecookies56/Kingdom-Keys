@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.api.event.client;
 
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 
 public abstract class KKInputEvent extends Event {
@@ -25,8 +25,7 @@ public abstract class KKInputEvent extends Event {
     /**
      * Event is posted before input is handled by KK, cancel to stop KK's default behaviour with the keybind
      */
-    @Cancelable
-    public static class Pre extends KKInputEvent {
+    public static class Pre extends KKInputEvent implements ICancellableEvent {
         public Pre(InputHandler.Keybinds keybind, InputHandler handler) {
             super(keybind, handler);
         }

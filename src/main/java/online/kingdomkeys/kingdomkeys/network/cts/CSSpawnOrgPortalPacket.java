@@ -11,8 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -54,7 +53,7 @@ public class CSSpawnOrgPortalPacket {
 			player.level().playSound(null, message.pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
 			player.level().playSound(null, message.destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
 
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.remMP(300);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
 			OrgPortalEntity portal = new OrgPortalEntity(player.level(), message.pos, message.destPos, message.dimension, true);

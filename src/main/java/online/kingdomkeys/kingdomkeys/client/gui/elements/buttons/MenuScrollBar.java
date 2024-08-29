@@ -27,7 +27,7 @@ public class MenuScrollBar extends Button {
 
 	public static final int WIDTH = 14;
 
-	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuScrollBar(int x, int y, int height, int visibleHeight, int contentHeight) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, height));
@@ -88,7 +88,7 @@ public class MenuScrollBar extends Button {
 	final Vec2 handleDims = new Vec2(14, 9);
 
 	@Override
-	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		if (visible && contentHeight > visibleHeight) {
 			//Bar background
 			RenderSystem.enableBlend();
@@ -174,22 +174,22 @@ public class MenuScrollBar extends Button {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		if (visible && contentHeight > visibleHeight) {
 			int scrollFactor = 5;
 			int oldY = handleY;
-			if (scrollDelta > 0) {
-				handleY = (int) Math.max(handleY - (scrollDelta * scrollFactor), handleYMax);
+			if (scrollY > 0) {
+				handleY = (int) Math.max(handleY - (scrollY * scrollFactor), handleYMax);
 			}
-			if (scrollDelta < 0) {
-				handleY = (int) Math.min(handleY - (scrollDelta * scrollFactor), getHandleBottom()+1);
+			if (scrollY < 0) {
+				handleY = (int) Math.min(handleY - (scrollY * scrollFactor), getHandleBottom()+1);
 			}
 			if(oldY != handleY) {
 				Minecraft.getInstance().player.playSound(ModSounds.menu_move.get(), 1, 1);
 			}
 			updateScroll();
 		}
-		return super.mouseScrolled(mouseX, mouseY, scrollDelta);
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
 }

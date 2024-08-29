@@ -4,18 +4,19 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 @OnlyIn(Dist.CLIENT)
@@ -34,14 +35,14 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(GravityEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 
-	@Mod.EventBusSubscriber(value = Dist.CLIENT)
+	@EventBusSubscriber(value = Dist.CLIENT)
 	public static class Events {
 		@SubscribeEvent
-		public static void RenderEntity(RenderLivingEvent.Pre event) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
+		public static void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
+			IGlobalCapabilities globalData = ModData.getGlobal(event.getEntity());
 			if (globalData != null) {
 				if (globalData.getFlatTicks() > 0){// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
 					PoseStack mat = event.getPoseStack();

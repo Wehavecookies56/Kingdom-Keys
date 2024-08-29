@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 
@@ -14,43 +14,43 @@ import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
  */
 public class CommonConfig {
 
-    public ForgeConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
-    public ForgeConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
+    public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
+    public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
-    public ForgeConfigSpec.IntValue rodHeartlessLevelScale;
-    public ForgeConfigSpec.IntValue rodHeartlessMaxLevel;
-    public ForgeConfigSpec.BooleanValue respawnROD;
-    public ForgeConfigSpec.BooleanValue mobLevelingUp;
+    public ModConfigSpec.IntValue rodHeartlessLevelScale;
+    public ModConfigSpec.IntValue rodHeartlessMaxLevel;
+    public ModConfigSpec.BooleanValue respawnROD;
+    public ModConfigSpec.BooleanValue mobLevelingUp;
 
-    public ForgeConfigSpec.BooleanValue debugConsoleOutput;
-    public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
-    public ForgeConfigSpec.BooleanValue keybladeOpenDoors;
+    public ModConfigSpec.BooleanValue debugConsoleOutput;
+    public ModConfigSpec.BooleanValue bombExplodeWithFire;
+    public ModConfigSpec.BooleanValue keybladeOpenDoors;
 
-    public ForgeConfigSpec.IntValue driveHeal;
+    public ModConfigSpec.IntValue driveHeal;
 
-    public ForgeConfigSpec.DoubleValue drivePointsMultiplier;
-    public ForgeConfigSpec.DoubleValue focusPointsMultiplier;
+    public ModConfigSpec.DoubleValue drivePointsMultiplier;
+    public ModConfigSpec.DoubleValue focusPointsMultiplier;
 
-    public ForgeConfigSpec.IntValue hpDropProbability;
-    public ForgeConfigSpec.IntValue mpDropProbability;
-    public ForgeConfigSpec.IntValue munnyDropProbability;
-    public ForgeConfigSpec.IntValue driveDropProbability;
-    public ForgeConfigSpec.IntValue focusDropProbability;
+    public ModConfigSpec.IntValue hpDropProbability;
+    public ModConfigSpec.IntValue mpDropProbability;
+    public ModConfigSpec.IntValue munnyDropProbability;
+    public ModConfigSpec.IntValue driveDropProbability;
+    public ModConfigSpec.IntValue focusDropProbability;
 
-    public ForgeConfigSpec.BooleanValue blizzardChangeBlocks;
-    public ForgeConfigSpec.BooleanValue playerSpawnHeartless;
-    public ForgeConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
+    public ModConfigSpec.BooleanValue blizzardChangeBlocks;
+    public ModConfigSpec.BooleanValue playerSpawnHeartless;
+    public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
 
-    public ForgeConfigSpec.DoubleValue shotlockMult;
-    public ForgeConfigSpec.DoubleValue critMult;
+    public ModConfigSpec.DoubleValue shotlockMult;
+    public ModConfigSpec.DoubleValue critMult;
 
-    public ForgeConfigSpec.IntValue mobLevelStats;
+    public ModConfigSpec.IntValue mobLevelStats;
 
-    public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
-    public ForgeConfigSpec.BooleanValue needKeybladeForHeartless;
-    public ForgeConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
+    public ModConfigSpec.BooleanValue bossDespawnIfNoTarget;
+    public ModConfigSpec.BooleanValue needKeybladeForHeartless;
+    public ModConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
     
-    CommonConfig(final ForgeConfigSpec.Builder builder) {
+    CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
 
         debugConsoleOutput = builder

@@ -40,7 +40,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/soldier.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/soldier.png");
 	}
 
 }

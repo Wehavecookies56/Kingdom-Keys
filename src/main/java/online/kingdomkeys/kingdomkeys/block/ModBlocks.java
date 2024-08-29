@@ -8,9 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -19,9 +17,9 @@ import java.util.function.Supplier;
 
 public class ModBlocks {
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, KingdomKeys.MODID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(KingdomKeys.MODID);
 
-    public static final RegistryObject<Block>
+    public static final Supplier<Block>
             normalBlox = createNewBlock("normal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F)),
             hardBlox = createNewBlock("hard_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 20.0F).requiresCorrectToolForDrops()),
             metalBlox = createNewBlock("metal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(10.0F, 60.0F).requiresCorrectToolForDrops()),
@@ -107,20 +105,20 @@ public class ModBlocks {
      * @param properties The properties
      * @return The created block
      */
-    private static RegistryObject<Block> createNewBlock(String name, Block.Properties properties) {
-        RegistryObject<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
+    private static Supplier<Block> createNewBlock(String name, Block.Properties properties) {
+        Supplier<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
         createNewBlockItem(name, newBlock);
         return newBlock;
     }
 
-    private static RegistryObject<Block> createNewBlock(String name, Block.Properties properties, CreativeModeTab tab) {
-        RegistryObject<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
+    private static Supplier<Block> createNewBlock(String name, Block.Properties properties, CreativeModeTab tab) {
+        Supplier<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
         createNewBlockItem(name, newBlock, tab);
         return newBlock;
     }
 
-    private static <T extends Block> RegistryObject<T> createNewBlock(String name, Supplier<? extends T> block) {
-        RegistryObject<T> newBlock = BLOCKS.register(name, block);
+    private static <T extends Block> Supplier<T> createNewBlock(String name, Supplier<? extends T> block) {
+        Supplier<T> newBlock = BLOCKS.register(name, block);
         createNewBlockItem(name, newBlock);
         return newBlock;
     }

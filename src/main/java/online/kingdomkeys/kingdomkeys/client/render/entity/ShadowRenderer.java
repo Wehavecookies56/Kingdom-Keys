@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ShadowEntity;
 
 public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type, ShadowModel<Type>> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
 
 
     public ShadowRenderer(EntityRendererProvider.Context context) {

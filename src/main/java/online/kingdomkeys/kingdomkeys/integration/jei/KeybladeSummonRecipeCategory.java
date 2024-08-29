@@ -24,7 +24,7 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     public static final RecipeType<KeychainItem> TYPE = RecipeType.create(KingdomKeys.MODID, "keyblade_summon", KeychainItem.class);
 
     public KeybladeSummonRecipeCategory(IGuiHelper guiHelper) {
-        background = guiHelper.drawableBuilder(new ResourceLocation(KingdomKeys.MODID, "textures/gui/keyblade_summon_background.png"), 0, 0, 120, 58).build();
+        background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/keyblade_summon_background.png"), 0, 0, 120, 58).build();
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.kingdomKeyChain.get()));
     }
 

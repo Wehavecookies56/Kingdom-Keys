@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
+import online.kingdomkeys.kingdomkeys.menu.PedestalMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class PedestalTileEntity extends BlockEntity implements MenuProvider {
@@ -125,7 +125,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
-		return new PedestalContainer(windowID, playerInventory, this);
+		return new PedestalMenu(windowID, playerInventory, this);
 	}
 
 	@Nonnull

@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +36,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -43,10 +43,10 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -61,7 +61,6 @@ import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -154,11 +153,11 @@ public class Utils {
 	public record castMagic(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
-		return ForgeRegistries.ITEMS.getKey(item);
+		return BuiltInRegistries.ITEM.getKey(item);
 	}
 
 	public static ResourceLocation getBlockRegistryName(Block block) {
-		return ForgeRegistries.BLOCKS.getKey(block);
+		return BuiltInRegistries.BLOCK.getKey(block);
 	}
 
 	public static float map(float x, float in_min, float in_max, float out_min, float out_max) {
@@ -324,8 +323,8 @@ public class Utils {
 
 	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {
         return abilities.entrySet().stream().sorted((entry, entry2) -> {
-			Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(entry.getKey()));
-			Ability ability2 = ModAbilities.registry.get().getValue(new ResourceLocation(entry2.getKey()));
+			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
+			Ability ability2 = ModAbilities.registry.get(ResourceLocation.parse(entry2.getKey()));
 			if (ability != null && ability2 != null) {
                 return ability.compareTo(ability2);
 			}
@@ -340,7 +339,7 @@ public class Utils {
 		while (it.hasNext()) {
 			String entry = it.next();
 			if (visibleForms.contains(entry)) { // Should only add the form if it is visible
-				list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
+				list.add(ModDriveForms.registry.get(ResourceLocation.parse(entry)));
 			}
 		}
 
@@ -356,7 +355,7 @@ public class Utils {
 
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
 //		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<Limit>(ModLimits.registry.get().getValues());
+		List<Limit> limits = new ArrayList<>(ModLimits.registry.stream().toList());
 		// TODO change when we have more member limits
 		/*
 		 * for(Limit val : ModLimits.registry.getValues()) {
@@ -374,7 +373,7 @@ public class Utils {
 
 	public static List<String> getSortedShotlocks(List<String> list) {
 		List<String> newList = new ArrayList<>(list);
-		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get().getValue(new ResourceLocation(a)).getOrder())));
+		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get(ResourceLocation.parse(a)).getOrder())));
 		return newList;
 	}
 
@@ -435,7 +434,7 @@ public class Utils {
 	}
 
 	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list) {
-		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
@@ -469,7 +468,7 @@ public class Utils {
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
-		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
@@ -501,7 +500,7 @@ public class Utils {
 	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
 		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
-		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
@@ -647,10 +646,10 @@ public class Utils {
 	}
 
 	public static ItemCategory getCategoryForShop(ResourceLocation stackRL) {
-		return getCategoryForStack(new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)));
+		return getCategoryForStack(new ItemStack(BuiltInRegistries.ITEM.get(stackRL)));
 	}
 
-	public static int getAccessoriesStat(IPlayerCapabilities playerData, String type) {
+	public static int getAccessoriesStat(PlayerData playerData, String type) {
 		int res = 0;
 		int c = 1;
 		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
@@ -674,7 +673,7 @@ public class Utils {
 		return res;
 	}
 
-	public static List<String> getAccessoriesAbilities(IPlayerCapabilities playerData) {
+	public static List<String> getAccessoriesAbilities(PlayerData playerData) {
 		List<String> res = new ArrayList<String>();
 		int c = 1;
 		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
@@ -725,23 +724,23 @@ public class Utils {
 		return res;
 	}
 
-	public static int getArmorsStat(IPlayerCapabilities playerData, String type) {
+	public static int getArmorsStat(PlayerData playerData, String type) {
 		return getArmorsStat(playerData.getEquippedArmors(), type);
 	}
 
-	public static int getConsumedAP(IPlayerCapabilities playerData) {
+	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
 		Iterator<Entry<String, int[]>> it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, int[]> entry = it.next();
-			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(entry.getKey()));
+			Ability a = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
 			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
 		}
 		return ap;
 	}
 
-	public static double getMPHasteValue(IPlayerCapabilities playerData) {
+	public static double getMPHasteValue(PlayerData playerData) {
 		int val = 0;
 		val += (2 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHaste));
 		val += (4 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastera));
@@ -749,14 +748,14 @@ public class Utils {
 		return val;
 	}
 
-	public static void RefreshAbilityAttributes(Player player, IPlayerCapabilities playerData) {
+	public static void RefreshAbilityAttributes(Player player, PlayerData playerData) {
 		if (player.level().isClientSide)
 			return;
 
-		Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
+		Multimap<Holder<Attribute>, AttributeModifier> map = HashMultimap.create();
 
 		// Luck - affects things like chest loot, separate from looting or fortune.
-		AttributeModifier attributemodifier = new AttributeModifier(UUID.fromString("7faaa8a8-fee1-422c-8f85-6794042e8f09"), Strings.luckyLucky, playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADDITION);
+		AttributeModifier attributemodifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.luckyLucky), playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADD_VALUE);
 		map.put(Attributes.LUCK, attributemodifier);
 
 		player.getAttributes().addTransientAttributeModifiers(map);
@@ -769,7 +768,7 @@ public class Utils {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);
-			if (itemStack.isEmpty() || !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("organization_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("xemnas_") && !ForgeRegistries.ITEMS.getKey(itemStack.getItem()).getPath().startsWith("anticoat_")) {
+			if (itemStack.isEmpty() || !BuiltInRegistries.ITEM.getKey(itemStack.getItem()).getPath().startsWith("organization_") && !BuiltInRegistries.ITEM.getKey(itemStack.getItem()).getPath().startsWith("xemnas_") && !BuiltInRegistries.ITEM.getKey(itemStack.getItem()).getPath().startsWith("anticoat_")) {
 				wearingOrgCloak = false;
 				break;
 			}
@@ -786,7 +785,7 @@ public class Utils {
 		// Capitalize first letter of string
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 
-		// Run a loop till string string contains underscore
+		// Run a loop till string contains underscore
 		while (str.contains("_")) {
 			// Replace the first occurrence of letter that present after the underscore, to
 			// capitalize form of next letter of underscore
@@ -826,19 +825,12 @@ public class Utils {
 	}
 
 	public static Shotlock getPlayerShotlock(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		return ModShotlocks.registry.get().getValue(new ResourceLocation(playerData.getEquippedShotlock()));
+		PlayerData playerData = PlayerData.get(player);
+		return ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));
 	}
 
 	public static boolean isPlayerLowHP(Player player) {
 		return player.getHealth() < player.getMaxHealth() / 4;
-	}
-
-	public static void syncWorldData(Level world, IWorldCapabilities worldData) {
-		world.getServer().getAllLevels().forEach(sw -> {
-			ModCapabilities.getWorld(sw).read(worldData.write(new CompoundTag()));
-		});
-		PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 	}
 
 	// Gets items excluding AIR
@@ -919,7 +911,7 @@ public class Utils {
 	 * @param playerData
 	 * @param player
 	 */
-	public static void restartLevel(IPlayerCapabilities playerData, Player player) { // sets player level to base
+	public static void restartLevel(PlayerData playerData, Player player) { // sets player level to base
 		playerData.setLevel(1);
 		playerData.setExperience(0);
 		playerData.setMaxHP(20);
@@ -950,13 +942,13 @@ public class Utils {
 	 * @param playerData
 	 * @param player
 	 */
-	public static void restartLevel2(IPlayerCapabilities playerData, Player player) { // calculates drive forms
+	public static void restartLevel2(PlayerData playerData, Player player) { // calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
 		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, int[]> entry = it.next();
 			int dfLevel = entry.getValue()[0];
-			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry.getKey()));
+			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
 			if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
 				for (int i = 1; i <= dfLevel; i++) {
 					String baseAbility = form.getBaseAbilityForLevel(i);
@@ -1001,20 +993,20 @@ public class Utils {
 	public static int getLootingLevel(Player player) {
 		int lvl = 0;
 		if (!ItemStack.isSameItem(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().isEnchanted()) {
-			lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getMainHandItem());
+			lvl += EnchantmentHelper.getTagEnchantmentLevel(player.registryAccess().holderOrThrow(Enchantments.LOOTING), player.getMainHandItem());
 		}
 		if (!ItemStack.isSameItem(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()) {
-			lvl += EnchantmentHelper.getTagEnchantmentLevel(Enchantments.MOB_LOOTING, player.getOffhandItem());
+			lvl += EnchantmentHelper.getTagEnchantmentLevel(player.registryAccess().holderOrThrow(Enchantments.LOOTING), player.getOffhandItem());
 		}
-		lvl += ModCapabilities.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+		lvl += PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 		return lvl;
 	}
 
-	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
+	public static double getMinimumDPForDrive(PlayerData playerData) {
 		int minCost = 1000;
 		if (playerData.getDriveFormMap().size() > 2) {
 			for (String e : playerData.getVisibleDriveForms()) {
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
+				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(e));
 				minCost = Math.min(minCost, form.getDriveCost());
 			}
 		}
@@ -1065,7 +1057,7 @@ public class Utils {
 				return false;
 			}
 		}
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		GlobalData globalData = GlobalData.get(player);
 		if (globalData != null && globalData.isKO())
 			return false;
 
@@ -1077,7 +1069,7 @@ public class Utils {
 	}
 
 	public static void reviveFromKO(LivingEntity entity) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(entity);
+		GlobalData globalData = GlobalData.get(entity);
 		globalData.setKO(false);
 		if (entity instanceof Player player)
 			PacketHandler.syncToAllAround(player, globalData);
@@ -1086,19 +1078,19 @@ public class Utils {
 
 	public static int getRandomMobLevel(Player player) {
 		if (ModConfigs.mobLevelingUp) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if (playerData == null)
 				return 0;
 
 			int avgLevel = playerData.getLevel();
 
-			if (ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID()) != null) {
-				Party p = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+			if (WorldData.get(player.getServer()).getPartyFromMember(player.getUUID()) != null) {
+				Party p = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 				int total = 0;
 				int membersOnline = 0;
 				for (Member m : p.getMembers()) {
 					if (Utils.getPlayerByName(player.level(), m.getUsername().toLowerCase()) != null) {
-						total += ModCapabilities.getPlayer(Utils.getPlayerByName(player.level(), m.getUsername().toLowerCase())).getLevel();
+						total += PlayerData.get(Utils.getPlayerByName(player.level(), m.getUsername().toLowerCase())).getLevel();
 						membersOnline++;
 					}
 				}
@@ -1119,7 +1111,7 @@ public class Utils {
 	}
 
 	public static ChatFormatting getLevelColor(Player player, int lvl) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if (playerData == null)
 			return ChatFormatting.WHITE;
 
@@ -1140,7 +1132,7 @@ public class Utils {
 	}
 
 	public static void summonKeyblade(Player player, boolean forceDesummon, ResourceLocation formToSummonFrom) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 
 		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
 			return;

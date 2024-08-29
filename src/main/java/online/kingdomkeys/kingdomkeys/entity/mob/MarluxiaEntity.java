@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -14,11 +15,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import org.jetbrains.annotations.Nullable;
 
 public class MarluxiaEntity extends BaseKHEntity {
 
@@ -26,10 +27,6 @@ public class MarluxiaEntity extends BaseKHEntity {
 	public MarluxiaEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);
 		xpReward = 25;
-	}
-
-	public MarluxiaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		this(ModEntities.TYPE_MARLUXIA.get(), world);
 	}
 	
 	public MarluxiaEntity(Level world) {
@@ -67,9 +64,8 @@ public class MarluxiaEntity extends BaseKHEntity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(EntityHelper.STATE, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(EntityHelper.STATE, 0);
 	}
 
 	@Override
@@ -82,16 +78,13 @@ public class MarluxiaEntity extends BaseKHEntity {
 		return false;
 	}
 
+	@Nullable
 	@Override
-	protected void dropAllDeathLoot(DamageSource damageSourceIn) {}
-	
-	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
-		spawnDataIn = super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.gracefulDahlia.get()));
-		return spawnDataIn;
+		return super.finalizeSpawn(pLevel, pDifficulty, pSpawnType, pSpawnGroupData);
 	}
-	
+
 	@Override
 	public int getDefense() {
 		return 200;

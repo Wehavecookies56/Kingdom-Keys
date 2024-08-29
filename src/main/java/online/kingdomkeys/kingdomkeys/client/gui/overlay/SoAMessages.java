@@ -2,12 +2,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
@@ -42,15 +42,15 @@ public class SoAMessages extends OverlayBase {
     }
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        super.render(gui, guiGraphics, partialTick, width, height);
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        super.render(guiGraphics, deltaTracker);
         if (!messages.isEmpty() || titlesTimer != 0) {
-            draw(guiGraphics, partialTick);
+            draw(guiGraphics, deltaTracker);
         }
     }
 
     @SubscribeEvent
-    public void clientTick(TickEvent.ClientTickEvent event) {
+    public void clientTick(ClientTickEvent.Pre event) {
         if (!Minecraft.getInstance().isPaused() && (!messages.isEmpty() || titlesTimer != 0)) {
             tick();
         }
@@ -99,12 +99,12 @@ public class SoAMessages extends OverlayBase {
         }
     }
 
-    public void draw(GuiGraphics guiGraphics, float partialTicks) {
+    public void draw(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         this.scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         this.scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
         if (this.titlesTimer > 0) {
-            float f4 = (float)this.titlesTimer - partialTicks;
+            float f4 = (float)this.titlesTimer - deltaTracker.getGameTimeDeltaPartialTick(true);
             int j1 = 255;
             if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime) {
                 float f5 = (float)(this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - f4;

@@ -1,16 +1,16 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
+import java.util.Optional;
 
 public class BlackFungusGoal extends TargetGoal {
 	// 0-Normal, -4 Stonify, -5 Poison
@@ -68,12 +68,11 @@ public class BlackFungusGoal extends TargetGoal {
 						areaeffectcloud.setWaitTime(10);
 						areaeffectcloud.setDuration(6*20);
 						areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
-						areaeffectcloud.setPotion(Potions.STRONG_POISON);
+						areaeffectcloud.setPotionContents(new PotionContents(Optional.of(Potions.STRONG_POISON), Optional.of(0xAA00AA), List.of()));
 
-						for(MobEffectInstance mobeffectinstance : Potions.STRONG_POISON.getEffects()) {
+						for(MobEffectInstance mobeffectinstance : new PotionContents(Potions.STRONG_POISON).getAllEffects()) {
 							areaeffectcloud.addEffect(new MobEffectInstance(mobeffectinstance));
 						}
-						areaeffectcloud.setFixedColor(0xAA00AA);
 
 						mob.level().addFreshEntity(areaeffectcloud);
 					} else {

@@ -3,8 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -58,7 +57,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     public void OK() {
         //set choice
         Minecraft mc = Minecraft.getInstance();
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+        IPlayerData playerData = ModData.getPlayer(mc.player);
         BlockEntity te = mc.level.getBlockEntity(pedestal);
         if (state == SoAState.CONFIRM) {
             playerData.setSoAState(SoAState.COMPLETE);
@@ -108,7 +107,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
                     new Utils.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
             );
             Minecraft mc = Minecraft.getInstance();
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+            IPlayerData playerData = ModData.getPlayer(mc.player);
             BlockEntity teChoice = mc.level.getBlockEntity(playerData.getChoicePedestal());
             BlockEntity teSacrifice = mc.level.getBlockEntity(playerData.getSacrificePedestal());
             playerData.setChoicePedestal(new BlockPos(0, 0, 0));
@@ -167,7 +166,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
                     return Collections.singletonList("This ain't right");
             }
         } else {
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+            IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
             displayText.add(Strings.SoA_Confirm1);
             displayText.add(getStringForChoice(playerData.getChosen()));
             displayText.add(Strings.SoA_Confirm3);

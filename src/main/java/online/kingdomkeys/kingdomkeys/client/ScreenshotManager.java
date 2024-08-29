@@ -3,11 +3,12 @@ package online.kingdomkeys.kingdomkeys.client;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 
@@ -18,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ScreenshotManager {
 
     private static boolean takeScreenshot = false;
@@ -88,26 +89,23 @@ public class ScreenshotManager {
     }
 
     @SubscribeEvent
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            if (Minecraft.getInstance().level != null) {
-                if (takeScreenshot) {
-                    takeScreenshot(name, uuid);
-                    takeScreenshot = false;
-                    Minecraft.getInstance().options.hideGui = false;
-                    if (Minecraft.getInstance().screen != null) {
-                        if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
-                            savePointScreen.loadSavePointScreenshots();
-                        }
+    public static void renderTick(RenderFrameEvent.Post event) {
+        if (Minecraft.getInstance().level != null) {
+            if (takeScreenshot) {
+                takeScreenshot(name, uuid);
+                takeScreenshot = false;
+                Minecraft.getInstance().options.hideGui = false;
+                if (Minecraft.getInstance().screen != null) {
+                    if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
+                        savePointScreen.loadSavePointScreenshots();
                     }
                 }
             }
         }
-
     }
 
     @SubscribeEvent
-    public static void renderOverlays(RenderGuiOverlayEvent.Pre event) {
+    public static void renderOverlays(RenderGuiLayerEvent.Pre event) {
         event.setCanceled(isTakingScreenshot());
     }
 

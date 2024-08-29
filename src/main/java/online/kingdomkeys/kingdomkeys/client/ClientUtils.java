@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -14,17 +11,15 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.COMinimap;
-import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import net.minecraft.world.item.Item;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 
-import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -46,64 +41,25 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
-import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
-import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.driveform.DriveFormData;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.limit.Limit;
-import online.kingdomkeys.kingdomkeys.limit.LimitData;
-import online.kingdomkeys.kingdomkeys.limit.ModLimits;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
-import online.kingdomkeys.kingdomkeys.magic.MagicData;
-import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.stc.*;
-import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
-import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 
 public class ClientUtils {
 
     public static boolean getResourceExists(String path){
         try {
-            Minecraft.getInstance().getResourceManager().getResourceOrThrow(new ResourceLocation(KingdomKeys.MODID, path));
+            Minecraft.getInstance().getResourceManager().getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path));
             return true;
         } catch (FileNotFoundException e) {
             return false;
@@ -111,388 +67,7 @@ public class ClientUtils {
     }
 
     public static ResourceLocation getResourceExistsOrDefault(String path, String name, String defaultName){
-        return new ResourceLocation(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
-    }
-
-	public static DistExecutor.SafeRunnable openMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new MenuCustomizeMagicScreen(knownMagic));
-            }
-        };
-    }
-	
-	public static DistExecutor.SafeRunnable openShortcutsCustomize(LinkedHashMap<String, int[]> knownMagic) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen(knownMagic));
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable openAlignment() {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new AlignmentSelectionScreen());
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable openChoice(SCOpenChoiceScreen message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(message.state, message.choice, message.pos));
-                SoAMessages.INSTANCE.clearMessage();
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncOrgPortal(SCSyncOrgPortalPacket msg) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-                OrgPortalEntity portal;
-                if (msg.pos != msg.destPos)
-                    portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, true);
-                else
-                    portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, false);
-
-                player.level().addFreshEntity(portal);
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable showOrgPortalGUI(SCShowOrgPortalGUI message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new OrgPortalGui(message.pos));
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable openSynthesisGui(String inv, String name, int moogle) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-            	if(inv != null && !inv.equals(""))
-            		Minecraft.getInstance().setScreen(new SynthesisScreen(inv, name, moogle));
-            	else
-            		Minecraft.getInstance().setScreen(new SynthesisScreen(name));
-                Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable recalcEyeHeight() {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-                player.refreshDimensions();
-            }
-        };
-    }
-    
-    public static DistExecutor.SafeRunnable aeroSoundInstance(int entID) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-                Entity ent = player.level().getEntity(entID);
-                if(ent != null && ent instanceof LivingEntity entity)
-                	Minecraft.getInstance().getSoundManager().queueTickingSound(new AeroSoundInstance(entity));
-
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncCapability(SCSyncCapabilityPacket message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-
-                playerData.setLevel(message.level);
-                playerData.setExperience(message.exp);
-                playerData.setExperienceGiven(message.expGiven);
-                playerData.setStrengthStat(message.strength);
-                playerData.setMagicStat(message.magic);
-                playerData.setDefenseStat(message.defense);
-                playerData.setMaxAPStat(message.maxAP);
-                playerData.setMP(message.MP);
-                playerData.setMaxMP(message.maxMP);
-                playerData.setRecharge(message.recharge);
-                playerData.setMaxHP(message.maxHp);
-                playerData.setDP(message.dp);
-                playerData.setFP(message.fp);
-                playerData.setMaxDP(message.maxDP);
-                playerData.setMunny(message.munny);
-                playerData.setFocus(message.focus);
-                playerData.setMaxFocus(message.maxFocus);
-
-                playerData.setMessages(message.messages);
-                playerData.setBFMessages(message.bfMessages);
-                playerData.setDFMessages(message.dfMessages);
-
-                playerData.setKnownRecipeList(message.recipeList);
-                playerData.setMagicsMap(message.magicsMap);
-                playerData.setShotlockList(message.shotlockList);
-                playerData.setEquippedShotlock(message.equippedShotlock);
-                playerData.setDriveFormMap(message.driveFormMap);
-                playerData.setVisibleDriveForms(message.visibleDriveForms);
-                playerData.setAbilityMap(message.abilityMap);
-                playerData.setAntiPoints(message.antipoints);
-                playerData.setPartiesInvited(message.partyList);
-                playerData.setMaterialMap(message.materialMap);
-                playerData.equipAllKeychains(message.keychains, false);
-                playerData.equipAllItems(message.items, false);
-                playerData.equipAllAccessories(message.accessories, false);
-                playerData.equipAllKBArmor(message.kbArmors, false);
-                playerData.equipAllArmors(message.armors, false);
-                playerData.setMaxAccessories(message.maxAccessories);
-                playerData.setMaxArmors(message.maxArmors);
-                playerData.setActiveDriveForm(message.driveForm);
-
-                playerData.setReturnDimension(message.returnDim);
-                playerData.setReturnLocation(message.returnPos);
-                playerData.setSoAState(message.soAstate);
-                playerData.setChoice(message.choice);
-                playerData.setSacrifice(message.sacrifice);
-                playerData.setChoicePedestal(message.choicePedestal);
-                playerData.setSacrificePedestal(message.sacrificePedestal);
-
-                playerData.setHearts(message.hearts);
-                playerData.setAlignment(message.alignment);
-                playerData.equipWeapon(message.equippedWeapon);
-                playerData.setWeaponsUnlocked(message.unlocks);
-                playerData.setLimitCooldownTicks(message.limitCooldownTicks);
-                playerData.setMagicCasttimeTicks(message.magicCasttimeTicks);
-                playerData.setMagicCooldownTicks(message.magicCooldownTicks);
-
-                playerData.setReactionCommands(message.reactionList);
-                playerData.setShortcutsMap(message.shortcutsMap);
-                
-                playerData.setSynthLevel(message.synthLevel);
-                playerData.setSynthExperience(message.synthExp);
-                
-                playerData.setRespawnROD(message.respawnROD);
-
-                playerData.setSingleStyle(message.singleStyle);
-                playerData.setDualStyle(message.dualStyle);
-                
-                Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncDriveFormData(SCSyncDriveFormData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                for (int i = 0; i < message.names.size(); i++) {
-                    DriveForm driveform = ModDriveForms.registry.get().getValue(new ResourceLocation(message.names.get(i)));
-                    String d = message.data.get(i);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-
-                    DriveFormData result;
-                    try {
-                        result = SCSyncDriveFormData.GSON_BUILDER.fromJson(br, DriveFormData.class);
-
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
-                        continue;
-                    }
-                    driveform.setDriveFormData(result);
-                    IOUtils.closeQuietly(br);
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncWorldCapability(SCSyncWorldCapability message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Level world = Minecraft.getInstance().level;
-                IWorldCapabilities worldData = ModCapabilities.getWorld(world);
-                worldData.read(message.data);
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncSynthesisData(SCSyncSynthesisData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                RecipeRegistry.getInstance().clearRegistry();
-
-                message.recipes.forEach(recipe -> {
-                    RecipeRegistry.getInstance().register(recipe);
-                });
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncShopData(SCSyncShopData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                ShopListRegistry.getInstance().clearRegistry();
-
-                message.list.forEach(shopItem -> {
-                    ShopListRegistry.getInstance().register(shopItem);
-                });
-            }
-        };
-    }
-    
-    public static DistExecutor.SafeRunnable syncKeybladeData(SCSyncKeybladeData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                for (int i = 0; i < message.names.size(); i++) {
-                    KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
-                    String d = message.data.get(i);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-
-                    KeybladeData result;
-                    try {
-                        result = SCSyncKeybladeData.GSON_BUILDER.fromJson(br, KeybladeData.class);
-
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
-                        continue;
-                    }
-                    keyblade.setKeybladeData(result);
-                    if (result.keychain != null)
-                        result.keychain.setKeyblade(keyblade);
-                    IOUtils.closeQuietly(br);
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncMagicData(SCSyncMagicData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                for (int i = 0; i < message.names.size(); i++) {
-                    Magic magic = ModMagic.registry.get().getValue(new ResourceLocation(message.names.get(i)));
-                    String d = message.data.get(i);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-
-                    MagicData result;
-                    try {
-                        result = SCSyncMagicData.GSON_BUILDER.fromJson(br, MagicData.class);
-
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", message.names.get(i), e);
-                        continue;
-                    }
-                    magic.setMagicData(result);
-                    IOUtils.closeQuietly(br);
-                }
-            }
-        };
-    }
-    
-    public static DistExecutor.SafeRunnable syncLimitData(SCSyncLimitData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                for (int i = 0; i < message.names.size(); i++) {
-                    Limit limit = ModLimits.registry.get().getValue(new ResourceLocation(message.names.get(i)));
-                    String d = message.data.get(i);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-
-                    LimitData result;
-                    try {
-                        result = SCSyncLimitData.GSON_BUILDER.fromJson(br, LimitData.class);
-
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", message.names.get(i), e);
-                        continue;
-                    }
-                    limit.setLimitData(result);
-                    IOUtils.closeQuietly(br);
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncOrgData(SCSyncOrganizationData message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Player player = Minecraft.getInstance().player;
-
-                for (int i = 0; i < message.names.size(); i++) {
-                    IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(new ResourceLocation(message.names.get(i)));
-
-                    String d = message.data.get(i);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
-
-                    OrganizationData result;
-                    try {
-                        result = SCSyncOrganizationData.GSON_BUILDER.fromJson(br, OrganizationData.class);
-
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
-                        continue;
-                    }
-                    weapon.setOrganizationData(result);
-                    IOUtils.closeQuietly(br);
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable openCODoorGui(SCOpenCODoorGui message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos)));
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncCastleOblivionInterior(SCSyncCastleOblivionInteriorCapability message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Level world = Minecraft.getInstance().level;
-                CastleOblivionCapabilities.ICastleOblivionInteriorCapability worldData = ModCapabilities.getCastleOblivionInterior(world);
-                worldData.deserializeNBT(message.data);
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable syncMoogleNames(SCSyncMoogleNames message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                NamesListRegistry.getInstance().clearRegistry();
-                NamesListRegistry.getInstance().setRegistry(message.names);
-            }
-        };
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
     }
 
     public enum Angle{
@@ -682,13 +257,13 @@ public class ClientUtils {
         p_275689_.yHeadRotO = p_275689_.getYRot();
 
         double d0 = 1000.0D;
-        PoseStack posestack = RenderSystem.getModelViewStack();
-        posestack.pushPose();
-        posestack.translate(0.0D, 0.0D, 1000.0D);
+        Matrix4fStack posestack = RenderSystem.getModelViewStack();
+        posestack.pushMatrix();
+        posestack.translate(0.0F, 0.0F, 1000.0F);
         RenderSystem.applyModelViewMatrix();
         p_275396_.pushPose();
         p_275396_.translate((double) p_275688_, (double) p_275245_, -950.0D);
-        p_275396_.mulPoseMatrix((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
+        p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
         p_275396_.mulPose(quaternionf);
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
@@ -713,7 +288,7 @@ public class ClientUtils {
         entityrenderdispatcher.setRenderShadow(true);
         p_275396_.popPose();
         Lighting.setupFor3DItems();
-        posestack.popPose();
+        posestack.popMatrix();
         RenderSystem.applyModelViewMatrix();
 
         p_275689_.yBodyRot = f2;
@@ -723,7 +298,7 @@ public class ClientUtils {
         p_275689_.yHeadRot = f6;
     }
   	
-  	public static List<Component> getTooltip(List<Component> tooltip, ItemStack stack) {
+  	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
 		float baseStr = 0, baseMag = 0;
 		float totalStr = 0, totalMag = 0;
 		String desc = "";
@@ -744,8 +319,8 @@ public class ClientUtils {
 			if(kbItem.getKeybladeLevel(stack) > 0)
 				ln1 = (Component.translatable(ChatFormatting.YELLOW+"Level %s", kbItem.getKeybladeLevel(stack)));
 			
-			baseStr = kbItem.getStrength(kbItem.getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack);
-			totalStr = DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+DamageCalculation.getSharpnessDamage(stack);
+			baseStr = kbItem.getStrength(kbItem.getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+			totalStr = DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
 
 			baseMag = kbItem.getMagic(kbItem.getKeybladeLevel(stack));
 			totalMag = DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack);
@@ -755,8 +330,8 @@ public class ClientUtils {
 		} else if(stack.getItem() instanceof IOrgWeapon orgItem) {
 			ln1 = Component.translatable(ChatFormatting.YELLOW + "" + orgItem.getMember());
 			
-			baseStr = orgItem.getStrength() + DamageCalculation.getSharpnessDamage(stack);
-			totalStr = DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack)+DamageCalculation.getSharpnessDamage(stack);
+			baseStr = orgItem.getStrength() + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+			totalStr = DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack)+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
 			
 			baseMag = orgItem.getMagic(); 
 			totalMag = DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, orgItem);
@@ -773,19 +348,6 @@ public class ClientUtils {
 		
 		return tooltip;
 	}
-
-	public static DistExecutor.SafeRunnable showTitles(SCShowMessagesPacket message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-        		SoAMessages.INSTANCE.clearMessage();
-        		for(Title t : message.titles) {
-        			SoAMessages.INSTANCE.queueMessage(t);
-        		}
-        		//SoAMessages.INSTANCE.queueMessages((Title[]) message.titles.toArray());
-            }
-        };
-    }
 
     public static Matrix4f getMVMatrix(PoseStack poseStack, float posX, float posY, float posZ, float x, float y, float z, boolean lockRotation, float partialTicks) {
         poseStack.pushPose();
@@ -826,16 +388,16 @@ public class ClientUtils {
     }
 
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
                     false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
       public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
                     false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        IPlayerData localPlayerData = ModData.getPlayer(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
@@ -849,7 +411,7 @@ public class ClientUtils {
     }
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
+        IPlayerData localPlayerData = ModData.getPlayer(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
@@ -890,56 +452,10 @@ public class ClientUtils {
 
     public static void drawTexturedModalRect3DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float minTexU, float minTexV, float maxTexU, float maxTexV) {
         float cor = 0.00390625F;
-        vertexBuilder.vertex(matrix, minX, minY, maxZ).uv((minTexU * cor), (maxTexV) * cor).endVertex();
-        vertexBuilder.vertex(matrix, maxX, minY, maxZ).uv((maxTexU * cor), (maxTexV) * cor).endVertex();
-        vertexBuilder.vertex(matrix, maxX, maxY, minZ).uv((maxTexU * cor), (minTexV) * cor).endVertex();
-        vertexBuilder.vertex(matrix, minX, maxY, minZ).uv((minTexU * cor), (minTexV) * cor).endVertex();
-    }
-
-    public static DistExecutor.SafeRunnable openSavePointScreen(SCOpenSavePointScreen message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                Minecraft.getInstance().setScreen(new SavePointScreen((SavepointTileEntity) Minecraft.getInstance().level.getBlockEntity(message.tileEntity()), message.savePoints(), message.create()));
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable updateSavePoints(SCUpdateSavePoints message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
-                    savePointScreen.updateSavePointsFromServer(message.savePoints());
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable deleteScreenshot(SCDeleteSavePointScreenshot message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                File screenshotFile = ScreenshotManager.getScreenshotFile(message.name(), message.uuid());
-                if (screenshotFile != null) {
-                    String path = screenshotFile.getPath();
-                    if (!screenshotFile.delete()) {
-                        KingdomKeys.LOGGER.warn("Failed to delete screenshot file {}", path);
-                    } else {
-                        KingdomKeys.LOGGER.info("Deleted save point screenshot: {}", screenshotFile.getName());
-                    }
-                }
-            }
-        };
-    }
-
-    public static DistExecutor.SafeRunnable updateCORooms(SCUpdateCORooms message) {
-        return new DistExecutor.SafeRunnable() {
-            @Override
-            public void run() {
-                COMinimap.rooms = message.rooms();
-            }
-        };
+        vertexBuilder.addVertex((matrix, minX, minY, maxZ).setUv((minTexU * cor), (maxTexV) * cor);
+        vertexBuilder.addVertex(matrix, maxX, minY, maxZ).setUv((maxTexU * cor), (maxTexV) * cor);
+        vertexBuilder.addVertex(matrix, maxX, maxY, minZ).setUv((maxTexU * cor), (minTexV) * cor);
+        vertexBuilder.addVertex(matrix, minX, maxY, minZ).setUv((minTexU * cor), (minTexV) * cor);
     }
 }
 

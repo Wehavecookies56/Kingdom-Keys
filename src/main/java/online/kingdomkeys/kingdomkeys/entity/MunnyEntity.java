@@ -8,9 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -21,17 +19,13 @@ public class MunnyEntity extends ItemDropEntity {
 		super(ModEntities.TYPE_MUNNY.get(), worldIn, x, y, z, expValue);
 	}
 
-	public MunnyEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_MUNNY.get(), world);
-	}
-
 	public MunnyEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
 
 	@Override
 	void onPickup(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() + value);
 		PacketHandler.sendTo(new SCShowOverlayPacket("munny", value), (ServerPlayer) player);
 	}

@@ -8,8 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -32,7 +31,7 @@ public class MagicStop extends Magic {
 		
 		float radius = 2 + level;
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		Party casterParty = ModData.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
@@ -47,7 +46,7 @@ public class MagicStop extends Magic {
 		}
 		
 		//Cast stop model to player
-		IGlobalCapabilities casterGlobalData = ModCapabilities.getGlobal(caster);
+		IGlobalCapabilities casterGlobalData = ModData.getGlobal(caster);
 		if(casterGlobalData != null) {
 			casterGlobalData.setStopModelTicks(10);
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
@@ -57,7 +56,7 @@ public class MagicStop extends Magic {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
 				if (e instanceof LivingEntity) {
-					IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
+					IGlobalCapabilities globalData = ModData.getGlobal((LivingEntity) e);
 					if (e instanceof Mob) {
 						((Mob) e).setNoAi(true);
 					}

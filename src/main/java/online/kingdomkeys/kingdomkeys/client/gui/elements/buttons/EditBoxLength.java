@@ -2,10 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -17,13 +14,15 @@ import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.StringUtil;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jline.reader.Widget;
 
@@ -150,7 +149,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
         int i = Math.min(this.cursorPos, this.highlightPos);
         int j = Math.max(this.cursorPos, this.highlightPos);
         int k = this.maxLength - this.value.length() - (i - j);
-        String s = SharedConstants.filterText(pTextToWrite);
+        String s = StringUtil.filterText(pTextToWrite);
         int l = s.length();
         if (k < l) {
             s = s.substring(0, k);
@@ -391,7 +390,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
     public boolean charTyped(char pCodePoint, int pModifiers) {
         if (!this.canConsumeInput()) {
             return false;
-        } else if (SharedConstants.isAllowedChatCharacter(pCodePoint)) {
+        } else if (StringUtil.isAllowedChatCharacter(pCodePoint)) {
             if (this.isEditable) {
                 this.insertText(Character.toString(pCodePoint));
             }
@@ -487,7 +486,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 
             if (k != j) {
                 int l1 = l + this.font.width(s.substring(0, k));
-                this.renderHighlight(k1, i1 - 1, l1 - 1, i1 + 1 + 9);
+                this.renderHighlight(gui, k1, i1 - 1, l1 - 1, i1 + 1 + 9);
             }
 
         }
@@ -496,43 +495,28 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
     /**
      * Draws the blue selection box.
      */
-    private void renderHighlight(int pStartX, int pStartY, int pEndX, int pEndY) {
-        if (pStartX < pEndX) {
-            int i = pStartX;
-            pStartX = pEndX;
-            pEndX = i;
+    private void renderHighlight(GuiGraphics guiGraphics, int minX, int minY, int maxX, int maxY) {
+        if (minX < maxX) {
+            int i = minX;
+            minX = maxX;
+            maxX = i;
         }
 
-        if (pStartY < pEndY) {
-            int j = pStartY;
-            pStartY = pEndY;
-            pEndY = j;
+        if (minY < maxY) {
+            int j = minY;
+            minY = maxY;
+            maxY = j;
         }
 
-        if (pEndX > this.getX() + this.width) {
-            pEndX = this.getX() + this.width;
+        if (maxX > this.getX() + this.width) {
+            maxX = this.getX() + this.width;
         }
 
-        if (pStartX > this.getX() + this.width) {
-            pStartX = this.getX() + this.width;
+        if (minX > this.getX() + this.width) {
+            minX = this.getX() + this.width;
         }
 
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tesselator.getBuilder();
-        RenderSystem.setShader(GameRenderer::getPositionShader);
-        RenderSystem.setShaderColor(0.0F, 0.0F, 1.0F, 1.0F);
-       // RenderSystem.disableTexture();
-        RenderSystem.enableColorLogicOp();
-        RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-        bufferbuilder.vertex((double)pStartX, (double)pEndY, 0.0D).endVertex();
-        bufferbuilder.vertex((double)pEndX, (double)pEndY, 0.0D).endVertex();
-        bufferbuilder.vertex((double)pEndX, (double)pStartY, 0.0D).endVertex();
-        bufferbuilder.vertex((double)pStartX, (double)pStartY, 0.0D).endVertex();
-        tesselator.end();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.disableColorLogicOp();
-     //   RenderSystem.enableTexture();
+        guiGraphics.fill(RenderType.guiTextHighlight(), minX, minY, maxX, maxY, -16776961);
     }
 
     /**

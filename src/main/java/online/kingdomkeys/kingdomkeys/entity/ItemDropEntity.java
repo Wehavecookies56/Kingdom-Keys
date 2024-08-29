@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,12 +16,9 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -43,10 +38,6 @@ public abstract class ItemDropEntity extends Entity {
 		setValue(expValue);
 
 		this.delayBeforeCanPickup = 20;
-	}
-
-	public ItemDropEntity(EntityType<ItemDropEntity> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(type, world);
 	}
 	
 	public ItemDropEntity(EntityType<? extends Entity> type, Level world) {
@@ -95,7 +86,7 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		if (this.closestPlayer != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(closestPlayer);
+			IPlayerData playerData = ModData.getPlayer(closestPlayer);
 			if(playerData != null) {
 				maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet)*2);
 				Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
@@ -171,8 +162,8 @@ public abstract class ItemDropEntity extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		entityData.define(VALUE, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(VALUE, 0);
 	}
 
 	/**
@@ -184,7 +175,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove(RemovalReason.KILLED);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(entityIn)), (ServerPlayer)entityIn);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(entityIn)), (ServerPlayer)entityIn);
 			}
 
 		}
@@ -228,12 +219,4 @@ public abstract class ItemDropEntity extends Entity {
 	public boolean isAttackable() {
 		return false;
 	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-	
-	
-
 }

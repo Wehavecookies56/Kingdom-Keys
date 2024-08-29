@@ -19,15 +19,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
 public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, PlayerModel<T>> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/trident_riptide.png");
+	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
 	public static final String BOX = "box";
 	private final ModelPart box;
 
@@ -50,8 +49,8 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 	}
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (ModCapabilities.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(entitylivingbaseIn);
+		if (ModData.getGlobal(entitylivingbaseIn) != null) {
+			IGlobalCapabilities globalData = ModData.getGlobal(entitylivingbaseIn);
 			if (globalData.getAeroTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 

@@ -6,11 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CSTravelToSoA {
 
@@ -28,7 +26,7 @@ public class CSTravelToSoA {
     public static void handle(CSTravelToSoA message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
             if (playerData.getSoAState() != SoAState.COMPLETE) {
                 playerData.setReturnDimension(player);
                 playerData.setReturnLocation(player);

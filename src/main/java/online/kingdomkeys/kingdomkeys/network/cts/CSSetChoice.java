@@ -9,10 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class CSSetChoice {
 
@@ -53,7 +51,7 @@ public class CSSetChoice {
     public static void handle(CSSetChoice message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
             if (message.state == SoAState.CONFIRM) {
                 //go back to choices or continue to complete state and leave dimension
                 if (message.confirm) {

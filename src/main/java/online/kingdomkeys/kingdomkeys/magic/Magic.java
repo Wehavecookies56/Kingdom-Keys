@@ -7,8 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -45,7 +44,7 @@ public abstract class Magic {
     }
     
     public double getCost(int lvl, Player player) {
-    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+    	IPlayerData playerData = ModData.getPlayer(player);
     	double cost = data.getCost(lvl);
     	if(cost != 300)
     		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
@@ -67,7 +66,7 @@ public abstract class Magic {
     public Ability getGMAbility() {
     	if(gmAbility == null)
     		return null;
-    	return ModAbilities.registry.get().getValue(new ResourceLocation(gmAbility));
+    	return ModAbilities.registry.get(ResourceLocation.parse(gmAbility));
     }
     
     public MagicData getMagicData() {
@@ -88,7 +87,7 @@ public abstract class Magic {
      * @param caster
      */
     public final void onUse(Player player, Player caster, int level, LivingEntity lockOnEntity) {
-    	IPlayerCapabilities casterData = ModCapabilities.getPlayer(caster);
+    	IPlayerData casterData = ModData.getPlayer(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
     	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
@@ -139,7 +138,7 @@ public abstract class Magic {
 
 	protected abstract void playMagicCastSound(Player player, Player caster, int level);
 
-	private boolean getRCProb(IPlayerCapabilities casterData) {
+	private boolean getRCProb(IPlayerData casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
 
 		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName()) == getMaxLevel()) {

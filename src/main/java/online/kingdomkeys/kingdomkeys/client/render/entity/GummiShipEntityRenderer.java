@@ -43,7 +43,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(GummiShipEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/gummi.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/gummi.png");
 	}
 
 }

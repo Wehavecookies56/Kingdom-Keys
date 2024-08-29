@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class DarkballModel<T extends Entity> extends EntityModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "darkball"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "darkball"), "main");
 	private final ModelPart body1;
 	private final ModelPart bodyDown1;
 	private final ModelPart bodyDown2;
@@ -173,7 +173,7 @@ public class DarkballModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
 		body1.render(poseStack, buffer, packedLight, packedOverlay);
 		antenna21.render(poseStack, buffer, packedLight, packedOverlay);
 		antenna31.render(poseStack, buffer, packedLight, packedOverlay);

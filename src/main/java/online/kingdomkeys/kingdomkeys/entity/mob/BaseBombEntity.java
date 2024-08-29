@@ -1,14 +1,15 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -19,29 +20,22 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
-public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
+public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWithComplexSpawn {
 
     public int ticksToExplode;
 
     protected BaseBombEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         this.ticksToExplode = 100;
-    }
-
-    public BaseBombEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(type, world);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -75,18 +69,13 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     }
 
     @Override
-    public void writeSpawnData(FriendlyByteBuf buffer) {
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
         buffer.writeInt(ticksToExplode);
     }
 
     @Override
-    public void readSpawnData(FriendlyByteBuf additionalData) {
+    public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
         ticksToExplode = additionalData.readInt();
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -111,7 +100,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     public void explode() {
         if (!hasExploded) {
             hasExploded = true;
-            ExplosionInteraction explosion$mode = ForgeEventFactory.getMobGriefingEvent(this.level(), this) ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
+            ExplosionInteraction explosion$mode = NeoForge.EVENT_BUS.post(new EntityMobGriefingEvent(this.level(), this)).canGrief() ? ExplosionInteraction.MOB : ExplosionInteraction.NONE;
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), getExplosionStength(), false, explosion$mode);
             for (LivingEntity enemy : EntityHelper.getEntitiesNear(this, getExplosionStength()+1))
                 this.doHurtTarget(enemy);
@@ -125,9 +114,8 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(EntityHelper.STATE, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(EntityHelper.STATE, 0);
     }
 
     class BombGoal extends Goal {

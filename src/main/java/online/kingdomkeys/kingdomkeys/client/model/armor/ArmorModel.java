@@ -11,8 +11,8 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ArmorModel<T extends LivingEntity> extends ArmorBaseModel<T> {
-	public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "armor_top"), "main");
-	public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "armor_bot"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "armor_top"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "armor_bot"), "main");
 	public ArmorModel(ModelPart root) {
 		super(root);
 	}

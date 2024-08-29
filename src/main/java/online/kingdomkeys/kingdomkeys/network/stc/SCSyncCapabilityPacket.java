@@ -15,8 +15,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
@@ -82,7 +82,7 @@ public class SCSyncCapabilityPacket {
 	public SCSyncCapabilityPacket() {
 	}
 
-	public SCSyncCapabilityPacket(IPlayerCapabilities capability) {
+	public SCSyncCapabilityPacket(PlayerData capability) {
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
 		this.expGiven = capability.getExperienceGiven();

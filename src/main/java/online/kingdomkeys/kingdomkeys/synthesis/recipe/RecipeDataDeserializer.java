@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.google.gson.*;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
@@ -39,7 +39,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                         int quantity = 0;
                         boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 						if (valid) {
-                            m = ModMaterials.registry.get().getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+                            m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
                             if (m == null) {
                                 throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
                             } else {
@@ -61,7 +61,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                 	 JsonObject outputObject = element.getAsJsonObject();
                      boolean valid = outputObject.get("item") != null && outputObject.get("quantity") != null;
                      if(valid) {
-                    	 Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(outputObject.get("item").getAsString()));
+                    	 Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(outputObject.get("item").getAsString()));
                          out.setResult(keychain, outputObject.get("quantity").getAsInt());
                          out.setType(outputObject.get("type").getAsString());
                      }

@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
 
-	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	private int endWidth = 11;
 
 	private int bLeftU = 0, bMiddleU = 12, bRightU = 14;
@@ -71,7 +71,7 @@ public class MenuButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
 
 		PoseStack matrixStack = gui.pose();

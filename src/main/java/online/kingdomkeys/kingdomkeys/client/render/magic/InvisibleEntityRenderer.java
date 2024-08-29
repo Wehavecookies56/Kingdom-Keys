@@ -9,8 +9,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 @OnlyIn(Dist.CLIENT)
@@ -29,6 +29,6 @@ public class InvisibleEntityRenderer extends EntityRenderer<ThrowableProjectile>
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ThrowableProjectile entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 }

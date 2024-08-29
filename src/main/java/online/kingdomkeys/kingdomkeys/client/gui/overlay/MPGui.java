@@ -2,13 +2,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
@@ -20,7 +19,7 @@ public class MPGui extends OverlayBase {
 	int mpBarWidth;
 	int guiHeight = 10;
 	int noborderguiwidth = 171;
-	IPlayerCapabilities playerData;
+	IPlayerData playerData;
 	int counter = 0;
 
 	private MPGui() {
@@ -28,8 +27,8 @@ public class MPGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
 		Player player = minecraft.player;
@@ -45,7 +44,7 @@ public class MPGui extends OverlayBase {
 				break;
 		}
 		float scaleactor = 1F * ModConfigs.mpXScale/100F;
-		playerData = ModCapabilities.getPlayer(player);
+		playerData = ModData.getPlayer(player);
 		if(playerData == null || playerData.getMaxMP() <= 0)
 			return;
 
@@ -88,7 +87,7 @@ public class MPGui extends OverlayBase {
 			{
 				matrixStack.translate(scale * posX, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, 0, 2, 12);
+				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -98,7 +97,7 @@ public class MPGui extends OverlayBase {
 				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
 				matrixStack.scale(width, scale, 0);
 				int v = playerData.getRecharge() ? 8 : 2;
-				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, v, 0, 1, 12);
+				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, v, 0, 1, 12);
 
 			}
 			matrixStack.popPose();
@@ -108,7 +107,7 @@ public class MPGui extends OverlayBase {
 			{
 				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
 				matrixStack.scale(scale, scale, 0);
-				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 3, 0, 2, 12);
+				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -118,7 +117,7 @@ public class MPGui extends OverlayBase {
 				int v = playerData.getRecharge() ? 45 : 32;
 				matrixStack.translate((posX + 2) * scale + width + 1, scale * posY, 0);
 				matrixStack.scale(scale * 0.8F, scale, 1);
-				blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, v, 23, 12);
+				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, v, 23, 12);
 			}
 			matrixStack.popPose();
 		}
@@ -133,7 +132,7 @@ public class MPGui extends OverlayBase {
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
 			int v = playerData.getRecharge() ? 22 : 12;
-			blit(gui, new ResourceLocation(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 2, v, 1, 8);
+			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 2, v, 1, 8);
 		}
 		matrixStack.popPose();
 

@@ -8,9 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -24,18 +22,13 @@ public class DriveOrbEntity extends ItemDropEntity {
 		super(ModEntities.TYPE_DRIVEORB.get(), worldIn, x, y, z, expValue);
 	}
 
-	public DriveOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_DRIVEORB.get(), world);
-	}
-
 	public DriveOrbEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
-	
 
 	@Override
 	void onPickup(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		float finalValue = value;
 		if (playerData.isAbilityEquipped(Strings.driveBoost) && playerData.getRecharge())
 			finalValue *=2 ;

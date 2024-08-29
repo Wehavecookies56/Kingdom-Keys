@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.features;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import java.util.List;
 
 public class MultipleBlockMatchRuleTest extends RuleTest {
-    public static final Codec<MultipleBlockMatchRuleTest> CODEC = RecordCodecBuilder.create((p_237118_0_) -> {
+    public static final MapCodec<MultipleBlockMatchRuleTest> CODEC = RecordCodecBuilder.mapCodec((p_237118_0_) -> {
         return p_237118_0_.group(BuiltInRegistries.BLOCK.byNameCodec().listOf().fieldOf("blocks").forGetter((p_237120_0_) -> {
             return p_237120_0_.blocks;
         })).apply(p_237118_0_, MultipleBlockMatchRuleTest::new);

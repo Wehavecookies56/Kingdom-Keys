@@ -9,8 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
@@ -32,24 +31,24 @@ public class AlignmentSelectionScreen extends Screen {
     private final int icon_height = 56;
 
     private final ResourceLocation[] icons = new ResourceLocation[] {
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xemnas_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xigbar_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xaldin_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/vexen_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/lexaeus_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/zexion_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/saix_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/axel_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/demyx_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/luxord_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/marluxia_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/larxene_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/roxas_icons.png")
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xemnas_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xigbar_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xaldin_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/vexen_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/lexaeus_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/zexion_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/saix_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/axel_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/demyx_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/luxord_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/marluxia_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/larxene_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/roxas_icons.png")
     };
 
     private final int members = icons.length;
 
-    private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     public AlignmentSelectionScreen() {
         super(Component.translatable(""));
@@ -57,14 +56,14 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
-        if (delta > 0 && prev.visible)
+        if (deltaY > 0 && prev.visible)
         {
             actionPerformed(PREV);
             return true;
         }
-        else if  (delta < 0 && next.visible)
+        else if  (deltaY < 0 && next.visible)
         {
             actionPerformed(NEXT);
             return true;
@@ -76,7 +75,7 @@ public class AlignmentSelectionScreen extends Screen {
     @Override
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
     	PoseStack matrixStack = gui.pose();
-        renderBackground(gui);
+        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         String line1 = "gui.org.line1";
         String line2 = "gui.org.line2";
         String line3 = "gui.org.line3";
@@ -224,7 +223,7 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     public void actionPerformed(int ID) {
-        IPlayerCapabilities playerData;
+        IPlayerData playerData;
 		switch (ID) {
             case OK:
                 //Dismiss welcome message
@@ -253,7 +252,7 @@ public class AlignmentSelectionScreen extends Screen {
             case CONFIRM:
                 //Send choice to server
                 PacketHandler.sendToServer(new CSSetAlignment(current));
-                playerData = ModCapabilities.getPlayer(minecraft.player);
+                playerData = ModData.getPlayer(minecraft.player);
                 playerData.setAlignment(current);
                 Minecraft.getInstance().setScreen(null);
                 if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {

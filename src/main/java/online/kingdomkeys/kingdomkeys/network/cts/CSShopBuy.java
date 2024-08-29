@@ -10,9 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -51,7 +49,7 @@ public class CSShopBuy {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			if(player.getInventory().getFreeSlot() > -1) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 
 				List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(message.inv).getList();
 				ShopItem item = null;
@@ -83,7 +81,7 @@ public class CSShopBuy {
 					player.getInventory().add(new ItemStack(i,amount));
 					
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
-						IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+						IWorldCapabilities worldData = ModData.getWorld(player.level());
 						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 					}

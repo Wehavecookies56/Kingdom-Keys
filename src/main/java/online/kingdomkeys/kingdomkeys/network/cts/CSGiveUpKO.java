@@ -5,8 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 import java.util.function.Supplier;
@@ -28,7 +27,7 @@ public class CSGiveUpKO {
     public static void handle(CSGiveUpKO message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+            IGlobalCapabilities globalData = ModData.getGlobal(player);
 
             killPlayer(player);
             if(globalData != null){

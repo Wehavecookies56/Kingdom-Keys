@@ -8,8 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -37,7 +36,7 @@ public class MenuStruggle extends MenuBackground {
 
 	MenuButton create, join, settings;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	protected void action(buttons buttonID) {
 		switch (buttonID) {
@@ -65,7 +64,7 @@ public class MenuStruggle extends MenuBackground {
 		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Join match", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
 		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.SETTINGS);}));
 
-		Struggle s = ModCapabilities.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
+		Struggle s = ModData.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
 		if(s != null) {
 			System.out.println(s.getOwner().getUsername());
 		}
@@ -75,7 +74,7 @@ public class MenuStruggle extends MenuBackground {
 	private void updateButtons() {
 		create.visible = true; //TODO change to show only if configured
 		join.visible = true;
-		Struggle s = ModCapabilities.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
+		Struggle s = ModData.getWorld(minecraft.level).getStruggleFromParticipant(minecraft.player.getUUID());
 		if (s != null) {
 			settings.visible = s.getOwner().getUUID().equals(minecraft.player.getUUID());
 		}
@@ -92,7 +91,7 @@ public class MenuStruggle extends MenuBackground {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{

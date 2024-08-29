@@ -7,9 +7,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -28,8 +26,8 @@ public class MagicCure extends Magic {
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+		IPlayerData playerData = ModData.getPlayer(player);
+		IWorldCapabilities worldData = ModData.getWorld(player.level());
 
 		float amount = playerData.getMaxHP() * getDamageMult(level);
 		if (playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)

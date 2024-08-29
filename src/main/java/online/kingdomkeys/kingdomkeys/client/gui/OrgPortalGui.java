@@ -6,7 +6,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetOrgPortalName;
@@ -38,7 +38,7 @@ public class OrgPortalGui extends Screen {
 			OrgPortalTileEntity te = (OrgPortalTileEntity) minecraft.player.level().getBlockEntity(pos);
 			UUID portalUUID = te.getUUID();
 			if(portalUUID != null) {
-				String text = ModCapabilities.getWorld(minecraft.player.level()).getPortalFromUUID(portalUUID).getName();
+				String text = ModData.getWorld(minecraft.player.level()).getPortalFromUUID(portalUUID).getName();
 				nameBox.setValue(text);
 			}
 		}

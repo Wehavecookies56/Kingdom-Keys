@@ -84,7 +84,7 @@ public class PortalData {
 
         //TODO fix casting
 		this.setPos(new BlockPos((int) nbt.getDouble("x"), (int) nbt.getDouble("y"), (int) nbt.getDouble("z")));
-		ResourceLocation rl = new ResourceLocation(nbt.getString("dim"));
+		ResourceLocation rl = ResourceLocation.parse(nbt.getString("dim"));
 		this.setDimID(ResourceKey.create(Registries.DIMENSION,rl));
 		this.setOwnerID(nbt.getUUID("owner"));
 	}

@@ -14,12 +14,12 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -90,7 +90,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 				poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
 	        }
 	        
-	        switch(ForgeRegistries.ITEMS.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
+	        switch(BuiltInRegistries.ITEM.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
 	    	case Strings.quietBelladonna:
 			case Strings.loftyGerbera:
 			case Strings.solemnMagnolia:

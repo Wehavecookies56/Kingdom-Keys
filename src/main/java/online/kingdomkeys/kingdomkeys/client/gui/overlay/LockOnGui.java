@@ -4,25 +4,24 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class LockOnGui extends OverlayBase {
 
 	public static final LockOnGui INSTANCE = new LockOnGui();
@@ -47,24 +46,24 @@ public class LockOnGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastTargetHealth;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/hpbar.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
 
 	private LockOnGui() {
 		super();
 	}
 
 	@SubscribeEvent
-	public static void renderOverlay(RenderGuiOverlayEvent.Pre event) {
-		if (InputHandler.lockOn != null && event.getOverlay().equals(VanillaGuiOverlay.CROSSHAIR.type())) {
+	public static void renderOverlay(RenderGuiLayerEvent.Pre event) {
+		if (InputHandler.lockOn != null && event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
 			event.setCanceled(true);
 		}
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		Player player = minecraft.player;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
 			if (target == null) {
@@ -91,12 +90,12 @@ public class LockOnGui extends OverlayBase {
 				{
 					poseStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
 					poseStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
-					this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+					this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 
 					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
 					poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F)));
 					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
-					this.blit(guiGraphics, new ResourceLocation(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+					this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 				}
 				poseStack.popPose();
 

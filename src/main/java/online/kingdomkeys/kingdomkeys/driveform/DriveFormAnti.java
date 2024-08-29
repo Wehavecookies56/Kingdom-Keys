@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class DriveFormAnti extends DriveForm {
 
-	public DriveFormAnti(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+	public DriveFormAnti(ResourceLocation registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
 		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 0F, 0F, 0F };
 		this.skinRL = skinRL;

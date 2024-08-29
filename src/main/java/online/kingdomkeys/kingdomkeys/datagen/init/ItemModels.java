@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -20,11 +20,11 @@ public class ItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-		for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries()){
+		for (DeferredHolder<Item, ? extends Item> itemRegistryObject : ModItems.ITEMS.getEntries()){
 
 			//item Name
 			final Item item = itemRegistryObject.get();
-			final String path = ForgeRegistries.ITEMS.getKey(item).getPath();
+			final String path = BuiltInRegistries.ITEM.getKey(item).getPath();
 
 			if (item instanceof BaseArmorItem) {
 				standardArmor(path);

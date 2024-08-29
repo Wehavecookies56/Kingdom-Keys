@@ -15,18 +15,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 import org.joml.Vector3f;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 import java.util.UUID;
@@ -52,7 +53,7 @@ public class WayfinderItem extends Item {
 					owner = getOwner((ServerLevel) player.level(), stack.getTag());
 				
 				if(owner != null) {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
+					IPlayerData playerData = ModData.getPlayer(owner);
 					if(playerData != null) {
 						if(playerData.getNotifColor() != getColor(stack)) {
 							stack.getTag().putInt("color", playerData.getNotifColor());
@@ -76,7 +77,7 @@ public class WayfinderItem extends Item {
 				player.displayClientMessage(Component.translatable("message.wayfinder.player_not_found",stack.getTag().getString("ownerName").toString()), true);
 				return super.use(world, player, hand);
 			}
-			Party p = ModCapabilities.getWorld(world).getPartyFromMember(player.getUUID());
+			Party p = WorldData.get(world.getServer()).getPartyFromMember(player.getUUID());
 			
 			if(owner == player) {
 				player.displayClientMessage(Component.translatable("message.wayfinder.your_wayfinder").append(" ").append(ModConfigs.wayfinderOnlyParty ? Component.translatable("message.wayfinder.in_your_party").getString(): ""), true);
@@ -102,7 +103,7 @@ public class WayfinderItem extends Item {
 	public void teleport(Player player, Entity owner, int color) {
 		if (player.level().dimension() != owner.level().dimension()) {
 			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
-			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX(), owner.getY(), owner.getZ()));
+			player.changeDimension(new DimensionTransition(destiinationWorld, new Vec3(owner.getX(), owner.getY(), owner.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 		}
 
 		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());
@@ -125,7 +126,7 @@ public class WayfinderItem extends Item {
 		nbt.putString("ownerName", player.getDisplayName().getString());
 		nbt.putInt("color", Color.WHITE.getRGB());
 		
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if(playerData != null) {
 			nbt.putInt("color", playerData.getNotifColor());
 		}
@@ -155,7 +156,7 @@ public class WayfinderItem extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.getTag() != null) {
 			tooltip.add(Component.translatable("message.wayfinder.owner", stack.getTag().getString("ownerName").toString()));
 			//tooltip.add(Component.translatable(""+new Color(stack.getTag().getInt("color"))));

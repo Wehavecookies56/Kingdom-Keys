@@ -9,8 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
@@ -48,7 +48,7 @@ public class CSGenerateRoom {
 			Player player = ctx.get().getSender();
 			Level level = player.level();
 
-            CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+            CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
             CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(message.pos);
 			
 			RoomType type = ((MapCardItem)message.stack.getItem()).getRoomType();

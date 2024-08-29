@@ -1,47 +1,36 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCOpenCODoorGui {
+public record SCOpenCODoorGui(BlockPos pos) implements Packet {
 
-	public BlockPos pos;
-	
-	public SCOpenCODoorGui() { }
-	
-	public SCOpenCODoorGui(BlockPos pos) {
-		this.pos = pos;
-	}
+	public static final Type<SCOpenCODoorGui> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_co_door_gui"));
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-	}
+	public static final StreamCodec<FriendlyByteBuf, SCOpenCODoorGui> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC,
+			SCOpenCODoorGui::pos,
+			SCOpenCODoorGui::new
+	);
 
-	public static SCOpenCODoorGui decode(FriendlyByteBuf buffer) {
-		SCOpenCODoorGui msg = new SCOpenCODoorGui();
-		msg.pos = buffer.readBlockPos();
-		return msg;
-	}
-
-	public static void handle(final SCOpenCODoorGui message, Supplier<NetworkEvent.Context> ctx) {
-		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
-			ctx.get().enqueueWork(() -> ClientHandler.handle(message));
-		ctx.get().setPacketHandled(true);
-	}
-
-	public static class ClientHandler {
-		@OnlyIn(Dist.CLIENT)
-		public static void handle(SCOpenCODoorGui message) {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openCODoorGui(message));
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.openCODoorGui(this);
 		}
 	}
 
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

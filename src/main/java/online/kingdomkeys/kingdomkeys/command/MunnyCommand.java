@@ -14,8 +14,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -56,7 +55,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setMunny(value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
@@ -76,7 +75,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() + value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
@@ -96,7 +95,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setMunny(playerData.getMunny() - value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);

@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Created using Blockbench
  */
 public class MoogleModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "moogle"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "moogle"), "main");
     private final ModelPart bb_main;
 
     public MoogleModel(ModelPart root) {
@@ -57,7 +57,7 @@ public class MoogleModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
     	poseStack.translate(0,-0.5,0);
         bb_main.render(poseStack, buffer, packedLight, packedOverlay);
     }

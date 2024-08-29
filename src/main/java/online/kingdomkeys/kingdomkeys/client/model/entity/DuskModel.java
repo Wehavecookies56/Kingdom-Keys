@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class DuskModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "dusk"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "dusk"), "main");
     private final ModelPart RightLegUpper;
     private final ModelPart RightLegThigh;
     private final ModelPart RightLegMiddle;
@@ -190,7 +190,7 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         RightLegUpper.render(poseStack, buffer, packedLight, packedOverlay);
         HeadUpper.render(poseStack, buffer, packedLight, packedOverlay);
         LeftArmShoulder.render(poseStack, buffer, packedLight, packedOverlay);

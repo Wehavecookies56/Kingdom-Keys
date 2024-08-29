@@ -14,8 +14,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -65,7 +64,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	}
 	
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" focus to "+value), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been set to "+value));
@@ -83,7 +82,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 		return 1;
 	}
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.addFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" focus to "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been increased by "+value));
@@ -102,7 +101,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.remFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been decreased by "+value));

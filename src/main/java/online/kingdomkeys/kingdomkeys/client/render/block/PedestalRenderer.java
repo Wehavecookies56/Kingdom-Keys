@@ -13,7 +13,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
@@ -30,11 +31,12 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	    this.renderItem = Minecraft.getInstance().getItemRenderer();
 
 	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
-			tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(iih -> {
-				if (!iih.getStackInSlot(0).isEmpty()) {
-					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, iih.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) iih.getStackInSlot(0).getItem()).getKeyblade()) : iih.getStackInSlot(0), combinedLightIn);
+			IItemHandler itemHandler = tileEntityIn.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tileEntityIn.getBlockPos(), null);
+			if (itemHandler != null) {
+				if (!itemHandler.getStackInSlot(0).isEmpty()) {
+					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, itemHandler.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) itemHandler.getStackInSlot(0).getItem()).getKeyblade()) : itemHandler.getStackInSlot(0), combinedLightIn);
 				}
-			});
+			}
 		} else {
 	    	if (!tileEntityIn.hide) {
 				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack(), combinedLightIn);

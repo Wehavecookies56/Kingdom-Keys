@@ -3,8 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.status;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -24,7 +23,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 	String form = DriveForm.NONE.toString();
 	
-	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 	Button stats_player, stats_back;
 	List<MenuButton> dfStats = new ArrayList<>();
@@ -50,7 +49,7 @@ public class MenuStatusScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		stats_player.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
 		for(int i = 0; i < dfStats.size();i++) {//Iterate through all the buttons to update their state
@@ -87,7 +86,7 @@ public class MenuStatusScreen extends MenuBackground {
 			ap.visible = false;
 			driveGauge.visible = false;
 			 
-			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get().getValue(new ResourceLocation(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get().getValue(new ResourceLocation(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
+			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
 			dfExp.setValue(""+playerData.getDriveFormExp(form));
 			dfNextLevel.setValue(""+remainingExp);
@@ -127,7 +126,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 		for (i = 0; i < forms.size(); i++) {
 			String formName = forms.get(i);
-			String name = ModDriveForms.registry.get().getValue(new ResourceLocation(formName)).getTranslationKey();
+			String name = ModDriveForms.registry.get(ResourceLocation.parse(formName)).getTranslationKey();
 			MenuButton b = new MenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
 				action(formName);
 			});

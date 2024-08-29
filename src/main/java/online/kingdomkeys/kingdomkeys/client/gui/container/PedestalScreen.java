@@ -7,21 +7,21 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.client.gui.widget.ExtendedButton;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
+import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CheckboxButton;
-import online.kingdomkeys.kingdomkeys.container.PedestalContainer;
+import online.kingdomkeys.kingdomkeys.menu.PedestalMenu;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPedestalConfig;
 import org.jetbrains.annotations.NotNull;
 
-public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
+public class PedestalScreen extends AbstractContainerScreen<PedestalMenu> {
 
-	private static final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/pedestal.png");
+	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/pedestal.png");
 
-    public PedestalScreen(PedestalContainer container, Inventory inventory, Component title) {
+    public PedestalScreen(PedestalMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
 		this.imageHeight = 186;
     }
@@ -30,17 +30,17 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
     final float bobSpeedMax = 0.5F;
     final float scaleMax = 2.0F;
     final float heightMax = 3.0F;
-    ForgeSlider rotationSpeedSlider, bobSpeedSlider, scaleSlider, heightSlider;
+    ExtendedSlider rotationSpeedSlider, bobSpeedSlider, scaleSlider, heightSlider;
     CheckboxButton pauseCheckbox, flippedCheckbox;
     ExtendedButton reset;
 
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(scaleSlider = new ForgeSlider(leftPos + 8, topPos + 30, 50, 10, Component.translatable(""), Component.translatable(""), 0.2D, scaleMax, menu.TE.getScale(), 0, 0, false));
-        addRenderableWidget(heightSlider = new ForgeSlider(leftPos + 8, topPos + 42, 50, 10, Component.translatable(""), Component.translatable(""), 0, heightMax, menu.TE.getBaseHeight(), 0, 0, false));
-        addRenderableWidget(rotationSpeedSlider = new ForgeSlider(leftPos + 8, topPos + 54, 50, 10, Component.translatable(""), Component.translatable(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), 0, 0, false));
-        addRenderableWidget(bobSpeedSlider = new ForgeSlider(leftPos + 8, topPos + 66, 50, 10, Component.translatable(""), Component.translatable(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), 0, 0, false));
+        addRenderableWidget(scaleSlider = new ExtendedSlider(leftPos + 8, topPos + 30, 50, 10, Component.translatable(""), Component.translatable(""), 0.2D, scaleMax, menu.TE.getScale(), 0, 0, false));
+        addRenderableWidget(heightSlider = new ExtendedSlider(leftPos + 8, topPos + 42, 50, 10, Component.translatable(""), Component.translatable(""), 0, heightMax, menu.TE.getBaseHeight(), 0, 0, false));
+        addRenderableWidget(rotationSpeedSlider = new ExtendedSlider(leftPos + 8, topPos + 54, 50, 10, Component.translatable(""), Component.translatable(""), -rotationSpeedMax, rotationSpeedMax, menu.TE.getRotationSpeed(), 0, 0, false));
+        addRenderableWidget(bobSpeedSlider = new ExtendedSlider(leftPos + 8, topPos + 66, 50, 10, Component.translatable(""), Component.translatable(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), 0, 0, false));
         addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
         addRenderableWidget(flippedCheckbox = new CheckboxButton(leftPos + 60, topPos + 18, "Flip", menu.TE.isFlipped()));
         addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("Reset"), p -> {
@@ -81,7 +81,7 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalContainer> {
 
     @Override
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
-    	 this.renderBackground(gui);
+    	 this.renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
          super.render(gui, p_render_1_, p_render_2_, p_render_3_);
          this.renderTooltip(gui, p_render_1_, p_render_2_);
     }

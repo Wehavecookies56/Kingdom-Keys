@@ -10,10 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class VolleyShotEntity extends BaseShotlockShotEntity {
@@ -21,10 +19,6 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public VolleyShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_VOLLEY_SHOTLOCK_SHOT.get(), world);
 	}
 
 	public VolleyShotEntity(Level world, LivingEntity player, Entity target, double dmg) {

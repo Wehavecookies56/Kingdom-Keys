@@ -2,17 +2,19 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.UnknownNullability;
 
 /**
  * Stores the data loaded from the keyblades datapack
  */
-public class ShopItem implements INBTSerializable<CompoundTag> {
+public class ShopItem {
     @Nullable Item result;
     @Nullable int amount;
    // @Nullable String type;
@@ -74,7 +76,6 @@ public class ShopItem implements INBTSerializable<CompoundTag> {
 		this.tier = tier;
 	}
 
-	@Override
 	public CompoundTag serializeNBT() {
 		CompoundTag nbt = new CompoundTag();
 
@@ -86,12 +87,10 @@ public class ShopItem implements INBTSerializable<CompoundTag> {
 		return nbt;
 	}
 
-	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		this.setResult(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("result"))), nbt.getInt("amount"));
+		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
 		//this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
 	}
-
 }

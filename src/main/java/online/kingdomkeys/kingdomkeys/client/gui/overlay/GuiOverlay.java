@@ -4,16 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -45,10 +43,10 @@ public class GuiOverlay extends OverlayBase {
 	int width;
 	int sHeight;
 
-	IPlayerCapabilities playerData;
+	IPlayerData playerData;
 
-	ResourceLocation levelUpTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/levelup.png");
-	ResourceLocation menuTexture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
+	ResourceLocation menuTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public static class LevelUpData{
 		public String playerName; //In case player is unloaded from the client
@@ -62,12 +60,12 @@ public class GuiOverlay extends OverlayBase {
 	}
 	
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		this.width = minecraft.getWindow().getGuiScaledWidth();
 		sHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		playerData = ModCapabilities.getPlayer(minecraft.player);
+		playerData = ModData.getPlayer(minecraft.player);
 		if(playerData != null) {
 			// Experience
 			if (showExp) {
@@ -83,7 +81,7 @@ public class GuiOverlay extends OverlayBase {
 			int lvlCounter = 0;
 			Iterator<LevelUpData> it = levelUpList.iterator();
 			while(it.hasNext()) {
-				showLevelUp(guiGraphics, partialTick, lvlCounter++);
+				showLevelUp(guiGraphics, deltaTracker, lvlCounter++);
 
 				LevelUpData actual = it.next();
 				if (System.currentTimeMillis()/1000 > (actual.timeLevelUp + levelSeconds)) {
@@ -93,7 +91,7 @@ public class GuiOverlay extends OverlayBase {
 
 			// Drive form level up
 			if (showDriveLevelUp) {
-				showDriveLevelUp(guiGraphics, partialTick);
+				showDriveLevelUp(guiGraphics, deltaTracker);
 			}
 		}
 	}
@@ -127,7 +125,7 @@ public class GuiOverlay extends OverlayBase {
 			showMunny = false;
 	}
 	
-	private void showLevelUp(GuiGraphics gui, float partialTick, int actual) {
+	private void showLevelUp(GuiGraphics gui, DeltaTracker deltaTracker, int actual) {
 		if(actual >= levelUpList.size())
 			return;
 		LevelUpData levelData = levelUpList.get(actual);
@@ -153,7 +151,7 @@ public class GuiOverlay extends OverlayBase {
 			
 			matrixStack.translate(0, totalSpace , 0);
 
-			float notifXPos = levelData.prevNotifTicks + (levelData.notifTicks - levelData.prevNotifTicks) * partialTick;
+			float notifXPos = levelData.prevNotifTicks + (levelData.notifTicks - levelData.prevNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 			if(notifXPos <= -155)
 				notifXPos = -155;
 			
@@ -246,17 +244,17 @@ public class GuiOverlay extends OverlayBase {
 		
 	}
 
-	private void showDriveLevelUp(GuiGraphics gui, float partialTick) {
+	private void showDriveLevelUp(GuiGraphics gui, DeltaTracker deltaTracker) {
 		PoseStack matrixStack = gui.pose();
 		if(playerData == null || driveForm == null)
 			return;
 
-		DriveForm drive = ModDriveForms.registry.get().getValue(new ResourceLocation(driveForm));
+		DriveForm drive = ModDriveForms.registry.get(ResourceLocation.parse(driveForm));
 		float[] driveColor = drive.getDriveColor();
 
 		matrixStack.pushPose();
 		{
-			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * partialTick;
+			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 			if(driveNotifXPos > 155)
 				driveNotifXPos = 155;
 			
@@ -344,7 +342,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 				matrixStack.popPose();
 				
-				String formName = Utils.translateToLocal(ModDriveForms.registry.get().getValue(new ResourceLocation(driveForm)).getTranslationKey());
+				String formName = Utils.translateToLocal(ModDriveForms.registry.get(ResourceLocation.parse(driveForm)).getTranslationKey());
 				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, "LV.", 2 + (minecraft.font.width("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.font.width("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
@@ -432,8 +430,8 @@ public class GuiOverlay extends OverlayBase {
 	public static float prevDriveNotifTicks = 0;
 	
 	@SubscribeEvent
-	public void ClientTick(TickEvent.ClientTickEvent event) {
-		if(event.phase != Phase.END || Minecraft.getInstance().isPaused()) {
+	public void ClientTick(ClientTickEvent.Post event) {
+		if(Minecraft.getInstance().isPaused()) {
 			return;
 		}
 		

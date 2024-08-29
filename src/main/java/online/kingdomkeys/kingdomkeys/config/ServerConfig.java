@@ -4,20 +4,20 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class ServerConfig {
 
-    public ForgeConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
+    public ModConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
 
-    public ForgeConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
-    public ForgeConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
+    public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
+    public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ForgeConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ForgeConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel;
+    public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
+    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel;
 
-    ServerConfig(final ForgeConfigSpec.Builder builder) {
+    ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
 
         recipeDropChance = builder

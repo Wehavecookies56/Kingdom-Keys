@@ -10,8 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class CSUnlockEquipOrgWeapon {
 
@@ -52,7 +51,7 @@ public class CSUnlockEquipOrgWeapon {
     public static void handle(CSUnlockEquipOrgWeapon message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
             if (message.unlock) {
                 if (playerData.getHearts() >= message.cost) {
                     message.weapon.setTag(new CompoundTag());

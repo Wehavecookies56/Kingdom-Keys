@@ -1,9 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
 
-public class DoorData implements INBTSerializable<CompoundTag> {
+public class DoorData {
 
     public static final DoorData NONE = null;
 
@@ -37,7 +36,6 @@ public class DoorData implements INBTSerializable<CompoundTag> {
         return open;
     }
 
-    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putInt("type", this.type.ordinal());
@@ -45,7 +43,6 @@ public class DoorData implements INBTSerializable<CompoundTag> {
         return tag;
     }
 
-    @Override
     public void deserializeNBT(CompoundTag tag) {
         this.type = Type.values()[tag.getInt("type")];
         this.open = tag.getBoolean("open");

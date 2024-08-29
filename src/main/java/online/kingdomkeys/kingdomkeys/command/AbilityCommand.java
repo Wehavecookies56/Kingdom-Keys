@@ -21,8 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -30,7 +29,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ability> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_ABILITIES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		for (ResourceLocation actual : ModAbilities.registry.get().getKeys()) {
+		for (ResourceLocation actual : ModAbilities.registry.keySet()) {
 			list.add(actual.toString());
 		}
 		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
@@ -71,8 +70,8 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 		String abilityName = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(abilityName));
+			IPlayerData playerData = ModData.getPlayer(player);
+			Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 			playerData.addAbility(abilityName, true);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
@@ -88,12 +87,12 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 		String ability = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.removeAbility(ability);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
-			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+			Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 		}
@@ -122,7 +121,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.clearAbilities();
 
 			if (player != context.getSource().getPlayerOrException()) {

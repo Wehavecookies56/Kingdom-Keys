@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -83,7 +84,7 @@ public class MenuStockScreen extends MenuFilterable {
 	}
 
     public void drawTooltipText(GuiGraphics gui, ItemStack selectedItemstack) {
-        List<Component> tooltip = selectedItemstack.getTooltipLines(minecraft.player, TooltipFlag.Default.NORMAL);
+        List<Component> tooltip = selectedItemstack.getTooltipLines(Item.TooltipContext.of(minecraft.level), minecraft.player, TooltipFlag.Default.NORMAL);
         for (int i = 1; i < Math.min(tooltip.size(), 3); i++) {
             gui.drawString(minecraft.font, tooltip.get(i).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
         }

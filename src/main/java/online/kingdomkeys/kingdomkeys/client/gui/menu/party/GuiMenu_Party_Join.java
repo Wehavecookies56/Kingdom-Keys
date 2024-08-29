@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -23,7 +21,7 @@ import java.util.List;
 public class GuiMenu_Party_Join extends MenuBackground {
 	MenuButton back;
 		
-	IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	MenuButton[] parties = new MenuButton[100];
@@ -31,7 +29,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 	public GuiMenu_Party_Join() {
 		super(Strings.Gui_Menu_Party_Join, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {
@@ -71,10 +69,10 @@ public class GuiMenu_Party_Join extends MenuBackground {
 	}
 
 	private void refreshParties() {
-		playerData = ModCapabilities.getPlayer(minecraft.player);
+		playerData = ModData.getPlayer(minecraft.player);
 		List<String> privateParties = playerData.getPartiesInvited();
 		
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -130,7 +128,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		refreshParties();
 	}
 	

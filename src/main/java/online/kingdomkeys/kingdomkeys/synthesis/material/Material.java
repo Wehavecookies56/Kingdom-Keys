@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.synthesis.material;
 
 import java.util.function.Supplier;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 
 //TODO Should be an API thing
 
@@ -28,7 +28,7 @@ public class Material {
     }
     
     public String getMaterialName() {
-    	return ForgeRegistries.ITEMS.getKey(material.get()).toString();
+    	return BuiltInRegistries.ITEM.getKey(material.get()).toString();
     }
 
     public ResourceLocation getRegistryName() {

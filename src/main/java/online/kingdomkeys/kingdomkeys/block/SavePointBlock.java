@@ -5,10 +5,11 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -27,8 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -68,17 +68,17 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	}
 
 	@Override
-	public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-		if (pStack.getTag() != null && pStack.getTag().contains("tier")) {
-			if (pTooltip.get(0) != null) {
-				if (pStack.getTag().getString("tier").equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
-					pTooltip.set(0, Component.translatable("block." + KingdomKeys.MODID + ".linked_savepoint"));
-				} else if (pStack.getTag().getString("tier").equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
-					pTooltip.set(0, Component.translatable("block." + KingdomKeys.MODID + ".warp_point"));
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+		if (stack.getTag() != null && stack.getTag().contains("tier")) {
+			if (tooltipComponents.get(0) != null) {
+				if (stack.getTag().getString("tier").equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
+					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".linked_savepoint"));
+				} else if (stack.getTag().getString("tier").equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
+					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".warp_point"));
 				}
 			}
 		}
-		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 	}
 
 	@Override
@@ -131,11 +131,10 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		ItemStack stack = player.getItemInHand(handIn);
+	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if (!stack.isEmpty() && worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
 			if (worldIn.isClientSide)
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 
 			String list = switch(state.getValue(TIER)){
                 case NORMAL -> ModConfigs.savePointRecovers;
@@ -199,14 +198,14 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				}
 			}
 		}
-		return InteractionResult.CONSUME;
+		return ItemInteractionResult.CONSUME;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		if (entity instanceof Player player && !world.isClientSide()) {
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
 			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
 				String list = switch(state.getValue(TIER)){
 					case NORMAL -> ModConfigs.savePointRecovers;

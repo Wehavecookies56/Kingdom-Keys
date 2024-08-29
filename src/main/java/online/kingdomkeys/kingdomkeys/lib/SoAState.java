@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
@@ -36,14 +38,26 @@ public enum SoAState {
         return NONE;
     }
 
-    public static void applyStatsForChoices(Player player, IPlayerCapabilities playerData, boolean remove) {
+	public static final StreamCodec<FriendlyByteBuf, SoAState> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public SoAState decode(FriendlyByteBuf pBuffer) {
+            return SoAState.fromByte(pBuffer.readByte());
+        }
+
+        @Override
+        public void encode(FriendlyByteBuf pBuffer, SoAState pValue) {
+            pBuffer.writeByte(pValue.get());
+        }
+    };
+
+    public static void applyStatsForChoices(Player player, PlayerData playerData, boolean remove) {
         if (playerData.getSoAState() == COMPLETE) {
             SoAState choice = !remove ? playerData.getChosen() : playerData.getSacrificed();
             SoAState sacrifice = !remove ? playerData.getSacrificed() : playerData.getChosen();
             
             if (remove) {
 				KingdomKeys.LOGGER.info("Removing old choice? " + sacrifice);
-				removeNonStatsData(ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + sacrifice.toString().toLowerCase())), playerData);
+				removeNonStatsData(ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, sacrifice.toString().toLowerCase())), playerData);
 				KingdomKeys.LOGGER.info(playerData.getAbilityMap());
 				playerData.getStrengthStat().removeModifier("choice");
 				playerData.getMagicStat().removeModifier("choice");
@@ -56,15 +70,15 @@ public enum SoAState {
 				playerData.getMaxAPStat().removeModifier("sacrifice");
 				playerData.setSoAState(NONE);
 			} else {
-				Level choiceData = ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + choice.toString().toLowerCase()));
-				Level sacrificeData = ModLevels.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + sacrifice.toString().toLowerCase()));
+				Level choiceData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, choice.toString().toLowerCase()));
+				Level sacrificeData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, sacrifice.toString().toLowerCase()));
 				addForChoice(1, choiceData, playerData);
 				addForChoice(0, sacrificeData, playerData);
 			}
 		}
     }
 
-	public static void addForChoice(int choiceLevel, Level choice, IPlayerCapabilities playerData) {
+	public static void addForChoice(int choiceLevel, Level choice, PlayerData playerData) {
 		String modifier = "choice";
 		if (choiceLevel == 0) {
 			modifier = "sacrifice";
@@ -90,7 +104,7 @@ public enum SoAState {
 		if (choice.getAbilities(choiceLevel).length > 0) {
 			for (String ability : choice.getAbilities(choiceLevel)) {
 				if (ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if (a != null) {
 						playerData.addAbility(ability, true);
 					}
@@ -100,7 +114,7 @@ public enum SoAState {
 		if (choice.getShotlocks(choiceLevel).length > 0) {
 			for (String shotlock : choice.getShotlocks(choiceLevel)) {
 				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
+					Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 					if (a != null) {
 						playerData.addShotlockToList(shotlock, true);
 					}
@@ -110,13 +124,13 @@ public enum SoAState {
 		if (choice.getSpells(choiceLevel).length > 0) {
 			for (String magic : choice.getSpells(choiceLevel)) {
 				if (magic != null) {
-					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (!playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic)), true);
+								playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)), true);
 							} else {
-								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic)) + 1, true);
+								playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
 							}
 						}
 					}
@@ -133,11 +147,11 @@ public enum SoAState {
 		}
 	}
     
-    public static void removeNonStatsData(Level levelData, IPlayerCapabilities playerData) {
+    public static void removeNonStatsData(Level levelData, PlayerData playerData) {
 		if (levelData.getAbilities(0).length > 0) {
 			for (String ability : levelData.getAbilities(0)) {
 				if (ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if (a != null) {
 						playerData.removeAbility(ability);
 					}
@@ -147,7 +161,7 @@ public enum SoAState {
 		if (levelData.getShotlocks(0).length > 0) {
 			for (String shotlock : levelData.getShotlocks(0)) {
 				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
+					Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 					if (a != null) {
 						playerData.removeShotlockFromList(shotlock);
 					}
@@ -157,11 +171,11 @@ public enum SoAState {
 		if (levelData.getSpells(0).length > 0) {
 			for (String magic : levelData.getSpells(0)) {
 				if (magic != null) {
-					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic))-1, true);
+								playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic))-1, true);
 							}
 						}
 					}
@@ -172,7 +186,7 @@ public enum SoAState {
     	if (levelData.getAbilities(1).length > 0) {
 			for (String ability : levelData.getAbilities(1)) {
 				if (ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if (a != null) {
 						playerData.removeAbility(ability);
 					}
@@ -182,7 +196,7 @@ public enum SoAState {
 		if (levelData.getShotlocks(1).length > 0) {
 			for (String shotlock : levelData.getShotlocks(1)) {
 				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlock));
+					Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 					if (a != null) {
 						playerData.removeShotlockFromList(shotlock);
 					}
@@ -192,11 +206,11 @@ public enum SoAState {
 		if (levelData.getSpells(1).length > 0) {
 			for (String magic : levelData.getSpells(1)) {
 				if (magic != null) {
-					Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 					if (magicInstance != null) {
 						if (playerData != null && playerData.getMagicsMap() != null) {
 							if (playerData.getMagicsMap().containsKey(magic)) {
-								playerData.setMagicLevel(new ResourceLocation(magic), playerData.getMagicLevel(new ResourceLocation(magic))-1, true);
+								playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic))-1, true);
 							}
 						}
 					}

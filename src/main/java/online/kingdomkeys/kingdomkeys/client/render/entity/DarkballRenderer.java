@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.DarkballEntity;
 
 public class DarkballRenderer extends MobRenderer<DarkballEntity, DarkballModel<DarkballEntity>> {
 
-    private final static ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/darkball.png");
+    private final static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/darkball.png");
 
     public DarkballRenderer(EntityRendererProvider.Context context) {
         super(context, new DarkballModel<>(context.bakeLayer(DarkballModel.LAYER_LOCATION)), 0.35F);

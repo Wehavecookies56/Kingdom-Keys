@@ -34,7 +34,7 @@ public class MarluxiaRenderer extends HumanoidMobRenderer<MarluxiaEntity, Marlux
 
 	@Override
 	public ResourceLocation getTextureLocation(MarluxiaEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/marluxia.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/marluxia.png");
 	}
 
 	@Override

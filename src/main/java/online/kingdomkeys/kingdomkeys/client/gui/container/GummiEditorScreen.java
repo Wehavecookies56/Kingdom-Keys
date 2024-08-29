@@ -9,14 +9,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.container.GummiEditorContainer;
+import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import org.jetbrains.annotations.NotNull;
 
-public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorContainer> {
+public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> {
 
-	private static final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/gummi_editor.png");
+	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_editor.png");
 
-	public GummiEditorScreen(GummiEditorContainer container, Inventory inventory, Component title) {
+	public GummiEditorScreen(GummiEditorMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
 		this.imageHeight = 186;
 	}
@@ -33,7 +33,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorContai
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
-		this.renderBackground(gui);
+		this.renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
 		super.render(gui, p_render_1_, p_render_2_, p_render_3_);
 		this.renderTooltip(gui, p_render_1_, p_render_2_);
 	}

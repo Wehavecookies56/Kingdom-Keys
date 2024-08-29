@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import org.joml.Vector3f;
 
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -14,10 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SaixShockwave extends ThrowableProjectile {
@@ -30,23 +27,19 @@ public class SaixShockwave extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public SaixShockwave(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_SAIX_SHOCKWAVE.get(), world);
-	}
-
 	public SaixShockwave(Level world, LivingEntity player, float damage) {
 		super(ModEntities.TYPE_SAIX_SHOCKWAVE.get(), player, world);
 		this.dmg = damage;
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	protected double getDefaultGravity() {
+		return 0.25D;
 	}
 
 	@Override
-	protected float getGravity() {
-		return 0.25F;
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+
 	}
 
 	@Override
@@ -97,10 +90,5 @@ public class SaixShockwave extends ThrowableProjectile {
 			
 
 		}
-	}
-
-	@Override
-	protected void defineSynchedData() {
-
 	}
 }

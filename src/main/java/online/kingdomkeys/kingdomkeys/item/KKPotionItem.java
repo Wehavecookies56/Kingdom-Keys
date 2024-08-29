@@ -6,23 +6,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class KKPotionItem extends Item implements IItemCategory {
@@ -45,7 +43,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     }
 
     public void potionEffect (Player player) {
-    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+    	PlayerData playerData = PlayerData.get(player);
 		//Utils.reviveFromKO(player);
 
 		switch(type) {
@@ -58,7 +56,7 @@ public class KKPotionItem extends Item implements IItemCategory {
 
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+    			WorldData worldData = WorldData.get(player.getServer());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
@@ -83,13 +81,13 @@ public class KKPotionItem extends Item implements IItemCategory {
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+    			WorldData worldData = WorldData.get(player.getServer());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    			        	targetData.addMP(mpAmount);
@@ -112,13 +110,13 @@ public class KKPotionItem extends Item implements IItemCategory {
     		player.level().playSound(null, player.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+    			WorldData worldData = WorldData.get(player.getServer());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
@@ -140,13 +138,13 @@ public class KKPotionItem extends Item implements IItemCategory {
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+    			WorldData worldData = WorldData.get(player.getServer());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
 	    			        	targetData.addDP(dpAmount);
@@ -164,13 +162,13 @@ public class KKPotionItem extends Item implements IItemCategory {
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
-    			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+    			WorldData worldData = WorldData.get(player.getServer());
     			Party party = worldData.getPartyFromMember(player.getUUID());
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+    						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
 	    			        	targetData.addFocus(focusAmount);
@@ -189,12 +187,12 @@ public class KKPotionItem extends Item implements IItemCategory {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
     	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
     	String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
     	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
 		tooltip.add(Component.translatable(beginning + end));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
     }
 
 	@Override

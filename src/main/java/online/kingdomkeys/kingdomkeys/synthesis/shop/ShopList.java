@@ -7,9 +7,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.INBTSerializable;
 
-public class ShopList implements INBTSerializable<CompoundTag>{
+public class ShopList {
 	List<ShopItem> list = new LinkedList<ShopItem>();
 
 	@Nullable ResourceLocation names = null;
@@ -55,7 +54,6 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 		this.list.add(shopItem);
 	}
 
-	@Override
 	public CompoundTag serializeNBT() {
 		CompoundTag nbt = new CompoundTag();
 
@@ -71,7 +69,6 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 		return nbt;
 	}
 
-	@Override
 	public void deserializeNBT(CompoundTag nbt) {
 		this.list.clear();
 		for(int i=0;i<nbt.getInt("len");i++) {
@@ -81,7 +78,7 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 		}
 		this.setRegistryName(nbt.getString("regname"));
 		if (nbt.contains("names")) {
-			this.setNames(new ResourceLocation(nbt.getString("names")));
+			this.setNames(ResourceLocation.parse(nbt.getString("names")));
 		}
 	}
 
@@ -89,11 +86,11 @@ public class ShopList implements INBTSerializable<CompoundTag>{
 		return registryName;
 	}
 	public void setRegistryName(String registryName) {
-		this.registryName = new ResourceLocation(registryName);
+		this.registryName = ResourceLocation.parse(registryName);
 	}
 
 	public void setRegistryName(String namespace, String path) {
-		this.registryName = new ResourceLocation(namespace, path);
+		this.registryName = ResourceLocation.fromNamespaceAndPath(namespace, path);
 	}
 
 	public void setRegistryName(ResourceLocation registryName) {

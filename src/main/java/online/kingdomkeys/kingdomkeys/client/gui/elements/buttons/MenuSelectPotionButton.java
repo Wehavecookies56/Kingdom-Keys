@@ -11,14 +11,15 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
 import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -39,15 +40,15 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectPotionButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuPotionSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Item(player, playerData.getEquippedItem(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+					IPlayerData playerData = ModData.getPlayer(player);
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Item(player, playerData.getEquippedItem(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSEquipItems(parent.slot, slot));
 						ItemStack stackToEquip = player.getInventory().getItem(slot);
 						ItemStack stackPreviouslyEquipped = playerData.equipItem(parent.slot, stackToEquip);
@@ -69,7 +70,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
@@ -169,7 +170,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
 					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
 */
-					ClientUtils.drawSplitString(gui, stack.getTooltipLines(minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
+					ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(minecraft.level), minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();

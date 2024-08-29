@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class CastleOblivionStairBlock extends StairBlock implements INoDataGen {
     public CastleOblivionStairBlock(Properties properties) {
-        super(() -> ModBlocks.castleOblivionWall.get().defaultBlockState(), properties);
+        super(ModBlocks.castleOblivionWall.get().defaultBlockState(), properties);
     }
 
     @Override

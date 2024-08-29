@@ -2,9 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -28,7 +26,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 	
 	MenuButton back;
 		
-	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	Party party;
 	
@@ -37,7 +35,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 	public GuiMenu_Party_Invite() {
 		super(Strings.Gui_Menu_Party_Leader_Invite, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {
@@ -79,7 +77,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 	}
 
 	private void refreshMembers() {
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -133,7 +131,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		refreshMembers();
 	}	

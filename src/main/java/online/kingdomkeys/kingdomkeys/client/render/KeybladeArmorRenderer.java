@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,11 +23,10 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
@@ -108,7 +106,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		NonNullList<ItemStack> armor = NonNullList.create();
-		float red = 1F, green = 1F, blue = 1F;
+		int color = 0xFFFFFF;
 		boolean glint = true;
 
 		if (entitylivingbaseIn instanceof ArmorStand armorStand) {
@@ -119,8 +117,8 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			
 		}
 		if (entitylivingbaseIn instanceof Player player) {
-			if (ModCapabilities.getPlayer(player) != null) {
-				if (Minecraft.getInstance().player.getModelName().equals("slim")) {
+			if (ModData.getPlayer(player) != null) {
+				if (Minecraft.getInstance().player.getSkin().model().id().equals("slim")) {
 					if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
 						armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
 						armorModels.replace((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTopSlim);
@@ -129,11 +127,8 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 					}
 				}
 
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				int color = playerData.getArmorColor();
-				red = ((color >> 16) & 0xff) / 255F;
-				green = ((color >> 8) & 0xff) / 255F;
-				blue = (color & 0xff) / 255F;
+				IPlayerData playerData = ModData.getPlayer(player);
+				color = playerData.getArmorColor();
 				glint = playerData.getArmorGlint();
 
 				armor = player.getInventory().armor;
@@ -152,57 +147,57 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
+				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 
 				armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
 
-				armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
-				armorModelBoots.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+				armorModelBoots.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+				armorModelBoots.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 			}
 			itemStack = armor.get(1);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
 				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "2.png");
+				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "2.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelLeggings.leftLeg.copyFrom(getParentModel().leftLeg);
 
-				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
-				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
-				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+				armorModelLeggings.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+				armorModelLeggings.leftLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+				armorModelLeggings.rightLeg.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 			}
 			itemStack = armor.get(2);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
 				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
+				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
 
 				armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
 				armorModelChestplate.leftArm.copyFrom(getParentModel().leftArm);
 
-				armorModelChestplate.leftArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
-				armorModelChestplate.rightArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
-				armorModelChestplate.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+				armorModelChestplate.leftArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+				armorModelChestplate.rightArm.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
+				armorModelChestplate.body.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 			}
 			itemStack = armor.get(3);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
 				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
+				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(texture), false, glint && itemStack.isEnchanted());
 
 				armorModelHelmet.head.copyFrom(getParentModel().head);
-				armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, red, green, blue, 1);
+				armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 			}
 		}
 	}

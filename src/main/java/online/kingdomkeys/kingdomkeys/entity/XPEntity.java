@@ -15,8 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class XPEntity extends Entity {
 
@@ -28,8 +26,10 @@ public class XPEntity extends Entity {
 		this.blocksBuilding = true;
 	}
 
-	public XPEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_XP.get(), world);
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
+		pBuilder.define(EXP, 0);
 	}
 
 	public XPEntity(Level world) {
@@ -95,18 +95,5 @@ public class XPEntity extends Entity {
 	public void setExp(int exp) {
 		this.entityData.set(EXP, exp);
 	}
-
-	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
-		this.entityData.define(EXP, 0);
-	}
-
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
 
 }

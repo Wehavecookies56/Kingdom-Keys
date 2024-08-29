@@ -3,19 +3,18 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class BlockStates extends BlockStateProvider {
 
@@ -25,9 +24,9 @@ public class BlockStates extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for (RegistryObject<Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
+		for (DeferredHolder<Block, ? extends Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
 			final Block block = itemRegistryObject.get();
-			String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+			String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
 
 			if (block instanceof GhostBloxBlock) {
 				getVariantBuilder(block).forAllStates(state -> {
@@ -35,7 +34,7 @@ public class BlockStates extends BlockStateProvider {
 					String modelName = active ? name + "_visible" : name + "_invisible";
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-					ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all")).texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + modelName));
 
 					builder.modelFile(blockModel);
 
@@ -51,7 +50,7 @@ public class BlockStates extends BlockStateProvider {
 					String modelName = name + "_" + pairState;
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-					ModelFile blockModel = models().withExistingParent(modelName, new ResourceLocation("block/cube_all")).texture("all", new ResourceLocation(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + modelName));
 
 					builder.modelFile(blockModel);
 
@@ -84,8 +83,8 @@ public class BlockStates extends BlockStateProvider {
 	}
 
 	public ModelFile netherCubeAll(Block block) {
-		ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
-		return models().cubeAll(name.getPath(), new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
+		ResourceLocation name = BuiltInRegistries.BLOCK.getKey(block);
+		return models().cubeAll(name.getPath(), ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
 	}
 
 	public void simpleNetherOre(Supplier<? extends Block> blockSupplier) {

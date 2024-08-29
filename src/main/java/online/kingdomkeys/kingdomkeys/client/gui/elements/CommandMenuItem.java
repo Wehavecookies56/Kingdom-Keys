@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -149,7 +149,7 @@ public class CommandMenuItem {
             CommandMenuGui.INSTANCE.playErrorSound();
         }
         if (active && onEnter != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemEnter(getId(), this))) {
+            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.ItemEnter(getId(), this)).isCanceled()) {
                 this.onEnter.onEnter(this);
             }
         }
@@ -157,7 +157,7 @@ public class CommandMenuItem {
 
     public void onCancel() {
         if (onCancel != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemCancel(getId(), this))) {
+            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.ItemCancel(getId(), this)).isCanceled()) {
                 this.onCancel.onCancel(this);
             }
         }
@@ -165,7 +165,7 @@ public class CommandMenuItem {
 
     public void onUpdate(GuiGraphics guiGraphics) {
         if (onUpdate != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemUpdate(getId(), this, guiGraphics))) {
+            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.ItemUpdate(getId(), this, guiGraphics)).isCanceled()) {
                 this.onUpdate.onUpdate(this, guiGraphics);
             }
         }

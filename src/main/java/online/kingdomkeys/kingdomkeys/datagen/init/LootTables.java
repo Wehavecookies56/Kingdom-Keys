@@ -1,13 +1,20 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -20,47 +27,40 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTables;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-public class LootTables extends BaseLootTables {
+public class LootTables extends BlockLootSubProvider {
 
-	public LootTables(DataGenerator generator, Set<ResourceLocation> pRequiredTables, List<SubProviderEntry> pSubProviders) {
-		super(generator.getPackOutput(), pRequiredTables, pSubProviders, generator);
+	public LootTables(HolderLookup.Provider provider) {
+		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, provider);
 	}
 
-	@Override
-    protected void addTables() {
-        blox();
-        ores();
-    }
-    
-    private void blox() {
-        standardBlockLoot(ModBlocks.normalBlox.get());
-        standardBlockLoot(ModBlocks.hardBlox.get());
-        standardBlockLoot(ModBlocks.metalBlox.get());
-        standardBlockLoot(ModBlocks.bounceBlox.get());
-        standardBlockLoot(ModBlocks.dangerBlox.get());
-        standardBlockLoot(ModBlocks.blastBlox.get());
-        standardBlockLoot(ModBlocks.ghostBlox.get());
-        standardBlockLoot(ModBlocks.magnetBlox.get());
-        standardBlockLoot(ModBlocks.orgPortal.get());
-        standardBlockLoot(ModBlocks.moogleProjector.get());
-        standardBlockLoot(ModBlocks.mosaic_stained_glass.get());
-        standardBlockLoot(ModBlocks.station_of_awakening_core.get());
-        standardBlockLoot(ModBlocks.pedestal.get());        
-        standardBlockLoot(ModBlocks.savepoint.get());
-        standardBlockLoot(ModBlocks.magicalChest.get());
+	private void blox() {
+        dropSelf(ModBlocks.normalBlox.get());
+        dropSelf(ModBlocks.hardBlox.get());
+        dropSelf(ModBlocks.metalBlox.get());
+        dropSelf(ModBlocks.bounceBlox.get());
+        dropSelf(ModBlocks.dangerBlox.get());
+        dropSelf(ModBlocks.blastBlox.get());
+        dropSelf(ModBlocks.ghostBlox.get());
+        dropSelf(ModBlocks.magnetBlox.get());
+        dropSelf(ModBlocks.orgPortal.get());
+        dropSelf(ModBlocks.moogleProjector.get());
+        dropSelf(ModBlocks.mosaic_stained_glass.get());
+        dropSelf(ModBlocks.station_of_awakening_core.get());
+        dropSelf(ModBlocks.pedestal.get());        
+        dropSelf(ModBlocks.savepoint.get());
+        dropSelf(ModBlocks.magicalChest.get());
         
-        standardBlockLoot(ModBlocks.rodStone.get());
-        standardBlockLoot(ModBlocks.rodSand.get());
-        standardBlockLoot(ModBlocks.rodCrackedStone.get());
+        dropSelf(ModBlocks.rodStone.get());
+        dropSelf(ModBlocks.rodSand.get());
+        dropSelf(ModBlocks.rodCrackedStone.get());
 
-		standardBlockLoot(ModBlocks.airstepTarget.get());
-        
-        lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+		dropSelf(ModBlocks.airstepTarget.get());
+		
+        add(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(
-					LootItem.lootTableItem(ModBlocks.prizeBlox.get().asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),
+					LootItem.lootTableItem(ModBlocks.prizeBlox.get().asItem()).when(hasSilkTouch()),
 					EntryGroup.list(
 						LootItem.lootTableItem(ModItems.fireSpell.get()).setWeight(1),
 						LootItem.lootTableItem(ModItems.blizzardSpell.get()).setWeight(1),
@@ -93,9 +93,9 @@ public class LootTables extends BaseLootTables {
 					)
 				))));
         
-        lootTables.put(ModBlocks.rarePrizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+        add(ModBlocks.rarePrizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(
-					LootItem.lootTableItem(ModBlocks.rarePrizeBlox.get().asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),
+					LootItem.lootTableItem(ModBlocks.rarePrizeBlox.get().asItem()).when(hasSilkTouch()),
 					EntryGroup.list(
 						LootItem.lootTableItem(ModItems.valorOrb.get()).setWeight(1),
 						LootItem.lootTableItem(ModItems.wisdomOrb.get()).setWeight(1),
@@ -164,19 +164,21 @@ public class LootTables extends BaseLootTables {
 	}
     
 	private void addOreLootTable(Block block, Item crystal, Item gem, Item stone, Item shard) {
-		 lootTables.put(block, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+		 add(block, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 			.add(AlternativesEntry.alternatives(
-					LootItem.lootTableItem(block.asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),
+					LootItem.lootTableItem(block.asItem()).when(hasSilkTouch()),
 					EntryGroup.list(
-						LootItem.lootTableItem(crystal).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
-						LootItem.lootTableItem(gem).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
-						LootItem.lootTableItem(stone).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
-						LootItem.lootTableItem(shard).setWeight(4).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+						LootItem.lootTableItem(crystal).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))),
+						LootItem.lootTableItem(gem).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))),
+						LootItem.lootTableItem(stone).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))),
+						LootItem.lootTableItem(shard).setWeight(4).apply(ApplyBonusCount.addOreBonusCount(registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))
 					)
 			))));
 	}
 
-	void standardBlockLoot(Block block){
-        lootTables.put(block, createStandardTable(block.getDescriptionId(), block));
-    }
+	@Override
+	protected void generate() {
+		blox();
+		ores();
+	}
 }

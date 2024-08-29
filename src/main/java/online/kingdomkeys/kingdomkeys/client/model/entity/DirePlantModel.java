@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class DirePlantModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "direplant"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "direplant"), "main");
     private final ModelPart body;
     private final ModelPart body2;
     private final ModelPart body3;
@@ -88,7 +88,7 @@ public class DirePlantModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         body.render(poseStack, buffer, packedLight, packedOverlay);
         leaf1.render(poseStack, buffer, packedLight, packedOverlay);
         leaf3.render(poseStack, buffer, packedLight, packedOverlay);

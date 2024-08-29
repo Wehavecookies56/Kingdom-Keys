@@ -19,7 +19,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
 public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements DataProvider {
@@ -46,7 +46,7 @@ public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements 
 
     public T getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        ResourceLocation outputLoc = path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path);
+        ResourceLocation outputLoc = path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path);
         return generatedModels.computeIfAbsent(outputLoc, factory);
     }
 

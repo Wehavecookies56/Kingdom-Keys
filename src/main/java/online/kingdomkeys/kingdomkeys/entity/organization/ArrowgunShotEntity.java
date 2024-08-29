@@ -14,8 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class ArrowgunShotEntity extends ThrowableProjectile {
@@ -26,10 +24,6 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 	public ArrowgunShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public ArrowgunShotEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_ARROWGUN_SHOT.get(), world);
 	}
 
 	public ArrowgunShotEntity(Level world, LivingEntity player,float damage, double x, double y, double z) {
@@ -43,13 +37,8 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -134,7 +123,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		entityData.define(TYPE, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(TYPE, 0);
 	}
 }

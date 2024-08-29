@@ -9,7 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
@@ -47,8 +47,8 @@ public class CSSetOrgPortalName {
             if(player.level().getBlockEntity(message.pos) != null && player.level().getBlockEntity(message.pos) instanceof OrgPortalTileEntity) {
             	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(message.pos);
             	UUID portalUUID = te.getUUID();
-            	ModCapabilities.getWorld(player.level()).getPortalFromUUID(portalUUID).setName(message.name);
-				PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(player.level())), (ServerPlayer) player);
+            	ModData.getWorld(player.level()).getPortalFromUUID(portalUUID).setName(message.name);
+				PacketHandler.sendTo(new SCSyncWorldCapability(ModData.getWorld(player.level())), (ServerPlayer) player);
             }
         });
         ctx.get().setPacketHandled(true);

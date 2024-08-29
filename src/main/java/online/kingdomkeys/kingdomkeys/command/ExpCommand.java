@@ -16,8 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -51,7 +50,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		int exp = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
             Utils.restartLevel(playerData, player);
 
 			if(playerData.getSoAState() == SoAState.COMPLETE) {
@@ -76,7 +75,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		int value = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.addExperience(player, value, false, false);
 			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
@@ -93,7 +92,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 	private static int fixValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			int exp = playerData.getExperience();
 			fix(playerData,player);
 			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
@@ -104,7 +103,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		return 1;
 	}
 
-	public static void fix(IPlayerCapabilities playerData, Player player) {
+	public static void fix(IPlayerData playerData, Player player) {
 		int exp = playerData.getExperience();
 
 		Utils.restartLevel(playerData, player);

@@ -14,8 +14,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -41,7 +41,7 @@ public class RecipeItem extends Item implements IItemCategory {
 
 				//Allow recipes to be given with pre-set keyblades
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				PlayerData playerData = PlayerData.get(player);
 				if(tier <= playerData.getSynthLevel()) { //If the player has the right tier
 					if (stack.hasTag()) { //If the recipe has been generated learn it
 						learnRecipes(player, stack);
@@ -85,7 +85,7 @@ public class RecipeItem extends Item implements IItemCategory {
 	private void learnRecipes(Player player, ItemStack stack) {
 		final CompoundTag stackTag = stack.getTag();
 		String[] recipes = { stackTag.getString("recipe1"), stackTag.getString("recipe2"), stackTag.getString("recipe3") };
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
 		if(tier > playerData.getSynthLevel()) {
@@ -94,7 +94,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		}
 		boolean consume = false;
 		for (String recipe : recipes) {
-			ResourceLocation rl = new ResourceLocation(recipe);
+			ResourceLocation rl = ResourceLocation.parse(recipe);
 			if (RecipeRegistry.getInstance().containsKey(rl)) {
 				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());
 				if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
@@ -127,7 +127,7 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	public void shuffleRecipes(ItemStack stack, Player player, String type) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 
 		ResourceLocation recipe1=null, recipe2=null, recipe3=null;
 		
@@ -183,7 +183,7 @@ public class RecipeItem extends Item implements IItemCategory {
 		}
 	}
 
-	private List<ResourceLocation> getMissingRecipes(IPlayerCapabilities playerData, String type, int tier) {
+	private List<ResourceLocation> getMissingRecipes(PlayerData playerData, String type, int tier) {
 		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
 			for(Recipe r : RecipeRegistry.getInstance().getValues()) {
 				if(!playerData.hasKnownRecipe(r.getRegistryName())) {
@@ -202,12 +202,12 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.hasTag()) {
 			for (int i = 1; i <= 3; i++) {
 				String recipeName = stack.getTag().getString("recipe" + i);
-				if(RecipeRegistry.getInstance().containsKey(new ResourceLocation(recipeName))) {
-					Recipe recipe = RecipeRegistry.getInstance().getValue(new ResourceLocation(recipeName));
+				if(RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipeName))) {
+					Recipe recipe = RecipeRegistry.getInstance().getValue(ResourceLocation.parse(recipeName));
 					if (recipe != null) {
 						String name;
 						if(recipe.getType().equals("keyblade")) {

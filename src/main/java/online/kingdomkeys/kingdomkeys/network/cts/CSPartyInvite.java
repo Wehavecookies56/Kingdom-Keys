@@ -9,9 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -49,11 +47,11 @@ public class CSPartyInvite {
 			Player player = ctx.get().getSender();
 			
 			Player target = player.level().getPlayerByUUID(message.playerUUID);
-			IPlayerCapabilities targetPlayerData = ModCapabilities.getPlayer(target);
+			IPlayerData targetPlayerData = ModData.getPlayer(target);
 			if(!targetPlayerData.getPartiesInvited().contains(message.name)) {
 				targetPlayerData.addPartiesInvited(message.name);
 				
-				IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+				IWorldCapabilities worldData = ModData.getWorld(player.level());
 				Party p = worldData.getPartyFromName(message.name);
 				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+p.getName()));
 			}

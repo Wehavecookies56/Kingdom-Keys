@@ -2,20 +2,21 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 
 import java.util.List;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.SonicBladeCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockSonicBlade extends Shotlock {
 
-	public ShotlockSonicBlade(String registryName, int order, int cooldown, int max) {
+	public ShotlockSonicBlade(ResourceLocation registryName, int order, int cooldown, int max) {
 		super(registryName, order, cooldown, max);
 	}
 

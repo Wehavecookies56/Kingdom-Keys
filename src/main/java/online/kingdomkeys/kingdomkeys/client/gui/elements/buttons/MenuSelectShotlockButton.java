@@ -30,7 +30,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	MenuShotlockSelectorScreen parent;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectShotlockButton(String shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -51,7 +51,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
@@ -61,7 +61,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		
 		Shotlock shotlock = null;
 		if(shotlockName != null && !shotlockName.equals("")) {
-			shotlock = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlockName));
+			shotlock = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
 		}
 		
 		if (visible) {
@@ -102,7 +102,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			}
 			Lighting.setupForFlatItems();
 			float labelWidth = parent.width * 0.18F;
-			RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			{
 				RenderSystem.enableBlend();

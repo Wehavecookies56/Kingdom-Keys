@@ -12,8 +12,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
@@ -39,7 +39,7 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 			
     		matrixStackIn.scale(0.3F, 0.3F, 0.3F);
     		Color color = new Color(entity.getColor());
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F, 1F);
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRGB());
      	}
      	matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -48,6 +48,6 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(BaseShotlockShotEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 }

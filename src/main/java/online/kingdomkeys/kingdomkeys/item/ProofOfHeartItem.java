@@ -8,15 +8,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ProofOfHeartItem extends Item {
@@ -26,7 +25,7 @@ public class ProofOfHeartItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-    	IPlayerCapabilities playerData = ModCapabilities.getPlayer(playerIn);
+    	PlayerData playerData = PlayerData.get(playerIn);
         if (playerData.getAlignment() != Utils.OrgMember.NONE) {
         	if(Utils.isWearingOrgRobes(playerIn)) {
         		playerIn.displayClientMessage(Component.translatable("gui.proofofheart.unequip"), true);
@@ -58,9 +57,9 @@ public class ProofOfHeartItem extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("gui.proofofheart.desc"));
        	tooltip.add(Component.translatable("gui.proofofheart.desc2"));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
     }
 }

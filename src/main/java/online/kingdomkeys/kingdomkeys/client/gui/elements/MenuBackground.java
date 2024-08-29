@@ -15,8 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
@@ -93,7 +92,7 @@ public class MenuBackground extends Screen {
 
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		drawBars(gui);
+		drawBars(gui, mouseX, mouseY, partialTicks);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawMunnyTime(gui);
 		drawBiomeDim(gui);
@@ -122,8 +121,8 @@ public class MenuBackground extends Screen {
 		}
 	}
 
-	public void drawBars(GuiGraphics gui) {
-		renderBackground(gui);
+	public void drawBars(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		renderBackground(gui, mouseX, mouseY, partialTicks);
 		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 
@@ -150,7 +149,7 @@ public class MenuBackground extends Screen {
 		gui.pose().pushPose();
 		{
 			String dimension = minecraft.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-			ResourceLocation biomeLoc = new ResourceLocation(printBiome(this.minecraft.level.getBiome(minecraft.player.blockPosition())));
+			ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(minecraft.player.blockPosition())));
 
 			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 			if (Language.getInstance().has(biome)) {
@@ -168,7 +167,7 @@ public class MenuBackground extends Screen {
 		gui.pose().pushPose();
 		{
 			gui.pose().scale(1.05F, 1.05F, 1F);
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			int y = (int) (topBarHeight + middleHeight +1);
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
@@ -219,7 +218,7 @@ public class MenuBackground extends Screen {
 		
 	}
 
-	public static final ResourceLocation menu = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	public static final ResourceLocation menu = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public static String getWorldMinutes(Level world) {
 		int time = (int) Math.abs((world.getGameTime() + 6000) % 24000);

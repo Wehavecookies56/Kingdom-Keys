@@ -19,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class CardSelectButton extends MenuButtonBase {
 
-    private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     ItemStack stack;
     MapCardItem card;
@@ -37,7 +37,7 @@ public class CardSelectButton extends MenuButtonBase {
 
     @ParametersAreNonnullByDefault
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         //if(!isSelected())
         //System.out.println(mouseX+" "+mouseY);
         isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;

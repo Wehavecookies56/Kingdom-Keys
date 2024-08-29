@@ -17,13 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -86,7 +82,7 @@ public class GravigaEntity extends ThrowableProjectile {
 				}
 			}
 			
-			IWorldCapabilities worldData = ModCapabilities.getWorld(level());
+			IWorldCapabilities worldData = ModData.getWorld(level());
 			if (!level().isClientSide && getOwner() != null && worldData != null) {
 				List<Entity> oList = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 				List<Entity> list = Utils.removePartyMembersFromList((Player) getOwner(),oList);
@@ -94,7 +90,7 @@ public class GravigaEntity extends ThrowableProjectile {
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity le) {
-                            IGlobalCapabilities globalData = ModCapabilities.getGlobal(le);
+                            IGlobalCapabilities globalData = ModData.getGlobal(le);
                             globalData.setFlatTicks(100);
 
                             if (Utils.isHostile(e)) {

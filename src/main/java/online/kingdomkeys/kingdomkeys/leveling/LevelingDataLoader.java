@@ -42,8 +42,8 @@ public class LevelingDataLoader extends SimpleJsonResourceReloadListener {
         String extension = ".json";
 
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation levelName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-			Level level = ModLevels.registry.get().getValue(levelName);
+            ResourceLocation levelName = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
+			Level level = ModLevels.registry.get(levelName);
             try {
             	BufferedReader br2 = manager.getResource(file).get().openAsReader();
             	LevelingData result;

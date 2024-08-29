@@ -20,8 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -32,7 +31,7 @@ public class MagicLevelCommand extends BaseCommand{
 //kk_ <give/take/set> <amount> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MAGICS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
-		for (ResourceLocation location : ModMagic.registry.get().getKeys()) {
+		for (ResourceLocation location : ModMagic.registry.keySet()) {
 			//if(!location.toString().equals(Strings.Form_Anti) && !location.toString().equals(DriveForm.NONE.toString()) && !location.toString().equals(DriveForm.SYNCH_BLADE.toString()))
 			list.add(location.toString());
 		}
@@ -63,17 +62,17 @@ public class MagicLevelCommand extends BaseCommand{
 		int level = IntegerArgumentType.getInteger(context, "level");
 		String magic = StringArgumentType.getString(context, "magic");
 		
-		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(magicInstance == null) {
 			context.getSource().sendSuccess(() -> Component.translatable("Unknown magic '"+magic+"'"), true);
 			return 1;
 		}
 		
 		for (ServerPlayer player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(new ResourceLocation(magic), level, false);
+				playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
 			} else {
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;

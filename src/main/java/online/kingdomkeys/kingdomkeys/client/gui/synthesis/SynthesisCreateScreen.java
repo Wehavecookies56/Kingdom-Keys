@@ -4,17 +4,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -108,7 +107,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 
 		List<ResourceLocation> items = new ArrayList<>();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
 			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
@@ -164,7 +163,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
@@ -219,7 +218,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float iconPosX = boxR.getX();
 		float iconPosY = boxR.getY() + 25;
 
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		matrixStack.pushPose();
 		{
@@ -298,7 +297,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				if(darkRes != 0)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%", 0, offset+=10, 0xAAAAAA);
 				if(ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
@@ -330,7 +329,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				int i = 0;
 				while(materials.hasNext()) {
 					Entry<Material, Integer> m = materials.next();
-					ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+					ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(m.getKey().getMaterialName())),m.getValue());
 					String n = Utils.translateToLocal(stack.getDescriptionId());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 					gui.drawString(minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
@@ -384,8 +383,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		scrollBar.mouseScrolled(mouseX, mouseY, delta);
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
 	}

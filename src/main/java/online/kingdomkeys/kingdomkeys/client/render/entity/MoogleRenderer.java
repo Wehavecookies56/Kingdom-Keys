@@ -17,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 
+import java.awt.*;
+
 public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<MoogleEntity>> {
 
     public MoogleRenderer(EntityRendererProvider.Context context) {
@@ -31,12 +33,13 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
             {
     	       	float f = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
 	            float f7 = this.getBob(entityIn, partialTicks);
-	            this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks);
+	            this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks, entityIn.getScale());
 	            matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 	            this.scale(entityIn, matrixStackIn, partialTicks);
 	            matrixStackIn.translate(0.5D, -1.501F, -0.5D);
 	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
-	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), 1.0F, 1.0F, 1.0F, entityIn.isFakeMoogle() ? 0.5F : 1.0F);
+                Color colour = new Color(255, 255, 255, entityIn.isFakeMoogle() ? 255F/2F : 255);
+	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), colour.getRGB());
             }
             matrixStackIn.pushPose();
         } else {
@@ -48,11 +51,11 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     public ResourceLocation getTextureLocation(MoogleEntity entity) {
         if (!entity.isFakeMoogle()) {
         	if(isOrg(entity)) {
-        		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/org_moogle.png");
+        		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/org_moogle.png");
         	}
-            return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
+            return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
         } else {
-            return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/fake_moogle.png");
+            return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/fake_moogle.png");
         }
     }
 

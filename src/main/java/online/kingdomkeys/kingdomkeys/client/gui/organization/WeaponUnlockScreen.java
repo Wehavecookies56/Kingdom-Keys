@@ -10,11 +10,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
@@ -28,14 +27,14 @@ import java.util.List;
 
 public class WeaponUnlockScreen extends Screen {
 
-    IPlayerCapabilities playerData;
+    IPlayerData playerData;
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
         super(Component.translatable(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
-        playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+        playerData = ModData.getPlayer(Minecraft.getInstance().player);
     }
 
     Button cancel, next, prev, select;
@@ -44,17 +43,17 @@ public class WeaponUnlockScreen extends Screen {
     List<Item> weapons;
     int current = 0;
 
-    private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
-        if (delta > 0 && prev.visible)
+        if (deltaY > 0 && prev.visible)
         {
             actionPerformed(PREV);
             return true;
         }
-        else if  (delta < 0 && next.visible)
+        else if  (deltaY < 0 && next.visible)
         {
             actionPerformed(NEXT);
             return true;
@@ -67,12 +66,12 @@ public class WeaponUnlockScreen extends Screen {
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
         PoseStack matrixStack = gui.pose();
         int cost = (int) (startCost + ((0.1 * startCost) * current));
-        renderBackground(gui);
+        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         String name = "";
         String weapon = "";
         int weapon_w = 128;
         int weapon_h = 128;
-        renderBackground(gui);
+        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         matrixStack.pushPose();
         RenderSystem.enableBlend();
         gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
@@ -153,7 +152,7 @@ public class WeaponUnlockScreen extends Screen {
                     playerData.removeHearts(cost);
                     PacketHandler.sendToServer(new CSUnlockEquipOrgWeapon(weapon, cost));
                 } else {
-                    if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.OrgWeapon(minecraft.player, playerData.getEquippedWeapon(), weapon))) {
+                    if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.OrgWeapon(minecraft.player, playerData.getEquippedWeapon(), weapon)).isCanceled()) {
                         playerData.equipWeapon(weapon);
                         if (Utils.findSummoned(minecraft.player.getInventory(), playerData.getEquippedWeapon()) > -1)
                             PacketHandler.sendToServer(new CSSummonKeyblade(true));

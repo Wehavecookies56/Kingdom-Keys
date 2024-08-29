@@ -4,9 +4,9 @@ import java.lang.reflect.Type;
 
 import com.google.gson.*;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 
@@ -31,7 +31,7 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
         	ShopItem shopItem = new ShopItem();
         	JsonObject jsonObj = e.getAsJsonObject();
 			if (jsonObj.get("names") != null && !setNames) {
-				ResourceLocation namesPath = new ResourceLocation(jsonObj.get("names").getAsString());
+				ResourceLocation namesPath = ResourceLocation.parse(jsonObj.get("names").getAsString());
 				if (NamesListRegistry.getInstance().containsKey(namesPath)) {
 					out.setNames(namesPath);
 				}
@@ -39,7 +39,7 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 			} else {
 				boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
 				if (valid) {
-					Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObj.get("item").getAsString()));
+					Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(jsonObj.get("item").getAsString()));
 					shopItem.setResult(item, jsonObj.get("amount").getAsInt());
 					shopItem.setTier(jsonObj.get("tier").getAsInt());
 					shopItem.setCost(jsonObj.get("cost").getAsInt());

@@ -4,10 +4,8 @@ import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
@@ -18,7 +16,7 @@ public class SCSyncGlobalCapabilityPacket {
 	public SCSyncGlobalCapabilityPacket() {
 	}
 
-	public SCSyncGlobalCapabilityPacket(IGlobalCapabilities capability) {
+	public SCSyncGlobalCapabilityPacket(GlobalData capability) {
 		this.stoppedTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getStopDamage();
 		this.flatTicks = capability.getFlatTicks();
@@ -59,7 +57,7 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public static void handle(final SCSyncGlobalCapabilityPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
+			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModData.GLOBAL_CAPABILITIES);
 			globalData.ifPresent(cap -> {
 				cap.setStoppedTicks(message.stoppedTicks);
 				cap.setStopDamage(message.stopDmg);

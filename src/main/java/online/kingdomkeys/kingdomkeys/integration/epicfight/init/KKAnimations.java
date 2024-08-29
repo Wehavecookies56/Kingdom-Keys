@@ -1,16 +1,13 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -86,7 +83,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
+                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModData.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
                 }, AnimationEvent.Side.BOTH));
 
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);

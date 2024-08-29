@@ -15,10 +15,11 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 
@@ -36,7 +37,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		matrixStackIn.pushPose();
 		{
 			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
 
 			matrixStackIn.pushPose();
 			{
@@ -68,6 +69,6 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(OrgPortalEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 }

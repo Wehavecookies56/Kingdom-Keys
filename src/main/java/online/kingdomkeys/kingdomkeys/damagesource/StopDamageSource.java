@@ -13,11 +13,11 @@ public class StopDamageSource extends DamageSource {
 	}
 
 	public static DamageSource getStopDamage(Entity directEntity) {
-		return directEntity.damageSources().source(KKDamageTypes.STOP,directEntity,directEntity);        
+		return directEntity.damageSources().source(KKDamageTypes.STOP,directEntity,directEntity);
     }
 	
 	public static DamageSource getStopDamage(Entity directEntity, Entity indirectEntity) {
-		return directEntity.damageSources().source(KKDamageTypes.STOP,directEntity,indirectEntity);        
+		return directEntity.damageSources().source(KKDamageTypes.STOP,directEntity,indirectEntity);
     }
 
 	@Override

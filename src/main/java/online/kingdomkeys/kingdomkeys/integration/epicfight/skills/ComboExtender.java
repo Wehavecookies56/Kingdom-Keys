@@ -10,8 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.EntityState;
@@ -54,7 +53,7 @@ public class ComboExtender extends Skill {
 				if (player.onGround() && !player.isSprinting() && event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
 					if (!this.isExecutableState(spp))
 						return;
-					IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
+					IPlayerData playerCapabilities = ModData.getPlayer(player);
 					event.setCanceled(true);
 					AnimationProvider<?> attackMotion;
 					this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);

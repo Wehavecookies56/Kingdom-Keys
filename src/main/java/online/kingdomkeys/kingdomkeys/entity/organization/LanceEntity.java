@@ -3,26 +3,21 @@ package online.kingdomkeys.kingdomkeys.entity.organization;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TheEndGatewayBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 
 public class LanceEntity extends KKThrowableEntity{
 
@@ -34,23 +29,14 @@ public class LanceEntity extends KKThrowableEntity{
 		this.blocksBuilding = true;
 	}
 
-	public LanceEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(world);
-	}
-
 	public LanceEntity(Level world) {
 		super(world);
 		this.blocksBuilding = true;
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -73,22 +59,15 @@ public class LanceEntity extends KKThrowableEntity{
 			if (raytraceresult.getType() == HitResult.Type.BLOCK) {
 				BlockPos blockpos = ((BlockHitResult) raytraceresult).getBlockPos();
 				BlockState blockstate = this.level().getBlockState(blockpos);
-				if (blockstate.is(Blocks.NETHER_PORTAL)) {
-					this.handleInsidePortal(blockpos);
-					flag = true;
-				} else if (blockstate.is(Blocks.END_GATEWAY)) {
-					BlockEntity tileentity = this.level().getBlockEntity(blockpos);
-					if (tileentity instanceof TheEndGatewayBlockEntity && TheEndGatewayBlockEntity.canEntityTeleport(this)) {
-						((TheEndGatewayBlockEntity) tileentity).teleportEntity(this.level(), blockpos, blockstate, this, (TheEndGatewayBlockEntity) tileentity);
-					}
-
+				if (blockstate.is(Blocks.NETHER_PORTAL) || blockstate.is(Blocks.END_GATEWAY)) {
+					this.handlePortal();
 					flag = true;
 				} else {
 					setStopped(true);
 				}
 			}
 
-			if (raytraceresult.getType() != HitResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+			if (raytraceresult.getType() != HitResult.Type.MISS && !flag && !NeoForge.EVENT_BUS.post(new ProjectileImpactEvent(this, raytraceresult)).isCanceled()) {
 				this.onHit(raytraceresult);
 			}
 
@@ -148,7 +127,7 @@ public class LanceEntity extends KKThrowableEntity{
 			} else { // Block (not ERTR)
 				if(brtResult != null) {
 					
-					if(level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
+					if(level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS_BLOCK || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
 					
 					} else {
 						stopLance();	
@@ -197,15 +176,13 @@ public class LanceEntity extends KKThrowableEntity{
 	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setStopped(compound.getBoolean("Stopped"));
 		this.readAdditionalSaveData(compound);
-	}	
-
-	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(STOPPED, false);
-		super.defineSynchedData();
 	}
 
-	
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(STOPPED, false);
+	}
+
 	public boolean getStoppedDataManager() {
 		return this.entityData.get(STOPPED);
 	}

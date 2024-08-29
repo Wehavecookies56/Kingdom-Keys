@@ -20,7 +20,7 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 
 	@Override
 	public ResourceLocation getTextureLocation(MegaShadowEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
 	}
 
 	@Override

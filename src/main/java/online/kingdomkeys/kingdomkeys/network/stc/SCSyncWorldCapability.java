@@ -7,8 +7,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 
 public class SCSyncWorldCapability {
 	
@@ -17,7 +17,7 @@ public class SCSyncWorldCapability {
 	public SCSyncWorldCapability() {
 	}
 	
-	public SCSyncWorldCapability(IWorldCapabilities worldData) {
+	public SCSyncWorldCapability(WorldData worldData) {
 		this.data = new CompoundTag();
 		this.data = worldData.write(this.data);
 	}

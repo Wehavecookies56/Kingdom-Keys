@@ -24,7 +24,7 @@ public abstract class Limit {
 	}
 
 	public Limit(String registryName, int order, OrgMember owner) {
-		this(new ResourceLocation(registryName), order, owner);
+		this(ResourceLocation.parse(registryName), order, owner);
 	}
 
 	public String getName() {

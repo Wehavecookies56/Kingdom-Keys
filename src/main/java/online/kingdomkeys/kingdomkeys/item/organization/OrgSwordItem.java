@@ -7,8 +7,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
@@ -19,7 +19,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
-        super(new OrganizationItemTier(0), 0, 1, new Item.Properties().stacksTo(1));
+        super(new OrganizationItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new OrganizationItemTier(0), 0, 1)).stacksTo(1));
     }
     @Override
 	public float getReach() {
@@ -86,12 +86,11 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
 		return true;
 	}
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-    	if (data != null) {
-    		ClientUtils.getTooltip(tooltip, stack);
-		}
+    public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
+        if (data != null) {
+            ClientUtils.getTooltip(tooltip, pContext, stack);
+        }
         if (flagIn.isAdvanced()) {
             if (stack.getTag() != null) {
                 if (stack.getTag().hasUUID("keybladeID")) {

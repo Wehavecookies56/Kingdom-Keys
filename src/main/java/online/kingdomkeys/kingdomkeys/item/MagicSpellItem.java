@@ -15,8 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -37,7 +36,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 
 		if (!world.isClientSide) {
@@ -84,7 +83,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
 		if(Minecraft.getInstance().player != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+			IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
 	
 			int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
 			if(!playerData.getMagicsMap().containsKey(magic)) {

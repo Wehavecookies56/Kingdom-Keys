@@ -8,9 +8,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -66,7 +66,7 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	}
 
 	private int getMaxAmmo(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if(playerData.isAbilityEquipped(Strings.synchBlade)) {
 			return ammo*2;
 		}

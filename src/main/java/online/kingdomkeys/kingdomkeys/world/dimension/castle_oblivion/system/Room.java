@@ -5,16 +5,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.util.INBTSerializable;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Room implements INBTSerializable<CompoundTag> {
+public class Room {
     RoomType type;
     public BlockPos position;
     int mobsRemaining;
@@ -63,7 +63,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     public Floor getParent(Level level) {
-        return ModCapabilities.getCastleOblivionInterior(level).getFloorByID(parentFloor);
+        return CastleOblivionData.InteriorData.get((ServerLevel) level).getFloorByID(parentFloor);
     }
 
     public void tick() {
@@ -95,7 +95,6 @@ public class Room implements INBTSerializable<CompoundTag> {
         } return false;
     }
 
-    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("parent", parentFloor);
@@ -116,18 +115,17 @@ public class Room implements INBTSerializable<CompoundTag> {
         return tag;
     }
 
-    @Override
     public void deserializeNBT(CompoundTag tag) {
         parentFloor = tag.getUUID("parent");
         roomPos = RoomUtils.RoomPos.deserialize(tag.getCompound("room_pos"));
-        type = ModRoomTypes.registry.get().getValue(new ResourceLocation(tag.getString("type")));
-        position = NbtUtils.readBlockPos(tag.getCompound("position"));
+        type = ModRoomTypes.registry.get(ResourceLocation.parse(tag.getString("type")));
+        position = NbtUtils.readBlockPos(tag, "position").get();
         mobsRemaining = tag.getInt("mobs");
         generated = tag.getBoolean("generated");
         int doorPosSize = tag.getInt("door_positions_size");
         CompoundTag doorPosTag = tag.getCompound("door_positions");
         for (int i = 0; i < doorPosSize; i++) {
-            doorPositions.put(RoomUtils.Direction.values()[doorPosTag.getInt("direction_" + i)], NbtUtils.readBlockPos(doorPosTag.getCompound("position_" + i)));
+            doorPositions.put(RoomUtils.Direction.values()[doorPosTag.getInt("direction_" + i)], NbtUtils.readBlockPos(doorPosTag, "position_" + i).get());
         }
     }
 

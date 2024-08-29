@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -11,11 +11,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.DragoonGoal;
 
 public class DragoonEntity extends BaseKHEntity {
@@ -24,11 +20,6 @@ public class DragoonEntity extends BaseKHEntity {
         super(type, worldIn);
         xpReward = 11;
     }
-
-    public DragoonEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(ModEntities.TYPE_DRAGOON.get(), world);
-    }
-    
 
     @Override
     protected void registerGoals() {
@@ -60,10 +51,9 @@ public class DragoonEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(EntityHelper.STATE, 0);
-        this.entityData.define(EntityHelper.ANIMATION, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(EntityHelper.STATE, 0);
+        pBuilder.define(EntityHelper.ANIMATION, 0);
     }
 
     @Override

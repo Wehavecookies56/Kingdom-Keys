@@ -1,38 +1,30 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCOpenAlignmentScreen {
+public record SCOpenAlignmentScreen() implements Packet {
 
-	public SCOpenAlignmentScreen() { }
+	public static final Type<SCOpenAlignmentScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_alignment_screen"));
+	public static final StreamCodec<FriendlyByteBuf, SCOpenAlignmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenAlignmentScreen());
 
-	public void encode(FriendlyByteBuf buffer) {
-	}
-
-	public static SCOpenAlignmentScreen decode(FriendlyByteBuf buffer) {
-		SCOpenAlignmentScreen msg = new SCOpenAlignmentScreen();
-		return msg;
-	}
-
-	public static void handle(final SCOpenAlignmentScreen message, Supplier<NetworkEvent.Context> ctx) {
-		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
-			ctx.get().enqueueWork(() -> ClientHandler.handle(message, ctx));
-		ctx.get().setPacketHandled(true);
-	}
-
-	public static class ClientHandler {
-		@OnlyIn(Dist.CLIENT)
-		public static void handle(SCOpenAlignmentScreen message, Supplier<NetworkEvent.Context> ctx) {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openAlignment());
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.openAlignment();
 		}
 	}
 
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

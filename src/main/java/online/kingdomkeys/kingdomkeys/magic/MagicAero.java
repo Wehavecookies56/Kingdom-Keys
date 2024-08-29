@@ -5,8 +5,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
@@ -19,8 +18,8 @@ public class MagicAero extends Magic {
 
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-		int time = (int) (ModCapabilities.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
+		IGlobalCapabilities globalData = ModData.getGlobal(player);
+		int time = (int) (ModData.getPlayer(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		globalData.setAeroTicks(time, level);
 		PacketHandler.syncToAllAround(player, globalData);
 		PacketHandler.sendToAllPlayers(new SCAeroSoundPacket(player));

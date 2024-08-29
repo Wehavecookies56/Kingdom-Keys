@@ -1,25 +1,26 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
-import java.util.function.Supplier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+import java.util.function.Supplier;
+
 public class ModAbilities {
 
-	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
+	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
 
-	public static Supplier<IForgeRegistry<Ability>> registry = ABILITIES.makeRegistry(RegistryBuilder::new);
+	public static final ResourceKey<Registry<Ability>> ABILITIES_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "abilities"));
+	public static Registry<Ability> registry = new RegistryBuilder<>(ABILITIES_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
 
 	public static int order = 0;
 
-	public static final RegistryObject<Ability>
+	public static final Supplier<Ability>
 			//Action
 			AUTO_VALOR = createAbility(Strings.autoValor, 1, AbilityType.ACTION),
 			AUTO_WISDOM = createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
@@ -89,7 +90,7 @@ public class ModAbilities {
 		
 
 
-	public static RegistryObject<Ability> createAbility(String name, int apCost, AbilityType type) {
-		return ABILITIES.register(name.substring(12), () -> new Ability(new ResourceLocation(name), apCost, type, order++));
+	public static Supplier<Ability> createAbility(String name, int apCost, AbilityType type) {
+		return ABILITIES.register(name.substring(12), () -> new Ability(ResourceLocation.parse(name), apCost, type, order++));
 	}
 }

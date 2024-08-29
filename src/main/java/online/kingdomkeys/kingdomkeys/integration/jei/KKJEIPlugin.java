@@ -8,12 +8,12 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -26,7 +26,7 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(KingdomKeys.MODID, "jei");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "jei");
     }
 
     @Override
@@ -43,8 +43,8 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<Item> keychainsFromRegistry = ForgeRegistries.ITEMS.getValues().stream().filter(i -> i instanceof KeychainItem).toList();
-        List<Item> orgWeapons = ForgeRegistries.ITEMS.getValues().stream().filter(i -> i instanceof IOrgWeapon).toList();
+        List<Item> keychainsFromRegistry = BuiltInRegistries.ITEM.stream().filter(i -> i instanceof KeychainItem).toList();
+        List<Item> orgWeapons = BuiltInRegistries.ITEM.stream().filter(i -> i instanceof IOrgWeapon).toList();
         List<KeychainItem> keychains = new ArrayList<>();
         keychainsFromRegistry.forEach(chain -> {
             if (((KeychainItem) chain).getKeyblade() != null) {

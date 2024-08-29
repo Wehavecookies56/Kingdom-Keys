@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
@@ -7,7 +8,7 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 import java.util.List;
 
 public class ShotlockUltimaCannon extends Shotlock {
-    public ShotlockUltimaCannon(String registryName, int order, int cooldown, int max) {
+    public ShotlockUltimaCannon(ResourceLocation registryName, int order, int cooldown, int max) {
         super(registryName, order, cooldown, max);
     }
 

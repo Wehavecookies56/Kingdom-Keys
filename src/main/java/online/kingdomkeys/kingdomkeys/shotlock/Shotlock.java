@@ -27,7 +27,7 @@ public abstract class Shotlock {
 	}
 
 	public Shotlock(String registryName, int order, int cooldown, int max) {
-		this(new ResourceLocation(registryName), order, cooldown, max);
+		this(ResourceLocation.parse(registryName), order, cooldown, max);
 	}
 
 	public String getName() {

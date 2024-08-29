@@ -5,8 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class CSSetNotifColor {
@@ -32,7 +31,7 @@ public class CSSetNotifColor {
     public static void handle(CSSetNotifColor message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
            Player player = ctx.get().getSender();
-           IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+           IPlayerData playerData = ModData.getPlayer(player);
            playerData.setNotifColor(message.color);
            PacketHandler.syncToAllAround(player, playerData);
         });

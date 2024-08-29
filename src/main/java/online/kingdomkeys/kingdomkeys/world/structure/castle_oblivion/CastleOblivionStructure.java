@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.structure.castle_oblivion;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -8,7 +9,10 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.structure.JigsawPlacementRotation;
@@ -18,7 +22,7 @@ import java.util.Optional;
 
 public class CastleOblivionStructure extends Structure {
 
-    public static final Codec<CastleOblivionStructure> CODEC = RecordCodecBuilder.<CastleOblivionStructure>create((instance) -> instance.group(
+    public static final MapCodec<CastleOblivionStructure> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
             CastleOblivionLobbyStructure.settingsCodec(instance),
             StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
             Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
@@ -46,7 +50,7 @@ public class CastleOblivionStructure extends Structure {
         //it's best that this does not change
         Rotation rotation = Rotation.NONE;
 
-        Optional<GenerationStub> structurePiecesGenerator = JigsawPlacementRotation.addPieces(context, startPool, Optional.empty(), this.size, pos, rotation, false, Optional.empty(), 128);
+        Optional<GenerationStub> structurePiecesGenerator = JigsawPlacementRotation.addPieces(context, this.startPool, Optional.empty(), this.size, pos, false, Optional.empty(), 128, PoolAliasLookup.EMPTY, new DimensionPadding(0), LiquidSettings.IGNORE_WATERLOGGING, rotation);
         if (structurePiecesGenerator.isPresent()) {
             KingdomKeys.LOGGER.debug("Castle Oblivion generated at {}", pos);
         }

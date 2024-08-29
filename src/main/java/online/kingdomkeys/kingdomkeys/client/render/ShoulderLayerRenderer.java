@@ -18,10 +18,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 
@@ -47,13 +47,13 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		HumanoidModel<LivingEntity> model = null;
 		if(entitylivingbaseIn instanceof Player player) {
-			if (ModCapabilities.getPlayer(player) != null) {
-				ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
+			if (ModData.getPlayer(player) != null) {
+				ItemStack armor = ModData.getPlayer(player).getEquippedKBArmor(0);
 				String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
 				if (armorName.isEmpty() || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY) || player.isInvisible())
 					return;
 
-				texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/" + armorName + "_shoulder.png");
+				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "_shoulder.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 				model = models.get(armorName);
 
@@ -62,7 +62,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 					matrixStackIn.pushPose();
 					if (steve)
 						matrixStackIn.translate(0.06, 0, 0);
-					model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+					model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
 					matrixStackIn.popPose();
 				}
 			}

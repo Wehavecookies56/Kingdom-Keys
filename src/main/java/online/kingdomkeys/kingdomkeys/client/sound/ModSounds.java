@@ -1,17 +1,20 @@
 package online.kingdomkeys.kingdomkeys.client.sound;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.item.JukeboxSong;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.function.Supplier;
 
 public class ModSounds {
 
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, KingdomKeys.MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KingdomKeys.MODID);
 
-    public static final RegistryObject<SoundEvent>
+    public static final Supplier<SoundEvent>
     		alarm = registerSound("alarm"),
     		antidrive = registerSound("antidrive"),
     		drive = registerSound("drive"),
@@ -162,9 +165,8 @@ public class ModSounds {
             Music_Working_Together = registerSound("music.working_together")
                     */
                     ;
-
-    public static RegistryObject<SoundEvent> registerSound(String name) {
-        final ResourceLocation soundID = new ResourceLocation(KingdomKeys.MODID, name);
+    public static Supplier<SoundEvent> registerSound(String name) {
+        final ResourceLocation soundID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name);
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(soundID));
     }
 }

@@ -37,7 +37,7 @@ public class SynthesisScreen extends MenuBackground {
 		this(name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
 		this.moogle = moogle;
 		this.name = name;
-		if (ShopListRegistry.getInstance().containsKey(new ResourceLocation(inv)) || inv.isEmpty())
+		if (ShopListRegistry.getInstance().containsKey(ResourceLocation.parse(inv)) || inv.isEmpty())
 			this.invFile = inv;
 		else {
 			KingdomKeys.LOGGER.error("The Shop '" + inv + "' does not exist or didn't get registered");

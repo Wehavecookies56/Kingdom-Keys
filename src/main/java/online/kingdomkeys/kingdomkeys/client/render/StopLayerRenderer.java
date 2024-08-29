@@ -17,17 +17,16 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.entity.StopModel;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
 public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID,"textures/entity/models/stop.png");
+	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/stop.png");
 
 	ModelPart bb_main;
 	StopModel<?> stopModel;
@@ -51,15 +50,15 @@ public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T
 	}
 
 	private void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(ModCapabilities.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(entitylivingbaseIn);
+		if(ModData.getGlobal(entitylivingbaseIn) != null) {
+			IGlobalCapabilities globalData = ModData.getGlobal(entitylivingbaseIn);
 			if(globalData.getStopModelTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 		    	matrixStackIn.pushPose();
 		    	matrixStackIn.translate(0, -1, 0);
 		    	float scale = (10F-globalData.getStopModelTicks())/5F;
 		    	matrixStackIn.scale(scale*1.2F, scale, scale*1.2F);
-		        this.stopModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+		        this.stopModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
 		        matrixStackIn.popPose();
 			}
 		}		

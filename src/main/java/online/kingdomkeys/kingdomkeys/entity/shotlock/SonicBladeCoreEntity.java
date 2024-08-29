@@ -21,7 +21,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SonicBladeCoreEntity extends ThrowableProjectile{
@@ -33,10 +32,6 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	public SonicBladeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public SonicBladeCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), world);
 	}
 
 	public SonicBladeCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
@@ -57,7 +52,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 			this.remove(RemovalReason.KILLED);
 			return;
 		}
-		getCaster().startAutoSpinAttack(10);
+		getCaster().startAutoSpinAttack(10, 4, getCaster().getMainHandItem());
 
 		if(tickCount % 8 == 1) {
 			if (getCaster() != null && getTarget() != null) {
@@ -174,10 +169,9 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGETS, "");
-		this.entityData.define(ACTUAL_TARGET_INDEX, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGETS, "");
+		pBuilder.define(ACTUAL_TARGET_INDEX, 0);
 	}
-	
 }

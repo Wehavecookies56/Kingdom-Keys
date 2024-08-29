@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
@@ -45,7 +45,7 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
             SavepointTileEntity te = (SavepointTileEntity) level.getBlockEntity(message.tileEntity);
             storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), te.getBlockState().getValue(SavePointBlock.TIER), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension(), message.global, Instant.now()));
             if (!message.global) {
-                ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID(), Instant.now());
+                ModData.getPlayer(player).addDiscoveredSavePoint(te.getID(), Instant.now());
             }
             MinecraftServer server = level.getServer();
             Iterable<ServerLevel> levels = server.getAllLevels();

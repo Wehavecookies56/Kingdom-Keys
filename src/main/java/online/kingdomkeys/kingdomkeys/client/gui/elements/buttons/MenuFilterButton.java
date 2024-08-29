@@ -18,7 +18,7 @@ public class MenuFilterButton extends Button {
     int iconSize = 20;
     MenuFilterBar parent;
 
-    final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, ItemCategory category) {
@@ -33,7 +33,7 @@ public class MenuFilterButton extends Button {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
         Font fr = mc.font;
         float scale = 0.5F;

@@ -8,9 +8,9 @@ import java.util.Map;
 
 import com.google.gson.*;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -40,7 +40,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			case "ability":
 				// Get item from the registry using the supplied resource location
 				if(!element.getAsString().equals("")) {
-					Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(element.getAsString()));
+					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(element.getAsString()));
 					// Make sure the item is valid
 					if (ability != null) {
 						out.setBaseAbility(ability.getRegistryName().toString());
@@ -49,7 +49,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 				break;
 			case "keychain":
 				// Get item from the registry using the supplied resource location
-				Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()));
+				Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(element.getAsString()));
 				// Make sure the item is valid
 				if (keychain != null) {
 					out.setKeychain(keychain);
@@ -98,7 +98,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 									int quantity = 0;
 									boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 									if (valid) {
-										m = ModMaterials.registry.get().getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+										m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
 										if (m == null) {
 											throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
 										} else {
@@ -113,7 +113,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								break;
 							case "ability":
 								String name = levelElement.getAsString();
-								if(ModAbilities.registry.get().containsKey(new ResourceLocation(name))) {
+								if(ModAbilities.registry.containsKey(ResourceLocation.parse(name))) {
 									level.setAbility(levelElement.getAsString());
 								} else {
 									KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+out.keychain);

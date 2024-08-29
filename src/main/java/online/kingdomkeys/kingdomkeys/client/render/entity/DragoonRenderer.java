@@ -46,7 +46,7 @@ public class DragoonRenderer<Type extends DragoonEntity> extends MobRenderer<Typ
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/dragoon.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/dragoon.png");
 	}
 
 }

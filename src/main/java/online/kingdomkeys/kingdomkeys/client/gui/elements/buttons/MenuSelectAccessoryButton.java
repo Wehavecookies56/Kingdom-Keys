@@ -14,15 +14,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -50,15 +49,15 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectAccessoryButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuAccessorySelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+					IPlayerData playerData = ModData.getPlayer(player);
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
 						int oldItemAP = 0;
 						int newItemAP = 0;
@@ -95,7 +94,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
 		Color col = Color.decode(String.valueOf(colour));
@@ -206,7 +205,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    String apStr = String.valueOf(ap);
 	                    
 	                    int oldAP=0,oldStr=0,oldMag=0;
-	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	                    IPlayerData playerData = ModData.getPlayer(minecraft.player);
                     	ItemStack replacedItem = playerData.getEquippedAccessory(parent.slot);
                     	if(!ItemStack.matches(replacedItem, ItemStack.EMPTY) && replacedItem.getItem() instanceof KKAccessoryItem){
                     		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedItem.getItem();
@@ -272,10 +271,10 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							posY+=10;
 	                    }
 	                    
-						if(abilities.size() > 0) {
+						if(!abilities.isEmpty()) {
 							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
-								Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(abilities.get(i)));
+								Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
 			                    gui.blit(texture, (int) strPosX-2, (int) posY + ((i+1)*12)-4, 73, 102, 12, 12);
 								gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) posY + ((i+1)*12)-1, 0xFFFFFF);
 							}

@@ -3,13 +3,11 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import static online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import yesman.epicfight.api.client.model.AnimatedMesh;
@@ -41,7 +39,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     protected void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
-            ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
+            ItemStack armor = ModData.getPlayer(player).getEquippedKBArmor(0);
             String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
             if(armorName.equals("") || !ItemStack.isSameItem(player.getInventory().getItem(38),ItemStack.EMPTY))
                 return;

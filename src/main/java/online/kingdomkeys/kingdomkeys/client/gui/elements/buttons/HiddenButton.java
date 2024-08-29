@@ -11,7 +11,7 @@ public class HiddenButton extends Button {
 	}
 
 	@Override
-	public void render(@NotNull GuiGraphics guiGraphics, int p_render_1_, int p_render_2_, float p_render_3_) {
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int p_render_1_, int p_render_2_, float p_render_3_) {
 		
 	}
 }

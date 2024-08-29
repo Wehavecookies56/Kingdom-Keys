@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class StopModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "stop"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "stop"), "main");
 	private final ModelPart ClockNumbers;
 	private final ModelPart SpikesTop;
 	private final ModelPart SpikesBottom;
@@ -78,10 +78,10 @@ public class StopModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		ClockNumbers.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		SpikesTop.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		SpikesBottom.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		bb_main.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
+		ClockNumbers.render(poseStack, buffer, packedLight, packedOverlay, colour);
+		SpikesTop.render(poseStack, buffer, packedLight, packedOverlay, colour);
+		SpikesBottom.render(poseStack, buffer, packedLight, packedOverlay, colour);
+		bb_main.render(poseStack, buffer, packedLight, packedOverlay, colour);
     }
 }

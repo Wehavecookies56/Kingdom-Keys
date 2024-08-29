@@ -7,8 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
@@ -66,7 +65,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			LivingEntity entity = (LivingEntity) Minecraft.getInstance().level.getEntity(message.id);
 			
 			if (entity != null) {
-				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
+				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModData.GLOBAL_CAPABILITIES);
 				globalData.ifPresent(cap -> {
 					cap.setStoppedTicks(message.stopTicks);
 					cap.setStopDamage(message.stopDmg);

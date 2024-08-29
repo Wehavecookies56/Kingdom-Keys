@@ -1,8 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.styles;
 
 import net.minecraft.client.gui.GuiGraphics;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -43,7 +42,7 @@ public class StylesMenu extends MenuBackground {
 
     private void initSingle(){
         int pos = 0;
-        IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(minecraft.player);
+        IPlayerData playerCapabilities = ModData.getPlayer(minecraft.player);
         addRenderableWidget(sora = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.sora"), MenuButton.ButtonType.BUTTON, e ->
         {
             playerCapabilities.setSingleStyle(SingleChoices.SORA);
@@ -86,7 +85,7 @@ public class StylesMenu extends MenuBackground {
     private void initDualStyle(){
         int pos = 0;
 
-        IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(minecraft.player);
+        IPlayerData playerCapabilities = ModData.getPlayer(minecraft.player);
         addRenderableWidget(kh2RoxasDual = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.kh2roxasdual"), MenuButton.ButtonType.BUTTON, e ->
         {
             playerCapabilities.setDualStyle(DualChoices.KH2_ROXAS_DUAL);
@@ -104,7 +103,7 @@ public class StylesMenu extends MenuBackground {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         super.render(gui, mouseX, mouseY, partialTicks);
-        IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(minecraft.player);
+        IPlayerData playerCapabilities = ModData.getPlayer(minecraft.player);
         for (MenuButton b : singleStyleList) {
             b.active = false;
             b.visible = false;

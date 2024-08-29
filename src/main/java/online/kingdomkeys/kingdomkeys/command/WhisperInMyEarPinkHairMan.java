@@ -16,10 +16,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyearpinkhairman
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -33,14 +34,14 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 	private static int spawn(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		ServerPlayer player = context.getSource().getPlayerOrException();
 		if(player.level().dimension() == ModDimensions.STATION_OF_SORROW) {
-			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
+			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace("overworld"));
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 		} else {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
 			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);

@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class VentusModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "ventus_top"), "main");
-    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "ventus_bottom"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "ventus_top"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "ventus_bottom"), "main");
 
     public final ModelPart head;
     public final ModelPart body;
@@ -376,7 +376,7 @@ public class VentusModel<T extends LivingEntity> extends ArmorBaseModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         rightArm.render(poseStack, buffer, packedLight, packedOverlay);
         rightLeg.render(poseStack, buffer, packedLight, packedOverlay);
         head.render(poseStack, buffer, packedLight, packedOverlay);

@@ -7,16 +7,17 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
+import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD)
 public class DataGeneration {
 
 	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
@@ -37,13 +38,13 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
         //generator.addProvider(event.includeServer(), new EntityTagsGen(generator, event.getLookupProvider(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new Recipes(generator));
+        generator.addProvider(event.includeServer(), new Recipes(generator, event.getLookupProvider()));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));
-        generator.addProvider(event.includeClient(), new AtlasProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new AtlasProvider(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockModels(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
-        generator.addProvider(event.includeServer(), new LootTables(generator, Collections.emptySet(), Collections.emptyList()));
+        generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));

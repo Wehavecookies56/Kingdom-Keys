@@ -22,13 +22,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class DimensionCommand extends BaseCommand {
 
@@ -48,7 +47,7 @@ public class DimensionCommand extends BaseCommand {
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		String dim = StringArgumentType.getString(context, "dim");
-		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
 
 		if (dimension == null) {
 			context.getSource().sendSuccess(() -> Component.translatable("Invalid dimension " + dim), true);
@@ -56,7 +55,7 @@ public class DimensionCommand extends BaseCommand {
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
 		}
@@ -86,7 +85,7 @@ public class DimensionCommand extends BaseCommand {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();
 		}
 
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		if (dimension == playerData.getReturnDimension()) {
 			Vec3 vec3 = playerData.getReturnLocation();
 			//TODO fix cast

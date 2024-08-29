@@ -25,7 +25,7 @@ public class WorldLoader {
     public void processAndGenerateStructureFile(String file, ServerLevel world, BlockPos offset) {
         try {
             InputStream inputStream = getClass().getResourceAsStream("/assets/"+KingdomKeys.MODID+"/worlds/" + file + ".world");
-            CompoundTag main = NbtIo.readCompressed(inputStream);
+            CompoundTag main = NbtIo.readCompressed(inputStream, NbtAccounter.unlimitedHeap());
 
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
 
@@ -49,7 +49,7 @@ public class WorldLoader {
                 BlockState state = blockStates.get(block.getInt("state"));
                 if (block.contains("nbt")) {
                     CompoundTag nbtData = block.getCompound("nbt");
-                    StructureBlockEntity.loadStatic(blockpos, state, nbtData);
+                    StructureBlockEntity.loadStatic(blockpos, state, nbtData, world.registryAccess());
                 }
                 if (state.getBlock() == Blocks.OAK_DOOR) {
                     if (world.getBlockState(blockpos.below()).getBlock() == Blocks.AIR) {
@@ -76,7 +76,7 @@ public class WorldLoader {
                         
                         CompoundTag nbtData = block.getCompound("nbt");
                         world.setBlock(blockpos, state, 2);
-                        ChestBlockEntity te = (ChestBlockEntity) ChestBlockEntity.loadStatic(blockpos, state, nbtData);
+                        ChestBlockEntity te = (ChestBlockEntity) ChestBlockEntity.loadStatic(blockpos, state, nbtData, world.registryAccess());
                         world.setBlockEntity(te);
                         
                         if (nbtData.getString("id").equals("minecraft:chest")) {

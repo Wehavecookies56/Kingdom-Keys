@@ -10,8 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -48,22 +48,22 @@ public class GummiShipItem extends Item implements IItemCategory {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
 		if(stack.getTag() != null && stack.getTag().contains("data") && KeyboardHelper.isShiftDown()) {
 			/*String[] d = stack.getTag().getString("data").split(",");
 			String formatted = "";
 			for(int i=0;i<d.length;i++) {
 				formatted+= d[i]+" ";
-				
+
 				if(i %5 == 0) {
 					formatted+=" ";
 				}
 			}*/
 			tooltip.add(Component.translatable(stack.getTag().getString("data")));
 
-			
+
 		}
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(pStack, pContext, tooltip, pTooltipFlag);
 	}
 	
 	@Override

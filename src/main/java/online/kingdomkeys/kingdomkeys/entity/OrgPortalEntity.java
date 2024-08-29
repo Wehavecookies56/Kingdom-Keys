@@ -7,20 +7,21 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
 
-public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnData {
+public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
 	int maxTicks = 100;
 	float radius = 0.5F;
@@ -34,21 +35,12 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 		this.blocksBuilding = true;
 	}
 
-	public OrgPortalEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
-	}
-
 	public OrgPortalEntity(Level world, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
 		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
 		this.setPos(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
         this.destinationPos = destinationPos;
         this.destinationDim = destinationDim;
         this.shouldTeleport = shouldTP;
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
@@ -108,24 +100,24 @@ public class OrgPortalEntity extends Entity implements IEntityAdditionalSpawnDat
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
 
 	@Override
-	public void writeSpawnData(FriendlyByteBuf buffer) {
+	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 		if(destinationPos == null)
-            return;
-    	
-        buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
-        buffer.writeResourceLocation(destinationDim.location());
-        buffer.writeBoolean(shouldTeleport);	}
+			return;
+
+		buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
+		buffer.writeResourceLocation(destinationDim.location());
+		buffer.writeBoolean(shouldTeleport);	}
 
 	@Override
-	public void readSpawnData(FriendlyByteBuf additionalData) {
+	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
 		destinationPos = additionalData.readBlockPos();
-    	destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
-    	shouldTeleport = additionalData.readBoolean();
-    }
+		destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
+		shouldTeleport = additionalData.readBoolean();
+	}
 }
+

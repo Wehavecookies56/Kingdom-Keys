@@ -19,8 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
@@ -36,10 +34,6 @@ public class PrismRainCoreEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public PrismRainCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world);
-	}
-
 	public PrismRainCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
 		setCaster(player.getUUID());
@@ -53,15 +47,10 @@ public class PrismRainCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
-	@Override
-	protected float getGravity() {
-		return 0F;
-	}
-	
 	@Override
 	public void tick() {
 		if (this.tickCount > maxTicks || getCaster() == null) {
@@ -192,8 +181,8 @@ public class PrismRainCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGETS, "");
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGETS, "");
 	}
 }

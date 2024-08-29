@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "largebodymodel"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "largebodymodel"), "main");
 
     private final ModelPart neck4;
     private final ModelPart neck3;
@@ -219,7 +219,7 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         neck4.render(poseStack, buffer, packedLight, packedOverlay);
         neck3.render(poseStack, buffer, packedLight, packedOverlay);
         body.render(poseStack, buffer, packedLight, packedOverlay);

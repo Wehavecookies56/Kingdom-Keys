@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Blockbench - Wehavecookies56
  */
 public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "shadow"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shadow"), "main");
 	private final ModelPart UpperBody;
 	private final ModelPart LowerBody;
 	private final ModelPart LowerHead;
@@ -112,7 +112,7 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
 		UpperBody.render(poseStack, buffer, packedLight, packedOverlay);
 		LowerBody.render(poseStack, buffer, packedLight, packedOverlay);
 		LowerHead.render(poseStack, buffer, packedLight, packedOverlay);

@@ -11,8 +11,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 
@@ -52,7 +51,7 @@ public class SCSyncCapabilityToAllPacket {
 	public SCSyncCapabilityToAllPacket() {
 	}
 
-	public SCSyncCapabilityToAllPacket(String name, IPlayerCapabilities capability) {
+	public SCSyncCapabilityToAllPacket(String name, IPlayerData capability) {
 		this.name = name;
 		this.level = capability.getLevel();
 		this.exp = capability.getExperience();
@@ -202,7 +201,7 @@ public class SCSyncCapabilityToAllPacket {
 				}
 			}
 			if (player != null) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 				playerData.setLevel(message.level);
 				playerData.setExperience(message.exp);
 				playerData.setExperienceGiven(message.expGiven);

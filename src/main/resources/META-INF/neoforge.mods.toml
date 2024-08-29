@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/kingdom-keys-re-coded"
+    credits="Wynd and Xephiro for contributions to the mod, Remorse Code, Collecter, EthanGold, Sr.Gato and Lulu for previously supporting the mod on Patreon! Square Enix for Kingdom Hearts"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
+[[mixins]]
+    config="${mod_id}.mixins.json"
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="jei"
+    type="optional"
+    versionRange="[19.8,)"
+    ordering="BEFORE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="epicfight"
+    type="optional"
+    versionRange="[20.8,)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="magicksaddon"
+    type="optional"
+    versionRange="[1.21.1-0.7.5,)"
+    ordering="BEFORE"
+    side="BOTH"

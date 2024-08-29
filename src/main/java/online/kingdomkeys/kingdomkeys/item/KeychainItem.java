@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,9 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -31,7 +31,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	KeybladeItem keyblade;
 	
     public KeychainItem() {
-        super(new KeybladeItemTier(0), 0, 0, new Item.Properties().stacksTo(1));
+        super(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, 0)).stacksTo(1));
     }
     
     public void setKeyblade(KeybladeItem kb) {
@@ -78,12 +78,12 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		}
 		stack.getTag().putInt("level", level);
 	}
-	
-    @OnlyIn(Dist.CLIENT)
+
+	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (getKeyblade() != null && getKeyblade().data != null) {
-			tooltip = ClientUtils.getTooltip(tooltip, stack);
+			tooltip = ClientUtils.getTooltip(tooltip, pContext, stack);
 			/*if(getKeyblade().getKeybladeLevel(stack) > 0)
 				tooltip.add(Component.translatable(ChatFormatting.YELLOW+"Level %s", getKeyblade().getKeybladeLevel(stack)));
 			tooltip.add(Component.translatable(ChatFormatting.RED+"Strength %s", (int)(getKeyblade().getStrength(getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack))+" ["+DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+"]"));
@@ -92,7 +92,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
-			ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
 			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/YOURKEYBLADEITEMNAMEHERE.json"));
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
@@ -104,7 +104,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 				}
 			}
 		}
-    }
+	}
 
 	@Override
 	public KeybladeItem toSummon() {

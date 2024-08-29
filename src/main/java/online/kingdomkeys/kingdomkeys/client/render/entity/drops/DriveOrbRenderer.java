@@ -16,7 +16,7 @@ public class DriveOrbRenderer extends EntityItemDropRenderer {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
-		this.texture = new ResourceLocation(KingdomKeys.MODID + ":textures/entity/drive_orb.png"); 
+		this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/drive_orb.png");
 		return texture;
 	}
 }

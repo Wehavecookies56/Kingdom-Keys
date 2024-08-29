@@ -56,26 +56,6 @@ public class SoADoorBlock extends BaseBlock implements INoDataGen{
 		super.animateTick(state, world, pos, random);
 	}
 	
-	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		
-		/*IWorldCapabilities worldData = ModCapabilities.getWorld(worldIn);
-		
-		if(!worldIn.isClientSide) {
-			if(worldData != null) {
-				System.out.println(worldData.getStruggles().size());
-				if(worldData.getStruggleFromBlockPos(pos) == null) {
-					Struggle struggle = new Struggle(pos,"Struggle #"+worldData.getStruggles().size(), player.getUUID(), player.getDisplayName().getString(), false, (byte)8);
-					worldData.addStruggle(struggle);
-					PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
-				}
-			}
-		} else {
-			Minecraft.getInstance().setScreen(new MenuStruggle(pos));
-		}*/
-		return super.use(state, worldIn, pos, player, handIn, hit);
-	}
-	
 	@Deprecated
 	   public RenderShape getRenderShape(BlockState state) {
 	      return RenderShape.MODEL;

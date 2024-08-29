@@ -12,8 +12,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class GummiShipEntity extends Entity {// PigEntity {
 
@@ -24,8 +22,9 @@ public class GummiShipEntity extends Entity {// PigEntity {
 		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
-	public GummiShipEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(DATA, "");
 	}
 
 	public GummiShipEntity(Level world) {
@@ -75,18 +74,8 @@ public class GummiShipEntity extends Entity {// PigEntity {
 		this.setData(compound.getString("Data"));
 	}
 
-	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(DATA, "");
-	}
-
 	public String getDataDataManager() {
 		return this.entityData.get(DATA);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 /*	@Override

@@ -10,15 +10,15 @@ import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
     static final int r = 100, g = 100, b = 160;
@@ -29,7 +29,7 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
     @SubscribeEvent
     public static void specialEffects(RegisterDimensionSpecialEffectsEvent event) {
-        event.register(new ResourceLocation(KingdomKeys.MODID, "realm_of_darkness"), new RealmOfDarknessEffects(Float.NaN, true, SkyType.NONE, false, true));
+        event.register(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"), new RealmOfDarknessEffects(Float.NaN, true, SkyType.NONE, false, true));
     }
 
     @Override
@@ -43,68 +43,64 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
     }
 
     @Override
-    public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
+    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.depthMask(false);
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         //RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/environment/sky.png"));
         Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tesselator.getBuilder();
+        Matrix4f matrix4f = modelViewMatrix;
 
         for(int i = 0; i < 6; ++i) {
-            poseStack.pushPose();
-            RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/environment/skybox_" + i + ".png"));
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/environment/skybox_" + i + ".png"));
             //0 = down
 
             //north
             if (i == 1) {
-                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
             }
 
             //south
             if (i == 2) {
-                poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-                poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+                matrix4f.rotate(Axis.ZP.rotationDegrees(180.0F));
+                matrix4f.rotate(Axis.XP.rotationDegrees(-90.0F));
             }
 
             //up
             if (i == 3) {
-                poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
-                poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+                matrix4f.rotate(Axis.XP.rotationDegrees(180.0F));
+                matrix4f.rotate(Axis.YP.rotationDegrees(-90.0F));
             }
 
             //east
             if (i == 4) {
-                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-                poseStack.mulPose(Axis.ZP.rotationDegrees(90.0F));
+                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
+                matrix4f.rotate(Axis.ZP.rotationDegrees(90.0F));
             }
 
             //west
             if (i == 5) {
-                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-                poseStack.mulPose(Axis.ZP.rotationDegrees(-90.0F));
+                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
+                matrix4f.rotate(Axis.ZP.rotationDegrees(-90.0F));
             }
 
-            Matrix4f matrix4f = poseStack.last().pose();
-            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, -100.0F).uv(0.0F, 0.0F).color(r, g, b, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, -100.0F, -100.0F, 100.0F).uv(0.0F, 1.0F).color(r, g, b, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, 100.0F).uv(1.0F, 1.0F).color(r, g, b, 255).endVertex();
-            bufferbuilder.vertex(matrix4f, 100.0F, -100.0F, -100.0F).uv(1.0F, 0.0F).color(r, g, b, 255).endVertex();
-            tesselator.end();
-            poseStack.popPose();
+            BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            bufferbuilder.addVertex(matrix4f, -100.0F, -100.0F, -100.0F).setUv(0.0F, 0.0F).setColor(r, g, b, 255);
+            bufferbuilder.addVertex(matrix4f, -100.0F, -100.0F, 100.0F).setUv(0.0F, 1.0F).setColor(r, g, b, 255);
+            bufferbuilder.addVertex(matrix4f, 100.0F, -100.0F, 100.0F).setUv(1.0F, 1.0F).setColor(r, g, b, 255);
+            bufferbuilder.addVertex(matrix4f, 100.0F, -100.0F, -100.0F).setUv(1.0F, 0.0F).setColor(r, g, b, 255);
+            BufferUploader.drawWithShader(bufferbuilder.build());
         }
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        poseStack.pushPose();
         float f11 = 1.0F - level.getRainLevel(partialTick);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
-        Matrix4f matrix4f1 = poseStack.last().pose();
+        matrix4f.rotate(Axis.YP.rotationDegrees(-90.0F));
+        matrix4f.rotate(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
+        Matrix4f matrix4f1 = modelViewMatrix;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         float f12 = 20.0F;
-        RenderSystem.setShaderTexture(0, new ResourceLocation("textures/environment/moon_phases.png"));
+        RenderSystem.setShaderTexture(0, ResourceLocation.withDefaultNamespace("textures/environment/moon_phases.png"));
         int k = 0; //moon phase
         int l = k % 4;
         int i1 = k / 4 % 2;
@@ -112,14 +108,12 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         float f14 = (float)(i1 + 0) / 2.0F;
         float f15 = (float)(l + 1) / 4.0F;
         float f16 = (float)(i1 + 1) / 2.0F;
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(matrix4f1, -f12, -100.0F, f12).uv(f15, f16).endVertex();
-        bufferbuilder.vertex(matrix4f1, f12, -100.0F, f12).uv(f13, f16).endVertex();
-        bufferbuilder.vertex(matrix4f1, f12, -100.0F, -f12).uv(f13, f14).endVertex();
-        bufferbuilder.vertex(matrix4f1, -f12, -100.0F, -f12).uv(f15, f14).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
-
-        poseStack.popPose();
+        BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex(matrix4f1, -f12, -100.0F, f12).setUv(f15, f16);
+        bufferbuilder.addVertex(matrix4f1, f12, -100.0F, f12).setUv(f13, f16);
+        bufferbuilder.addVertex(matrix4f1, f12, -100.0F, -f12).setUv(f13, f14);
+        bufferbuilder.addVertex(matrix4f1, -f12, -100.0F, -f12).setUv(f15, f14);
+        BufferUploader.drawWithShader(bufferbuilder.build());
 
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();

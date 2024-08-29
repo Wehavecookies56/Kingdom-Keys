@@ -12,12 +12,10 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
@@ -25,10 +23,6 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
 
     public BlueRhapsodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-    }
-
-    public BlueRhapsodyEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_BLUE_RHAPSODY.get(), spawnEntity, world);
         xpReward = 8;
     }
 
@@ -52,7 +46,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/blue_rhapsody.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/blue_rhapsody.png");
     }
 
     @Override

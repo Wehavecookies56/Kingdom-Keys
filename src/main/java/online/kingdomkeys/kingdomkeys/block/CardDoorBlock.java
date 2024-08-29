@@ -3,9 +3,10 @@ package online.kingdomkeys.kingdomkeys.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,8 +23,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.neoforge.common.NeoForge;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -70,7 +72,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
     	//state.setValue(OPEN, true);
     	//System.out.println("OPEN? "+state.getValue(OPEN));
 		if (!level.isClientSide) {
@@ -82,7 +84,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 					// create first room from lobby
 					// transport into room
 				} else {
-					CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+					CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
@@ -99,7 +101,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 				// maybe just link 2 doors together somehow
 			}
 		}
-		return super.use(state, level, pos, player, hand, hit);
+		return ItemInteractionResult.sidedSuccess(level.isClientSide);
 	}
 
 	@Nullable
@@ -114,7 +116,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		if(!level.isClientSide) {
 			if (state.getValue(GENERATED)) {
 				if (entity instanceof Player player) {
-					CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
+					CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
@@ -124,7 +126,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
 								Room newRoom = data.getGenerated();
 								if (newRoom != null) {
-									if (!MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(cap.getRoomAtPos(level, te.getBlockPos()), newRoom, player))) {
+									if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(cap.getRoomAtPos(level, te.getBlockPos()), newRoom, player)).isCanceled()) {
 										BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
 										destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());

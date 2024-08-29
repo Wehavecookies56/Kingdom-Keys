@@ -8,13 +8,12 @@ import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
@@ -24,10 +23,10 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormFinal extends DriveForm {
 
-	public DriveFormFinal(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+	public DriveFormFinal(ResourceLocation registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
 		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 0.9F, 0.9F, 0.9F };
 		this.skinRL = skinRL;
@@ -38,7 +37,7 @@ public class DriveFormFinal extends DriveForm {
 		if (!event.getEntity().level().isClientSide && (event.getEntity() instanceof EnderMan) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getKHMobType() == MobType.NOBODY) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(4).split(",")[1]);
@@ -50,36 +49,34 @@ public class DriveFormFinal extends DriveForm {
 	}
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingTickEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-	
-			if (playerData != null) {
-				// Drive Form abilities
-				if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-					handleHighJump(player, playerData);
-				}
+	public static void onLivingUpdate(PlayerTickEvent event) {
+		Player player = (Player) event.getEntity();
+		IPlayerData playerData = ModData.getPlayer(player);
 
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
-					handleGlide(player, playerData);
-				}
-				
-				
-				//Check if the player has the ability to cancel the variable
-				if(playerData.getIsGliding()) {
-					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
-						playerData.setIsGliding(false);
-						//if(player.world.isRemote)
-							//PacketHandler.sendToServer(new CSSetGlidingPacket(false));
-					}
+		if (playerData != null) {
+			// Drive Form abilities
+			if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+				handleHighJump(player, playerData);
+			}
+
+			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+			if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+				handleGlide(player, playerData);
+			}
+
+
+			//Check if the player has the ability to cancel the variable
+			if(playerData.getIsGliding()) {
+				if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
+					playerData.setIsGliding(false);
+					//if(player.world.isRemote)
+						//PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 				}
 			}
 		}
 	}
 
-	private static void handleHighJump(Player player, IPlayerCapabilities playerData) {
+	private static void handleHighJump(Player player, IPlayerData playerData) {
 		boolean j = false;
 		if (player.level().isClientSide) {
 			j = Minecraft.getInstance().options.keyJump.isDown();
@@ -94,7 +91,7 @@ public class DriveFormFinal extends DriveForm {
 		}
 	}
 	
-	private static void handleGlide(Player player, IPlayerCapabilities playerData) {
+	private static void handleGlide(Player player, IPlayerData playerData) {
 		if (player.isInWater() || player.isInLava())
 			return;
 		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection

@@ -8,8 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -17,8 +16,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public abstract class DriveForm {
 
-	public static final ResourceLocation NONE = new ResourceLocation(KingdomKeys.MODID + ":none");
-	public static final ResourceLocation SYNCH_BLADE = new ResourceLocation(KingdomKeys.MODID + ":synch_blade");
+	public static final ResourceLocation NONE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none");
+	public static final ResourceLocation SYNCH_BLADE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "synch_blade");
 
 	// Level 0-7 (0 unused)
 	public static final float[] VALOR_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.03F, 0.03F, 0.04F, 0.04F, 0.06F };
@@ -50,7 +49,7 @@ public abstract class DriveForm {
 	}
 
 	public DriveForm(String registryName, int order, boolean hasKeychain, boolean baseGrowth) {
-		this(new ResourceLocation(registryName), order, hasKeychain, baseGrowth);
+		this(ResourceLocation.parse(registryName), order, hasKeychain, baseGrowth);
 	}
 	
 	public void setDriveFormData(DriveFormData data) {
@@ -143,9 +142,9 @@ public abstract class DriveForm {
 
 	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.setActiveDriveForm(getName());
-			int cost = ModDriveForms.registry.get().getValue(new ResourceLocation(getName())).getDriveCost();
+			int cost = ModDriveForms.registry.get(getRegistryName()).getDriveCost();
 			playerData.remDP(cost);
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
@@ -176,7 +175,7 @@ public abstract class DriveForm {
 	public void updateDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
 			double formDecrease = 0.2;
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(Strings.formBoost); i++) {
 				formDecrease /= 1.2;
 			}
@@ -189,7 +188,7 @@ public abstract class DriveForm {
 	}
 
 	public void endDrive(Player player) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
 		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {

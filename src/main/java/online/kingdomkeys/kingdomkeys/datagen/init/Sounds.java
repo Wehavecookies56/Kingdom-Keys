@@ -4,13 +4,13 @@ import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
 
 import java.util.function.Supplier;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.SoundDefinition;
-import net.minecraftforge.common.data.SoundDefinitionsProvider;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.SoundDefinition;
+import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class Sounds extends SoundDefinitionsProvider {
@@ -80,7 +80,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(shotlock_shot);
         add(strike_raid);
         add(wisdom_shot);
-        add(keyblade_armor, new ResourceLocation(KingdomKeys.MODID,"keyblade_armor2"));
+        add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
         
@@ -113,18 +113,18 @@ public class Sounds extends SoundDefinitionsProvider {
     }
 
     public void add(Supplier<SoundEvent> sound) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(BuiltInRegistries.SOUND_EVENT.getKey(sound.get()), SoundDefinition.SoundType.SOUND)));
     }
     
     public void add(Supplier<SoundEvent> sound, ResourceLocation sound2) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND)).with(SoundDefinition.Sound.sound(sound2, SoundDefinition.SoundType.SOUND)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(BuiltInRegistries.SOUND_EVENT.getKey(sound.get()), SoundDefinition.SoundType.SOUND)).with(SoundDefinition.Sound.sound(sound2, SoundDefinition.SoundType.SOUND)));
     }
 
     public void add(Supplier<SoundEvent> sound, boolean stream) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND).stream(stream)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(BuiltInRegistries.SOUND_EVENT.getKey(sound.get()), SoundDefinition.SoundType.SOUND).stream(stream)));
     }
 
     public void add(Supplier<SoundEvent> sound, float volume) {
-        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(ForgeRegistries.SOUND_EVENTS.getKey(sound.get()), SoundDefinition.SoundType.SOUND).volume(volume)));
+        add(sound, SoundDefinition.definition().with(SoundDefinition.Sound.sound(BuiltInRegistries.SOUND_EVENT.getKey(sound.get()), SoundDefinition.SoundType.SOUND).volume(volume)));
     }
 }

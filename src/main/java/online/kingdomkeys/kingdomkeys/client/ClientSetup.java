@@ -5,48 +5,55 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
-import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.render.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.container.ModContainers;
+import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus=Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
 
 	public static final Map<Item, ArmorBaseModel<LivingEntity>> armorModels = new HashMap<>();
 
-	public static NamedGuiOverlay
+	public static ResourceLocation
 			COMMAND_MENU,
 			PLAYER_PORTRAIT,
 			HP_BAR,
@@ -195,7 +202,7 @@ public class ClientSetup {
 			}
 		}
 		
-		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
+		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin(PlayerSkin.Model.WIDE);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
@@ -203,7 +210,7 @@ public class ClientSetup {
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
 
-		renderer = event.getSkin("slim");
+		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
@@ -215,18 +222,19 @@ public class ClientSetup {
 	}
 
 	@SubscribeEvent
-	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "command_menu", CommandMenuGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "player_portrait", PlayerPortraitGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "hp_bar", HPGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "mp_bar", MPGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "drive_bar", DriveGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "kk_notifications", GuiOverlay.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CROSSHAIR.id(), "lock_on", LockOnGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "party_info", PartyHUDGui.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CROSSHAIR.id(), "shotlock", ShotlockGUI.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.TITLE_TEXT.id(), "station_of_awakening_messages", SoAMessages.INSTANCE);
-		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "castle_oblivion_minimap", COMinimap.INSTANCE);
+	public static void registerOverlays(RegisterGuiLayersEvent event) {
+
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu"), CommandMenuGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait"), PlayerPortraitGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar"), HPGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar"), DriveGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications"), GuiOverlay.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on"), LockOnGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "party_info"), PartyHUDGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock"), ShotlockGUI.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.TITLE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages"), SoAMessages.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_minimap"), COMinimap.INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -236,75 +244,108 @@ public class ClientSetup {
 	}
 
 	@SubscribeEvent
-	public void renderOverlays(RenderGuiOverlayEvent.Pre event) {
+	public void renderOverlays(RenderGuiLayerEvent.Pre event) {
 		LocalPlayer player = Minecraft.getInstance().player;
-		NamedGuiOverlay o = event.getOverlay();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
+		ResourceLocation o = event.getName();
+		IPlayerData playerData = ModData.getPlayer(player);
+		IGlobalCapabilities globalData = ModData.getGlobal(player);
 		if(playerData == null || globalData == null)
 			return;
 		
 		if(!Utils.shouldRenderOverlay(player)) { //If it shouldn't render cause it's set to HIDE or WEAPON and not holding one
-			event.setCanceled(o == COMMAND_MENU || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK); //Remove all these 4 bars
-			if(o == HP_BAR || o == PLAYER_PORTRAIT) { //Allow HP to be shown if KO'd
+			event.setCanceled(o.equals(COMMAND_MENU) || o.equals(MP_BAR) || o.equals(DRIVE_BAR) || o.equals(SHOTLOCK)); //Remove all these 4 bars
+			if(o.equals(HP_BAR) || o.equals(PLAYER_PORTRAIT)) { //Allow HP to be shown if KO'd
 				event.setCanceled(!globalData.isKO());
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
-			if(o == MP_BAR) { //Remove MP Bar is magics map is empty
+			if(o.equals(MP_BAR)) { //Remove MP Bar is magics map is empty
 				event.setCanceled(playerData.getMagicsMap().isEmpty());
 				return;
 			}
-			if(o == SHOTLOCK) {
+			if(o.equals(SHOTLOCK)) {
 				event.setCanceled(playerData.getEquippedShotlock().isEmpty());
 				return;
 			}
-			if(o == DRIVE_BAR) {
+			if(o.equals(DRIVE_BAR)) {
 				event.setCanceled(playerData.getVisibleDriveForms().size() <= 1);
 				return;
 			}
 		}
 
 		if (!ModConfigs.hpShowHearts) {
-			event.setCanceled(o == VanillaGuiOverlay.PLAYER_HEALTH.type());
+			event.setCanceled(o.equals(VanillaGuiLayers.PLAYER_HEALTH));
 		}
 	}
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-		COMMAND_MENU = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "command_menu"));
-		PLAYER_PORTRAIT = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "player_portrait"));
-		HP_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "hp_bar"));
-		MP_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "mp_bar"));
-		DRIVE_BAR = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "drive_bar"));
-		KK_NOTIFICATIONS = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "kk_notifications"));
-		LOCK_ON = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "lock_on"));
-		PARTY_INFO = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "party_info"));
-		SHOTLOCK = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "shotlock"));
-		STATION_OF_AWAKENING_MESSAGES = GuiOverlayManager.findOverlay(new ResourceLocation(KingdomKeys.MODID, "station_of_awakening_messages"));
+		NeoForge.EVENT_BUS.addListener(ClientEvents::colourTint);
+		NeoForge.EVENT_BUS.addListener(ClientEvents::itemColour);
+		NeoForge.EVENT_BUS.addListener(ClientSetup::modLoaded);
+		NeoForge.EVENT_BUS.addListener(ModMenus::registerGUIFactories);
+		COMMAND_MENU = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu");
+		PLAYER_PORTRAIT = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait");
+		HP_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar");
+		MP_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar");
+		DRIVE_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar");
+		KK_NOTIFICATIONS = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications");
+		LOCK_ON = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on");
+		PARTY_INFO = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "party_info");
+		SHOTLOCK = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock");
+		STATION_OF_AWAKENING_MESSAGES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages");
 
-		MinecraftForge.EVENT_BUS.register(new ClientSetup());
-		MinecraftForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(new ClientEvents());
-		MinecraftForge.EVENT_BUS.register(CommandMenuGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(PlayerPortraitGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(HPGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(MPGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(ShotlockGUI.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(DriveGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(new InputHandler());
-		MinecraftForge.EVENT_BUS.register(LockOnGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(PartyHUDGui.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(SoAMessages.INSTANCE);
+		NeoForge.EVENT_BUS.register(new ClientSetup());
+		NeoForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
+		NeoForge.EVENT_BUS.register(new ClientEvents());
+		NeoForge.EVENT_BUS.register(CommandMenuGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(PlayerPortraitGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(HPGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(MPGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(ShotlockGUI.INSTANCE);
+		NeoForge.EVENT_BUS.register(DriveGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(new InputHandler());
+		NeoForge.EVENT_BUS.register(LockOnGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(PartyHUDGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
 		
-		ModContainers.registerGUIFactories();
     }
+
+	private static void modLoaded(final FMLLoadCompleteEvent event) {
+		if (FMLEnvironment.dist.isClient()) {
+			if (ModList.get().isLoaded("epicfight")) {
+				//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+			}
+			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
+		}
+	}
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void modelRegistry(ModelEvent.RegisterAdditional event) {
-		event.register(new ResourceLocation(KingdomKeys.MODID, "entity/portal"));
-		event.register(new ResourceLocation(KingdomKeys.MODID, "block/station_of_awakening"));
-		event.register(new ResourceLocation(KingdomKeys.MODID, "entity/heart"));
+		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
+		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/station_of_awakening")));
+		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+	}
+
+	@SubscribeEvent
+	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		event.registerItem(new IClientItemExtensions() {
+			@Override
+			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> original) {
+				ArmorBaseModel<LivingEntity> armorModel = ClientSetup.armorModels.get(itemStack.getItem());
+
+				if (armorModel != null) {
+					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;
+					armorModel.body.visible = armorSlot == EquipmentSlot.CHEST || armorSlot == EquipmentSlot.LEGS;
+					armorModel.rightArm.visible = armorSlot == EquipmentSlot.CHEST;
+					armorModel.leftArm.visible = armorSlot == EquipmentSlot.CHEST;
+					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
+					armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
+					return new HumanoidModel<>(armorModel.root);
+				}
+				return original;
+			}
+		}, ModItems.terra_Helmet.get(), ModItems.terra_Chestplate.get(), ModItems.terra_Leggings.get(), ModItems.terra_Boots.get());
 	}
 }

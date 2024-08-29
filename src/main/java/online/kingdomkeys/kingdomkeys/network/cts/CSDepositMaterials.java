@@ -12,8 +12,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
@@ -53,7 +52,7 @@ public class CSDepositMaterials {
 	public static void handle(CSDepositMaterials message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 				try {
 					for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
 						ItemStack stack = player.getInventory().getItem(i);
@@ -82,7 +81,7 @@ public class CSDepositMaterials {
 	}
 
 	private static void removeMaterial(IItemHandler bag, Player player, int i) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
         for (int j = 0; j < bag.getSlots(); j++) { //Check bag slots
             ItemStack bagItem = bag.getStackInSlot(j);
         	Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+Utils.getItemRegistryName(bagItem.getItem()).getPath()));

@@ -4,9 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -30,7 +28,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	Button togglePriv, toggleFF, accept, size;
 	MenuButton back;
 		
-	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 	
 	Party party;
@@ -38,7 +36,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	public GuiMenu_Party_Settings() {
 		super(Strings.Gui_Menu_Party_Leader_Settings, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {
@@ -136,7 +134,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
 		if(party == null) {

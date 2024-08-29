@@ -24,17 +24,16 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class SpawningOrbEntity extends Monster {
 
@@ -47,7 +46,7 @@ public class SpawningOrbEntity extends Monster {
 		Player player = Utils.getClosestPlayer(this, worldIn);
 		
 		if(player != null) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			if(playerData == null)
 				return;
 
@@ -56,7 +55,7 @@ public class SpawningOrbEntity extends Monster {
 			
 			int randomLevel = Utils.getRandomMobLevel(player);
 			
-			IGlobalCapabilities mobData = ModCapabilities.getGlobal(mob);
+			IGlobalCapabilities mobData = ModData.getGlobal(mob);
 			if(mobData != null) {
 				mobData.setLevel(randomLevel);
 				PacketHandler.syncToAllAround(mob, mobData);
@@ -64,15 +63,10 @@ public class SpawningOrbEntity extends Monster {
 		}
 	}
 
-	//Command
-	public SpawningOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_SPAWNING_ORB.get(), world);
-	}
-
 	@Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-		if(worldIn instanceof Level)
-    		return ModCapabilities.getWorld((Level) worldIn).getHeartlessSpawnLevel() > 0;
+		if(worldIn instanceof Level level)
+    		return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
 		else
 			return true;
     }
@@ -141,8 +135,8 @@ public class SpawningOrbEntity extends Monster {
 	@Override
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {
-			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("kingdomkeys:realm_of_darkness"));
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(nPlayer);
+			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"));
+			IPlayerData playerData = ModData.getPlayer(nPlayer);
 			if(playerData == null)
 				return;
 
@@ -152,7 +146,7 @@ public class SpawningOrbEntity extends Monster {
 			}
 			
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
-			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			nPlayer.changeDimension(new DimensionTransition(nPlayer.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, nPlayer.getYRot(), nPlayer.getXRot(), entity -> {}));
 			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
 		}
 		super.playerTouch(nPlayer);

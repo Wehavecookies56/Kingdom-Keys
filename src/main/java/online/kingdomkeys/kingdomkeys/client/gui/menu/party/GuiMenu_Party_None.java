@@ -8,9 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -28,12 +26,12 @@ public class GuiMenu_Party_None extends MenuBackground {
 	
 	MenuButton back, create, join;
 		
-	final IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	IWorldCapabilities worldData;
 
 	Party party;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	//Not in party
 	//0 = not in party
@@ -46,7 +44,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 	public GuiMenu_Party_None() {
 		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 	}
 
 	protected void action(String string) {		
@@ -100,7 +98,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModCapabilities.getWorld(minecraft.level);
+		worldData = ModData.getWorld(minecraft.level);
 		drawParty(gui);
 	}
 	
@@ -131,7 +129,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
-					InventoryScreen.renderEntityInInventoryFollowsMouse(gui, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0,0, this.minecraft.player);
+					InventoryScreen.renderEntityInInventoryFollowsMouse(gui, (int) playerPosX, (int) playerPosY, 0, 0, (int) playerHeight / 2, 0, 0,0, this.minecraft.player);
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}
@@ -170,7 +168,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 				}
 				matrixStack.popPose();
 				if(player != null) {
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+					IPlayerData playerData = ModData.getPlayer(player);
 					if (playerData != null) {
 						gui.drawString(minecraft.font, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
 						gui.drawString(minecraft.font, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);

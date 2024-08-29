@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
@@ -38,7 +38,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
     BiomeSource biomeSource;
 
-	public static final Codec<DiveToTheHeartChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
+	public static final MapCodec<DiveToTheHeartChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
                     .apply(instance, instance.stable(DiveToTheHeartChunkGenerator::new)));
 
@@ -135,7 +135,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
     
     @Override
-    protected Codec<? extends ChunkGenerator> codec() {
+    protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
@@ -150,6 +150,11 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     @Override
     public int getGenDepth() {
         return 0;
+    }
+
+    @Override
+    public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
+        return CompletableFuture.completedFuture(chunk);
     }
 
     enum Corner { TL, TR, BL, BR }
@@ -288,11 +293,6 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         PedestalTileEntity te = ((PedestalTileEntity) pLevel.getBlockEntity(pos));
         te.setStationOfAwakeningMarker(true);
         te.setDisplayStack(toDisplay);
-    }
-
-    @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor pExecutor, Blender pBlender, RandomState pRandom, StructureManager pStructureManager, ChunkAccess pChunk) {
-        return CompletableFuture.completedFuture(pChunk);
     }
     
 }

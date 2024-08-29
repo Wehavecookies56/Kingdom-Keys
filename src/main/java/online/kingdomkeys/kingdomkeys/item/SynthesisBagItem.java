@@ -12,13 +12,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
-import online.kingdomkeys.kingdomkeys.container.SynthesisBagInventory;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.menu.SynthesisBagMenu;
+import online.kingdomkeys.kingdomkeys.menu.SynthesisBagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -37,9 +36,9 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!world.isClientSide) {
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer)player);
-			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new SynthesisBagContainer(w, p, stack), stack.getHoverName());
-			NetworkHooks.openScreen((ServerPlayer) player, container, buf -> {
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(PlayerData.get(player)), (ServerPlayer)player);
+			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new SynthesisBagMenu(w, p, stack), stack.getHoverName());
+			player.openMenu(container, buf -> {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 			});
 		}
@@ -47,16 +46,11 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		CompoundTag nbt = stack.getOrCreateTag();
 		int bagLevel = nbt.getInt("level");
 		tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+" "+(bagLevel+1)));
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-	}
-
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag oldCapNbt) {
-		return new SynthesisBagInventory();
+		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
 	@Override

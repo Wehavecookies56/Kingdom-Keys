@@ -12,15 +12,12 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
-import org.joml.Vector3f;
 
 public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
 
@@ -29,11 +26,6 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
         super(type, worldIn);
         xpReward = 6;
 
-    }
-
-    public RedNocturneEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_RED_NOCTURNE.get(), spawnEntity, world);
-        xpReward = 6;
     }
 
     @Override
@@ -55,7 +47,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/red_nocturne.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/red_nocturne.png");
     }
 
     @Override

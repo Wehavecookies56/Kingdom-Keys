@@ -7,15 +7,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.Size2i;
+import net.neoforged.neoforge.common.util.Size2i;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Floor implements INBTSerializable<CompoundTag> {
+public class Floor {
 
 
     BlockPos lobbyPosition;
@@ -201,7 +200,6 @@ public class Floor implements INBTSerializable<CompoundTag> {
         return players.containsValue(room);
     }
 
-    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("id", floorID);
@@ -226,11 +224,10 @@ public class Floor implements INBTSerializable<CompoundTag> {
         return tag;
     }
 
-    @Override
     public void deserializeNBT(CompoundTag tag) {
         floorID = tag.getUUID("id");
-        lobbyPosition = NbtUtils.readBlockPos(tag.getCompound("lobby_pos"));
-        type = ModFloorTypes.registry.get().getValue(new ResourceLocation(tag.getString("floor_type")));
+        lobbyPosition = NbtUtils.readBlockPos(tag, "lobby_pos").get();
+        type = ModFloorTypes.registry.get(ResourceLocation.parse(tag.getString("floor_type")));
         players.clear();
         int playerssize = tag.getInt("players_size");
         CompoundTag playersTag = tag.getCompound("players");

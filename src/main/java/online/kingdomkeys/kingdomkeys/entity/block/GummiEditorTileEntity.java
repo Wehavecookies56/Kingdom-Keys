@@ -3,6 +3,10 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.core.HolderLookup;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
@@ -21,19 +25,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
-import online.kingdomkeys.kingdomkeys.container.GummiEditorContainer;
+import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+
+import java.util.Optional;
 
 public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
-	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
+	private Optional<IItemHandler> inventory = Optional.of(this::createInventory);
 
 	private ItemStack displayStack = ItemStack.EMPTY;
 
@@ -56,23 +56,23 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		CompoundTag invCompound = compound.getCompound("inv");
 		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
 		//CompoundNBT transformations = compound.getCompound("transforms");
-		displayStack = ItemStack.of(compound.getCompound("display_stack"));
+		displayStack = ItemStack.parse(provider, compound.getCompound("display_stack")).get();
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
+		super.saveAdditional(compound, provider);
 		inventory.ifPresent(iih -> {
 			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
 			compound.put("inv", invCompound);
 		});
 		//CompoundNBT transformations = new CompoundNBT();
-		compound.put("display_stack", displayStack.serializeNBT());
+		compound.put("display_stack", displayStack.save(provider));
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
-		return new GummiEditorContainer(windowID, playerInventory, this);
+		return new GummiEditorMenu(windowID, playerInventory, this);
 	}
 
 	@Nonnull

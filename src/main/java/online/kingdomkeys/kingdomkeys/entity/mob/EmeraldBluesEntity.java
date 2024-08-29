@@ -8,9 +8,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.MagicDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -20,11 +19,6 @@ public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {
 
     public EmeraldBluesEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        xpReward = 8;
-    }
-
-    public EmeraldBluesEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        super(ModEntities.TYPE_EMERALD_BLUES.get(), spawnEntity, world);
         xpReward = 8;
     }
 
@@ -47,7 +41,7 @@ public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/emerald_blues.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/emerald_blues.png");
     }
 
     @Override

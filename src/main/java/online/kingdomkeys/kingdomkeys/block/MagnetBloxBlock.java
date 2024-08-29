@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -83,7 +84,7 @@ public class MagnetBloxBlock extends BaseBlock implements EntityBlock, INoDataGe
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (player.isCrouching()) {
             worldIn.setBlockAndUpdate(pos, state.setValue(ATTRACT, !state.getValue(ATTRACT)));
             String message = state.getValue(ATTRACT) ? "message.magnet_blox.repel" : "message.magnet_blox.attract";
@@ -99,7 +100,7 @@ public class MagnetBloxBlock extends BaseBlock implements EntityBlock, INoDataGe
             worldIn.setBlockAndUpdate(pos, state.setValue(RANGE, newRange));
             player.displayClientMessage(Component.translatable("message.magnet_blox.range", newRange), true);
         }
-        return InteractionResult.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
 
     @Nullable

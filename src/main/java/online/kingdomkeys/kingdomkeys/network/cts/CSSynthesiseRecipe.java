@@ -14,9 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -56,7 +54,7 @@ public class CSSynthesiseRecipe {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			if(player.getInventory().getFreeSlot() > -1) {
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				IPlayerData playerData = ModData.getPlayer(player);
 
 				Recipe recipe = RecipeRegistry.getInstance().getValue(message.name);
 				int stacksToGive = Utils.stacksForItemAmount(new ItemStack(recipe.getResult()), recipe.getAmount());
@@ -95,7 +93,7 @@ public class CSSynthesiseRecipe {
 							player.getInventory().add(new ItemStack(i, remainder));
 						}
 						if (i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
-							IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+							IWorldCapabilities worldData = ModData.getWorld(player.level());
 							if(worldData.getHeartlessSpawnLevel() == 0) {
 								List<Title> titles = List.of(
 										new Utils.Title("",Strings.HeartlessIntro1),

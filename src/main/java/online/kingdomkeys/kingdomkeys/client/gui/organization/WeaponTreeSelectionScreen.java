@@ -31,34 +31,34 @@ public class WeaponTreeSelectionScreen extends Screen {
     private final int icon_height = 56;
 
     private final ResourceLocation[] icons = new ResourceLocation[] {
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xemnas_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xigbar_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/xaldin_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/vexen_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/lexaeus_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/zexion_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/saix_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/axel_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/demyx_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/luxord_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/marluxia_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/larxene_icons.png"),
-            new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/roxas_icons.png")
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xemnas_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xigbar_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xaldin_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/vexen_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/lexaeus_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/zexion_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/saix_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/axel_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/demyx_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/luxord_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/marluxia_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/larxene_icons.png"),
+            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/roxas_icons.png")
     };
 
     private final int members = icons.length;
 
-    private final ResourceLocation GLOW = new ResourceLocation(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
-        if (delta > 0 && prev.visible)
+        if (deltaY > 0 && prev.visible)
         {
             actionPerformed(PREV);
             return true;
         }
-        else if  (delta < 0 && next.visible)
+        else if  (deltaY < 0 && next.visible)
         {
             actionPerformed(NEXT);
             return true;
@@ -70,7 +70,7 @@ public class WeaponTreeSelectionScreen extends Screen {
     @Override
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
         PoseStack matrixStack = gui.pose();
-        renderBackground(gui);
+        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         String name = "";
         String weapon = "";
         int weapon_w = 128;
@@ -155,7 +155,7 @@ public class WeaponTreeSelectionScreen extends Screen {
                 weapon_h = 68;
                 break;
         }
-        renderBackground(gui);
+        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         matrixStack.pushPose();
         RenderSystem.enableBlend();
         gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);

@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class XehanortShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "xehanort_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "xehanort_shoulder"), "main");
 
     public XehanortShoulderModel(ModelPart root) {
         super(root);
@@ -66,7 +66,7 @@ public class XehanortShoulderModel<T extends LivingEntity> extends HumanoidModel
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int colour) {
         leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
     }
     

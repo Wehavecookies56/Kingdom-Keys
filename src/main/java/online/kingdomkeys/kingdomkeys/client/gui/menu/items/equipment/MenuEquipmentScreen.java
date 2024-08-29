@@ -7,8 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -72,7 +71,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         buttonPosY = (int) (topBarHeight+5);
         buttonPosX = 15.4F;
         
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+        IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
         addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
@@ -135,12 +134,12 @@ public class MenuEquipmentScreen extends MenuBackground {
         }
         
         //Form keyblades
-        Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.get().getValue(f.getKey()).getOrder());
+        Comparator<Map.Entry<ResourceLocation, ItemStack>> sortByFormOrder = Comparator.comparingInt(f -> ModDriveForms.registry.get(f.getKey()).getOrder());
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get().getValue(form).isSlotVisible(minecraft.player)) {
-            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get().getValue(form).getTranslationKey(), 0x00BBBB);
+            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
+            	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get(form).getTranslationKey(), 0x00BBBB);
                 addRenderableWidget(button);
 
                 hidden.getAndIncrement();
@@ -254,10 +253,10 @@ public class MenuEquipmentScreen extends MenuBackground {
     }
 
     @Override
-    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
-        scrollBar.mouseScrolled(pMouseX, pMouseY, pDelta);
+    public boolean mouseScrolled(double pMouseX, double pMouseY, double deltaX, double deltaY) {
+        scrollBar.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
         updateScroll();
-        return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        return super.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
     }
 
     @Override

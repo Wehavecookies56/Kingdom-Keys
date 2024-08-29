@@ -16,7 +16,7 @@ public class MPOrbRenderer extends EntityItemDropRenderer {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
-		this.texture = new ResourceLocation(KingdomKeys.MODID + ":textures/entity/mp_orb.png"); 
+		this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mp_orb.png");
 		return texture;
 	}
 }

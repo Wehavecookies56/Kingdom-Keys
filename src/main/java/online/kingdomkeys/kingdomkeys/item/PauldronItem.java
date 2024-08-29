@@ -15,8 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -39,7 +39,7 @@ public class PauldronItem extends Item implements IItemCategory {
 
 	@Override
 	public void onUseTick(Level levelIn, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-		if(pRemainingUseDuration <= getUseDuration(pStack)-20) {
+		if(pRemainingUseDuration <= getUseDuration(pStack, pLivingEntity)-20) {
 			if (pLivingEntity instanceof Player player) {
 				player.stopUsingItem();
                 for (int i = 0; i < 4; i++) {
@@ -81,9 +81,9 @@ public class PauldronItem extends Item implements IItemCategory {
 		
 		return super.use(levelIn, playerIn, handIn);
 	}
-	
+
 	@Override
-	public int getUseDuration(ItemStack pStack) {
+	public int getUseDuration(ItemStack pStack, LivingEntity pEntity) {
 		return 72000;
 	}
 
@@ -139,7 +139,7 @@ public class PauldronItem extends Item implements IItemCategory {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (stack.getTag() != null) {
 			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", tooltip, stack.getTag().getCompound("helmet"));
 			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", tooltip, stack.getTag().getCompound("chestplate"));

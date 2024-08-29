@@ -1,49 +1,37 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Supplier;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
-public class SCOpenMagicCustomize {
+public record SCOpenMagicCustomize(LinkedHashMap<String, int[]> knownMagic) implements Packet {
 
-    LinkedHashMap<String, int[]> knownMagic = new LinkedHashMap<>();
+    public static final Type<SCOpenMagicCustomize> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_magic_customize"));
 
-    public SCOpenMagicCustomize() {}
-    public SCOpenMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
-        this.knownMagic = knownMagic;
-    }
+    public static final StreamCodec<FriendlyByteBuf, SCOpenMagicCustomize> STREAM_CODEC = StreamCodec.composite(
+            StreamCodecs.KNOWN_MAGIC,
+            SCOpenMagicCustomize::knownMagic,
+            SCOpenMagicCustomize::new
+    );
 
-    public void encode(FriendlyByteBuf buffer) {
-        CompoundTag magic = new CompoundTag();
-        Iterator<Map.Entry<String, int[]>> magicsIt = knownMagic.entrySet().iterator();
-        while (magicsIt.hasNext()) {
-            Map.Entry<String, int[]> pair = magicsIt.next();
-            magic.putIntArray(pair.getKey().toString(), pair.getValue());
+    @Override
+    public void handle(IPayloadContext context) {
+        if (FMLEnvironment.dist.isClient()) {
+            ClientPacketHandler.openMagicCustomize(knownMagic);
         }
-        buffer.writeNbt(magic);
     }
 
-    public static SCOpenMagicCustomize decode(FriendlyByteBuf buffer) {
-        SCOpenMagicCustomize msg = new SCOpenMagicCustomize();
-        CompoundTag tag = buffer.readNbt();
-        Iterator<String> iterator = tag.getAllKeys().iterator();
-        while (iterator.hasNext()) {
-            String magicName = iterator.next();
-            msg.knownMagic.put(magicName, tag.getIntArray(magicName));
-        }
-        return msg;
-    }
-
-    public static void handle(SCOpenMagicCustomize message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openMagicCustomize(message.knownMagic)));
-        ctx.get().setPacketHandled(true);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

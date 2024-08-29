@@ -14,13 +14,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -47,15 +46,15 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuArmorSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-					if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Armour(player, playerData.getEquippedArmor(parent.slot), player.getInventory().getItem(slot), slot, parent.slot))) {
+					IPlayerData playerData = ModData.getPlayer(player);
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Armour(player, playerData.getEquippedArmor(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSEquipArmor(parent.slot, slot));
 
 						ItemStack stackToEquip = player.getInventory().getItem(slot);
@@ -79,7 +78,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
         Font fr = minecraft.font;
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
@@ -189,7 +188,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    String apStr = String.valueOf(ap);
 	                    
 	                    int oldAP=0,oldStr=0,oldMag=0;
-	                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+	                    IPlayerData playerData = ModData.getPlayer(minecraft.player);
                     	ItemStack replacedAccessory = playerData.getEquippedAccessory(parent.slot);
                     	if(!ItemStack.matches(replacedAccessory, ItemStack.EMPTY) && replacedAccessory.getItem() instanceof KKAccessoryItem){
                     		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedAccessory.getItem();

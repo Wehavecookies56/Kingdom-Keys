@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -24,15 +25,15 @@ public class SoRCoreTileEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag pTag) {
-		super.saveAdditional(pTag);
+	protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+		super.saveAdditional(pTag, provider);
 		if (userUUID != null)
 			pTag.putUUID("uuid", userUUID);
 	}
 
 	@Override
-	public void load(CompoundTag pTag) {
-		super.load(pTag);
+	public void loadAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+		super.loadAdditional(pTag, provider);
 		if(pTag.hasUUID("uuid"))
 			userUUID = pTag.getUUID("uuid");
 	}
@@ -53,18 +54,18 @@ public class SoRCoreTileEntity extends BlockEntity {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		load(pkt.getTag());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+		loadAdditional(pkt.getTag(), provider);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return serializeNBT();
+	public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+		return saveCustomOnly(pRegistries);
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		this.load(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		loadAdditional(tag, lookupProvider);
 	}
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {

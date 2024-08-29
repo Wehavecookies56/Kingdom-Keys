@@ -25,7 +25,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.container.MagicalChestContainer;
+import online.kingdomkeys.kingdomkeys.menu.MagicalChestMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class MagicalChestTileEntity extends BlockEntity implements MenuProvider {
@@ -137,6 +137,6 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
-		return new MagicalChestContainer(windowId, playerInventory, this);
+		return new MagicalChestMenu(windowId, playerInventory, this);
 	}
 }

@@ -1,65 +1,60 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCOpenChoiceScreen {
+public record SCOpenChoiceScreen(SoAState choice, SoAState state, BlockPos pos) implements Packet {
 
-	public SoAState choice, state;
-	public BlockPos pos;
+	public static final Type<SCOpenChoiceScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_choice_screen"));
 
-	public SCOpenChoiceScreen() { }
+	public static final StreamCodec<FriendlyByteBuf, SCOpenChoiceScreen> STREAM_CODEC = StreamCodec.composite(
+		SoAState.STREAM_CODEC,
+		SCOpenChoiceScreen::choice,
+		SoAState.STREAM_CODEC,
+		SCOpenChoiceScreen::state,
+		BlockPos.STREAM_CODEC,
+		SCOpenChoiceScreen::pos,
+		SCOpenChoiceScreen::new
+	);
 
 	public SCOpenChoiceScreen(ItemStack choiceItem, SoAState state, BlockPos pos) {
+		this(getChoiceFromItem(choiceItem), state, pos);
+	}
+
+	public static SoAState getChoiceFromItem(ItemStack choiceItem) {
 		if (choiceItem.getItem() == ModItems.dreamSword.get()) {
-			choice = SoAState.WARRIOR;
+			return SoAState.WARRIOR;
 		} else if (choiceItem.getItem() == ModItems.dreamShield.get()) {
-			choice = SoAState.GUARDIAN;
+			return SoAState.GUARDIAN;
 		} else if (choiceItem.getItem() == ModItems.dreamStaff.get()) {
-			choice = SoAState.MYSTIC;
+			return SoAState.MYSTIC;
 		} else {
-			this.choice = SoAState.NONE;
-		}
-		this.state = state;
-		this.pos = pos;
-	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeByte(choice.get());
-		buffer.writeByte(state.get());
-		buffer.writeBlockPos(pos);
-	}
-
-	public static SCOpenChoiceScreen decode(FriendlyByteBuf buffer) {
-		SCOpenChoiceScreen msg = new SCOpenChoiceScreen();
-		msg.choice = SoAState.fromByte(buffer.readByte());
-		msg.state = SoAState.fromByte(buffer.readByte());
-		msg.pos = buffer.readBlockPos();
-		return msg;
-	}
-
-	public static void handle(final SCOpenChoiceScreen message, Supplier<NetworkEvent.Context> ctx) {
-		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT)
-			ctx.get().enqueueWork(() -> ClientHandler.handle(message));
-		ctx.get().setPacketHandled(true);
-	}
-
-	public static class ClientHandler {
-		@OnlyIn(Dist.CLIENT)
-		public static void handle(SCOpenChoiceScreen message) {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.openChoice(message));
+			return SoAState.NONE;
 		}
 	}
 
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.openChoice(this);
+		}
+	}
+
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

@@ -24,8 +24,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
@@ -49,10 +47,6 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	Player owner;
 	int rotationPoint;
 
-	public KKThrowableEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
-	}
-
 	public KKThrowableEntity(Level world) {
 		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 		this.blocksBuilding = true;
@@ -75,13 +69,8 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -186,7 +175,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				}
 			} else { // Block (not ERTR)
 				if (brtResult != null) {
-					if (level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
+					if (level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS_BLOCK || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
 					} else {
 						setReturn();
 					}
@@ -218,7 +207,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
 
-		compound.put("ogitem", originalItem.serializeNBT());
+		compound.put("ogitem", originalItem.save(this.registryAccess()));
 		if (ownerUUID != null) {
 			compound.putUUID("ownerUUID", ownerUUID);
 		}
@@ -233,7 +222,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
         super.readAdditionalSaveData(compound);
         
 		if (compound.contains("ogitem")) {
-			originalItem = ItemStack.of(compound.getCompound("ogitem"));
+			originalItem = ItemStack.parse(this.registryAccess(), compound.getCompound("ogitem")).get();
 		}
 		entityData.set(ITEMSTACK, originalItem);
 
@@ -259,11 +248,10 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-        super.defineSynchedData();
-		entityData.define(ITEMSTACK, ItemStack.EMPTY);
-		entityData.define(ROTATION_POINT, 0);
-
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
+		pBuilder.define(ITEMSTACK, ItemStack.EMPTY);
+		pBuilder.define(ROTATION_POINT, 0);
 	}
 
 	@Override

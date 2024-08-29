@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import java.util.List;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -18,18 +18,19 @@ public class HPOrbEntity extends ItemDropEntity {
 		super(ModEntities.TYPE_HPORB.get(), worldIn, x, y, z, expValue);
 	}
 
-	public HPOrbEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_HPORB.get(), world);
-	}
-
 	public HPOrbEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
-	
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+
+	}
+
 
 	@Override
 	void onPickup(Player player) {
-		if(!ModCapabilities.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti))
+		if(!ModData.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti))
 			player.heal(Math.min(this.value, 8));
 	}
 

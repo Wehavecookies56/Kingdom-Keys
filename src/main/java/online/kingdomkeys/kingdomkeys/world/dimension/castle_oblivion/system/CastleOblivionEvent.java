@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 
 public class CastleOblivionEvent extends Event {
 
@@ -42,8 +42,7 @@ public class CastleOblivionEvent extends Event {
         }
     }
 
-    @Cancelable
-    public static class PlayerChangeRoomEvent extends CastleOblivionEvent {
+    public static class PlayerChangeRoomEvent extends CastleOblivionEvent implements ICancellableEvent {
         Room currentRoom;
         Room newRoom;
         Player player;
@@ -68,8 +67,7 @@ public class CastleOblivionEvent extends Event {
         }
     }
 
-    @Cancelable
-    public static class PlayerChangeFloorEvent extends CastleOblivionEvent {
+    public static class PlayerChangeFloorEvent extends CastleOblivionEvent implements ICancellableEvent {
         Floor currentFloor;
         Floor newFloor;
 

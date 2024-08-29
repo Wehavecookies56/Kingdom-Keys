@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
@@ -62,8 +63,8 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+        super.loadAdditional(pTag, provider);
         if (pTag.contains("parent")) {
             parent = RoomData.deserialize(pTag.getCompound("parent"));
         }
@@ -73,15 +74,15 @@ public class CardDoorTileEntity extends BlockEntity {
         }
         open = pTag.getBoolean("open");
         if (open && pTag.getCompound("destination") != null) {
-            destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
+            destination = NbtUtils.readBlockPos(pTag, "destination").get();
         } else {
             destination = null;
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider provider) {
+        super.saveAdditional(pTag, provider);
         if (parent != null) {
             pTag.put("parent", parent.serializeNBT());
             pTag.putInt("direction", direction.ordinal());
@@ -100,18 +101,18 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        load(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+        loadAdditional(pkt.getTag(), provider);
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return serializeNBT();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveCustomOnly(pRegistries);
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        this.load(tag);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        this.loadAdditional(tag, lookupProvider);
     }
 
 }

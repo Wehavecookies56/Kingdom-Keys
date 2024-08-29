@@ -27,7 +27,7 @@ public class MenuBox extends AbstractWidget{
         mc = Minecraft.getInstance();
     }
 
-    private final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     private final int borderSize = 24;
     private final int

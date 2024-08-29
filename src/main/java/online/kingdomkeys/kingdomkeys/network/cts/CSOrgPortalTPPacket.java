@@ -10,9 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class CSOrgPortalTPPacket {
 
@@ -50,7 +48,7 @@ public class CSOrgPortalTPPacket {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			ServerLevel serverWorld = player.level().getServer().getLevel(message.dim);
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
     		//If destination is the ROD lock the player there, otherwise unlock
 			playerData.setRespawnROD(message.dim.location().getPath().equals("realm_of_darkness"));
 			

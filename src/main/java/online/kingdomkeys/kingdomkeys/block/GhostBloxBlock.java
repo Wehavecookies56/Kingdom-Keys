@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -48,8 +49,8 @@ public class GhostBloxBlock extends BaseBlock implements SimpleWaterloggedBlock 
     }
 
     @Override
-    public boolean canPlaceLiquid(BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return !state.getValue(VISIBLE) && (!state.getValue(BlockStateProperties.WATERLOGGED) && fluidIn == Fluids.WATER);
+    public boolean canPlaceLiquid(@org.jetbrains.annotations.Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
+        return !state.getValue(VISIBLE) && (!state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER);
     }
 
     @Override

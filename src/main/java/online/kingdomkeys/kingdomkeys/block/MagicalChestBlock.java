@@ -1,14 +1,17 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -26,14 +29,14 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -55,11 +58,16 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 		this.registerDefaultState(this.defaultBlockState().setValue(BIG, false));
 	}
 
+	@Override
+	protected MapCodec<? extends BaseEntityBlock> codec() {
+		return simpleCodec(MagicalChestBlock::new);
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		tooltip.add(Component.translatable("message.chest.can_be_locked"));
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+		tooltipComponents.add(Component.translatable("message.chest.can_be_locked"));
+		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 	}
 
 	@Nullable
@@ -93,26 +101,26 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		if (worldIn.isClientSide)
-			return InteractionResult.SUCCESS;
+	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		if (level.isClientSide)
+			return ItemInteractionResult.SUCCESS;
 
-		MenuProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
+		MenuProvider namedContainerProvider = this.getMenuProvider(state, level, pos);
 		if (namedContainerProvider != null) {
 			if (!(player instanceof ServerPlayer))
-				return InteractionResult.FAIL;
+				return ItemInteractionResult.FAIL;
 			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
-				MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
+			if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
+				MagicalChestTileEntity te = (MagicalChestTileEntity) level.getBlockEntity(pos);
 				if (te != null) {
 					UUID keyblade = te.getKeyblade();
-					ItemStack held = player.getItemInHand(handIn);
+					ItemStack held = player.getItemInHand(hand);
 					if (held.getItem() instanceof KeybladeItem) {
 						UUID heldID = Utils.getKeybladeID(held);
 						if (heldID != null) {
 							if (keyblade != null) {
 								if (heldID.equals(keyblade)) {
-									NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+									serverPlayerEntity.openMenu(namedContainerProvider, buf -> {
 										buf.writeBlockPos(pos);
 									});
 								} else {
@@ -126,16 +134,16 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 							}
 						} else if (keyblade == null) {
 							//Chest is not locked and keyblade has no ID
-							NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+							serverPlayerEntity.openMenu(namedContainerProvider, buf -> {
 								buf.writeBlockPos(pos);
 							});
 						}
 					} else if (keyblade == null) {
 						//Chest is not locked so just open it
-						NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, buf -> {
+						serverPlayerEntity.openMenu(namedContainerProvider, buf -> {
 							buf.writeBlockPos(pos);
 						});
-						return InteractionResult.SUCCESS;
+						return ItemInteractionResult.SUCCESS;
 					} else {
 						player.displayClientMessage(Component.translatable("message.chest.locked"), true);
 					}
@@ -143,7 +151,7 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 			}
 
 		}
-		return super.use(state, worldIn, pos, player, handIn, hit);
+		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 	}
 
 	@Deprecated
@@ -162,11 +170,12 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			world.getBlockEntity(pos).getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-				for (int i = 0; i < inv.getSlots(); i++) {
-					popResource(world, pos, inv.getStackInSlot(i));
+			IItemHandler itemHandler = world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+			if(itemHandler != null) {
+				for (int i = 0; i < itemHandler.getSlots(); i++) {
+					popResource(world, pos, itemHandler.getStackInSlot(i));
 				}
-			});
+			}
 			world.removeBlockEntity(pos);
 			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}
@@ -179,7 +188,7 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 
 
 	//Prevent block from breaking if player is not owner
-	@Mod.EventBusSubscriber
+	@EventBusSubscriber
 	public static class Events {
 		@SubscribeEvent
 		public static void onBlockBreak(BlockEvent.BreakEvent event) {

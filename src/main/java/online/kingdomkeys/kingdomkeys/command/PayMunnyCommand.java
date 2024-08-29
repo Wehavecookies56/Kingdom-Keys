@@ -15,8 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 
 public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <value>
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -32,13 +31,13 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 
 	private static int payValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		ServerPlayer user = context.getSource().getPlayerOrException();
-		IPlayerCapabilities userData = ModCapabilities.getPlayer(user);
+		IPlayerData userData = ModData.getPlayer(user);
 
 		Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "targets");
 		int value = IntegerArgumentType.getInteger(context, "value");
 		if(userData.getMunny() - (value * players.size()) >= 0) {
 			for (ServerPlayer target : players) {
-				IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+				IPlayerData targetData = ModData.getPlayer(target);
 				userData.setMunny(userData.getMunny() - value);
 				targetData.setMunny(targetData.getMunny() + value);
 				user.sendSystemMessage(Component.translatable("You paid " + value + " munny to " + target.getDisplayName().getString()));

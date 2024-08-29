@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.api.event;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 
 public abstract class AbilityEvent extends Event {
@@ -42,8 +42,7 @@ public abstract class AbilityEvent extends Event {
      * Event is posted when an ability is about to be equipped on both the clientside and the serverside
      * Cancelling this event will stop the ability from being equipped, cancelling it clientside will stop the packet from being sent and thus stops it serverside, cancelling does not work for abilities from drive forms
      */
-    @Cancelable
-    public static class Equip extends AbilityEvent {
+    public static class Equip extends AbilityEvent implements ICancellableEvent {
         public Equip(Ability ability, int index, Player player, boolean client) {
             super(ability, index, player, client);
         }
@@ -53,8 +52,7 @@ public abstract class AbilityEvent extends Event {
      * Event is posted when an ability is about to be unequipped on both the clientside and the serverside
      * Cancelling this event will stop the ability from being unequipped, cancelling it clientside will stop the packet from being sent and thus stops it serverside, cancelling does not work for abilities from drive forms
      */
-    @Cancelable
-    public static class Unequip extends AbilityEvent {
+    public static class Unequip extends AbilityEvent implements ICancellableEvent {
         public Unequip(Ability ability, int index, Player player, boolean client) {
             super(ability, index, player, client);
         }

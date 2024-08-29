@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -20,8 +22,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -34,6 +37,11 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 
 	public PedestalBlock(Properties properties) {
 		super(properties);
+	}
+
+	@Override
+	protected MapCodec<? extends BaseEntityBlock> codec() {
+		return simpleCodec(PedestalBlock::new);
 	}
 
 	private static final VoxelShape collision = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
@@ -49,44 +57,45 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
+	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
 		if (worldIn.isClientSide)
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 
 		MenuProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
 			if (!(player instanceof ServerPlayer))
-				return InteractionResult.FAIL;
+				return ItemInteractionResult.FAIL;
 			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
 			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof PedestalTileEntity) {
 				PedestalTileEntity te = (PedestalTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
 					if (te.isStationOfAwakeningMarker()) {
-						IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+						IPlayerData playerData = ModData.getPlayer(player);
 						SoAState soAState = playerData.getSoAState();
 						if (soAState == SoAState.CHOICE || (soAState == SoAState.SACRIFICE && (!playerData.getChoicePedestal().equals(pos)))) {
 							PacketHandler.sendTo(new SCOpenChoiceScreen(te.getDisplayStack(), soAState, pos), serverPlayerEntity);
 						} else {
-							return InteractionResult.FAIL;
+							return ItemInteractionResult.FAIL;
 						}
 					} else {
-						NetworkHooks.openScreen(serverPlayerEntity, namedContainerProvider, (packetBuffer) -> {
+						serverPlayerEntity.openMenu(namedContainerProvider, (packetBuffer) -> {
 							packetBuffer.writeBlockPos(pos);
 						});
 					}
 				}
 			}
 		}
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.SUCCESS;
 	}
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			world.getBlockEntity(pos).getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-				for (int i = 0; i < inv.getSlots(); i++) {
-					popResource(world, pos, inv.getStackInSlot(i));
+			IItemHandler itemHandler = world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+			if (itemHandler != null) {
+				for (int i = 0; i < itemHandler.getSlots(); i++) {
+					popResource(world, pos, itemHandler.getStackInSlot(i));
 				}
-			});
+			}
 			world.removeBlockEntity(pos);
 			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}

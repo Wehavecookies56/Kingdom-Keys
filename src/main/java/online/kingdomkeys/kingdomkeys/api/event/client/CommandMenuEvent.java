@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.api.event.client;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -13,8 +13,7 @@ public class CommandMenuEvent extends Event {
     /**
      * This event is fired for every command menu item every render tick so check the ID for doing something for a specific item in the command menu
      */
-    @Cancelable
-    public static class ItemUpdate extends CommandMenuEvent {
+    public static class ItemUpdate extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuItem item;
         private final GuiGraphics guiGraphics;
@@ -39,8 +38,7 @@ public class CommandMenuEvent extends Event {
     }
 
 
-    @Cancelable
-    public static class ItemEnter extends CommandMenuEvent {
+    public static class ItemEnter extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuItem item;
 
@@ -58,8 +56,7 @@ public class CommandMenuEvent extends Event {
         }
     }
 
-    @Cancelable
-    public static class ItemCancel extends CommandMenuEvent {
+    public static class ItemCancel extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuItem item;
 
@@ -77,8 +74,7 @@ public class CommandMenuEvent extends Event {
         }
     }
 
-    @Cancelable
-    public static class SubmenuUpdate extends CommandMenuEvent {
+    public static class SubmenuUpdate extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuSubMenu subMenu;
         private final GuiGraphics guiGraphics;
@@ -102,8 +98,7 @@ public class CommandMenuEvent extends Event {
         }
     }
 
-    @Cancelable
-    public static class SubmenuOpen extends CommandMenuEvent {
+    public static class SubmenuOpen extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuSubMenu subMenu;
 

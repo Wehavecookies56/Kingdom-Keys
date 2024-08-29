@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.nbt.ListTag;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.minecraft.world.item.enchantment.Enchantments;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -24,7 +24,7 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	IPlayerData playerData = ModData.getPlayer(player);
         	if(playerData == null)
             	return 0;
 
@@ -40,7 +40,7 @@ public class DamageCalculation {
             if(keyblade != null) {
 	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic(true));
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 	            	damage *= form.getMagMult();
 	            }
             }
@@ -54,7 +54,7 @@ public class DamageCalculation {
      */
     public static float getOrgMagicDamage(Player player, IOrgWeapon weapon) {
         if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	IPlayerData playerData = ModData.getPlayer(player);
         	if(playerData == null)
             	return 0;
 
@@ -68,7 +68,7 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(Player player) {
         if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	IPlayerData playerData = ModData.getPlayer(player);
         	if(playerData == null)
             	return 0;
         	
@@ -94,7 +94,7 @@ public class DamageCalculation {
      */
     public static float getStrengthDamage(Player player) {
         if (player != null) {
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
             if(playerData == null)
                 return 0;
 
@@ -120,7 +120,7 @@ public class DamageCalculation {
      */
     public static float getKBStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	IPlayerData playerData = ModData.getPlayer(player);
         	if(playerData == null)
             	return 0;
 
@@ -138,7 +138,7 @@ public class DamageCalculation {
                 damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
 	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
+	            	DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 	            	damage *= form.getStrMult();
 	            }
             }
@@ -158,7 +158,7 @@ public class DamageCalculation {
      */
     public static float getOrgStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        	IPlayerData playerData = ModData.getPlayer(player);
             float damage = 0;
             float finalDamage = 0;
             if (stack.getItem() instanceof IOrgWeapon) {
@@ -173,18 +173,9 @@ public class DamageCalculation {
     }
   
     
-    public static float getSharpnessDamage(ItemStack stack) {
-		ListTag nbttaglist = stack.getEnchantmentTags();
-    	float sharpnessDamage = 0;
-		for (int i = 0; i < nbttaglist.size(); i++) {
-			String id = nbttaglist.getCompound(i).getString("id");
-			int lvl = nbttaglist.getCompound(i).getShort("lvl");
-			
-			if (id.equals("minecraft:sharpness")) {
-				sharpnessDamage = getSharpnessDamageFromLevel(lvl);
-			}
-		}
-		return sharpnessDamage;
+    public static float getSharpnessDamage(ItemStack stack, RegistryAccess registryAccess) {
+		int sharpnessLevel = stack.getEnchantmentLevel(registryAccess.holderOrThrow(Enchantments.SHARPNESS));
+    	return getSharpnessDamageFromLevel(sharpnessLevel);
     }
     
     private static float getSharpnessDamageFromLevel(float lvl) {

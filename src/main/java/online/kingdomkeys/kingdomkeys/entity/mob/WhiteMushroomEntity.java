@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -11,19 +10,14 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.WhiteMushroomGoal;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-
-import static com.ibm.icu.impl.ValidIdentifiers.Datatype.x;
 
 public class WhiteMushroomEntity extends BaseKHEntity {
 
@@ -32,9 +26,6 @@ public class WhiteMushroomEntity extends BaseKHEntity {
         xpReward = 2;
     }
 
-    public WhiteMushroomEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(ModEntities.TYPE_WHITE_MUSHROOM.get(), world);
-    }
     int satisfied = 0;
 
     @Override
@@ -105,10 +96,9 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(EntityHelper.STATE, 0);
-        this.entityData.define(EntityHelper.ANIMATION, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(EntityHelper.STATE, 0);
+        pBuilder.define(EntityHelper.ANIMATION, 0);
     }
 
     @Override

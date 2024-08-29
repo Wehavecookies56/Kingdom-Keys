@@ -7,8 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -30,7 +29,7 @@ public class CSUpgradeSynthesisBagPacket {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 			
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			IPlayerData playerData = ModData.getPlayer(player);
 			ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
 
 			if(stack != null) {

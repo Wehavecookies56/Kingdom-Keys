@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
-import java.util.List;
 import java.util.Map;
-
-import com.mojang.blaze3d.platform.InputConstants;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -16,13 +13,14 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -38,18 +36,8 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 
     public SynthesisRecipeCategory(IGuiHelper guiHelper) {
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.moogleProjector.get()));
-        background = guiHelper.drawableBuilder(new ResourceLocation(KingdomKeys.MODID, "textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
-        munny = guiHelper.drawableBuilder(new ResourceLocation(KingdomKeys.MODID, "textures/entity/munny.png"), 0, 0, 16, 16).setTextureSize(16, 16).build();
-    }
-
-    @Override
-    public List<Component> getTooltipStrings(Recipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
-        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
-    }
-
-    @Override
-    public boolean handleInput(Recipe recipe, double mouseX, double mouseY, InputConstants.Key input) {
-        return IRecipeCategory.super.handleInput(recipe, mouseX, mouseY, input);
+        background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
+        munny = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/munny.png"), 0, 0, 16, 16).setTextureSize(16, 16).build();
     }
 
     @Override
@@ -60,7 +48,7 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
         }
         new TextDrawable(Component.translatable(Utils.translateToLocal(Strings.Gui_Shop_Tier)+" "+Utils.getTierFromInt(recipe.getTier())), 0xFFFF55).draw(guiGraphics, 70, 57);
 
-        Minecraft.getInstance().player.getCapability(ModCapabilities.PLAYER_CAPABILITIES).ifPresent(cap -> {
+        Minecraft.getInstance().player.getCapability(ModData.PLAYER_CAPABILITIES).ifPresent(cap -> {
             if (cap.hasKnownRecipe(recipe.getRegistryName())) {
                 new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(guiGraphics, 5, 72);
             } else {
@@ -94,7 +82,7 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
         for (Map.Entry<Material, Integer> ingredient : recipe.getMaterials().entrySet()) {
             TextDrawable quantityOverlay = new TextDrawable(Component.translatable(ingredient.getValue().toString()));
             builder.addSlot(RecipeIngredientRole.INPUT, currentX, currentY)
-                    .addItemStack(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(ingredient.getKey().getMaterialName()))))
+                    .addItemStack(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(ingredient.getKey().getMaterialName()))))
                     .setSlotName(ingredient.getKey().getMaterialName())
                     .setOverlay(quantityOverlay, 16 - quantityOverlay.getWidth(), 16 - quantityOverlay.getHeight());
             currentX += 16;

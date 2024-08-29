@@ -6,8 +6,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -43,7 +42,7 @@ public class CSPartyPromote {
 	public static void handle(CSPartyPromote message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+			IWorldCapabilities worldData = ModData.getWorld(player.level());
 			Party p = worldData.getPartyFromName(message.name);
 			Member member = null;
 			for(Member m : p.getMembers()) {

@@ -7,8 +7,8 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.SaixShockwave;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -23,7 +23,7 @@ public class ClaymoreItem extends OrgSwordItem implements IOrgWeapon {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        PlayerData playerData = PlayerData.get(player);
         if (playerData != null && !playerData.getRecharge()) {
             if (!player.isShiftKeyDown()) {
                 // Right-Click Attack

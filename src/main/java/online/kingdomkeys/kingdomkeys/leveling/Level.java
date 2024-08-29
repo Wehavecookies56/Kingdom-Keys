@@ -17,10 +17,6 @@ public class Level {
 		this.maxLevel = 100;
 	}
 
-	public Level(String registryName) {
-		this(new ResourceLocation(registryName));
-	}
-
 	public void setLevelingData(LevelingData data) {
 		this.data = data;
 	}

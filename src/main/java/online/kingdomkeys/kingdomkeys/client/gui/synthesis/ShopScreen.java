@@ -4,17 +4,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -66,7 +65,7 @@ public class ShopScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 		case "create":
-			PacketHandler.sendToServer(new CSShopBuy(new ResourceLocation(parent.invFile), selectedItemStack));
+			PacketHandler.sendToServer(new CSShopBuy(ResourceLocation.parse(parent.invFile), selectedItemStack));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
@@ -105,7 +104,7 @@ public class ShopScreen extends MenuFilterable {
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
 		
-		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
+		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile));
 
 		List<ResourceLocation> items = new ArrayList<>();
 		for (int i = 0; i < shopList.getList().size(); i++) {
@@ -125,10 +124,10 @@ public class ShopScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(ForgeRegistries.ITEMS.getValue(stackRL)).getHoverName().getContents().toString()));
+		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
-			ItemStack itemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(items.get(i)));
+			ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(items.get(i)));
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
 				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
 			}
@@ -164,10 +163,10 @@ public class ShopScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();
@@ -221,14 +220,14 @@ public class ShopScreen extends MenuFilterable {
 		float iconPosX = boxR.getX();
 		float iconPosY = boxR.getY() + 25;
 
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 
 		matrixStack.pushPose();
 		{
 			double offset = (boxM.getWidth()*0.1F);
 			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
 			
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();
@@ -289,7 +288,7 @@ public class ShopScreen extends MenuFilterable {
 				if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
 				if(ability != null) {
-					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
@@ -353,8 +352,8 @@ public class ShopScreen extends MenuFilterable {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		scrollBar.mouseScrolled(mouseX, mouseY, delta);
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
 	}

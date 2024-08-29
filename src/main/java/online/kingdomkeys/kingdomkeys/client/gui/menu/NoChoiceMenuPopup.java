@@ -2,8 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -21,7 +20,7 @@ public class NoChoiceMenuPopup extends MenuPopup {
     public void OK() {
         //teleport to SoA
         Player player = Minecraft.getInstance().player;
-        IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+        IPlayerData playerData = ModData.getPlayer(player);
         playerData.setReturnDimension(player);
         playerData.setReturnLocation(player);
         playerData.setSoAState(SoAState.CHOICE);

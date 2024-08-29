@@ -8,8 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -35,7 +35,7 @@ public class KKAccessoryItem extends Item implements IItemCategory {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
     	if(getAp() != 0) {
     		tooltip.add(Component.translatable(ChatFormatting.YELLOW+Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+getAp()));
     	}
@@ -48,13 +48,13 @@ public class KKAccessoryItem extends Item implements IItemCategory {
     	if(getAbilities().size() > 0) {
 			tooltip.add(Component.translatable(ChatFormatting.GOLD+Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
     		for(String a : getAbilities()) {
-    			Ability ability = ModAbilities.registry.get().getValue(new ResourceLocation(a));
+    			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 				if (ability != null) {
 					tooltip.add(Component.translatable(ChatFormatting.GOLD+"- " + Utils.translateToLocal(ability.getTranslationKey())));
 				}
     		}
     	}
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
     }
     
     public int getAp() {

@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class XehanortModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "xehanort_top"), "main");
-    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "xehanort_bottom"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "xehanort_top"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "xehanort_bottom"), "main");
 
     public final ModelPart head;
     public final ModelPart body;
@@ -181,7 +181,7 @@ public class XehanortModel<T extends LivingEntity> extends ArmorBaseModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int colour) {
         rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
         rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay);
         head.render(poseStack, vertexConsumer, packedLight, packedOverlay);

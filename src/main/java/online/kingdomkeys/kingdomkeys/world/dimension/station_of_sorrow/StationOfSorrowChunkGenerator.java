@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
@@ -28,7 +29,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
         this.biomeSource = biomeSource;
 	}
 
-    public static final Codec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<StationOfSorrowChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((inst) -> inst.biomeSource))
                     .apply(instance, instance.stable(StationOfSorrowChunkGenerator::new)));
 
@@ -167,8 +168,8 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor pExecutor, Blender pBlender, RandomState pRandom, StructureManager pStructureManager, ChunkAccess pChunk) {
-        return CompletableFuture.completedFuture(pChunk);
+    public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
+        return CompletableFuture.completedFuture(chunk);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item.tier;
 
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 /**
  * ItemTier for the keyblades
@@ -31,8 +33,8 @@ public class KeybladeItemTier implements Tier {
     }
 
     @Override
-    public int getLevel() {
-        return 3;
+    public TagKey<Block> getIncorrectBlocksForDrops() {
+        return null;
     }
 
     @Override

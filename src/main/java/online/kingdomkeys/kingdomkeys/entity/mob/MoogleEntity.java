@@ -7,10 +7,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -29,13 +27,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
@@ -45,7 +39,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 //TODO make moogle float
-public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpawnData {
+public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpawn {
 
 	String inv;
     String name;
@@ -65,7 +59,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpaw
     }
 
     public void setRandomName() {
-        ShopList shop = ShopListRegistry.getInstance().getValue(new ResourceLocation(inv));
+        ShopList shop = ShopListRegistry.getInstance().getValue(ResourceLocation.parse(inv));
         if (shop != null) {
             List<String> names = NamesListRegistry.getInstance().getValue(shop.getNames());
             if (names != null && !names.isEmpty()) {
@@ -92,10 +86,6 @@ public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpaw
     }
 
     private boolean fakeMoogle = false;
-
-    public MoogleEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(ModEntities.TYPE_MOOGLE.get(), world);
-    }
 
     @Override
     protected void registerGoals() {
@@ -128,20 +118,15 @@ public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpaw
     }
 
     @Override
-    public void writeSpawnData(FriendlyByteBuf buffer) {
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
         buffer.writeUtf(inv);
         buffer.writeUtf(name);
     }
 
     @Override
-    public void readSpawnData(FriendlyByteBuf additionalData) {
+    public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
         inv = additionalData.readUtf();
         name = additionalData.readUtf();
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public static class LookAtInteractingPlayerGoal extends LookAtPlayerGoal {
@@ -165,7 +150,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityAdditionalSpaw
         	if(!player.isCrouching()) {
 	        	ItemStack itemstack = player.getItemInHand(hand);
 	        	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-	        		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+	        		IPlayerData playerData = ModData.getPlayer(player);
 	        		int reward = 500;
 	        		playerData.setMunny(playerData.getMunny() + reward);
 	        		itemstack.shrink(1);

@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -24,7 +24,7 @@ public class KnifeItem extends OrgSwordItem implements IOrgWeapon {
 		ItemStack stack = player.getItemInHand(hand);
 		Level level = player.level();
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 
 		if (stack != null && !playerData.getRecharge()) {
 			int cost = 10;
@@ -37,7 +37,7 @@ public class KnifeItem extends OrgSwordItem implements IOrgWeapon {
 				for (int i = -5; i <= 3; i += 2) {
 					KKThrowableEntity entity = new KKThrowableEntity(level);
 
-					switch (ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath()) {
+					switch (BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath()) {
 					case Strings.foudre:
 					case Strings.trancheuse:
 					case Strings.orage:

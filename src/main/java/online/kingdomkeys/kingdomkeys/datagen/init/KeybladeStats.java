@@ -5,12 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
@@ -199,7 +199,7 @@ public class KeybladeStats extends KeybladeProvider {
 
         public Map<Material, Integer> asMap() {
             Map<Material, Integer> matMap = new LinkedHashMap<>();
-            recipe.forEach(p -> matMap.put(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
+            recipe.forEach(p -> matMap.put(ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.SM_Prefix + p.getKey())), p.getValue()));
             return matMap;
         }
     }

@@ -12,7 +12,7 @@ public class IceDamageSource extends MagicDamageSource{
     }
 
     public static DamageSource getIceDamage(Entity directEntity, Entity indirectEntity) {
-		return directEntity.damageSources().source(KKDamageTypes.ICE,directEntity,indirectEntity);        
+		return directEntity.damageSources().source(KKDamageTypes.ICE,directEntity,indirectEntity);
     }
     
 }

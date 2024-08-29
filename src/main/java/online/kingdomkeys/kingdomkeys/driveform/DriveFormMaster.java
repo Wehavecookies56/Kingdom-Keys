@@ -4,20 +4,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormMaster extends DriveForm {
 
-	public DriveFormMaster(String registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
+	public DriveFormMaster(ResourceLocation registryName, int order, ResourceLocation skinRL, boolean hasKeychain, boolean baseGrowth) {
 		super(registryName, order, hasKeychain, baseGrowth);
 		this.color = new float[] { 1F, 0.7F, 0.1F };
 		this.skinRL = skinRL;
@@ -26,22 +25,20 @@ public class DriveFormMaster extends DriveForm {
 	//Hehe you won't find it here, it's in DriveOrbEntity#onPickup
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(LivingTickEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-	
-			if (playerData != null) {
-				// Drive Form abilities								
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
-					handleAerialDodge(player, playerData);
-				}
+	public static void onLivingUpdate(PlayerTickEvent event) {
+		Player player = (Player) event.getEntity();
+		IPlayerData playerData = ModData.getPlayer(player);
+
+		if (playerData != null) {
+			// Drive Form abilities
+			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+			if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+				handleAerialDodge(player, playerData);
 			}
 		}
 	}
 
-	private static void handleAerialDodge(Player player, IPlayerCapabilities playerData) {
+	private static void handleAerialDodge(Player player, IPlayerData playerData) {
 		if (playerData.getAerialDodgeTicks() <= 0) {
 			if (player.onGround()) {
 				playerData.setHasJumpedAerialDodge(false);

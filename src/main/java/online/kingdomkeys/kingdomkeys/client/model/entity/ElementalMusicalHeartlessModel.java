@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEn
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "elementalmusicalheartless"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "elementalmusicalheartless"), "main");
 
     private final ModelPart Body;
     private final ModelPart RightLeg;
@@ -233,7 +233,7 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
 
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         Body.render(poseStack, buffer, packedLight, packedOverlay);
     }
 }

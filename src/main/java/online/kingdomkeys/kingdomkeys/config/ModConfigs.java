@@ -2,38 +2,37 @@ package online.kingdomkeys.kingdomkeys.config;
 
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
 
     private static ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
     private static CommonConfig COMMON; //Stuff in both sides
     private static ServerConfig SERVER; //Client stuff that needs to be synced from the server
-    public static final ForgeConfigSpec CLIENT_SPEC;
-    public static final ForgeConfigSpec COMMON_SPEC;
-    public static final ForgeConfigSpec SERVER_SPEC;
+    public static final ModConfigSpec CLIENT_SPEC;
+    public static final ModConfigSpec COMMON_SPEC;
+    public static final ModConfigSpec SERVER_SPEC;
 
     static {
         {
-            final Pair<ClientConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+            final Pair<ClientConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ClientConfig::new);
             CLIENT = specPair.getLeft();
             CLIENT_SPEC = specPair.getRight();
         }
         {
-            final Pair<CommonConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+            final Pair<CommonConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(CommonConfig::new);
             COMMON = specPair.getLeft();
             COMMON_SPEC = specPair.getRight();
         }
         {
-            final Pair<ServerConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+            final Pair<ServerConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ServerConfig::new);
             SERVER = specPair.getLeft();
             SERVER_SPEC = specPair.getRight();
         }

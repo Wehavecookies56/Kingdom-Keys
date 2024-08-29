@@ -14,8 +14,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
@@ -65,7 +64,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setDP(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" dp to "+value), true);
 		
@@ -84,7 +83,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 		return 1;
 	}
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.addDP(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		
@@ -104,7 +103,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.remDP(value);
 		
 			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" dp from "+player.getDisplayName().getString()), true);

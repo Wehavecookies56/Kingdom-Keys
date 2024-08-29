@@ -2,13 +2,10 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class HeartEntity extends Entity {
 
@@ -17,10 +14,6 @@ public class HeartEntity extends Entity {
 	public HeartEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public HeartEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		this(ModEntities.TYPE_HEART.get(), world);
 	}
 
 	public HeartEntity(Level world) {
@@ -45,9 +38,8 @@ public class HeartEntity extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
-		
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+
 	}
 
 	@Override
@@ -61,11 +53,5 @@ public class HeartEntity extends Entity {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
 
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CheckboxButton extends AbstractButton {
 
-    final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID + ":textures/gui/checkbox.png");
+    final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/checkbox.png");
 
     private boolean checked;
     private String tooltip;
@@ -35,7 +35,7 @@ public class CheckboxButton extends AbstractButton {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
             gui.blit(TEXTURE, getX(), getY(), 0, 0, 10, 10);
             if (checked) {

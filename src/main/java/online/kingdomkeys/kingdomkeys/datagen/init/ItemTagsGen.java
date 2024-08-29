@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import java.util.concurrent.CompletableFuture;
 
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,10 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -39,12 +38,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider pProvider) {
-		for (RegistryObject<Item> itemRegistryObject : ModItems.ITEMS.getEntries()) {
+		for (DeferredHolder<Item, ? extends Item> itemRegistryObject : ModItems.ITEMS.getEntries()) {
 			final Item item = itemRegistryObject.get();
-			if (item instanceof RecordItem) {
-				add(ItemTags.MUSIC_DISCS, item);
-				add(ItemTags.CREEPER_DROP_MUSIC_DISCS, item);
-			}
 			if(item instanceof MagicSpellItem) {
 				add(MAGICS,item);
 			}
@@ -71,6 +66,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof KKRecordItem) {
 				add(MUSIC_DISCS,item);
+				add(ItemTags.CREEPER_DROP_MUSIC_DISCS, item);
 			}
 			if(item instanceof SynthesisItem){
 				add(SYNTHESIS_MATERIAL,item);
@@ -88,7 +84,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 	
 	private static TagKey<Item> bind(String pName) {
-		return TagKey.create(Registries.ITEM, new ResourceLocation(pName));
+		return TagKey.create(Registries.ITEM, ResourceLocation.parse(pName));
 	}
 
 }

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,13 +14,10 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class LargeBodyEntity extends BaseKHEntity {
 
@@ -43,10 +41,6 @@ public class LargeBodyEntity extends BaseKHEntity {
     public LargeBodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 10;
-    }
-
-    public LargeBodyEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(ModEntities.TYPE_LARGE_BODY.get(), world);
     }
 
     @Override
@@ -119,17 +113,17 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-    	if(ModCapabilities.getGlobal(this) == null) {
+    	if(ModData.getGlobal(this) == null) {
     		KingdomKeys.LOGGER.warn("For some reason "+this+" doesn't have globaldata");
     	}
-    	if(source.getEntity() instanceof LivingEntity && ModCapabilities.getGlobal(this) != null) {
+    	if(source.getEntity() instanceof LivingEntity && ModData.getGlobal(this) != null) {
     		Entity attacker = source.getDirectEntity();
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
             float diff = Mth.wrapDegrees(attackYaw-getYRot());
 
-    		if(diff > 30 && diff < 150 && !(ModCapabilities.getGlobal(this).getFlatTicks() > 0)) {
+    		if(diff > 30 && diff < 150 && !(ModData.getGlobal(this).getFlatTicks() > 0)) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
 					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -171,12 +165,11 @@ public class LargeBodyEntity extends BaseKHEntity {
     public int getMaxSpawnClusterSize() {
         return 4;
     }
-    
+
     @Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(EntityHelper.STATE, 0);
-	}
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(EntityHelper.STATE, 0);
+    }
 
     class MowdownGoal extends Goal {
         private LargeBodyEntity theEntity;

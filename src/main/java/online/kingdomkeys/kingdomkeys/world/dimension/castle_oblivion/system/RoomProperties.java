@@ -1,6 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
-import net.minecraftforge.common.util.Size2i;
+import net.neoforged.neoforge.common.util.Size2i;
 
 import java.awt.*;
 import java.util.ArrayList;

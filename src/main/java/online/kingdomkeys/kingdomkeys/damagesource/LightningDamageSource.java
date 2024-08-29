@@ -11,6 +11,6 @@ public class LightningDamageSource extends MagicDamageSource{
     }
 
     public static DamageSource getLightningDamage(Entity directEntity, Entity indirectEntity) {
-		return directEntity.damageSources().source(KKDamageTypes.LIGHTNING,directEntity,indirectEntity);        
+		return directEntity.damageSources().source(KKDamageTypes.LIGHTNING,directEntity,indirectEntity);
     }
 }

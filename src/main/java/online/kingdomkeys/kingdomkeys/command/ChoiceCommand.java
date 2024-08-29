@@ -17,11 +17,10 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -67,10 +66,10 @@ public class ChoiceCommand extends BaseCommand {
     private static int resetChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Collection<ServerPlayer> players = getPlayers(context, 3);
         for (ServerPlayer target : players) {
-            IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+            IPlayerData targetData = ModData.getPlayer(target);
             if (targetData.getSoAState() == SoAState.COMPLETE) {
                 SoAState.applyStatsForChoices(target, targetData, true);
-                MinecraftForge.EVENT_BUS.post(new ChoiceEvent(target, SoAState.NONE, SoAState.NONE));
+                NeoForge.EVENT_BUS.post(new ChoiceEvent(target, SoAState.NONE, SoAState.NONE));
             }
             targetData.setSoAState(SoAState.NONE);
             targetData.setChoice(SoAState.NONE);
@@ -94,7 +93,7 @@ public class ChoiceCommand extends BaseCommand {
         if (chosen != SoAState.NONE && sacrificed != SoAState.NONE) {
             if (!chosen.equals(sacrificed)) {
                 for (ServerPlayer target : players) {
-                    IPlayerCapabilities targetData = ModCapabilities.getPlayer(target);
+                    IPlayerData targetData = ModData.getPlayer(target);
                     boolean noChange = false;
                     if (targetData.getSoAState() == SoAState.COMPLETE) {
                         if (targetData.getChosen() == chosen && targetData.getSacrificed() == sacrificed) {

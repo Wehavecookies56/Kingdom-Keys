@@ -1,13 +1,18 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -16,7 +21,12 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -31,69 +41,80 @@ import javax.annotation.Nullable;
  */
 public class BlastBloxBlock extends BaseBlock {
 
+    public static final MapCodec<TntBlock> CODEC = simpleCodec(TntBlock::new);
+    public static final BooleanProperty UNSTABLE = BlockStateProperties.UNSTABLE;
+
     /** Smaller collision box otherwise {@link #entityInside(BlockState, Level, BlockPos, Entity)} doesn't trigger */
     private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
+    @Override
+    public MapCodec<TntBlock> codec() {
+        return CODEC;
+    }
+
     public BlastBloxBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(UNSTABLE, Boolean.valueOf(false)));
+    }
+
+    @Override
+    public void onCaughtFire(BlockState state, Level world, BlockPos pos, @Nullable net.minecraft.core.Direction face, @Nullable LivingEntity igniter) {
+        explode(world, pos, igniter);
     }
 
     //Explode if powered when placed
     @SuppressWarnings("deprecation")
     @Override
-    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (oldState.getBlock() != state.getBlock()) {
-            if (worldIn.hasNeighborSignal(pos)) {
-                this.explode(worldIn, pos);
-                worldIn.removeBlock(pos, false);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (!oldState.is(state.getBlock())) {
+            if (level.hasNeighborSignal(pos)) {
+                onCaughtFire(state, level, pos, null, null);
+                level.removeBlock(pos, false);
             }
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         //Trigger explosion with redstone power
-        if (worldIn.hasNeighborSignal(pos)) {
-            this.explode(worldIn, pos);
-            worldIn.removeBlock(pos, false);
+        if (level.hasNeighborSignal(pos)) {
+            onCaughtFire(state, level, pos, null, null);
+            level.removeBlock(pos, false);
         }
     }
 
     //Explode when broken by the player
     @Override
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-        if (!worldIn.isClientSide() && !player.isCreative() && player.getMainHandItem().getItem() != Items.FEATHER) {
-            this.explode(worldIn, pos);
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide() && !player.isCreative() && state.getValue(UNSTABLE) && player.getMainHandItem().getItem() != Items.FEATHER) {
+            onCaughtFire(state, level, pos, null, null);
         }
-        super.playerWillDestroy(worldIn, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
-    public void wasExploded(Level worldIn, BlockPos pos, Explosion explosionIn) {
-        super.wasExploded(worldIn, pos, explosionIn);
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide) {
+            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, explosion.getIndirectSourceEntity());
+            int i = primedtnt.getFuse();
+            primedtnt.setFuse((short)(level.random.nextInt(i / 4) + i / 8));
+            level.addFreshEntity(primedtnt);
+        }
     }
 
-    /**
-     * Explode without an entity triggering it
-     * @param world The world
-     * @param pos The position
-     */
-    public void explode(Level world, BlockPos pos) {
-        this.explode(world, pos, (LivingEntity)null);
+    @Deprecated //Forge: Prefer using IForgeBlock#catchFire
+    public static void explode(Level level, BlockPos pos) {
+        explode(level, pos, null);
     }
 
-    /**
-     * Spawn the primed entity and play the sound
-     * @param world The world
-     * @param pos The position
-     * @param igniter The entity that triggered it
-     */
-    private void explode(Level world, BlockPos pos, @Nullable LivingEntity igniter) {
-        if (!world.isClientSide) {
-            BlastBloxEntity entity = new BlastBloxEntity(ModEntities.TYPE_BLAST_BLOX.get(), world, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), igniter);
-            world.addFreshEntity(entity);
-            world.playSound((Player) null, entity.blockPosition().getX(), entity.blockPosition().getY(), entity.blockPosition().getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+    @Deprecated //Forge: Prefer using IForgeBlock#catchFire
+    private static void explode(Level level, BlockPos pos, @Nullable LivingEntity entity) {
+        if (!level.isClientSide) {
+            PrimedTnt primedtnt = new PrimedTnt(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, entity);
+            level.addFreshEntity(primedtnt);
+            level.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.gameEvent(entity, GameEvent.PRIME_FUSE, pos);
         }
     }
 
@@ -104,39 +125,49 @@ public class BlastBloxBlock extends BaseBlock {
         ItemStack held = player.getMainHandItem();
         Item item = held.getItem();
         if (item != Items.FEATHER) {
-            this.explode(worldIn, pos, player);
+            onCaughtFire(state, worldIn, pos, null, null);
             worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), SetBlockStateFlags.BLOCK_UPDATE.getValue() | SetBlockStateFlags.SEND_TO_CLIENT.getValue() | SetBlockStateFlags.RERENDER_ON_MAIN.getValue());
         }
     }
 
     //Ignited by flint and steel or fire charges otherwise doesn't ignite when right clicked
-    @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        ItemStack stack = player.getItemInHand(hand);
-        Item item = stack.getItem();
-        if (item != Items.FLINT_AND_STEEL && item != Items.FIRE_CHARGE) {
-            return super.use(state, worldIn, pos, player, hand, hit);
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (!stack.is(Items.FLINT_AND_STEEL) && !stack.is(Items.FIRE_CHARGE)) {
+            return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
         } else {
-            this.explode(worldIn, pos, player);
-            worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), SetBlockStateFlags.BLOCK_UPDATE.getValue() | SetBlockStateFlags.SEND_TO_CLIENT.getValue() | SetBlockStateFlags.RERENDER_ON_MAIN.getValue());
-            if (item == Items.FLINT_AND_STEEL) {
-                stack.hurtAndBreak(1, player, consumer -> {
-                    consumer.broadcastBreakEvent(hand);
-                });
+            onCaughtFire(state, level, pos, hitResult.getDirection(), player);
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
+            Item item = stack.getItem();
+            if (stack.is(Items.FLINT_AND_STEEL)) {
+                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             } else {
-                stack.shrink(1);
+                stack.consume(1, player);
+            }
+
+            player.awardStat(Stats.ITEM_USED.get(item));
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+    }
+
+    @Override
+    protected void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
+        if (!level.isClientSide) {
+            BlockPos blockpos = hit.getBlockPos();
+            Entity entity = projectile.getOwner();
+            if (projectile.isOnFire() && projectile.mayInteract(level, blockpos)) {
+                onCaughtFire(state, level, blockpos, null, entity instanceof LivingEntity ? (LivingEntity)entity : null);
+                level.removeBlock(blockpos, false);
             }
         }
-        return InteractionResult.SUCCESS;
     }
 
     //Explode when collided with an entity
     @SuppressWarnings("deprecation")
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entity) {
         if (!worldIn.isClientSide) {
-            this.explode(worldIn, pos, entityIn instanceof LivingEntity ? (LivingEntity) entityIn : null);
+            onCaughtFire(state, worldIn, pos, null, entity instanceof LivingEntity ? (LivingEntity)entity : null);
             worldIn.removeBlock(pos, false);
         }
     }
@@ -159,5 +190,10 @@ public class BlastBloxBlock extends BaseBlock {
     @Override
     public boolean dropFromExplosion(Explosion explosionIn) {
         return false;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(UNSTABLE);
     }
 }

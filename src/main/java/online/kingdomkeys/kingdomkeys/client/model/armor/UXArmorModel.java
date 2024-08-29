@@ -13,11 +13,11 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 
 public class UXArmorModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "ux1");
-    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation("minecraft:player"), "ux2");
+    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "ux1");
+    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player"), "ux2");
 
-	public static final ModelLayerLocation SLIM_LAYER_LOCATION_TOP = new ModelLayerLocation(new ResourceLocation("minecraft:player_slim"), "ux1");
-	public static final ModelLayerLocation SLIM_LAYER_LOCATION_BOTTOM = new ModelLayerLocation(new ResourceLocation("minecraft:player_slim"), "ux2");
+	public static final ModelLayerLocation SLIM_LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player_slim"), "ux1");
+	public static final ModelLayerLocation SLIM_LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("player_slim"), "ux2");
 
 	public final ModelPart head;
     public final ModelPart body;
@@ -241,7 +241,7 @@ public class UXArmorModel<T extends LivingEntity> extends ArmorBaseModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int colour) {
     //super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 

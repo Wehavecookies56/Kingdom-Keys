@@ -19,8 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -37,10 +35,6 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public DarkVolleyCoreEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world);
-	}
-
 	public DarkVolleyCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
 		setCaster(player.getUUID());
@@ -54,15 +48,10 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
-	@Override
-	protected float getGravity() {
-		return 0F;
-	}
-	
 	int i = 0;
 
 	@Override
@@ -157,8 +146,8 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGETS, "");
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGETS, "");
 	}
 }

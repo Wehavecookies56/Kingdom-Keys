@@ -4,29 +4,31 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class ModMaterials {
 
-    public static DeferredRegister<Material> MATERIALS = DeferredRegister.create(new ResourceLocation(KingdomKeys.MODID, "materials"), KingdomKeys.MODID);
+    public static DeferredRegister<Material> MATERIALS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "materials"), KingdomKeys.MODID);
 
-    public static Supplier<IForgeRegistry<Material>> registry = MATERIALS.makeRegistry(RegistryBuilder::new);
+    public static final ResourceKey<Registry<Material>> MATERIALS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "materials"));
+    public static Registry<Material> registry = new RegistryBuilder<>(MATERIALS_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class Registry {
+    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+    public static class Register {
 
         public static Material createMaterial(Supplier<Item> item, String name) {
-            return new Material(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + name), item);
+            return new Material(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.SM_Prefix + name), item);
         }
 
         @SubscribeEvent
@@ -111,8 +113,8 @@ public class ModMaterials {
                     createMaterial(ModItems.mirageSplitChain, Strings.mirageSplitChain),
                     createMaterial(ModItems.nightmaresEndChain, Strings.nightmaresEndChain)
             );
-            event.register(registry.get().getRegistryKey(), helper -> {
-                materialList.forEach(material -> helper.register(material.getRegistryName().getPath(), material));
+            event.register(ModMaterials.MATERIALS_KEY, helper -> {
+                materialList.forEach(material -> helper.register(material.getRegistryName(), material));
             });
 
         }

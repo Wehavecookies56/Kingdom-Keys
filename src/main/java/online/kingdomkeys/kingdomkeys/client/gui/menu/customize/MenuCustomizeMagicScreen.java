@@ -72,12 +72,12 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         displayedMagic = new LinkedHashMap<>();
         allMagic = new LinkedHashMap<>();
         knownMagic.forEach((s, ints) -> {
-            if (ModMagic.registry.get().containsKey(new ResourceLocation(s))) {
-                allMagic.put(new ResourceLocation(s), new MagicButton(new MenuButton(0, 0, 100, ModMagic.registry.get().getValue(new ResourceLocation(s)).getTranslationKey(ints[0]), MenuButton.ButtonType.BUTTON, pButton -> magicAction(new ResourceLocation(s))), ints[0], false));
+            if (ModMagic.registry.containsKey(ResourceLocation.parse(s))) {
+                allMagic.put(ResourceLocation.parse(s), new MagicButton(new MenuButton(0, 0, 100, ModMagic.registry.get(ResourceLocation.parse(s)).getTranslationKey(ints[0]), MenuButton.ButtonType.BUTTON, pButton -> magicAction(ResourceLocation.parse(s))), ints[0], false));
             }
         });
         ModConfigs.magicDisplayedInCommandMenu.forEach(magic -> {
-            ResourceLocation magicKey = new ResourceLocation(magic);
+            ResourceLocation magicKey = ResourceLocation.parse(magic);
             if (allMagic.containsKey(magicKey)) {
                 MagicButton magicButton = allMagic.get(magicKey);
                 magicButton.setDisplay(true);
@@ -227,12 +227,12 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
     }
 
     @Override
-    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
+    public boolean mouseScrolled(double pMouseX, double pMouseY, double deltaX, double deltaY) {
         if (pMouseX >= (Minecraft.getInstance().screen.width / 2F)) {
-            rightScroll.mouseScrolled(pMouseX, pMouseY, pDelta);
+            rightScroll.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
         } else {
-            leftScroll.mouseScrolled(pMouseX, pMouseY, pDelta);
+            leftScroll.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
         }
-        return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+        return super.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
     }
 }

@@ -9,8 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
@@ -44,7 +43,7 @@ public class CSEquipAccessories {
     public static void handle(CSEquipAccessories message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+            IPlayerData playerData = ModData.getPlayer(player);
 
             if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(message.slotToEquipTo), player.getInventory().getItem(message.slotToEquipFrom), message.slotToEquipFrom, message.slotToEquipTo))) {
                 int oldItemAP = 0;

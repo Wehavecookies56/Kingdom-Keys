@@ -4,18 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class StationOfSorrowDimension{
     //Event Listeners//
 
@@ -34,7 +34,7 @@ public class StationOfSorrowDimension{
 
     //Prevent player from falling off the platform
     @SubscribeEvent
-    public static void entityTick(LivingTickEvent event) {
+    public static void entityTick(EntityTickEvent event) {
         if (event.getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
         	if(event.getEntity() instanceof Player player) {
     			if (!player.isCreative()) {

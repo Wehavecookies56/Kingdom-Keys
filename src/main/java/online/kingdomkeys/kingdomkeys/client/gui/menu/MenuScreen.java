@@ -7,8 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -45,14 +44,14 @@ public class MenuScreen extends MenuBackground {
 
 	MenuButton items, abilities, customize, party, status, journal, config, style;
 
-	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	protected void action(buttons buttonID) {
 		switch (buttonID) {
 			case ITEMS -> minecraft.setScreen(new MenuItemsScreen());
 			case ABILITIES -> minecraft.setScreen(new MenuAbilitiesScreen());
 			case PARTY -> {
-				Party p = ModCapabilities.getWorld(minecraft.level).getPartyFromMember(minecraft.player.getUUID());
+				Party p = ModData.getWorld(minecraft.level).getPartyFromMember(minecraft.player.getUUID());
 				if (p == null) {
 					minecraft.setScreen(new GuiMenu_Party_None());
 				} else {
@@ -144,7 +143,7 @@ public class MenuScreen extends MenuBackground {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{

@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -19,7 +19,7 @@ import java.awt.*;
 
 public class MenuAbilitiesButton extends MenuButtonBase {
 
-	private ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	private int endWidth = 11;
 
 	private int leftU = 47, middleU = 59, rightU = 61;
@@ -57,7 +57,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX()+1 && mouseY >= getY()+1 && mouseX < getX() + width-1 && mouseY < getY() + height-1;
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
@@ -139,7 +139,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			//System.out.println(index);
-			equipped = ModCapabilities.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
+			equipped = ModData.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
 			} else {

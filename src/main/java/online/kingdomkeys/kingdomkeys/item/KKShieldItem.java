@@ -6,12 +6,7 @@ public class KKShieldItem extends ShieldItem
 {
     public KKShieldItem(Properties builder)
     {
-        super(builder);
+        super(builder.durability(-1));
     }
 
-    @Override
-    public boolean canBeDepleted()
-    {
-        return false;
-    }
 }

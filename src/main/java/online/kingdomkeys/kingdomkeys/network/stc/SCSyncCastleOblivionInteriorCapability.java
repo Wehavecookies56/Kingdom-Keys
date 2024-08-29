@@ -8,8 +8,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -20,7 +20,7 @@ public class SCSyncCastleOblivionInteriorCapability {
 	public SCSyncCastleOblivionInteriorCapability() {
 	}
 
-	public SCSyncCastleOblivionInteriorCapability(CastleOblivionCapabilities.ICastleOblivionInteriorCapability worldData) {
+	public SCSyncCastleOblivionInteriorCapability(CastleOblivionData.ICastleOblivionInteriorCapability worldData) {
 		this.data = worldData.serializeNBT();
 	}
 
@@ -40,7 +40,7 @@ public class SCSyncCastleOblivionInteriorCapability {
 	}
 
 	public static void syncClients(Level level) {
-		PacketHandler.sendToAllPlayers(new SCSyncCastleOblivionInteriorCapability(ModCapabilities.getCastleOblivionInterior(level)));
+		PacketHandler.sendToAllPlayers(new SCSyncCastleOblivionInteriorCapability(ModData.getCastleOblivionInterior(level)));
 	}
 
 }

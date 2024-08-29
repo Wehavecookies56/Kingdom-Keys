@@ -3,6 +3,10 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup.Provider;
@@ -12,10 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 
@@ -32,9 +32,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 		add(BlockTags.DRAGON_IMMUNE, ModBlocks.metalBlox.get());
 		add(BlockTags.WITHER_IMMUNE, ModBlocks.metalBlox.get());
 		// add(BlockTags.BEACON_BASE_BLOCKS, ModBlocks.metalBlox.get());
-        for (RegistryObject<Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
+        for (DeferredHolder<Block, ? extends Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
             final Block block = itemRegistryObject.get();
-            String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).getPath();
+            String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
 
             if (block instanceof Block) {
                 if(block == ModBlocks.rodSand.get()) {
@@ -65,6 +65,6 @@ public class BlockTagsGen extends BlockTagsProvider {
 	}
 
 	 private static TagKey<Block> create(String pName) {
-	      return TagKey.create(Registries.BLOCK, new ResourceLocation(pName));
+	      return TagKey.create(Registries.BLOCK, ResourceLocation.parse(pName));
 	   }
 }

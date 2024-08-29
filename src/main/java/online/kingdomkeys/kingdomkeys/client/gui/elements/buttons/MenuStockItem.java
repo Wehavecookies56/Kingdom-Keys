@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +27,7 @@ public class MenuStockItem extends Button {
     String customName = null;
     public int offsetY;
 
-    final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
     	super(new Builder(Component.literal(""), b -> {
@@ -41,11 +42,11 @@ public class MenuStockItem extends Button {
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {
     	super(new Builder(Component.literal(""), b -> {
-            parent.action(ForgeRegistries.ITEMS.getKey(stack.getItem()), stack);
+            parent.action(BuiltInRegistries.ITEM.getKey(stack.getItem()), stack);
         }).bounds(x, y, width, 14));
 
     	this.parent = parent;
-        this.rl = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        this.rl = BuiltInRegistries.ITEM.getKey(stack.getItem());
         this.stack = stack;
         this.showAmount = showAmount;
     }
@@ -66,14 +67,14 @@ public class MenuStockItem extends Button {
     }
 
 	@Override
-    public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+    public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         PoseStack matrixStack = gui.pose();
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         RenderSystem.setShaderColor(1, 1, 1, 1);
         if (visible) {
             Minecraft mc = Minecraft.getInstance();
     		if (parent.selectedItemStack == null) {
-                parent.selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(parent.selectedRL));
+                parent.selectedItemStack = new ItemStack(BuiltInRegistries.ITEM.get(parent.selectedRL));
             }
             if (isHovered || parent.selectedItemStack == stack) {
                 matrixStack.pushPose();

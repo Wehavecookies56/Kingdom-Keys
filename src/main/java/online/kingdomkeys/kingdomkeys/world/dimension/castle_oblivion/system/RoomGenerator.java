@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -14,11 +15,11 @@ import net.minecraft.world.level.block.StructureBlock;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StructureMode;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -46,8 +47,8 @@ public class RoomGenerator {
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
             String floorFolder = structureToGenerate.floor == null ? "all" : structureToGenerate.floor.name;
-            Resource resource = level.getServer().getResourceManager().getResource(new ResourceLocation(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt")).get();
-            CompoundTag main = NbtIo.readCompressed(resource.open());
+            Resource resource = level.getServer().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt")).get();
+            CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
 
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
 
@@ -73,7 +74,7 @@ public class RoomGenerator {
                     if (state.getValue(StructureBlock.MODE).equals(StructureMode.DATA)) {
                         //Replace data mode structure blocks with card doors
                         StructureBlockEntity be = new StructureBlockEntity(blockpos, state);
-                        be.load(block.getCompound("nbt"));
+                        be.loadCustomOnly(block.getCompound("nbt"), level.registryAccess());
 
                         RoomUtils.Direction facing = RoomUtils.Direction.NORTH;
                         BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.TYPE, false);
@@ -106,7 +107,7 @@ public class RoomGenerator {
                             room.doorPositions.put(RoomUtils.Direction.SOUTH, blockpos.immutable());
                             facing = RoomUtils.Direction.SOUTH;
                         }
-                        Pair<RoomData, RoomUtils.Direction> adjacentRoom = ModCapabilities.getCastleOblivionInterior(player.level()).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
+                        Pair<RoomData, RoomUtils.Direction> adjacentRoom = CastleOblivionData.InteriorData.get((ServerLevel) player.level()).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
                         if (adjacentRoom != null) {
                             if (adjacentRoom.getFirst().doors.get(adjacentRoom.getSecond().opposite()) != null){
                                 level.setBlock(blockpos, cardDoorState, 2);
@@ -125,7 +126,7 @@ public class RoomGenerator {
             data.setGenerated(room);
             SCSyncCastleOblivionInteriorCapability.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
-            MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
             return room;
         } catch (IOException e){
             e.printStackTrace();

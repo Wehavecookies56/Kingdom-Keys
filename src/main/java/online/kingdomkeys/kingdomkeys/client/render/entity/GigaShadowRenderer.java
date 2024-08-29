@@ -21,7 +21,7 @@ public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowMode
 
     @Override
     public ResourceLocation getTextureLocation(GigaShadowEntity entity) {
-        return new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
     }
 
     @Override

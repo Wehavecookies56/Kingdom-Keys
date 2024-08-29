@@ -16,7 +16,7 @@ public class MunnyRenderer extends EntityItemDropRenderer {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
-		this.texture = new ResourceLocation(KingdomKeys.MODID + ":textures/entity/munny.png"); 
+		this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/munny.png");
 		return texture;
 	}
 }

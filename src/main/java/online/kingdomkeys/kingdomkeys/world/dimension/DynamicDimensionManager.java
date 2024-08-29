@@ -22,8 +22,8 @@ import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.storage.DerivedLevelData;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.LevelEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDimensionLists;
 
 import java.util.*;
@@ -62,7 +62,7 @@ public class DynamicDimensionManager {
      * To register a static dimension that always exists, make a json dimension instead; minecraft will load and register it automatically
      * <p>
      * To unregister a dynamic dimension level (preventing it from ticking, or from loading at server startup),
-     * use {@link DynamicDimensionManager#unregisterDimensions(MinecraftServer, Set)}.
+     * use {@link DynamicDimensionManager#unregisterScheduledDimensions(MinecraftServer)} (MinecraftServer, Set)}.
      */
     public static ServerLevel getOrCreateLevel(final MinecraftServer server, final ResourceKey<Level> levelKey, final BiFunction<MinecraftServer, ResourceKey<LevelStem>, LevelStem> dimensionFactory) {
         // (we're doing the lookup this way because we'll need the map if we need to add a new level)
@@ -166,7 +166,7 @@ public class DynamicDimensionManager {
                 removedLevel.save(null, false, removedLevel.noSave());
 
                 // fire world unload event -- when the server stops, this would fire after worlds get saved, so we'll do that here too
-                MinecraftForge.EVENT_BUS.post(new LevelEvent.Unload(removedLevel));
+                NeoForge.EVENT_BUS.post(new LevelEvent.Unload(removedLevel));
 
                 // remove the world border listener if possible
                 final WorldBorder overworldBorder = overworld.getWorldBorder();
@@ -198,7 +198,7 @@ public class DynamicDimensionManager {
 //            Map<? extends ResourceKey<?>,? extends Registry<?>> map = composite.registries;
 
             Map<ResourceKey<?>,Registry<?>> hashMap = new HashMap<>(); // @todo 1.19.3 map
-            ResourceKey<?> key = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation("root")),new ResourceLocation("dimension"));
+            ResourceKey<?> key = ResourceKey.create(ResourceKey.createRegistryKey(ResourceLocation.withDefaultNamespace("root")),ResourceLocation.withDefaultNamespace("dimension"));
 
             final Registry<LevelStem> oldRegistry = (Registry<LevelStem>) hashMap.get(key);
             Lifecycle oldLifecycle = null; // @todo 1.19.3 AT ((MappedRegistry<LevelStem>)oldRegistry).registryLifecycle;
@@ -254,7 +254,7 @@ public class DynamicDimensionManager {
         RegistryAccess.ImmutableRegistryAccess composite = (RegistryAccess.ImmutableRegistryAccess)registries.compositeAccess();
 
         Map<ResourceKey<? extends Registry<?>>, Registry<?>> regmap = new HashMap<>(composite.registries);
-        ResourceKey<? extends Registry<?>> key = ResourceKey.create(ResourceKey.createRegistryKey(new ResourceLocation("root")),new ResourceLocation("dimension"));
+        ResourceKey<? extends Registry<?>> key = ResourceKey.create(ResourceKey.createRegistryKey(ResourceLocation.withDefaultNamespace("root")),ResourceLocation.withDefaultNamespace("dimension"));
         MappedRegistry<LevelStem> oldRegistry = (MappedRegistry<LevelStem>) regmap.get(key);
         Lifecycle oldLifecycle = oldRegistry.registryLifecycle();
 
@@ -305,7 +305,7 @@ public class DynamicDimensionManager {
         server.markWorldsDirty();
 
         // fire world load event
-        MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
+        NeoForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
         
         // update clients' dimension lists
         SCSyncDimensionLists.syncClients(ImmutableSet.of(worldKey), ImmutableSet.of());

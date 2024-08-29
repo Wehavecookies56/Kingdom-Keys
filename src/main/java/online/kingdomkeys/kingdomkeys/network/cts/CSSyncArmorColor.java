@@ -5,8 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class CSSyncArmorColor {
@@ -36,7 +35,7 @@ public class CSSyncArmorColor {
     public static void handle(CSSyncArmorColor message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
            Player player = ctx.get().getSender();
-           IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+           IPlayerData playerData = ModData.getPlayer(player);
            playerData.setArmorColor(message.color);
            playerData.setArmorGlint(message.glint);
            PacketHandler.syncToAllAround(player, playerData);

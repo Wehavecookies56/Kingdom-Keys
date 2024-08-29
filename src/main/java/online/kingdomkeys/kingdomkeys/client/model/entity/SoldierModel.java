@@ -14,8 +14,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
 public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "soldier"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "soldier"), "main");
     private final ModelPart right_leg;
 	private final ModelPart left_leg;
 	private final ModelPart body;
@@ -192,7 +192,7 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
     }
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
 		//this.head.render(poseStack, buffer, packedLight, packedOverlay);
 		this.body.render(poseStack, buffer, packedLight, packedOverlay);
 		/*this.right_arm.render(poseStack, buffer, packedLight, packedOverlay);

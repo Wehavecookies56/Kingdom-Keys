@@ -12,7 +12,7 @@ public class FireDamageSource extends MagicDamageSource{
     }
     
     public static DamageSource getFireDamage(Entity directEntity, Entity indirectEntity) {
-		return directEntity.damageSources().source(KKDamageTypes.FIRE,directEntity,indirectEntity);        
+		return directEntity.damageSources().source(KKDamageTypes.FIRE,directEntity,indirectEntity);
     }
 
 }

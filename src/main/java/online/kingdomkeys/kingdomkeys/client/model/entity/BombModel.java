@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class BombModel<T extends Entity> extends EntityModel<T> {
     public float[] modelScale = new float[] { 1.0F, 1.2F, 1.0F };
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "bomb"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "bomb"), "main");
     private final ModelPart headMain;
     private final ModelPart BottemHead;
     private final ModelPart TopHead;
@@ -81,7 +81,7 @@ public class BombModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
         poseStack.pushPose();
         poseStack.scale(1F / modelScale[0], 1F / modelScale[1], 1F / modelScale[2]);
         headMain.render(poseStack, buffer, packedLight, packedOverlay);

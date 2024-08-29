@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,11 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class BaseShotlockShotEntity extends ThrowableProjectile{
@@ -40,13 +34,8 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -68,7 +57,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	protected void onHit(HitResult pResult) {
 		if(!level().isClientSide) {
 			if(getOwner() != null && getOwner() instanceof Player owner) {
-	    		IPlayerCapabilities playerData = ModCapabilities.getPlayer(owner);
+	    		IPlayerData playerData = ModData.getPlayer(owner);
 	    		if(playerData != null) {
 	    			if(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain) > 0) {
 	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain)*2);
@@ -122,12 +111,11 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
-	
-	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		this.entityData.define(TARGET, 0);
-		this.entityData.define(COLOR, 0);
-	}
 
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGET, 0);
+		pBuilder.define(COLOR, 0);
+	}
 }

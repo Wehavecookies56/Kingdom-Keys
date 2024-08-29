@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MagnetModel;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-	public static final ResourceLocation TEXTURE = new ResourceLocation(KingdomKeys.MODID,"textures/entity/models/magnet.png");
+	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/magnet.png");
 	MagnetModel magnetModel;
 
 	public MagnetEntityRenderer(EntityRendererProvider.Context context) {
@@ -77,7 +77,7 @@ public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			matrixStackIn.scale(scale, scale, scale);
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
 
-	        this.magnetModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1,1,1,1);
+	        this.magnetModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
 	        
 			prevRotationTicks = ticks;
 			ticks += speed;

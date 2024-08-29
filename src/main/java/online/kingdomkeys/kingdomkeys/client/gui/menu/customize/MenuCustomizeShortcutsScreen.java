@@ -3,8 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -47,8 +46,8 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		
 		allMagic = new LinkedHashSet<>();
         knownMagic.forEach((s, ints) -> {
-            if (ModMagic.registry.get().containsKey(new ResourceLocation(s))) {
-                allMagic.add(new ResourceLocation(s));
+            if (ModMagic.registry.containsKey(ResourceLocation.parse(s))) {
+                allMagic.add(ResourceLocation.parse(s));
             }
         });
 		drawPlayerInfo = false;
@@ -87,13 +86,13 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, buttonPosY +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init(scrollBar.scrollOffset, scrollBar.handleY);}));
 		}		
 		
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		int totalMagics = 0;
 		int magicLine = 0;
 		addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 18, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(null,0); }));
 
 		for (ResourceLocation entry : allMagic) {
-			Magic magic = ModMagic.registry.get().getValue(entry);
+			Magic magic = ModMagic.registry.get(entry);
 			if(magic != null) {
 				int level = playerData.getMagicLevel(entry);
 				while(level >= 0) {
@@ -149,7 +148,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 	}
 
 	private boolean isMagicAlreadyEquipped(String string) {
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		//System.out.println("1: "+string);
 		for (Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
 			//System.out.println("2: "+entry.getValue());
@@ -201,9 +200,9 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 	}
 
 	@Override
-	public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
-		scrollBar.mouseScrolled(pMouseX, pMouseY, pDelta);
+	public boolean mouseScrolled(double pMouseX, double pMouseY, double deltaX, double deltaY) {
+		scrollBar.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
 		updateScroll();
-		return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+		return super.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
 	}
 }

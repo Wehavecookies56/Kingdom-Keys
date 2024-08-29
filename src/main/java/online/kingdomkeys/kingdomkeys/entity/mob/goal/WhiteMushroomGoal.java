@@ -1,19 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
-
-import java.util.List;
-
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.portal;
 
 public class WhiteMushroomGoal extends TargetGoal {
 	// 0-Normal, 1-Fire, 2-Blizzard, 3- Thunder

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,20 +28,19 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
@@ -56,7 +56,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -73,7 +72,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
-		super(new KeybladeItemTier(0), 0, -1F, properties);
+		super(new KeybladeItemTier(0), properties.attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, -1F)));
 		this.properties = properties;
 	}
 
@@ -139,7 +138,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						slot = 40;
 					}
 				}
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+				PlayerData playerData = PlayerData.get(player);
 				if(playerData != null) {
 					ItemStack mainChain = playerData.getEquippedKeychain(DriveForm.NONE);
 					if (playerData.getAlignment() != Utils.OrgMember.NONE) {
@@ -148,7 +147,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					if (mainChain != null) {
 						ItemStack formChain = null;
 						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							formChain = playerData.getEquippedKeychain(new ResourceLocation(playerData.getActiveDriveForm()));
+							formChain = playerData.getEquippedKeychain(ResourceLocation.parse(playerData.getActiveDriveForm()));
 						} else {
 							if(playerData.isAbilityEquipped(Strings.synchBlade)) {
 								formChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
@@ -206,7 +205,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		Level level = player.level();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
@@ -302,12 +301,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		}
 		return InteractionResult.PASS;
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
-			tooltip = ClientUtils.getTooltip(tooltip,stack);
+			tooltip = ClientUtils.getTooltip(tooltip, pContext, stack);
 			if(recipe != null) {
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {
@@ -318,7 +317,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
-			ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
 			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/" + key.getPath() + ".json"));
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
@@ -347,7 +346,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return true;
 	}
 	
-	@Mod.EventBusSubscriber
+	@EventBusSubscriber
 	public static class KeybladeEvents {
 		@SubscribeEvent
 		public static void onItemToss(ItemTossEvent event) {

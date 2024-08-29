@@ -2,15 +2,13 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -21,7 +19,7 @@ import java.awt.*;
 
 public class DriveGui extends OverlayBase {
 	
-	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/drivebar.png");
+	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
@@ -58,14 +56,14 @@ public class DriveGui extends OverlayBase {
 	}
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-		super.render(gui, guiGraphics, partialTick, width, height);
+	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		super.render(guiGraphics, deltaTracker);
 		/*
 		 * if (!MainConfig.displayGUI()) return; if
 		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		 * return;
 		 */
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+		IPlayerData playerData = ModData.getPlayer(minecraft.player);
 		if (playerData != null) {
 			double dp = playerData.getDP();
 			double fp = playerData.getFP();
@@ -161,7 +159,7 @@ public class DriveGui extends OverlayBase {
 						poseStack.pushPose();
 						{
 							
-							decimalColor = prevMaxDriveTicks + (maxDriveTicks - prevMaxDriveTicks) * partialTick;
+							decimalColor = prevMaxDriveTicks + (maxDriveTicks - prevMaxDriveTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 							
 							Color c = Color.getHSBColor(decimalColor, 1F, 1F);
 							RenderSystem.setShaderColor(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1);
@@ -184,10 +182,7 @@ public class DriveGui extends OverlayBase {
 	public static float prevMaxDriveTicks = 0;
 	
 	@SubscribeEvent
-	public void ClientTick(TickEvent.ClientTickEvent event) {
-		if(event.phase != Phase.END) {
-			return;
-		}
+	public void ClientTick(ClientTickEvent.Post event) {
 		if (maxDriveTicks >= 1)
 			maxDriveTicks = 0;
 

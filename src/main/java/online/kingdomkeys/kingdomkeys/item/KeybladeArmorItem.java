@@ -1,12 +1,15 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -15,16 +18,13 @@ import java.util.UUID;
 
 public class KeybladeArmorItem extends BaseArmorItem {
 
-	
-	public KeybladeArmorItem(KKArmorMaterial materialIn, Type slot, String textureName) {
+	public KeybladeArmorItem(Holder<ArmorMaterial> materialIn, Type slot, String textureName) {
 		super(materialIn, slot, textureName);
 	}
 
-	@Nonnull
 	@Override
-	public final String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-		
-		return KingdomKeys.MODID + ":" + "textures/models/armor/empty.png";
+	public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/empty.png");
 	}
 
 	/*@OnlyIn(Dist.CLIENT)
@@ -50,7 +50,7 @@ public class KeybladeArmorItem extends BaseArmorItem {
 		});
 	}*/
 	
-	@Mod.EventBusSubscriber
+	@EventBusSubscriber
 	public static class Events {
 
 		@SubscribeEvent

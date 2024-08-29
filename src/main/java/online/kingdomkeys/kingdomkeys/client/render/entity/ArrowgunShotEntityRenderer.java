@@ -10,17 +10,19 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+
+import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntity> {
 
 	private CubeModel model;
-	private float[] color;
+	private Color color;
 
 	public ArrowgunShotEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
@@ -32,10 +34,10 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 	public void render(ArrowgunShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		switch(entity.getShotType()) {
 		case 0:
-			color = new float[] {1F,0.2F,0.2F};
+			color = new Color(1F * 255,0.2F * 255,0.2F * 255);
 			break;
 		case 1:
-			color = new float[] {0.3F,0.3F,1F};
+			color = new Color(0.3F * 255,0.3F * 255,1F * 255);
 			break;
 		}
 		matrixStackIn.pushPose();
@@ -44,7 +46,7 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
     		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
     		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
     		matrixStackIn.scale(0.1F, 0.1F, 0.8F);
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color[0],color[1],color[2], 1F);
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRGB());
      	}
      	matrixStackIn.popPose();
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -53,6 +55,6 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ArrowgunShotEntity entity) {
-		return new ResourceLocation(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	}
 }

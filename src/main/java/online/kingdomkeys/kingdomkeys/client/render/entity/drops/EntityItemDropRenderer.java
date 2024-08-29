@@ -62,7 +62,7 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 	}
 
 	private static void vertex(VertexConsumer bufferIn, Matrix4f matrixIn, Matrix3f matrixNormalIn, float x, float y, int red, int green, int blue, float texU, float texV, int packedLight) {
-		bufferIn.vertex(matrixIn, x, y, 0.0F).color(red, green, blue, 255).uv(texU, texV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(matrixNormalIn, 0.0F, 1.0F, 0.0F).endVertex();
+		bufferIn.addVertex(matrixIn, x, y, 0.0F).setColor(red, green, blue, 255).setUv(texU, texV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(0.0F, 1.0F, 0.0F);
 	}
 
 	/**

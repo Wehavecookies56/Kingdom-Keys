@@ -7,8 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
@@ -54,13 +53,13 @@ public class CSPartyAddMember {
 	public static void handle(CSPartyAddMember message, final Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+			IWorldCapabilities worldData = ModData.getWorld(player.level());
 			for(Party p : worldData.getParties()) {
 				if(p.getName().equals(message.name))
 					p.addMember(message.memberUUID, message.memberName);
 				Player target = player.level().getPlayerByUUID(message.memberUUID);
-				ModCapabilities.getPlayer(target).removePartiesInvited(message.name);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(target)), (ServerPlayer)target);
+				ModData.getPlayer(target).removePartiesInvited(message.name);
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(target)), (ServerPlayer)target);
 			}
 			Utils.syncWorldData(player.level(), worldData);
 		});

@@ -4,16 +4,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -58,7 +57,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 		case "upgrade":
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 			ItemStack stack = selectedItemStack.copy();
@@ -156,7 +155,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				items.add(player.getInventory().getItem(i));
 			}
 		}
-		items.addAll(ModCapabilities.getPlayer(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
+		items.addAll(ModData.getPlayer(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
@@ -195,7 +194,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != null && !selectedItemStack.isEmpty() && selectedItemStack.getItem() instanceof KeychainItem keychain && keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
 
@@ -246,7 +245,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeychainItem kc) {
 			KeybladeItem kb = kc.getKeyblade();
 
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
+			IPlayerData playerData = ModData.getPlayer(minecraft.player);
 	
 			//Icon
 			matrixStack.pushPose();
@@ -282,7 +281,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, -10, 0xFF0000);
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 0, 0x4444FF);
 					if(nextAbility != null) {
-						Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(nextAbility));
+						Ability a = ModAbilities.registry.get(ResourceLocation.parse(nextAbility));
 						if(a != null)
 							gui.drawString(minecraft.font, Utils.translateToLocal(a.getTranslationKey()), 0, 10, 0x44FF44);
 					}
@@ -305,7 +304,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					int i = 0;
 					while(itMats.hasNext()) {
 						Entry<Material, Integer> m = itMats.next();
-						ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+						ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(m.getKey().getMaterialName())),m.getValue());
 						String n = Utils.translateToLocal(stack.getDescriptionId());
 						//playerData.setMaterial(m.getKey(), 1);
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
@@ -361,8 +360,8 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		scrollBar.mouseScrolled(mouseX, mouseY, delta);
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
 	}

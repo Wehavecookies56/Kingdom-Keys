@@ -2,7 +2,11 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,9 +17,6 @@ import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
@@ -36,9 +37,9 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 
 	@Override
 	protected void addTags(Provider pProvider) {
-		for (RegistryObject<EntityType<?>> itemRegistryObject : ModEntities.ENTITIES.getEntries()) {
+		for (DeferredHolder<EntityType<?>, ? extends EntityType<?>> itemRegistryObject : ModEntities.ENTITIES.getEntries()) {
 			final @NotNull EntityType<?> entityType = itemRegistryObject.get();
-			String name = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(entityType)).getPath();
+			String name = Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(entityType)).getPath();
 			if (entityType.getBaseClass().isAssignableFrom(BaseKHEntity.class)) {
 				IKHMob khenemy = (IKHMob) entityType;
 				switch (khenemy.getKHMobType()) {
@@ -73,6 +74,6 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 	}
 	
 	private static TagKey<EntityType<?>> create(String pName) {
-		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(pName));
+		return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(pName));
 	}
 }

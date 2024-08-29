@@ -2,15 +2,15 @@
 package online.kingdomkeys.kingdomkeys.loot;
 
 import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 public class DiscGenModifier extends LootModifier {
 	//public static final Supplier<Codec<DiscGenModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
             //.fieldOf("item").forGetter(m -> m.item)).apply(inst, DiscGenModifier::new)));
-	public static final Supplier<Codec<DiscGenModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst)
+	public static final Supplier<MapCodec<DiscGenModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
             .apply(inst, DiscGenModifier::new)));
 
 	/*final Item item;
@@ -46,7 +46,7 @@ public class DiscGenModifier extends LootModifier {
         }
 
 		for(int i=0;i<2;i++) {
-			generatedLoot.add(new ItemStack(ForgeRegistries.ITEMS.tags().getTag(ItemTagsGen.MUSIC_DISCS).getRandomElement(context.getRandom()).get()));
+			generatedLoot.add(new ItemStack(BuiltInRegistries.ITEM.getOrCreateTag(ItemTagsGen.MUSIC_DISCS).getRandomElement(context.getRandom()).get()));
 			if(Math.random() > 0.5)
 				break;
 		}
@@ -56,7 +56,7 @@ public class DiscGenModifier extends LootModifier {
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
-		return CODEC.get();
+	public MapCodec<? extends IGlobalLootModifier> codec() {
+		return (MapCodec<? extends IGlobalLootModifier>) CODEC;
 	}
 }

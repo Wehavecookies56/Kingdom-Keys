@@ -24,9 +24,9 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
 
     public NobodyCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new NobodyCreeperModel<>(context.bakeLayer(NobodyCreeperModel.LAYER_LOCATION)), 0.35F);
-        this.texture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper.png");
-        this.swordTexture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper_sword.png");
-        this.spearTexture = new ResourceLocation(KingdomKeys.MODID, "textures/entity/mob/creeper_spear.png");
+        this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper.png");
+        this.swordTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper_sword.png");
+        this.spearTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper_spear.png");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
         }
 
         float f7 = this.getBob(entityIn, partialTicks);
-        this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks);
+        this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks, entityIn.getScale());
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
         this.scale(entityIn, matrixStackIn, partialTicks);
         matrixStackIn.translate(0.0D, (double)-1.501F, 0.0D);
