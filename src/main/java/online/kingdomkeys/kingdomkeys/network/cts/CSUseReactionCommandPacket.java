@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
@@ -52,7 +52,7 @@ public class CSUseReactionCommandPacket {
 			ReactionCommand reaction = ModReactionCommands.registry.get().getValue(new ResourceLocation(reactionName));
 			reaction.onUse(player, player, (LivingEntity) player.level().getEntity(message.lockedOnEntity));
 			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 			
 		});
 		ctx.get().setPacketHandled(true);

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSSetShortcutPacket {
 	
@@ -49,7 +49,7 @@ public class CSSetShortcutPacket {
 				playerData.changeShortcut(message.position, message.magic, message.level);
 			}
 				
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 			
 		});
 		ctx.get().setPacketHandled(true);

@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public class DriveFormOrbItem extends Item {
 						player.getOffhandItem().shrink(1);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(player)), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(player)), (ServerPlayer) player);
 			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));

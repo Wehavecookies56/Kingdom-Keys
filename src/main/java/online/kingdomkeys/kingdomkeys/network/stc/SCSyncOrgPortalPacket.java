@@ -5,46 +5,41 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCSyncOrgPortalPacket {
+public record SCSyncOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 
-	public BlockPos pos;
-	public BlockPos destPos;
-	public ResourceKey<Level> dimension;
+	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_org_portal"));
 
-	public SCSyncOrgPortalPacket() {
+	public static final StreamCodec<FriendlyByteBuf, SCSyncOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC,
+			SCSyncOrgPortalPacket::pos,
+			BlockPos.STREAM_CODEC,
+			SCSyncOrgPortalPacket::destPos,
+			ResourceKey.streamCodec(Registries.DIMENSION),
+			SCSyncOrgPortalPacket::dimension,
+			SCSyncOrgPortalPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.syncOrgPortal(this);
+		}
 	}
 
-	public SCSyncOrgPortalPacket(BlockPos pos, BlockPos dest, ResourceKey<Level> dim) {
-		this.pos = pos;
-        this.destPos = dest;
-        this.dimension = dim;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-        buffer.writeBlockPos(destPos);
-        buffer.writeResourceLocation(dimension.location());
-	}
-
-	public static SCSyncOrgPortalPacket decode(FriendlyByteBuf buffer) {
-		SCSyncOrgPortalPacket msg = new SCSyncOrgPortalPacket();
-		msg.pos = buffer.readBlockPos();
-        msg.destPos = buffer.readBlockPos();
-        msg.dimension = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
-		return msg;
-	}
-
-	public static void handle(final SCSyncOrgPortalPacket msg, Supplier<NetworkEvent.Context> ctx) {
-		
-		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncOrgPortal(msg)));
-		ctx.get().setPacketHandled(true);
-	}
-
 }

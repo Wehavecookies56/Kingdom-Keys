@@ -1,63 +1,43 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
-public class SCSyncMoogleNames {
+public record SCSyncMoogleNames(Map<ResourceLocation, List<String>> names) implements Packet {
 
-    public Map<ResourceLocation, List<String>> names;
+    public static final Type<SCSyncMoogleNames> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_moogle_names"));
 
-    public SCSyncMoogleNames() {}
+    public static final StreamCodec<FriendlyByteBuf, SCSyncMoogleNames> STREAM_CODEC = StreamCodec.composite(
+            StreamCodecs.MOOGLE_NAMES,
+            SCSyncMoogleNames::names,
+            SCSyncMoogleNames::new
+    );
 
     public SCSyncMoogleNames(NamesListRegistry names) {
-        this.names = names.getRegistry();
+        this(names.getRegistry());
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        List<ResourceLocation> keys = names.keySet().stream().toList();
-        List<List<String>> values = names.values().stream().toList();
-        int size = names.size();
-        buffer.writeInt(size);
-        for(int i = 0; i < size; i++) {
-            int valueSize = values.get(i).size();
-            buffer.writeInt(valueSize);
-            buffer.writeUtf(keys.get(i).toString());
-            for (int j = 0; j < valueSize; j++) {
-                buffer.writeUtf(values.get(i).get(j));
-            }
+    @Override
+    public void handle(IPayloadContext context) {
+        if (FMLEnvironment.dist.isClient()) {
+            ClientPacketHandler.syncMoogleNames(this);
         }
     }
 
-    public static SCSyncMoogleNames decode(FriendlyByteBuf buffer) {
-        SCSyncMoogleNames msg = new SCSyncMoogleNames();
-        Map<ResourceLocation, List<String>> registry = new HashMap<>();
-        int size = buffer.readInt();
-        for (int i = 0; i < size; i++) {
-            int valueSize = buffer.readInt();
-            ResourceLocation location = new ResourceLocation(buffer.readUtf());
-            List<String> list = new ArrayList<>();
-            for (int j = 0; j < valueSize; j++) {
-                list.add(buffer.readUtf());
-            }
-            registry.put(location, list);
-        }
-        msg.names = registry;
-        return msg;
-    }
-
-    public static void handle(final SCSyncMoogleNames message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncMoogleNames(message)));
-        ctx.get().setPacketHandled(true);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

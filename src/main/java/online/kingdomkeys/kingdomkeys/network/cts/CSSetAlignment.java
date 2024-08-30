@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSSetAlignment {
@@ -88,7 +88,7 @@ public class CSSetAlignment {
                 playerData.unlockWeapon(stack);
                 playerData.equipWeapon(stack);
                 playerData.setActiveDriveForm(DriveForm.NONE.toString());
-                PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+                PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
             }
             
         });

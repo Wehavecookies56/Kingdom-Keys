@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -142,7 +143,7 @@ public abstract class DriveForm {
 
 	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.setActiveDriveForm(getName());
 			int cost = ModDriveForms.registry.get(getRegistryName()).getDriveCost();
 			playerData.remDP(cost);
@@ -175,7 +176,7 @@ public abstract class DriveForm {
 	public void updateDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
 			double formDecrease = 0.2;
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(Strings.formBoost); i++) {
 				formDecrease /= 1.2;
 			}
@@ -188,7 +189,7 @@ public abstract class DriveForm {
 	}
 
 	public void endDrive(Player player) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
 		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {

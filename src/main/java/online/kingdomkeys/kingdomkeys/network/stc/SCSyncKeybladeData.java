@@ -1,74 +1,48 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataDeserializer;
 
-public class SCSyncKeybladeData {
+public record SCSyncKeybladeData(List<String> names, List<String> data) implements Packet {
 	
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(KeybladeData.class, new KeybladeDataDeserializer()).setPrettyPrinting().create();
 
-	public SCSyncKeybladeData() {
-	}
+	public static final Type<SCSyncKeybladeData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_keyblade_data"));
 
-	public List<String> names = new LinkedList<String>();
-	public List<String> data = new LinkedList<String>();
-	
-	
-	public SCSyncKeybladeData(List<String> names, List<String> data) {
-		this.names = names;
-		this.data = data;
-	}
-	
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.names.size());
-		buffer.writeInt(this.data.size());
-		
-		for(int i = 0; i < this.names.size();i++) {
-			String n = names.get(i);
-			buffer.writeInt(n.length());
-			buffer.writeUtf(n);
-		}
-		
-		for(int i = 0; i < this.data.size();i++) {
-			String d = data.get(i);
-			buffer.writeInt(d.length());
-			buffer.writeUtf(d);
+	public static final StreamCodec<FriendlyByteBuf, SCSyncKeybladeData> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),
+			SCSyncKeybladeData::names,
+			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),
+			SCSyncKeybladeData::data,
+			SCSyncKeybladeData::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.syncKeybladeData(this);
 		}
 	}
 
-	public static SCSyncKeybladeData decode(FriendlyByteBuf buffer) {
-		SCSyncKeybladeData msg = new SCSyncKeybladeData();
-		int nLen = buffer.readInt();
-		int dLen = buffer.readInt();
-		
-		for(int i=0;i<nLen;i++) {
-			int l = buffer.readInt();
-			msg.names.add(buffer.readUtf(l));
-		}
-
-		for(int i=0;i<dLen;i++) {
-			int l = buffer.readInt();
-			msg.data.add(buffer.readUtf(l));
-		}
-		
-		return msg;	
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static void handle(final SCSyncKeybladeData message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncKeybladeData(message)));
-		ctx.get().setPacketHandled(true);
-	}
-
 }

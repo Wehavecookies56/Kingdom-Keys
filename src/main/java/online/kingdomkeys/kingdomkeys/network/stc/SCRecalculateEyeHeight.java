@@ -1,30 +1,31 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class SCRecalculateEyeHeight {
+public record SCRecalculateEyeHeight() implements Packet {
 
-	public SCRecalculateEyeHeight() {
+	public static final Type<SCRecalculateEyeHeight> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_recalculate_eye_height"));
+
+	public static final StreamCodec<FriendlyByteBuf, SCRecalculateEyeHeight> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCRecalculateEyeHeight());
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.recalcEyeHeight();
+		}
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-	
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static SCRecalculateEyeHeight decode(FriendlyByteBuf buffer) {
-		SCRecalculateEyeHeight msg = new SCRecalculateEyeHeight();
-		return msg;
-	}
-
-	public static void handle(final SCRecalculateEyeHeight message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.recalcEyeHeight()));
-		ctx.get().setPacketHandled(true);
-	}
-
 }

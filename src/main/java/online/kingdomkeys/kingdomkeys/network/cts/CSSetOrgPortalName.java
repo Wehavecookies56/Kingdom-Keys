@@ -12,7 +12,7 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
 public class CSSetOrgPortalName {
 
@@ -48,7 +48,7 @@ public class CSSetOrgPortalName {
             	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(message.pos);
             	UUID portalUUID = te.getUUID();
             	ModData.getWorld(player.level()).getPortalFromUUID(portalUUID).setName(message.name);
-				PacketHandler.sendTo(new SCSyncWorldCapability(ModData.getWorld(player.level())), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncWorldData(ModData.getWorld(player.level())), (ServerPlayer) player);
             }
         });
         ctx.get().setPacketHandled(true);

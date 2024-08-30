@@ -1,8 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,23 +11,27 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 
-public record SCSyncShopData(List<ShopList> list) implements Packet {
+public record SCSyncWorldData(CompoundTag data) implements Packet {
 
-	public static final Type<SCSyncShopData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_shop_data"));
+	public static final Type<SCSyncWorldData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_world_data"));
 
-	public static final StreamCodec<FriendlyByteBuf, SCSyncShopData> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.collection(ArrayList::new, ShopList.STREAM_CODEC),
-			SCSyncShopData::list,
-			SCSyncShopData::new
+	public static final StreamCodec<FriendlyByteBuf, SCSyncWorldData> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			SCSyncWorldData::data,
+			SCSyncWorldData::new
 	);
+
+	public SCSyncWorldData(WorldData worldData, HolderLookup.Provider provider) {
+		this(worldData.save(new CompoundTag(), provider));
+	}
 
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			ClientPacketHandler.syncShopData(this);
+			ClientPacketHandler.syncWorldData(this);
 		}
 	}
 

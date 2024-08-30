@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class Magic {
@@ -107,7 +107,7 @@ public abstract class Magic {
 						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
 					}
 					casterData.setMagicUses(name, 0);
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer)caster);
+					PacketHandler.sendTo(new SCSyncPlayerData(casterData), (ServerPlayer)caster);
 				}				
 			}			
 		}
@@ -133,7 +133,7 @@ public abstract class Magic {
     	//caster.swing(InteractionHand.MAIN_HAND, true);
 
 		//MinecraftForge.EVENT_BUS.post(new UpdatePlayerMotionEvent.BaseLayer((LocalPlayerPatch) player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null), KKLivingMotionsEnum.SPELL));
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(casterData), (ServerPlayer) caster);
+		PacketHandler.sendTo(new SCSyncPlayerData(casterData), (ServerPlayer) caster);
     }
 
 	protected abstract void playMagicCastSound(Player player, Player caster, int level);

@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount> [player]
@@ -60,7 +60,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 				context.getSource().sendSuccess(() -> Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
 			}
             Utils.restartLevel2(playerData, player);			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
 
@@ -79,7 +79,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 			playerData.addExperience(player, value, false, false);
 			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " experience to " + player.getDisplayName().getString()), true);
 
@@ -96,7 +96,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 			int exp = playerData.getExperience();
 			fix(playerData,player);
 			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
 			player.sendSystemMessage(Component.translatable("Your experience is now " + exp + ", all your missing abilities have been added to you"));
 		}
@@ -111,7 +111,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 			playerData.addExperience(player, exp, false, false);
 		}
         Utils.restartLevel2(playerData, player);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 
 	}
 

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSSyncAllClientDataPacket {
 
@@ -29,7 +29,7 @@ public class CSSyncAllClientDataPacket {
 		Player player = ctx.get().getSender();
 
 		IPlayerData playerData = ModData.getPlayer(player);
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 
 		ctx.get().setPacketHandled(true);
 	}

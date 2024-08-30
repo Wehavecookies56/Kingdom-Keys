@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSUseLimitPacket {
 	
@@ -53,7 +53,7 @@ public class CSUseLimitPacket {
 				if (playerData.getDP() >= cost) {
 					playerData.remDP(cost);
 					playerData.setLimitCooldownTicks(limit.getCooldown());
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 					if(message.targetID > -1) {
 						limit.onUse(player, (LivingEntity) player.level().getEntity(message.targetID));
 					} else {

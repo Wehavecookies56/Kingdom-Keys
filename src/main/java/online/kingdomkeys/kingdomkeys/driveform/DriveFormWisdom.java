@@ -7,13 +7,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID)
 public class DriveFormWisdom extends DriveForm {
@@ -30,11 +30,11 @@ public class DriveFormWisdom extends DriveForm {
 			if (((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 				if (event.getSource().getEntity() instanceof Player) {
 					Player player = (Player) event.getSource().getEntity();
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(1).split(",")[1]);
 						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 					}
 				}
 			}

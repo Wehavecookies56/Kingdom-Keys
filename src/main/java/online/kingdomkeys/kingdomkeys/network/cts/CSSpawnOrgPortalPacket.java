@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 
 public class CSSpawnOrgPortalPacket {
@@ -55,7 +55,7 @@ public class CSSpawnOrgPortalPacket {
 
 			IPlayerData playerData = ModData.getPlayer(player);
 			playerData.remMP(300);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 			OrgPortalEntity portal = new OrgPortalEntity(player.level(), message.pos, message.destPos, message.dimension, true);
 			player.level().addFreshEntity(portal);
 

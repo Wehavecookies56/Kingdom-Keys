@@ -24,6 +24,30 @@ public class PacketHandler {
 		registrar.playToClient(SCOpenMagicCustomize.TYPE, SCOpenMagicCustomize.STREAM_CODEC, PacketHandler::handlePacket);
 		registrar.playToClient(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC, PacketHandler::handlePacket);
 		registrar.playToClient(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCOpenShortcutsCustomize.TYPE, SCOpenShortcutsCustomize.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCRecalculateEyeHeight.TYPE, SCRecalculateEyeHeight.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCShowMessagesPacket.TYPE, SCShowMessagesPacket.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCShowOrgPortalGUI.TYPE, SCShowOrgPortalGUI.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCShowOverlayPacket.TYPE, SCShowOverlayPacket.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncCastleOblivionInteriorData.TYPE, SCSyncCastleOblivionInteriorData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncDimensionLists.TYPE, SCSyncDimensionLists.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncGlobalData.TYPE, SCSyncGlobalData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncLimitData.TYPE, SCSyncLimitData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncMagicData.TYPE, SCSyncMagicData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncMoogleNames.TYPE, SCSyncMoogleNames.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncOrganizationData.TYPE, SCSyncOrganizationData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncOrgPortalPacket.TYPE, SCSyncOrgPortalPacket.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncPlayerData.TYPE, SCSyncPlayerData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncShopData.TYPE, SCSyncShopData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncSynthesisData.TYPE, SCSyncSynthesisData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCSyncWorldData.TYPE, SCSyncWorldData.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCUpdateCORooms.TYPE, SCUpdateCORooms.STREAM_CODEC, PacketHandler::handlePacket);
+		registrar.playToClient(SCUpdateSavePoints.TYPE, SCUpdateSavePoints.STREAM_CODEC, PacketHandler::handlePacket);
+
+
+
 	}
 
 	public static void sendTo (Packet packet, ServerPlayer player) {

@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSEquipShoulderArmor {
 
@@ -46,7 +46,7 @@ public class CSEquipShoulderArmor {
                 ItemStack stackToEquip = player.getInventory().getItem(message.slotToEquipFrom);
                 ItemStack stackPreviouslyEquipped = playerData.equipKBArmor(message.slotToEquipTo, stackToEquip);
                 player.getInventory().setItem(message.slotToEquipFrom, stackPreviouslyEquipped);
-                PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+                PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
                 PacketHandler.syncToAllAround(player, playerData);
                 PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
             }

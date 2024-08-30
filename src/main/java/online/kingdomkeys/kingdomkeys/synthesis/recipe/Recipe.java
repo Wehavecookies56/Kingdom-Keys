@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -39,6 +41,10 @@ public class Recipe {
 		this.amount = amount;
 		this.type = type;
 		this.cost = cost;
+	}
+
+	public Recipe(CompoundTag tag) {
+		deserializeNBT(tag);
 	}
     
     public String getType() {
@@ -136,4 +142,16 @@ public class Recipe {
 	public void setRegistryName(ResourceLocation registryName) {
 		this.registryName = registryName;
 	}
+
+	public static final StreamCodec<FriendlyByteBuf, Recipe> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public Recipe decode(FriendlyByteBuf pBuffer) {
+            return new Recipe(pBuffer.readNbt());
+        }
+
+        @Override
+        public void encode(FriendlyByteBuf pBuffer, Recipe pValue) {
+			pBuffer.writeNbt(pValue.serializeNBT());
+        }
+    };
 }

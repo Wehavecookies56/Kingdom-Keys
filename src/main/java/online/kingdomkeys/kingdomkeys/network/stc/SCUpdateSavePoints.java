@@ -2,35 +2,41 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
-public record SCUpdateSavePoints(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) {
+public record SCUpdateSavePoints(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) implements Packet {
 
-    public SCUpdateSavePoints(FriendlyByteBuf buf) {
-        this(SCOpenSavePointScreen.readSavePoints(buf));
+    public static final Type<SCUpdateSavePoints> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_update_save_points"));
+
+    public static final StreamCodec<FriendlyByteBuf, SCUpdateSavePoints> STREAM_CODEC = StreamCodec.composite(
+            StreamCodecs.SAVE_POINTS,
+            SCUpdateSavePoints::savePoints,
+            SCUpdateSavePoints::new
+    );
+
+    @Override
+    public void handle(IPayloadContext context) {
+        if (FMLEnvironment.dist.isClient()) {
+            ClientPacketHandler.updateSavePoints(this);
+        }
     }
 
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(savePoints.size());
-        savePoints.values().forEach(savePoint -> {
-            buf.writeNbt(savePoint.getFirst().serializeNBT());
-            buf.writeLong(savePoint.getSecond().getEpochSecond());
-            buf.writeInt(savePoint.getSecond().getNano());
-        });
-    }
-
-    public static void handle(SCUpdateSavePoints message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.updateSavePoints(message)));
-        ctx.get().setPacketHandled(true);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

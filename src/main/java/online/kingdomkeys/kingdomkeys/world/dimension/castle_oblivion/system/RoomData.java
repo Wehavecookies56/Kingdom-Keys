@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -104,6 +106,18 @@ public class RoomData {
         RoomData room = new RoomData(RoomUtils.RoomPos.deserialize(tag.getCompound("roompos")));
         room.deserializeNBT(tag);
         return room;
+    }
+
+    public static final StreamCodec<FriendlyByteBuf, RoomData> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public RoomData decode(FriendlyByteBuf pBuffer) {
+            return RoomData.deserialize(pBuffer.readNbt());
+        }
+
+        @Override
+        public void encode(FriendlyByteBuf pBuffer, RoomData pValue) {
+            pBuffer.writeNbt(pValue.serializeNBT());
+        }
     }
 
 }

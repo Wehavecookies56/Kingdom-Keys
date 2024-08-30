@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 
 public class ChoiceCommand extends BaseCommand {
@@ -74,7 +74,7 @@ public class ChoiceCommand extends BaseCommand {
             targetData.setSoAState(SoAState.NONE);
             targetData.setChoice(SoAState.NONE);
             targetData.setSacrifice(SoAState.NONE);
-            PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+            PacketHandler.sendTo(new SCSyncPlayerData(targetData), target);
             if (players.size() > 1) {
                 context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
             }
@@ -108,7 +108,7 @@ public class ChoiceCommand extends BaseCommand {
                         targetData.setChoice(chosen);
                         SoAState.applyStatsForChoices(target, targetData, false);
                     }
-                    PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
+                    PacketHandler.sendTo(new SCSyncPlayerData(targetData), target);
                     if (players.size() > 1) {
                         context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
                     }

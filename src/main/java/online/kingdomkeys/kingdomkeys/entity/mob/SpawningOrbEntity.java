@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SpawningOrbEntity extends Monster {
@@ -142,7 +142,7 @@ public class SpawningOrbEntity extends Monster {
 
 			playerData.setRespawnROD(true);
 			if(!nPlayer.level().isClientSide()) {
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)nPlayer);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)nPlayer);
 			}
 			
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();

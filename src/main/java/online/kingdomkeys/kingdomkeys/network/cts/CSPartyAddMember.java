@@ -10,7 +10,7 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSPartyAddMember {
@@ -59,7 +59,7 @@ public class CSPartyAddMember {
 					p.addMember(message.memberUUID, message.memberName);
 				Player target = player.level().getPlayerByUUID(message.memberUUID);
 				ModData.getPlayer(target).removePartiesInvited(message.name);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(target)), (ServerPlayer)target);
+				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(target)), (ServerPlayer)target);
 			}
 			Utils.syncWorldData(player.level(), worldData);
 		});

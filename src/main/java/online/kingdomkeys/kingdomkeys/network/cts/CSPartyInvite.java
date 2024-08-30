@@ -12,7 +12,7 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSPartyInvite {
 	
@@ -57,7 +57,7 @@ public class CSPartyInvite {
 			}
 			
 			
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(targetPlayerData), (ServerPlayer)target);
+			PacketHandler.sendTo(new SCSyncPlayerData(targetPlayerData), (ServerPlayer)target);
 		});
 		ctx.get().setPacketHandled(true);
 	}

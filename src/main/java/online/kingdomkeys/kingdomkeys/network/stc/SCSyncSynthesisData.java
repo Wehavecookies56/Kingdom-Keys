@@ -1,52 +1,39 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 
-public class SCSyncSynthesisData {
+public record SCSyncSynthesisData(List<Recipe> recipes) implements Packet {
 
-	public SCSyncSynthesisData() {
-	}
+	public static final Type<SCSyncSynthesisData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_synthesis_data"));
 
-	public List<Recipe> recipes = new LinkedList<>();
-	
-	public SCSyncSynthesisData(List<Recipe> recipes) {
-		this.recipes = recipes;
-	}
-	
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(recipes.size());
-		CompoundTag compoundNBT = new CompoundTag();
-		for(int i = 0; i < recipes.size(); i++) {
-			compoundNBT.put("recipe"+i, recipes.get(i).serializeNBT());
+	public static final StreamCodec<FriendlyByteBuf, SCSyncSynthesisData> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.collection(ArrayList::new, Recipe.STREAM_CODEC),
+			SCSyncSynthesisData::recipes,
+			SCSyncSynthesisData::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		if (FMLEnvironment.dist.isClient()) {
+			ClientPacketHandler.syncSynthesisData(this);
 		}
-		buffer.writeNbt(compoundNBT);
 	}
 
-	public static SCSyncSynthesisData decode(FriendlyByteBuf buffer) {
-		SCSyncSynthesisData msg = new SCSyncSynthesisData();
-		int size = buffer.readInt();
-		CompoundTag compoundNBT = buffer.readNbt();
-		for (int i = 0; i < size; i++) {
-			Recipe r = new Recipe();
-			r.deserializeNBT((CompoundTag) compoundNBT.get("recipe"+i));
-			msg.recipes.add(r);
-		}
-		return msg;	
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static void handle(final SCSyncSynthesisData message, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientUtils.syncSynthesisData(message)));
-		ctx.get().setPacketHandled(true);
-	}
-
 }

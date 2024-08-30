@@ -4,21 +4,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonObject;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.advancements.critereon.CriterionValidator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -26,14 +22,8 @@ public class KKLevelUpTrigger implements CriterionTrigger<KKLevelUpTrigger.Insta
 
 	public static KKLevelUpTrigger TRIGGER_LEVELUP;
 
-	private static final ResourceLocation ID = new ResourceLocation(KingdomKeys.MODID, "level_up");
+	private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "level_up");
 	private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
-
-	@Override
-	@Nonnull
-	public ResourceLocation getId() {
-		return ID;
-	}
 
 	@Override
 	public void addPlayerListener(PlayerAdvancements pPlayerAdvancements, Listener<Instance> pListener) {
@@ -62,9 +52,9 @@ public class KKLevelUpTrigger implements CriterionTrigger<KKLevelUpTrigger.Insta
 		this.listeners.remove(pPlayerAdvancements);
 	}
 
-	public Instance createInstance(JsonObject pJson, DeserializationContext pContext) {
-		int lvl = pJson.has("lvl") ? GsonHelper.getAsInt(pJson, "lvl") : 0;
-		return new Instance(lvl);
+	@Override
+	public Codec<Instance> codec() {
+		return null;
 	}
 
 	public void trigger(ServerPlayer player, int lvl) {
@@ -82,22 +72,14 @@ public class KKLevelUpTrigger implements CriterionTrigger<KKLevelUpTrigger.Insta
 			this.lvl = lvl;
 		}
 
-		@Override
-		public ResourceLocation getCriterion() {
-			return KKLevelUpTrigger.ID;
-		}
-
 		public boolean matches(int lvl) {
 			return lvl >= this.lvl;
 		}
 
-		public JsonObject serializeToJson(SerializationContext pConditions) {
-			JsonObject jsonobject = new JsonObject();
-			if (this.lvl != 0) {
-				jsonobject.addProperty("lvl", lvl);
-			}
 
-			return jsonobject;
+		@Override
+		public void validate(CriterionValidator pValidator) {
+
 		}
 	}
 
@@ -134,7 +116,7 @@ public class KKLevelUpTrigger implements CriterionTrigger<KKLevelUpTrigger.Insta
 			if (list != null) {
 				for (CriterionTrigger.Listener<KKLevelUpTrigger.Instance> listener1 : list) {
 
-					if (listener1.getTriggerInstance().matches(lvl))
+					if (listener1.trigger().matches(lvl))
 						listener1.run(this.playerAdvancements);
 				}
 			}

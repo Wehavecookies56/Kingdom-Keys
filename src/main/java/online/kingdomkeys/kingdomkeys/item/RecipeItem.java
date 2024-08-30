@@ -14,10 +14,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -106,7 +105,7 @@ public class RecipeItem extends Item implements IItemCategory {
 					playerData.addKnownRecipe(rl);
 					consume = true;
 					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -84,7 +85,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 					// create first room from lobby
 					// transport into room
 				} else {
-					CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
+					CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) level);
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {
@@ -116,7 +117,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		if(!level.isClientSide) {
 			if (state.getValue(GENERATED)) {
 				if (entity instanceof Player player) {
-					CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(level);
+					CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) level);
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
 						if (te != null) {

@@ -14,11 +14,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -56,7 +55,7 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_AP),playerData.getMaxAP(true)), true);
 					break;
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));

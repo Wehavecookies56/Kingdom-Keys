@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.LaserCircleCoreEntity;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID)
@@ -30,7 +30,7 @@ public class LimitLaserCircle extends Limit {
 		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		IPlayerData playerData = ModData.getPlayer(player);
 		playerData.setLimitCooldownTicks(getCooldown());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {

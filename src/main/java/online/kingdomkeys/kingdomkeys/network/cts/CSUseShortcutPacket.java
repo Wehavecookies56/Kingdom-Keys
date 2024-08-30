@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class CSUseShortcutPacket {
 
@@ -62,7 +62,7 @@ public class CSUseShortcutPacket {
 						magic.onUse(player, player, level, (LivingEntity) player.level().getEntity(message.lockOnTarget));
 					}
 					
-					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 				}
 			}
 

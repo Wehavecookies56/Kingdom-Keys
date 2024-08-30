@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
@@ -61,7 +62,7 @@ public class DataPortalBlock extends BaseBlock implements INoDataGen {
 
 	@Override
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if(playerData != null) {
 			playerData.setReturnDimension(player);
 			playerData.setReturnLocation(player);
@@ -72,7 +73,7 @@ public class DataPortalBlock extends BaseBlock implements INoDataGen {
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), (entity) -> {}));
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
-			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
+			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null);
 			player.level().addFreshEntity(marluxia);
 			marluxia.setPos(player.getX(), player.getY(), player.getZ() - 6);
 		}

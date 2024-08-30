@@ -72,7 +72,7 @@ public class WorldData extends SavedData {
         return storage;
     }
 
-    private static WorldData load(CompoundTag nbt, HolderLookup.Provider provider) {
+    public static WorldData load(CompoundTag nbt, HolderLookup.Provider provider) {
         WorldData data = WorldData.create();
         data.setHeartlessSpawnLevel(nbt.getInt("heartless"));
 

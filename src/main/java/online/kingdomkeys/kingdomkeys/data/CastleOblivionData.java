@@ -59,7 +59,7 @@ public class CastleOblivionData {
             return tag;
         }
 
-        private static InteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
+        public static InteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
             InteriorData data = InteriorData.create();
             if (data.floors == null) {
                 data.floors = new ArrayList<>();

@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ability> [player]
@@ -77,7 +77,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -94,7 +94,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			}
 			Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -128,7 +128,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}

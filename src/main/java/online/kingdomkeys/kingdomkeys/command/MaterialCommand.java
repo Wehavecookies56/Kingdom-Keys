@@ -22,7 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -72,7 +72,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -90,7 +90,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -108,7 +108,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -123,7 +123,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -141,7 +141,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -159,7 +159,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
 
 			player.sendSystemMessage(Component.translatable("You have been set all the materials to " + amount));
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 		}
 		return 1;
 	}

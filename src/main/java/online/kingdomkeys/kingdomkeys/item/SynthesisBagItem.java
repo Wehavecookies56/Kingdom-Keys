@@ -14,13 +14,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.menu.SynthesisBagMenu;
-import online.kingdomkeys.kingdomkeys.menu.SynthesisBagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!world.isClientSide) {
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(PlayerData.get(player)), (ServerPlayer)player);
+			PacketHandler.sendTo(new SCSyncPlayerData(PlayerData.get(player)), (ServerPlayer)player);
 			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new SynthesisBagMenu(w, p, stack), stack.getHoverName());
 			player.openMenu(container, buf -> {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);

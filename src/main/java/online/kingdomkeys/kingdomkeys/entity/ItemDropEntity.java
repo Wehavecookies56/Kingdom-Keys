@@ -21,7 +21,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
@@ -175,7 +175,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove(RemovalReason.KILLED);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(ModData.getPlayer(entityIn)), (ServerPlayer)entityIn);
+				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(entityIn)), (ServerPlayer)entityIn);
 			}
 
 		}

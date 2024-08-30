@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 public class ShopList {
@@ -15,9 +17,11 @@ public class ShopList {
    
     ResourceLocation registryName;
 
-    public ShopList() {
+    public ShopList() {}
 
-    }
+	public ShopList(CompoundTag tag) {
+		deserializeNBT(tag);
+	}
 
     public ShopList(ResourceLocation rl, List<ShopItem> list, @Nullable List<String> names) {
     	this.registryName = rl;
@@ -96,4 +100,16 @@ public class ShopList {
 	public void setRegistryName(ResourceLocation registryName) {
 		this.registryName = registryName;
 	}
+
+	public static final StreamCodec<FriendlyByteBuf, ShopList> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public ShopList decode(FriendlyByteBuf pBuffer) {
+            return new ShopList(pBuffer.readNbt());
+        }
+
+        @Override
+        public void encode(FriendlyByteBuf pBuffer, ShopList pValue) {
+			pBuffer.writeNbt(pValue.serializeNBT());
+        }
+    };
 }

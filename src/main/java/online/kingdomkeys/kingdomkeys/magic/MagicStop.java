@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class MagicStop extends Magic {
 					globalData.setStoppedTicks((int) (100 + level * 20 * dmg)); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
 					if (e instanceof ServerPlayer)
-						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) e);
+						PacketHandler.sendTo(new SCSyncGlobalData(globalData), (ServerPlayer) e);
 				}
 			}
 		}

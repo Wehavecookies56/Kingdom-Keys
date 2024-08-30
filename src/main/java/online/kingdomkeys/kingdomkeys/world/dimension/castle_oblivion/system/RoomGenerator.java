@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.io.IOException;
@@ -124,7 +124,7 @@ public class RoomGenerator {
                 }
             }
             data.setGenerated(room);
-            SCSyncCastleOblivionInteriorCapability.syncClients(level);
+            SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
             return room;

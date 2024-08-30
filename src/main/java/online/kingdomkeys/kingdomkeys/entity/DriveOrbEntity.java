@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class DriveOrbEntity extends ItemDropEntity {
 
@@ -39,7 +39,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
 				double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(3).split(",")[1]);
 				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (Math.max(1, (value/10F) * mult)))); //Ensure at least 1 point
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 			}
 		}
 	}

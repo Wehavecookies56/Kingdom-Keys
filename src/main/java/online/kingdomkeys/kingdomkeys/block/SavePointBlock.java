@@ -36,7 +36,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
@@ -226,17 +226,17 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 					}
 					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
 						playerData.addMP(1);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
 						playerData.addFocus(1);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
 						playerData.addDP(5);
-						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 

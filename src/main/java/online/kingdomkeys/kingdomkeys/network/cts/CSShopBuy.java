@@ -15,8 +15,8 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 
@@ -83,10 +83,10 @@ public class CSShopBuy {
 					if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 						IWorldCapabilities worldData = ModData.getWorld(player.level());
 						worldData.setHeartlessSpawnLevel(1);
-						PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
+						PacketHandler.sendToAllPlayers(new SCSyncWorldData(worldData));
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 			}
 		});
 		ctx.get().setPacketHandled(true);

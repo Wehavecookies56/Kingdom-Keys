@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class DriveLevelCommand extends BaseCommand{
@@ -70,7 +70,7 @@ public class DriveLevelCommand extends BaseCommand{
 			if(level == 0) {
 				playerData.setDriveFormLevel(form, 0);
 				playerData.remVisibleDriveForm(form);
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
 			} else {
 				playerData.setDriveFormLevel(form, 1);
 				playerData.addVisibleDriveForm(form);

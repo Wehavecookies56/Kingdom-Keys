@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class MagicLevelCommand extends BaseCommand{
@@ -77,7 +77,7 @@ public class MagicLevelCommand extends BaseCommand{
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+			PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
 			
 			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
 			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);

@@ -32,14 +32,13 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	@Override
 	public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-		CompoundTag properties = (CompoundTag) nbt;
-		this.setStoppedTicks(properties.getInt("ticks_stopped"));
-		this.setStopDamage(properties.getFloat("stop_dmg"));
-		this.setFlatTicks(properties.getInt("ticks_flat"));
-		this.setAeroTicks(properties.getInt("aero_ticks"), properties.getInt("aero_level"));
-		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
-		this.setLevel(properties.getInt("level"));
-		this.setKO(properties.getBoolean("is_ko"));
+        this.setStoppedTicks(nbt.getInt("ticks_stopped"));
+		this.setStopDamage(nbt.getFloat("stop_dmg"));
+		this.setFlatTicks(nbt.getInt("ticks_flat"));
+		this.setAeroTicks(nbt.getInt("aero_ticks"), nbt.getInt("aero_level"));
+		this.setCastleOblivionMarker(nbt.getBoolean("castle_oblivion_marker"));
+		this.setLevel(nbt.getInt("level"));
+		this.setKO(nbt.getBoolean("is_ko"));
 	}
 
 	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level, stopModelTicks;

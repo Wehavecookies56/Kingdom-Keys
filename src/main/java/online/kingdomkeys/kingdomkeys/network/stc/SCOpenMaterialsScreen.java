@@ -27,7 +27,7 @@ public record SCOpenMaterialsScreen(String inv, String name, int moogle) impleme
     );
 
     public SCOpenMaterialsScreen(int moogle) {
-    	this("", "", moogle)
+    	this("", "", moogle);
     }
 
 

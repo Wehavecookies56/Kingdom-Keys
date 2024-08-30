@@ -47,7 +47,7 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -504,7 +504,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 								Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
 									PlayerData.get(ally).addExperience(ally, (int) sharedXP, false, true); //Give EXP to other players with the false param to prevent getting in a loop
-									PacketHandler.sendTo(new SCSyncCapabilityPacket(PlayerData.get(ally)), (ServerPlayer)ally);
+									PacketHandler.sendTo(new SCSyncPlayerData(PlayerData.get(ally)), (ServerPlayer)ally);
 								}
 							}
 						}
@@ -725,7 +725,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if(sound)
 			player.level().playSound((Player) null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(PlayerData.get(player)), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCSyncPlayerData(PlayerData.get(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
 
 	}
@@ -884,7 +884,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
+				PacketHandler.sendTo(new SCSyncPlayerData(this), (ServerPlayer)player);
 			}
 		}
 	}
@@ -901,7 +901,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				if(driveLevel == form.getMaxLevel()) {
 					setMaxDP(getMaxDP() + 100);
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(this), (ServerPlayer)player);
+				PacketHandler.sendTo(new SCSyncPlayerData(this), (ServerPlayer)player);
 			}
 		}
 	}

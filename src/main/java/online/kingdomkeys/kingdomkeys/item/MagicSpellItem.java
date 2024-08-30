@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 						player.displayClientMessage(Component.translatable("message.magic_max_level",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))), true);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
 			}
 		} else { //For the client side
 			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list

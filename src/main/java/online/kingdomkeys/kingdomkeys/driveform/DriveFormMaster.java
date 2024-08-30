@@ -9,6 +9,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
@@ -27,7 +28,7 @@ public class DriveFormMaster extends DriveForm {
 	@SubscribeEvent
 	public static void onLivingUpdate(PlayerTickEvent event) {
 		Player player = (Player) event.getEntity();
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 
 		if (playerData != null) {
 			// Drive Form abilities
@@ -38,7 +39,7 @@ public class DriveFormMaster extends DriveForm {
 		}
 	}
 
-	private static void handleAerialDodge(Player player, IPlayerData playerData) {
+	private static void handleAerialDodge(Player player, PlayerData playerData) {
 		if (playerData.getAerialDodgeTicks() <= 0) {
 			if (player.onGround()) {
 				playerData.setHasJumpedAerialDodge(false);

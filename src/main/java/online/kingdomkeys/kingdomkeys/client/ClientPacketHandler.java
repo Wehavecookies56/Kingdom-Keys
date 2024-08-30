@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import com.google.gson.JsonParseException;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -11,8 +12,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.*;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
@@ -69,23 +69,23 @@ public class ClientPacketHandler {
     }
 
     public static void openChoice(SCOpenChoiceScreen message) {
-        Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(message.state, message.choice, message.pos));
+        Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(message.state(), message.choice(), message.pos()));
         SoAMessages.INSTANCE.clearMessage();
     }
 
     public static void syncOrgPortal(SCSyncOrgPortalPacket msg) {
         Player player = Minecraft.getInstance().player;
         OrgPortalEntity portal;
-        if (msg.pos != msg.destPos)
-            portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, true);
+        if (msg.pos() != msg.destPos())
+            portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), true);
         else
-            portal = new OrgPortalEntity(player.level(), msg.pos, msg.destPos, msg.dimension, false);
+            portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), false);
 
         player.level().addFreshEntity(portal);
     }
 
     public static void showOrgPortalGUI(SCShowOrgPortalGUI message) {
-        Minecraft.getInstance().setScreen(new OrgPortalGui(message.pos));
+        Minecraft.getInstance().setScreen(new OrgPortalGui(message.pos()));
     }
 
     public static void openSynthesisGui(String inv, String name, int moogle) {
@@ -108,84 +108,17 @@ public class ClientPacketHandler {
             Minecraft.getInstance().getSoundManager().queueTickingSound(new AeroSoundInstance(entity));
     }
 
-    public static void syncCapability(SCSyncCapabilityPacket message) {
-        IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
-        playerData.setLevel(message.level);
-        playerData.setExperience(message.exp);
-        playerData.setExperienceGiven(message.expGiven);
-        playerData.setStrengthStat(message.strength);
-        playerData.setMagicStat(message.magic);
-        playerData.setDefenseStat(message.defense);
-        playerData.setMaxAPStat(message.maxAP);
-        playerData.setMP(message.MP);
-        playerData.setMaxMP(message.maxMP);
-        playerData.setRecharge(message.recharge);
-        playerData.setMaxHP(message.maxHp);
-        playerData.setDP(message.dp);
-        playerData.setFP(message.fp);
-        playerData.setMaxDP(message.maxDP);
-        playerData.setMunny(message.munny);
-        playerData.setFocus(message.focus);
-        playerData.setMaxFocus(message.maxFocus);
-
-        playerData.setMessages(message.messages);
-        playerData.setBFMessages(message.bfMessages);
-        playerData.setDFMessages(message.dfMessages);
-
-        playerData.setKnownRecipeList(message.recipeList);
-        playerData.setMagicsMap(message.magicsMap);
-        playerData.setShotlockList(message.shotlockList);
-        playerData.setEquippedShotlock(message.equippedShotlock);
-        playerData.setDriveFormMap(message.driveFormMap);
-        playerData.setVisibleDriveForms(message.visibleDriveForms);
-        playerData.setAbilityMap(message.abilityMap);
-        playerData.setAntiPoints(message.antipoints);
-        playerData.setPartiesInvited(message.partyList);
-        playerData.setMaterialMap(message.materialMap);
-        playerData.equipAllKeychains(message.keychains, false);
-        playerData.equipAllItems(message.items, false);
-        playerData.equipAllAccessories(message.accessories, false);
-        playerData.equipAllKBArmor(message.kbArmors, false);
-        playerData.equipAllArmors(message.armors, false);
-        playerData.setMaxAccessories(message.maxAccessories);
-        playerData.setMaxArmors(message.maxArmors);
-        playerData.setActiveDriveForm(message.driveForm);
-
-        playerData.setReturnDimension(message.returnDim);
-        playerData.setReturnLocation(message.returnPos);
-        playerData.setSoAState(message.soAstate);
-        playerData.setChoice(message.choice);
-        playerData.setSacrifice(message.sacrifice);
-        playerData.setChoicePedestal(message.choicePedestal);
-        playerData.setSacrificePedestal(message.sacrificePedestal);
-
-        playerData.setHearts(message.hearts);
-        playerData.setAlignment(message.alignment);
-        playerData.equipWeapon(message.equippedWeapon);
-        playerData.setWeaponsUnlocked(message.unlocks);
-        playerData.setLimitCooldownTicks(message.limitCooldownTicks);
-        playerData.setMagicCasttimeTicks(message.magicCasttimeTicks);
-        playerData.setMagicCooldownTicks(message.magicCooldownTicks);
-
-        playerData.setReactionCommands(message.reactionList);
-        playerData.setShortcutsMap(message.shortcutsMap);
-
-        playerData.setSynthLevel(message.synthLevel);
-        playerData.setSynthExperience(message.synthExp);
-
-        playerData.setRespawnROD(message.respawnROD);
-
-        playerData.setSingleStyle(message.singleStyle);
-        playerData.setDualStyle(message.dualStyle);
-
-        Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
+    public static void syncCapability(SCSyncPlayerData message) {
+        PlayerData playerData = PlayerData.get((Player) Minecraft.getInstance().level.getEntity(message.player()));
+        playerData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.data());
+        Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
     }
 
     public static void syncDriveFormData(SCSyncDriveFormData message) {
         Player player = Minecraft.getInstance().player;
-        for (int i = 0; i < message.names.size(); i++) {
-            DriveForm driveform = ModDriveForms.registry.get().getValue(new ResourceLocation(message.names.get(i)));
-            String d = message.data.get(i);
+        for (int i = 0; i < message.names().size(); i++) {
+            DriveForm driveform = ModDriveForms.registry.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
             DriveFormData result;
@@ -193,7 +126,7 @@ public class ClientPacketHandler {
                 result = SCSyncDriveFormData.GSON_BUILDER.fromJson(br, DriveFormData.class);
 
             } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
+                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names().get(i), e);
                 continue;
             }
             driveform.setDriveFormData(result);
@@ -204,7 +137,7 @@ public class ClientPacketHandler {
     public static void syncSynthesisData(SCSyncSynthesisData message) {
         Player player = Minecraft.getInstance().player;
         RecipeRegistry.getInstance().clearRegistry();
-        message.recipes.forEach(recipe -> {
+        message.recipes().forEach(recipe -> {
             RecipeRegistry.getInstance().register(recipe);
         });
     }
@@ -212,16 +145,16 @@ public class ClientPacketHandler {
     public static void syncShopData(SCSyncShopData message) {
         Player player = Minecraft.getInstance().player;
         ShopListRegistry.getInstance().clearRegistry();
-        message.list.forEach(shopItem -> {
+        message.list().forEach(shopItem -> {
             ShopListRegistry.getInstance().register(shopItem);
         });
     }
 
     public static void syncKeybladeData(SCSyncKeybladeData message) {
         Player player = Minecraft.getInstance().player;
-        for (int i = 0; i < message.names.size(); i++) {
-            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names.get(i)));
-            String d = message.data.get(i);
+        for (int i = 0; i < message.names().size(); i++) {
+            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
             KeybladeData result;
@@ -229,7 +162,7 @@ public class ClientPacketHandler {
                 result = SCSyncKeybladeData.GSON_BUILDER.fromJson(br, KeybladeData.class);
 
             } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
+                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names().get(i), e);
                 continue;
             }
             keyblade.setKeybladeData(result);
@@ -241,9 +174,9 @@ public class ClientPacketHandler {
 
     public static void syncMagicData(SCSyncMagicData message) {
         Player player = Minecraft.getInstance().player;
-        for (int i = 0; i < message.names.size(); i++) {
-            Magic magic = ModMagic.registry.get(ResourceLocation.parse(message.names.get(i)));
-            String d = message.data.get(i);
+        for (int i = 0; i < message.names().size(); i++) {
+            Magic magic = ModMagic.registry.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
             MagicData result;
@@ -251,7 +184,7 @@ public class ClientPacketHandler {
                 result = SCSyncMagicData.GSON_BUILDER.fromJson(br, MagicData.class);
 
             } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", message.names.get(i), e);
+                KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", message.names().get(i), e);
                 continue;
             }
             magic.setMagicData(result);
@@ -261,9 +194,9 @@ public class ClientPacketHandler {
 
     public static void syncLimitData(SCSyncLimitData message) {
         Player player = Minecraft.getInstance().player;
-        for (int i = 0; i < message.names.size(); i++) {
-            Limit limit = ModLimits.registry.get(ResourceLocation.parse(message.names.get(i)));
-            String d = message.data.get(i);
+        for (int i = 0; i < message.names().size(); i++) {
+            Limit limit = ModLimits.registry.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
             LimitData result;
@@ -271,7 +204,7 @@ public class ClientPacketHandler {
                 result = SCSyncLimitData.GSON_BUILDER.fromJson(br, LimitData.class);
 
             } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", message.names.get(i), e);
+                KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", message.names().get(i), e);
                 continue;
             }
             limit.setLimitData(result);
@@ -281,10 +214,10 @@ public class ClientPacketHandler {
 
     public static void syncOrgData(SCSyncOrganizationData message) {
         Player player = Minecraft.getInstance().player;
-        for (int i = 0; i < message.names.size(); i++) {
-            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names.get(i)));
+        for (int i = 0; i < message.names().size(); i++) {
+            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
 
-            String d = message.data.get(i);
+            String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
             OrganizationData result;
@@ -292,7 +225,7 @@ public class ClientPacketHandler {
                 result = SCSyncOrganizationData.GSON_BUILDER.fromJson(br, OrganizationData.class);
 
             } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names.get(i), e);
+                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", message.names().get(i), e);
                 continue;
             }
             weapon.setOrganizationData(result);
@@ -301,18 +234,22 @@ public class ClientPacketHandler {
     }
 
     public static void openCODoorGui(SCOpenCODoorGui message) {
-        Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos)));
+        Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
     }
 
-    public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorCapability message) {
-        Level world = Minecraft.getInstance().level;
-        CastleOblivionData.ICastleOblivionInteriorCapability worldData = ModData.getCastleOblivionInterior(world);
-        worldData.deserializeNBT(message.data);
+    public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {
+        ClientLevel world = Minecraft.getInstance().level;
+        CastleOblivionData.InteriorData.setClientCache(world, CastleOblivionData.InteriorData.load(message.data(), world.registryAccess()));
+    }
+
+    public static void syncWorldData(SCSyncWorldData message) {
+        ClientLevel world = Minecraft.getInstance().level;
+        WorldData.setClientCache(WorldData.load(message.data(), world.registryAccess()));
     }
 
     public static void syncMoogleNames(SCSyncMoogleNames message) {
         NamesListRegistry.getInstance().clearRegistry();
-        NamesListRegistry.getInstance().setRegistry(message.names);
+        NamesListRegistry.getInstance().setRegistry(message.names());
     }
 
     public static void openSavePointScreen(SCOpenSavePointScreen message) {
@@ -344,7 +281,7 @@ public class ClientPacketHandler {
 
     public static void showTitles(SCShowMessagesPacket message) {
         SoAMessages.INSTANCE.clearMessage();
-        for(Utils.Title t : message.titles) {
+        for(Utils.Title t : message.titles()) {
             SoAMessages.INSTANCE.queueMessage(t);
         }
         //SoAMessages.INSTANCE.queueMessages((Title[]) message.titles.toArray());

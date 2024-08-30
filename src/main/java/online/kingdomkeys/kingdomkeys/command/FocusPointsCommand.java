@@ -16,7 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/take/set> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -68,7 +68,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 		playerData.setFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" focus to "+value), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been set to "+value));
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
 		return 1;
 	}
 	
@@ -86,7 +86,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 		playerData.addFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" focus to "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been increased by "+value));
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
 		return 1;
 	}
 	
@@ -105,7 +105,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 		playerData.remFocus(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" focus from "+player.getDisplayName().getString()), true);
 		player.sendSystemMessage(Component.translatable("Your focus has been decreased by "+value));
-		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
 		return 1;
 	}
 }

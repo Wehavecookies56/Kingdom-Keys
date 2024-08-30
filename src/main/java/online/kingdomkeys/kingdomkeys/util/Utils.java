@@ -9,8 +9,10 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -146,6 +148,18 @@ public class Utils {
 			}
 			return titles;
 		}
+
+		public static StreamCodec<FriendlyByteBuf, Title> STREAM_CODEC = new StreamCodec<>() {
+            @Override
+            public Title decode(FriendlyByteBuf pBuffer) {
+                return new Title(pBuffer.readNbt());
+            }
+
+            @Override
+            public void encode(FriendlyByteBuf pBuffer, Title pValue) {
+				pBuffer.writeNbt(pValue.write());
+            }
+        }
 	}
 
 	public record ShotlockPosition(int id,float x,float y, float z){}

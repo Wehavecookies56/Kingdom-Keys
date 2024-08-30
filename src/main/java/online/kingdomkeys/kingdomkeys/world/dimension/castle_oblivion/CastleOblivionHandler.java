@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
@@ -138,7 +138,7 @@ public class CastleOblivionHandler {
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getFrom().equals(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")))) {
             if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                SCSyncCastleOblivionInteriorCapability.syncClients(event.getEntity().level());
+                SCSyncCastleOblivionInteriorData.syncClients(event.getEntity().level());
                 event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
                 event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
                 event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));
