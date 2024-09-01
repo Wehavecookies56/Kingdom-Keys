@@ -104,15 +104,8 @@ public class KKAnimations {
         WISDOM_RUN = new StaticAnimation(true, "biped/living/wisdom_run", Armatures.BIPED);
         WISDOM_COMBO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_shoot", Armatures.BIPED) {
             @Override
-            protected TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, DynamicAnimation animation, float time) {
-                TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
-                stateMap.put(EntityState.MOVEMENT_LOCKED, (Object) false);
-                return stateMap;
-            }
-
-            @Override
             public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
-                return false;
+                return true;
             }
 
             @Override
@@ -131,19 +124,12 @@ public class KKAnimations {
                         AnimationEvent.TimeStampedEvent.create(.2f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.3f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false);
         WISDOM_FINISHER = new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.rootJoint, "biped/combat/wisdom_finisher", Armatures.BIPED) {
-            @Override
-            public TypeFlexibleHashMap<EntityState.StateFactor<?>> getStatesMap(LivingEntityPatch<?> entitypatch, DynamicAnimation animation,  float time) {
-                TypeFlexibleHashMap<EntityState.StateFactor<?>> stateMap = super.getStatesMap(entitypatch, time);
-                stateMap.put(EntityState.MOVEMENT_LOCKED, (Object) false);
-
-                return stateMap;
-            }
 
             @Override
             public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
-                return false;
+                return true;
             }
 
             @Override
@@ -172,7 +158,7 @@ public class KKAnimations {
                         AnimationEvent.TimeStampedEvent.create(.75f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.TimeStampedEvent.create(.8f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH));
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false);
 
         MASTER_IDLE = new StaticAnimation(true, "biped/living/master_idle", Armatures.BIPED);
 
