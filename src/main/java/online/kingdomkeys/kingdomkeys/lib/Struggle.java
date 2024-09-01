@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
@@ -24,6 +27,10 @@ public class Struggle {
 
 	public Struggle() {
 
+	}
+
+	public Struggle(CompoundTag tag) {
+		read(tag);
 	}
 
 	public Struggle(BlockPos blockPos, String name, UUID leaderId, String username, boolean priv, byte size) {
@@ -208,4 +215,10 @@ public class Struggle {
 			return this.username;
 		}
 	}
+
+	public static final StreamCodec<FriendlyByteBuf, Struggle> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			Struggle::write,
+			Struggle::new
+	);
 }

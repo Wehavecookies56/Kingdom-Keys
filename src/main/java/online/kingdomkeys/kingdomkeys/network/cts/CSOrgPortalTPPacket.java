@@ -1,66 +1,55 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class CSOrgPortalTPPacket {
+public record CSOrgPortalTPPacket(ResourceKey<Level> dim, BlockPos pos) implements Packet {
 
-	ResourceKey<Level> dim;
-    double x,y,z;
+	public static final Type<CSOrgPortalTPPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_org_portal_tp"));
 
-	public CSOrgPortalTPPacket() {
+	public static final StreamCodec<FriendlyByteBuf, CSOrgPortalTPPacket> STREAM_CODEC = StreamCodec.composite(
+			ResourceKey.streamCodec(Registries.DIMENSION),
+			CSOrgPortalTPPacket::dim,
+			BlockPos.STREAM_CODEC,
+			CSOrgPortalTPPacket::pos,
+			CSOrgPortalTPPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		ServerLevel serverWorld = player.level().getServer().getLevel(dim);
+		PlayerData playerData = PlayerData.get(player);
+		//If destination is the ROD lock the player there, otherwise unlock
+		playerData.setRespawnROD(dim.location().getPath().equals("realm_of_darkness"));
+
+		if(player.level().dimension().equals(dim)) { //Seemless tp
+			ServerPlayer playerMP = (ServerPlayer) player;
+			playerMP.teleportTo(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
+			playerMP.setDeltaMovement(0, 0, 0);
+		} else {
+			player.changeDimension(new DimensionTransition(serverWorld, new Vec3(pos.getX(), pos.getY(), pos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), pEntity -> {}));
+		}
 	}
 
-	public CSOrgPortalTPPacket(ResourceKey<Level> dimension, double x, double y, double z) {
-    	this.dim = dimension;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeResourceLocation(dim.location());
-        buffer.writeDouble(x);
-        buffer.writeDouble(y);
-        buffer.writeDouble(z);
-	}
-
-	public static CSOrgPortalTPPacket decode(FriendlyByteBuf buffer) {
-		CSOrgPortalTPPacket msg = new CSOrgPortalTPPacket();
-		//No idea if this how you should do this
-		msg.dim = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
-		msg.x = buffer.readDouble();
-		msg.y = buffer.readDouble();
-		msg.z = buffer.readDouble();
-		return msg;
-	}
-
-	public static void handle(CSOrgPortalTPPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			ServerLevel serverWorld = player.level().getServer().getLevel(message.dim);
-			IPlayerData playerData = ModData.getPlayer(player);
-    		//If destination is the ROD lock the player there, otherwise unlock
-			playerData.setRespawnROD(message.dim.location().getPath().equals("realm_of_darkness"));
-			
-            if(player.level().dimension().equals(message.dim)) { //Seemless tp
-				ServerPlayer playerMP = (ServerPlayer) player;
-				playerMP.teleportTo(message.x+0.5, message.y, message.z+0.5);
-				playerMP.setDeltaMovement(0, 0, 0);
-			} else {
-	            player.changeDimension(serverWorld, new BaseTeleporter(message.x,message.y,message.z));
-			}
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

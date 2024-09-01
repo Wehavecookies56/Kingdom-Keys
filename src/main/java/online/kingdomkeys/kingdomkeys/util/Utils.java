@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -162,7 +163,19 @@ public class Utils {
         }
 	}
 
-	public record ShotlockPosition(int id,float x,float y, float z){}
+	public record ShotlockPosition(int id,float x,float y, float z){
+		public static final StreamCodec<FriendlyByteBuf, ShotlockPosition> STREAM_CODEC = StreamCodec.composite(
+				ByteBufCodecs.INT,
+				ShotlockPosition::id,
+				ByteBufCodecs.FLOAT,
+				ShotlockPosition::x,
+				ByteBufCodecs.FLOAT,
+				ShotlockPosition::y,
+				ByteBufCodecs.FLOAT,
+				ShotlockPosition::z,
+				ShotlockPosition::new
+		);
+	}
 
 	public record castMagic(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
@@ -315,6 +328,12 @@ public class Utils {
 
 	public static enum OrgMember {
 		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS
+
+		public static final StreamCodec<FriendlyByteBuf, OrgMember> STREAM_CODEC = StreamCodec.composite(
+				ByteBufCodecs.INT,
+				Enum::ordinal,
+				integer -> OrgMember.values()[integer]
+		);
 	}
 
 	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {

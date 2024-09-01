@@ -2,74 +2,58 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSShotlockShot {
+public record CSShotlockShot(List<Utils.ShotlockPosition> shotlockEnemies, double cost) implements Packet {
 	
-	List<Utils.ShotlockPosition> shotlockEnemies;
-	List<Integer> shotlockList;
-	double cost;
-	
-	public CSShotlockShot() {}
+	public static final Type<CSShotlockShot> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shotlock_shot"));
 
-	public CSShotlockShot(double cost, List<Utils.ShotlockPosition> shotlockEnemies) {
-		this.cost = cost;
-		this.shotlockEnemies = shotlockEnemies;
-	}
+	public static final StreamCodec<FriendlyByteBuf, CSShotlockShot> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.collection(ArrayList::new, Utils.ShotlockPosition.STREAM_CODEC),
+			CSShotlockShot::shotlockEnemies,
+			ByteBufCodecs.DOUBLE,
+			CSShotlockShot::cost,
+			CSShotlockShot::new
+	);
 
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeDouble(this.cost);
-		buffer.writeInt(this.shotlockEnemies.size());
-		for(int i= 0; i< this.shotlockEnemies.size(); i++) {
-			buffer.writeInt(this.shotlockEnemies.get(i).id());
-		}
-	}
+		PlayerData playerData = PlayerData.get(player);
+		Shotlock shotlock = Utils.getPlayerShotlock(player);
 
-	public static CSShotlockShot decode(FriendlyByteBuf buffer) {
-		CSShotlockShot msg = new CSShotlockShot();
-		msg.cost = buffer.readDouble();
-		int size = buffer.readInt();
-		msg.shotlockList = new ArrayList<Integer>();
+		List<Entity> targets = new ArrayList<>();
 
-		for(int i= 0; i< size; i++) {
-			msg.shotlockList.add(buffer.readInt());
+		for(Utils.ShotlockPosition enemy : shotlockEnemies) {
+			Entity target = player.level().getEntity(enemy.id());
+			targets.add(target);
 		}
 
-		return msg;
+		playerData.setHasShotMaxShotlock(targets.size() == shotlock.getMaxLocks());
+
+		shotlock.onUse(player, targets);
+		playerData.remFocus(cost);
+		PacketHandler.syncToAllAround(player, playerData);
 	}
 
-	public static void handle(CSShotlockShot message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-
-			IPlayerData playerData = ModData.getPlayer(player);
-			Shotlock shotlock = Utils.getPlayerShotlock(player);
-			
-			List<Entity> targets = new ArrayList<Entity>();
-			
-			for(int enemyID : message.shotlockList) {
-				Entity target = player.level().getEntity(enemyID);
-				targets.add(target);
-			}
-			
-			playerData.setHasShotMaxShotlock(targets.size() == shotlock.getMaxLocks());
-
-			shotlock.onUse(player, targets);
-			playerData.remFocus(message.cost);
-			PacketHandler.syncToAllAround(player, playerData);
-			
-		});
-		ctx.get().setPacketHandled(true);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
 }

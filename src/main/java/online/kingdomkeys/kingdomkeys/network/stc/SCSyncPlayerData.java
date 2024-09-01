@@ -16,6 +16,10 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSyncPlayerData(int player, CompoundTag data) implements Packet {
 
+	public SCSyncPlayerData(Player player) {
+		this(player.getId(), PlayerData.get(player).serializeNBT(player.level().registryAccess()));
+	}
+
 	public static final Type<SCSyncPlayerData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_player_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncPlayerData> STREAM_CODEC = StreamCodec.composite(

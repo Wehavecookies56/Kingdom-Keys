@@ -34,7 +34,7 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!world.isClientSide) {
-			PacketHandler.sendTo(new SCSyncPlayerData(PlayerData.get(player)), (ServerPlayer)player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new SynthesisBagMenu(w, p, stack), stack.getHoverName());
 			player.openMenu(container, buf -> {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);

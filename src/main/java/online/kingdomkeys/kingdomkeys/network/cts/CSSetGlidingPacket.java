@@ -1,42 +1,37 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSSetGlidingPacket {
+public record CSSetGlidingPacket(boolean gliding) implements Packet {
 
-	private boolean gliding;
+	public static final Type<CSSetGlidingPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_gliding"));
 
-	public CSSetGlidingPacket() {
+	public static final StreamCodec<FriendlyByteBuf, CSSetGlidingPacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.BOOL,
+			CSSetGlidingPacket::gliding,
+			CSSetGlidingPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		playerData.setIsGliding(gliding);
+		PacketHandler.syncToAllAround(player, playerData);
 	}
 
-	public CSSetGlidingPacket(boolean gliding) {
-		this.gliding = gliding;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBoolean(this.gliding);
-	}
-
-	public static CSSetGlidingPacket decode(FriendlyByteBuf buffer) {
-		CSSetGlidingPacket msg = new CSSetGlidingPacket();
-		msg.gliding = buffer.readBoolean();
-		return msg;
-	}
-
-	public static void handle(CSSetGlidingPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			playerData.setIsGliding(message.gliding);
-			PacketHandler.syncToAllAround(player, playerData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

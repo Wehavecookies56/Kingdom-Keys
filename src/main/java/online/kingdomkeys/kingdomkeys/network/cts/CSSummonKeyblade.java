@@ -1,87 +1,71 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.Set;
-import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-public class CSSummonKeyblade {
+public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceDesummon) implements Packet {
 
-	ResourceLocation formToSummonFrom;
-	boolean hasForm;
-	boolean forceDesummon;
+	public static final Type<CSSummonKeyblade> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_summon_keyblade"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSSummonKeyblade> STREAM_CODEC = StreamCodec.composite(
+			ResourceLocation.STREAM_CODEC,
+			CSSummonKeyblade::formToSummonFrom,
+			ByteBufCodecs.BOOL,
+			CSSummonKeyblade::forceDesummon,
+			CSSummonKeyblade::new
+	);
 
 	public CSSummonKeyblade() {
-		hasForm = false;
-		forceDesummon = false;
+		this(DriveForm.NONE, false);
 	}
 
 	public CSSummonKeyblade(boolean forceDesummon) {
-		this.forceDesummon = forceDesummon;
+		this(DriveForm.NONE, forceDesummon);
 	}
 
 	//Don't pass none please
 	public CSSummonKeyblade(ResourceLocation formToSummonFrom) {
-		this.formToSummonFrom = formToSummonFrom;
-		hasForm = true;
-		forceDesummon = false;
+		this(formToSummonFrom, false);
 	}
 
-	/*public CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceDesummon) {
-		this.formToSummonFrom = formToSummonFrom;
-		hasForm = true;
-		this.forceDesummon = forceDesummon;
-		alignment = OrgMember.NONE;
-	}*/
-	
-	public CSSummonKeyblade(boolean forceDesummon, OrgMember alignment) {
-		hasForm = false;
-		this.forceDesummon = forceDesummon;
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		Utils.summonKeyblade(player, forceDesummon, formToSummonFrom);
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBoolean(forceDesummon);
-		buffer.writeBoolean(hasForm);
-		if (formToSummonFrom != null)
-			buffer.writeResourceLocation(formToSummonFrom);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 
-	public static CSSummonKeyblade decode(FriendlyByteBuf buffer) {
-		CSSummonKeyblade msg = new CSSummonKeyblade();
-		msg.forceDesummon = buffer.readBoolean();
-		msg.hasForm = buffer.readBoolean();
-		if (msg.hasForm)
-			msg.formToSummonFrom = buffer.readResourceLocation();
-		return msg;
-	}
-
-	public static void handle(CSSummonKeyblade message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			Utils.summonKeyblade(player,message.forceDesummon, message.formToSummonFrom);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
-	@Mod.EventBusSubscriber
+	@EventBusSubscriber
 	public static class Events {
 
 		@SubscribeEvent
@@ -89,7 +73,7 @@ public class CSSummonKeyblade {
 			ServerPlayer player = (ServerPlayer) event.getEntity();
 			AbstractContainerMenu openContainer = event.getContainer();
 			AbstractContainerMenu playerContainer = player.inventoryMenu;
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null) {
 				if (!openContainer.equals(playerContainer)) {
 					openContainer.slots.forEach(slot -> {
@@ -123,7 +107,7 @@ public class CSSummonKeyblade {
 			ItemStack droppedItem = event.getEntity().getItem();
 			//If it doesn't have an ID it was not summoned unless it's an org weapon
 			Player player = event.getPlayer();
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if(playerData != null) {
 				if (droppedItem != null) {
 					if (!(droppedItem.getItem() instanceof IKeychain)) {

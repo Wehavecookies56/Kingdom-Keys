@@ -2,42 +2,38 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-import java.util.function.Supplier;
 
-public class CSSetAirStepPacket {
+public record CSSetAirStepPacket(BlockPos pos) implements Packet {
 
-	private BlockPos pos;
+	public static final Type<CSSetAirStepPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_air_step"));
 
-	public CSSetAirStepPacket() {
+	public static final StreamCodec<FriendlyByteBuf, CSSetAirStepPacket> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC,
+			CSSetAirStepPacket::pos,
+			CSSetAirStepPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		playerData.setAirStep(pos);
+		PacketHandler.syncToAllAround(player, playerData);
 	}
 
-	public CSSetAirStepPacket(BlockPos pos) {
-		this.pos = pos;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-	}
-
-	public static CSSetAirStepPacket decode(FriendlyByteBuf buffer) {
-		CSSetAirStepPacket msg = new CSSetAirStepPacket();
-		msg.pos = buffer.readBlockPos();
-		return msg;
-	}
-
-	public static void handle(CSSetAirStepPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			playerData.setAirStep(message.pos);
-			PacketHandler.syncToAllAround(player, playerData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

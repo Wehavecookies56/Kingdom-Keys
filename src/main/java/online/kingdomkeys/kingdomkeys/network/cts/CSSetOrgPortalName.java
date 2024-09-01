@@ -1,57 +1,48 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
-public class CSSetOrgPortalName {
+public record CSSetOrgPortalName(BlockPos pos, String name) implements Packet {
 
-	BlockPos pos;
-    String name;
-	
-    public CSSetOrgPortalName() {}
+    public static final Type<CSSetOrgPortalName> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_org_portal_name"));
 
-    public CSSetOrgPortalName(BlockPos pos, String name) {
-        this.pos = pos;
-        this.name = name;
+    public static final StreamCodec<FriendlyByteBuf, CSSetOrgPortalName> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC,
+            CSSetOrgPortalName::pos,
+            ByteBufCodecs.STRING_UTF8,
+            CSSetOrgPortalName::name,
+            CSSetOrgPortalName::new
+    );
+
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        if(player.level().getBlockEntity(pos) != null && player.level().getBlockEntity(pos) instanceof OrgPortalTileEntity) {
+            OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(pos);
+            UUID portalUUID = te.getUUID();
+            WorldData.get(player.getServer()).getPortalFromUUID(portalUUID).setName(name);
+            PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
+        }
     }
 
-    
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(pos);
-        buffer.writeInt(name.length());
-        buffer.writeUtf(name, name.length());
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
-
-    public static CSSetOrgPortalName decode(FriendlyByteBuf buffer) {
-        CSSetOrgPortalName msg = new CSSetOrgPortalName();
-        msg.pos = buffer.readBlockPos();
-        int len = buffer.readInt();
-        msg.name = buffer.readUtf(len);
-        return msg;
-    }
-
-    public static void handle(CSSetOrgPortalName message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            if(player.level().getBlockEntity(message.pos) != null && player.level().getBlockEntity(message.pos) instanceof OrgPortalTileEntity) {
-            	OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(message.pos);
-            	UUID portalUUID = te.getUUID();
-            	ModData.getWorld(player.level()).getPortalFromUUID(portalUUID).setName(message.name);
-				PacketHandler.sendTo(new SCSyncWorldData(ModData.getWorld(player.level())), (ServerPlayer) player);
-            }
-        });
-        ctx.get().setPacketHandled(true);
-    }
-
 }

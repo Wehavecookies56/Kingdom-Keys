@@ -1,48 +1,42 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSSetAerialDodgeTicksPacket {
+public record CSSetAerialDodgeTicksPacket(boolean hasJumped, int ticks) implements Packet {
 
-	private int ticks;
-	private boolean hasJumped;
+	public static final Type<CSSetAerialDodgeTicksPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_aerial_dodge_ticks"));
 
-	public CSSetAerialDodgeTicksPacket() {
+	public static final StreamCodec<FriendlyByteBuf, CSSetAerialDodgeTicksPacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.BOOL,
+			CSSetAerialDodgeTicksPacket::hasJumped,
+			ByteBufCodecs.INT,
+			CSSetAerialDodgeTicksPacket::ticks,
+			CSSetAerialDodgeTicksPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		playerData.setHasJumpedAerialDodge(hasJumped);
+		playerData.setAerialDodgeTicks(ticks);
+
+		PacketHandler.syncToAllAround(player, playerData);
 	}
 
-	public CSSetAerialDodgeTicksPacket(boolean hasJumped, int ticks) {
-		this.hasJumped = hasJumped;
-		this.ticks = ticks;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBoolean(hasJumped);
-		buffer.writeInt(this.ticks);
-	}
-
-	public static CSSetAerialDodgeTicksPacket decode(FriendlyByteBuf buffer) {
-		CSSetAerialDodgeTicksPacket msg = new CSSetAerialDodgeTicksPacket();
-		msg.hasJumped = buffer.readBoolean();
-		msg.ticks = buffer.readInt();
-		return msg;
-	}
-
-	public static void handle(CSSetAerialDodgeTicksPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			playerData.setHasJumpedAerialDodge(message.hasJumped);
-			playerData.setAerialDodgeTicks(message.ticks);
-			
-			PacketHandler.syncToAllAround(player, playerData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

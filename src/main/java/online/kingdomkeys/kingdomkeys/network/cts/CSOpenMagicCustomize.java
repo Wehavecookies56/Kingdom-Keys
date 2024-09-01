@@ -1,30 +1,34 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMagicCustomize;
 
-public class CSOpenMagicCustomize {
+public record CSOpenMagicCustomize() implements Packet {
 
-    public CSOpenMagicCustomize() {}
+    public static final Type<CSOpenMagicCustomize> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_open_magic_customize"));
 
-    public void encode(FriendlyByteBuf buffer) {}
+    public static final StreamCodec<FriendlyByteBuf, CSOpenMagicCustomize> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSOpenMagicCustomize());
 
-    public static CSOpenMagicCustomize decode(FriendlyByteBuf buffer) {
-        return new CSOpenMagicCustomize();
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        PlayerData cap = PlayerData.get(player);
+        PacketHandler.sendTo(new SCOpenMagicCustomize(cap.getMagicsMap()), (ServerPlayer) player);
     }
 
-    public static void handle(CSOpenMagicCustomize message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            IPlayerData cap = ModData.getPlayer(player);
-            PacketHandler.sendTo(new SCOpenMagicCustomize(cap.getMagicsMap()), ctx.get().getSender());
-        });
-        ctx.get().setPacketHandled(true);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

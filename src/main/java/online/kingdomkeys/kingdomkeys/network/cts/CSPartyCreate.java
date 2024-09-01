@@ -1,71 +1,42 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
-public class CSPartyCreate {
-	
-	String name, username;
-	UUID uuid;
-	boolean priv;
-	byte size;
-	
-	public CSPartyCreate() {}
+public record CSPartyCreate(Party party) implements Packet {
 
-	public CSPartyCreate(Party party) {
-		this.name = party.getName();
-		this.uuid = party.getLeaders().get(0).getUUID();
-		this.username = party.getLeaders().get(0).getUsername();
-		this.priv = party.getPriv();
-		this.size = party.getSize();
+	public static final Type<CSPartyCreate> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_create"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSPartyCreate> STREAM_CODEC = StreamCodec.composite(
+			Party.STREAM_CODEC,
+			CSPartyCreate::party,
+			CSPartyCreate::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		WorldData worldData = WorldData.get(player.getServer());
+		worldData.addParty(party);
+		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-		
-		buffer.writeUUID(this.uuid);
-		
-		buffer.writeInt(this.username.length());
-		buffer.writeUtf(this.username);
-		
-		buffer.writeBoolean(this.priv);
-		
-		buffer.writeByte(this.size);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSPartyCreate decode(FriendlyByteBuf buffer) {
-		CSPartyCreate msg = new CSPartyCreate();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);
-		
-		msg.uuid = buffer.readUUID();
-		
-		length = buffer.readInt();
-		msg.username = buffer.readUtf(length);
-		
-		msg.priv = buffer.readBoolean();
-		
-		msg.size = buffer.readByte();
-		return msg;
-	}
-
-	public static void handle(CSPartyCreate message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModData.getWorld(player.level());
-			Party party = new Party(message.name, message.uuid, message.username, message.priv, message.size); 
-			worldData.addParty(party);
-			Utils.syncWorldData(player.level(), worldData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

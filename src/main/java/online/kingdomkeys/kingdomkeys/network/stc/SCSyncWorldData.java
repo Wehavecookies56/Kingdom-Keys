@@ -7,6 +7,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -24,8 +26,8 @@ public record SCSyncWorldData(CompoundTag data) implements Packet {
 			SCSyncWorldData::new
 	);
 
-	public SCSyncWorldData(WorldData worldData, HolderLookup.Provider provider) {
-		this(worldData.save(new CompoundTag(), provider));
+	public SCSyncWorldData(MinecraftServer server) {
+		this(WorldData.get(server).save(new CompoundTag(), server.registryAccess()));
 	}
 
 	@Override

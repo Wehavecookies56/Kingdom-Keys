@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
@@ -101,15 +102,9 @@ public class ShopList {
 		this.registryName = registryName;
 	}
 
-	public static final StreamCodec<FriendlyByteBuf, ShopList> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public ShopList decode(FriendlyByteBuf pBuffer) {
-            return new ShopList(pBuffer.readNbt());
-        }
-
-        @Override
-        public void encode(FriendlyByteBuf pBuffer, ShopList pValue) {
-			pBuffer.writeNbt(pValue.serializeNBT());
-        }
-    };
+	public static final StreamCodec<FriendlyByteBuf, ShopList> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			ShopList::serializeNBT,
+			ShopList::new
+	);
 }

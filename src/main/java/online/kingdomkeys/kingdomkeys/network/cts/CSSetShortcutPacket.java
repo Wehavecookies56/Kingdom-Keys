@@ -1,58 +1,48 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public class CSSetShortcutPacket {
+public record CSSetShortcutPacket(int position, int level, String magic) implements Packet {
 	
-	int position, level;
-	String magic;
-	//int targetID;
-	
-	public CSSetShortcutPacket() {}
+	public static final Type<CSSetShortcutPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_shortcut"));
 
-	public CSSetShortcutPacket(int positon, int level, String magic) {
-		this.position = positon;
-		this.level = level;
-		this.magic = magic;
+	public static final StreamCodec<FriendlyByteBuf, CSSetShortcutPacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.INT,
+			CSSetShortcutPacket::position,
+			ByteBufCodecs.INT,
+			CSSetShortcutPacket::level,
+			ByteBufCodecs.STRING_UTF8,
+			CSSetShortcutPacket::magic,
+			CSSetShortcutPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		if(magic.equals("")) {
+			playerData.removeShortcut(position);
+		} else {
+			playerData.changeShortcut(position, magic, level);
+		}
+
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}
 
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.position);
-		buffer.writeInt(this.level);
-		buffer.writeUtf(this.magic,100);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSSetShortcutPacket decode(FriendlyByteBuf buffer) {
-		CSSetShortcutPacket msg = new CSSetShortcutPacket();
-		msg.position = buffer.readInt();
-		msg.level = buffer.readInt();
-		msg.magic = buffer.readUtf(100);
-		return msg;
-	}
-
-	public static void handle(CSSetShortcutPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			if(message.magic.equals("")) {
-				playerData.removeShortcut(message.position);
-			} else {
-				playerData.changeShortcut(message.position, message.magic, message.level);
-			}
-				
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-			
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

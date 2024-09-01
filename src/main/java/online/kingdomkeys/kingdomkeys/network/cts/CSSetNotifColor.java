@@ -1,41 +1,37 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSSetNotifColor {
+public record CSSetNotifColor(int color) implements Packet {
 
-    public CSSetNotifColor() {}
+    public static final Type<CSSetNotifColor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_notif_color"));
 
-    int color;
+    public static final StreamCodec<FriendlyByteBuf, CSSetNotifColor> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            CSSetNotifColor::color,
+            CSSetNotifColor::new
+    );
 
-    public CSSetNotifColor(int color) {
-        this.color = color;
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        PlayerData playerData = PlayerData.get(player);
+        playerData.setNotifColor(color);
+        PacketHandler.syncToAllAround(player, playerData);
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeInt(color);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
-
-    public static CSSetNotifColor decode(FriendlyByteBuf buffer) {
-        CSSetNotifColor msg = new CSSetNotifColor();
-        msg.color = buffer.readInt();
-        return msg;
-    }
-
-    public static void handle(CSSetNotifColor message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-           Player player = ctx.get().getSender();
-           IPlayerData playerData = ModData.getPlayer(player);
-           playerData.setNotifColor(message.color);
-           PacketHandler.syncToAllAround(player, playerData);
-        });
-        ctx.get().setPacketHandled(true);
-    }
-
 }

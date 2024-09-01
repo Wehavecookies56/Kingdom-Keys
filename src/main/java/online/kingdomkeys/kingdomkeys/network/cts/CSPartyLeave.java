@@ -1,53 +1,47 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSPartyLeave {
-	
-	String name;
-	UUID playerUUID;
-	
-	public CSPartyLeave() {}
+public record CSPartyLeave(Party party, UUID playerUUID) implements Packet {
 
-	public CSPartyLeave(Party party, UUID playerUUID) {
-		this.name = party.getName();
-		this.playerUUID = playerUUID;
+	public static final Type<CSPartyLeave> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_leave"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSPartyLeave> STREAM_CODEC = StreamCodec.composite(
+			Party.STREAM_CODEC,
+			CSPartyLeave::party,
+			UUIDUtil.STREAM_CODEC,
+			CSPartyLeave::playerUUID,
+			CSPartyLeave::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		WorldData worldData = WorldData.get(player.getServer());
+		Party p = worldData.getPartyFromName(party().getName());
+		p.removeMember(playerUUID);
+
+		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-				
-		buffer.writeUUID(this.playerUUID);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSPartyLeave decode(FriendlyByteBuf buffer) {
-		CSPartyLeave msg = new CSPartyLeave();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);
-				
-		msg.playerUUID = buffer.readUUID();
-		return msg;
-	}
-
-	public static void handle(CSPartyLeave message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModData.getWorld(player.level());
-			Party p = worldData.getPartyFromName(message.name);
-			p.removeMember(message.playerUUID);
-			
-			Utils.syncWorldData(player.level(), worldData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

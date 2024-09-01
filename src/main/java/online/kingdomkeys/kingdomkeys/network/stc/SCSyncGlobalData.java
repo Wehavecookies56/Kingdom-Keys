@@ -26,8 +26,8 @@ public record SCSyncGlobalData(int entity, CompoundTag data) implements Packet {
 			SCSyncGlobalData::new
 	);
 
-	public SCSyncGlobalData(LivingEntity entity, GlobalData data) {
-		this(entity.getId(), data.serializeNBT(entity.level().registryAccess()));
+	public SCSyncGlobalData(LivingEntity entity) {
+		this(entity.getId(), GlobalData.get(entity).serializeNBT(entity.level().registryAccess()));
 	}
 
 	@Override

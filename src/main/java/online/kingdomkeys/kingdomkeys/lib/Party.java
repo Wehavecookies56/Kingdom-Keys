@@ -3,6 +3,9 @@ package online.kingdomkeys.kingdomkeys.lib;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
@@ -22,6 +25,10 @@ public class Party {
 
 	public Party() {
 
+	}
+
+	public Party(CompoundTag tag) {
+		read(tag);
 	}
 
 	public Party(String name, UUID leaderId, String username, boolean priv, byte size) {
@@ -215,4 +222,10 @@ public class Party {
 			return this.username;
 		}
 	}
+
+	public static final StreamCodec<FriendlyByteBuf, Party> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			Party::write,
+			Party::new
+	);
 }

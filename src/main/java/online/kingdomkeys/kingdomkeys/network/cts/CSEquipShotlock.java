@@ -1,52 +1,47 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public class CSEquipShotlock {
+public record CSEquipShotlock(String shotlock) implements Packet {
 
-	String shotlock;
+    public static final Type<CSEquipShotlock> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_shotlock"));
 
-    public CSEquipShotlock() {}
+    public static final StreamCodec<FriendlyByteBuf, CSEquipShotlock> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            CSEquipShotlock::shotlock,
+            CSEquipShotlock::new
+    );
 
-    public CSEquipShotlock(String shotlock) {
-        this.shotlock = shotlock;
-    }
-
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeUtf(shotlock,100);
-    }
-
-    public static CSEquipShotlock decode(FriendlyByteBuf buffer) {
-        CSEquipShotlock msg = new CSEquipShotlock();
-        msg.shotlock = buffer.readUtf(100);
-        return msg;
-    }
-
-    public static void handle(CSEquipShotlock message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            IPlayerData playerData = ModData.getPlayer(player);
-            if (!MinecraftForge.EVENT_BUS.post(new EquipmentEvent.Shotlock(player, new ResourceLocation(playerData.getEquippedShotlock()), new ResourceLocation(message.shotlock)))) {
-                if (playerData.getShotlockList().contains(message.shotlock) || message.shotlock.equals("")) {
-                    playerData.setEquippedShotlock(message.shotlock);
-                }
-                PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-                PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        PlayerData playerData = PlayerData.get(player);
+        if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Shotlock(player, ResourceLocation.parse(playerData.getEquippedShotlock()), ResourceLocation.parse(shotlock))).isCanceled()) {
+            if (playerData.getShotlockList().contains(shotlock) || shotlock.equals("")) {
+                playerData.setEquippedShotlock(shotlock);
             }
-        });
-        ctx.get().setPacketHandled(true);
+            PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+            PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
+        }
     }
 
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
 }

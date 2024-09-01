@@ -1,40 +1,37 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public class CSCloseMoogleGUI {
+public record CSCloseMoogleGUI(int moogle) implements Packet {
 
-    public CSCloseMoogleGUI() {}
+    public static final Type<CSCloseMoogleGUI> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_close_moogle_gui"));
 
-    int moogle;
+    public static final StreamCodec<FriendlyByteBuf, CSCloseMoogleGUI> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            CSCloseMoogleGUI::moogle,
+            CSCloseMoogleGUI::new
+    );
 
-    public CSCloseMoogleGUI(int moogle) {
-        this.moogle = moogle;
+    @Override
+    public void handle(IPayloadContext context) {
+        Level level = context.player().level();
+        MoogleEntity entity = (MoogleEntity) level.getEntity(moogle);
+        if (entity != null && !entity.isDeadOrDying()) {
+            entity.stopInteracting();
+        }
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeInt(moogle);
-    }
-
-    public static CSCloseMoogleGUI decode(FriendlyByteBuf buffer) {
-        CSCloseMoogleGUI msg = new CSCloseMoogleGUI();
-        msg.moogle = buffer.readInt();
-        return msg;
-    }
-
-    public static void handle(CSCloseMoogleGUI message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Level level = ctx.get().getSender().level();
-            MoogleEntity entity = (MoogleEntity) level.getEntity(message.moogle);
-            if (entity != null && !entity.isDeadOrDying()) {
-                entity.stopInteracting();
-            }
-        });
-        ctx.get().setPacketHandled(true);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

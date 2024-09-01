@@ -1,67 +1,41 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
-public class CSPartyDisband {
-	
-	String name, username;
-	UUID uuid;
-	boolean priv;
-	
-	public CSPartyDisband() {}
+public record CSPartyDisband(Party party) implements Packet {
 
-	public CSPartyDisband(Party party) {
-		this.name = party.getName();
-		this.uuid = party.getLeaders().get(0).getUUID();
-		this.username = party.getLeaders().get(0).getUsername();
-		this.priv = party.getPriv();
+	public static final Type<CSPartyDisband> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_disband"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSPartyDisband> STREAM_CODEC = StreamCodec.composite(
+			Party.STREAM_CODEC,
+			CSPartyDisband::party,
+			CSPartyDisband::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		WorldData worldData = WorldData.get(player.getServer());
+		Party p = worldData.getPartyFromName(party.getName());
+		if(p != null)
+			worldData.removeParty(p);
+
+		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-		
-		buffer.writeUUID(this.uuid);
-		
-		buffer.writeInt(this.username.length());
-		buffer.writeUtf(this.username);
-		
-		buffer.writeBoolean(this.priv);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSPartyDisband decode(FriendlyByteBuf buffer) {
-		CSPartyDisband msg = new CSPartyDisband();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);
-		
-		msg.uuid = buffer.readUUID();
-		
-		length = buffer.readInt();
-		msg.username = buffer.readUtf(length);
-		
-		msg.priv = buffer.readBoolean();
-		return msg;
-	}
-
-	public static void handle(CSPartyDisband message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModData.getWorld(player.level());
-			Party p = worldData.getPartyFromName(message.name);
-			if(p != null)
-				worldData.removeParty(p);
-			
-			Utils.syncWorldData(player.level(), worldData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

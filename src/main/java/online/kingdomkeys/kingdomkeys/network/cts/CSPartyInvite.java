@@ -1,65 +1,56 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public class CSPartyInvite {
-	
-	String name;
-	UUID playerUUID;
-	
-	public CSPartyInvite() {}
+public record CSPartyInvite(Party party, UUID playerUUID) implements Packet {
 
-	public CSPartyInvite(Party party, UUID playerUUID) {
-		this.name = party.getName();
-		this.playerUUID = playerUUID;
+	public static final Type<CSPartyInvite> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_invite"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSPartyInvite> STREAM_CODEC = StreamCodec.composite(
+			Party.STREAM_CODEC,
+			CSPartyInvite::party,
+			UUIDUtil.STREAM_CODEC,
+			CSPartyInvite::playerUUID,
+			CSPartyInvite::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+
+		Player target = player.level().getPlayerByUUID(playerUUID);
+		PlayerData targetPlayerData = PlayerData.get(target);
+		if(!targetPlayerData.getPartiesInvited().contains(party.getName())) {
+			targetPlayerData.addPartiesInvited(party.getName());
+
+			target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+party.getName()));
+		}
+
+
+		PacketHandler.sendTo(new SCSyncPlayerData(target), (ServerPlayer)target);
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-				
-		buffer.writeUUID(this.playerUUID);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSPartyInvite decode(FriendlyByteBuf buffer) {
-		CSPartyInvite msg = new CSPartyInvite();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);
-				
-		msg.playerUUID = buffer.readUUID();
-		return msg;
-	}
-
-	public static void handle(CSPartyInvite message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			
-			Player target = player.level().getPlayerByUUID(message.playerUUID);
-			IPlayerData targetPlayerData = ModData.getPlayer(target);
-			if(!targetPlayerData.getPartiesInvited().contains(message.name)) {
-				targetPlayerData.addPartiesInvited(message.name);
-				
-				IWorldCapabilities worldData = ModData.getWorld(player.level());
-				Party p = worldData.getPartyFromName(message.name);
-				target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+p.getName()));
-			}
-			
-			
-			PacketHandler.sendTo(new SCSyncPlayerData(targetPlayerData), (ServerPlayer)target);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

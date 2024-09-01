@@ -1,69 +1,57 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSPartyAddMember {
-	
-	String name;
-	UUID memberUUID;
-	String memberName;
-	
-	public CSPartyAddMember() {}
+public record CSPartyAddMember(String name, UUID memberUUID, String memberName) implements Packet {
 
-	public CSPartyAddMember(Party party, Player member) {
-		this.name = party.getName();
-		this.memberUUID = member.getUUID();
-		this.memberName = member.getDisplayName().getString();
+	public static final Type<CSPartyAddMember> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_add_member"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSPartyAddMember> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.STRING_UTF8,
+			CSPartyAddMember::name,
+			UUIDUtil.STREAM_CODEC,
+			CSPartyAddMember::memberUUID,
+			ByteBufCodecs.STRING_UTF8,
+			CSPartyAddMember::memberName,
+			CSPartyAddMember::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		WorldData worldData = WorldData.get(player.getServer());
+		for(Party p : worldData.getParties()) {
+			if(p.getName().equals(name))
+				p.addMember(memberUUID, memberName);
+			Player target = player.level().getPlayerByUUID(memberUUID);
+			PlayerData.get(target).removePartiesInvited(name);
+			PacketHandler.sendTo(new SCSyncPlayerData(target), (ServerPlayer)target);
+		}
+		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-		
-		buffer.writeUUID(this.memberUUID);
-		
-		buffer.writeInt(this.memberName.length());
-		buffer.writeUtf(this.memberName);
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSPartyAddMember decode(FriendlyByteBuf buffer) {
-		CSPartyAddMember msg = new CSPartyAddMember();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);		
-		
-		msg.memberUUID = buffer.readUUID();
-		
-		length = buffer.readInt();
-		msg.memberName = buffer.readUtf(length);
-		
-		return msg;
-	}
-
-	public static void handle(CSPartyAddMember message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModData.getWorld(player.level());
-			for(Party p : worldData.getParties()) {
-				if(p.getName().equals(message.name))
-					p.addMember(message.memberUUID, message.memberName);
-				Player target = player.level().getPlayerByUUID(message.memberUUID);
-				ModData.getPlayer(target).removePartiesInvited(message.name);
-				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(target)), (ServerPlayer)target);
-			}
-			Utils.syncWorldData(player.level(), worldData);
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

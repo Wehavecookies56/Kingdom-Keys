@@ -1,61 +1,55 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSPartyPromote {
+public record CSPartyPromote(Party party, UUID playerUUID) implements Packet {
 	
-	String name;
-	UUID playerUUID;
-	
-	public CSPartyPromote() {}
+	public static final Type<CSPartyPromote> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_promote"));
 
-	public CSPartyPromote(Party party, UUID playerUUID) {
-		this.name = party.getName();
-		this.playerUUID = playerUUID;
-	}
+	public static final StreamCodec<FriendlyByteBuf, CSPartyPromote> STREAM_CODEC = StreamCodec.composite(
+			Party.STREAM_CODEC,
+			CSPartyPromote::party,
+			UUIDUtil.STREAM_CODEC,
+			CSPartyPromote::playerUUID,
+			CSPartyPromote::new
+	);
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.name.length());
-		buffer.writeUtf(this.name);
-				
-		buffer.writeUUID(this.playerUUID);
-	}
-
-	public static CSPartyPromote decode(FriendlyByteBuf buffer) {
-		CSPartyPromote msg = new CSPartyPromote();
-		int length = buffer.readInt();
-		msg.name = buffer.readUtf(length);
-				
-		msg.playerUUID = buffer.readUUID();
-		return msg;
-	}
-
-	public static void handle(CSPartyPromote message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IWorldCapabilities worldData = ModData.getWorld(player.level());
-			Party p = worldData.getPartyFromName(message.name);
-			Member member = null;
-			for(Member m : p.getMembers()) {
-				if(m.getUUID().equals(message.playerUUID)){
-					member = m;
-				}
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		WorldData worldData = WorldData.get(player.getServer());
+		Party p = worldData.getPartyFromName(party.getName());
+		Member member = null;
+		for(Member m : p.getMembers()) {
+			if(m.getUUID().equals(playerUUID)){
+				member = m;
 			}
-			if(member != null) {
-				member.setIsLeader(!member.isLeader());
-			}
-			Utils.syncWorldData(player.level(), worldData);
-		});
-		ctx.get().setPacketHandled(true);
+		}
+		if(member != null) {
+			member.setIsLeader(!member.isLeader());
+		}
+		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

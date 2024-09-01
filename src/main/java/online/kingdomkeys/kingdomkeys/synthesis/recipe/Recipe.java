@@ -10,6 +10,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -143,15 +144,9 @@ public class Recipe {
 		this.registryName = registryName;
 	}
 
-	public static final StreamCodec<FriendlyByteBuf, Recipe> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public Recipe decode(FriendlyByteBuf pBuffer) {
-            return new Recipe(pBuffer.readNbt());
-        }
-
-        @Override
-        public void encode(FriendlyByteBuf pBuffer, Recipe pValue) {
-			pBuffer.writeNbt(pValue.serializeNBT());
-        }
-    };
+	public static final StreamCodec<FriendlyByteBuf, Recipe> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			Recipe::serializeNBT,
+			Recipe::new
+	);
 }

@@ -3,72 +3,46 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSChangeStyle {
+public record CSChangeStyle(String style, String handStyle) implements Packet {
 
-    String style;
-    String handStyle;
+    public static final Type<CSChangeStyle> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_change_style"));
 
-    public CSChangeStyle() {}
+    public static final StreamCodec<FriendlyByteBuf, CSChangeStyle> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            CSChangeStyle::style,
+            ByteBufCodecs.STRING_UTF8,
+            CSChangeStyle::handStyle,
+            CSChangeStyle::new
+    );
 
-    public CSChangeStyle(String style, String handStyle) {
-        this.style = style;
-        this.handStyle = handStyle;
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        PlayerData playerData = PlayerData.get(player);
+        if(handStyle.equals(HandStyle.DUAL.toString()))
+            playerData.setDualStyle(DualChoices.valueOf(style));
+        else
+            playerData.setSingleStyle(SingleChoices.valueOf(style));
+        PacketHandler.syncToAllAround(player, playerData);
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeUtf(style.toString(),20);
-        buffer.writeUtf(handStyle.toString(),20);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
-
-    public static CSChangeStyle decode(FriendlyByteBuf buffer) {
-        CSChangeStyle msg = new CSChangeStyle();
-        msg.style = buffer.readUtf(20);
-        msg.handStyle = buffer.readUtf(20);
-        return msg;
-    }
-
-    public static void handle(CSChangeStyle message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            IPlayerData playerData = ModData.getPlayer(player);
-            if(message.handStyle.equals(HandStyle.DUAL.toString()))
-                playerData.setDualStyle(DualChoices.valueOf(message.style));
-            else
-                playerData.setSingleStyle(SingleChoices.valueOf(message.style));
-            PacketHandler.syncToAllAround(player, playerData);
-        });
-        ctx.get().setPacketHandled(true);
-    }
-    /*public static CSChangeStyle decode(FriendlyByteBuf buffer) {
-        String choice = buffer.readUtf(20);
-        HandStyle handStyle1 = HandStyle.valueOf(buffer.readUtf(20));
-        for (DualChoices d: DualChoices.values()) {
-            if(d.toString().equals(choice))
-                return new CSChangeStyle(DualChoices.valueOf(choice), handStyle1);
-        }
-        return new CSChangeStyle(SingleChoices.valueOf(choice), handStyle1);
-
-    }
-
-    public static void handle(CSChangeStyle message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ServerPlayer player = ctx.get().getSender();
-            System.out.println(message.handStyle);
-            IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-            if(message.handStyle == HandStyle.DUAL)
-                playerData.setDualStyle((DualChoices) message.style);
-            else
-                playerData.setSingleStyle((SingleChoices) message.style);
-
-        });
-        ctx.get().setPacketHandled(true);
-    }*/
 }

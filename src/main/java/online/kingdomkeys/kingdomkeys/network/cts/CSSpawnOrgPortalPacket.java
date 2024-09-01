@@ -1,71 +1,60 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
 
-public class CSSpawnOrgPortalPacket {
+public record CSSpawnOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 
-	BlockPos pos;
-	BlockPos destPos;
-	ResourceKey<Level> dimension;
+	public static final Type<CSSpawnOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_spawn_org_portal"));
 
-	public CSSpawnOrgPortalPacket() {
+	public static final StreamCodec<FriendlyByteBuf, CSSpawnOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
+			BlockPos.STREAM_CODEC,
+			CSSpawnOrgPortalPacket::pos,
+			BlockPos.STREAM_CODEC,
+			CSSpawnOrgPortalPacket::destPos,
+			ResourceKey.streamCodec(Registries.DIMENSION),
+			CSSpawnOrgPortalPacket::dimension,
+			CSSpawnOrgPortalPacket::new
+	);
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		player.level().playSound(null, pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
+		player.level().playSound(null, destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
+
+		PlayerData playerData = PlayerData.get(player);
+		playerData.remMP(300);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
+		OrgPortalEntity portal = new OrgPortalEntity(player.level(), pos, destPos, dimension, true);
+		player.level().addFreshEntity(portal);
+
+		OrgPortalEntity destPortal = new OrgPortalEntity(player.level(), destPos.above(), destPos, dimension, false);
+		player.level().addFreshEntity(destPortal);
+
+		PacketHandler.sendToAll(new SCSyncOrgPortalPacket(pos, destPos, dimension));
 	}
 
-	public CSSpawnOrgPortalPacket(BlockPos pos, BlockPos dest, ResourceKey<Level> dim) {
-		this.pos = pos;
-		this.destPos = dest;
-		this.dimension = dim;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(pos);
-		buffer.writeBlockPos(destPos);
-		buffer.writeResourceLocation(dimension.location());
-	}
-
-	public static CSSpawnOrgPortalPacket decode(FriendlyByteBuf buffer) {
-		CSSpawnOrgPortalPacket msg = new CSSpawnOrgPortalPacket();
-		msg.pos = buffer.readBlockPos();
-		msg.destPos = buffer.readBlockPos();
-		msg.dimension = ResourceKey.create(Registries.DIMENSION, buffer.readResourceLocation());
-		return msg;
-	}
-
-	public static void handle(CSSpawnOrgPortalPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			player.level().playSound(null, message.pos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
-			player.level().playSound(null, message.destPos, ModSounds.portal.get(), SoundSource.PLAYERS, 2F, 1F);
-
-			IPlayerData playerData = ModData.getPlayer(player);
-			playerData.remMP(300);
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
-			OrgPortalEntity portal = new OrgPortalEntity(player.level(), message.pos, message.destPos, message.dimension, true);
-			player.level().addFreshEntity(portal);
-
-			OrgPortalEntity destPortal = new OrgPortalEntity(player.level(), message.destPos.above(), message.destPos, message.dimension, false);
-			player.level().addFreshEntity(destPortal);
-			
-			PacketHandler.sendToAllPlayers(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension));
-
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

@@ -1,48 +1,48 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 import java.util.function.Supplier;
 
-public class CSGiveUpKO {
+public record CSGiveUpKO() implements Packet {
 
+    public static final Type<CSGiveUpKO> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_give_up_ko"));
 
-    public CSGiveUpKO() {}
-
-
-    public void encode(FriendlyByteBuf buffer) {
-    }
-
-    public static CSGiveUpKO decode(FriendlyByteBuf buffer) {
-        CSGiveUpKO msg = new CSGiveUpKO();
-        return msg;
-    }
-
-    public static void handle(CSGiveUpKO message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Player player = ctx.get().getSender();
-            IGlobalCapabilities globalData = ModData.getGlobal(player);
-
-            killPlayer(player);
-            if(globalData != null){
-                globalData.setKO(false);
-                PacketHandler.syncToAllAround(player,globalData);
-            }
-            killPlayer(player);
-
-        });
-        ctx.get().setPacketHandled(true);
-    }
+    public static final StreamCodec<FriendlyByteBuf, CSGiveUpKO> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSGiveUpKO());
 
     public static void killPlayer(Player player){
         player.kill();
         player.remove(Entity.RemovalReason.KILLED);
         player.gameEvent(GameEvent.ENTITY_DIE);
+    }
+
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        GlobalData globalData = GlobalData.get(player);
+
+        killPlayer(player);
+        if(globalData != null){
+            globalData.setKO(false);
+            PacketHandler.syncToAllAround(player,globalData);
+        }
+        killPlayer(player);
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

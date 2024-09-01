@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -38,17 +39,11 @@ public enum SoAState {
         return NONE;
     }
 
-	public static final StreamCodec<FriendlyByteBuf, SoAState> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public SoAState decode(FriendlyByteBuf pBuffer) {
-            return SoAState.fromByte(pBuffer.readByte());
-        }
-
-        @Override
-        public void encode(FriendlyByteBuf pBuffer, SoAState pValue) {
-            pBuffer.writeByte(pValue.get());
-        }
-    };
+	public static final StreamCodec<FriendlyByteBuf, SoAState> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.BYTE,
+			SoAState::get,
+			SoAState::fromByte
+	);
 
     public static void applyStatsForChoices(Player player, PlayerData playerData, boolean remove) {
         if (playerData.getSoAState() == COMPLETE) {

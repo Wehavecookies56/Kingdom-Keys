@@ -8,8 +8,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -31,7 +33,7 @@ public class MagicStop extends Magic {
 		
 		float radius = 2 + level;
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModData.getWorld(player.level()).getPartyFromMember(player.getUUID());
+		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 		if (casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Member m : casterParty.getMembers()) {
@@ -46,7 +48,7 @@ public class MagicStop extends Magic {
 		}
 		
 		//Cast stop model to player
-		IGlobalCapabilities casterGlobalData = ModData.getGlobal(caster);
+		GlobalData casterGlobalData = GlobalData.get(caster);
 		if(casterGlobalData != null) {
 			casterGlobalData.setStopModelTicks(10);
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
@@ -55,15 +57,15 @@ public class MagicStop extends Magic {
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Entity e = (Entity) list.get(i);
-				if (e instanceof LivingEntity) {
-					IGlobalCapabilities globalData = ModData.getGlobal((LivingEntity) e);
+				if (e instanceof LivingEntity livingEntity) {
+					GlobalData globalData = GlobalData.get((LivingEntity) e);
 					if (e instanceof Mob) {
 						((Mob) e).setNoAi(true);
 					}
 					globalData.setStoppedTicks((int) (100 + level * 20 * dmg)); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
-					if (e instanceof ServerPlayer)
-						PacketHandler.sendTo(new SCSyncGlobalData(globalData), (ServerPlayer) e);
+					if (e instanceof ServerPlayer serverPlayer)
+						PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
 				}
 			}
 		}

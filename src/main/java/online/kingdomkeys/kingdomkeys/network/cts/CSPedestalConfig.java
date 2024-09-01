@@ -1,72 +1,60 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
-public class CSPedestalConfig {
+public record CSPedestalConfig(BlockPos tileEntityPos, float rotationSpeed, float bobSpeed, float savedRotation, float savedHeight, float baseHeight, float scale, boolean pause, boolean flipped) implements Packet {
 
-    private BlockPos tileEntityPos;
-    private float rotationSpeed, bobSpeed, savedRotation, savedHeight, baseHeight, scale;
-    private boolean pause, flipped;
+    public static final Type<CSPedestalConfig> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_pedestal_config"));
 
-    public CSPedestalConfig() {}
+    public static final StreamCodec<FriendlyByteBuf, CSPedestalConfig> STREAM_CODEC = StreamCodecs.composite(
+            BlockPos.STREAM_CODEC,
+            CSPedestalConfig::tileEntityPos,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::rotationSpeed,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::bobSpeed,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::savedRotation,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::savedHeight,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::baseHeight,
+            ByteBufCodecs.FLOAT,
+            CSPedestalConfig::scale,
+            ByteBufCodecs.BOOL,
+            CSPedestalConfig::pause,
+            ByteBufCodecs.BOOL,
+            CSPedestalConfig::flipped,
+            CSPedestalConfig::new
+    );
 
-    public CSPedestalConfig(BlockPos tileEntityPos, float rotationSpeed, float bobSpeed, float savedRotation, float savedHeight, float baseHeight, float scale, boolean pause, boolean flipped) {
-        this.tileEntityPos = tileEntityPos;
-        this.rotationSpeed = rotationSpeed;
-        this.bobSpeed = bobSpeed;
-        this.savedRotation = savedRotation;
-        this.savedHeight = savedHeight;
-        this.baseHeight = baseHeight;
-        this.scale = scale;
-        this.pause = pause;
-        this.flipped = flipped;
+    @Override
+    public void handle(IPayloadContext context) {
+        Level world = context.player().level();
+        PedestalTileEntity tileEntity = (PedestalTileEntity) world.getBlockEntity(tileEntityPos);
+        tileEntity.setSpeed(rotationSpeed, bobSpeed);
+        tileEntity.saveTransforms(savedRotation, savedHeight);
+        tileEntity.setScale(scale);
+        tileEntity.setPause(pause);
+        tileEntity.setFlipped(flipped);
+        tileEntity.setBaseHeight(baseHeight);
+        world.sendBlockUpdated(tileEntityPos, world.getBlockState(tileEntityPos), world.getBlockState(tileEntityPos), 2);
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(this.tileEntityPos);
-        buffer.writeFloat(this.rotationSpeed);
-        buffer.writeFloat(this.bobSpeed);
-        buffer.writeFloat(this.savedRotation);
-        buffer.writeFloat(this.savedHeight);
-        buffer.writeFloat(this.baseHeight);
-        buffer.writeFloat(this.scale);
-        buffer.writeBoolean(this.pause);
-        buffer.writeBoolean(this.flipped);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
-
-    public static CSPedestalConfig decode(FriendlyByteBuf buffer) {
-        CSPedestalConfig msg = new CSPedestalConfig();
-        msg.tileEntityPos = buffer.readBlockPos();
-        msg.rotationSpeed = buffer.readFloat();
-        msg.bobSpeed = buffer.readFloat();
-        msg.savedRotation = buffer.readFloat();
-        msg.savedHeight = buffer.readFloat();
-        msg.baseHeight = buffer.readFloat();
-        msg.scale = buffer.readFloat();
-        msg.pause = buffer.readBoolean();
-        msg.flipped = buffer.readBoolean();
-        return msg;
-    }
-
-    public static void handle(CSPedestalConfig message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Level world = ctx.get().getSender().level();
-            PedestalTileEntity tileEntity = (PedestalTileEntity) world.getBlockEntity(message.tileEntityPos);
-            tileEntity.setSpeed(message.rotationSpeed, message.bobSpeed);
-            tileEntity.saveTransforms(message.savedRotation, message.savedHeight);
-            tileEntity.setScale(message.scale);
-            tileEntity.setPause(message.pause);
-            tileEntity.setFlipped(message.flipped);
-            tileEntity.setBaseHeight(message.baseHeight);
-            world.sendBlockUpdated(message.tileEntityPos, world.getBlockState(message.tileEntityPos), world.getBlockState(message.tileEntityPos), 2);
-        });
-        ctx.get().setPacketHandled(true);
-    }
-
 }
