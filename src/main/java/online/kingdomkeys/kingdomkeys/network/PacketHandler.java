@@ -100,6 +100,20 @@ public class PacketHandler {
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
 		server(CSSummonArmor.TYPE, CSSummonArmor.STREAM_CODEC);
 		server(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
+		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
+		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
+		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
+		server(CSTakeMaterials.TYPE, CSTakeMaterials.STREAM_CODEC);
+		server(CSTravelToSoA.TYPE, CSTravelToSoA.STREAM_CODEC);
+		server(CSUnlockEquipOrgWeapon.TYPE, CSUnlockEquipOrgWeapon.STREAM_CODEC);
+		server(CSUpgradeSynthesisBagPacket.TYPE, CSUpgradeSynthesisBagPacket.STREAM_CODEC);
+		server(CSUseDriveFormPacket.TYPE, CSUseDriveFormPacket.STREAM_CODEC);
+		server(CSUseItemPacket.TYPE, CSUseItemPacket.STREAM_CODEC);
+		server(CSUseLimitPacket.TYPE, CSUseLimitPacket.STREAM_CODEC);
+		server(CSUseMagicPacket.TYPE, CSUseMagicPacket.STREAM_CODEC);
+		server(CSUseMagicPacket.TYPE, CSUseMagicPacket.STREAM_CODEC);
+		server(CSUseReactionCommandPacket.TYPE, CSUseReactionCommandPacket.STREAM_CODEC);
+		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

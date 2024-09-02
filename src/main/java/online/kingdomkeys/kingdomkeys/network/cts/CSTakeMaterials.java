@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -18,56 +19,44 @@ import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class CSTakeMaterials {
+public record CSTakeMaterials(ItemStack stack, int amount, String inv, String name, int moogle) implements Packet {
 	
-	ItemStack stack;
-	int moogle = -1;
-	String inv;
-	String name;
-	
-	public CSTakeMaterials() {}
-	
-	public CSTakeMaterials(Item item, int amount, String inv, String name, int moogle) {
-		this.stack = new ItemStack(item,amount);
-		this.inv = inv;
-		this.moogle = moogle;
-		this.name = name;
-	}
-	
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeItem(stack);
-		buffer.writeInt(moogle);
-		buffer.writeUtf(inv);
-		buffer.writeUtf(name);
-	}
+	public static final Type<CSTakeMaterials> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_take_materials"));
 
-	public static CSTakeMaterials decode(FriendlyByteBuf buffer) {
-		CSTakeMaterials msg = new CSTakeMaterials();
-		msg.stack = buffer.readItem();
-		msg.moogle = buffer.readInt();
-		msg.inv = buffer.readUtf();
-		msg.name = buffer.readUtf();
-		return msg;
-	}
+	public static final StreamCodec<RegistryFriendlyByteBuf, CSTakeMaterials> STREAM_CODEC = StreamCodec.composite(
+			ItemStack.STREAM_CODEC,
+			CSTakeMaterials::stack,
+			ByteBufCodecs.INT,
+			CSTakeMaterials::amount,
+			ByteBufCodecs.STRING_UTF8,
+			CSTakeMaterials::inv,
+			ByteBufCodecs.STRING_UTF8,
+			CSTakeMaterials::name,
+			ByteBufCodecs.INT,
+			CSTakeMaterials::moogle,
+			CSTakeMaterials::new
+	);
 
-	public static void handle(CSTakeMaterials message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			if(!ItemStack.isSameItem(message.stack, ItemStack.EMPTY)) {
-				Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(message.stack.getItem()).getPath()));
-				
-				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {
-					
-				} else {
-					playerData.removeMaterial(mat, message.stack.getCount());
-					player.getInventory().add(message.stack);
-				}
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		if(!ItemStack.isSameItem(stack, ItemStack.EMPTY)) {
+			Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(stack.getItem()).getPath()));
+
+			if(playerData.getMaterialAmount(mat)<stack.getCount()) {
+
+			} else {
+				playerData.removeMaterial(mat, stack.getCount());
+				player.getInventory().add(stack);
 			}
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-            PacketHandler.sendTo(new SCOpenMaterialsScreen(message.inv, message.name, message.moogle), (ServerPlayer) player);
-		});
-		ctx.get().setPacketHandled(true);
+		}
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCOpenMaterialsScreen(inv, name, moogle), (ServerPlayer) player);
 	}
 
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

@@ -52,7 +52,7 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
 
     @Override
     public void handle(IPayloadContext context) {
-        ServerPlayer player = context.player()
+        ServerPlayer player = (ServerPlayer) context.player();
         Level level = player.level();
         SavePointStorage storage = SavePointStorage.getStorage(player.server);
         SavepointTileEntity te = (SavepointTileEntity) level.getBlockEntity(tileEntity);

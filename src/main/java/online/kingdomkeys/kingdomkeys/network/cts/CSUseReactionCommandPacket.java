@@ -1,61 +1,52 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 
-public class CSUseReactionCommandPacket {
-	
-	int index;
-	int lockedOnEntity;
-	
-	public CSUseReactionCommandPacket() {}
+public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implements Packet {
 
-	
-	public CSUseReactionCommandPacket(int level, LivingEntity lockedOnEntity) {
-		this.index = level;
-		this.lockedOnEntity = lockedOnEntity == null ? -1 : lockedOnEntity.getId();
+	public static final Type<CSUseReactionCommandPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_reaction_command"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSUseReactionCommandPacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.INT,
+			CSUseReactionCommandPacket::index,
+			ByteBufCodecs.INT,
+			CSUseReactionCommandPacket::lockedOnEntity,
+			CSUseReactionCommandPacket::new
+	);
+
+	public CSUseReactionCommandPacket(int index, LivingEntity lockedOnEntity) {
+		this(index, lockedOnEntity == null ? -1 : lockedOnEntity.getId());
 	}
 
-	/*public CSUseReactionCommandPacket(LivingEntity target, int level) {
-		this.index = level;
-		//this.targetID = target.getEntityId();
-	}*/
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+		PlayerData playerData = PlayerData.get(player);
+		String reactionName = playerData.getReactionCommands().get(index);
+		ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
+		reaction.onUse(player, player, (LivingEntity) player.level().getEntity(lockedOnEntity));
 
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.index);
-		buffer.writeInt(this.lockedOnEntity);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}
 
-	public static CSUseReactionCommandPacket decode(FriendlyByteBuf buffer) {
-		CSUseReactionCommandPacket msg = new CSUseReactionCommandPacket();
-		msg.index = buffer.readInt();
-		msg.lockedOnEntity = buffer.readInt();
-		return msg;
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static void handle(CSUseReactionCommandPacket message, final Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			Player player = ctx.get().getSender();
-			IPlayerData playerData = ModData.getPlayer(player);
-			String reactionName = playerData.getReactionCommands().get(message.index);
-			ReactionCommand reaction = ModReactionCommands.registry.get().getValue(new ResourceLocation(reactionName));
-			reaction.onUse(player, player, (LivingEntity) player.level().getEntity(message.lockedOnEntity));
-			
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-			
-		});
-		ctx.get().setPacketHandled(true);
-	}
-
 }

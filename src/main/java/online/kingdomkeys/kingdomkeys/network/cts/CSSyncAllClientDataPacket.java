@@ -1,37 +1,35 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public class CSSyncAllClientDataPacket {
+public record CSSyncAllClientDataPacket() implements Packet {
 
-	public CSSyncAllClientDataPacket() {
+	public static final Type<CSSyncAllClientDataPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_sync_all_client_data"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSSyncAllClientDataPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSSyncAllClientDataPacket());
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+
+		PlayerData playerData = PlayerData.get(player);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}
 
-	public void encode(FriendlyByteBuf buffer) {
-
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
-
-	public static CSSyncAllClientDataPacket decode(FriendlyByteBuf buffer) {
-		CSSyncAllClientDataPacket msg = new CSSyncAllClientDataPacket();
-
-		return msg;
-	}
-
-	public static void handle(final CSSyncAllClientDataPacket message, Supplier<NetworkEvent.Context> ctx) {
-		Player player = ctx.get().getSender();
-
-		IPlayerData playerData = ModData.getPlayer(player);
-		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-
-		ctx.get().setPacketHandled(true);
-	}
-
 }

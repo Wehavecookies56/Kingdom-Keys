@@ -1,46 +1,42 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public class CSSyncArmorColor {
+public record CSSyncArmorColor(int color, boolean glint) implements Packet {
 
-    public CSSyncArmorColor() {}
+    public static final Type<CSSyncArmorColor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_sync_armor_color"));
 
-    int color;
-    boolean glint;
+    public static final StreamCodec<FriendlyByteBuf, CSSyncArmorColor> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT,
+            CSSyncArmorColor::color,
+            ByteBufCodecs.BOOL,
+            CSSyncArmorColor::glint,
+            CSSyncArmorColor::new
+    );
 
-    public CSSyncArmorColor(int color, boolean glint) {
-        this.color = color;
-        this.glint = glint;
+    @Override
+    public void handle(IPayloadContext context) {
+        Player player = context.player();
+        PlayerData playerData = PlayerData.get(player);
+        playerData.setArmorColor(color);
+        playerData.setArmorGlint(glint);
+        PacketHandler.syncToAllAround(player, playerData);
     }
 
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeInt(color);
-        buffer.writeBoolean(glint);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
-
-    public static CSSyncArmorColor decode(FriendlyByteBuf buffer) {
-        CSSyncArmorColor msg = new CSSyncArmorColor();
-        msg.color = buffer.readInt();
-        msg.glint = buffer.readBoolean();
-        return msg;
-    }
-
-    public static void handle(CSSyncArmorColor message, final Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-           Player player = ctx.get().getSender();
-           IPlayerData playerData = ModData.getPlayer(player);
-           playerData.setArmorColor(message.color);
-           playerData.setArmorGlint(message.glint);
-           PacketHandler.syncToAllAround(player, playerData);
-        });
-        ctx.get().setPacketHandled(true);
-    }
-
 }
