@@ -261,13 +261,13 @@ public class AquaModel<T extends LivingEntity> extends ArmorBaseModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
-        rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay);
-        head.render(poseStack, vertexConsumer, packedLight, packedOverlay);
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay);
-        leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
-        leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int colour) {
+		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay);
     }
 
     @Override

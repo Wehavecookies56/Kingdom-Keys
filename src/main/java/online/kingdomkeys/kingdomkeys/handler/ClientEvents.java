@@ -110,7 +110,7 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if (event.getEntity() instanceof LivingEntity) {
-			IGlobalCapabilities globalData = ModData.getGlobal((LivingEntity) event.getEntity());
+			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
 				if (globalData.getStoppedTicks() > 0) {
 					if (event.getEntity().level().isClientSide) {
@@ -131,7 +131,7 @@ public class ClientEvents {
 					}
 				}
 				if (event.getEntity() instanceof Player player) {
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null) {
 						if (playerData.getMagicCasttimeTicks() > 0) {
 							player.setDeltaMovement(0, 0, 0);
@@ -150,7 +150,7 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post<Player, ? extends PlayerModel<Player>> event) { //Hide the player shadow when KO'd
-		IGlobalCapabilities globalData = ModData.getGlobal(event.getEntity());
+		GlobalData globalData = GlobalData.get(event.getEntity());
 		if(globalData != null) {
 			if(globalData.isKO()) {
 				event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
@@ -163,7 +163,7 @@ public class ClientEvents {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
-			IPlayerData localPlayerData = ModData.getPlayer(Minecraft.getInstance().player);
+			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
 			if(tempShotlockEntity != null && event.getEntity() == tempShotlockEntity){
 				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
 			}
@@ -175,8 +175,8 @@ public class ClientEvents {
 			}
 
 			if(event.getEntity() instanceof Player player) {
-				IPlayerData playerData = ModData.getPlayer(player);
-				IGlobalCapabilities globalData = ModData.getGlobal(player);
+				PlayerData playerData = PlayerData.get(player);
+				GlobalData globalData = GlobalData.get(player);
 				if(globalData != null) {
 					if(globalData.isKO()) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
@@ -254,7 +254,7 @@ public class ClientEvents {
 		Player player = event.getEntity();
 		if (player == mc.player && cooldownTicks <= 0) { // Only run this for the local client player
 			focusing = mc.options.keyPickItem.isDown() && player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon);
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if(playerData == null)
 				return;
 
@@ -347,7 +347,7 @@ public class ClientEvents {
 						if(!playerData.getShotlockEnemies().isEmpty()) {
 							playerData.remFocus(cost);
 							player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_shot.get(), SoundSource.PLAYERS, 1F, 1F);
-							PacketHandler.sendToServer(new CSShotlockShot(cost, playerData.getShotlockEnemies()));
+							PacketHandler.sendToServer(new CSShotlockShot(playerData.getShotlockEnemies(), cost));
 							cooldownTicks = 100;
 							focusing = false;
 						}

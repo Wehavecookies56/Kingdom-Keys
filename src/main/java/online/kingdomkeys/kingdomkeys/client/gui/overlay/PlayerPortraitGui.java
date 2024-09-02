@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -29,7 +30,7 @@ public class PlayerPortraitGui extends OverlayBase {
 		super.render(guiGraphics, deltaTracker);
 		// if (!MainConfig.displayGUI() || !minecraft.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		// return;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		RenderSystem.setShaderColor(1, 1, 1, 1);

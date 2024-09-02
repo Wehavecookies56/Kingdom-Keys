@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -53,7 +54,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), player.getInventory().getItem(slot), slot, parent.form)).isCanceled()) {
 						if (Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
 							PacketHandler.sendToServer(new CSSummonKeyblade(true));
@@ -182,7 +183,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					
 					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
 					String magicStr = String.valueOf(((int) keyblade.getMagic(stack)));
-					IPlayerData playerData = ModData.getPlayer(minecraft.player);
+					PlayerData playerData = PlayerData.get(minecraft.player);
 					int strength = playerData.getStrength(true) + ((int) keyblade.getStrength(stack)); //TODO a
 					int magic = playerData.getMagic(true) + ((int) keyblade.getMagic(stack));
 					

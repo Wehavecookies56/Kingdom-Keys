@@ -1,45 +1,30 @@
 package online.kingdomkeys.kingdomkeys.menu;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.common.MutableDataComponentHolder;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.ComponentItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
+import org.jetbrains.annotations.UnknownNullability;
 
-public class SynthesisBagInventory implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+public class SynthesisBagInventory extends ComponentItemHandler {
 
-	private final IItemHandler inv = new ItemStackHandler(72) {
-		@Override
-		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-			return !stack.isEmpty() && stack.getItem() instanceof SynthesisItem;
-		}
-	};
-	
-	private final LazyOptional<IItemHandler> opt = LazyOptional.of(() -> inv);
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-		return ForgeCapabilities.ITEM_HANDLER.orEmpty(capability, opt);
+	public SynthesisBagInventory(MutableDataComponentHolder parent) {
+		super(parent, ModComponents.INVENTORY.get(), 72);
 	}
 
 	@Override
-	public CompoundTag serializeNBT() {
-		return ((ItemStackHandler)inv).serializeNBT();
+	public boolean isItemValid(int slot, ItemStack stack) {
+		return !stack.isEmpty() && stack.getItem() instanceof SynthesisItem;
 	}
-
-	@Override
-	public void deserializeNBT(CompoundTag nbt) {
-		((ItemStackHandler)inv).deserializeNBT(nbt);
-	}
-	
 }

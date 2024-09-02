@@ -39,7 +39,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     protected void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
-            ItemStack armor = ModData.getPlayer(player).getEquippedKBArmor(0);
+            ItemStack armor = PlayerData.get(player).getEquippedKBArmor(0);
             String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
             if(armorName.equals("") || !ItemStack.isSameItem(player.getInventory().getItem(38),ItemStack.EMPTY))
                 return;

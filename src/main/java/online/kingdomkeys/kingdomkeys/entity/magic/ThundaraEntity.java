@@ -8,8 +8,6 @@ import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,8 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -41,21 +37,12 @@ public class ThundaraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThundaraEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_THUNDARA.get(), world);
-	}
-
-		public ThundaraEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
+	public ThundaraEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDARA.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
 		this.lockedOnEntity = lockedOnEntity;
 
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public int getMaxTicks() {
@@ -89,11 +76,12 @@ public class ThundaraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 
 	List<LivingEntity> list = new ArrayList<LivingEntity>();
+
 
 	@Override
 	public void tick() {

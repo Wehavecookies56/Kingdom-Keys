@@ -36,6 +36,10 @@ public record CSPartyAddMember(String name, UUID memberUUID, String memberName) 
 			CSPartyAddMember::new
 	);
 
+	public CSPartyAddMember(Party party, Player member) {
+		this(party.getName(), member.getUUID(), member.getDisplayName().getString());
+	}
+
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();

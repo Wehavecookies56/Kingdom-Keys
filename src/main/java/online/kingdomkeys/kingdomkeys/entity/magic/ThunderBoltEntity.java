@@ -7,8 +7,6 @@ import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,10 +27,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.damagesource.LightningDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -47,10 +43,6 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	public ThunderBoltEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
-	}
-
-	public ThunderBoltEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_THUNDERBOLT.get(), world);
 	}
 
 	public ThunderBoltEntity(Level world, Player player, double x, double y, double z, float dmgMult) {
@@ -128,7 +120,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 							Witch witchentity = EntityType.WITCH.create(level());
 							witchentity.moveTo(villager.getX(), villager.getY(), villager.getZ(), villager.getYRot(), villager.getXRot());
-							witchentity.finalizeSpawn((ServerLevel) level(), level().getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
+							witchentity.finalizeSpawn((ServerLevel) level(), level().getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null);
 							witchentity.setNoAi(villager.isNoAi());
 							if (villager.hasCustomName()) {
 								witchentity.setCustomName(villager.getCustomName());
@@ -199,13 +191,8 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 
 	@Override

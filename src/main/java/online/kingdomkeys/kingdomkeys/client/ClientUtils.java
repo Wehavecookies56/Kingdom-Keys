@@ -14,6 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import org.joml.Matrix4f;
@@ -397,7 +398,7 @@ public class ClientUtils {
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerData localPlayerData = ModData.getPlayer(localPlayer);
+        PlayerData localPlayerData = PlayerData.get(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
@@ -411,7 +412,7 @@ public class ClientUtils {
     }
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerData localPlayerData = ModData.getPlayer(localPlayer);
+        PlayerData localPlayerData = PlayerData.get(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
@@ -452,7 +453,7 @@ public class ClientUtils {
 
     public static void drawTexturedModalRect3DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float minTexU, float minTexV, float maxTexU, float maxTexV) {
         float cor = 0.00390625F;
-        vertexBuilder.addVertex((matrix, minX, minY, maxZ).setUv((minTexU * cor), (maxTexV) * cor);
+        vertexBuilder.addVertex(matrix, minX, minY, maxZ).setUv((minTexU * cor), (maxTexV) * cor);
         vertexBuilder.addVertex(matrix, maxX, minY, maxZ).setUv((maxTexU * cor), (maxTexV) * cor);
         vertexBuilder.addVertex(matrix, maxX, maxY, minZ).setUv((maxTexU * cor), (minTexV) * cor);
         vertexBuilder.addVertex(matrix, minX, maxY, minZ).setUv((minTexU * cor), (minTexV) * cor);

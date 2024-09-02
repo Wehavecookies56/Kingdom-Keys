@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.menu.SynthesisBagMenu;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -27,7 +28,7 @@ import java.util.Optional;
 
 public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu> {
 
-	private static final String textureBase = KingdomKeys.MODID + ":textures/gui/synthesis_bag_";
+	private static final String textureBase = "textures/gui/synthesis_bag_";
 	int[] texHeight = { 140, 176, 212, 248 };
 	int bagLevel = 0;
 	HiddenButton upgradeButton;
@@ -52,7 +53,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 	
 	private void upgrade() {
 		if (bagLevel < 3) {
-			if(ModData.getPlayer(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
+			if(PlayerData.get(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
 				PacketHandler.sendToServer(new CSUpgradeSynthesisBagPacket());
 				onClose();
 			}
@@ -78,7 +79,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 				if (y >= upgradeButton.getY() && y <= upgradeButton.getY() + upgradeButton.getHeight()) {
 					list.add(Component.translatable("gui.synthesisbag.upgrade"));					
 					list.add(Component.translatable(ChatFormatting.YELLOW+ Component.translatable("gui.synthesisbag.munny").getString()+": "+Utils.getBagCosts(bagLevel)));
-					if(ModData.getPlayer(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
+					if(PlayerData.get(minecraft.player).getMunny() < Utils.getBagCosts(bagLevel)) {
 						list.add(Component.translatable(ChatFormatting.RED+ Component.translatable("gui.synthesisbag.notenoughmunny").getString()));
 					}
 					gui.renderTooltip(font, list, Optional.empty(), x, y);
@@ -101,7 +102,7 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
-		gui.blit(new ResourceLocation(textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
+		gui.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
 	}
 
 }

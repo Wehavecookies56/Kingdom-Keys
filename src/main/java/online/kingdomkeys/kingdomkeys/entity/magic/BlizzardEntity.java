@@ -5,6 +5,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,11 +17,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.IceDamageSource;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -35,23 +34,14 @@ public class BlizzardEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public BlizzardEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_BLIZZARD.get(), world);
-	}
-
 	public BlizzardEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0D;
 	}
 
 	@Override
@@ -96,7 +86,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 					if (target != getOwner()) {
 						Party p = null;
 						if (getOwner() != null) {
-							p = ModData.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+							p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 						}
 						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
@@ -138,8 +128,8 @@ public class BlizzardEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
+
 }

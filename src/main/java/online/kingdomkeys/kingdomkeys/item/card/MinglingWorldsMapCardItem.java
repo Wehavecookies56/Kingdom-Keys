@@ -24,10 +24,10 @@ public class MinglingWorldsMapCardItem extends MapCardItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("Size: ?"));
         pTooltipComponents.add(Component.translatable("Enemies: ?"));
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
     }
 
 }

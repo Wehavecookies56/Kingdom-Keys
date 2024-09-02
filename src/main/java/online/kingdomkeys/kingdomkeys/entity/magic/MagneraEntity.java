@@ -7,8 +7,6 @@ import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,10 +17,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -37,10 +33,6 @@ public class MagneraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public MagneraEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_MAGNERA.get(), world);
-	}
-
 	public MagneraEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNERA.get(), player, world);
 		setCaster(player.getUUID());
@@ -48,13 +40,8 @@ public class MagneraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0;
 	}
 
 	@Override
@@ -63,7 +50,7 @@ public class MagneraEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if(level() == null || ModData.getWorld(level()) == null || getCaster() == null)
+		if(level() == null || WorldData.get(level().getServer()) == null || getCaster() == null)
 			return;
 		
 		
@@ -164,7 +151,7 @@ public class MagneraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 }

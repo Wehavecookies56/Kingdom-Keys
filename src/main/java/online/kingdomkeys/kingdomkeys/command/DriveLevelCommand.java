@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -65,12 +66,12 @@ public class DriveLevelCommand extends BaseCommand{
 		String form = StringArgumentType.getString(context, "form");
 		
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
             
 			if(level == 0) {
 				playerData.setDriveFormLevel(form, 0);
 				playerData.remVisibleDriveForm(form);
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 			} else {
 				playerData.setDriveFormLevel(form, 1);
 				playerData.addVisibleDriveForm(form);

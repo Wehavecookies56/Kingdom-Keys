@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -22,7 +23,7 @@ public class EtherealBladeItem extends OrgSwordItem implements IOrgWeapon {
 	
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if(playerData != null && !playerData.getRecharge()) {
 			int cost = 6;
     		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;

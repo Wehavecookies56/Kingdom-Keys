@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -15,9 +16,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -34,23 +35,14 @@ public class GravigaEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public GravigaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_GRAVIGA.get(), world);
-	}
-
 	public GravigaEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIGA.get(), player, world);
 		this.dmgMult = dmgMult;
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	@Override
-	protected float getGravity() {
-		return 0F;
+	protected double getDefaultGravity() {
+		return 0;
 	}
 
 	@Override
@@ -82,7 +74,7 @@ public class GravigaEntity extends ThrowableProjectile {
 				}
 			}
 			
-			IWorldCapabilities worldData = ModData.getWorld(level());
+			WorldData worldData = WorldData.get(level().getServer());
 			if (!level().isClientSide && getOwner() != null && worldData != null) {
 				List<Entity> oList = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 				List<Entity> list = Utils.removePartyMembersFromList((Player) getOwner(),oList);
@@ -90,7 +82,7 @@ public class GravigaEntity extends ThrowableProjectile {
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity le) {
-                            IGlobalCapabilities globalData = ModData.getGlobal(le);
+                            GlobalData globalData = GlobalData.get(le);
                             globalData.setFlatTicks(100);
 
                             if (Utils.isHostile(e)) {
@@ -130,8 +122,7 @@ public class GravigaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
 }

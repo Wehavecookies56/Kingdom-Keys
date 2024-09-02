@@ -11,6 +11,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
@@ -22,9 +23,9 @@ public class RealmOfDarknessDimension {
 		if (!event.getEntity().isCreative() && !event.getEntity().level().isClientSide()) {
 			if (event.getEntity().level().dimension().location().getPath().equals("realm_of_darkness")) {
 				if (event.getEntity().getY() < 0) {
-					IPlayerData playerData = ModData.getPlayer(event.getEntity());
+					PlayerData playerData = PlayerData.get(event.getEntity());
 					playerData.setRespawnROD(false);
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)event.getEntity());
+					PacketHandler.sendTo(new SCSyncPlayerData(event.getEntity()), (ServerPlayer)event.getEntity());
 					
 					ResourceKey<Level> resourcekey = Level.OVERWORLD;
 					ServerLevel serverlevel = ((ServerLevel) event.getEntity().level()).getServer().getLevel(resourcekey);

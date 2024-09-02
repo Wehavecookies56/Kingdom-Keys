@@ -10,7 +10,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
@@ -22,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
@@ -100,7 +100,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 	
 	protected void action(String string) {
-		IPlayerData playerData;
+		PlayerData playerData;
 		switch(string) {
 		case "back":
 			GuiHelper.openMenu();
@@ -123,7 +123,7 @@ public class MenuConfigScreen extends MenuBackground {
 		case "glint":
 			glint = !glint;
 			glintButton.setMessage(Component.translatable(glint+""));
-			playerData = ModData.getPlayer(minecraft.player);
+			playerData = PlayerData.get(minecraft.player);
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 
 			break;
@@ -165,7 +165,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(ModData.getPlayer(minecraft.player).getArmorColor(),glint)); action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
@@ -684,10 +684,10 @@ public class MenuConfigScreen extends MenuBackground {
 	}
 	
 	private void initPlayerSkin() {
-		glint = ModData.getPlayer(minecraft.player).getArmorGlint();
+		glint = PlayerData.get(minecraft.player).getArmorGlint();
 
 		int pos = 0;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		int[] notifColors = Utils.getRGBFromDec(playerData.getNotifColor());
 
@@ -851,7 +851,7 @@ public class MenuConfigScreen extends MenuBackground {
 	@Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
-    		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+    		PlayerData playerData = PlayerData.get(minecraft.player);
 			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
 			playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));

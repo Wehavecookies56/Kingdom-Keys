@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -15,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentB
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -71,7 +71,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         buttonPosY = (int) (topBarHeight+5);
         buttonPosX = 15.4F;
         
-        IPlayerData playerData = ModData.getPlayer(minecraft.player);
+        PlayerData playerData = PlayerData.get(minecraft.player);
 
         addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
@@ -91,7 +91,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             MenuEquipmentButton orgWeaponSlot = new MenuEquipmentButton(playerData.getEquippedWeapon(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x555555, new WeaponTreeSelectionScreen(playerData.getAlignment()), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xAAAAAA);
             addRenderableWidget(orgWeaponSlot);
 
-            addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, (int)45, Component.translatable(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
+            addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, 45, Component.translatable(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
             
             if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getEquippedWeapon() != null)) {
             	if(playerData.getEquippedWeapon().getItem() instanceof KeybladeItem) { // Synch blade button when org member (should only appear when using Roxas weapon)

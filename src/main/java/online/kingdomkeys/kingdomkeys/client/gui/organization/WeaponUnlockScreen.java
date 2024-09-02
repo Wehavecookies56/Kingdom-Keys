@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Lists;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -27,14 +28,14 @@ import java.util.List;
 
 public class WeaponUnlockScreen extends Screen {
 
-    IPlayerData playerData;
+    PlayerData playerData;
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
         super(Component.translatable(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
-        playerData = ModData.getPlayer(Minecraft.getInstance().player);
+        playerData = PlayerData.get(Minecraft.getInstance().player);
     }
 
     Button cancel, next, prev, select;
@@ -143,7 +144,7 @@ public class WeaponUnlockScreen extends Screen {
                 ItemStack weapon = new ItemStack(weapons.get(current));
                 playerData.getWeaponsUnlocked().forEach(itemStack -> {
                     if (itemStack.is(weapon.getItem())) {
-                        weapon.setTag(itemStack.getTag());
+                        weapon.applyComponents(itemStack.getComponents());
                     }
                 });
                 if (unlock) {

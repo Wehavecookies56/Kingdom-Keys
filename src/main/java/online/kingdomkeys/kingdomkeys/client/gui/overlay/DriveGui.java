@@ -10,6 +10,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -63,7 +64,7 @@ public class DriveGui extends OverlayBase {
 		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
 		 * return;
 		 */
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (playerData != null) {
 			double dp = playerData.getDP();
 			double fp = playerData.getFP();

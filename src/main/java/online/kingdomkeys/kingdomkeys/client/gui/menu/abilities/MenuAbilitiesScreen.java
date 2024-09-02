@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesB
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -39,7 +40,7 @@ import java.util.List;
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
 
-	IPlayerData playerData = ModData.getPlayer(minecraft.player);
+	PlayerData playerData = PlayerData.get(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 

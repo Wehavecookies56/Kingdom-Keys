@@ -8,6 +8,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -44,7 +45,7 @@ public abstract class Magic {
     }
     
     public double getCost(int lvl, Player player) {
-    	IPlayerData playerData = ModData.getPlayer(player);
+    	PlayerData playerData = PlayerData.get(player);
     	double cost = data.getCost(lvl);
     	if(cost != 300)
     		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
@@ -87,7 +88,7 @@ public abstract class Magic {
      * @param caster
      */
     public final void onUse(Player player, Player caster, int level, LivingEntity lockOnEntity) {
-    	IPlayerData casterData = ModData.getPlayer(caster);
+    	PlayerData casterData = PlayerData.get(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
     	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
@@ -107,7 +108,7 @@ public abstract class Magic {
 						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
 					}
 					casterData.setMagicUses(name, 0);
-					PacketHandler.sendTo(new SCSyncPlayerData(casterData), (ServerPlayer)caster);
+					PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer)caster);
 				}				
 			}			
 		}
@@ -133,12 +134,12 @@ public abstract class Magic {
     	//caster.swing(InteractionHand.MAIN_HAND, true);
 
 		//MinecraftForge.EVENT_BUS.post(new UpdatePlayerMotionEvent.BaseLayer((LocalPlayerPatch) player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null), KKLivingMotionsEnum.SPELL));
-		PacketHandler.sendTo(new SCSyncPlayerData(casterData), (ServerPlayer) caster);
+		PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer) caster);
     }
 
 	protected abstract void playMagicCastSound(Player player, Player caster, int level);
 
-	private boolean getRCProb(IPlayerData casterData) {
+	private boolean getRCProb(PlayerData casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
 
 		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName()) == getMaxLevel()) {

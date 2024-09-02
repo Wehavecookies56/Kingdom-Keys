@@ -21,6 +21,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -66,7 +67,7 @@ public class ChoiceCommand extends BaseCommand {
     private static int resetChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Collection<ServerPlayer> players = getPlayers(context, 3);
         for (ServerPlayer target : players) {
-            IPlayerData targetData = ModData.getPlayer(target);
+            PlayerData targetData = PlayerData.get(target);
             if (targetData.getSoAState() == SoAState.COMPLETE) {
                 SoAState.applyStatsForChoices(target, targetData, true);
                 NeoForge.EVENT_BUS.post(new ChoiceEvent(target, SoAState.NONE, SoAState.NONE));
@@ -74,7 +75,7 @@ public class ChoiceCommand extends BaseCommand {
             targetData.setSoAState(SoAState.NONE);
             targetData.setChoice(SoAState.NONE);
             targetData.setSacrifice(SoAState.NONE);
-            PacketHandler.sendTo(new SCSyncPlayerData(targetData), target);
+            PacketHandler.sendTo(new SCSyncPlayerData(target), target);
             if (players.size() > 1) {
                 context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
             }
@@ -93,7 +94,7 @@ public class ChoiceCommand extends BaseCommand {
         if (chosen != SoAState.NONE && sacrificed != SoAState.NONE) {
             if (!chosen.equals(sacrificed)) {
                 for (ServerPlayer target : players) {
-                    IPlayerData targetData = ModData.getPlayer(target);
+                    PlayerData targetData = PlayerData.get(target);
                     boolean noChange = false;
                     if (targetData.getSoAState() == SoAState.COMPLETE) {
                         if (targetData.getChosen() == chosen && targetData.getSacrificed() == sacrificed) {

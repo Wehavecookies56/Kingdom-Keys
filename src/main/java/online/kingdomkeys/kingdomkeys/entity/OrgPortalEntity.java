@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
@@ -61,7 +62,7 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 		                	double yOffset = t.getY() - this.getY();
 		                	t.setPos(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
 		                	if(t instanceof Player && level().isClientSide)
-		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5));
+		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,new Vec3(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5)));
 		                }
 		            }
 		        }

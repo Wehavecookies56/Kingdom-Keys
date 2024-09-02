@@ -53,7 +53,7 @@ public class WayfinderItem extends Item {
 					owner = getOwner((ServerLevel) player.level(), stack.getTag());
 				
 				if(owner != null) {
-					IPlayerData playerData = ModData.getPlayer(owner);
+					PlayerData playerData = PlayerData.get(owner);
 					if(playerData != null) {
 						if(playerData.getNotifColor() != getColor(stack)) {
 							stack.getTag().putInt("color", playerData.getNotifColor());

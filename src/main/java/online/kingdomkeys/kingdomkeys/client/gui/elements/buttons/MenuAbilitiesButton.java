@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
@@ -139,7 +140,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			//System.out.println(index);
-			equipped = ModData.getPlayer(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
+			equipped = PlayerData.get(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
 			} else {

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +30,7 @@ public class WorldCardItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
     	if(!pLevel.isClientSide) {
-	        CastleOblivionData.ICastleOblivionInteriorCapability cap = ModData.getCastleOblivionInterior(pLevel);
+	        CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) pLevel);
 	        if (cap != null) {
 	            Room currentRoom = cap.getRoomAtPos(pLevel, pPlayer.blockPosition());
 	            if (currentRoom == null) {

@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -55,7 +56,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
@@ -75,7 +76,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(playerData.getMunny() + value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
@@ -95,7 +96,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(playerData.getMunny() - value);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);

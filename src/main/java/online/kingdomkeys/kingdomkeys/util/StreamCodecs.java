@@ -5,8 +5,10 @@ import com.mojang.datafixers.util.Function9;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSavePointScreen;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -91,6 +93,16 @@ public class StreamCodecs {
             }
         }
     };
+
+    public static final StreamCodec<FriendlyByteBuf, Vec3> VEC3 = StreamCodec.composite(
+            ByteBufCodecs.DOUBLE,
+            Vec3::x,
+            ByteBufCodecs.DOUBLE,
+            Vec3::y,
+            ByteBufCodecs.DOUBLE,
+            Vec3::z,
+            Vec3::new
+    );
 
     public static <B, C, T1, T2, T3, T4, T5, T6, T7, T8> StreamCodec<B, C> composite(
             final StreamCodec<? super B, T1> codec1,

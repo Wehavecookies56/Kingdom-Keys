@@ -33,7 +33,7 @@ public class DriveFormLimit extends DriveForm {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(2).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					playerData.setHasShotMaxShotlock(false);
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 				}
 			}
 		}

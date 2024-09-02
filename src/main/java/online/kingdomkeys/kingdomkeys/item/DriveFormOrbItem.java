@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -30,7 +31,7 @@ public class DriveFormOrbItem extends Item {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {		
 		if (!world.isClientSide) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null && playerData.getDriveFormMap() != null) {
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
 				playerData.addVisibleDriveForm(formName);
@@ -67,7 +68,7 @@ public class DriveFormOrbItem extends Item {
 						player.getOffhandItem().shrink(1);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(player)), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));

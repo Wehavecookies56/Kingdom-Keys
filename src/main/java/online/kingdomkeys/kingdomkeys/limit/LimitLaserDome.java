@@ -25,7 +25,7 @@ public class LimitLaserDome extends Limit {
 	public void onUse(Player player, LivingEntity target) {
 		ItemStack stack = player.getMainHandItem();
 		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {
 			damage = (DamageCalculation.getOrgStrengthDamage(player, stack) + DamageCalculation.getOrgMagicDamage(player, (IOrgWeapon) stack.getItem())) / 2 * 0.25F;

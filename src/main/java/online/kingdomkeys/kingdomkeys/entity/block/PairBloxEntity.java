@@ -8,8 +8,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.PairBloxBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -25,10 +23,6 @@ public class PairBloxEntity extends Entity {
 		this.blocksBuilding = true;
 	}
 
-	public PairBloxEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_PAIR_BLOX.get(), world);
-	}
-
 	public PairBloxEntity(Level world, double x, double y, double z, int pair) {
 		this(ModEntities.TYPE_PAIR_BLOX.get(), world);
 		this.setPos(x+0.5, y, z+0.5);
@@ -39,8 +33,8 @@ public class PairBloxEntity extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(PAIR, 0);
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(PAIR, 0);
 	}
 
 	@Override
@@ -100,10 +94,5 @@ public class PairBloxEntity extends Entity {
 
 	public int getPair() {
 		return this.pair;
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

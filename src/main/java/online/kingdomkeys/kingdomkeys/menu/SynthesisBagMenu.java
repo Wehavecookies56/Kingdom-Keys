@@ -9,8 +9,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
 
 public class SynthesisBagMenu extends AbstractContainerMenu {
 
@@ -27,33 +29,33 @@ public class SynthesisBagMenu extends AbstractContainerMenu {
 		int i;
 		int j;
 
-		IItemHandlerModifiable bagInv = (IItemHandlerModifiable) bag.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
+		SynthesisBagInventory bagInv = (SynthesisBagInventory) bag.getCapability(Capabilities.ItemHandler.ITEM);
+		if (bagInv != null) {
+			SynthesisBagItem.BagLevel bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
+			int invStart = bagLevel.level() * 2;
 
-		CompoundTag nbt = bag.getOrCreateTag();
-		int bagLevel = nbt.getInt("level");
-		int invStart = bagLevel * 2;
-		
-		//Bag inventory slots
-		for (i = 0; i < 2*(bagLevel+1); ++i) {
-			for (j = 0; j < 9; ++j) {
-				int k = j + i * 9;
-				addSlot(new SynthesisBagSlot(bagInv, k, 8 + j * 18,18+i * 18));
+			//Bag inventory slots
+			for (i = 0; i < 2 * (bagLevel.level() + 1); ++i) {
+				for (j = 0; j < 9; ++j) {
+					int k = j + i * 9;
+					addSlot(new SynthesisBagSlot(bagInv, k, 8 + j * 18, 18 + i * 18));
+				}
 			}
-		}
-		
-		//Player Inventory slots	
-		for (i = 0; i < 3; ++i) {
-			for (j = 0; j < 9; ++j) {
-				addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 41 + 17 + (i+invStart) * 18));
-			}
-		}
-		
-		//Player hotbar slots
-		for (i = 0; i < 9; ++i) {
-			addSlot(new Slot(playerInv, i, 8 + i * 18, 45 + 17 + (3+invStart) * 18));
-		}
 
-     }
+			//Player Inventory slots
+			for (i = 0; i < 3; ++i) {
+				for (j = 0; j < 9; ++j) {
+					addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 41 + 17 + (i + invStart) * 18));
+				}
+			}
+
+			//Player hotbar slots
+			for (i = 0; i < 9; ++i) {
+				addSlot(new Slot(playerInv, i, 8 + i * 18, 45 + 17 + (3 + invStart) * 18));
+			}
+
+		}
+	}
     
     @Override
     public boolean stillValid (Player player) {
@@ -63,10 +65,9 @@ public class SynthesisBagMenu extends AbstractContainerMenu {
     @Override
 	public ItemStack quickMoveStack(Player playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		
-		CompoundTag nbt = bag.getOrCreateTag();
-		int bagLevel = nbt.getInt("level");
-		int maxSlots = switch (bagLevel) {
+
+		SynthesisBagItem.BagLevel bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
+		int maxSlots = switch (bagLevel.level()) {
             case 0 -> 18;
             case 1 -> 36;
             case 2 -> 54;

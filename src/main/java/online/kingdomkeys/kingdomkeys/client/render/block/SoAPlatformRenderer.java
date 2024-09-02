@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
@@ -42,5 +43,10 @@ public class SoAPlatformRenderer implements BlockEntityRenderer<SoAPlatformTileE
     @Override
     public boolean shouldRenderOffScreen(SoAPlatformTileEntity te) {
         return te.isMultiblockFormed();
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(SoAPlatformTileEntity blockEntity) {
+        return AABB.INFINITE;
     }
 }

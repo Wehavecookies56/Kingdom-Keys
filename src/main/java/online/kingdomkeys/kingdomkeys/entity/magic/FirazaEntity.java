@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,6 +25,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.damagesource.FireDamageSource;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -99,10 +101,10 @@ public class FirazaEntity extends ThrowableProjectile {
 				if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
-						p = ModData.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 					}
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-						target.setSecondsOnFire(30);
+						target.setRemainingFireTicks(30);
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
 						target.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg * dmgMult);
 					}
@@ -139,7 +141,7 @@ public class FirazaEntity extends ThrowableProjectile {
 					for (int i = 0; i < list.size(); i++) {
 						Entity e = (Entity) list.get(i);
 						if (e instanceof LivingEntity) {
-							e.setSecondsOnFire(25);
+							e.setRemainingFireTicks(25);
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
 							e.hurt(FireDamageSource.getFireDamage(this, this.getOwner()), dmg * dmgMult);
 						}
@@ -169,8 +171,7 @@ public class FirazaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		// TODO Auto-generated method stub
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
 }

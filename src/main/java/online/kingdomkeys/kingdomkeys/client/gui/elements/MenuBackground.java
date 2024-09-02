@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -167,7 +168,7 @@ public class MenuBackground extends Screen {
 		gui.pose().pushPose();
 		{
 			gui.pose().scale(1.05F, 1.05F, 1F);
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 			int y = (int) (topBarHeight + middleHeight +1);
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;

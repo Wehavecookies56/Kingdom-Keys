@@ -27,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class DimensionCommand extends BaseCommand {
@@ -85,7 +86,7 @@ public class DimensionCommand extends BaseCommand {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();
 		}
 
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if (dimension == playerData.getReturnDimension()) {
 			Vec3 vec3 = playerData.getReturnLocation();
 			//TODO fix cast

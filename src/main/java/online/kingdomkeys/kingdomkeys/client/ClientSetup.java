@@ -36,11 +36,13 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.render.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -247,8 +249,8 @@ public class ClientSetup {
 	public void renderOverlays(RenderGuiLayerEvent.Pre event) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		ResourceLocation o = event.getName();
-		IPlayerData playerData = ModData.getPlayer(player);
-		IGlobalCapabilities globalData = ModData.getGlobal(player);
+		PlayerData playerData = PlayerData.get(player);
+		GlobalData globalData = GlobalData.get(player);
 		if(playerData == null || globalData == null)
 			return;
 		

@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
@@ -64,12 +65,12 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setDP(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" dp to "+value), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been set to "+value));
-		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}
 	
@@ -83,12 +84,12 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 		return 1;
 	}
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.addDP(value);
 		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been increased by "+value));
-		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}
 	
@@ -103,13 +104,13 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.remDP(value);
 		
 			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" dp from "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been decreased by "+value));
-		PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}
 }

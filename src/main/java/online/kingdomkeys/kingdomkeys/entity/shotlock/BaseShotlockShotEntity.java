@@ -15,6 +15,7 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class BaseShotlockShotEntity extends ThrowableProjectile{
@@ -57,7 +58,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	protected void onHit(HitResult pResult) {
 		if(!level().isClientSide) {
 			if(getOwner() != null && getOwner() instanceof Player owner) {
-	    		IPlayerData playerData = ModData.getPlayer(owner);
+	    		PlayerData playerData = PlayerData.get(owner);
 	    		if(playerData != null) {
 	    			if(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain) > 0) {
 	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain)*2);

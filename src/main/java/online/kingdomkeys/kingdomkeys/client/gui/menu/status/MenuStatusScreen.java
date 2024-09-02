@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -23,7 +24,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 	String form = DriveForm.NONE.toString();
 	
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
+	final PlayerData playerData = PlayerData.get(minecraft.player);
 
 	Button stats_player, stats_back;
 	List<MenuButton> dfStats = new ArrayList<>();
@@ -49,7 +50,7 @@ public class MenuStatusScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		stats_player.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
 		for(int i = 0; i < dfStats.size();i++) {//Iterate through all the buttons to update their state

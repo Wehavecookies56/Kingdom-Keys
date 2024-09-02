@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectShotlockButton;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -55,7 +56,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 
 		
 		int pos = 0;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		Shotlock equippedShotlock = ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));//playerData.getEquippedKeychain(form);
 		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
 		String equippedShotlockName = equippedShotlock == null ? "---" : equippedShotlock.getTranslationKey();

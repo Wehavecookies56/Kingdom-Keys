@@ -18,6 +18,7 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -63,7 +64,7 @@ public class LockOnGui extends OverlayBase {
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
 		Player player = minecraft.player;
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if (playerData != null) {
 			Entity target = InputHandler.lockOn;
 			if (target == null) {

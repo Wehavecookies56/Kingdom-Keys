@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -69,7 +70,7 @@ public class MagicLevelCommand extends BaseCommand{
 		}
 		
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
 				playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
@@ -77,7 +78,7 @@ public class MagicLevelCommand extends BaseCommand{
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 			
 			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
 			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);

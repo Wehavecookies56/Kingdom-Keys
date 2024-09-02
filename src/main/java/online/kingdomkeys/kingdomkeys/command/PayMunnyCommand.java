@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <value>
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -31,13 +32,13 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 
 	private static int payValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		ServerPlayer user = context.getSource().getPlayerOrException();
-		IPlayerData userData = ModData.getPlayer(user);
+		PlayerData userData = PlayerData.get(user);
 
 		Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "targets");
 		int value = IntegerArgumentType.getInteger(context, "value");
 		if(userData.getMunny() - (value * players.size()) >= 0) {
 			for (ServerPlayer target : players) {
-				IPlayerData targetData = ModData.getPlayer(target);
+				PlayerData targetData = PlayerData.get(target);
 				userData.setMunny(userData.getMunny() - value);
 				targetData.setMunny(targetData.getMunny() + value);
 				user.sendSystemMessage(Component.translatable("You paid " + value + " munny to " + target.getDisplayName().getString()));

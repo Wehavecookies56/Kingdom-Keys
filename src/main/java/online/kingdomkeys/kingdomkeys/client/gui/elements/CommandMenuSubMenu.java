@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -269,7 +270,7 @@ public class CommandMenuSubMenu {
             return active ? BOSS_COLOUR : BOSS_COLOUR.darker().darker();
         } else if (useHostileColour && EntityEvents.isHostiles) {
             return active ? HOSTILE_COLOUR : HOSTILE_COLOUR.darker().darker();
-        } else if (useOrgColour && ModData.getPlayer(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
+        } else if (useOrgColour && PlayerData.get(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
             return active ? ORG_COLOUR : ORG_COLOUR.darker().darker();
         }
         return active ? colour : colour.darker().darker();

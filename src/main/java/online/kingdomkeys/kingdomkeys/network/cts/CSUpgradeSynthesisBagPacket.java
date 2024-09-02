@@ -10,7 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -28,12 +30,13 @@ public record CSUpgradeSynthesisBagPacket() implements Packet {
 		ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
 
 		if(stack != null) {
-			CompoundTag nbt = stack.getOrCreateTag();
+			SynthesisBagItem.BagLevel bagLevel = stack.get(ModComponents.SYNTH_BAG_LEVEL);
 
-			int cost = Utils.getBagCosts(nbt.getInt("level"));
+			int cost = Utils.getBagCosts(bagLevel.level());
 			if (playerData.getMunny() >= cost) {
 				playerData.setMunny(playerData.getMunny() - cost);
-				nbt.putInt("level", nbt.getInt("level") + 1);
+				stack.get(ModComponents.SYNTH_BAG_LEVEL).levelUp();
+				//TODO check that this works might need to use set and if so will change to a record
 			}
 		}
 	}

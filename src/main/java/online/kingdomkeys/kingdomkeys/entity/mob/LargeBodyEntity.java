@@ -15,6 +15,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -113,17 +114,17 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-    	if(ModData.getGlobal(this) == null) {
+    	if(GlobalData.get(this) == null) {
     		KingdomKeys.LOGGER.warn("For some reason "+this+" doesn't have globaldata");
     	}
-    	if(source.getEntity() instanceof LivingEntity && ModData.getGlobal(this) != null) {
+    	if(source.getEntity() instanceof LivingEntity && GlobalData.get(this) != null) {
     		Entity attacker = source.getDirectEntity();
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
             float diff = Mth.wrapDegrees(attackYaw-getYRot());
 
-    		if(diff > 30 && diff < 150 && !(ModData.getGlobal(this).getFlatTicks() > 0)) {
+    		if(diff > 30 && diff < 150 && !(GlobalData.get(this).getFlatTicks() > 0)) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
 					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);

@@ -24,7 +24,7 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerData playerData = ModData.getPlayer(player);
+        	PlayerData playerData = PlayerData.get(player);
         	if(playerData == null)
             	return 0;
 
@@ -54,7 +54,7 @@ public class DamageCalculation {
      */
     public static float getOrgMagicDamage(Player player, IOrgWeapon weapon) {
         if (player != null) {
-        	IPlayerData playerData = ModData.getPlayer(player);
+        	PlayerData playerData = PlayerData.get(player);
         	if(playerData == null)
             	return 0;
 
@@ -68,7 +68,7 @@ public class DamageCalculation {
      */
     public static float getMagicDamage(Player player) {
         if (player != null) {
-        	IPlayerData playerData = ModData.getPlayer(player);
+        	PlayerData playerData = PlayerData.get(player);
         	if(playerData == null)
             	return 0;
         	
@@ -94,7 +94,7 @@ public class DamageCalculation {
      */
     public static float getStrengthDamage(Player player) {
         if (player != null) {
-            IPlayerData playerData = ModData.getPlayer(player);
+            PlayerData playerData = PlayerData.get(player);
             if(playerData == null)
                 return 0;
 
@@ -120,7 +120,7 @@ public class DamageCalculation {
      */
     public static float getKBStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerData playerData = ModData.getPlayer(player);
+        	PlayerData playerData = PlayerData.get(player);
         	if(playerData == null)
             	return 0;
 
@@ -158,7 +158,7 @@ public class DamageCalculation {
      */
     public static float getOrgStrengthDamage(Player player, ItemStack stack) {
         if (player != null) {
-        	IPlayerData playerData = ModData.getPlayer(player);
+        	PlayerData playerData = PlayerData.get(player);
             float damage = 0;
             float finalDamage = 0;
             if (stack.getItem() instanceof IOrgWeapon) {

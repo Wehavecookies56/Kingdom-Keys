@@ -12,6 +12,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -37,15 +39,15 @@ public class StruggleSettings extends MenuBackground {
 	Button togglePriv, accept, size;
 	MenuButton back;
 		
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	final PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 	
 	Struggle struggle;
 		
 	public StruggleSettings(BlockPos pos) {
 		super("Struggle Settings", new Color(252, 173, 3));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		boardPos = pos;
 	}
 
@@ -263,7 +265,7 @@ public class StruggleSettings extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		struggle = worldData.getStruggleFromBlockPos(boardPos);
 		
 		int buttonX = (int)(width*0.25);

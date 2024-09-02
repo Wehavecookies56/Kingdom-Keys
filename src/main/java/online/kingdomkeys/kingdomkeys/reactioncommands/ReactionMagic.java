@@ -9,6 +9,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 
@@ -28,7 +29,7 @@ public class ReactionMagic extends ReactionCommand {
     @OnlyIn(Dist.CLIENT)
 	@Override
 	public String getTranslationKey() {
-		IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
+		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 		int level = playerData.getMagicLevel(magic);
 		Magic mag = ModMagic.registry.get(magic);
 		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
@@ -49,7 +50,7 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity) {
 		Magic mag = ModMagic.registry.get(magic);
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		int level = playerData.getMagicLevel(magic);
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();

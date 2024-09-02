@@ -10,6 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -26,8 +28,8 @@ public class MagicCure extends Magic {
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
-		IPlayerData playerData = ModData.getPlayer(player);
-		IWorldCapabilities worldData = ModData.getWorld(player.level());
+		PlayerData playerData = PlayerData.get(player);
+		WorldData worldData = WorldData.get(player.getServer());
 
 		float amount = playerData.getMaxHP() * getDamageMult(level);
 		if (playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)

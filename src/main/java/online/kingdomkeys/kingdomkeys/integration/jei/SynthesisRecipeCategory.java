@@ -17,10 +17,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -48,13 +47,14 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
         }
         new TextDrawable(Component.translatable(Utils.translateToLocal(Strings.Gui_Shop_Tier)+" "+Utils.getTierFromInt(recipe.getTier())), 0xFFFF55).draw(guiGraphics, 70, 57);
 
-        Minecraft.getInstance().player.getCapability(ModData.PLAYER_CAPABILITIES).ifPresent(cap -> {
-            if (cap.hasKnownRecipe(recipe.getRegistryName())) {
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        if (playerData != null) {
+            if (playerData.hasKnownRecipe(recipe.getRegistryName())) {
                 new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.unlocked"), 0x55FF55).draw(guiGraphics, 5, 72);
             } else {
                 new TextDrawable(Component.translatable("jei.category.kingdomkeys.synthesis.locked"), 0xFF5555).draw(guiGraphics, 5, 72);
             }
-        });
+        }
     }
 
     @Override

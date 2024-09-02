@@ -22,11 +22,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
@@ -67,7 +70,7 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 			if (placer instanceof Player) {
 				Player player = (Player) placer;
 				OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getBlockEntity(pos);
-				IWorldCapabilities worldData = ModData.getWorld(worldIn);
+				WorldData worldData = WorldData.get(worldIn.getServer());
 	
 				List<UUID> portals = worldData.getAllPortalsFromOwnerID(player.getUUID());
 	
@@ -75,7 +78,7 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 					UUID portalUUID = UUID.randomUUID();
 	
 					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level().dimension(), player.getUUID()));
-					Utils.syncWorldData(worldIn, worldData);
+					PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
 	
 					player.displayClientMessage(Component.translatable(ChatFormatting.GREEN + "This is now your portal"), true);
 	
@@ -92,10 +95,10 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if (!worldIn.isClientSide) {
-			if (ModData.getPlayer(player).getAlignment() != Utils.OrgMember.NONE) {
+			if (PlayerData.get(player).getAlignment() != Utils.OrgMember.NONE) {
 				if (worldIn.getBlockEntity(pos) instanceof OrgPortalTileEntity) {
 					OrgPortalTileEntity te = (OrgPortalTileEntity) worldIn.getBlockEntity(pos);
-					IWorldCapabilities worldData = ModData.getWorld(worldIn);
+					WorldData worldData = WorldData.get(worldIn.getServer());
 
 					if (te.getUUID() == null) { // Player clicks new portal
 
@@ -128,14 +131,14 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 				UUID portalID = te.getUUID();
 				te.setRemoved();
 				if (portalID != null) {
-					IWorldCapabilities worldData = ModData.getWorld(worldIn);
+					WorldData worldData = WorldData.get(worldIn.getServer());
 					UUID ownerUUID = worldData.getOwnerIDFromUUID(portalID);
 					
-					ModData.getWorld(worldIn).removePortal(portalID);
+					WorldData.get(worldIn.getServer()).removePortal(portalID);
 
 					Player player = worldIn.getServer().getPlayerList().getPlayer(ownerUUID);
 					if(player != null) { //Remove from player's menu
-						Utils.syncWorldData(worldIn, worldData);
+						PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
 						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "Portal destination disappeared"), true);
 					}
 				}

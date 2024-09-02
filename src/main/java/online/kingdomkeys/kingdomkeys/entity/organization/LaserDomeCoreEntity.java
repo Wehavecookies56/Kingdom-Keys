@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -114,7 +115,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 
 	private void updateList() {
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = ModData.getWorld(level()).getPartyFromMember(getCaster().getUUID());
+		Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getCaster().getUUID());
 
 		if(casterParty != null && !casterParty.getFriendlyFire()) {
 			for (Party.Member m : casterParty.getMembers()) {

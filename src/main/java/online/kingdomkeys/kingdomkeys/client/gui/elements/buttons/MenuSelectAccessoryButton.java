@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -56,7 +57,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
 						int oldItemAP = 0;
@@ -205,7 +206,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    String apStr = String.valueOf(ap);
 	                    
 	                    int oldAP=0,oldStr=0,oldMag=0;
-	                    IPlayerData playerData = ModData.getPlayer(minecraft.player);
+	                    PlayerData playerData = PlayerData.get(minecraft.player);
                     	ItemStack replacedItem = playerData.getEquippedAccessory(parent.slot);
                     	if(!ItemStack.matches(replacedItem, ItemStack.EMPTY) && replacedItem.getItem() instanceof KKAccessoryItem){
                     		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedItem.getItem();

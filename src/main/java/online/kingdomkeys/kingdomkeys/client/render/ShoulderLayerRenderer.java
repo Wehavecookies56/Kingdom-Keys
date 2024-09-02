@@ -23,6 +23,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 
 @OnlyIn(Dist.CLIENT)
@@ -47,8 +48,8 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		HumanoidModel<LivingEntity> model = null;
 		if(entitylivingbaseIn instanceof Player player) {
-			if (ModData.getPlayer(player) != null) {
-				ItemStack armor = ModData.getPlayer(player).getEquippedKBArmor(0);
+			if (PlayerData.get(player) != null) {
+				ItemStack armor = PlayerData.get(player).getEquippedKBArmor(0);
 				String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
 				if (armorName.isEmpty() || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY) || player.isInvisible())
 					return;

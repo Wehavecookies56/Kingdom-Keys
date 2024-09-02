@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -57,7 +58,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     public void OK() {
         //set choice
         Minecraft mc = Minecraft.getInstance();
-        IPlayerData playerData = ModData.getPlayer(mc.player);
+        PlayerData playerData = PlayerData.get(mc.player);
         BlockEntity te = mc.level.getBlockEntity(pedestal);
         if (state == SoAState.CONFIRM) {
             playerData.setSoAState(SoAState.COMPLETE);
@@ -107,7 +108,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
                     new Utils.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
             );
             Minecraft mc = Minecraft.getInstance();
-            IPlayerData playerData = ModData.getPlayer(mc.player);
+            PlayerData playerData = PlayerData.get(mc.player);
             BlockEntity teChoice = mc.level.getBlockEntity(playerData.getChoicePedestal());
             BlockEntity teSacrifice = mc.level.getBlockEntity(playerData.getSacrificePedestal());
             playerData.setChoicePedestal(new BlockPos(0, 0, 0));
@@ -166,7 +167,7 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
                     return Collections.singletonList("This ain't right");
             }
         } else {
-            IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
+            PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
             displayText.add(Strings.SoA_Confirm1);
             displayText.add(getStringForChoice(playerData.getChosen()));
             displayText.add(Strings.SoA_Confirm3);

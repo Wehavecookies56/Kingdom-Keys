@@ -86,7 +86,7 @@ public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceD
 										Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 										for (ItemStack weapon : weapons) {
 											if (ItemStack.isSameItem(weapon, stack)) {
-												weapon.setTag(stack.getTag());
+												weapon.applyComponents(stack.getComponents());
 												break;
 											}
 										}
@@ -117,7 +117,7 @@ public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceD
 									Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 									for (ItemStack weapon : weapons) {
 										if (ItemStack.isSameItem(weapon, droppedItem)) {
-											weapon.setTag(droppedItem.getTag());
+											weapon.applyComponents(droppedItem.getComponents());
 											break;
 										}
 									}

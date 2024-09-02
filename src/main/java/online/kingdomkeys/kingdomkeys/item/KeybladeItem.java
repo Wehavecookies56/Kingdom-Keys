@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -36,7 +42,6 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -105,17 +110,14 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	public int getKeybladeLevel(ItemStack stack) {
-		if(stack.hasTag() && stack.getTag().contains("level")) {
-			return stack.getTag().getInt("level");
+		if(stack.has(ModComponents.KEYBLADE_LEVEL)) {
+			return stack.get(ModComponents.KEYBLADE_LEVEL).level;
 		}
 		return 0;
 	}
 
 	public void setKeybladeLevel(ItemStack stack, int level) {
-		if(!stack.hasTag()) {
-			stack.setTag(new CompoundTag());
-		}
-		stack.getTag().putInt("level", level);
+		stack.set(ModComponents.KEYBLADE_LEVEL, new KeybladeLevel(level, getMaxLevel()));
 	}
 
 	public int getMaxLevel(){
@@ -322,11 +324,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
 		if (flagIn.isAdvanced()) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("keybladeID")) {
-					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
-				}
+			KeybladeID id = stack.get(ModComponents.KEYBLADE_ID);
+			if (id != null) {
+				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + id.keybladeID.toString()));
 			}
 		}
 	}
@@ -368,5 +369,45 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				}
 			}
 		}
+	}
+
+	public record KeybladeID(UUID keybladeID) {
+		public static final Codec<KeybladeID> CODEC = RecordCodecBuilder.create(
+				instance -> instance.group(
+						UUIDUtil.CODEC.fieldOf("keybladeID").forGetter(KeybladeID::keybladeID)
+				).apply(instance, KeybladeID::new)
+		);
+
+		public static final StreamCodec<FriendlyByteBuf, KeybladeID> STREAM_CODEC = StreamCodec.composite(
+				UUIDUtil.STREAM_CODEC,
+				KeybladeID::keybladeID,
+				KeybladeID::new
+		);
+	}
+
+	public record KeybladeLevel(int level, int maxLevel) {
+		public static final Codec<KeybladeLevel> CODEC = RecordCodecBuilder.create(
+				instance -> instance.group(
+						Codec.INT.fieldOf("level").forGetter(KeybladeLevel::level),
+						Codec.INT.fieldOf("max_level").forGetter(KeybladeLevel::maxLevel)
+				).apply(instance, KeybladeLevel::new)
+		);
+
+		public static final StreamCodec<FriendlyByteBuf, KeybladeLevel> STREAM_CODEC = StreamCodec.composite(
+				ByteBufCodecs.INT,
+				KeybladeLevel::level,
+				ByteBufCodecs.INT,
+				KeybladeLevel::maxLevel,
+				KeybladeLevel::new
+		);
+
+		public KeybladeLevel setMaxLevel(int maxLevel) {
+			return new KeybladeLevel(Math.min(maxLevel, level), maxLevel);
+		}
+
+		public KeybladeLevel setLevel(int level) {
+			return new KeybladeLevel(Math.min(maxLevel, level), maxLevel);
+		}
+
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 public class FocusOrbEntity extends ItemDropEntity {
 
@@ -22,7 +23,7 @@ public class FocusOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(Player player) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.addFocus(value);
 	}
 

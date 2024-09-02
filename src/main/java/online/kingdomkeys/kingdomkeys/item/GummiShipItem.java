@@ -32,7 +32,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 		if (!world.isClientSide) {
 			GummiShipEntity gummi = new GummiShipEntity(world);
 			gummi.setPos(player.getX(), player.getY(), player.getZ());
-			gummi.setData(player.getItemInHand(hand).getTag().getString("data"));
+			//gummi.setData(player.getItemInHand(hand).getTag().getString("data"));
 			world.addFreshEntity(gummi);
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));
@@ -49,7 +49,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
-		if(stack.getTag() != null && stack.getTag().contains("data") && KeyboardHelper.isShiftDown()) {
+		//if(stack.getTag() != null && stack.getTag().contains("data") && KeyboardHelper.isShiftDown()) {
 			/*String[] d = stack.getTag().getString("data").split(",");
 			String formatted = "";
 			for(int i=0;i<d.length;i++) {
@@ -59,10 +59,10 @@ public class GummiShipItem extends Item implements IItemCategory {
 					formatted+=" ";
 				}
 			}*/
-			tooltip.add(Component.translatable(stack.getTag().getString("data")));
+			//tooltip.add(Component.translatable(stack.getTag().getString("data")));
 
 
-		}
+		//}
 		super.appendHoverText(pStack, pContext, tooltip, pTooltipFlag);
 	}
 	
@@ -70,10 +70,10 @@ public class GummiShipItem extends Item implements IItemCategory {
 	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
 		if (entity instanceof Player && !world.isClientSide) {
 			Player player = (Player) entity;
-			if (!itemStack.hasTag()) {
-				itemStack.setTag(new CompoundTag());
-				itemStack.getTag().putString("data", data);
-			}
+			//if (!itemStack.hasTag()) {
+			//	itemStack.setTag(new CompoundTag());
+			//	itemStack.getTag().putString("data", data);
+			//}
 		}
 	}
 

@@ -22,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -51,7 +53,7 @@ public class MenuScreen extends MenuBackground {
 			case ITEMS -> minecraft.setScreen(new MenuItemsScreen());
 			case ABILITIES -> minecraft.setScreen(new MenuAbilitiesScreen());
 			case PARTY -> {
-				Party p = ModData.getWorld(minecraft.level).getPartyFromMember(minecraft.player.getUUID());
+				Party p = WorldData.getClient().getPartyFromMember(minecraft.player.getUUID());
 				if (p == null) {
 					minecraft.setScreen(new GuiMenu_Party_None());
 				} else {
@@ -143,7 +145,7 @@ public class MenuScreen extends MenuBackground {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{

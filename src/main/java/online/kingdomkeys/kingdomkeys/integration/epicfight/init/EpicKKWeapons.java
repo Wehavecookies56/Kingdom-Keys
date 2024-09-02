@@ -41,19 +41,19 @@ public class EpicKKWeapons {
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
-                            switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                            switch (PlayerData.get((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
                                 case Strings.Form_Valor -> KKStyles.VALOR;
                                 case Strings.Form_Master -> KKStyles.MASTER;
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
                                 case Strings.Form_Final -> KKStyles.FINAL;
                                 default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
                                         == CapabilityItem.WeaponCategories.SWORD ?
-                                        switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
+                                        switch (PlayerData.get((Player) playerpatch.getOriginal()).getDualStyle()) {
                                             case KH2_ROXAS_DUAL -> KKStyles.KH2_ROXAS_DUAL;
                                             case DAYS_ROXAS_DUAL -> KKStyles.DAYS_ROXAS_DUAL;
                                         }
                                         :
-                                        switch (ModData.getPlayer((Player) playerpatch.getOriginal()).getSingleStyle()) {
+                                        switch (PlayerData.get((Player) playerpatch.getOriginal()).getSingleStyle()) {
                                             case ROXAS -> KKStyles.ROXAS;
                                             case SORA -> KKStyles.SORA;
                                             case RIKU -> KKStyles.RIKU;

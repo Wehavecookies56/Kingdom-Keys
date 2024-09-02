@@ -11,12 +11,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -36,8 +36,8 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		IPlayerData playerData = ModData.getPlayer(player);
-		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+		PlayerData playerData = PlayerData.get(player);
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 
 		if (!world.isClientSide) {
 			if (playerData != null && playerData.getMagicsMap() != null) {
@@ -46,7 +46,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 					takeItem(player);
 					player.displayClientMessage(Component.translatable("message.unlocked", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
-					int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
+					int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
 					if(actualLevel < magicInstance.getMaxLevel()) {
 						player.displayClientMessage(Component.translatable("message.magic_upgrade",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)),Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
@@ -55,7 +55,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 						player.displayClientMessage(Component.translatable("message.magic_max_level",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))), true);
 					}
 				}
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 		} else { //For the client side
 			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
@@ -80,12 +80,12 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		Magic magicInstance = ModMagic.registry.get().getValue(new ResourceLocation(magic));
+	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
-			IPlayerData playerData = ModData.getPlayer(Minecraft.getInstance().player);
+			PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 	
-			int actualLevel = playerData.getMagicLevel(new ResourceLocation(magic));
+			int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
 			if(!playerData.getMagicsMap().containsKey(magic)) {
 				actualLevel--;
 			}
@@ -96,7 +96,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				tooltip.add(Component.translatable(Utils.translateToLocal("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)))));
 			}
 		}
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
 	@Override

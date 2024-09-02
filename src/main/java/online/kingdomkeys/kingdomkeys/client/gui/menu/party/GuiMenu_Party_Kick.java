@@ -10,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -24,8 +26,8 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	
 	MenuButton back;
 		
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	final PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 	Party party;
 	
 	MenuButton[] players = new MenuButton[ModConfigs.partyMembersLimit];
@@ -33,7 +35,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	public GuiMenu_Party_Kick() {
 		super(Strings.Gui_Menu_Party_Leader_Kick, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 	}
 
 	protected void action(String string) {
@@ -81,7 +83,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	}
 
 	private void refreshMembers() {
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -133,7 +135,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		refreshMembers();
 	}

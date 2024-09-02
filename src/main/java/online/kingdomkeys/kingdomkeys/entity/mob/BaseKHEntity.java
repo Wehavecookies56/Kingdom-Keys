@@ -6,6 +6,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
@@ -32,7 +33,7 @@ public class BaseKHEntity extends Monster implements IKHMob {
 	@Override
 	protected int getBaseExperienceReward() {
 		if (getKHMobType() != MobType.NPC) {
-			IGlobalCapabilities mobData = ModData.getGlobal(this);
+			GlobalData mobData = GlobalData.get(this);
 			if (mobData != null && mobData.getLevel() > 0) {
 				return (int) (super.getBaseExperienceReward() * (mobData.getLevel() / 10F));
 			}

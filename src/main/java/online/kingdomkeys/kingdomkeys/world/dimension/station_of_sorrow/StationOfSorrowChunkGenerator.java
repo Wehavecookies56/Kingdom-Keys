@@ -78,7 +78,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
    
     @Override
-    protected Codec<? extends ChunkGenerator> codec() {
+    protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -28,7 +29,7 @@ public class KOGui extends ChatScreen {
 			case "giveup" -> {
 				PacketHandler.sendToServer(new CSGiveUpKO());
 				this.minecraft.setScreen(null);
-				ModData.getGlobal(minecraft.player).setKO(false);
+				GlobalData.get(minecraft.player).setKO(false);
 			}
 			case "exit" -> {
 				if (this.minecraft.level != null) {
@@ -64,7 +65,7 @@ public class KOGui extends ChatScreen {
 			if(minecraft.player.getHealth() <= 0) {
 				onClose();
 			}
-			IGlobalCapabilities globalData = ModData.getGlobal(minecraft.player);
+			GlobalData globalData = GlobalData.get(minecraft.player);
 			if(globalData != null){
 				if(!globalData.isKO()){
 					onClose();

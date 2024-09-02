@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -205,7 +206,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		if (entity instanceof Player player && !world.isClientSide()) {
-            IPlayerData playerData = ModData.getPlayer(player);
+            PlayerData playerData = PlayerData.get(player);
 			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
 				String list = switch(state.getValue(TIER)){
 					case NORMAL -> ModConfigs.savePointRecovers;
@@ -226,17 +227,17 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 					}
 					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
 						playerData.addMP(1);
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
 						playerData.addFocus(1);
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
 						playerData.addDP(5);
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 						showParticles(player, world, pos);
 					}
 

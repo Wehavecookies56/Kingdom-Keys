@@ -35,6 +35,10 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 			CSSummonArmor::forceDesummon,
 			CSSummonArmor::new
 	);
+
+	public CSSummonArmor() {
+		this(false);
+	}
 	
 	/**
 	 * Checks all armor slots and if at least one unequips returns true

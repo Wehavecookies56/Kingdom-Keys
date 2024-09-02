@@ -111,7 +111,6 @@ public class PacketHandler {
 		server(CSUseItemPacket.TYPE, CSUseItemPacket.STREAM_CODEC);
 		server(CSUseLimitPacket.TYPE, CSUseLimitPacket.STREAM_CODEC);
 		server(CSUseMagicPacket.TYPE, CSUseMagicPacket.STREAM_CODEC);
-		server(CSUseMagicPacket.TYPE, CSUseMagicPacket.STREAM_CODEC);
 		server(CSUseReactionCommandPacket.TYPE, CSUseReactionCommandPacket.STREAM_CODEC);
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 	}

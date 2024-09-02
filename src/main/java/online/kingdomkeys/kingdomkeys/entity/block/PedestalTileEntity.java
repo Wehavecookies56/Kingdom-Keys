@@ -3,8 +3,10 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import cpw.mods.util.Lazy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -18,18 +20,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.menu.PedestalMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
-	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
+	private ItemStackHandler itemStackHandler = createInventory();
+	public Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
 	public static final float DEFAULT_HEIGHT = 1.25F;
 	public static final float DEFAULT_ROTATION = 0.0F;
@@ -64,25 +63,26 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		super(ModEntities.TYPE_PEDESTAL.get(), pos, state);
 	}
 
-	private IItemHandler createInventory() {
+	private ItemStackHandler createInventory() {
 		return new ItemStackHandler(NUMBER_OF_SLOTS) {
 			@Override
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 				return true; //stack.getItem() instanceof KeybladeItem;
 			}
+
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+
+			}
 		};
-	}
-	
-	@Override
-	public AABB getRenderBoundingBox() {
-		return super.getRenderBoundingBox().expandTowards(0, 5, 0);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.loadAdditional(compound, registries);
 		CompoundTag invCompound = compound.getCompound("inv");
-		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
+		itemStackHandler.deserializeNBT(registries, invCompound);
 		CompoundTag transformations = compound.getCompound("transforms");
 		rotationSpeed = transformations.getFloat("rotspeed");
 		bobSpeed = transformations.getFloat("bobspeed");
@@ -93,16 +93,13 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		pause = transformations.getBoolean("pause");
 		flipped = transformations.getBoolean("flipped");
 		stationOfAwakeningMarker = compound.getBoolean("soa_marker");
-		displayStack = ItemStack.of(compound.getCompound("display_stack"));
+		displayStack = ItemStack.parseOptional(registries, compound.getCompound("display_stack"));
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
-		inventory.ifPresent(iih -> {
-			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
-			compound.put("inv", invCompound);
-		});
+	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.saveAdditional(compound, registries);
+		compound.put("inv", itemStackHandler.serializeNBT(registries));
 		CompoundTag transformations = new CompoundTag();
 		transformations.putFloat("rotspeed", rotationSpeed);
 		transformations.putFloat("bobspeed", bobSpeed);
@@ -114,7 +111,7 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		transformations.putBoolean("flipped", flipped);
 		compound.put("transforms", transformations);
 		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
-		compound.put("display_stack", displayStack.serializeNBT());
+		compound.put("display_stack", displayStack.save(registries));
 	}
 
 	@Override
@@ -126,15 +123,6 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
 		return new PedestalMenu(windowID, playerInventory, this);
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			return inventory.cast();
-		}
-		return super.getCapability(cap, side);
 	}
 
 	public void setStationOfAwakeningMarker(boolean marker) {
@@ -253,18 +241,15 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		load(pkt.getTag());
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = new CompoundTag();
+		saveAdditional(tag, registries);
+		return tag;
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return serializeNBT();
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		this.load(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		this.loadAdditional(tag, registries);
 	}
 	
 }

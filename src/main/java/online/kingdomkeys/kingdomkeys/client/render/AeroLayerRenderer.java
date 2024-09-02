@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
@@ -49,8 +50,8 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 	}
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (ModData.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModData.getGlobal(entitylivingbaseIn);
+		if (GlobalData.get(entitylivingbaseIn) != null) {
+			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
 			if (globalData.getAeroTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 

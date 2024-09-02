@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -28,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -240,7 +242,7 @@ public class MenuEquipmentButton extends Button {
 	                    String magicStr = String.valueOf(magic);
 	                    String apStr = String.valueOf(ap);
 	                    
-	                    IPlayerData playerData = ModData.getPlayer(mc.player);
+	                    PlayerData playerData = PlayerData.get(mc.player);
 	                    int totalStrength = playerData.getStrength(true) + strength;
 	                    int totalMagic = playerData.getMagic(true) + magic;
 	                    int totalAP =  playerData.getMaxAP(true) + ap;
@@ -390,6 +392,9 @@ public class MenuEquipmentButton extends Button {
                             ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(mc.level), mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof PauldronItem kbArmor){
+						stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
+
+						});
 	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.getTag().getCompound("helmet"))) {
 		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;

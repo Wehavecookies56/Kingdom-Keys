@@ -25,6 +25,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -70,7 +71,7 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 				PedestalTileEntity te = (PedestalTileEntity) worldIn.getBlockEntity(pos);
 				if (te != null) {
 					if (te.isStationOfAwakeningMarker()) {
-						IPlayerData playerData = ModData.getPlayer(player);
+						PlayerData playerData = PlayerData.get(player);
 						SoAState soAState = playerData.getSoAState();
 						if (soAState == SoAState.CHOICE || (soAState == SoAState.SACRIFICE && (!playerData.getChoicePedestal().equals(pos)))) {
 							PacketHandler.sendTo(new SCOpenChoiceScreen(te.getDisplayStack(), soAState, pos), serverPlayerEntity);

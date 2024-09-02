@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuKeybladeArmorSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShoulderArmor;
@@ -44,7 +45,7 @@ public class MenuSelectKeybladeArmorButton extends MenuButtonBase {
 			if (b.visible && b.active) {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Pauldron(player, playerData.getEquippedKBArmor(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSSummonArmor(true));
 

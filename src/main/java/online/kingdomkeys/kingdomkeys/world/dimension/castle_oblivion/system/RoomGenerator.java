@@ -124,7 +124,7 @@ public class RoomGenerator {
                 }
             }
             data.setGenerated(room);
-            SCSyncCastleOblivionInteriorData.syncClients(level);
+            SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
             return room;

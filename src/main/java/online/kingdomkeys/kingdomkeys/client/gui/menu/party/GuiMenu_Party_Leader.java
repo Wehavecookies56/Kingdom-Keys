@@ -15,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -30,8 +32,8 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	
 	MenuButton back, invite, settings, promote, kick, disband;
 		
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	final PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 	
 	Party party;
 
@@ -40,7 +42,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	public GuiMenu_Party_Leader() {
 		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 	}
 
 	protected void action(String string) {
@@ -118,7 +120,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party == null) {
 			GuiHelper.openMenu();
@@ -157,7 +159,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 	public void drawPlayer(GuiGraphics gui, int order, Member member) {
 		
 		PoseStack matrixStack = gui.pose();
-		byte partySize = (byte) ModData.getWorld(Minecraft.getInstance().player.level()).getPartyFromMember(member.getUUID()).getMembers().size();
+		byte partySize = (byte) WorldData.getClient().getPartyFromMember(member.getUUID()).getMembers().size();
 
 		float space = 0.18F;
 			space *= 2F/partySize;
@@ -230,7 +232,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				int mHP = member.getHP();
 				int mMP = member.getMP();
 				if(player != null) {
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null) {
 						level = playerData.getLevel();
 						cHP = "" + (int)player.getHealth();

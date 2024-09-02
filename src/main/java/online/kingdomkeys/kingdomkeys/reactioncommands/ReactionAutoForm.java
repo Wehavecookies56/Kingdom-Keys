@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -51,7 +52,7 @@ public class ReactionAutoForm extends ReactionCommand {
 		if(conditionsToAppear(player,target)) {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			
 			
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
@@ -96,7 +97,7 @@ public class ReactionAutoForm extends ReactionCommand {
 
 	@Override
 	public boolean conditionsToAppear(Player player, LivingEntity target) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		if(playerData != null) {
 			if(Utils.isPlayerLowHP(player)) {
 				if(playerData.getAlignment() == OrgMember.NONE) {

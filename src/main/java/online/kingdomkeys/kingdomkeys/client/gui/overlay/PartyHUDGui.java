@@ -13,6 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
@@ -47,7 +49,7 @@ public class PartyHUDGui extends OverlayBase {
 
 		float scale = 0.5f;
 
-		IWorldCapabilities worldData = ModData.getWorld(minecraft.level);
+		WorldData worldData = WorldData.getClient();
 		Party p = worldData.getPartyFromMember(player.getUUID());
 		if (p == null) {
 			return;
@@ -183,7 +185,7 @@ public class PartyHUDGui extends OverlayBase {
 				matrixStack.popPose();
 
 				// MP
-				IPlayerData playerData = ModData.getPlayer(playerAlly);
+				PlayerData playerData = PlayerData.get(playerAlly);
 				if (playerData != null) {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();

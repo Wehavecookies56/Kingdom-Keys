@@ -53,7 +53,7 @@ public class ComboExtender extends Skill {
 				if (player.onGround() && !player.isSprinting() && event.getSkillContainer().getSkill() == EpicFightSkills.BASIC_ATTACK) {
 					if (!this.isExecutableState(spp))
 						return;
-					IPlayerData playerCapabilities = ModData.getPlayer(player);
+					PlayerData playerCapabilities = PlayerData.get(player);
 					event.setCanceled(true);
 					AnimationProvider<?> attackMotion;
 					this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);

@@ -18,6 +18,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
@@ -55,7 +56,7 @@ public class DiveToTheHeartDimension{
     public static void playerTick(PlayerTickEvent event) {
         if (!event.getEntity().isCreative()) {
             if (event.getEntity().level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
-                IPlayerData playerData = ModData.getPlayer(event.getEntity());
+                PlayerData playerData = PlayerData.get(event.getEntity());
                 if (playerData != null) {
                     if (playerData.getSoAState() == SoAState.NONE) {
                         playerData.setSoAState(SoAState.CHOICE);

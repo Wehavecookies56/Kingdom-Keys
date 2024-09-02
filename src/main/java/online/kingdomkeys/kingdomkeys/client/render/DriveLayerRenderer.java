@@ -18,6 +18,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
@@ -32,9 +33,9 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && ModData.getPlayer((Player) entitylivingbaseIn) != null) {
-			if(!ModData.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				String drive = ModData.getPlayer((Player) entitylivingbaseIn).getActiveDriveForm();
+		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && PlayerData.get((Player) entitylivingbaseIn) != null) {
+			if(!PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+				String drive = PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm();
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(drive));
 				
 				if (form.getTextureLocation((Player) entitylivingbaseIn) != null) {

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -19,7 +20,7 @@ public class MagicBlizzard extends Magic {
 
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getDamageMult(level) + ModData.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
+		float dmgMult = getDamageMult(level) + PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 		switch (level) {

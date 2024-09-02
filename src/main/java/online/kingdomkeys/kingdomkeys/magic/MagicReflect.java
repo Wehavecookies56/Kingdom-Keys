@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicReflect extends Magic {
@@ -17,7 +18,7 @@ public class MagicReflect extends Magic {
 
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setReflectTicks((int) (40 + (level * 5)), level);
 		PacketHandler.syncToAllAround(player, playerData);
 		player.swing(InteractionHand.MAIN_HAND);

@@ -24,8 +24,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -41,21 +39,12 @@ public class ThundazaEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThundazaEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_THUNDAZA.get(), world);
-	}
-
 	public ThundazaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAZA.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
 		this.lockedOnEntity = lockedOnEntity;
 
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	public int getMaxTicks() {
@@ -89,8 +78,8 @@ public class ThundazaEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(OWNER, Optional.of(Util.NIL_UUID));
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
 	}
 
 	List<LivingEntity> list = new ArrayList<LivingEntity>();

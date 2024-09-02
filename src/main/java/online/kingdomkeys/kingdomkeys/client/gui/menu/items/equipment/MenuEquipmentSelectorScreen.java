@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -60,7 +61,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		int itemHeight = 15;
 		
 		int pos = 0;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedKeychain = playerData.getEquippedKeychain(form);
 		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
 		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getDescriptionId() : "---";

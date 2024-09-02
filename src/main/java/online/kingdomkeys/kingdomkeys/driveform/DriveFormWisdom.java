@@ -34,7 +34,7 @@ public class DriveFormWisdom extends DriveForm {
 					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(1).split(",")[1]);
 						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 					}
 				}
 			}

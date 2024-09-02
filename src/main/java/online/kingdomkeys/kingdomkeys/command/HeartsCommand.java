@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -62,7 +63,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 	}
 	
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setHearts(value);
 		
 			context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
@@ -81,7 +82,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		return 1;
 	}
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.addHearts(value);
 		
 			context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
@@ -101,7 +102,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.removeHearts(value);
 		
 			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);

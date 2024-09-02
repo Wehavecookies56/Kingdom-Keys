@@ -29,6 +29,10 @@ public record CSUseItemPacket(int slot, String target) implements Packet {
 			CSUseItemPacket::new
 	);
 
+	public CSUseItemPacket(int slot) {
+		this(slot, "");
+	}
+
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();

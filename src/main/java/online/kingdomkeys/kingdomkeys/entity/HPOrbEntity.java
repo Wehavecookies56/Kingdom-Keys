@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class HPOrbEntity extends ItemDropEntity {
@@ -30,7 +31,7 @@ public class HPOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(Player player) {
-		if(!ModData.getPlayer(player).getActiveDriveForm().equals(Strings.Form_Anti))
+		if(!PlayerData.get(player).getActiveDriveForm().equals(Strings.Form_Anti))
 			player.heal(Math.min(this.value, 8));
 	}
 

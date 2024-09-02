@@ -337,8 +337,8 @@ public class EntityEvents {
 					}
 				});
 
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncWorldData(worldData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 				PacketHandler.syncToAllAround(player, playerData);
 
 				// Sync all registries, important
@@ -383,7 +383,7 @@ public class EntityEvents {
 			// Check commands from registry that need active check (can turn off based on
 			// conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
-			for (ReactionCommand rc : ModReactionCommands.registry.get().getValues()) {
+			for (ReactionCommand rc : ModReactionCommands.registry) {
 				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
 					rcList.add(rc);
 				}
@@ -404,7 +404,7 @@ public class EntityEvents {
 
 			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but
 																						// now it seems to work fine without it
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 
 			// Anti form FP code done here
@@ -425,7 +425,7 @@ public class EntityEvents {
 			if (playerData.getLimitCooldownTicks() > 0 && !player.level().isClientSide) {
 				playerData.setLimitCooldownTicks(playerData.getLimitCooldownTicks() - 1);
 				if (playerData.getLimitCooldownTicks() <= 0) {
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
 			//System.out.println(playerData.getMagicCasttimeTicks());
@@ -439,7 +439,7 @@ public class EntityEvents {
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
 
@@ -448,7 +448,7 @@ public class EntityEvents {
 			if (playerData.getMagicCooldownTicks() > 0 && !player.level().isClientSide) {
 				playerData.setMagicCooldownTicks(playerData.getMagicCooldownTicks() - 1);
 				if (playerData.getMagicCooldownTicks() <= 0) {
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
 
@@ -470,7 +470,7 @@ public class EntityEvents {
 				if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
 					playerData.setRecharge(true);
 					if (!player.level().isClientSide) {
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 					}
 				}
 			}
@@ -659,7 +659,7 @@ public class EntityEvents {
 						}
 
 						if (entity instanceof ServerPlayer) // Packet to unfreeze client
-							PacketHandler.sendTo(new SCSyncGlobalData(entity, globalData), (ServerPlayer) entity);
+							PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
 						globalData.setStopDamage(0);
 						globalData.setStopCaster(null);
 					}
@@ -798,7 +798,7 @@ public class EntityEvents {
 							for (int i = 0; i < list.size(); i++) {
 								Entity e = (Entity) list.get(i);
 								if (e instanceof LivingEntity) {
-									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get().getValue(new ResourceLocation(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
+									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 								}
 							}
 							player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -895,12 +895,12 @@ public class EntityEvents {
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 				if (playerData.isAbilityEquipped(Strings.mpRage)) {
 					playerData.addMP((event.getOriginalDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 
 				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
 					playerData.addDP((event.getOriginalDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
 		}
@@ -967,8 +967,8 @@ public class EntityEvents {
 				}
 			}
 
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-			PacketHandler.sendTo(new SCSyncGlobalData(globalData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncGlobalData(player), (ServerPlayer) player);
 
 			event.setNewDamage(damage <= 0 ? 1 : damage);
 		}
@@ -1257,7 +1257,7 @@ public class EntityEvents {
 
 						}
 
-						PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 					}
 				}
 			}
@@ -1359,7 +1359,7 @@ public class EntityEvents {
 			nPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(PlayerData.get(oPlayer).getMaxHP());
 			Utils.RefreshAbilityAttributes(nPlayer, PlayerData.get(nPlayer));
 
-			PacketHandler.sendTo(new SCSyncWorldData(WorldData.get(nPlayer.getServer())), (ServerPlayer) nPlayer);
+			PacketHandler.sendTo(new SCSyncWorldData(nPlayer.getServer()), (ServerPlayer) nPlayer);
 		}
 	}
 
@@ -1374,7 +1374,7 @@ public class EntityEvents {
 			Utils.RefreshAbilityAttributes(nPlayer, playerData);
 
 
-			PacketHandler.sendTo(new SCSyncWorldData(newWorldData), (ServerPlayer) nPlayer);
+			PacketHandler.sendTo(new SCSyncWorldData(nPlayer.getServer()), (ServerPlayer) nPlayer);
 
 			if (!event.isEndConquered() && !nPlayer.level().isClientSide()) {
 				if (playerData.getRespawnROD() && ModConfigs.respawnROD) {
@@ -1406,8 +1406,8 @@ public class EntityEvents {
 			}
 
 			Utils.RefreshAbilityAttributes(player, playerData);
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
-			PacketHandler.sendTo(new SCSyncWorldData(WorldData.get(world.getServer())), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncWorldData(world.getServer()), (ServerPlayer) player);
 		}
 	}
 
@@ -1446,7 +1446,7 @@ public class EntityEvents {
 			m.setLevel(playerData.getLevel());
 			m.setHP((int) player.getMaxHealth());
 			m.setMP((int) playerData.getMaxMP());
-			PacketHandler.sendTo(new SCSyncWorldData(WorldData.get(player.getServer())), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 		}
 	}
 
@@ -1456,7 +1456,7 @@ public class EntityEvents {
 		if (event.getDamageSource() != null) {
 			if (event.getDamageSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getDamageSource().getEntity();
-				IPlayerData playerData = ModData.getPlayer(player);
+				PlayerData playerData = PlayerData.get(player);
 				if (playerData != null) {
 					event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
 				}

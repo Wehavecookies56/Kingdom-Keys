@@ -3,8 +3,10 @@ package online.kingdomkeys.kingdomkeys.util;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -34,6 +36,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -561,36 +564,28 @@ public class Utils {
 
 	public static void createKeybladeID(ItemStack stack) {
 		if (!hasKeybladeID(stack)) {
-			if (stack.getTag() == null) {
-				stack.setTag(new CompoundTag());
-			}
 			UUID uuid = UUID.randomUUID();
-			stack.getTag().putUUID("keybladeID", uuid);
+			stack.set(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(uuid));
 			KingdomKeys.LOGGER.debug("Created new keybladeID:{} for {}", uuid, stack.getDisplayName().getString());
 		}
 	}
 
 	public static void copyKeybladeID(ItemStack source, ItemStack destination) {
 		if (hasKeybladeID(source)) {
-			if (destination.getTag() == null) {
-				destination.setTag(new CompoundTag());
-			}
-			destination.getTag().putUUID("keybladeID", source.getTag().getUUID("keybladeID"));
+			destination.set(ModComponents.KEYBLADE_ID, source.get(ModComponents.KEYBLADE_ID));
 		}
 	}
 
 	public static boolean hasKeybladeID(ItemStack stack) {
-		if (stack.getTag() != null && !stack.is(Items.AIR)) {
-			if (stack.getTag().hasUUID("keybladeID")) {
-				return true;
-			}
+		if (stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR)) {
+			return true;
 		}
 		return false;
 	}
 
 	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
-			return stack.getTag().getUUID("keybladeID");
+			return stack.getOrDefault(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(Util.NIL_UUID)).keybladeID();
 		}
 		return null;
 	}
@@ -628,7 +623,7 @@ public class Utils {
 				// Make sure it has a tag
 				if (hasKeybladeID(slotStack)) {
 					// Compare the ID with the chain's
-					if (slotStack.getTag()!= null && chain.getTag() != null && slotStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) {
+					if (hasKeybladeID(chain) && getKeybladeID(slotStack).equals(getKeybladeID(chain))) {
 						return i;
 					}
 				}
@@ -1056,16 +1051,14 @@ public class Utils {
 		return minCost;
 	}
 
-	public static List<String> appendEnchantmentNames(String text, CompoundTag pStoredEnchantments) {
+	public static List<String> appendEnchantmentNames(String text, ItemStack stack, LivingEntity entity) {
 		List<String> arrayList = new ArrayList<String>();
-		if (pStoredEnchantments != null) {
+		if (!stack.isEmpty() && stack.isEnchanted()) {
 			arrayList.add(Component.translatable(text).getString());
-			for (int i = 0; i < pStoredEnchantments.size(); ++i) {
-				CompoundTag compoundtag = pStoredEnchantments.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND).getCompound(i);
-				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((p_41708_) -> {
-					arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + p_41708_.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()).getString());
-				});
-			}
+			stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
+                enchantmentHolder.value();
+                arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
+			});
 		}
 		return arrayList;
 	}
@@ -1196,7 +1189,7 @@ public class Utils {
 					extraChain = chain.copy();
 					for(ItemStack weapon : playerData.getWeaponsUnlocked()) {
 						if(ItemStack.isSameItem(weapon, extraChain)) {
-							extraChain.setTag(weapon.getTag());
+							extraChain.applyComponents(weapon.getComponents());
 							break;
 						}
 					}
@@ -1227,8 +1220,8 @@ public class Utils {
 		}
 		if ((forceDesummon) || (!ItemStack.matches(offHeldStack, ItemStack.EMPTY) && ItemStack.matches(offHeldStack, summonedExtraStack) && (Utils.hasKeybladeID(offHeldStack)))) {
 			if (forceDesummon || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (ItemStack.matches(heldStack, summonedStack)))) {
-				if (offHeldStack.getTag() != null && offHeldStack.getTag().getUUID("keybladeID").equals(extraChain.getTag().getUUID("keybladeID"))) {
-					extraChain.setTag(offHeldStack.getTag());
+				if (hasKeybladeID(offHeldStack) && getKeybladeID(offHeldStack).equals(getKeybladeID(extraChain))) {
+					extraChain.applyComponents(offHeldStack.getComponents());
 					playerData.equipKeychain(formToSummonFrom, extraChain);
 					player.getInventory().setItem(extraSlotSummoned, ItemStack.EMPTY);
 					player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -1249,7 +1242,7 @@ public class Utils {
 						} else {
 							keyblade = new ItemStack(extraChain.getItem());
 						}
-						keyblade.setTag(extraChain.getTag());
+						keyblade.applyComponents(extraChain.getComponents());
 						player.getInventory().setItem(40, keyblade);
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 						spawnKeybladeParticles(player, InteractionHand.OFF_HAND);
@@ -1261,7 +1254,7 @@ public class Utils {
 						} else {
 							keyblade = new ItemStack(extraChain.getItem());
 						}
-						keyblade.setTag(extraChain.getTag());
+						keyblade.applyComponents(extraChain.getComponents());
 						Utils.swapStack(player.getInventory(), player.getInventory().getFreeSlot(), 40);
 						player.getInventory().setItem(40, keyblade);
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.summon.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -1272,13 +1265,13 @@ public class Utils {
 		if ((forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasKeybladeID(heldStack)))) {
 			//DESUMMON
 			if (Utils.hasKeybladeID(heldStack)) {
-				if (heldStack.getTag().getUUID("keybladeID").equals(chain.getTag().getUUID("keybladeID"))) { //Keyblade user
-					chain.setTag(heldStack.getTag());
+				if (heldStack.has(ModComponents.KEYBLADE_ID) && heldStack.get(ModComponents.KEYBLADE_ID).keybladeID().equals(chain.get(ModComponents.KEYBLADE_ID).keybladeID())) { //Keyblade user
+					chain.set(ModComponents.KEYBLADE_ID, heldStack.get(ModComponents.KEYBLADE_ID));
 					if (useOrg) {
 						Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 						for(ItemStack weapon : weapons) {
 							if(ItemStack.isSameItem(weapon, heldStack)) {
-								weapon.setTag(heldStack.getTag());
+								weapon.applyComponents(heldStack.getComponents());
 								break;
 							}
 						}
@@ -1305,14 +1298,14 @@ public class Utils {
 					ItemStack keyblade;
 					if (!useOrg) {
 						keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
-						keyblade.setTag(chain.getTag());
+						keyblade.applyComponents(chain.getComponents());
 					} else {
 						//Summon org
 						keyblade = chain;
 						Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 						for(ItemStack weapon : weapons) {
 							if(ItemStack.isSameItem(weapon, keyblade)) {
-								keyblade.setTag(weapon.getTag());
+								keyblade.applyComponents(weapon.getComponents());
 								break;
 							}
 						}
@@ -1328,13 +1321,13 @@ public class Utils {
 					ItemStack keyblade;
 					if (!useOrg) {
 						keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());
-						keyblade.setTag(chain.getTag());
+						keyblade.applyComponents(chain.getComponents());
 					} else { //Summon org weapon
 						keyblade = chain;
 						Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 						for(ItemStack weapon : weapons) {
 							if(ItemStack.isSameItem(weapon, keyblade)) {
-								keyblade.setTag(weapon.getTag());
+								keyblade.applyComponents(weapon.getComponents());
 								break;
 							}
 						}

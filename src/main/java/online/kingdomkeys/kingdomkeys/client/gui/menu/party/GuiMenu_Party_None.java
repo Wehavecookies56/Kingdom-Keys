@@ -14,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -26,8 +28,8 @@ public class GuiMenu_Party_None extends MenuBackground {
 	
 	MenuButton back, create, join;
 		
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	final PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 
 	Party party;
 
@@ -44,7 +46,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 	public GuiMenu_Party_None() {
 		super(Strings.Gui_Menu_Party, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 	}
 
 	protected void action(String string) {		
@@ -98,7 +100,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		drawParty(gui);
 	}
 	
@@ -168,7 +170,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 				}
 				matrixStack.popPose();
 				if(player != null) {
-					IPlayerData playerData = ModData.getPlayer(player);
+					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null) {
 						gui.drawString(minecraft.font, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
 						gui.drawString(minecraft.font, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);

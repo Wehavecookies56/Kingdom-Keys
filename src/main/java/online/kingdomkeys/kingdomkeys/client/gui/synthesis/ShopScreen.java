@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -163,7 +164,7 @@ public class ShopScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
@@ -220,7 +221,7 @@ public class ShopScreen extends MenuFilterable {
 		float iconPosX = boxR.getX();
 		float iconPosY = boxR.getY() + 25;
 
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		matrixStack.pushPose();
 		{

@@ -12,6 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -43,7 +44,7 @@ public class GuiOverlay extends OverlayBase {
 	int width;
 	int sHeight;
 
-	IPlayerData playerData;
+	PlayerData playerData;
 
 	ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
 	ResourceLocation menuTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
@@ -65,7 +66,7 @@ public class GuiOverlay extends OverlayBase {
 		this.width = minecraft.getWindow().getGuiScaledWidth();
 		sHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		playerData = ModData.getPlayer(minecraft.player);
+		playerData = PlayerData.get(minecraft.player);
 		if(playerData != null) {
 			// Experience
 			if (showExp) {

@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
@@ -66,7 +67,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
     	Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
     	if(mat == null)
     		return;
-    	int amount = ModData.getPlayer(minecraft.player).getMaterialAmount(mat);
+    	int amount = PlayerData.get(minecraft.player).getMaterialAmount(mat);
 		amountBox.setValue(""+Math.min(64, amount));
 	}
 
@@ -97,7 +98,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			
 			LocalPlayer player = minecraft.player;
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			try {
 				for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
 					ItemStack stack = player.getInventory().getItem(i);
@@ -125,7 +126,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
 				try { 
 					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
+					PacketHandler.sendToServer(new CSTakeMaterials(new ItemStack(selectedItemstack.getItem()), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
 				} catch (NumberFormatException e) {
 					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
 				}
@@ -172,7 +173,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		for (Entry<String, Integer> mat : playerData.getMaterialMap().entrySet()) {
 			Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(mat.getKey()));

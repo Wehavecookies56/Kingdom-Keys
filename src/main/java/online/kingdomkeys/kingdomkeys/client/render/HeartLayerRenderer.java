@@ -25,6 +25,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
@@ -49,8 +50,8 @@ public class HeartLayerRenderer<T extends LivingEntity> extends RenderLayer<T, P
 	}
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (ModData.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModData.getGlobal(entitylivingbaseIn);
+		if (GlobalData.get(entitylivingbaseIn) != null) {
+			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
 			if (globalData.isKO()) {
 				VertexConsumer buffer =
 						bufferIn.getBuffer(Sheets.translucentCullBlockSheet());

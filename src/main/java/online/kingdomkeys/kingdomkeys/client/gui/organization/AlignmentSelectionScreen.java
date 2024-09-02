@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAlignment;
@@ -223,7 +224,7 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     public void actionPerformed(int ID) {
-        IPlayerData playerData;
+        PlayerData playerData;
 		switch (ID) {
             case OK:
                 //Dismiss welcome message
@@ -252,7 +253,7 @@ public class AlignmentSelectionScreen extends Screen {
             case CONFIRM:
                 //Send choice to server
                 PacketHandler.sendToServer(new CSSetAlignment(current));
-                playerData = ModData.getPlayer(minecraft.player);
+                playerData = PlayerData.get(minecraft.player);
                 playerData.setAlignment(current);
                 Minecraft.getInstance().setScreen(null);
                 if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {

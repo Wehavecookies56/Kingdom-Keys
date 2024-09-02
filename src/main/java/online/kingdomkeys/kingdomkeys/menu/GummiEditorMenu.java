@@ -8,8 +8,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
 
@@ -39,13 +39,12 @@ public class GummiEditorMenu extends AbstractContainerMenu {
 
 		int i,j;
 		//Gummi Ship slot
-		TE.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iih -> {
-			addSlot(new SlotItemHandler(iih, 0, 152, 9) {
-				@Override
-				public boolean mayPlace(ItemStack stack) {
-					return true; //stack.getItem() instanceof KeybladeItem;
-				}
-			});
+		IItemHandler iih = TE.inventory.get();
+		addSlot(new SlotItemHandler(iih, 0, 152, 9) {
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				return true; //stack.getItem() instanceof KeybladeItem;
+			}
 		});
 
 		//Player inventory

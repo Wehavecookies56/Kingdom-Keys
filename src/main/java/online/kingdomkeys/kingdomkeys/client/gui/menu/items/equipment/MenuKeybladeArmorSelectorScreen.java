@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectKeybladeArmorButton;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -59,7 +60,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 		int itemHeight = 15;
 
 		int pos = 0;
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedKBArmor = playerData.getEquippedKBArmor(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
 		String equippedKBArmorName = (equippedKBArmor != null && equippedKBArmor.getItem() instanceof PauldronItem) ? ((PauldronItem) equippedKBArmor.getItem()).getDescriptionId() : "---";

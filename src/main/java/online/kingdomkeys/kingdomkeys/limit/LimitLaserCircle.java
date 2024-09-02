@@ -28,7 +28,7 @@ public class LimitLaserCircle extends Limit {
 	public void onUse(Player player, LivingEntity target) {
 		ItemStack stack = player.getMainHandItem();
 		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setLimitCooldownTicks(getCooldown());
 		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
 

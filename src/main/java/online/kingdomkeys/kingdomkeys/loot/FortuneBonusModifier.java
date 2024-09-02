@@ -25,6 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +60,7 @@ public class FortuneBonusModifier extends LootModifier {
             if (blockState != null && entity instanceof Player player)
             {
                 // bonus for lucky amplifier.
-				IPlayerData playerData = ModData.getPlayer(player);
+				PlayerData playerData = PlayerData.get(player);
 				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
 				if (totalFortuneBonus > 0) {

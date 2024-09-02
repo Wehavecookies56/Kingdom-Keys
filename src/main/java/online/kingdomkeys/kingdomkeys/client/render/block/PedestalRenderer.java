@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
@@ -71,5 +72,10 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
+	}
+
+	@Override
+	public AABB getRenderBoundingBox(PedestalTileEntity blockEntity) {
+		return blockEntity.getRenderBoundingBox().expandTowards(0, 5, 0);
 	}
 }

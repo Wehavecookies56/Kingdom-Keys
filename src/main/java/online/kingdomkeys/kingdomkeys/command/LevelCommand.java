@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -63,7 +64,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 		int level = IntegerArgumentType.getInteger(context, "level");
 		
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
             Utils.restartLevel(playerData, player);
 			
             // Set the level
@@ -80,7 +81,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 			}
 
             Utils.restartLevel2(playerData, player);			
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}

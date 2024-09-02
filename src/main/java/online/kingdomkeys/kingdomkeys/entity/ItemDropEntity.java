@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -86,7 +87,7 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		if (this.closestPlayer != null) {
-			IPlayerData playerData = ModData.getPlayer(closestPlayer);
+			PlayerData playerData = PlayerData.get(closestPlayer);
 			if(playerData != null) {
 				maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet)*2);
 				Vec3 vec3d = new Vec3(this.closestPlayer.getX() - this.getX(), this.closestPlayer.getY() + (double) this.closestPlayer.getEyeHeight() / 2.0D - this.getY(), this.closestPlayer.getZ() - this.getZ());
@@ -175,7 +176,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove(RemovalReason.KILLED);
-				PacketHandler.sendTo(new SCSyncPlayerData(ModData.getPlayer(entityIn)), (ServerPlayer)entityIn);
+				PacketHandler.sendTo(new SCSyncPlayerData(entityIn), (ServerPlayer)entityIn);
 			}
 
 		}

@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.damagesource.DarknessDamageSource;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class AxeSwordItem extends OrgSwordItem implements IOrgWeapon {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		float dmg = (float) playerData.getStrengthStat().get();
 
 		if (!player.isShiftKeyDown()){

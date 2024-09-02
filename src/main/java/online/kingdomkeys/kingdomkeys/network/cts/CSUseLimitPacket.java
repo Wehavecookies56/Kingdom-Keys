@@ -29,6 +29,14 @@ public record CSUseLimitPacket(ResourceLocation limit, int targetID) implements 
 			CSUseLimitPacket::new
 	);
 
+	public CSUseLimitPacket(ResourceLocation limit, LivingEntity target) {
+		this(limit, target.getId());
+	}
+
+	public CSUseLimitPacket(ResourceLocation limit) {
+		this(limit, -1);
+	}
+
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();

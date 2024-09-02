@@ -45,7 +45,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
     @Override
     public void renderLayer(T t, E e, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLightIn, OpenMatrix4f[] poses, float bob, float netYawHead, float pitchHead, float partialTicks) {
         if (e instanceof Player player) {
-            IPlayerData playerData = ModData.getPlayer(player);
+            PlayerData playerData = PlayerData.get(player);
             int color = playerData.getArmorColor();
             float red = ((color >> 16) & 0xff) / 255F;
             float green = ((color >> 8) & 0xff) / 255F;

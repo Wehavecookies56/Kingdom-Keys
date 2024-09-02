@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -88,13 +89,13 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.addKnownRecipe(ResourceLocation.parse(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -104,13 +105,13 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.removeKnownRecipe(ResourceLocation.parse(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your recipe '" + Utils.translateToLocal(recipe) + "' has been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -119,7 +120,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				playerData.addKnownRecipe(actual.getRegistryName());
 			}
@@ -128,7 +129,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 				context.getSource().sendSuccess(() -> Component.translatable("Added all recipes to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given all the recipes"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -137,7 +138,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				if(actual.getType().equals("keyblade"))
 					playerData.addKnownRecipe(actual.getRegistryName());
@@ -147,7 +148,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 				context.getSource().sendSuccess(() -> Component.translatable("Added all keyblade recipes to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given all the keyblade recipes"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -157,7 +158,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
 				if(actual.getType().equals("item"))
 					playerData.addKnownRecipe(actual.getRegistryName());
@@ -167,7 +168,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 				context.getSource().sendSuccess(() -> Component.translatable("Added all item recipes to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given all the item recipes"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -177,14 +178,14 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.clearRecipes("all");
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all recipes from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your recipes have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -193,7 +194,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			
 			playerData.clearRecipes("keyblade");
 
@@ -201,7 +202,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all keyblade recipes from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your keyblade recipes have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -210,14 +211,14 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.clearRecipes("item");
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all item recipes from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your item recipes have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}

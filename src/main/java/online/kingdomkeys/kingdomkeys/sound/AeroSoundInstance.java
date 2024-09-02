@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
@@ -37,8 +38,8 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 	   if(ent.isRemoved()) {
 		   this.stop();
 	   } else {
-	      if (ModData.getGlobal(ent) != null) {
-	    	  if(ModData.getGlobal(ent).getAeroTicks() <= 0) {
+	      if (GlobalData.get(ent) != null) {
+	    	  if(GlobalData.get(ent).getAeroTicks() <= 0) {
 	    		  this.stop();
 		      } else {
 		         this.x = (double)((float)this.ent.getX());

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
@@ -21,7 +22,7 @@ public class MagicFire extends Magic {
 
 	@Override
 	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getDamageMult(level) + ModData.getPlayer(player).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
+		float dmgMult = getDamageMult(level) + PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;

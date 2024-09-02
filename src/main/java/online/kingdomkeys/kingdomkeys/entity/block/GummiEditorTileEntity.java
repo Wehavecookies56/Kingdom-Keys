@@ -4,7 +4,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.HolderLookup;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.joml.Vector3f;
@@ -13,7 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
@@ -29,11 +29,10 @@ import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import java.util.Optional;
-
 public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
-	private Optional<IItemHandler> inventory = Optional.of(this::createInventory);
+	private final ItemStackHandler itemStackHandler = createInventory();
+	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
 	private ItemStack displayStack = ItemStack.EMPTY;
 
@@ -41,25 +40,27 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 		super(ModEntities.TYPE_GUMMI_EDITOR.get(), pos, state);
 	}
 
-	private IItemHandler createInventory() {
+	private ItemStackHandler createInventory() {
 		return new ItemStackHandler(NUMBER_OF_SLOTS) {
 			@Override
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 				return true; //stack.getItem() instanceof KeybladeItem;
 			}
+
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+				super.onContentsChanged(slot);
+			}
 		};
-	}
-	
-	@Override
-	public AABB getRenderBoundingBox() {
-		return super.getRenderBoundingBox().expandTowards(0, 5, 0);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
 		CompoundTag invCompound = compound.getCompound("inv");
-		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
+		itemStackHandler.deserializeNBT(provider, invCompound);
 		//CompoundNBT transformations = compound.getCompound("transforms");
 		displayStack = ItemStack.parse(provider, compound.getCompound("display_stack")).get();
 	}
@@ -67,10 +68,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
-		inventory.ifPresent(iih -> {
-			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
-			compound.put("inv", invCompound);
-		});
+		compound.put("inv", itemStackHandler.serializeNBT(provider));
 		//CompoundNBT transformations = new CompoundNBT();
 		compound.put("display_stack", displayStack.save(provider));
 	}
@@ -84,15 +82,6 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
 		return new GummiEditorMenu(windowID, playerInventory, this);
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			return inventory.cast();
-		}
-		return super.getCapability(cap, side);
 	}
 
 	public ItemStack getDisplayStack() {
@@ -118,20 +107,17 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		load(pkt.getTag());
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		loadAdditional(tag, registries);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return serializeNBT();
+	public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+		CompoundTag tag = new CompoundTag();
+		saveAdditional(tag, pRegistries);
+		return tag;
 	}
 
-	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		this.load(tag);
-	}
-	
 	int ticks = 0;
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {

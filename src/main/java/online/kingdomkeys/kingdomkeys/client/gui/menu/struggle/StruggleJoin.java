@@ -10,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -28,15 +30,15 @@ public class StruggleJoin extends MenuBackground {
 	
 	MenuButton back;
 		
-	IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 	
 	MenuButton[] parties = new MenuButton[100];
 	
 	public StruggleJoin(BlockPos pos) {
 		super("Join Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		boardPos = pos;
 	}
 
@@ -79,10 +81,10 @@ public class StruggleJoin extends MenuBackground {
 	}
 
 	private void refreshParties() {
-		playerData = ModData.getPlayer(minecraft.player);
+		playerData = PlayerData.get(minecraft.player);
 		List<String> privateParties = playerData.getPartiesInvited();
 		
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
@@ -135,7 +137,7 @@ public class StruggleJoin extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		refreshParties();
 	}
 	

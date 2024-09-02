@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 //TODO cleanup + comments
@@ -19,7 +20,7 @@ public class MPGui extends OverlayBase {
 	int mpBarWidth;
 	int guiHeight = 10;
 	int noborderguiwidth = 171;
-	IPlayerData playerData;
+	PlayerData playerData;
 	int counter = 0;
 
 	private MPGui() {
@@ -44,7 +45,7 @@ public class MPGui extends OverlayBase {
 				break;
 		}
 		float scaleactor = 1F * ModConfigs.mpXScale/100F;
-		playerData = ModData.getPlayer(player);
+		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxMP() <= 0)
 			return;
 

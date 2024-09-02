@@ -15,6 +15,8 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSUnlockEquipOrgWeapon(ItemStack weapon, int cost, boolean unlock) implements Packet {
@@ -47,8 +49,7 @@ public record CSUnlockEquipOrgWeapon(ItemStack weapon, int cost, boolean unlock)
         PlayerData playerData = PlayerData.get(player);
         if (unlock) {
             if (playerData.getHearts() >= cost) {
-                weapon.setTag(new CompoundTag());
-                weapon.getTag().putUUID("keybladeID", UUID.randomUUID());
+                weapon.set(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(UUID.randomUUID()));
                 playerData.unlockWeapon(weapon);
                 playerData.removeHearts(cost);
             }

@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -17,20 +18,19 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.menu.MagicalChestMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class MagicalChestTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 36;
-	private LazyOptional<IItemHandler> inventory = LazyOptional.of(this::createInventory);
+	private final ItemStackHandler itemStackHandler = createInventory();
+	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
 	//Used for opening
 	private UUID keyblade;
@@ -41,8 +41,14 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 		super(ModEntities.TYPE_MAGICAL_CHEST.get(), pos, state);
 	}
 
-	private IItemHandler createInventory() {
-		return new ItemStackHandler(NUMBER_OF_SLOTS);
+	private ItemStackHandler createInventory() {
+		return new ItemStackHandler(NUMBER_OF_SLOTS) {
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+			}
+		};
 	}
 
 	public UUID getKeyblade() {
@@ -64,11 +70,8 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag compound) {
-		inventory.ifPresent(iih -> {
-			CompoundTag invCompound = ((INBTSerializable<CompoundTag>) iih).serializeNBT();
-			compound.put("inv", invCompound);
-		});
+	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
+		compound.put("inv", itemStackHandler.serializeNBT(provider));
 		//null check since BlockItem calls this method before loading the data from the stack
 		if (owner != null) {
 			compound.putUUID("owner", owner);
@@ -82,10 +85,10 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
+		super.loadAdditional(compound, provider);
 		CompoundTag invCompound = compound.getCompound("inv");
-		inventory.ifPresent(iih -> ((INBTSerializable<CompoundTag>) iih).deserializeNBT(invCompound));
+		itemStackHandler.deserializeNBT(provider, invCompound);
 
 		if (compound.hasUUID("owner")) {
 			owner = compound.getUUID("owner");
@@ -102,31 +105,15 @@ public class MagicalChestTileEntity extends BlockEntity implements MenuProvider 
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = super.getUpdateTag();
-		saveAdditional(tag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = super.getUpdateTag(registries);
+		saveAdditional(tag, registries);
 		return tag;
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		if (tag != null) {
-			load(tag);
-		}
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(pkt.getTag());
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			return inventory.cast();
-		}
-		return super.getCapability(cap, side);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		loadAdditional(tag, registries);
 	}
 
 	@Override

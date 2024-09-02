@@ -5,8 +5,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,9 +23,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -45,10 +41,6 @@ public class WateraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public WateraEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-		super(ModEntities.TYPE_WATERA.get(), world);
-	}
-
 	public WateraEntity(Level world, Player player, float dmgMult) {
 		super(ModEntities.TYPE_WATERA.get(), player, world);
 		this.player = player;
@@ -56,15 +48,10 @@ public class WateraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
+	protected double getDefaultGravity() {
+		return 0;
 	}
 
-	@Override
-	protected float getGravity() {
-		return 0F;
-	}
-	
 	double a = 0;
 
 	@Override
@@ -164,7 +151,7 @@ public class WateraEntity extends ThrowableProjectile {
 					if (target != getOwner()) {
 						Party p = null;
 						if (getOwner() != null) {
-							p = ModData.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+							p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 2;
@@ -212,7 +199,7 @@ public class WateraEntity extends ThrowableProjectile {
 					}
 				}
 
-				Party casterParty = ModData.getWorld(player.level()).getPartyFromMember(player.getUUID());
+				Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {
@@ -268,8 +255,8 @@ public class WateraEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.entityData.define(CASTER, "");
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(CASTER, "");
 	}
 
 	public String getCasterDataManager() {

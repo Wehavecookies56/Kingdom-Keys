@@ -83,7 +83,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModData.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
+                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(PlayerData.get((Player) ep.getOriginal()).getActiveDriveForm())));
                 }, AnimationEvent.Side.BOTH));
 
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);

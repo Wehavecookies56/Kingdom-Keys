@@ -20,6 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.entity.StopModel;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
@@ -50,8 +51,8 @@ public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T
 	}
 
 	private void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(ModData.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModData.getGlobal(entitylivingbaseIn);
+		if(GlobalData.get(entitylivingbaseIn) != null) {
+			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
 			if(globalData.getStopModelTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 		    	matrixStackIn.pushPose();

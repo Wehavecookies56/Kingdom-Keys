@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -34,9 +35,9 @@ public class StopGui extends Screen {
 	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
 		if(minecraft.player != null) {
 
-			if(ModData.getGlobal(minecraft.player) != null) {
+			if(GlobalData.get(minecraft.player) != null) {
 	            //InputConstants.grabOrReleaseMouse(this.minecraft.getWindow().getWindow(), 212993, 0, 0);
-				if(ModData.getGlobal(minecraft.player).getStoppedTicks() <= 0) {
+				if(GlobalData.get(minecraft.player).getStoppedTicks() <= 0) {
 					onClose();
 				}
 				

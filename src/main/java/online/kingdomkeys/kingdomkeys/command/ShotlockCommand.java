@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -66,14 +67,14 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 		String shotlockName = StringArgumentType.getString(context, "shotlock");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
-			Shotlock a = ModShotlocks.registry.get().getValue(new ResourceLocation(shotlockName));
+			PlayerData playerData = PlayerData.get(player);
+			Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
 			playerData.addShotlockToList(shotlockName, true);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' shotlock to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -83,14 +84,14 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 		String shotlock = StringArgumentType.getString(context, "shotlock");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.removeShotlockFromList(shotlock);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed shotlock '" + Utils.translateToLocal(shotlock) + "' from " + player.getDisplayName().getString()), true);
 			}
 			Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 			player.sendSystemMessage(Component.translatable("Your shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -99,14 +100,14 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.getShotlockList().clear();
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all shotlocks from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your shotlocks have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}

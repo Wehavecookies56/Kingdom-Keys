@@ -28,6 +28,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -117,7 +118,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			
 		}
 		if (entitylivingbaseIn instanceof Player player) {
-			if (ModData.getPlayer(player) != null) {
+			if (PlayerData.get(player) != null) {
 				if (Minecraft.getInstance().player.getSkin().model().id().equals("slim")) {
 					if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
 						armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
@@ -127,7 +128,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 					}
 				}
 
-				IPlayerData playerData = ModData.getPlayer(player);
+				PlayerData playerData = PlayerData.get(player);
 				color = playerData.getArmorColor();
 				glint = playerData.getArmorGlint();
 

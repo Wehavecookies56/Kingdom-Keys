@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.HolderLookup;
 import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
@@ -24,15 +25,15 @@ public class OrgPortalTileEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag pTag) {
-		super.saveAdditional(pTag);
+	protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+		super.saveAdditional(pTag, registries);
 		if (uuid != null)
 			pTag.putUUID("uuid", uuid);
 	}
 
 	@Override
-	public void load(CompoundTag pTag) {
-		super.load(pTag);
+	public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+		super.loadAdditional(pTag, registries);
 		if(pTag.hasUUID("uuid"))
 			uuid = pTag.getUUID("uuid");
 	}
@@ -53,18 +54,15 @@ public class OrgPortalTileEntity extends BlockEntity {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		load(pkt.getTag());
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = new CompoundTag();
+		saveAdditional(tag, registries);
+		return tag;
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		return serializeNBT();
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		this.load(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		this.loadAdditional(tag, registries);
 	}
 	
 	static int ticks = 0;

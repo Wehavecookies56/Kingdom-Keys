@@ -216,7 +216,6 @@ public class KingdomKeys {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		event.enqueueWork(PacketHandler::register);
         KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register(new KKLevelUpTrigger());
 	}
 

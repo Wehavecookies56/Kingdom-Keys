@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -66,7 +67,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.addMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
@@ -84,13 +85,13 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.removeMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Removed material '" + Utils.translateToLocal(material.getMaterialName()) + "' from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' have been taken away from you"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -100,7 +101,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (Material material : ModMaterials.registry) {
 				playerData.addMaterial(material, amount);
 			}
@@ -108,7 +109,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -117,13 +118,13 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.clearMaterials();
 
 			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -132,16 +133,16 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		Collection<ServerPlayer> players = getPlayers(context, 5);
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
-		Material material = ModMaterials.registry.get().getValue(new ResourceLocation(materialName));
+		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			playerData.setMaterial(material, amount);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("Your '" + Utils.translateToLocal(material.getMaterialName()) + "' have been set to x" + amount));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}
@@ -151,7 +152,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			for (Material material : ModMaterials.registry) {
 				playerData.setMaterial(material, amount);
 			}
@@ -159,7 +160,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
 
 			player.sendSystemMessage(Component.translatable("You have been set all the materials to " + amount));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}

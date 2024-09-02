@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -57,7 +58,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 		case "upgrade":
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 			ItemStack stack = selectedItemStack.copy();
@@ -155,7 +156,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				items.add(player.getInventory().getItem(i));
 			}
 		}
-		items.addAll(ModData.getPlayer(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
+		items.addAll(PlayerData.get(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
@@ -194,7 +195,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != null && !selectedItemStack.isEmpty() && selectedItemStack.getItem() instanceof KeychainItem keychain && keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 			boolean enoughMats = true;
 			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
 
@@ -245,7 +246,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeychainItem kc) {
 			KeybladeItem kb = kc.getKeyblade();
 
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 	
 			//Icon
 			matrixStack.pushPose();

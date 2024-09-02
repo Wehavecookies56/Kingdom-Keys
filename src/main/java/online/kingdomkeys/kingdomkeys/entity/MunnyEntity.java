@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 
@@ -25,7 +26,7 @@ public class MunnyEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(Player player) {
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(playerData.getMunny() + value);
 		PacketHandler.sendTo(new SCShowOverlayPacket("munny", value), (ServerPlayer) player);
 	}

@@ -27,7 +27,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -46,7 +48,7 @@ public class SpawningOrbEntity extends Monster {
 		Player player = Utils.getClosestPlayer(this, worldIn);
 		
 		if(player != null) {
-			IPlayerData playerData = ModData.getPlayer(player);
+			PlayerData playerData = PlayerData.get(player);
 			if(playerData == null)
 				return;
 
@@ -55,7 +57,7 @@ public class SpawningOrbEntity extends Monster {
 			
 			int randomLevel = Utils.getRandomMobLevel(player);
 			
-			IGlobalCapabilities mobData = ModData.getGlobal(mob);
+			GlobalData mobData = GlobalData.get(mob);
 			if(mobData != null) {
 				mobData.setLevel(randomLevel);
 				PacketHandler.syncToAllAround(mob, mobData);
@@ -136,13 +138,13 @@ public class SpawningOrbEntity extends Monster {
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"));
-			IPlayerData playerData = ModData.getPlayer(nPlayer);
+			PlayerData playerData = PlayerData.get(nPlayer);
 			if(playerData == null)
 				return;
 
 			playerData.setRespawnROD(true);
 			if(!nPlayer.level().isClientSide()) {
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)nPlayer);
+				PacketHandler.sendTo(new SCSyncPlayerData(nPlayer), (ServerPlayer)nPlayer);
 			}
 			
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
@@ -188,18 +190,12 @@ public class SpawningOrbEntity extends Monster {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(ENTITY_TYPE, "");
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(ENTITY_TYPE, "");
 	}
 
 	@Override
 	public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
 		return false;
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

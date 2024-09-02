@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -87,8 +88,8 @@ public class SavepointTileEntity extends BlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag pTag) {
-		super.load(pTag);
+	public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+		super.loadAdditional(pTag, registries);
 		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			id = pTag.getUUID("savepoint_id");
 		}
@@ -100,7 +101,7 @@ public class SavepointTileEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag pTag) {
+	protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
 		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			pTag.putUUID("savepoint_id", id);
 		}
@@ -109,7 +110,7 @@ public class SavepointTileEntity extends BlockEntity {
 		pTag.putInt("magic",magic);
 		pTag.putInt("drive",drive);
 		pTag.putInt("focus",focus);
-		super.saveAdditional(pTag);
+		super.saveAdditional(pTag, registries);
 	}
 
 	@Override
@@ -120,11 +121,6 @@ public class SavepointTileEntity extends BlockEntity {
 	@Override
 	public void handleUpdateTag(CompoundTag tag) {
 		this.load(tag);
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(pkt.getTag());
 	}
 
 	@Nullable

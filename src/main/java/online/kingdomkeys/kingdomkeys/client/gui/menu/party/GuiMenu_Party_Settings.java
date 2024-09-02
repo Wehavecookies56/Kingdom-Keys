@@ -11,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -28,15 +30,15 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	Button togglePriv, toggleFF, accept, size;
 	MenuButton back;
 		
-	final IPlayerData playerData = ModData.getPlayer(minecraft.player);
-	IWorldCapabilities worldData;
+	final PlayerData playerData = PlayerData.get(minecraft.player);
+	WorldData worldData;
 	
 	Party party;
 		
 	public GuiMenu_Party_Settings() {
 		super(Strings.Gui_Menu_Party_Leader_Settings, new Color(0,0,255));
 		drawPlayerInfo = true;
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 	}
 
 	protected void action(String string) {
@@ -134,7 +136,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 		
 		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = ModData.getWorld(minecraft.level);
+		worldData = WorldData.getClient();
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
 		if(party == null) {

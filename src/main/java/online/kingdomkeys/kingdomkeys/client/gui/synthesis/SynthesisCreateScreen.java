@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -107,7 +108,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 
 		List<ResourceLocation> items = new ArrayList<>();
-		IPlayerData playerData = ModData.getPlayer(player);
+		PlayerData playerData = PlayerData.get(player);
 		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
 			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
@@ -163,7 +164,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			IPlayerData playerData = ModData.getPlayer(minecraft.player);
+			PlayerData playerData = PlayerData.get(minecraft.player);
 			boolean enoughMats = true;
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
@@ -218,7 +219,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float iconPosX = boxR.getX();
 		float iconPosY = boxR.getY() + 25;
 
-		IPlayerData playerData = ModData.getPlayer(minecraft.player);
+		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		matrixStack.pushPose();
 		{

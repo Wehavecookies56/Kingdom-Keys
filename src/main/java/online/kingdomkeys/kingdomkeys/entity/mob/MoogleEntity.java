@@ -30,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
@@ -150,7 +151,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         	if(!player.isCrouching()) {
 	        	ItemStack itemstack = player.getItemInHand(hand);
 	        	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-	        		IPlayerData playerData = ModData.getPlayer(player);
+	        		PlayerData playerData = PlayerData.get(player);
 	        		int reward = 500;
 	        		playerData.setMunny(playerData.getMunny() + reward);
 	        		itemstack.shrink(1);

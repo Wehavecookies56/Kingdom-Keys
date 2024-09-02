@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,7 +32,7 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
         Minecraft mc = Minecraft.getInstance();
         if(entityIn.getCaster() == null)
             return;
-        IPlayerData playerData = ModData.getPlayer(entityIn.getCaster());
+        PlayerData playerData = PlayerData.get(entityIn.getCaster());
         if(playerData == null)
             return;
 

@@ -1,15 +1,13 @@
 package online.kingdomkeys.kingdomkeys.menu;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -42,6 +40,10 @@ public class ModMenus {
         event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
         event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
         event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
+    }
+
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new SynthesisBagInventory(object));
     }
 
 }

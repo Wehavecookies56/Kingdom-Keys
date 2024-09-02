@@ -8,6 +8,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class MenuItemsScreen extends MenuBackground {
 
         Minecraft mc = Minecraft.getInstance();
 
-        IPlayerData playerData = ModData.getPlayer(mc.player);
+        PlayerData playerData = PlayerData.get(mc.player);
 
         addRenderableWidget(items_player = new MenuButton((int)buttonPosX, button_items_playerY, (int)buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> openItems(playerData)));
         addRenderableWidget(items_stock = new MenuButton((int)buttonPosX, button_items_stockY, (int)buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
@@ -40,7 +41,7 @@ public class MenuItemsScreen extends MenuBackground {
 
     }
 
-    public void openItems(IPlayerData playerData) {
+    public void openItems(PlayerData playerData) {
         //if (playerData.getAlignment() == Utils.OrgMember.NONE) {
             Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
        // } else {

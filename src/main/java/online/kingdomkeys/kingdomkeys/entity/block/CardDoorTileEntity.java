@@ -101,11 +101,6 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
-        loadAdditional(pkt.getTag(), provider);
-    }
-
-    @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveCustomOnly(pRegistries);
     }

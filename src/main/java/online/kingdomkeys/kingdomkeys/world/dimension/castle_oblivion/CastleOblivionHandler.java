@@ -138,7 +138,7 @@ public class CastleOblivionHandler {
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getFrom().equals(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")))) {
             if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                SCSyncCastleOblivionInteriorData.syncClients(event.getEntity().level());
+                SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
                 event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
                 event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
                 event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));

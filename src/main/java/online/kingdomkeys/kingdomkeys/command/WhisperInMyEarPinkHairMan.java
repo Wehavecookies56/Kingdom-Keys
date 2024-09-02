@@ -44,7 +44,7 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
-			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);
+			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null);
 			player.level().addFreshEntity(marluxia);
 			marluxia.setPos(player.getX(), player.getY(), player.getZ() - 6);
 		}

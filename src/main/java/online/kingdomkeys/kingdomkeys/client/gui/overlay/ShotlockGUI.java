@@ -11,6 +11,7 @@ import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -25,7 +26,7 @@ public class ShotlockGUI extends OverlayBase {
 	int guiHeight = 70;
 	int noborderguiwidth = 98;
 	int noborderguiheight = 68;
-	IPlayerData playerData;
+	PlayerData playerData;
 
 	private ShotlockGUI() {
 		super();
@@ -55,7 +56,7 @@ public class ShotlockGUI extends OverlayBase {
 		float scaleX = rawScale * ModConfigs.focusXScale/100F;
 		float scaleY = rawScale * ModConfigs.focusYScale/100F;
 		
-		playerData = ModData.getPlayer(player);
+		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
 			return;
 
@@ -109,7 +110,7 @@ public class ShotlockGUI extends OverlayBase {
 					poseStack.pushPose();
 					{
 						Shotlock shotlock = Utils.getPlayerShotlock(minecraft.player);
-						playerData = ModData.getPlayer(minecraft.player);
+						playerData = PlayerData.get(minecraft.player);
 						if(playerData == null)
 							return;
 
