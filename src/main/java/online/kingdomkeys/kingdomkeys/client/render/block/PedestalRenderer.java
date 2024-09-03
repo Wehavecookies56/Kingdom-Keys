@@ -76,6 +76,6 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 
 	@Override
 	public AABB getRenderBoundingBox(PedestalTileEntity blockEntity) {
-		return blockEntity.getRenderBoundingBox().expandTowards(0, 5, 0);
+		return new AABB(blockEntity.getBlockPos()).expandTowards(0, 5, 0);
 	}
 }

@@ -395,19 +395,19 @@ public class MenuEquipmentButton extends Button {
 						stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
 
 						});
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.getTag().getCompound("helmet"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet(), Minecraft.getInstance().player)) {
 		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.getTag().getCompound("chestplate"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate(), Minecraft.getInstance().player)) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.getTag().getCompound("leggings"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings(), Minecraft.getInstance().player)) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.getTag().getCompound("boots"))) {
+	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots(), Minecraft.getInstance().player)) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }

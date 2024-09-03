@@ -215,7 +215,7 @@ public class KingdomKeys {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-        KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register(new KKLevelUpTrigger());
+        KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register("kingdomKeys:level_up", new KKLevelUpTrigger());
 	}
 
 	@SubscribeEvent

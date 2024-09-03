@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
@@ -336,8 +337,8 @@ public class CommandMenuGui extends OverlayBase {
 		if (item.getId().equals(portals) && isOrgMode() && item.getParent().getSelected().equals(item)) {
 			if (minecraft.player.getMainHandItem() != null && minecraft.player.getMainHandItem().getItem() instanceof ArrowgunItem) {
 				ItemStack weapon = minecraft.player.getMainHandItem();
-				if (weapon.hasTag() && weapon.getTag().contains("ammo")) {
-					int ammo = weapon.getTag().getInt("ammo");
+				if (weapon.has(ModComponents.ARROWGUN_AMMO)) {
+					int ammo = weapon.getOrDefault(ModComponents.ARROWGUN_AMMO, 0);
 					drawString(guiGraphics, minecraft.font, ammo + "", item.getX() + 8 + (int) (item.getParent().getWidth() * (ModConfigs.cmXScale / 100D)), item.getY() + 4, 0xFFFFFF);
 				}
 			}
@@ -632,7 +633,7 @@ public class CommandMenuGui extends OverlayBase {
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
-					ReactionCommand command = ModReactionCommands.registry.get().getValue(new ResourceLocation(list.get(i)));
+					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
 					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 
 					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);

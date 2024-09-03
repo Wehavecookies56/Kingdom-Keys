@@ -10,6 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowRainCoreEntity;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -30,7 +31,7 @@ public class LimitArrowRain extends Limit {
 		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setLimitCooldownTicks(getCooldown());
-		PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer)player);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 
 		float damage;
 		if(stack != null && stack.getItem() instanceof IOrgWeapon) {

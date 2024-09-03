@@ -73,7 +73,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "' to " + player.getDisplayName().getString()), true);
 
 			player.sendSystemMessage(Component.translatable("You have been given x" + amount + " '" + Utils.translateToLocal(material.getMaterialName()) + "'"));
-			PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 		}
 		return 1;
 	}

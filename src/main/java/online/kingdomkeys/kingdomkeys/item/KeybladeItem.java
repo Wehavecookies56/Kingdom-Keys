@@ -370,44 +370,4 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			}
 		}
 	}
-
-	public record KeybladeID(UUID keybladeID) {
-		public static final Codec<KeybladeID> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(
-						UUIDUtil.CODEC.fieldOf("keybladeID").forGetter(KeybladeID::keybladeID)
-				).apply(instance, KeybladeID::new)
-		);
-
-		public static final StreamCodec<FriendlyByteBuf, KeybladeID> STREAM_CODEC = StreamCodec.composite(
-				UUIDUtil.STREAM_CODEC,
-				KeybladeID::keybladeID,
-				KeybladeID::new
-		);
-	}
-
-	public record KeybladeLevel(int level, int maxLevel) {
-		public static final Codec<KeybladeLevel> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(
-						Codec.INT.fieldOf("level").forGetter(KeybladeLevel::level),
-						Codec.INT.fieldOf("max_level").forGetter(KeybladeLevel::maxLevel)
-				).apply(instance, KeybladeLevel::new)
-		);
-
-		public static final StreamCodec<FriendlyByteBuf, KeybladeLevel> STREAM_CODEC = StreamCodec.composite(
-				ByteBufCodecs.INT,
-				KeybladeLevel::level,
-				ByteBufCodecs.INT,
-				KeybladeLevel::maxLevel,
-				KeybladeLevel::new
-		);
-
-		public KeybladeLevel setMaxLevel(int maxLevel) {
-			return new KeybladeLevel(Math.min(maxLevel, level), maxLevel);
-		}
-
-		public KeybladeLevel setLevel(int level) {
-			return new KeybladeLevel(Math.min(maxLevel, level), maxLevel);
-		}
-
-	}
 }

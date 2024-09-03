@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.menu.SynthesisBagMenu;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -39,9 +40,8 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 	}
 
 	@Override
-	protected void init() {
-		CompoundTag nbt = menu.bag.getOrCreateTag();
-		bagLevel = nbt.getInt("level");
+	protected void init() {;
+		bagLevel = menu.bag.getOrDefault(ModComponents.SYNTH_BAG_LEVEL, 0);
 		this.imageHeight = texHeight[bagLevel];
 		this.imageWidth = 193;
 		addRenderableWidget(upgradeButton = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {

@@ -30,13 +30,12 @@ public record CSUpgradeSynthesisBagPacket() implements Packet {
 		ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
 
 		if(stack != null) {
-			SynthesisBagItem.BagLevel bagLevel = stack.get(ModComponents.SYNTH_BAG_LEVEL);
+			int bagLevel = stack.get(ModComponents.SYNTH_BAG_LEVEL);
 
-			int cost = Utils.getBagCosts(bagLevel.level());
+			int cost = Utils.getBagCosts(bagLevel);
 			if (playerData.getMunny() >= cost) {
 				playerData.setMunny(playerData.getMunny() - cost);
-				stack.get(ModComponents.SYNTH_BAG_LEVEL).levelUp();
-				//TODO check that this works might need to use set and if so will change to a record
+				stack.set(ModComponents.SYNTH_BAG_LEVEL, bagLevel+1);
 			}
 		}
 	}

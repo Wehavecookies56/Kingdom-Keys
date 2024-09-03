@@ -72,8 +72,8 @@ public class PairBloxEntity extends Entity {
 	}
 
 	@Override
-	protected float getEyeHeight(Pose pose, EntityDimensions entitySize) {
-		return 0.0F;
+	public double getEyeY() {
+		return 0;
 	}
 
 	public void setPair(int pair) {

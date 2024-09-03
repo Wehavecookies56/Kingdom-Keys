@@ -109,7 +109,7 @@ public class ChoiceCommand extends BaseCommand {
                         targetData.setChoice(chosen);
                         SoAState.applyStatsForChoices(target, targetData, false);
                     }
-                    PacketHandler.sendTo(new SCSyncPlayerData(targetData), target);
+                    PacketHandler.sendTo(new SCSyncPlayerData(target), target);
                     if (players.size() > 1) {
                         context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been set to %s and %s for %s", chosenStr, sacrificedStr, target.getName().getString()), true);
                     }

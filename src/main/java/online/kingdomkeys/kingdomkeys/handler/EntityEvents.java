@@ -827,8 +827,7 @@ public class EntityEvents {
 	}
 
 	public void addSynthesisMaterialToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
-		CompoundTag nbt = bag.getOrCreateTag();
-		int bagLevel = nbt.getInt("level");
+		int bagLevel = bag.getOrDefault(ModComponents.SYNTH_BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
             case 0 -> 18;
             case 1 -> 36;

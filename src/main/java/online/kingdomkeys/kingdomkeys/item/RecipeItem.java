@@ -105,7 +105,7 @@ public class RecipeItem extends Item implements IItemCategory {
 					playerData.addKnownRecipe(rl);
 					consume = true;
 					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
-					PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
 		}

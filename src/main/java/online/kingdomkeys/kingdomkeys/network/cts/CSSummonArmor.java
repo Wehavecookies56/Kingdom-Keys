@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import java.util.UUID;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,12 +17,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -65,8 +68,7 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 
 	private static ItemStack getNewItemWithUUID(Item item, UUID uuid) {
 		ItemStack newItem = new ItemStack(item);
-		newItem.setTag(new CompoundTag());
-		newItem.getTag().putUUID("armorID", uuid);
+		newItem.set(ModComponents.ARMOR_ID, uuid);
 		return newItem;
 	}
 	
@@ -85,7 +87,7 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 			return;
 
 		if(kbArmorItem.getItem() instanceof PauldronItem kbArmor) { //If it's a valid shoulder armor
-			UUID KBArmorUUID = kbArmorItem.getTag().getUUID("armorID");
+			UUID KBArmorUUID = kbArmorItem.get(ModComponents.ARMOR_ID);
 			ItemStack[] armor = {player.getInventory().getArmor(3),player.getInventory().getArmor(2),player.getInventory().getArmor(1),player.getInventory().getArmor(0)};
 
 			int correctArmor = 0;
@@ -155,29 +157,30 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 						ItemStack newLeggings = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
 						ItemStack newBoots = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
 
-						if(kbArmorItem.getTag() != null) {
-							CompoundTag bootsTag = kbArmorItem.getTag().getCompound("boots");
-							CompoundTag legginsTag = kbArmorItem.getTag().getCompound("leggings");
-							CompoundTag chestplateTag = kbArmorItem.getTag().getCompound("chestplate");
-							CompoundTag helmetTag = kbArmorItem.getTag().getCompound("helmet");
+						if(kbArmorItem.has(ModComponents.PAULDRON_ENCHANTMENTS)) {
+							PauldronItem.PauldronEnchantments enchantments = kbArmorItem.get(ModComponents.PAULDRON_ENCHANTMENTS);
+							ItemEnchantments bootsTag = enchantments.boots();
+							ItemEnchantments legginsTag = enchantments.leggings();
+							ItemEnchantments chestplateTag = enchantments.chestplate();
+							ItemEnchantments helmetTag = enchantments.helmet();
 							if(bootsTag != null) {
-								newBoots.setTag(bootsTag);
-								newBoots.getTag().putUUID("armorID", KBArmorUUID);
+								newBoots.set(DataComponents.ENCHANTMENTS, bootsTag);
+								newBoots.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
 							if(legginsTag != null) {
-								newLeggings.setTag(legginsTag);
-								newLeggings.getTag().putUUID("armorID", KBArmorUUID);
+								newLeggings.set(DataComponents.ENCHANTMENTS, legginsTag);
+								newLeggings.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
 							if(chestplateTag != null) {
-								newChestplate.setTag(chestplateTag);
-								newChestplate.getTag().putUUID("armorID", KBArmorUUID);
+								newChestplate.set(DataComponents.ENCHANTMENTS, chestplateTag);
+								newChestplate.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
 							if(helmetTag != null) {
-								newHelmet.setTag(helmetTag);
-								newHelmet.getTag().putUUID("armorID", KBArmorUUID);
+								newHelmet.set(DataComponents.ENCHANTMENTS, helmetTag);
+								newHelmet.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 						}
 

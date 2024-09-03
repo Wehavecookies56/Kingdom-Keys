@@ -39,6 +39,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
@@ -565,7 +566,7 @@ public class Utils {
 	public static void createKeybladeID(ItemStack stack) {
 		if (!hasKeybladeID(stack)) {
 			UUID uuid = UUID.randomUUID();
-			stack.set(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(uuid));
+			stack.set(ModComponents.KEYBLADE_ID, uuid);
 			KingdomKeys.LOGGER.debug("Created new keybladeID:{} for {}", uuid, stack.getDisplayName().getString());
 		}
 	}
@@ -585,17 +586,15 @@ public class Utils {
 
 	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
-			return stack.getOrDefault(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(Util.NIL_UUID)).keybladeID();
+			return stack.getOrDefault(ModComponents.KEYBLADE_ID, Util.NIL_UUID);
 		}
 		return null;
 	}
 
 	public static boolean hasArmorID(ItemStack stack) {
 		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("armorID")) {
-					return true;
-				}
+			if (stack.has(ModComponents.ARMOR_ID)) {
+				return true;
 			}
 		}
 		return false;
@@ -603,7 +602,7 @@ public class Utils {
 
 	public static UUID getArmorID(ItemStack stack) {
 		if (hasArmorID(stack)) {
-			return stack.getTag().getUUID("armorID");
+			return stack.get(ModComponents.ARMOR_ID);
 		}
 		return null;
 	}
@@ -1051,15 +1050,13 @@ public class Utils {
 		return minCost;
 	}
 
-	public static List<String> appendEnchantmentNames(String text, ItemStack stack, LivingEntity entity) {
+	public static List<String> appendEnchantmentNames(String text, ItemEnchantments enchantments, LivingEntity entity) {
 		List<String> arrayList = new ArrayList<>();
-		if (!stack.isEmpty() && stack.isEnchanted()) {
-			arrayList.add(Component.translatable(text).getString());
-			stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
-                enchantmentHolder.value();
-                arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
-			});
-		}
+		arrayList.add(Component.translatable(text).getString());
+		enchantments.keySet().forEach(enchantmentHolder -> {
+			enchantmentHolder.value();
+			arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
+		});
 		return arrayList;
 	}
 
@@ -1265,7 +1262,7 @@ public class Utils {
 		if ((forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasKeybladeID(heldStack)))) {
 			//DESUMMON
 			if (Utils.hasKeybladeID(heldStack)) {
-				if (heldStack.has(ModComponents.KEYBLADE_ID) && heldStack.get(ModComponents.KEYBLADE_ID).keybladeID().equals(chain.get(ModComponents.KEYBLADE_ID).keybladeID())) { //Keyblade user
+				if (heldStack.has(ModComponents.KEYBLADE_ID) && heldStack.get(ModComponents.KEYBLADE_ID).equals(chain.get(ModComponents.KEYBLADE_ID))) { //Keyblade user
 					chain.set(ModComponents.KEYBLADE_ID, heldStack.get(ModComponents.KEYBLADE_ID));
 					if (useOrg) {
 						Set<ItemStack> weapons = playerData.getWeaponsUnlocked();

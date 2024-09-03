@@ -26,6 +26,7 @@ import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,15 +51,13 @@ public class FortuneBonusModifier extends LootModifier {
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
 
 
-        if (tool != null && (!tool.hasTag() || tool.getTag() == null || !tool.getTag().getBoolean(hasLuckyLuckyBonus)))
-        {
+        if (tool != null && !tool.has(ModComponents.HAS_FORTUNE_BONUS)) {
             Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
             BlockState blockState = context.getParamOrNull(LootContextParams.BLOCK_STATE);
             BlockEntity blockEntity = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
             Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
 
-            if (blockState != null && entity instanceof Player player)
-            {
+            if (blockState != null && entity instanceof Player player) {
                 // bonus for lucky amplifier.
 				PlayerData playerData = PlayerData.get(player);
 				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
@@ -66,7 +65,7 @@ public class FortuneBonusModifier extends LootModifier {
 				if (totalFortuneBonus > 0) {
 					ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
 
-					fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
+					fakeTool.set(ModComponents.HAS_FORTUNE_BONUS, true);
 
                     Holder<Enchantment> fortune = player.level().registryAccess().holderOrThrow(Enchantments.FORTUNE);
                     fakeTool.enchant(fortune, fakeTool.getEnchantmentLevel(fortune) + totalFortuneBonus);

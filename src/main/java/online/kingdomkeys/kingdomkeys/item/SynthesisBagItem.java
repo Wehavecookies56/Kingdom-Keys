@@ -47,9 +47,9 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		BagLevel level = stack.get(ModComponents.SYNTH_BAG_LEVEL);
+		Integer level = stack.get(ModComponents.SYNTH_BAG_LEVEL);
 		if (level != null) {
-			int bagLevel = level.level;
+			int bagLevel = level;
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+" "+(bagLevel+1)));
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
@@ -71,58 +71,5 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 				Inventory::inventory,
 				Inventory::new
 		);
-	}
-
-	public static class BagLevel {
-		int level, maxLevel;
-		int baseCost;
-
-		public BagLevel(int level, int maxLevel, int baseCost) {
-			this.level = level;
-			this.baseCost = baseCost;
-			this.maxLevel = maxLevel;
-		}
-
-		public int level() {
-			return level;
-		}
-
-		public int baseCost() {
-			return baseCost;
-		}
-
-		public int maxLevel() {
-			return maxLevel;
-		}
-
-		public static final Codec<BagLevel> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(
-						Codec.INT.fieldOf("level").forGetter(BagLevel::level),
-						Codec.INT.fieldOf("max_level").forGetter(BagLevel::maxLevel),
-						Codec.INT.fieldOf("base_cost").forGetter(BagLevel::baseCost)
-				).apply(instance, BagLevel::new)
-		);
-
-		public static final StreamCodec<RegistryFriendlyByteBuf, BagLevel> STREAM_CODEC = StreamCodec.composite(
-				ByteBufCodecs.INT,
-				BagLevel::level,
-				ByteBufCodecs.INT,
-				BagLevel::maxLevel,
-				ByteBufCodecs.INT,
-				BagLevel::baseCost,
-				BagLevel::new
-		);
-
-		public void levelUp() {
-			if (level < maxLevel-1) {
-				level++;
-			} else {
-				level = maxLevel-1;
-			}
-		}
-
-		public int getCost() {
-			return (int) Math.pow(baseCost * 2, level);
-		}
 	}
 }

@@ -49,7 +49,7 @@ public record CSUnlockEquipOrgWeapon(ItemStack weapon, int cost, boolean unlock)
         PlayerData playerData = PlayerData.get(player);
         if (unlock) {
             if (playerData.getHearts() >= cost) {
-                weapon.set(ModComponents.KEYBLADE_ID, new KeybladeItem.KeybladeID(UUID.randomUUID()));
+                weapon.set(ModComponents.KEYBLADE_ID, UUID.randomUUID());
                 playerData.unlockWeapon(weapon);
                 playerData.removeHearts(cost);
             }
