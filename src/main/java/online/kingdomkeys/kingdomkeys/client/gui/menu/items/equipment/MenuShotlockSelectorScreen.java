@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -20,6 +16,9 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 

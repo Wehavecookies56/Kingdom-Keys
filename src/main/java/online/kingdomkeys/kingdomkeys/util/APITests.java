@@ -8,7 +8,6 @@ import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
 
 public class APITests {
 

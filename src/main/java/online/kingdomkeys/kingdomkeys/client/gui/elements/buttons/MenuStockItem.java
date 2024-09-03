@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -25,6 +24,7 @@ public class MenuStockItem extends Button {
     ItemStack stack;
     boolean selected, showAmount;
     String customName = null;
+    public int offsetY;
 
     final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -58,6 +58,11 @@ public class MenuStockItem extends Button {
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount, String customName) {
         this(parent,stack,x,y,width,showAmount);
         this.customName = customName;
+    }
+
+    @Override
+    public int getY() {
+        return super.getY() - offsetY;
     }
 
 	@Override

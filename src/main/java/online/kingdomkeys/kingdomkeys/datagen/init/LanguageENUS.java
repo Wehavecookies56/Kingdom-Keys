@@ -4,6 +4,7 @@ import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 import net.minecraft.data.DataGenerator;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
@@ -210,6 +211,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive, "Drive");
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
+        add(Gui_CommandMenu_Target,"Target");
         add(Gui_CommandMenu_Portals_Title, "Portals");
         add(Gui_CommandMenu_Magic_Title, "Magic");
         add(Gui_CommandMenu_Items_Title, "Items");
@@ -253,6 +255,29 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.org.select", "Select");
         add("gui.org.cancel", "Cancel");
         add("gui.org.confirm", "Confirm");
+
+        //Save Point
+        add(Gui_Save_Creation_Title, "Name Save Point");
+        add(Gui_Save_Creation_Prompt, "Enter a name for this Save Point");
+        add(Gui_Save_Creation_Global, "Set globally visible");
+        add(Gui_Save_Creation_Global_Desc, "Makes this save point accessible to all players");
+        add(Gui_Save_Creation_Accept, "Save");
+
+        add(Gui_Save_Main_CurrentPosition, "You are Here");
+        add(Gui_Save_Main_Sort, "Sort:");
+        add(Gui_Save_Main_Rename, "Rename");
+        add(Gui_Save_Main_Retake, "Retake");
+
+        add(Gui_Save_Sorting_ByRecent, "Recent");
+        add(Gui_Save_Sorting_ByName, "Name");
+        add(Gui_Save_Sorting_ByDimension, "Dimension");
+        add(Gui_Save_Sorting_ByOwner, "Owner");
+        add(Gui_Save_Sorting_Ascending, "Ascending");
+        add(Gui_Save_Sorting_Descending, "Descending");
+
+        //K.O. Screen
+        add(Gui_KO_Die, "Give Up");
+        add(Gui_KO_Quit, "Exit");
 
         //Level up messages
         add("stats.levelUpStr", "Strength increased!");
@@ -320,13 +345,23 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
         addBlock(ModBlocks.savepoint, "Save Point");
-        addBlock(ModBlocks.linkedSavepoint, "Linked Save Point");
-        addBlock(ModBlocks.warpPoint, "Warp Point");
+        add("block." + MODID + ".linked_savepoint", "Linked Save Point");
+        add("block." + MODID + ".warp_point", "Warp Point");
         addBlock(ModBlocks.soADoor, "Mysterious Door");
         addBlock(ModBlocks.gummiEditor, "Gummi Editor");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
+
+        add("savepoint.healing","healing");
+        add("savepoint.magic","magic restoration");
+        add("savepoint.feed","feeding");
+        add("savepoint.focus","focus restoration");
+        add("savepoint.drive","drive restoration");
+        add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
+        add("savepoint.maxed","Savepoint %s speed is already maxed");
+        add("savepoint.upgrade_type","Savepoint upgraded to {0}");
+        add("savepoint.max_upgrade","Max upgrade reached");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
@@ -1402,6 +1437,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
+        addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
+        addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Creeper (Nobody) Spawn Egg");
         addItem(ModEntities.DUSK_EGG, "Dusk Spawn Egg");
@@ -1595,7 +1632,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
         add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
-        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Key's$() Mod.$(p)In this book, you'll find all info you need to get started.");
+        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Keys$() Mod.$(p)In this book, you'll find all info you need to get started, as well as helpful tips.");
 
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
@@ -1637,6 +1674,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
+        addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
+        addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Creeper (Nobody)");
         addEntityType(ModEntities.TYPE_DUSK, "Dusk");

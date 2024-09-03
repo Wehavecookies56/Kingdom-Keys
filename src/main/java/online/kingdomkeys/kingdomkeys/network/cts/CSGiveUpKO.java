@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -28,15 +30,20 @@ public class CSGiveUpKO {
             Player player = ctx.get().getSender();
             IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 
-            player.kill();
+            killPlayer(player);
             if(globalData != null){
                 globalData.setKO(false);
                 PacketHandler.syncToAllAround(player,globalData);
             }
-            player.kill();
+            killPlayer(player);
 
         });
         ctx.get().setPacketHandled(true);
     }
 
+    public static void killPlayer(Player player){
+        player.kill();
+        player.remove(Entity.RemovalReason.KILLED);
+        player.gameEvent(GameEvent.ENTITY_DIE);
+    }
 }

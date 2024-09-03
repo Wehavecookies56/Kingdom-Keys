@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import yesman.epicfight.api.client.model.AnimatedMesh;
 import yesman.epicfight.api.client.model.Meshes;
-import yesman.epicfight.api.client.model.armor.CustomModelBakery;
+import yesman.epicfight.api.client.model.transformer.CustomModelBakery;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.mesh.HumanoidMesh;
@@ -35,12 +35,11 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>, AM> {
+public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
 
     boolean hideHelmet;
 
-    public PatchedArmourLayerRenderer(AM mesh, boolean hideHelmet) {
-        super(mesh);
+    public PatchedArmourLayerRenderer(boolean hideHelmet) {
         this.hideHelmet = hideHelmet;
     }
 
@@ -55,7 +54,6 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
             float green = ((color >> 8) & 0xff) / 255F;
             float blue = (color & 0xff) / 255F;
             boolean glint = playerData.getArmorGlint();
-            boolean debuggingMode = ClientEngine.getInstance().isArmorModelDebuggingMode();
 
             NonNullList<ItemStack> armor = player.getInventory().armor;
             for (int i = 0; i <= 3; i++) {
@@ -66,12 +64,12 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                 if (itemStack.getItem() instanceof KeybladeArmorItem item) {
                     ArmorBaseModel<LivingEntity> model = armorModels.get(item);
                     HumanoidModel<LivingEntity> humanoidModel = new HumanoidModel<>(model.root);
-                    AnimatedMesh modelAnimated = CustomModelBakery.bake(humanoidModel, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), debuggingMode);
+                    AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(humanoidModel, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i));
                     String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
                     String textureIndex = i == 1 ? "2" : "1";
                     texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");
-                    VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
-                    modelAnimated.drawModelWithPose(poseStack, vertexconsumer, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, poses);
+                    //VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
+                    modelAnimated.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(texture), packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, poses);
                 }
             }
         }

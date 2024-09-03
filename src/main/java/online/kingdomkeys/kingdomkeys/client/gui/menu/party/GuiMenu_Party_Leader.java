@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -29,6 +24,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyDisband;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class GuiMenu_Party_Leader extends MenuBackground {
 	
@@ -171,7 +169,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 		float playerPosX = 140F+ (space *(order)*1000);
 		float playerPosY = height * 0.7F;
 		
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername().toLowerCase());
 		
 				
 		matrixStack.pushPose();

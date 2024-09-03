@@ -1,90 +1,176 @@
-/* We're not using this right now so I'll fix it when we want to
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
- //WhiteMushroom - WYND Created using Tabula 7.0.0
+import java.util.ArrayList;
+import java.util.List;
 
-public class WhiteMushroomModel<T extends Entity> extends EntityModel<T> {
-    public ModelPart body;
-    public ModelPart cloth1;
-    public ModelPart head;
-    public ModelPart cloth2;
-    public ModelPart leftArm;
-    public ModelPart rightArm;
-    public ModelPart hat;
-    public ModelPart hat2;
-    public ModelPart hat3;
-    public ModelPart hat4;
-    public ModelPart hat5;
-    public ModelPart hat6;
+//TODO port new model
+@OnlyIn(Dist.CLIENT)
+public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KingdomKeys.MODID, "white_mushroom"), "main");
+	private final ModelPart main;
+	private final ModelPart body;
+	private final ModelPart head;
+	private final ModelPart rightarm, rightarm2;
+	private final ModelPart leftarm, leftarm2;
 
-    public WhiteMushroomModel() {
-        this.texWidth = 64;
-        this.texHeight = 64;
-        this.hat5 = new ModelPart(this, 30, 1);
-        this.hat5.setPos(0.0F, 0.0F, 0.0F);
-        this.hat5.addBox(-4.0F, -18.5F, -5.0F, 8, 5, 1, 0.0F);
-        this.body = new ModelPart(this, 0, 0);
-        this.body.setPos(0.0F, 15.0F, 0.0F);
-        this.body.addBox(-4.0F, -8.0F, -4.0F, 8, 17, 8, 0.0F);
-        this.cloth2 = new ModelPart(this, 28, 46);
-        this.cloth2.setPos(0.0F, 0.0F, 0.0F);
-        this.cloth2.addBox(-4.5F, -8.0F, -4.5F, 9, 2, 9, 0.0F);
-        this.rightArm = new ModelPart(this, 34, 10);
-        this.rightArm.setPos(-4.5F, -7.0F, 0.5F);
-        this.rightArm.addBox(-1.5F, 0.0F, -1.5F, 2, 9, 3, 0.0F);
-        this.cloth1 = new ModelPart(this, 24, 25);
-        this.cloth1.setPos(0.0F, 0.0F, 0.0F);
-        this.cloth1.addBox(-5.0F, 5.0F, -5.0F, 10, 4, 10, 0.0F);
-        this.hat4 = new ModelPart(this, 4, 55);
-        this.hat4.setPos(0.0F, 0.0F, 0.0F);
-        this.hat4.addBox(-4.0F, -19.5F, -4.0F, 8, 1, 8, 0.0F);
-        this.hat = new ModelPart(this, 0, 48);
-        this.hat.setPos(0.0F, 0.0F, 0.0F);
-        this.hat.addBox(-4.5F, -19.0F, -4.5F, 9, 6, 9, 0.0F);
-        this.hat6 = new ModelPart(this, 17, 57);
-        this.hat6.setPos(0.0F, 0.0F, 0.0F);
-        this.hat6.addBox(-4.0F, -18.5F, 4.0F, 8, 5, 1, 0.0F);
-        this.hat2 = new ModelPart(this, 15, 50);
-        this.hat2.setPos(0.0F, 0.0F, 0.0F);
-        this.hat2.addBox(-5.0F, -18.5F, -4.0F, 1, 5, 8, 0.0F);
-        this.hat3 = new ModelPart(this, 16, 50);
-        this.hat3.setPos(0.0F, 0.0F, 0.0F);
-        this.hat3.addBox(4.0F, -18.5F, -4.0F, 1, 5, 8, 0.0F);
-        this.leftArm = new ModelPart(this, 34, 10);
-        this.leftArm.setPos(4.0F, -7.0F, 0.5F);
-        this.leftArm.addBox(0.0F, 0.0F, -1.5F, 2, 9, 3, 0.0F);
-        this.head = new ModelPart(this, 0, 34);
-        this.head.setPos(0.0F, 0.0F, 0.0F);
-        this.head.addBox(-3.5F, -13.0F, -3.5F, 7, 5, 7, 0.0F);
-        this.hat.addChild(this.hat5);
-        this.body.addChild(this.cloth2);
-        this.body.addChild(this.rightArm);
-        this.body.addChild(this.cloth1);
-        this.hat.addChild(this.hat4);
-        this.head.addChild(this.hat);
-        this.hat.addChild(this.hat6);
-        this.hat.addChild(this.hat2);
-        this.hat.addChild(this.hat3);
-        this.body.addChild(this.leftArm);
-        this.body.addChild(this.head);
-    }
+	public WhiteMushroomModel(ModelPart root) {
+		this.main = root.getChild("main");
+		this.body = main.getChild("body");
+		this.head = main.getChild("head");
+		this.rightarm = main.getChild("rightarm");
+		this.leftarm = main.getChild("leftarm");
+		this.rightarm2 = rightarm.getChild("rightarm2_r1");
+		this.leftarm2 = leftarm.getChild("leftarm2_r1");
 
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-    }
+	}
 
-    @Override
-    public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-    }
+		PartDefinition main = partdefinition.addOrReplaceChild("main", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
+		PartDefinition body = main.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 32).addBox(-9.0F, -18.0F, 1.0F, 10.0F, 14.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 22).addBox(-10.0F, -6.0F, 0.0F, 12.0F, 3.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(-11.0F, -3.0F, -1.0F, 14.0F, 3.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, -5.0F));
+
+		PartDefinition head = main.addOrReplaceChild("head", CubeListBuilder.create().texOffs(36, 35).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 15).addBox(-6.0F, -11.0F, -5.0F, 12.0F, 6.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -18.0F, 0.0F));
+
+		PartDefinition rightarm = main.addOrReplaceChild("rightarm", CubeListBuilder.create(), PartPose.offset(-5.0F, -18.0F, -1.0F));
+
+		PartDefinition rightarm2_r1 = rightarm.addOrReplaceChild("rightarm2_r1", CubeListBuilder.create().texOffs(40, 0).addBox(-2.0F, -5.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.0F, 1.0F, 2.9671F, 0.0F, 0.0F));
+
+		PartDefinition rightarm1_r1 = rightarm.addOrReplaceChild("rightarm1_r1", CubeListBuilder.create().texOffs(40, 0).addBox(-2.0F, -3.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, 1.0F, 3.1416F, 0.0F, 0.0F));
+
+		PartDefinition leftarm = main.addOrReplaceChild("leftarm", CubeListBuilder.create(), PartPose.offset(5.0F, -18.0F, -1.0F));
+
+		PartDefinition leftarm2_r1 = leftarm.addOrReplaceChild("leftarm2_r1", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -5.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.0F, 1.0F, 2.9671F, 0.0F, 0.0F));
+
+		PartDefinition leftarm1_r1 = leftarm.addOrReplaceChild("leftarm1_r1", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -3.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, 1.0F, 3.1416F, 0.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 128, 128);
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public void setupAnim(T entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+		if(!Minecraft.getInstance().isPaused()) {
+			switch(EntityHelper.getState(entity)) {
+			//switch(-2) {
+				case -3 ->{ //Full victory
+					this.main.y = 0;
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					rightarm.zRot = (float) Math.toRadians(150);
+					leftarm.zRot = (float) Math.toRadians(-150);
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+				}
+				case -2 ->{ //Complaining
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(-20);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					this.rightarm.yRot = (float) Math.toRadians(entity.tickCount % 10 < 5 ? 90 : -90);
+					this.leftarm.yRot = (float) Math.toRadians(entity.tickCount % 10 < 5 ? 90 : -90);
+
+					rightarm.zRot = (float) Math.toRadians(90);
+					leftarm.zRot = (float) Math.toRadians(-90);
+					rightarm2.xRot = (float) Math.toRadians(90);
+					leftarm2.xRot = (float) Math.toRadians(90);
+				}
+				case -1 -> { //Satisfied
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					rightarm.zRot = (float) Math.toRadians(150);
+					leftarm.zRot = (float) Math.toRadians(-150);
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+				}
+				case 0 -> {//Normal, no charade
+					this.main.y = 24;
+					this.main.xRot = (float) Math.toRadians(0);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(0);
+					this.leftarm.xRot = (float) Math.toRadians(0);
+					this.rightarm.yRot = (float) Math.toRadians(0);
+					this.leftarm.yRot = (float) Math.toRadians(0);
+
+					rightarm.zRot = (float) Math.toRadians(0);
+					leftarm.zRot = (float) Math.toRadians(0);
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+				}
+				case 1 -> {
+					this.main.xRot = (float) Math.toRadians(10);
+					this.head.xRot = (float) Math.toRadians(20);
+					this.rightarm.xRot = (float) Math.toRadians(-30);
+					this.leftarm.xRot = (float) Math.toRadians(-30);
+
+					this.rightarm.yRot = (float) Math.toRadians(-40);
+					this.leftarm.yRot = (float) Math.toRadians(40);
+
+					rightarm2.xRot = (float) Math.toRadians(90);
+					leftarm2.xRot = (float) Math.toRadians(90);
+				}
+				case 2 -> {
+					this.main.xRot = (float) Math.toRadians(-20);
+					this.head.xRot = (float) Math.toRadians(0);
+
+					this.rightarm.xRot = (float) Math.toRadians(-90);
+					this.leftarm.xRot = (float) Math.toRadians(-90);
+
+					this.rightarm.yRot = (float) Math.toRadians(0);
+					this.leftarm.yRot = (float) Math.toRadians(0);
+
+					rightarm2.xRot = (float) Math.toRadians(90);
+					leftarm2.xRot = (float) Math.toRadians(90);
+					rightarm.zRot = (float) Math.toRadians(15);
+					leftarm.zRot = (float) Math.toRadians(-15);
+				}
+				case 3 -> {
+					this.main.xRot = (float) Math.toRadians(15);
+					this.head.xRot = (float) Math.toRadians(40);
+
+					this.rightarm.xRot = (float) Math.toRadians(-20);
+					this.leftarm.xRot = (float) Math.toRadians(-20);
+
+					rightarm2.xRot = (float) Math.toRadians(180);
+					leftarm2.xRot = (float) Math.toRadians(180);
+
+				}
+			}
+		}
+
+	}
 }
-*/

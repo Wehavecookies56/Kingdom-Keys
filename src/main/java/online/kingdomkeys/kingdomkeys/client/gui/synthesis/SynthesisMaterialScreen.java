@@ -1,17 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -36,11 +26,18 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncAllClientDataPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class SynthesisMaterialScreen extends MenuFilterable {
 		

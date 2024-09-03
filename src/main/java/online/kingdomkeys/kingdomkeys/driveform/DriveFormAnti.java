@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public class DriveFormAnti extends DriveForm {
 
@@ -18,5 +19,10 @@ public class DriveFormAnti extends DriveForm {
 	@Override
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		return null;
+	}
+
+	@Override
+	public boolean displayInCommandMenu(Player player) {
+		return false;
 	}
 }

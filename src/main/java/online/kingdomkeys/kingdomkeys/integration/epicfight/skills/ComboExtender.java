@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import yesman.epicfight.api.animation.AnimationProvider;
 import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.EpicFightSkills;
@@ -25,7 +26,7 @@ import yesman.epicfight.world.entity.eventlistener.PlayerEventListener;
 
 public class ComboExtender extends Skill {
 	private static final UUID EVENT_UUID = UUID.fromString("a42e0198-fdbc-11eb-9a03-0242ac130003");
-	private final SkillDataKey<Integer> combo = (SkillDataKey<Integer>) SkillDataKeys.COMBO_COUNTER.get();
+	private final RegistryObject<SkillDataKey<Integer>> combo = SkillDataKeys.COMBO_COUNTER;
 	public static final DeferredRegister<SkillDataKey<?>> DATA_KEYS = DeferredRegister.create(new ResourceLocation(EpicFightMod.MODID, "skill_data_keys"), KingdomKeys.MODID);
 	public static final RegistryObject<SkillDataKey<Integer>> FINISHER_DATA = DATA_KEYS.register("finisher_data", () -> SkillDataKey.createIntKey(0, false, ComboExtender.class));
 	//private final SkillDataKey<Integer> finisherData = SkillDataKey.createDataKey(ValueType.INTEGER);
@@ -55,16 +56,16 @@ public class ComboExtender extends Skill {
 						return;
 					IPlayerCapabilities playerCapabilities = ModCapabilities.getPlayer(player);
 					event.setCanceled(true);
-					StaticAnimation attackMotion;
+					AnimationProvider<?> attackMotion;
 					this.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
 					this.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.negativeCombo);
 					this.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.finishingPlus);
 					this.totalComboOffset = this.numberOfComboPlus - this.numberOfNegativeCombo;
 
 					CapabilityItem cap = spp.getHoldingItemCapability(InteractionHand.MAIN_HAND);
-					List<StaticAnimation> combo = cap.getAutoAttckMotion(spp);
+					List<AnimationProvider<?>> combo = cap.getAutoAttckMotion(spp);
 					SkillDataManager dataManager = spp.getSkill(EpicFightSkills.BASIC_ATTACK).getDataManager();
-					int comboCounter = dataManager.getDataValue(this.combo);
+					int comboCounter = dataManager.getDataValue(this.combo.get());
 
 					int comboSize = combo.size();
 					if ((comboSize - lastBasicAttackFromEnd) + this.totalComboOffset < 0)
@@ -93,9 +94,9 @@ public class ComboExtender extends Skill {
 					}
 
 					if (attackMotion != null) {
-						spp.playAnimationSynchronized(attackMotion, 0);
+						spp.playAnimationSynchronized(attackMotion.get(), 0);
 					}
-					dataManager.setData(this.combo, comboCounter);
+					dataManager.setData(this.combo.get(), comboCounter);
 					spp.updateEntityState();
 
 				}
@@ -121,6 +122,6 @@ public class ComboExtender extends Skill {
 		EntityState playerState = executer.getEntityState();
 		Player player = executer.getOriginal();
 
-		return !(player.isSpectator() || executer.isUnstable() || !playerState.canBasicAttack());
+		return !(player.isSpectator() || executer.isInAir() || !playerState.canBasicAttack());
 	}
 }

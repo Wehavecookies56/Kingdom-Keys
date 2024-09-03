@@ -1,18 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -31,6 +25,9 @@ import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class MenuBackground extends Screen {
 
@@ -38,24 +35,24 @@ public class MenuBackground extends Screen {
 	
 	String tip = null;
 	Color color;
+	protected Component title;
+
+	public boolean shouldCloseOnMenu;
 	
 	public MenuBackground(String name, Color rgb) {
 		super(Component.translatable(name));
 		minecraft = Minecraft.getInstance();
 		selected = -1;
 		this.color = rgb;
+		this.title = super.title;
 	}
-	//TODO Make menus work with arrow keys?
-	
-	//public static final int UP = Keybinds.SCROLL_UP.getKeybind().getKey().getKeyCode();
-	//public static final int DOWN = Keybinds.SCROLL_DOWN.getKeybind().getKey().getKeyCode();
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
 		if (super.keyPressed(keyCode, scanCode, modifiers)) {
 			return true;
-		} else if (InputHandler.Keybinds.OPENMENU.getKeybind().isActiveAndMatches(mouseKey)) {
+		} else if (InputHandler.Keybinds.OPENMENU.getKeybind().isActiveAndMatches(mouseKey) && shouldCloseOnMenu) {
 			//Close screen if already open and pushed this key. Example copied from keyPressed of ContainerScreen
 			Minecraft mc = Minecraft.getInstance();
 			mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -64,66 +61,6 @@ public class MenuBackground extends Screen {
 		}
 		return false;
 	}
-
-	/*@Override
-	public boolean keyPressed(int keyId, int p_keyPressed_2_, int p_keyPressed_3_) {
-		System.out.println(keyId+" "+p_keyPressed_2_+" "+p_keyPressed_3_);
-		//minecraft.gameSettings.keyBindForward.getKey().getKeyCode()
-		if(selected >= 0 && selected <= buttons.size() -1) {
-			BaseKKGuiButton oldBtn = (BaseKKGuiButton)buttons.get(selected);
-			oldBtn.setSelected(false);
-		}
-		
-		if(keyId == DOWN) {
-			selected++;
-			if(selected > buttons.size()-1) {
-				selected = 0;
-			}
-			
-			if(selected >= 0 && selected <= buttons.size() -1) {
-				while(!buttons.get(selected).active) {
-					selected++;
-				}
-				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-				if(btn.active)
-					btn.setSelected(true);
-				minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-
-				
-			}
-			
-		}
-		
-		if(keyId == UP) {
-			selected--;
-			if(selected < 0) {
-				selected = buttons.size()-1;
-			}
-			while(!buttons.get(selected).active) {
-				selected--;
-				if(selected == -1)
-					selected = buttons.size()-1;
-				if(buttons.get(selected) instanceof BaseKKGuiButton)
-					break;
-			}
-			BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-			if(btn.active)
-				btn.setSelected(true);
-			minecraft.world.playSound(minecraft.player, minecraft.player.getPosition(), ModSounds.menu_move.get(), SoundCategory.MASTER, 1.0f, 1.0f);
-
-		}
-		
-		if(keyId == 262) {
-			if(selected > -1) {
-				BaseKKGuiButton btn = (BaseKKGuiButton)buttons.get(selected);
-				btn.onPress();
-			}
-		}
-		
-		System.out.println(selected);
-
-		return super.keyPressed(keyId, p_keyPressed_2_, p_keyPressed_3_);
-	}*/
 	
 	public boolean drawPlayerInfo;
 
@@ -148,6 +85,11 @@ public class MenuBackground extends Screen {
 	protected float buttonPosX;
     protected int buttonPosY;
     protected float buttonWidth;
+
+	@Override
+	public Component getTitle() {
+		return title;
+	}
 
 	//Separate method to render buttons in a different order
 	public void drawMenuBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {

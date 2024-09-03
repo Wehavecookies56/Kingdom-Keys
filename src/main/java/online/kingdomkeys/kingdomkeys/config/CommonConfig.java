@@ -48,7 +48,7 @@ public class CommonConfig {
 
     public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
     public ForgeConfigSpec.BooleanValue needKeybladeForHeartless;
-    public ForgeConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers;
+    public ForgeConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
     
     CommonConfig(final ForgeConfigSpec.Builder builder) {
 		builder.push("general");
@@ -98,15 +98,20 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
 
+        savePointRecovers = builder
+                .comment("Stats restored when using a normal savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .translation(KingdomKeys.MODID + ".config.normal_save_point_restore_list")
+                .define("normalSavePointRestoreList", "HP,MP", o -> o instanceof String);
+
         linkedSavePointRecovers = builder
-                .comment("Stats restored when using a full savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .comment("Stats restored when using a linked savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.full_save_point_restore_list")
                 .define("fullSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
 
-        savePointRecovers = builder
-                .comment("Stats restored when using a partial savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
-                .translation(KingdomKeys.MODID + ".config.partial_save_point_restore_list")
-                .define("partialSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
+        warpPointRecovers = builder
+                .comment("Stats restored when using a warp point (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .translation(KingdomKeys.MODID + ".config.warp_point_restore_list")
+                .define("warpPointRestoreList", "HP,HUNGER,MP,FOCUS,DRIVE", o -> o instanceof String);
 
         builder.pop();
 

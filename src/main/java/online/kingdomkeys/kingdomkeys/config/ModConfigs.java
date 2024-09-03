@@ -305,7 +305,7 @@ public class ModConfigs {
 
     public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
-    public static String linkedSavePointRecovers, savePointRecovers;
+    public static String linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -342,6 +342,7 @@ public class ModConfigs {
 
         linkedSavePointRecovers = COMMON.linkedSavePointRecovers.get();
         savePointRecovers = COMMON.savePointRecovers.get();
+        warpPointRecovers = COMMON.warpPointRecovers.get();
     }
 
     public static int recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;

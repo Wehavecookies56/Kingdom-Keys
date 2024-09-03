@@ -25,7 +25,7 @@ public class ReactionSave extends ReactionCommand {
         if (conditionsToAppear(player, target)) {
             ((ServerPlayer) player).setRespawnPosition(player.level().dimension(), player.getOnPos().above(), 0F, true, false);
             player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
-            if (((SavePointBlock)player.getBlockStateOn().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+            if (player.getBlockStateOn().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
                 PacketHandler.sendTo(new SCOpenSavePointScreen((SavepointTileEntity) player.level().getBlockEntity(player.getOnPos()), player), (ServerPlayer) player);
             }
         }

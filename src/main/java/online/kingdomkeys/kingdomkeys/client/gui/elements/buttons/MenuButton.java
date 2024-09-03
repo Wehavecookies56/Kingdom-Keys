@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import java.awt.Color;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -17,6 +12,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
 
@@ -74,11 +72,8 @@ public class MenuButton extends MenuButtonBase {
 	@ParametersAreNonnullByDefault
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		//if(!isSelected())
-			isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
-		/*if(isHovered()) {
-			selected = false;
-		}*/
+		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
+
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
@@ -131,7 +126,6 @@ public class MenuButton extends MenuButtonBase {
 			vPos = sbVPos;
 			selVPos = sbSelectedVPos;
 			break;
-
 		}
 
 		vPos = hovered || selected ? selVPos : vPos;

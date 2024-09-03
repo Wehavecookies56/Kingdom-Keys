@@ -7,21 +7,32 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
-import java.util.*;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class SavePointStorage extends SavedData {
 
-    public enum SavePointType {
-        NORMAL, LINKED, WARP
+    public enum SavePointType implements StringRepresentable {
+        NORMAL, LINKED, WARP;
+
+        @Override
+        public String getSerializedName() {
+            return name().toLowerCase();
+        }
     }
 
-    public record SavePoint(UUID id, SavePointType type, String name, BlockPos pos, Pair<UUID, String> owner, ResourceKey<Level> dimension) {
+    public record SavePoint(UUID id, SavePointType type, String name, BlockPos pos, Pair<UUID, String> owner, ResourceKey<Level> dimension, boolean global, Instant timeCreated) {
         public SavePoint(CompoundTag nbt) {
             this(
                     nbt.getUUID("ID"),
@@ -29,8 +40,18 @@ public class SavePointStorage extends SavedData {
                     nbt.getString("NAME"),
                     new BlockPos(nbt.getInt("POSX"), nbt.getInt("POSY"), nbt.getInt("POSZ")),
                     Pair.of(nbt.getUUID("OWNER_UUID"), nbt.getString("OWNER_NAME")),
-                    ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("DIM")))
+                    ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("DIM"))),
+                    nbt.getBoolean("GLOBAL"),
+                    getCreatedTime(nbt)
             );
+        }
+
+        private static Instant getCreatedTime(CompoundTag nbt) {
+            if (nbt.contains("TIME_EPOCH") && nbt.contains("TIME_NANO")) {
+                return Instant.ofEpochSecond(nbt.getLong("TIME_EPOCH"), nbt.getInt("TIME_NANO"));
+            } else {
+                return Instant.now();
+            }
         }
 
         public CompoundTag serializeNBT() {
@@ -44,6 +65,9 @@ public class SavePointStorage extends SavedData {
             nbt.putUUID("OWNER_UUID", owner.getFirst());
             nbt.putString("OWNER_NAME", owner.getSecond());
             nbt.putString("DIM", dimension.location().toString());
+            nbt.putBoolean("GLOBAL", global);
+            nbt.putLong("TIME_EPOCH", timeCreated.getEpochSecond());
+            nbt.putInt("TIME_NANO", timeCreated.getNano());
             return nbt;
         }
     }
@@ -54,22 +78,28 @@ public class SavePointStorage extends SavedData {
         return savePointRegistry;
     }
 
-    public Map<UUID, SavePoint> getDiscoveredSavePoints(Player player) {
-        Map<UUID, SavePoint> filteredRegistry = new HashMap<>();
-        List<UUID> uuids = new ArrayList<>(ModCapabilities.getPlayer(player).discoveredSavePoints().stream().filter(savePointRegistry::containsKey).toList());
+    public Map<UUID, SavePoint> getGlobalSavePoints() {
+        return savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuidSavePointEntry.getValue().global()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public Map<UUID, Pair<SavePoint, Instant>> getDiscoveredSavePoints(Player player) {
+        Map<UUID, Pair<SavePoint, Instant>> filteredRegistry = new HashMap<>();
+        //Filter out any save points that no longer exist and any global save points
+        Map<UUID, Instant> uuids = ModCapabilities.getPlayer(player).discoveredSavePoints().entrySet().stream().filter(uuidInstantEntry -> savePointRegistry.containsKey(uuidInstantEntry.getKey()) && !savePointRegistry.get(uuidInstantEntry.getKey()).global).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         ModCapabilities.getPlayer(player).setDiscoveredSavePoints(uuids);
-        List<SavePoint> savePointList = savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuids.contains(uuidSavePointEntry.getKey())).map(Map.Entry::getValue).toList();
-        savePointList.forEach(savePoint -> filteredRegistry.put(savePoint.id, savePoint));
+        List<SavePoint> savePointList = savePointRegistry.entrySet().stream().filter(uuidSavePointEntry -> uuids.containsKey(uuidSavePointEntry.getKey())).map(Map.Entry::getValue).toList();
+        savePointList.forEach(savePoint -> filteredRegistry.put(savePoint.id, Pair.of(savePoint, uuids.get(savePoint.id))));
+        getGlobalSavePoints().forEach((uuid, savePoint) -> filteredRegistry.put(uuid, Pair.of(savePoint, savePoint.timeCreated)));
         return filteredRegistry;
     }
 
     public void addSavePoint(SavePoint savePoint) {
-        if (!savePointRegistry.containsKey(savePoint.id)) {
+        //if (!savePointRegistry.containsKey(savePoint.id)) {
             savePointRegistry.put(savePoint.id, savePoint);
             setDirty();
-        } else {
-            KingdomKeys.LOGGER.error("Attempted to add duplicate save point with ID:{}", savePoint.id);
-        }
+        //} else {
+        //    KingdomKeys.LOGGER.error("Attempted to add duplicate save point with ID:{}", savePoint.id);
+        //}
     }
 
     public void removeSavePoint(UUID id) {

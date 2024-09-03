@@ -72,7 +72,7 @@ public class CSUseMagicPacket {
 
 						}
 					} else { // On party member
-						Player allyTargetEntity = Utils.getPlayerByName(player.level(), message.allyTarget);
+						Player allyTargetEntity = Utils.getPlayerByName(player.level(), message.allyTarget.toLowerCase());
 		            	ModMagic.registry.get().getValue(new ResourceLocation(message.name)).onUse(allyTargetEntity, player, message.level, null);
 					}
 				}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "pattern": [
+    "GEG",
+    "EGE",
+    "GEG"
+  ],
+  "result": {
+    "item": "kingdomkeys:savepoint"
+  },
+  "show_notification": true
+}

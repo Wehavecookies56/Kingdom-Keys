@@ -55,6 +55,8 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCSyncMoogleNames.class, SCSyncMoogleNames::encode, SCSyncMoogleNames::decode, SCSyncMoogleNames::handle);
 		HANDLER.registerMessage(packetID++, SCOpenSavePointScreen.class, SCOpenSavePointScreen::encode, SCOpenSavePointScreen::new, SCOpenSavePointScreen::handle);
 		HANDLER.registerMessage(packetID++, SCUpdateSavePoints.class, SCUpdateSavePoints::encode, SCUpdateSavePoints::new, SCUpdateSavePoints::handle);
+		HANDLER.registerMessage(packetID++, SCDeleteSavePointScreenshot.class, SCDeleteSavePointScreenshot::encode, SCDeleteSavePointScreenshot::new, SCDeleteSavePointScreenshot::handle);
+		HANDLER.registerMessage(packetID++, SCUpdateCORooms.class, SCUpdateCORooms::encode, SCUpdateCORooms::new, SCUpdateCORooms::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);

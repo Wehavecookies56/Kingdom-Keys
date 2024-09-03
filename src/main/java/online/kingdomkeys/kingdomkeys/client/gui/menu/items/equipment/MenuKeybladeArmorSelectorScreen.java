@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -21,6 +15,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectKeyb
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 

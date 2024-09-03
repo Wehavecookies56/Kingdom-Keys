@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -14,124 +9,185 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class MenuScrollBar extends Button {
 
 	double clickX, clickY;
-	public int startX, startY, top, bottom;
-	int scrollBarHeight;
-	int minHeight, maxHeight;
+	public int startX, startY, handleY, handleYMax, localHandleY, localHandleYMax, visibleHeight;
+	float scrollPercent;
+	private int contentHeight, handleHeight;
+
+	public float scrollOffset;
+
+	//The top and bottom part of the handle that stick out touch the top and bottom of the bar 3 pixels from the middle part so this is so it stops before overlapping with the top/bottom texture
+	final int handleEndOffset = 3;
+
+	public static final int WIDTH = 14;
 
 	ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	public MenuScrollBar(int x, int y, int widthIn, int minHeight, int top, int bottom) {
-		super(new Builder(Component.empty(),button -> {}).bounds(x, y, widthIn, minHeight));		
-		this.top = top;
-		this.minHeight = minHeight;
-		this.scrollBarHeight = minHeight;
-		this.bottom = bottom;
-		this.maxHeight = bottom - top;
+	public MenuScrollBar(int x, int y, int height, int visibleHeight, int contentHeight) {
+		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, height));
+		this.visibleHeight = visibleHeight;
+		//The highest point on the scroll bar for the handle
+		this.handleYMax = getY() + handleEndOffset + barTopBotDims.Y;
+		int handleBottom = height - handleEndOffset - barTopBotDims.Y;
+		handleY = handleYMax;
+		localHandleYMax = handleBottom - handleYMax + 1;
+		setContentHeight(contentHeight);
 	}
 
-	public int getBottom() {
-		return bottom + scrollBarHeight;
+	public void setHandleY(int handleY) {
+		if (handleY < handleYMax) {
+			this.handleY = handleYMax;
+		} else {
+			this.handleY = handleY;
+		}
+	}
+
+	public void setHandleHeight(int height) {
+		this.handleHeight = height;
+		if (handleY > getHandleBottom()) {
+			handleY = getHandleBottom() + 1;
+		} else if (handleY < handleYMax) {
+			handleY = handleYMax;
+		}
+	}
+
+	public int getHandleBottom() {
+		return height - handleEndOffset - barTopBotDims.Y - handleHeight;
+	}
+
+	/**
+	 * Set the height of the content that is being scrolled
+	 * Resizes the handle
+	 */
+	public void setContentHeight(int contentHeight) {
+		this.contentHeight = contentHeight;
+		//Calculate what percentage of the scrollable content is visible
+		float visiblePercentage = ((float) visibleHeight / contentHeight) * 100;
+		//KingdomKeys.LOGGER.debug("{}/{} = {}%", visibleHeight, contentHeight, visiblePercentage);
+		//Handle height to same percentage as the visible area of the scroll bar height
+		setHandleHeight((int) (localHandleYMax * (visiblePercentage / 100)));
+		if (visibleHeight > contentHeight) {
+			scrollOffset = 0;
+		}
 	}
 
 	record Vec2(int X, int Y){}
 
 	final Vec2 barTopUV = new Vec2(26, 29);
 	final Vec2 barBottomUV = new Vec2(26, 47);
-	final Vec2 buttonTopUV = new Vec2(41, 29);
-	final Vec2 buttonMiddleUV = new Vec2(41, 39);
-	final Vec2 buttonBottomUV = new Vec2(41, 41);
+	final Vec2 handleTopUV = new Vec2(41, 29);
+	final Vec2 handleMiddleUV = new Vec2(41, 39);
+	final Vec2 handleBottomUV = new Vec2(41, 41);
 	final Vec2 barTopBotDims = new Vec2(14, 17);
-	final Vec2 buttonDims = new Vec2(14, 9);
-
-
-	final int renderOffset = 20;
+	final Vec2 handleDims = new Vec2(14, 9);
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (visible) {
+		if (visible && contentHeight > visibleHeight) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
-			gui.fill(getX(), top-(barTopBotDims.Y/2), getX() + width, getBottom()+buttonDims.Y, new Color(0, 0, 0, 0.5F).hashCode());
+			//box that is transparent offset by 7 so it doesn't stick out the triangle parts of the top and bottom textures
+			final int backgroundOffset = 7;
+			gui.fill(getX(), getY() + backgroundOffset, getX() + width, height - backgroundOffset, new Color(0, 0, 0, 0.5F).hashCode());
 			RenderSystem.disableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			//Top of bar
-			ClientUtils.blitScaled(texture, gui, getX(), top-renderOffset, barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), getY(), barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 
-			//Button top
-			ClientUtils.blitScaled(texture, gui, getX(), getY()-buttonDims.Y, buttonTopUV.X, buttonTopUV.Y, buttonDims.X, buttonDims.Y, 1);
+			//Handle top
+			ClientUtils.blitScaled(texture, gui, getX(), handleY - handleDims.Y, handleTopUV.X, handleTopUV.Y, handleDims.X, handleDims.Y, 1);
 
-			//Button middle
-			//for (int i = 0; i < scrollBarHeight; i++) {
-			ClientUtils.blitScaled(texture, gui, getX(), getY(), buttonMiddleUV.X, buttonMiddleUV.Y, buttonDims.X, 1, 1, scrollBarHeight);
-			//}
+			//Handle middle
+			for (int i = 0; i < handleHeight; i++) {
+				ClientUtils.blitScaled(texture, gui, getX(), handleY, handleMiddleUV.X, handleMiddleUV.Y, handleDims.X, 1, 1, handleHeight);
+			}
 
-			//Button bottom
-			ClientUtils.blitScaled(texture, gui, getX(), getY()+scrollBarHeight, buttonBottomUV.X, buttonBottomUV.Y, buttonDims.X, buttonDims.Y, 1);
+			//Handle bottom
+			ClientUtils.blitScaled(texture, gui, getX(), handleY + handleHeight, handleBottomUV.X, handleBottomUV.Y, handleDims.X, handleDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(texture, gui, getX(), getBottom()+4, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), height - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 
-	public void setScrollBarHeight(int height) {
-		this.scrollBarHeight = Math.max(this.scrollBarHeight, height);
-
+	public void updateScroll() {
+		if (visible && contentHeight > visibleHeight) {
+			//get the local handle position so 0 is at the top of the scroll bar
+			localHandleY = handleY - handleYMax;
+			//percentage of how far down the bar the handle is
+			scrollPercent = ((float) localHandleY / (localHandleYMax - handleHeight)) * 100;
+			int totalScroll = contentHeight - visibleHeight;
+			scrollOffset = totalScroll * (scrollPercent/100);
+			//KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localHandleY, (localHandleYMax - handleHeight), scrollPercent, scrollOffset);
+		} else {
+		scrollOffset = 0;
+		}
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (clickX >= getX() && clickX <= getX() + width) {
-			if (active) {
-				if (startY - (clickY - mouseY) >= bottom+1) {
-					this.setY(bottom+1);
-				} else if (startY - (clickY - mouseY) <= top) {
-					this.setY(top);
-				} else {
-					this.setY((int) (startY - (clickY - mouseY)));
+		if (button == 0) {
+			if (visible && contentHeight > visibleHeight) {
+				if (clickX >= getX() && clickX <= getX() + width) {
+					updateScroll();
+					if (active) {
+						if (startY - (clickY - mouseY) >= getHandleBottom() + 1) {
+							handleY = getHandleBottom() + 1;
+						} else if (startY - (clickY - mouseY) <= handleYMax) {
+							handleY = handleYMax;
+						} else {
+							handleY = (int) (startY - (clickY - mouseY));
+						}
+					}
+
 				}
 			}
-
 		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 
 	@Override
-	public boolean mouseReleased(double p_231048_1_, double p_231048_3_, int p_231048_5_) {
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
 		return true;
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		clickX = mouseX;
-		clickY = mouseY;
-		startX = getX();
-		startY = getY();
-		if (clickX >= getX() && clickX <= getX() + width && visible) {
-			playDownSound(Minecraft.getInstance().getSoundManager());
+		if (button == 0) {
+			clickX = mouseX;
+			clickY = mouseY;
+			startX = getX();
+			startY = handleY;
+			if (clickY >= getY() && clickY <= getY() + height && clickX >= getX() && clickX <= getX() + width && visible) {
+				playDownSound(Minecraft.getInstance().getSoundManager());
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
-		if (visible) {
+		if (visible && contentHeight > visibleHeight) {
 			int scrollFactor = 5;
-			int oldY = getY();
+			int oldY = handleY;
 			if (scrollDelta > 0) {
-				setY((int) Math.max(getY() - (scrollDelta * scrollFactor), top));
+				handleY = (int) Math.max(handleY - (scrollDelta * scrollFactor), handleYMax);
 			}
 			if (scrollDelta < 0) {
-				setY((int) Math.min(getY() - (scrollDelta * scrollFactor), bottom+1));
+				handleY = (int) Math.min(handleY - (scrollDelta * scrollFactor), getHandleBottom()+1);
 			}
-			if(oldY != getY()) {
+			if(oldY != handleY) {
 				Minecraft.getInstance().player.playSound(ModSounds.menu_move.get(), 1, 1);
 			}
+			updateScroll();
 		}
 		return super.mouseScrolled(mouseX, mouseY, scrollDelta);
 	}

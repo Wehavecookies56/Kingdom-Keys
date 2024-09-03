@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -28,10 +29,14 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
+
+import java.util.List;
 
 public class CastleOblivionHandler {
 
@@ -103,6 +108,9 @@ public class CastleOblivionHandler {
                                 //if size is 1 only the lobby room exists
                                 if (floor.getGeneratedRooms().size() == 1) {
                                     floor.setWorldCard((WorldCardItem) ModItems.netherCard.get());
+                                    for (Player playerFromList : event.player.level().players()) {
+                                        PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
+                                    }
                                     RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
                                     Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), event.player, currentRoom, RoomUtils.Direction.NORTH, false);
                                 }
@@ -142,8 +150,12 @@ public class CastleOblivionHandler {
                     startFloor.getRoom(new RoomUtils.RoomPos(0, 0)).setGenerated(lobby);
                     startFloor.createLobby(lobby.position);
                     cap.addFloor(startFloor);
+                } else {
+                    PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
                 }
             }
+        } else {
+            PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) event.getEntity());
         }
     }
 

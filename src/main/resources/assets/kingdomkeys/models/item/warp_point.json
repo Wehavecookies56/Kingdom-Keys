@@ -1,0 +1,16 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/savepoint.obj",
+	"mtl_override": "kingdomkeys:models/block/warp_point.mtl",
+	"textures": {
+
+	},
+	"display": {
+		"gui": {
+			"rotation": [90.0, 0.0, 0 ],
+			"translation": [0, -16, 2 ],
+			"scale": [1,1,1]
+		}
+	}
+}

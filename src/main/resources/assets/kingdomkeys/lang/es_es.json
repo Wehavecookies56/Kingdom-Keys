@@ -197,6 +197,7 @@
 	"gui.commandmenu.drive": "Fusión",
 	"gui.commandmenu.revert": "Revertir",
 	"gui.commandmenu.limit": "Límite",
+	"gui.commandmenu.target": "Objetivo",
 
 	"gui.commandmenu.portal.title": "Portales",
 	"gui.commandmenu.magic.title": "Magia",
@@ -406,6 +407,7 @@
 	"block.kingdomkeys.pedestal": "Pedestal",
 	"block.kingdomkeys.savepoint": "Punto de Guardado",
 	"block.kingdomkeys.linked_savepoint": "Punto de Guardado Enlazado",
+	"block.kingdomkeys.warp_point": "Punto de Guardado Interdimensional",
 	"block.kingdomkeys.soa_door": "Puerta Misteriosa",
 	"block.kingdomkeys.gummi_editor": "Editor Gummi",
 	"block.kingdomkeys.sor_core": "Núcleo de Estación del Pesar",
@@ -414,6 +416,33 @@
 	"block.kingdomkeys.rod_sand": "Arena Oscura",
 	"block.kingdomkeys.rod_stone": "Piedra Oscura",
 	"block.kingdomkeys.airstep_target": "Punto de modo ágil",
+	
+	"savepoint.drive": "recuperación de fusión",
+	"savepoint.feed": "alimentación",
+	"savepoint.focus": "recuperación de tino",
+	"savepoint.healing": "curación",
+	"savepoint.magic": "recuperación de magia",
+	"savepoint.max_upgrade": "Último nivel alcanzado",
+	"savepoint.maxed": "Velocidad de %s está al máximo",
+	"savepoint.upgrade": "La velocidad de %s está al %s%%",
+	"savepoint.upgrade_type": "Punto de guardado mejorado a {0}",
+	
+	"gui.save.create.accept": "Guardar",
+	"gui.save.create.global": "Establecer visibilidad global",
+	"gui.save.create.global.desc": "Convierte este punto en accesible para todos los jugadores",
+	"gui.save.create.prompt": "Introduce un nombre para este punto de guardado",
+	"gui.save.create.title": "Nombre punto de guardado",
+	"gui.save.main.here": "Estás aquí",
+	"gui.save.main.rename": "Nombre",
+	"gui.save.main.retake": "Foto",
+	"gui.save.main.sort": "Ordenar:",
+	"gui.save.sort.ascending": "Ascendiente",
+	"gui.save.sort.descending": "Descendiente",
+	"gui.save.sort.dimension": "Dimensión",
+	"gui.save.sort.name": "Nombre",
+	"gui.save.sort.owner": "Dueño",
+	"gui.save.sort.recent": "Reciente",
+
 
 	"block.kingdomkeys.blazing_ore": "Mena Ígnea",
 	"block.kingdomkeys.blazing_ore_d": "Mena Ígnea",
@@ -498,6 +527,8 @@
 	"reactioncommand.rc_auto_limit.name": "Auto-suma",
 	"reactioncommand.rc_auto_master.name": "Auto-maestra",
 	"reactioncommand.rc_auto_final.name": "Auto-final",
+	"reactioncommand.save_rc.name": "Guardar",
+
 
 	"_comment": "Items",
 	"item.kingdomkeys.recipe": "Receta",
@@ -1473,6 +1504,8 @@
 	"entity.kingdomkeys.large_body": "Grandullón",
 	"entity.kingdomkeys.dire_plant": "Mala Hierba",
 	"entity.kingdomkeys.soldier": "Soldado",
+	"entity.kingdomkeys.white_mushroom": "Seta Blanca",
+	"entity.kingdomkeys.black_fungus": "Hongo Negro",
 
 	"entity.kingdomkeys.nobody_creeper": "Trepador",
 	"entity.kingdomkeys.dusk": "Umbrío",
@@ -1501,6 +1534,9 @@
 	"item.kingdomkeys.large_body_spawn_egg": "Generar Grandullón",
 	"item.kingdomkeys.dire_plant_spawn_egg": "Generar Mala Hierba",
 	"item.kingdomkeys.soldier_spawn_egg": "Generar Soldado",
+	"item.kingdomkeys.white_mushroom_spawn_egg": "Generar Seta Blanca",
+	"item.kingdomkeys.black_fungus_spawn_egg": "Generar Hongo Negro",
+
 
 	"item.kingdomkeys.nobody_creeper_spawn_egg": "Generar Trepador",
 	"item.kingdomkeys.dusk_spawn_egg": "Generar Umbrío",

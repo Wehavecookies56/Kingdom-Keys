@@ -40,10 +40,8 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 			float f1 = 1F;
 			float f2 = 0;
 			float f3 = 1F;
-			
-			//System.out.println(entityIn.getValue());
 			float value = entityIn.getValue()/10F;
-			value = Utils.map(value, 1, 35, 0.5F, 3);
+			value = Mth.clamp(Utils.map(value, 1, 35, 0.5F, 3),0.5F,3F);
 			matrixStackIn.scale(value,value,value);
 	
 			matrixStackIn.translate(0.0D, (double) 0.1F, 0.0D);

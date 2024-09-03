@@ -57,10 +57,10 @@ public class CSSpawnOrgPortalPacket {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.remMP(300);
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer)player);
-			OrgPortalEntity portal = new OrgPortalEntity(player.level(), player, message.pos, message.destPos, message.dimension, true);
+			OrgPortalEntity portal = new OrgPortalEntity(player.level(), message.pos, message.destPos, message.dimension, true);
 			player.level().addFreshEntity(portal);
 
-			OrgPortalEntity destPortal = new OrgPortalEntity(player.level(), player, message.destPos.above(), message.destPos, message.dimension, false);
+			OrgPortalEntity destPortal = new OrgPortalEntity(player.level(), message.destPos.above(), message.destPos, message.dimension, false);
 			player.level().addFreshEntity(destPortal);
 			
 			PacketHandler.sendToAllPlayers(new SCSyncOrgPortalPacket(message.pos, message.destPos, message.dimension));

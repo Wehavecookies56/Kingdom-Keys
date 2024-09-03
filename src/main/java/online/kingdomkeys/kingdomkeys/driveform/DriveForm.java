@@ -97,7 +97,7 @@ public abstract class DriveForm {
 		return color;
 	}
 	
-	public ResourceLocation getTextureLocation() {
+	public ResourceLocation getTextureLocation(Player player) {
 		return skinRL;
 	}
 
@@ -227,6 +227,10 @@ public abstract class DriveForm {
 	 */
 	public boolean isSlotVisible(Player player) {
 		return hasKeychain();
+	}
+
+	public boolean displayInCommandMenu(Player player) {
+		return true;
 	}
 
 }

@@ -19,30 +19,96 @@ import org.joml.Vector3f;
 import java.util.UUID;
 
 public class SavepointTileEntity extends BlockEntity {
+	public static float[] WARP_COLOR = new float[]{0.6F, 1F, 1F};
+	public static float[] SAVEPOINT_COLOR = new float[]{0.3F, 1F, 0.3F};
+
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
 	long ticks;
-
+	//TODO Change savepoint type to tier
 	private UUID id = UUID.randomUUID();
 
 	public UUID getID() {
 		return id;
 	}
 
+	private int
+			heal = 20,
+			hunger = 20,
+			magic = 20,
+			drive = 20,
+			focus = 20
+	;
+
+	public int getHeal() {
+		return heal;
+	}
+
+	public void setHeal(int heal) {
+		this.heal = heal;
+		setChanged();
+	}
+
+	public int getHunger() {
+		return hunger;
+	}
+
+	public void setHunger(int hunger) {
+		this.hunger = hunger;
+		setChanged();
+	}
+
+	public int getMagic() {
+		return magic;
+	}
+
+	public void setMagic(int magic) {
+		this.magic = magic;
+		setChanged();
+	}
+
+	public int getDrive() {
+		return drive;
+	}
+
+	public void setDrive(int drive) {
+		this.drive = drive;
+		setChanged();
+	}
+
+	public int getFocus() {
+		return focus;
+	}
+
+	public void setFocus(int focus) {
+		this.focus = focus;
+		setChanged();
+	}
+
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			id = pTag.getUUID("savepoint_id");
 		}
+		heal = pTag.getInt("heal");
+		hunger = pTag.getInt("hunger");
+		magic = pTag.getInt("magic");
+		drive = pTag.getInt("drive");
+		focus = pTag.getInt("focus");
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag pTag) {
-		if (((SavePointBlock)getBlockState().getBlock()).getType() != SavePointStorage.SavePointType.NORMAL) {
+		if (getBlockState().getValue(SavePointBlock.TIER) != SavePointStorage.SavePointType.NORMAL) {
 			pTag.putUUID("savepoint_id", id);
 		}
+		pTag.putInt("heal",heal);
+		pTag.putInt("hunger",hunger);
+		pTag.putInt("magic",magic);
+		pTag.putInt("drive",drive);
+		pTag.putInt("focus",focus);
 		super.saveAdditional(pTag);
 	}
 
@@ -85,9 +151,10 @@ public class SavepointTileEntity extends BlockEntity {
 			double x2 = cx + (r * Math.cos(Math.toRadians(-savepoint.ticks)));
 			double z2 = cz + (r * Math.sin(Math.toRadians(-savepoint.ticks)));
 
-			level.addParticle(new DustParticleOptions(new Vector3f(0F, 1F, 0F), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(new DustParticleOptions(new Vector3f(0.3F, 1F, 0.3F), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
+			float[] color = state.getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLOR : SAVEPOINT_COLOR;
+
+			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
+			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
 		}
 	}
 }
-

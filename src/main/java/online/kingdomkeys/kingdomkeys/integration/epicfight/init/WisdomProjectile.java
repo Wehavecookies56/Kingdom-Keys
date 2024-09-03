@@ -28,7 +28,7 @@ public class WisdomProjectile {
             Vec3 playerPos = ep.getOriginal().position();
             OpenMatrix4f playerMatrix = OpenMatrix4f.createTranslation((float) playerPos.x, (float) playerPos.y, (float) playerPos.z)
                     .mulBack(OpenMatrix4f.createRotatorDeg(180, Vec3f.Y_AXIS)).mulBack(ep.getModelMatrix(1));
-            Vec3 bonePosMatrix = OpenMatrix4f.transform(Armatures.BIPED.getBindedTransformFor(ep.getArmature().getPose(1)
+            Vec3 bonePosMatrix = OpenMatrix4f.transform(Armatures.BIPED.getBindedTransformFor(ep.getAnimator().getPose(1)
                     , joint).mulFront(playerMatrix) , Vec3.ZERO);
 
             ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F,bonePosMatrix.x, bonePosMatrix.y, bonePosMatrix.z );

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
+import org.jetbrains.annotations.NotNull;
 
 public class MenuFilterButton extends Button {
 

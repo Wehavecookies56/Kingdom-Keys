@@ -179,17 +179,13 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
         	}
 
         	if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
-        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-                    ModelAnimation m = animation.get(i);
+                for (ModelAnimation m : animation) { //iterate through the legs array
                     m.animate();
                 }
         	} else {
-        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-                    ModelAnimation m = animation.get(i);
+                for (ModelAnimation m : animation) { //iterate through the legs array
                     m.setDefault();
                 }
-        		//this.right_arm.zRot = 0;
-        		//this.left_arm.zRot = 0;
         	}
 	        
         }	

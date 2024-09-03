@@ -41,6 +41,10 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         return doors.get(direction);
     }
 
+    public Map<RoomUtils.Direction, DoorData> getDoors() {
+        return doors;
+    }
+
     public int getCardCost() {
         return cardCost;
     }

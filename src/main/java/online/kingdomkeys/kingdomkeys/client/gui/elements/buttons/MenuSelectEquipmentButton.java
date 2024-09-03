@@ -1,12 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import java.awt.Color;
-import java.util.List;
-
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -38,6 +34,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
+import java.util.List;
 
 public class MenuSelectEquipmentButton extends MenuButtonBase {
 

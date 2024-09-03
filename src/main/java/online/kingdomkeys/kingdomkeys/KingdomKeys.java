@@ -4,8 +4,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.BlockItem;
+import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import online.kingdomkeys.kingdomkeys.util.APITests;
+import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -154,6 +159,14 @@ public class KingdomKeys {
 					.icon(() -> new ItemStack(ModBlocks.normalBlox.get()))
 					.displayItems(((params, output) -> {
 						misc.get().forEach(output::accept);
+						ItemStack linkedSavePoint = new ItemStack(ModBlocks.savepoint.get());
+						linkedSavePoint.setTag(new CompoundTag());
+						linkedSavePoint.getTag().putString("tier", SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase());
+						ItemStack warpPoint = new ItemStack(ModBlocks.savepoint.get());
+						warpPoint.setTag(new CompoundTag());
+						warpPoint.getTag().putString("tier", SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase());
+						output.accept(linkedSavePoint);
+						output.accept(warpPoint);
 					}))
 					.withSearchBar(71)
 					.withBackgroundLocation(new ResourceLocation(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
@@ -207,7 +220,7 @@ public class KingdomKeys {
 			modEventBus.addListener(KKAnimations::register);
 			modEventBus.addListener(EpicKKWeapons::register);
 			MinecraftForge.EVENT_BUS.register(new KKSkills());
-			KKSkills.register();
+			KKSkills.SKILLS.register(modEventBus);
 			ComboExtender.DATA_KEYS.register(modEventBus);
 		}
 
@@ -227,7 +240,6 @@ public class KingdomKeys {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(PacketHandler::register);
-		event.enqueueWork(ModEntities::registerPlacements);
         KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register(new KKLevelUpTrigger());
 	}
 
@@ -238,6 +250,7 @@ public class KingdomKeys {
 				if (ModList.get().isLoaded("epicfight")) {
 					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
+				MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 			}
 		});
 	}

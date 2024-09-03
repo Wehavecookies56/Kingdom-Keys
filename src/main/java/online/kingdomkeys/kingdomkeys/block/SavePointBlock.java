@@ -8,6 +8,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,33 +21,70 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSavePointScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
 
-	SavePointStorage.SavePointType type;
-	public SavePointBlock(Properties properties, SavePointStorage.SavePointType type) {
+	public static final EnumProperty<SavePointStorage.SavePointType> TIER = EnumProperty.create("tier", SavePointStorage.SavePointType.class);
+
+	public SavePointBlock(Properties properties) {
 		super(properties);
-		this.type = type;
+		this.registerDefaultState(this.defaultBlockState().setValue(TIER, SavePointStorage.SavePointType.NORMAL));
 	}
 
-	public SavePointStorage.SavePointType getType() {
-		return type;
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+		ItemStack held = pContext.getItemInHand();
+		if (held.getItem() instanceof BlockItem blockItem) {
+			if (blockItem.getBlock() == ModBlocks.savepoint.get()) {
+				if (held.getTag() != null && held.getTag().contains("tier")) {
+					return this.defaultBlockState().setValue(TIER, SavePointStorage.SavePointType.valueOf(held.getTag().getString("tier")));
+				}
+			}
+		}
+		return this.defaultBlockState().setValue(TIER, SavePointStorage.SavePointType.NORMAL);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+		if (pStack.getTag() != null && pStack.getTag().contains("tier")) {
+			if (pTooltip.get(0) != null) {
+				if (pStack.getTag().getString("tier").equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
+					pTooltip.set(0, Component.translatable("block." + KingdomKeys.MODID + ".linked_savepoint"));
+				} else if (pStack.getTag().getString("tier").equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
+					pTooltip.set(0, Component.translatable("block." + KingdomKeys.MODID + ".warp_point"));
+				}
+			}
+		}
+		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+		super.createBlockStateDefinition(pBuilder);
+		pBuilder.add(TIER);
 	}
 
 	@Override
@@ -69,14 +110,18 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
 		if (pNewState.getBlock() != this) {
-			if (getType() != SavePointStorage.SavePointType.NORMAL) {
+			if (pState.getValue(TIER) != SavePointStorage.SavePointType.NORMAL) {
 				if (!pLevel.isClientSide()) {
 					SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
 					SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
-					storage.removeSavePoint(te.getID());
-					for (Level level : pLevel.getServer().getAllLevels()) {
-						for (Player playerFromList : level.players()) {
-							PacketHandler.sendTo(new SCUpdateSavePoints(null, storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+					if (storage.savePointRegistered(te.getID())) {
+						SavePointStorage.SavePoint removed = storage.getSavePoint(te.getID());
+						storage.removeSavePoint(te.getID());
+						for (Level level : pLevel.getServer().getAllLevels()) {
+							for (Player playerFromList : level.players()) {
+								PacketHandler.sendTo(new SCUpdateSavePoints(storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+								PacketHandler.sendTo(new SCDeleteSavePointScreenshot(removed.name(), removed.id()), (ServerPlayer) playerFromList);
+							}
 						}
 					}
 				}
@@ -85,32 +130,117 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
 	}
 
+	@Override
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		ItemStack stack = player.getItemInHand(handIn);
+		if (!stack.isEmpty() && worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
+			if (worldIn.isClientSide)
+				return InteractionResult.SUCCESS;
+
+			String list = switch(state.getValue(TIER)){
+                case NORMAL -> ModConfigs.savePointRecovers;
+                case LINKED -> ModConfigs.linkedSavePointRecovers;
+                case WARP -> ModConfigs.warpPointRecovers;
+            };
+
+			if(stack.getItem() == ModItems.orichalcum.get()){
+				if(savepoint.getHeal() > 1 && list.contains("HP")){
+					stack.shrink(1);
+					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.healing"),Utils.getSavepointPercent(savepoint.getHeal())), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.healing")), true);
+				}
+			} else if(stack.getItem() == ModItems.illusory_crystal.get()){
+				if(savepoint.getMagic() > 1 && list.contains("MP")){
+					stack.shrink(1);
+					savepoint.setMagic(Math.max(savepoint.getMagic() - 4, 1));
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.magic"),Utils.getSavepointPercent(savepoint.getMagic())), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.magic")), true);
+				}
+			} else if(stack.getItem() == ModItems.hungry_crystal.get()){
+				if(savepoint.getHunger() > 1 && list.contains("HUNGER")){
+					stack.shrink(1);
+					savepoint.setHunger(Math.max(savepoint.getHunger() - 4, 1));
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.feed"),Utils.getSavepointPercent(savepoint.getHunger())), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.feed")), true);
+				}
+			} else if(stack.getItem() == ModItems.remembrance_crystal.get()){
+				if(savepoint.getFocus() > 1 && list.contains("FOCUS")){
+					stack.shrink(1);
+					savepoint.setFocus(Math.max(savepoint.getFocus() - 4, 1));
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.focus"),Utils.getSavepointPercent(savepoint.getFocus())), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.focus")), true);
+				}
+			} else if(stack.getItem() == ModItems.evanescent_crystal.get()){
+				if(savepoint.getDrive() > 1 && list.contains("DRIVE")){
+					stack.shrink(1);
+					savepoint.setDrive(Math.max(savepoint.getDrive() - 4, 1));
+					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.drive"),Utils.getSavepointPercent(savepoint.getDrive())), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.drive")), true);
+				}
+			} else if(stack.getItem() == ModItems.orichalcumplus.get()){
+				if(state.getValue(TIER) != SavePointStorage.SavePointType.WARP){
+					stack.shrink(1);
+					BlockState newState;
+					if (state.getValue(TIER) == SavePointStorage.SavePointType.NORMAL) {
+						newState = state.setValue(TIER, SavePointStorage.SavePointType.LINKED);
+					} else {
+						newState = state.setValue(TIER, SavePointStorage.SavePointType.WARP);
+					}
+					worldIn.setBlockAndUpdate(pos, newState);
+					player.displayClientMessage(Component.translatable("savepoint.upgrade_type", newState.getValue(TIER).getSerializedName()), true);
+				} else {
+					player.displayClientMessage(Component.translatable("savepoint.max_upgrade"), true);
+				}
+			}
+		}
+		return InteractionResult.CONSUME;
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (entity instanceof Player player) {
+		if (entity instanceof Player player && !world.isClientSide()) {
             IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if (playerData != null) {
-				String list = type != SavePointStorage.SavePointType.NORMAL ? ModConfigs.linkedSavePointRecovers : ModConfigs.savePointRecovers;
-				if(list.contains("HP") && player.getHealth() < playerData.getMaxHP()){
-					player.heal(1);
-					showParticles(player,world,pos);
-				}
-				if(list.contains("HUNGER") && player.getFoodData().getFoodLevel() < 20){
-					player.getFoodData().eat(1, 1);
-					showParticles(player,world,pos);
-				}
-				if(list.contains("MP") && playerData.getMP() < playerData.getMaxMP()){
-					playerData.addMP(1);
-					showParticles(player,world,pos);
-				}
-				if(list.contains("FOCUS") && playerData.getFocus() < playerData.getMaxFocus()){
-					playerData.addFocus(1);
-					showParticles(player,world,pos);
-				}
-				if(list.contains("DRIVE") && playerData.getDP() < playerData.getMaxDP()){
-					playerData.addDP(5);
-					showParticles(player,world,pos);
+			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
+				String list = switch(state.getValue(TIER)){
+					case NORMAL -> ModConfigs.savePointRecovers;
+					case LINKED -> ModConfigs.linkedSavePointRecovers;
+					case WARP -> ModConfigs.warpPointRecovers;
+				};
+
+				if(savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0) {
+					player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
+				} else {
+					if (list.contains("HP") && entity.tickCount % savepoint.getHeal() == 0 && player.getHealth() < player.getMaxHealth()) {
+						player.heal(1);
+						showParticles(player, world, pos);
+					}
+					if (list.contains("HUNGER") && entity.tickCount % savepoint.getHunger() == 0 && player.getFoodData().getFoodLevel() < 20) {
+						player.getFoodData().eat(1, 1);
+						showParticles(player, world, pos);
+					}
+					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
+						playerData.addMP(1);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						showParticles(player, world, pos);
+					}
+					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
+						playerData.addFocus(1);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						showParticles(player, world, pos);
+					}
+					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
+						playerData.addDP(5);
+						PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+						showParticles(player, world, pos);
+					}
+
 				}
 			}
 		}

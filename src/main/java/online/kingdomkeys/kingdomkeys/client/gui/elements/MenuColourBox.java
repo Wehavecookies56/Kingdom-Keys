@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
-import java.awt.Color;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -14,6 +9,9 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.awt.*;
 
 public class MenuColourBox extends AbstractWidget {
 

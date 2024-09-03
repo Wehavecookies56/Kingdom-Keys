@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
@@ -20,12 +21,11 @@ public class CSPlayAnimation {
         this.animation = animation;
     }
     public void encode(FriendlyByteBuf buffer) {
-        buffer.writeInt(animation.getNamespaceId());
         buffer.writeInt(animation.getId());
     }
     public static CSPlayAnimation decode(FriendlyByteBuf buffer) {
         CSPlayAnimation msg = new CSPlayAnimation();
-        msg.animation = EpicFightMod.getInstance().animationManager.findAnimationById(buffer.readInt(), buffer.readInt());
+        msg.animation = AnimationManager.getInstance().byId(buffer.readInt());
         //(String)l.get(2)
         return msg;
     }

@@ -1,15 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -40,6 +35,10 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuEquipmentButton extends Button {
 
     public Screen toOpen;
@@ -50,6 +49,7 @@ public class MenuEquipmentButton extends Button {
     String label;
     boolean hasLabel;
     ItemCategory category;
+	public int offsetY;
 
 	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -98,7 +98,12 @@ public class MenuEquipmentButton extends Button {
         this.label = label;
     }
 
-    @Override
+	@Override
+	public int getY() {
+		return super.getY() - offsetY;
+	}
+
+	@Override
     public void playDownSound(SoundManager soundHandler) {
         soundHandler.play(SimpleSoundInstance.forUI(ModSounds.menu_select.get(), 1.0F, 1.0F));
     }
@@ -109,10 +114,6 @@ public class MenuEquipmentButton extends Button {
         Font fr = mc.font;
 
 		PoseStack matrixStack = gui.pose();
-
-        float itemY = parent.height * 0.1907F;
-        float bottomY = parent.height - (parent.height * 0.25F);
-        if (this.getY() < itemY - 1 || this.getY() > bottomY - 1) return;
 
         isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
         Color col = Color.decode(String.valueOf(colour));
@@ -177,18 +178,16 @@ public class MenuEquipmentButton extends Button {
                 float iconHeight = parent.height * 0.3148F;
                 if (stack != null) {
                 	ItemStack item;
-                    if (stack.getItem() instanceof IKeychain) {
-                    	item = new ItemStack(((IKeychain) stack.getItem()).toSummon());
+                    if (stack.getItem() instanceof IKeychain kc) {
+                    	item = new ItemStack(kc.toSummon());
                     } else {
                     	item = stack;
                     }
                     
                     matrixStack.pushPose();
                     {
-                        
                         matrixStack.translate(iconPosX, iconPosY, 0);
-                        matrixStack.scale((float) (0.075F * iconHeight), (float) (0.075F * iconHeight), 1);
-                        //mc.getItemRenderer().renderAndDecorateItem(item, 0, 0);
+                        matrixStack.scale(0.075F * iconHeight, 0.075F * iconHeight, 1);
                         ClientUtils.drawItemAsIcon(item, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();

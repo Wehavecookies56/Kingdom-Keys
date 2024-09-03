@@ -1,0 +1,12 @@
+{
+	"parent": "forge:block/default",
+	"render_type": "minecraft:cutout",
+	"loader": "forge:obj",
+	"model": "kingdomkeys:models/block/savepoint.obj",
+	"mtl_override": "kingdomkeys:models/block/warp_point.mtl",
+	"transform":{
+		"translation": [ 0, 0.01, 1 ],
+		"scale": [ 1, 1, 1 ],
+		"rotation": [0, 0, 0]
+	}
+}

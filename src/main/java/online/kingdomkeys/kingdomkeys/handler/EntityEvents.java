@@ -27,6 +27,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -49,10 +50,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -63,13 +61,8 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.*;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.ThunderBoltEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
-import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.VolleyShotEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
@@ -93,6 +86,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class EntityEvents {
@@ -360,6 +354,9 @@ public class EntityEvents {
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
 					SCSyncCastleOblivionInteriorCapability.syncClients(player.level());
+					PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
+				} else {
+					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
 				}
 			}
 
@@ -659,7 +656,7 @@ public class EntityEvents {
 
 					globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
 					if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster())), globalData.getStopDamage() / 2);
+						event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
 					}
 
 					if (event.getEntity() instanceof ServerPlayer) // Packet to unfreeze client
@@ -917,7 +914,7 @@ public class EntityEvents {
 					Party p = worldData.getPartyFromMember(player.getUUID());
 					if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
 						if (ModConfigs.allowPartyKO) {
-							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already //TODO death
+							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
 								event.setCanceled(true);
 								player.removeAllEffects();
 								player.setHealth(player.getMaxHealth());
@@ -1344,7 +1341,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event) {
 		if (!event.getLevel().isClientSide()) {
-			if (!event.getPlayer().isCreative()) {
+			if (!event.getPlayer().isCreative() && event.getPlayer().getMainHandItem().getEnchantmentLevel(Enchantments.SILK_TOUCH) == 0) {
 				if (event.getState().getBlock() == ModBlocks.prizeBlox.get()) {
 					event.getLevel().addFreshEntity(new MunnyEntity((Level) event.getLevel(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), Utils.randomWithRange(50, 200)));
 				} else if (event.getState().getBlock() == ModBlocks.rarePrizeBlox.get()) {
@@ -1497,6 +1494,8 @@ public class EntityEvents {
 		Player localPlayer = e.getEntity();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(localPlayer);
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(localPlayer);
+		if(playerData == null || globalData == null)
+			return;
 		PacketHandler.syncToAllAround(localPlayer, playerData);
 		PacketHandler.syncToAllAround(localPlayer, globalData);
 		if (e.getTarget() instanceof Player targetPlayer) {

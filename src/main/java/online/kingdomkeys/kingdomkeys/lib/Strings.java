@@ -365,6 +365,7 @@ public class Strings {
             Gui_CommandMenu_Drive = Gui_CommandMenu + ".drive",
             Gui_CommandMenu_Limit = Gui_CommandMenu + ".limit",
             Gui_CommandMenu_Drive_Revert = Gui_CommandMenu + ".revert",
+			Gui_CommandMenu_Target = Gui_CommandMenu + ".target",
           
             // Submenus
 			Gui_CommandMenu_Items_Title = Gui_CommandMenu_Items + ".title",
@@ -471,7 +472,7 @@ public class Strings {
             // Shop
             Gui_Shop = "gui.shop",
             Gui_Shop_Page = Gui_Shop + ".page",
-	    Gui_Shop_Tier = Gui_Shop + ".tier",
+	    	Gui_Shop_Tier = Gui_Shop + ".tier",
             Gui_Shop_Main = Gui_Shop + ".main",
             Gui_Shop_NoSpace = Gui_Shop + "no_empty_slot",
             Gui_Shop_Main_Title = Gui_Shop_Main + ".title",
@@ -511,7 +512,35 @@ public class Strings {
             Gui_Synthesis_Main_Recipes_ReqMaterials = Gui_Synthesis_Main_Recipes + ".requiredmaterials",
             Gui_Synthesis_Main_Recipes_Create = Gui_Synthesis_Main_Recipes + ".create",
 
-			Gui_Synthesis_Moogle_Name = "gui.synthesis.moogle.title";
+			Gui_Synthesis_Moogle_Name = "gui.synthesis.moogle.title",
+
+			//Save Points
+			Gui_Save = "gui.save",
+			Gui_Save_Creation = Gui_Save + ".create",
+			Gui_Save_Creation_Title = Gui_Save_Creation + ".title",
+			Gui_Save_Creation_Prompt = Gui_Save_Creation + ".prompt",
+			Gui_Save_Creation_Global = Gui_Save_Creation + ".global",
+			Gui_Save_Creation_Global_Desc = Gui_Save_Creation_Global + ".desc",
+			Gui_Save_Creation_Accept = Gui_Save_Creation + ".accept",
+
+			Gui_Save_Main = Gui_Save + ".main",
+			Gui_Save_Main_CurrentPosition = Gui_Save_Main + ".here",
+			Gui_Save_Main_Sort = Gui_Save_Main + ".sort",
+			Gui_Save_Main_Rename = Gui_Save_Main + ".rename",
+			Gui_Save_Main_Retake = Gui_Save_Main + ".retake",
+
+			Gui_Save_Sorting = Gui_Save + ".sort",
+			Gui_Save_Sorting_ByRecent = Gui_Save_Sorting + ".recent",
+			Gui_Save_Sorting_ByName = Gui_Save_Sorting + ".name",
+			Gui_Save_Sorting_ByDimension = Gui_Save_Sorting + ".dimension",
+			Gui_Save_Sorting_ByOwner = Gui_Save_Sorting + ".owner",
+			Gui_Save_Sorting_Ascending = Gui_Save_Sorting + ".ascending",
+			Gui_Save_Sorting_Descending = Gui_Save_Sorting + ".descending",
+
+			//KO Screen
+			Gui_KO = "gui.ko",
+			Gui_KO_Die = Gui_KO + ".give_up",
+			Gui_KO_Quit = Gui_KO + ".exit";
 
     //Items
 

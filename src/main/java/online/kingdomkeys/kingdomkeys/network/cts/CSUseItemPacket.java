@@ -55,7 +55,7 @@ public class CSUseItemPacket {
 			if (message.target.equals("")) {
 				potion.potionEffect(player);
 			} else {
-				Player targetEntity = Utils.getPlayerByName(player.level(), message.target);
+				Player targetEntity = Utils.getPlayerByName(player.level(), message.target.toLowerCase());
 				potion.potionEffect(targetEntity);
 			}
 			playerData.equipItem(message.slot, ItemStack.EMPTY);

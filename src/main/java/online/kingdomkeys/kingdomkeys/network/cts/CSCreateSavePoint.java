@@ -16,16 +16,17 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
+import java.time.Instant;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, String ownerName) {
+public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, String ownerName, boolean global) {
     public CSCreateSavePoint(FriendlyByteBuf buf) {
-        this(buf.readBlockPos(), buf.readUtf(), buf.readUUID(), buf.readUtf());
+        this(buf.readBlockPos(), buf.readUtf(), buf.readUUID(), buf.readUtf(), buf.readBoolean());
     }
 
-    public CSCreateSavePoint(SavepointTileEntity tileEntity, String name, Player player) {
-        this(tileEntity.getBlockPos(), name, player.getGameProfile().getId(), player.getGameProfile().getName());
+    public CSCreateSavePoint(SavepointTileEntity tileEntity, String name, Player player, boolean global) {
+        this(tileEntity.getBlockPos(), name, player.getGameProfile().getId(), player.getGameProfile().getName(), global);
     }
 
     public void encode(FriendlyByteBuf buf) {
@@ -33,6 +34,7 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
         buf.writeUtf(name);
         buf.writeUUID(owner);
         buf.writeUtf(ownerName);
+        buf.writeBoolean(global);
     }
 
    public static void handle(CSCreateSavePoint message, Supplier<NetworkEvent.Context> ctx) {
@@ -41,13 +43,15 @@ public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, St
             Level level = player.level();
             SavePointStorage storage = SavePointStorage.getStorage(player.server);
             SavepointTileEntity te = (SavepointTileEntity) level.getBlockEntity(message.tileEntity);
-            storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), ((SavePointBlock)te.getBlockState().getBlock()).getType(), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension()));
-            ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID());
+            storage.addSavePoint(new SavePointStorage.SavePoint(te.getID(), te.getBlockState().getValue(SavePointBlock.TIER), message.name, te.getBlockPos(), Pair.of(message.owner, message.ownerName), level.dimension(), message.global, Instant.now()));
+            if (!message.global) {
+                ModCapabilities.getPlayer(player).addDiscoveredSavePoint(te.getID(), Instant.now());
+            }
             MinecraftServer server = level.getServer();
             Iterable<ServerLevel> levels = server.getAllLevels();
             for (Level level1 : levels) {
                 for (Player playerFromList : level1.players()) {
-                    PacketHandler.sendTo(new SCUpdateSavePoints(te, SavePointStorage.getStorage(server).getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+                    PacketHandler.sendTo(new SCUpdateSavePoints(SavePointStorage.getStorage(server).getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
                 }
             }
         });

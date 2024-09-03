@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -12,6 +9,8 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.awt.*;
 
 public class MenuBox extends AbstractWidget{
 	Minecraft mc;
@@ -75,6 +74,7 @@ public class MenuBox extends AbstractWidget{
         gui.blit(texture, 0, 0, mCenterU, mCenterV, 1, 1);
         matrixStack.popPose();
         matrixStack.popPose();
+        RenderSystem.setShaderColor(1,1,1,1);
         //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
         //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }

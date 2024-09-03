@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
-import java.awt.Color;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +15,9 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class SynthesisScreen extends MenuBackground {
 		

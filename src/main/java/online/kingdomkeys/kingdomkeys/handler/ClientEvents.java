@@ -117,8 +117,6 @@ public class ClientEvents {
             }
 		}
 	}
-
-	KOGui koScreen = new KOGui();
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
@@ -139,8 +137,8 @@ public class ClientEvents {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
 
-					if(Minecraft.getInstance().screen != koScreen)
-						Minecraft.getInstance().setScreen(koScreen);
+					if(!(Minecraft.getInstance().screen instanceof KOGui))
+						Minecraft.getInstance().setScreen(new KOGui());
 				}
 			}
 			if(event.getEntity() instanceof Player player) {

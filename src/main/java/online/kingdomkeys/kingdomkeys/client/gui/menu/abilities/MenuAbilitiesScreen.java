@@ -1,13 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.abilities;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -38,6 +32,11 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
 
@@ -58,7 +57,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	int hoveredIndex;
 	AbilityType hoveredType;
 
-	float scrollOffset = 0;
 	MenuScrollBar scrollBar;
 
 	final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
@@ -110,16 +108,15 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		for(int i = 0; i < abilities.size(); i++) { //Somehow buttons get disabled so we reenable them all and allow the later check to calculate AP
-			MenuAbilitiesButton button = abilities.get(i);
-			button.active = true;
-		}
+        for (MenuAbilitiesButton button : abilities) { //Somehow buttons get disabled so we reenable them all and allow the later check to calculate AP
+            button.active = true;
+        }
 		
 		playerButton.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
-		for(int i = 0; i < driveSelector.size();i++) {//Iterate through all the buttons to update their state
-			driveSelector.get(i).active = !form.equals(driveSelector.get(i).getData()) && playerData.getDriveFormMap().containsKey(driveSelector.get(i).getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
-			driveSelector.get(i).setSelected(!driveSelector.get(i).active); //Set it selected if it's not active (so it renders a bit to the right)
-		}
+        for (MenuButton menuButton : driveSelector) {//Iterate through all the buttons to update their state
+            menuButton.active = !form.equals(menuButton.getData()) && playerData.getDriveFormMap().containsKey(menuButton.getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+            menuButton.setSelected(!menuButton.active); //Set it selected if it's not active (so it renders a bit to the right)
+        }
 
 	}
 
@@ -134,11 +131,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		renderables.clear();
 		children().clear();
 		abilities.clear();
-		
+
 		float boxPosX = (float) width * 0.2F;
-		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.5F;
-		float middleHeight = (float) height * 0.6F;
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 
 		int buttonPosX = (int) (boxPosX * 1.3F);
@@ -147,8 +142,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		scrollTop = (int) topBarHeight;
 		scrollBot = (int) (scrollTop + middleHeight);
-
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, 14, 1, scrollTop, scrollBot);
 
 		abilitiesMap = Utils.getSortedAbilities(playerData.getAbilityMap());
 
@@ -361,6 +354,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
         addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
 		addRenderableWidget(scrollBar);
 		
 		updateButtons();
@@ -380,48 +374,16 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		int scrollBarHeight = scrollBar.getBottom() - scrollBar.top;
-		if(abilities.size() <= 0)
+		if(abilities.isEmpty())
 			return;
-		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY();
-		if (scrollBarHeight >= listHeight) {
-			scrollBar.visible = false;
-			scrollBar.active = false;
-		} else {
-			scrollBar.visible = true;
-			scrollBar.active = true;
-		}
-		float buttonRelativeToBar = scrollBar.getY() - (scrollBar.top);
-		float scrollPos = Math.min(buttonRelativeToBar != 0 ? buttonRelativeToBar / (scrollBarHeight) : 0, 1);
-		scrollOffset = scrollPos*(listHeight-scrollBarHeight);
+		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() + 3;
+		scrollBar.setContentHeight(listHeight);
 
-		//prev.visible = page > 0;
-		//next.visible = page < abilities.size() / itemsPerPage;
-
-		//Page renderer
-		/*
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(prev.getX()+ prev.getWidth() + 5, (height * 0.15) - 18, 1);
-			drawString(matrixStack, minecraft.font, Utils.translateToLocal("Page: " + (page + 1)), 0, 10, 0xFF9900);
-		}
-		matrixStack.popPose();
-		 */
-
-		//for (int i = 0; i < abilities.size(); i++) {
-		//	abilities.get(i).visible = false;
-		//}
-		double scale = Minecraft.getInstance().getWindow().getGuiScale();
-		
-		float scissorOffset = 0.0036F;
-
-		int scissorY = (int) (Minecraft.getInstance().getWindow().getHeight() * (0.23F + scissorOffset));
-
-		RenderSystem.enableScissor(0, scissorY, Minecraft.getInstance().getWindow().getWidth(), (int) (Minecraft.getInstance().getWindow().getHeight() * (0.6F-scissorOffset)));
+		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 
 		for (int i = 0; i < abilities.size(); i++) {
 			if (abilities.get(i) != null) {
-				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollOffset));
+				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollBar.scrollOffset));
 				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
 					abilities.get(i).active =true;;
 										String abilityName = abilities.get(i).getText();
@@ -439,7 +401,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			}
 		}
-		RenderSystem.disableScissor();
+		gui.disableScissor();
 
 		playerButton.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
