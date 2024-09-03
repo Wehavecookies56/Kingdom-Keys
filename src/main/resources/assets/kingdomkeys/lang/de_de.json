@@ -1209,6 +1209,7 @@
   "item.kingdomkeys.frolic_flame.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft und hoher Reichweite.",
   "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
   "item.kingdomkeys.lost_memory_chain": "Verlorene Erinnerung-Anhänger",
+  "item.kingdomkeys.lost_memory.desc": "Ein Schlüsselschwert mit hoher Reichweite, das häufiger kritische Treffer mit hohem Schaden ermöglicht.",
   "item.kingdomkeys.hyperdrive": "Hyperantrieb",
   "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
   "item.kingdomkeys.hyperdrive.desc": "Ein Schlüsselschwert mit relativ hoher Reichweite und ausgeglichener Angriffs- und Magiekraft.",
@@ -1219,6 +1220,7 @@
   "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge-Anhänger",
   "item.kingdomkeys.pixie_petal": "Feenblüte",
   "item.kingdomkeys.pixie_petal_chain": "Feenblüte-Anhänger",
+  "item.kingdomkeys.pixie_petal.desc": "Ein Schlüsselschwert mit geringer Reichweite aber hoher Magiekraft. Es ermöglicht häuffiger kritische Treffer mit hohem Schaden.",
   "item.kingdomkeys.rainfell": "Regenfall", //aqua og
   "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
   "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
@@ -1301,8 +1303,7 @@
   "item.kingdomkeys.ultima_weapon_ddd.desc": "Ein außergewöhnliches Schlüsselschwert, mit allgemein hohen Werten, das kritische Treffer und das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.unbound": "Entfessler",
   "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
-
-  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert kritische Treffer und bes. das Auslösen von Realitätswandeln.",
+  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert ds Landen von kritischen Treffern und besonders das Auslösen von Realitätswandel.",
   "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
   "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
   "item.kingdomkeys.young_xehanorts_keyblade.desc": "Das Schlüsselschwert, getragen vom Jungen Xehanort, es ermöglicht das Zeitreisen.",
@@ -1895,7 +1896,6 @@
 
   "item.kingdomkeys.lady_luck.desc": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
   "item.kingdomkeys.lionheart.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
-  "item.kingdomkeys.lost_memory.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.lunar_eclipse.desc": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
   "item.kingdomkeys.maverick_flare.desc": "A weapon that offers high Strength and ground combo speed.",
   "item.kingdomkeys.metal_chocobo.desc": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
@@ -1911,7 +1911,6 @@
   "item.kingdomkeys.one_winged_angel.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
   "item.kingdomkeys.pain_of_solitude.desc": "A weapon that boosts your Magic to give it more power.",
 
-  "item.kingdomkeys.pixie_petal.desc": "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.pumpkinhead.desc": "Has a long reach and the ability to deal a string of critical blows.",
   "item.kingdomkeys.rainfell.desc": "Aqua's erstes Schlüsselschwert. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
 
