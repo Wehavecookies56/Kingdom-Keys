@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.JukeboxSong;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -14,8 +15,8 @@ public class ModSounds {
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, KingdomKeys.MODID);
 
-    public static final Supplier<SoundEvent>
-    		alarm = registerSound("alarm"),
+    public static final DeferredHolder<SoundEvent, SoundEvent>
+			alarm = registerSound("alarm"),
     		antidrive = registerSound("antidrive"),
     		drive = registerSound("drive"),
     	    error = registerSound("error"),
@@ -165,7 +166,7 @@ public class ModSounds {
             Music_Working_Together = registerSound("music.working_together")
                     */
                     ;
-    public static Supplier<SoundEvent> registerSound(String name) {
+    public static DeferredHolder<SoundEvent, SoundEvent> registerSound(String name) {
         final ResourceLocation soundID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name);
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(soundID));
     }

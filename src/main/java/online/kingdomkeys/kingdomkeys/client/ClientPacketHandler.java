@@ -75,12 +75,7 @@ public class ClientPacketHandler {
 
     public static void syncOrgPortal(SCSyncOrgPortalPacket msg) {
         Player player = Minecraft.getInstance().player;
-        OrgPortalEntity portal;
-        if (msg.pos() != msg.destPos())
-            portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), true);
-        else
-            portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), false);
-
+        OrgPortalEntity portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), msg.pos() != msg.destPos());
         player.level().addFreshEntity(portal);
     }
 

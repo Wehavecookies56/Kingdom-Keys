@@ -163,7 +163,7 @@ public class Utils {
             public void encode(FriendlyByteBuf pBuffer, Title pValue) {
 				pBuffer.writeNbt(pValue.write());
             }
-        }
+        };
 	}
 
 	public record ShotlockPosition(int id,float x,float y, float z){
@@ -330,7 +330,7 @@ public class Utils {
 	}
 
 	public static enum OrgMember {
-		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS
+		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS;
 
 		public static final StreamCodec<FriendlyByteBuf, OrgMember> STREAM_CODEC = StreamCodec.composite(
 				ByteBufCodecs.INT,

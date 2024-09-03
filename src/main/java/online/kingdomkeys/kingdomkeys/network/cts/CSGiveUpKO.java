@@ -24,8 +24,6 @@ public record CSGiveUpKO() implements Packet {
 
     public static void killPlayer(Player player){
         player.kill();
-        player.remove(Entity.RemovalReason.KILLED);
-        player.gameEvent(GameEvent.ENTITY_DIE);
     }
 
     @Override
