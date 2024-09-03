@@ -324,10 +324,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
 		if (flagIn.isAdvanced()) {
-			KeybladeID id = stack.get(ModComponents.KEYBLADE_ID);
+			UUID id = stack.get(ModComponents.KEYBLADE_ID);
 			if (id != null) {
 				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-				tooltip.add(Component.translatable(ChatFormatting.WHITE + id.keybladeID.toString()));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + id.toString()));
 			}
 		}
 	}

@@ -55,7 +55,7 @@ public class StatUpgradeItem extends Item implements IItemCategory {
 					player.displayClientMessage(Component.translatable(Utils.translateToLocal("gui.statboost.increased"),Utils.translateToLocal(Strings.Gui_Menu_Status_AP),playerData.getMaxAP(true)), true);
 					break;
 				}
-				PacketHandler.sendTo(new SCSyncPlayerData(playerData), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));

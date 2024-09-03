@@ -44,18 +44,10 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (stack.getTag() != null) {
-			if (!stack.getTag().hasUUID("keybladeID"))
-				stack.setTag(setID(stack.getTag()));
-		} else {
-			stack.setTag(setID(new CompoundTag()));
+		if (!stack.has(ModComponents.KEYBLADE_ID)) {
+			stack.set(ModComponents.KEYBLADE_ID, UUID.randomUUID());
 		}
     	super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-	}
-
-	public CompoundTag setID(CompoundTag nbt) {
-		nbt.putUUID("keybladeID", UUID.randomUUID());
-		return nbt;
 	}
 
 	@Override
@@ -64,19 +56,14 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	}
 	
 	public int getKeybladeLevel(ItemStack stack) {
-		if(stack.hasTag()) {
-			if(stack.getTag().contains("level")) {
-				return stack.getTag().getInt("level");
-			}			
+		if(stack.has(ModComponents.KEYBLADE_LEVEL)) {
+			return stack.get(ModComponents.KEYBLADE_LEVEL).level();
 		}
 		return 0;
 	}
 
 	public void setKeybladeLevel(ItemStack stack, int level) {
-		if(!stack.hasTag()) {
-			stack.setTag(new CompoundTag());
-		}
-		stack.getTag().putInt("level", level);
+		stack.set(ModComponents.KEYBLADE_LEVEL, new KeybladeItem.KeybladeLevel(level, getKeyblade().getMaxLevel()));
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -97,11 +84,9 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
 		}
 		if (flagIn.isAdvanced()) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("keybladeID")) {
-					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
-				}
+			if (stack.has(ModComponents.KEYBLADE_ID)) {
+				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
 			}
 		}
 	}

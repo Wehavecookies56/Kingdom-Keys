@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,7 +19,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -23,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -98,34 +108,21 @@ public class PauldronItem extends Item implements IItemCategory {
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (stack.getTag() != null) {
-			if (!stack.getTag().hasUUID("armorID"))
-				stack.setTag(setID(stack.getTag()));
-		} else {
-			stack.setTag(setID(new CompoundTag()));
+		if (!stack.has(ModComponents.ARMOR_ID)) {
+			stack.set(ModComponents.ARMOR_ID, UUID.randomUUID());
+		}
+		if (stack.has(ModComponents.PAULDRON_ENCHANTMENTS)) {
+			PauldronEnchantments enchantments = stack.get(ModComponents.PAULDRON_ENCHANTMENTS);
+			if (!enchantments.helmet.isEmpty() || !enchantments.chestplate.isEmpty() || !enchantments.leggings.isEmpty() || !enchantments.boots.isEmpty()) {
+				stack.set(DataComponents.RARITY, Rarity.EPIC);
+			}
 		}
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
-	public CompoundTag setID(CompoundTag nbt) {
-		nbt.putUUID("armorID", UUID.randomUUID());
-		return nbt;
-	}
-
-	@Override
-	public Rarity getRarity(ItemStack pStack) {
-		if (pStack.getTag() == null)
-			return super.getRarity(pStack);
-
-		if (pStack.getTag().get("boots") != null || pStack.getTag().get("leggings") != null || pStack.getTag().get("chestplate") != null || pStack.getTag().get("helmet") != null) {
-			return Rarity.EPIC; // Item enchant effect when any single enchantment is in
-		}
-		return super.getRarity(pStack);
-	}
-
 	@Override
 	public boolean isFoil(ItemStack pStack) {
-		return getRarity(pStack) == Rarity.EPIC;
+		return pStack.getRarity() == Rarity.EPIC;
 	}
 
 	@Override
@@ -140,15 +137,16 @@ public class PauldronItem extends Item implements IItemCategory {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.getTag() != null) {
-			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", tooltip, stack.getTag().getCompound("helmet"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", tooltip, stack.getTag().getCompound("chestplate"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString() + ":", tooltip, stack.getTag().getCompound("leggings"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString() + ":", tooltip, stack.getTag().getCompound("boots"));
+		if (stack.has(ModComponents.PAULDRON_ENCHANTMENTS)) {
+			PauldronEnchantments enchantments = stack.get(ModComponents.PAULDRON_ENCHANTMENTS);
+			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", tooltip, enchantments.helmet);
+			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", tooltip, enchantments.chestplate);
+			appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString() + ":", tooltip, enchantments.leggings);
+			appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString() + ":", tooltip, enchantments.boots);
 			if (flagIn.isAdvanced()) {
-				if (stack.getTag().hasUUID("armorID")) {
+				if (stack.has(ModComponents.ARMOR_ID)) {
 					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("armorID").toString()));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.ARMOR_ID).toString()));
 				}
 			}
 		}
@@ -163,18 +161,32 @@ public class PauldronItem extends Item implements IItemCategory {
 		return isFoil(stack);
 	}
 
-	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, CompoundTag pStoredTags) {
-		//Get only the enchantments list
-		ListTag enchantments = pStoredTags.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND);
+	public void appendEnchantmentNames(String text, List<Component> tooltip, ItemEnchantments data) {
+		tooltip.add(Component.translatable(text));
+		data.keySet().forEach(enchantmentHolder -> {
+			enchantmentHolder.value();
+			tooltip.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
+		});
+	}
 
-		if (enchantments != null) {
-			pTooltipComponents.add(Component.translatable(text));
-			for (int i = 0; i < enchantments.size(); ++i) {
-				CompoundTag compoundtag = enchantments.getCompound(i);
-				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((enchantment) -> {
-					pTooltipComponents.add(Component.literal(ChatFormatting.GRAY + "- " + enchantment.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()));
-				});
-			}
-		}
+	public record PauldronEnchantments(ItemEnchantments helmet, ItemEnchantments chestplate, ItemEnchantments leggings, ItemEnchantments boots) {
+		public static final Codec<PauldronEnchantments> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				ItemEnchantments.CODEC.fieldOf("helmet").forGetter(PauldronEnchantments::helmet),
+				ItemEnchantments.CODEC.fieldOf("chestplate").forGetter(PauldronEnchantments::chestplate),
+				ItemEnchantments.CODEC.fieldOf("leggings").forGetter(PauldronEnchantments::leggings),
+				ItemEnchantments.CODEC.fieldOf("boots").forGetter(PauldronEnchantments::boots)
+		).apply(instance, PauldronEnchantments::new));
+
+		public static final StreamCodec<RegistryFriendlyByteBuf, PauldronEnchantments> STREAM_CODEC = StreamCodec.composite(
+				ItemEnchantments.STREAM_CODEC,
+				PauldronEnchantments::helmet,
+				ItemEnchantments.STREAM_CODEC,
+				PauldronEnchantments::chestplate,
+				ItemEnchantments.STREAM_CODEC,
+				PauldronEnchantments::leggings,
+				ItemEnchantments.STREAM_CODEC,
+				PauldronEnchantments::boots,
+				PauldronEnchantments::new
+		);
 	}
 }

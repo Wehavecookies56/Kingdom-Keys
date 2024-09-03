@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
 import javax.annotation.Nullable;
@@ -92,11 +93,9 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
             ClientUtils.getTooltip(tooltip, pContext, stack);
         }
         if (flagIn.isAdvanced()) {
-            if (stack.getTag() != null) {
-                if (stack.getTag().hasUUID("keybladeID")) {
-                    tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-                    tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
-                }
+            if (stack.has(ModComponents.KEYBLADE_ID)) {
+                tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+                tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
             }
         }
     }

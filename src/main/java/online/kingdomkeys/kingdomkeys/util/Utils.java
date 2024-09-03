@@ -1052,7 +1052,7 @@ public class Utils {
 	}
 
 	public static List<String> appendEnchantmentNames(String text, ItemStack stack, LivingEntity entity) {
-		List<String> arrayList = new ArrayList<String>();
+		List<String> arrayList = new ArrayList<>();
 		if (!stack.isEmpty() && stack.isEnchanted()) {
 			arrayList.add(Component.translatable(text).getString());
 			stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {

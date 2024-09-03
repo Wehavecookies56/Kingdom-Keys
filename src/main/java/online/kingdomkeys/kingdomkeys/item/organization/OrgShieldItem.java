@@ -9,6 +9,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.KKShieldItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -91,10 +92,9 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
 			ClientUtils.getTooltip(tooltip, tooltipContext, stack);
 		}
 		if (flagIn.isAdvanced()) {
-			if (stack.getTag() != null) {
-				if (stack.getTag().hasUUID("keybladeID")) {
+			if (stack.has(ModComponents.KEYBLADE_ID)) {
 					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("keybladeID").toString()));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
 				}
 			}
 		}

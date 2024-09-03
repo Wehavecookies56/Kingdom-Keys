@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -32,31 +34,31 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if (!player.isShiftKeyDown()) {
-			if (player.getItemInHand(hand).getTag() != null && player.getItemInHand(hand).getTag().getInt("ammo") > 0) {
+			if (player.getItemInHand(hand).has(ModComponents.ARROWGUN_AMMO) && player.getItemInHand(hand).get(ModComponents.ARROWGUN_AMMO) > 0) {
 				world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player, DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3);
 				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 				world.addFreshEntity(bullet);
 
 				//player.swingArm(Hand.MAIN_HAND);
-				tempAmmo = player.getItemInHand(hand).getTag().getInt("ammo") - 1;
+				tempAmmo = player.getItemInHand(hand).get(ModComponents.ARROWGUN_AMMO) - 1;
 
-				player.getItemInHand(hand).getTag().putInt("ammo", tempAmmo);
+				player.getItemInHand(hand).set(ModComponents.ARROWGUN_AMMO, tempAmmo);
 				if(tempAmmo == 0) {
-					player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));
+					player.getItemInHand(hand).set(ModComponents.ARROWGUN_AMMO, getMaxAmmo(player));
 					player.getCooldowns().addCooldown(this, reload);
 					world.playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
 			}
 
 		} else {
-			CompoundTag nbt = player.getItemInHand(hand).getTag();
+			Integer ammo = player.getItemInHand(hand).get(ModComponents.ARROWGUN_AMMO);
 
-			if (nbt.getInt("ammo") > 0) {
+			if (ammo != null && ammo > 0) {
 				world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.arrowgunReload.get(), SoundSource.PLAYERS, 1F, 1F);
 
-				player.getCooldowns().addCooldown(this, reload / nbt.getInt("ammo"));
-				player.getItemInHand(hand).getTag().putInt("ammo", getMaxAmmo(player));
+				player.getCooldowns().addCooldown(this, reload / ammo);
+				player.getItemInHand(hand).set(ModComponents.ARROWGUN_AMMO, getMaxAmmo(player));
 				player.swing(InteractionHand.MAIN_HAND);
 			}
 			return super.use(world, player, hand);
@@ -77,13 +79,9 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
 		if (entity instanceof Player && !world.isClientSide) {
 			Player player = (Player) entity;
-			if (!itemStack.hasTag()) {
-				itemStack.setTag(new CompoundTag());
+			if (!itemStack.has(ModComponents.ARROWGUN_AMMO)) {
+				itemStack.set(ModComponents.ARROWGUN_AMMO, getMaxAmmo(player));
 			}
-			
-			if(!itemStack.getTag().contains("ammo"))
-				itemStack.getTag().putInt("ammo", getMaxAmmo(player));
-
 		}
 	}
 }
