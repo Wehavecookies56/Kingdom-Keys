@@ -59,17 +59,4 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	public ItemCategory getCategory() {
 		return ItemCategory.TOOL;
 	}
-
-	public record Inventory(ItemContainerContents inventory) {
-		public static final Codec<Inventory> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(
-						ItemContainerContents.CODEC.fieldOf("inventory").forGetter(Inventory::inventory)
-				).apply(instance, Inventory::new)
-		);
-		public static final StreamCodec<RegistryFriendlyByteBuf, Inventory> STREAM_CODEC = StreamCodec.composite(
-				ItemContainerContents.STREAM_CODEC,
-				Inventory::inventory,
-				Inventory::new
-		);
-	}
 }

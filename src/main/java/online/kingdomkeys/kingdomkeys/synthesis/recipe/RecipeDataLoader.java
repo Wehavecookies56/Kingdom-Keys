@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncSynthesisData;
 
-@EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD)
 public class RecipeDataLoader extends SimpleJsonResourceReloadListener {
 
     //GSON builder with custom deserializer for keyblade data

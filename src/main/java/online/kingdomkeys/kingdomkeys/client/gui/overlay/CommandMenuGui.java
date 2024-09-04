@@ -49,12 +49,9 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//TODO cleanup
 public class CommandMenuGui extends OverlayBase {
 
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
-	public static final int TOP = 5, ATTACK = 4, MAGIC = 3, ITEMS = 2, DRIVE = 1;
-
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 
 	int TOP_WIDTH = 70;
@@ -64,14 +61,8 @@ public class CommandMenuGui extends OverlayBase {
 	int iconWidth = 10;
 	int textX = 0;
 
-
-
-
-	public static final int SUB_MAIN = 0, SUB_MAGIC = 1, SUB_ITEMS = 2, SUB_DRIVE = 3, SUB_PORTALS = 4, SUB_ATTACKS = 5, SUB_TARGET = 6, SUB_LIMIT = 7;
-
 	public static final int NONE = 0;
-	public static int selected = ATTACK, targetSelected = 0;
-	public static int submenu = 0, magicSelected = 0, potionSelected = 0, driveSelected = 0, portalSelected = 0, attackSelected = 0, limitSelected = 0, itemSelected = 0, reactionSelected = 0;
+	public static int reactionSelected = 0;
 
 	public final ResourceLocation root, attack, magic, items, drive, portals, target, limit, revert;
 
@@ -600,22 +591,18 @@ public class CommandMenuGui extends OverlayBase {
 	public static void down() {
 		INSTANCE.playMoveSound();
 		commandMenuElements.get(INSTANCE.currentSubmenu).next();
-		System.out.println(commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().getId().toString());
 	}
 	public static void up() {
 		INSTANCE.playMoveSound();
 		commandMenuElements.get(INSTANCE.currentSubmenu).prev();
-		System.out.println(commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().getId().toString());
 	}
 
 	public static void enter() {
 		commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().onEnter();
-		System.out.println(commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().getId().toString());
 	}
 
 	public static void cancel() {
 		commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().onCancel();
-		System.out.println(commandMenuElements.get(INSTANCE.currentSubmenu).getSelected().getId().toString());
 	}
 
 	public void drawReactionCommands(GuiGraphics gui, DeltaTracker deltaTracker) {

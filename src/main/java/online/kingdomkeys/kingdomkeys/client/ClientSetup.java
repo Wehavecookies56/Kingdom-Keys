@@ -245,8 +245,7 @@ public class ClientSetup {
 			event.register(key.getKeybind());
 	}
 
-	@SubscribeEvent
-	public void renderOverlays(RenderGuiLayerEvent.Pre event) {
+	public static void renderOverlays(RenderGuiLayerEvent.Pre event) {
 		LocalPlayer player = Minecraft.getInstance().player;
 		ResourceLocation o = event.getName();
 		PlayerData playerData = PlayerData.get(player);
@@ -282,10 +281,6 @@ public class ClientSetup {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-		NeoForge.EVENT_BUS.addListener(ClientEvents::colourTint);
-		NeoForge.EVENT_BUS.addListener(ClientEvents::itemColour);
-		NeoForge.EVENT_BUS.addListener(ClientSetup::modLoaded);
-		NeoForge.EVENT_BUS.addListener(ModMenus::registerGUIFactories);
 		COMMAND_MENU = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu");
 		PLAYER_PORTRAIT = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait");
 		HP_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar");
@@ -297,30 +292,15 @@ public class ClientSetup {
 		SHOTLOCK = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock");
 		STATION_OF_AWAKENING_MESSAGES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages");
 
-		NeoForge.EVENT_BUS.register(new ClientSetup());
+		NeoForge.EVENT_BUS.addListener(ClientSetup::renderOverlays);
 		NeoForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
 		NeoForge.EVENT_BUS.register(new ClientEvents());
-		NeoForge.EVENT_BUS.register(CommandMenuGui.INSTANCE);
-		NeoForge.EVENT_BUS.register(PlayerPortraitGui.INSTANCE);
-		NeoForge.EVENT_BUS.register(HPGui.INSTANCE);
-		NeoForge.EVENT_BUS.register(MPGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(ShotlockGUI.INSTANCE);
 		NeoForge.EVENT_BUS.register(DriveGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(new InputHandler());
-		NeoForge.EVENT_BUS.register(LockOnGui.INSTANCE);
-		NeoForge.EVENT_BUS.register(PartyHUDGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
 		
     }
-
-	private static void modLoaded(final FMLLoadCompleteEvent event) {
-		if (FMLEnvironment.dist.isClient()) {
-			if (ModList.get().isLoaded("epicfight")) {
-				//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
-			}
-			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
-		}
-	}
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent

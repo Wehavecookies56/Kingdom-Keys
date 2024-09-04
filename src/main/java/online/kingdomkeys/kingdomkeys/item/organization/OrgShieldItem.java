@@ -26,15 +26,16 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
 		return Utils.OrgMember.VEXEN;
 	}
 
-    @Override
+	@Override
 	public void setAbilities(String[] abilities) {
 		data.abilities = abilities;
 	}
-    
-    @Override
+
+	@Override
 	public String[] getAbilities() {
 		return data.getAbilities();
 	}
+
 	@Override
 	public void setDescription(String description) {
 		data.description = description;
@@ -93,11 +94,10 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.has(ModComponents.KEYBLADE_ID)) {
-					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
-				}
+				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
 			}
 		}
 	}
-
 }
+

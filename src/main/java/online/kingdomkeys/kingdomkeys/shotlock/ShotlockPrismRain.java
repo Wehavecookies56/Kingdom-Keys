@@ -9,7 +9,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.PrismRainCoreEntity;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockPrismRain extends Shotlock {
 
 	public ShotlockPrismRain(ResourceLocation registryName, int order, int cooldown, int max) {

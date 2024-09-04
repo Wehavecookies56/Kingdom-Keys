@@ -14,9 +14,7 @@ import java.util.function.Supplier;
 public class ModLimits {
 
 	public static DeferredRegister<Limit> LIMITS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "limits"), KingdomKeys.MODID);
-
-	public static final ResourceKey<Registry<Limit>> LIMITS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "limits"));
-	public static Registry<Limit> registry = new RegistryBuilder<>(LIMITS_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+	public static Registry<Limit> registry = LIMITS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
 	static int order = 0;
 

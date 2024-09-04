@@ -18,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitLaserCircle extends Limit {
 
 	public LimitLaserCircle(ResourceLocation registryName, int order, OrgMember owner) {

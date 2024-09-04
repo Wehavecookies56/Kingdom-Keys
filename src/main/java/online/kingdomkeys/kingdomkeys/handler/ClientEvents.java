@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -73,7 +75,7 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void onRenderTick(RenderFrameEvent event) { //Lock on
+	public void onRenderTick(RenderFrameEvent.Pre event) { //Lock on
 		Player player = Minecraft.getInstance().player;
 
 		if(InputHandler.lockOn != null && player != null) {
@@ -225,15 +227,17 @@ public class ClientEvents {
 	private static int selectedSlot = 0;
 
 	@SubscribeEvent
-	public void clientTick(ClientTickEvent event) {
+	public void clientTickPre(ClientTickEvent.Pre event) {
 		if (Minecraft.getInstance().level != null) {
-			if (event instanceof ClientTickEvent.Pre) {
-				selectedSlot = Minecraft.getInstance().player.getInventory().selected;
-			}
-			if (event instanceof ClientTickEvent.Post) {
-				if (KeyboardHelper.isScrollActivatorDown()) {
-					Minecraft.getInstance().player.getInventory().selected = selectedSlot;
-				}
+			selectedSlot = Minecraft.getInstance().player.getInventory().selected;
+		}
+	}
+
+	@SubscribeEvent
+	public void clientTickPost(ClientTickEvent.Post event) {
+		if (Minecraft.getInstance().level != null) {
+			if (KeyboardHelper.isScrollActivatorDown()) {
+				Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 			}
 		}
 	}
@@ -406,40 +410,45 @@ public class ClientEvents {
 		}	
 	}
 
-	public static void colourTint(RegisterColorHandlersEvent.Block event) {
-		event.register(ClientEvents::getStructureWallColour, ModBlocks.structureWall.get());
-	}
+	@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+	public static class ModBusEvents {
+		@SubscribeEvent
+		public static void colourTint(RegisterColorHandlersEvent.Block event) {
+			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
+		}
 
-	public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
-		Color colour = Color.BLACK;
-		if (Minecraft.getInstance().level.dimension().location().getPath().contains("castle_oblivion_")) {
-			CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient(Minecraft.getInstance().level);
-			if (cap != null) {
-				if (!cap.getFloors().isEmpty()) {
-					Room room = cap.getRoomAtPos(Minecraft.getInstance().level, pos);
-					if (room != null) {
-						if (room.getType().getProperties().getColour() != null) {
-							colour = room.getType().getProperties().getColour();
-						} else {
-							Floor floor = room.getParent(Minecraft.getInstance().level);
-							if (floor != null) {
-								colour = floor.getType().floorColour;
+		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+			Color colour = Color.BLACK;
+			if (Minecraft.getInstance().level.dimension().location().getPath().contains("castle_oblivion_")) {
+				CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient(Minecraft.getInstance().level);
+				if (cap != null) {
+					if (!cap.getFloors().isEmpty()) {
+						Room room = cap.getRoomAtPos(Minecraft.getInstance().level, pos);
+						if (room != null) {
+							if (room.getType().getProperties().getColour() != null) {
+								colour = room.getType().getProperties().getColour();
+							} else {
+								Floor floor = room.getParent(Minecraft.getInstance().level);
+								if (floor != null) {
+									colour = floor.getType().floorColour;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		return colour.getRGB();
-	}
-
-	public static void itemColour(RegisterColorHandlersEvent.Item event) {
-		event.register((pStack, pTintIndex) -> {
-			Color colour = Color.WHITE;
-			int itemColor = ((WayfinderItem)pStack.getItem()).getColor(pStack);
-			colour = new Color(itemColor);
 			return colour.getRGB();
-		}, ModItems.wayfinder.get());
+		}
+
+		@SubscribeEvent
+		public static void itemColour(RegisterColorHandlersEvent.Item event) {
+			event.register((pStack, pTintIndex) -> {
+				Color colour = Color.WHITE;
+				int itemColor = ((WayfinderItem)pStack.getItem()).getColor(pStack);
+				colour = new Color(itemColor);
+				return colour.getRGB();
+			}, ModItems.wayfinder.get());
+		}
 	}
 
 }

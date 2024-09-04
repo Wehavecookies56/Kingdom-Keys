@@ -11,7 +11,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockDarkVolley extends Shotlock {
 
 	public ShotlockDarkVolley(ResourceLocation registryName, int order, int cooldown, int max) {

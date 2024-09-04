@@ -157,23 +157,23 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.put("abilities", abilities);
 
 		CompoundTag keychains = new CompoundTag();
-		this.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.save(provider)));
+		this.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.saveOptional(provider)));
 		storage.put("keychains", keychains);
 
 		CompoundTag items = new CompoundTag();
-		this.getEquippedItems().forEach((slot, item) -> items.put(slot.toString(), item.save(provider)));
+		this.getEquippedItems().forEach((slot, item) -> items.put(slot.toString(), item.saveOptional(provider)));
 		storage.put("items", items);
 
 		CompoundTag accessories = new CompoundTag();
-		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.save(provider)));
+		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.saveOptional(provider)));
 		storage.put("accessories", accessories);
 		
 		CompoundTag kbArmors = new CompoundTag();
-		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.save(provider)));
+		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.saveOptional(provider)));
 		storage.put("kbarmors", kbArmors);
 
 		CompoundTag armors = new CompoundTag();
-		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.save(provider)));
+		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.saveOptional(provider)));
 		storage.put("armors", armors);
 		
 		storage.putInt("max_accessories", this.getMaxAccessories());
@@ -181,10 +181,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
-		storage.put("org_equipped_weapon", this.getEquippedWeapon().save(provider));
+		storage.put("org_equipped_weapon", this.getEquippedWeapon().saveOptional(provider));
 
 		CompoundTag unlockedWeapons = new CompoundTag();
-		this.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(Utils.getItemRegistryName(weapon.getItem()).toString(), weapon.save(provider)));
+		this.getWeaponsUnlocked().forEach(weapon -> unlockedWeapons.put(Utils.getItemRegistryName(weapon.getItem()).toString(), weapon.saveOptional(provider)));
 		storage.put("org_weapons_unlocked", unlockedWeapons);
 
 		CompoundTag parties = new CompoundTag();
@@ -382,7 +382,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setSynthExperience(nbt.getInt("synth_exp"));
 		String s = nbt.getString("single_style");
 		if(!s.equals(""))
-			this.setSingleStyle(SingleChoices.valueOf(s));
+			//this.setSingleStyle(SingleChoices.valueOf(s));
 		s=nbt.getString("dual_style");
 		if(!s.equals(""))
 			this.setDualStyle(DualChoices.valueOf(s));

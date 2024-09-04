@@ -6,16 +6,16 @@
   "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
     "LivingEntityMixin",
-    "TellMeTheErrorMixin",
-    "apotheosis.SalvagingMenuMixin",
-    "jer.ForgePlatformHelperMixin",
-    "jer.RegistrySetBuilderMixin"
+    "TellMeTheErrorMixin"
+    //"apotheosis.SalvagingMenuMixin",
+    //"jer.ForgePlatformHelperMixin",
+    //"jer.RegistrySetBuilderMixin"
   ],
   "client": [
     "LivingEntityRendererMixin",
-    "PlayerRendererMixin",
-    "epicfight.PHumanoidRendererMixin",
-    "epicfight.RenderEngineEventsMixin"
+    "PlayerRendererMixin"
+    //"epicfight.PHumanoidRendererMixin",
+    //"epicfight.RenderEngineEventsMixin"
   ],
   "minVersion": "0.8"
 }

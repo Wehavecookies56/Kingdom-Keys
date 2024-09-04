@@ -23,7 +23,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMoogleNames;
 
 public class NamesListLoader {
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
     public static class Loader extends SimpleJsonResourceReloadListener {
 
         private static final Type stringList = new TypeToken<List<String>>(){}.getType();

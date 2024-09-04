@@ -57,13 +57,13 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	
 	public int getKeybladeLevel(ItemStack stack) {
 		if(stack.has(ModComponents.KEYBLADE_LEVEL)) {
-			return stack.get(ModComponents.KEYBLADE_LEVEL).level();
+			return stack.get(ModComponents.KEYBLADE_LEVEL);
 		}
 		return 0;
 	}
 
 	public void setKeybladeLevel(ItemStack stack, int level) {
-		stack.set(ModComponents.KEYBLADE_LEVEL, new KeybladeItem.KeybladeLevel(level, getKeyblade().getMaxLevel()));
+		stack.set(ModComponents.KEYBLADE_LEVEL, level);
 	}
 
 	@OnlyIn(Dist.CLIENT)

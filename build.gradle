@@ -125,18 +125,6 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-jar {
-    sourceSets {
-        main {
-            java {
-                exclude '**/integration/epicfight/**'
-                exclude '**/integration/kubejs/**'
-                exclude '**/integration/jer/**'
-            }
-        }
-    }
-}
-
 java {
     withSourcesJar()
 }

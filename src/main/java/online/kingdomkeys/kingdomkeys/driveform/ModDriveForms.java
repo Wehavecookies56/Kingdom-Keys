@@ -13,9 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 public class ModDriveForms {
 
 	public static DeferredRegister<DriveForm> DRIVE_FORMS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "driveforms"), KingdomKeys.MODID);
-
-	public static final ResourceKey<Registry<DriveForm>> DRIVE_FORMS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "driveforms"));
-	public static Registry<DriveForm> registry = new RegistryBuilder<>(DRIVE_FORMS_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+	public static Registry<DriveForm> registry = DRIVE_FORMS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
 	public static int order = 0;
 

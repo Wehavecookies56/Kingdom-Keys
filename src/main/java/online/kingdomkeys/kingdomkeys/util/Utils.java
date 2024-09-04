@@ -77,9 +77,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-/**
- * Created by Toby on 19/07/2016.
- */
 public class Utils {
 
     public static ItemStack getItemInAnyHand(Player player, Item item) {
@@ -782,7 +779,7 @@ public class Utils {
 		Multimap<Holder<Attribute>, AttributeModifier> map = HashMultimap.create();
 
 		// Luck - affects things like chest loot, separate from looting or fortune.
-		AttributeModifier attributemodifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.luckyLucky), playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADD_VALUE);
+		AttributeModifier attributemodifier = new AttributeModifier(ResourceLocation.parse(Strings.luckyLucky), playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADD_VALUE);
 		map.put(Attributes.LUCK, attributemodifier);
 
 		player.getAttributes().addTransientAttributeModifiers(map);
@@ -853,7 +850,11 @@ public class Utils {
 
 	public static Shotlock getPlayerShotlock(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		return ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));
+		if (!playerData.getEquippedShotlock().isEmpty()) {
+			return ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));
+		} else {
+			return null;
+		}
 	}
 
 	public static boolean isPlayerLowHP(Player player) {
@@ -1050,12 +1051,12 @@ public class Utils {
 		return minCost;
 	}
 
-	public static List<String> appendEnchantmentNames(String text, ItemEnchantments enchantments, LivingEntity entity) {
-		List<String> arrayList = new ArrayList<>();
-		arrayList.add(Component.translatable(text).getString());
+	public static List<Component> appendEnchantmentNames(String text, ItemEnchantments enchantments) {
+		List<Component> arrayList = new ArrayList<>();
+		arrayList.add(Component.translatable(text));
 		enchantments.keySet().forEach(enchantmentHolder -> {
 			enchantmentHolder.value();
-			arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
+			arrayList.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, enchantments.getLevel(enchantmentHolder)).getString()));
 		});
 		return arrayList;
 	}
@@ -1174,9 +1175,6 @@ public class Utils {
 				if (playerData.getEquippedKeychains().containsKey(formToSummonFrom)) {
 					extraChain = playerData.getEquippedKeychain(formToSummonFrom);
 				}
-			} else {
-				KingdomKeys.LOGGER.fatal(".-.");
-				//.-. but why tho
 			}
 		} else {
 			if(playerData.isAbilityEquipped(Strings.synchBlade)) {
@@ -1211,12 +1209,12 @@ public class Utils {
 		ItemStack summonedExtraStack = extraSlotSummoned > -1 ? player.getInventory().getItem(extraSlotSummoned) : ItemStack.EMPTY;
 		if (forceDesummon) {
 			heldStack = summonedStack;
-			if (!ItemStack.matches(heldStack, ItemStack.EMPTY)) {
+			if (!heldStack.isEmpty()) {
 				offHeldStack = summonedExtraStack;
 			}
 		}
-		if ((forceDesummon) || (!ItemStack.matches(offHeldStack, ItemStack.EMPTY) && ItemStack.matches(offHeldStack, summonedExtraStack) && (Utils.hasKeybladeID(offHeldStack)))) {
-			if (forceDesummon || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (ItemStack.matches(heldStack, summonedStack)))) {
+		if ((forceDesummon) || (!offHeldStack.isEmpty() && ItemStack.matches(offHeldStack, summonedExtraStack) && (Utils.hasKeybladeID(offHeldStack)))) {
+			if (forceDesummon || (!heldStack.isEmpty() && (ItemStack.matches(heldStack, summonedStack)))) {
 				if (hasKeybladeID(offHeldStack) && getKeybladeID(offHeldStack).equals(getKeybladeID(extraChain))) {
 					extraChain.applyComponents(offHeldStack.getComponents());
 					playerData.equipKeychain(formToSummonFrom, extraChain);
@@ -1231,8 +1229,8 @@ public class Utils {
 
 		} else {
 			if (extraChain != null) {
-				if (!ItemStack.matches(extraChain, ItemStack.EMPTY)) {
-					if (ItemStack.matches(offHeldStack, ItemStack.EMPTY)) {
+				if (!extraChain.isEmpty()) {
+					if (offHeldStack.isEmpty()) {
 						ItemStack keyblade;
 						if(extraChain.getItem() instanceof IKeychain) {
 							keyblade = new ItemStack(((IKeychain) extraChain.getItem()).toSummon());
@@ -1259,7 +1257,7 @@ public class Utils {
 				}
 			}
 		}
-		if ((forceDesummon) || (!ItemStack.matches(heldStack, ItemStack.EMPTY) && (Utils.hasKeybladeID(heldStack)))) {
+		if ((forceDesummon) || (!heldStack.isEmpty() && (Utils.hasKeybladeID(heldStack)))) {
 			//DESUMMON
 			if (Utils.hasKeybladeID(heldStack)) {
 				if (heldStack.has(ModComponents.KEYBLADE_ID) && heldStack.get(ModComponents.KEYBLADE_ID).equals(chain.get(ModComponents.KEYBLADE_ID))) { //Keyblade user
@@ -1290,8 +1288,8 @@ public class Utils {
 			spawnKeybladeParticles(player, InteractionHand.MAIN_HAND);
 
 		} else {
-			if (!ItemStack.matches(chain, ItemStack.EMPTY)) {
-				if (ItemStack.matches(heldStack, ItemStack.EMPTY)) {
+			if (!chain.isEmpty()) {
+				if (heldStack.isEmpty()) {
 					ItemStack keyblade;
 					if (!useOrg) {
 						keyblade = new ItemStack(((IKeychain) chain.getItem()).toSummon());

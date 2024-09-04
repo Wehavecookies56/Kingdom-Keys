@@ -1,7 +1,7 @@
 {
 	"parent": "forge:block/default",
 	"render_type": "minecraft:cutout",
-	"loader": "forge:obj",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/soa_door.obj",
 	"transform":{
 		"translation": [ 0.5, 0, 0.5 ],

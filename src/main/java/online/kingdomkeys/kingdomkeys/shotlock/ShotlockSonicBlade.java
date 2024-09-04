@@ -13,7 +13,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.SonicBladeCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockSonicBlade extends Shotlock {
 
 	public ShotlockSonicBlade(ResourceLocation registryName, int order, int cooldown, int max) {

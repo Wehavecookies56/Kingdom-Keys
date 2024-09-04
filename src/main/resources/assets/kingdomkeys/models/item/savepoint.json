@@ -1,6 +1,6 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:obj",
+	"parent": "neoforge:item/default",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/savepoint.obj",
 	"mtl_override": "kingdomkeys:models/block/linked_savepoint.mtl",
 	"textures": {

@@ -53,7 +53,7 @@ public class DiveToTheHeartDimension{
 
     //Prevent player from falling off the platform
     @SubscribeEvent
-    public static void playerTick(PlayerTickEvent event) {
+    public static void playerTick(PlayerTickEvent.Pre event) {
         if (!event.getEntity().isCreative()) {
             if (event.getEntity().level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                 PlayerData playerData = PlayerData.get(event.getEntity());

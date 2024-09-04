@@ -4,12 +4,15 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ModComponents {
@@ -25,4 +28,8 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CARD_VALUE = COMPONENTS.registerComponentType("card_value", builder -> builder.persistent(ExtraCodecs.intRange(0, 9)).networkSynchronized(ByteBufCodecs.VAR_INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ARROWGUN_AMMO = COMPONENTS.registerComponentType("arrowgun_ammo", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<PauldronItem.PauldronEnchantments>> PAULDRON_ENCHANTMENTS = COMPONENTS.registerComponentType("pauldron_enchantments", builder -> builder.persistent(PauldronItem.PauldronEnchantments.CODEC).networkSynchronized(PauldronItem.PauldronEnchantments.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<RecipeItem.Recipes>> RECIPES = COMPONENTS.registerComponentType("recipes", builder -> builder.persistent(RecipeItem.Recipes.CODEC).networkSynchronized(RecipeItem.Recipes.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WAYFINDER_COLOR = COMPONENTS.registerComponentType("wayfinder_color", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WayfinderItem.WayfinderOwner>> WAYFINDER_OWNER = COMPONENTS.registerComponentType("wayfinder_owner", builder -> builder.persistent(WayfinderItem.WayfinderOwner.CODEC).networkSynchronized(WayfinderItem.WayfinderOwner.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SAVE_POINT_TIER = COMPONENTS.registerComponentType("save_point_tier", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 }

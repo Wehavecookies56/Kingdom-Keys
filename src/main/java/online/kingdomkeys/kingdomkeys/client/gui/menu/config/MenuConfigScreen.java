@@ -205,7 +205,6 @@ public class MenuConfigScreen extends MenuBackground {
 			@Override
 			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				super.render(gui, pMouseX, pMouseY, pPartialTick);
 			}
 			
 		});

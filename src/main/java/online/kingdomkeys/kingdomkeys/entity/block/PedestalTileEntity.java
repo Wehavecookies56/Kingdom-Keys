@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import cpw.mods.util.Lazy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.menu.PedestalMenu;

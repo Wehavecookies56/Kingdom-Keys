@@ -1,12 +1,12 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:separate_transforms",
+	"parent": "neoforge:item/default",
+	"loader": "neoforge:separate_transforms",
 	"textures": {
 
 	},
 	"base":	{
-		"parent": "forge:item/default",
-		"loader": "forge:obj",
+		"parent": "neoforge:item/default",
+		"loader": "neoforge:obj",
 		"model": "kingdomkeys:models/item/keyblade/waytothedawn.obj",
 		"flip_v" : true,
 		"textures": {

@@ -300,53 +300,55 @@ public class ClientUtils {
     }
   	
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
-		float baseStr = 0, baseMag = 0;
-		float totalStr = 0, totalMag = 0;
-		String desc = "";
-		MutableComponent ln1 = null;
-		
-		KeybladeItem kbItem = null;
-		
-		if(stack == null)
-			return tooltip;
-		
-		if(stack.getItem() instanceof KeybladeItem keyblade) {
-			kbItem = keyblade;
-		} else if (stack.getItem() instanceof KeychainItem keychain) {
-			kbItem = keychain.getKeyblade();
-		}
-		
-		if(kbItem != null) {
-			if(kbItem.getKeybladeLevel(stack) > 0)
-				ln1 = (Component.translatable(ChatFormatting.YELLOW+"Level %s", kbItem.getKeybladeLevel(stack)));
-			
-			baseStr = kbItem.getStrength(kbItem.getKeybladeLevel(stack))+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
-			totalStr = DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player,stack)+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+          if (context.level() != null) {
+              float baseStr = 0, baseMag = 0;
+              float totalStr = 0, totalMag = 0;
+              String desc = "";
+              MutableComponent ln1 = null;
 
-			baseMag = kbItem.getMagic(kbItem.getKeybladeLevel(stack));
-			totalMag = DamageCalculation.getMagicDamage(Minecraft.getInstance().player,stack);
-			
-			desc = kbItem.getDesc();
-			
-		} else if(stack.getItem() instanceof IOrgWeapon orgItem) {
-			ln1 = Component.translatable(ChatFormatting.YELLOW + "" + orgItem.getMember());
-			
-			baseStr = orgItem.getStrength() + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
-			totalStr = DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack)+DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
-			
-			baseMag = orgItem.getMagic(); 
-			totalMag = DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, orgItem);
-			
-			desc = orgItem.getDesc();
-		}
-		
-		if(ln1 != null)
-			tooltip.add(ln1);
-		
-		tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+" %s", baseStr + " [" + totalStr + "]"));
-		tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+" %s", baseMag + " [" + totalMag + "]"));
-		tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
-		
+              KeybladeItem kbItem = null;
+
+              if (stack == null)
+                  return tooltip;
+
+              if (stack.getItem() instanceof KeybladeItem keyblade) {
+                  kbItem = keyblade;
+              } else if (stack.getItem() instanceof KeychainItem keychain) {
+                  kbItem = keychain.getKeyblade();
+              }
+
+              if (kbItem != null) {
+                  if (kbItem.getKeybladeLevel(stack) > 0)
+                      ln1 = (Component.translatable(ChatFormatting.YELLOW + "Level %s", kbItem.getKeybladeLevel(stack)));
+
+                  baseStr = kbItem.getStrength(kbItem.getKeybladeLevel(stack)) + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+                  totalStr = DamageCalculation.getKBStrengthDamage(Minecraft.getInstance().player, stack) + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+
+                  baseMag = kbItem.getMagic(kbItem.getKeybladeLevel(stack));
+                  totalMag = DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack);
+
+                  desc = kbItem.getDesc();
+
+              } else if (stack.getItem() instanceof IOrgWeapon orgItem) {
+                  ln1 = Component.translatable(ChatFormatting.YELLOW + "" + orgItem.getMember());
+
+                  baseStr = orgItem.getStrength() + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+                  totalStr = DamageCalculation.getOrgStrengthDamage(Minecraft.getInstance().player, stack) + DamageCalculation.getSharpnessDamage(stack, context.level().registryAccess());
+
+                  baseMag = orgItem.getMagic();
+                  totalMag = DamageCalculation.getOrgMagicDamage(Minecraft.getInstance().player, orgItem);
+
+                  desc = orgItem.getDesc();
+              }
+
+              if (ln1 != null)
+                  tooltip.add(ln1);
+
+              tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + " %s", baseStr + " [" + totalStr + "]"));
+              tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + " %s", baseMag + " [" + totalMag + "]"));
+              tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
+
+          }
 		return tooltip;
 	}
 

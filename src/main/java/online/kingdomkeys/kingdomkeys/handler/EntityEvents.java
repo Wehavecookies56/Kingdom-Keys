@@ -168,7 +168,7 @@ public class EntityEvents {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			}
-			
+
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
@@ -576,7 +576,7 @@ public class EntityEvents {
 
 	int airstepTicks = -1;
 	@SubscribeEvent
-	public void onLivingUpdate(EntityTickEvent event) {
+	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if (event.getEntity() instanceof LivingEntity entity) {
 			GlobalData globalData = GlobalData.get(entity);
 			PlayerData playerData = null;
@@ -812,7 +812,7 @@ public class EntityEvents {
 	}
 
 	@SubscribeEvent
-	public void entityPickup(ItemEntityPickupEvent event) {
+	public void entityPickup(ItemEntityPickupEvent.Pre event) {
 		if (event.getItemEntity().getItem() != null && event.getItemEntity().getItem().getItem() instanceof SynthesisItem) {
 			for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
 				ItemStack bag = event.getPlayer().getInventory().getItem(i);
@@ -1478,9 +1478,9 @@ public class EntityEvents {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void grindstoneEvent(GrindstoneEvent.OnPlaceItem event) {
-		if(event.getTopItem() != null && event.getTopItem().getItem() instanceof PauldronItem pauldron) {
+		if(!event.getTopItem().isEmpty() && event.getTopItem().getItem() instanceof PauldronItem pauldron) {
 			event.setOutput(new ItemStack(pauldron));
-			int xp = 5 * event.getTopItem().getTag().size();
+			int xp = 5 * event.getTopItem().get(ModComponents.PAULDRON_ENCHANTMENTS).size();
 			event.setXp(xp);
 		}
 	}

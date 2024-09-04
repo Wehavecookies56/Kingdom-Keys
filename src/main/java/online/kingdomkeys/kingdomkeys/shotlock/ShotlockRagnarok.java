@@ -9,7 +9,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ShotlockRagnarok extends Shotlock {
 
 	public ShotlockRagnarok(ResourceLocation registryName, int order, int cooldown, int max) {

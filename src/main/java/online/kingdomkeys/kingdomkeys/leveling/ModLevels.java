@@ -12,9 +12,7 @@ import java.util.function.Supplier;
 public class ModLevels {
 
 	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "levels"), KingdomKeys.MODID);
-
-	public static final ResourceKey<Registry<Level>> LEVE£L_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "levels"));
-	public static Registry<Level> registry = new RegistryBuilder<>(LEVE£L_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+	public static Registry<Level> registry = LEVELS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
 
 	public static final Supplier<Level>

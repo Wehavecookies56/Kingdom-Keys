@@ -15,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitLaserDome extends Limit {
 
 	public LimitLaserDome(ResourceLocation registryName, int order, OrgMember owner) {

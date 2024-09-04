@@ -26,7 +26,7 @@ public class DriveFormMaster extends DriveForm {
 	//Hehe you won't find it here, it's in DriveOrbEntity#onPickup
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(PlayerTickEvent event) {
+	public static void onLivingUpdate(PlayerTickEvent.Pre event) {
 		Player player = (Player) event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 

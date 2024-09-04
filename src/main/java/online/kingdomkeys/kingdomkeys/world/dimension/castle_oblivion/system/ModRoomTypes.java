@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.Size2i;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,9 +17,7 @@ import java.util.function.Supplier;
 public class ModRoomTypes {
 
     public static DeferredRegister<RoomType> ROOM_TYPES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomtypes"), KingdomKeys.MODID);
-
-    public static final ResourceKey<Registry<RoomType>> ROOM_TYPES_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomtypes"));
-    public static Registry<RoomType> registry = new RegistryBuilder<>(ROOM_TYPES_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+    public static Registry<RoomType> registry = ROOM_TYPES.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
     //TODO create modifiers
     public static final Supplier<RoomType>

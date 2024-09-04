@@ -43,7 +43,7 @@ public class DriveFormValor extends DriveForm {
 	}
 	
 	@SubscribeEvent
-	public static void onLivingUpdate(PlayerTickEvent event) {
+	public static void onLivingUpdate(PlayerTickEvent.Pre event) {
 		Player player = (Player) event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 

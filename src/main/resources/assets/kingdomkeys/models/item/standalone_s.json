@@ -1,7 +1,7 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/standalones.obj",
+	"parent": "neoforge:item/default",
+	"loader": "neoforge:obj",
+	"model": "kingdomkeys:models/item/keyblade/standalone_s.obj",
 	"textures": {
 
 	},

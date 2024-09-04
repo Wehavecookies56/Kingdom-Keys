@@ -18,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class LimitThunderTrail extends Limit {
 	float speed;
 	

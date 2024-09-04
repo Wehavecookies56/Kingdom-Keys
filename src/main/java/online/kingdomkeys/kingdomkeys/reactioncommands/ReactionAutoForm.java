@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ReactionAutoForm extends ReactionCommand {
 	String form, abilityName;
 

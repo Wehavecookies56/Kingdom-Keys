@@ -1,7 +1,7 @@
 {
 	"parent": "forge:block/default",
 	"render_type": "minecraft:translucent",
-	"loader": "forge:obj",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/station_of_awakening.obj",
 	"transform":{
 		"translation": [ 0, 1, 0 ],

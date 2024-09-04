@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 public class RealmOfDarknessDimension {
 	// Event Listeners//
 	@SubscribeEvent
-	public static void playerTick(PlayerTickEvent event) {
+	public static void playerTick(PlayerTickEvent.Pre event) {
 		if (!event.getEntity().isCreative() && !event.getEntity().level().isClientSide()) {
 			if (event.getEntity().level().dimension().location().getPath().equals("realm_of_darkness")) {
 				if (event.getEntity().getY() < 0) {

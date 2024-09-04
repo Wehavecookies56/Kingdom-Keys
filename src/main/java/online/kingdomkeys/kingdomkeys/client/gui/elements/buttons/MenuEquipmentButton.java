@@ -85,7 +85,7 @@ public class MenuEquipmentButton extends Button {
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
     	
     	this.stack = null;
-        this.shotlock = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+        this.shotlock = !shotlock.isEmpty() ? ModShotlocks.registry.get(ResourceLocation.parse(shotlock)) : null;
         this.colour = colour;
         this.toOpen = toOpen;
         this.parent = parent;
@@ -395,19 +395,19 @@ public class MenuEquipmentButton extends Button {
 						stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
 
 						});
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet(), Minecraft.getInstance().player)) {
+	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet())) {
 		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate(), Minecraft.getInstance().player)) {
+	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate())) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings(), Minecraft.getInstance().player)) {
+	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings())) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots(), Minecraft.getInstance().player)) {
+	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots())) {
 							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
 	                    }

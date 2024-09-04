@@ -13,9 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 public class ModShotlocks {
 
 	public static DeferredRegister<Shotlock> SHOTLOCKS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlocks"), KingdomKeys.MODID);
-
-	public static final ResourceKey<Registry<Shotlock>> SHOTLOCKS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlocks"));
-	public static Registry<Shotlock> registry = new RegistryBuilder<>(SHOTLOCKS_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+	public static Registry<Shotlock> registry = SHOTLOCKS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
 	static int order = 0;
 	public static final Supplier<Shotlock>

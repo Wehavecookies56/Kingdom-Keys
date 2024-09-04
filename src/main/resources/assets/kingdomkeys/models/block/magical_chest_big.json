@@ -1,6 +1,6 @@
 {
 	"parent": "forge:block/default",
-	"loader": "forge:obj",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/magical_chest.obj",
 	"transform":{
 		"translation": [ 0, -1, 0 ],

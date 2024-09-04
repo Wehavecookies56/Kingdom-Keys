@@ -34,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
@@ -60,8 +61,8 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		ItemStack held = pContext.getItemInHand();
 		if (held.getItem() instanceof BlockItem blockItem) {
 			if (blockItem.getBlock() == ModBlocks.savepoint.get()) {
-				if (held.getTag() != null && held.getTag().contains("tier")) {
-					return this.defaultBlockState().setValue(TIER, SavePointStorage.SavePointType.valueOf(held.getTag().getString("tier")));
+				if (held.has(ModComponents.SAVE_POINT_TIER)) {
+					return this.defaultBlockState().setValue(TIER, SavePointStorage.SavePointType.valueOf(held.get(ModComponents.SAVE_POINT_TIER)));
 				}
 			}
 		}
@@ -70,11 +71,11 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-		if (stack.getTag() != null && stack.getTag().contains("tier")) {
+		if (stack.has(ModComponents.SAVE_POINT_TIER)) {
 			if (tooltipComponents.get(0) != null) {
-				if (stack.getTag().getString("tier").equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
+				if (stack.get(ModComponents.SAVE_POINT_TIER).equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
 					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".linked_savepoint"));
-				} else if (stack.getTag().getString("tier").equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
+				} else if (stack.get(ModComponents.SAVE_POINT_TIER).equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
 					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".warp_point"));
 				}
 			}

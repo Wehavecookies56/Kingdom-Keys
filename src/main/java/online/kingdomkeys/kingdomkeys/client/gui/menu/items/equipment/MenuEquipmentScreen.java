@@ -254,27 +254,35 @@ public class MenuEquipmentScreen extends MenuBackground {
 
     @Override
     public boolean mouseScrolled(double pMouseX, double pMouseY, double deltaX, double deltaY) {
-        scrollBar.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
-        updateScroll();
+        if (scrollBar != null) {
+            scrollBar.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
+            updateScroll();
+        }
         return super.mouseScrolled(pMouseX, pMouseY, deltaX, deltaY);
     }
 
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        scrollBar.mouseClicked(pMouseX, pMouseY, pButton);
+        if (scrollBar != null) {
+            scrollBar.mouseClicked(pMouseX, pMouseY, pButton);
+        }
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 
     @Override
     public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
-        scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+        if (scrollBar != null) {
+            scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+        }
         return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
 
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-        scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-        updateScroll();
+        if (scrollBar != null) {
+            scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+            updateScroll();
+        }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }
 }

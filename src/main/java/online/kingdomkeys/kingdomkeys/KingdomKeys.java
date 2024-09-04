@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import net.minecraft.nbt.CompoundTag;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -12,12 +11,18 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,9 +55,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
@@ -147,16 +149,14 @@ public class KingdomKeys {
 					.displayItems(((params, output) -> {
 						misc.get().forEach(output::accept);
 						ItemStack linkedSavePoint = new ItemStack(ModBlocks.savepoint.get());
-						linkedSavePoint.setTag(new CompoundTag());
-						linkedSavePoint.getTag().putString("tier", SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase());
+						linkedSavePoint.set(ModComponents.SAVE_POINT_TIER, SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase());
 						ItemStack warpPoint = new ItemStack(ModBlocks.savepoint.get());
-						warpPoint.setTag(new CompoundTag());
-						warpPoint.getTag().putString("tier", SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase());
+						warpPoint.set(ModComponents.SAVE_POINT_TIER, SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase());
 						output.accept(linkedSavePoint);
 						output.accept(warpPoint);
 					}))
 					.withSearchBar(71)
-					.withBackgroundLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
+					.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
 					.hideTitle()
 					.build());
 
@@ -188,20 +188,22 @@ public class KingdomKeys {
 		ModRoomTypes.ROOM_TYPES.register(modEventBus);
 		ModFloorTypes.FLOOR_TYPES.register(modEventBus);
 		ModData.ATTACHMENT_TYPES.register(modEventBus);
+		ModComponents.COMPONENTS.register(modEventBus);
+		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
+		modEventBus.addListener(this::modLoaded);
+
+		if (FMLEnvironment.dist.isClient()) {
+			modEventBus.addListener(ModMenus::registerGUIFactories);
+		}
 
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
-			modEventBus.addListener(KKAnimations::register);
-			modEventBus.addListener(EpicKKWeapons::register);
-			NeoForge.EVENT_BUS.register(new KKSkills());
-			//KKSkills.SKILLS.register(modEventBus);
-			//ComboExtender.DATA_KEYS.register(modEventBus);
+			EpicFightIntegration.initIntegration(modEventBus);
 		}
 
 		NeoForge.EVENT_BUS.register(this);
-		NeoForge.EVENT_BUS.register(new DataGeneration());
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
 		//MinecraftForge.EVENT_BUS.register(new APITests());
 
@@ -211,11 +213,19 @@ public class KingdomKeys {
 
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());
-		NeoForge.EVENT_BUS.register(new ModData());
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-        KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register("kingdomKeys:level_up", new KKLevelUpTrigger());
+        //TODO fix this probably need to register with DeferredRegister KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register("kingdomkeys:level_up", new KKLevelUpTrigger());
+	}
+
+	private void modLoaded(final FMLLoadCompleteEvent event) {
+		if (FMLEnvironment.dist.isClient()) {
+			if (ModList.get().isLoaded("epicfight")) {
+				//FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+			}
+			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
+		}
 	}
 
 	@SubscribeEvent

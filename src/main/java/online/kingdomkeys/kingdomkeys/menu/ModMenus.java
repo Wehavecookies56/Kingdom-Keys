@@ -35,11 +35,11 @@ public class ModMenus {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
-        event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
-        event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
-        event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
-        event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
+        //event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
+        //event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
+        //event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
+        //event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
+        //event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {

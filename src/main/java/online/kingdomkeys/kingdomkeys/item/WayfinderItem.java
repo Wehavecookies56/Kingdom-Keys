@@ -1,10 +1,16 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -41,22 +47,19 @@ public class WayfinderItem extends Item {
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (entityIn instanceof Player player) {
-			if (stack.getTag() != null) {
-				if (!stack.getTag().hasUUID("ownerUUID"))
-					stack.setTag(setID(stack.getTag(), player));
-			} else {
-				stack.setTag(setID(new CompoundTag(), player));
+			if (!stack.has(ModComponents.WAYFINDER_OWNER)) {
+				setID(stack, player);
 			}
 			
 			if(!worldIn.isClientSide) {
 				if(owner == null) 
-					owner = getOwner((ServerLevel) player.level(), stack.getTag());
+					owner = getOwner((ServerLevel) player.level(), stack);
 				
 				if(owner != null) {
 					PlayerData playerData = PlayerData.get(owner);
 					if(playerData != null) {
 						if(playerData.getNotifColor() != getColor(stack)) {
-							stack.getTag().putInt("color", playerData.getNotifColor());
+							stack.set(ModComponents.WAYFINDER_COLOR, playerData.getNotifColor());
 						}
 						
 					}
@@ -72,9 +75,11 @@ public class WayfinderItem extends Item {
 			ServerLevel serverLevel = (ServerLevel) world;
 			ItemStack stack = player.getItemInHand(hand);
 
-			owner = getOwner(serverLevel, stack.getTag());
+			WayfinderOwner ownerdata = stack.get(ModComponents.WAYFINDER_OWNER);
+
+			owner = getOwner(serverLevel, stack);
 			if (owner == null) {
-				player.displayClientMessage(Component.translatable("message.wayfinder.player_not_found",stack.getTag().getString("ownerName").toString()), true);
+				player.displayClientMessage(Component.translatable("message.wayfinder.player_not_found",ownerdata.name), true);
 				return super.use(world, player, hand);
 			}
 			Party p = WorldData.get(world.getServer()).getPartyFromMember(player.getUUID());
@@ -91,7 +96,7 @@ public class WayfinderItem extends Item {
 				}
 				
 				if(!Utils.isEntityInParty(p, player)) {
-					player.displayClientMessage(Component.translatable("message.wayfinder.player_not_in_party",stack.getTag().getString("ownerName").toString()), true);
+					player.displayClientMessage(Component.translatable("message.wayfinder.player_not_in_party",ownerdata.name), true);
 					return super.use(world, player, hand);
 				}
 			}
@@ -121,23 +126,18 @@ public class WayfinderItem extends Item {
 		player.getCooldowns().addCooldown(this, 300 * 20);
 	}
 
-	public CompoundTag setID(CompoundTag nbt, Player player) {
-		nbt.putUUID("ownerUUID", player.getUUID());
-		nbt.putString("ownerName", player.getDisplayName().getString());
-		nbt.putInt("color", Color.WHITE.getRGB());
-		
+	public void setID(ItemStack stack, Player player) {
+		stack.set(ModComponents.WAYFINDER_OWNER, new WayfinderOwner(player.getUUID(), player.getDisplayName().getString()));
+
 		PlayerData playerData = PlayerData.get(player);
-		if(playerData != null) {
-			nbt.putInt("color", playerData.getNotifColor());
-		}
-		return nbt;
+		stack.set(ModComponents.WAYFINDER_COLOR, playerData.getNotifColor());
 	}
 
-	public Player getOwner(ServerLevel level, CompoundTag nbt) {
-		if (nbt == null)
+	public Player getOwner(ServerLevel level, ItemStack stack) {
+		if (!stack.has(ModComponents.WAYFINDER_OWNER))
 			return null;
 
-		UUID playerUUID = nbt.getUUID("ownerUUID");
+		UUID playerUUID = stack.get(ModComponents.WAYFINDER_OWNER).uuid;
 
 		for (Player p : Utils.getAllPlayers(level.getServer())) {
 			if (p.getUUID().equals(playerUUID)) {
@@ -148,17 +148,17 @@ public class WayfinderItem extends Item {
 	}
 
 	public int getColor(ItemStack stack) {
-		if(stack.getTag() == null)
+		if(!stack.has(ModComponents.WAYFINDER_COLOR))
 			return Color.WHITE.getRGB();
 		
-		return stack.getTag().getInt("color");
+		return stack.get(ModComponents.WAYFINDER_COLOR);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.getTag() != null) {
-			tooltip.add(Component.translatable("message.wayfinder.owner", stack.getTag().getString("ownerName").toString()));
+		if (stack.has(ModComponents.WAYFINDER_OWNER)) {
+			tooltip.add(Component.translatable("message.wayfinder.owner", stack.get(ModComponents.WAYFINDER_OWNER).name));
 			//tooltip.add(Component.translatable(""+new Color(stack.getTag().getInt("color"))));
 			if(Minecraft.getInstance().player.getCooldowns().isOnCooldown(this))
 				tooltip.add(Component.translatable("message.wayfinder.cooldown", (int) (Minecraft.getInstance().player.getCooldowns().getCooldownPercent(this, 0) * 100)));
@@ -170,4 +170,18 @@ public class WayfinderItem extends Item {
 		return false;
 	}
 
+
+	public record WayfinderOwner(UUID uuid, String name) {
+		public static final Codec<WayfinderOwner> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				UUIDUtil.CODEC.fieldOf("uuid").forGetter(WayfinderOwner::uuid),
+				Codec.STRING.fieldOf("name").forGetter(WayfinderOwner::name)
+		).apply(instance, WayfinderOwner::new));
+		public static final StreamCodec<FriendlyByteBuf, WayfinderOwner> STREAM_CODEC = StreamCodec.composite(
+				UUIDUtil.STREAM_CODEC,
+				WayfinderOwner::uuid,
+				ByteBufCodecs.STRING_UTF8,
+				WayfinderOwner::name,
+				WayfinderOwner::new
+		);
+	}
 }

@@ -31,11 +31,11 @@ public class SynthesisBagMenu extends AbstractContainerMenu {
 
 		SynthesisBagInventory bagInv = (SynthesisBagInventory) bag.getCapability(Capabilities.ItemHandler.ITEM);
 		if (bagInv != null) {
-			SynthesisBagItem.BagLevel bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
-			int invStart = bagLevel.level() * 2;
+			int bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
+			int invStart = bagLevel * 2;
 
 			//Bag inventory slots
-			for (i = 0; i < 2 * (bagLevel.level() + 1); ++i) {
+			for (i = 0; i < 2 * (bagLevel + 1); ++i) {
 				for (j = 0; j < 9; ++j) {
 					int k = j + i * 9;
 					addSlot(new SynthesisBagSlot(bagInv, k, 8 + j * 18, 18 + i * 18));
@@ -66,8 +66,8 @@ public class SynthesisBagMenu extends AbstractContainerMenu {
 	public ItemStack quickMoveStack(Player playerIn, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 
-		SynthesisBagItem.BagLevel bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
-		int maxSlots = switch (bagLevel.level()) {
+		int bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
+		int maxSlots = switch (bagLevel) {
             case 0 -> 18;
             case 1 -> 36;
             case 2 -> 54;

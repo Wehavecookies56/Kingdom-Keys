@@ -52,23 +52,25 @@ public class PauldronItem extends Item implements IItemCategory {
 		if(pRemainingUseDuration <= getUseDuration(pStack, pLivingEntity)-20) {
 			if (pLivingEntity instanceof Player player) {
 				player.stopUsingItem();
+				ItemEnchantments helmet = ItemEnchantments.EMPTY, chestplate = ItemEnchantments.EMPTY, leggings = ItemEnchantments.EMPTY, boots = ItemEnchantments.EMPTY;
                 for (int i = 0; i < 4; i++) {
 					ItemStack armorPieceStack = player.getInventory().getItem(36 + i);
 		
 					if (!ItemStack.isSameItem(armorPieceStack, ItemStack.EMPTY)) {
 						if (armorPieceStack.isEnchanted() && !Utils.hasArmorID(armorPieceStack)) {
 							switch (i) {
-								case 0 -> pStack.getTag().put("boots", armorPieceStack.getTag());
-								case 1 -> pStack.getTag().put("leggings", armorPieceStack.getTag());
-								case 2 -> pStack.getTag().put("chestplate", armorPieceStack.getTag());
-								case 3 -> pStack.getTag().put("helmet", armorPieceStack.getTag());
+								case 0 -> boots = armorPieceStack.get(DataComponents.ENCHANTMENTS);
+								case 1 -> leggings = armorPieceStack.get(DataComponents.ENCHANTMENTS);
+								case 2 -> chestplate = armorPieceStack.get(DataComponents.ENCHANTMENTS);
+								case 3 -> helmet = armorPieceStack.get(DataComponents.ENCHANTMENTS);
 							}
 
 							levelIn.playSound(player, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
-							armorPieceStack.setTag(new CompoundTag());
+							armorPieceStack.remove(DataComponents.ENCHANTMENTS);
 						}
 					}
 				}
+				pStack.set(ModComponents.PAULDRON_ENCHANTMENTS, new PauldronEnchantments(helmet, chestplate, leggings, boots));
 			}
 		}
 		
@@ -113,7 +115,7 @@ public class PauldronItem extends Item implements IItemCategory {
 		}
 		if (stack.has(ModComponents.PAULDRON_ENCHANTMENTS)) {
 			PauldronEnchantments enchantments = stack.get(ModComponents.PAULDRON_ENCHANTMENTS);
-			if (!enchantments.helmet.isEmpty() || !enchantments.chestplate.isEmpty() || !enchantments.leggings.isEmpty() || !enchantments.boots.isEmpty()) {
+			if (!enchantments.isEmpty()) {
 				stack.set(DataComponents.RARITY, Rarity.EPIC);
 			}
 		}
@@ -165,7 +167,7 @@ public class PauldronItem extends Item implements IItemCategory {
 		tooltip.add(Component.translatable(text));
 		data.keySet().forEach(enchantmentHolder -> {
 			enchantmentHolder.value();
-			tooltip.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, EnchantmentHelper.getEnchantmentLevel(enchantmentHolder, entity)).getString()).getString());
+			tooltip.add(Component.literal(ChatFormatting.GRAY + "- " + Enchantment.getFullname(enchantmentHolder, data.getLevel(enchantmentHolder)).getString()));
 		});
 	}
 
@@ -188,5 +190,13 @@ public class PauldronItem extends Item implements IItemCategory {
 				PauldronEnchantments::boots,
 				PauldronEnchantments::new
 		);
+
+		public boolean isEmpty() {
+			return !helmet.isEmpty() || !chestplate.isEmpty() || !leggings.isEmpty() || !boots.isEmpty();
+		}
+
+		public int size() {
+			return helmet.size() + chestplate.size() + leggings.size() + boots.size();
+		}
 	}
 }

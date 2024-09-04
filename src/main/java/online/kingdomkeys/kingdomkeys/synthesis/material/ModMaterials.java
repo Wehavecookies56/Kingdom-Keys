@@ -20,9 +20,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 public class ModMaterials {
 
     public static DeferredRegister<Material> MATERIALS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "materials"), KingdomKeys.MODID);
-
-    public static final ResourceKey<Registry<Material>> MATERIALS_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "materials"));
-    public static Registry<Material> registry = new RegistryBuilder<>(MATERIALS_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+    public static Registry<Material> registry = MATERIALS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
     public static class Register {
@@ -113,7 +111,7 @@ public class ModMaterials {
                     createMaterial(ModItems.mirageSplitChain, Strings.mirageSplitChain),
                     createMaterial(ModItems.nightmaresEndChain, Strings.nightmaresEndChain)
             );
-            event.register(ModMaterials.MATERIALS_KEY, helper -> {
+            event.register(MATERIALS.getRegistryKey(), helper -> {
                 materialList.forEach(material -> helper.register(material.getRegistryName(), material));
             });
 

@@ -163,22 +163,22 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 							ItemEnchantments legginsTag = enchantments.leggings();
 							ItemEnchantments chestplateTag = enchantments.chestplate();
 							ItemEnchantments helmetTag = enchantments.helmet();
-							if(bootsTag != null) {
+							if(!bootsTag.isEmpty()) {
 								newBoots.set(DataComponents.ENCHANTMENTS, bootsTag);
 								newBoots.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
-							if(legginsTag != null) {
+							if(!legginsTag.isEmpty()) {
 								newLeggings.set(DataComponents.ENCHANTMENTS, legginsTag);
 								newLeggings.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
-							if(chestplateTag != null) {
+							if(!chestplateTag.isEmpty()) {
 								newChestplate.set(DataComponents.ENCHANTMENTS, chestplateTag);
 								newChestplate.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}
 
-							if(helmetTag != null) {
+							if(!helmetTag.isEmpty()) {
 								newHelmet.set(DataComponents.ENCHANTMENTS, helmetTag);
 								newHelmet.set(ModComponents.ARMOR_ID, KBArmorUUID);
 							}

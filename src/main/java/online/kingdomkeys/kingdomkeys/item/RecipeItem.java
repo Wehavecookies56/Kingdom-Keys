@@ -1,8 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -42,7 +47,7 @@ public class RecipeItem extends Item implements IItemCategory {
 				//If the player already has learnt them, the recipe item will be refreshed to try get new recipes.
 				PlayerData playerData = PlayerData.get(player);
 				if(tier <= playerData.getSynthLevel()) { //If the player has the right tier
-					if (stack.hasTag()) { //If the recipe has been generated learn it
+					if (stack.has(ModComponents.RECIPES)) { //If the recipe has been generated learn it
 						learnRecipes(player, stack);
 					} else { //Otherwise generate it
 						List<ResourceLocation> missingKeyblades = getMissingRecipes(playerData, "keyblade", tier);
@@ -82,8 +87,7 @@ public class RecipeItem extends Item implements IItemCategory {
 	}
 
 	private void learnRecipes(Player player, ItemStack stack) {
-		final CompoundTag stackTag = stack.getTag();
-		String[] recipes = { stackTag.getString("recipe1"), stackTag.getString("recipe2"), stackTag.getString("recipe3") };
+		List<ResourceLocation> recipes = stack.getOrDefault(ModComponents.RECIPES, new Recipes("", new ArrayList<>())).recipes;
 		PlayerData playerData = PlayerData.get(player);
 		// /give Dev kingdomkeys:recipe{type:"keyblade",recipe1:"kingdomkeys:oathkeeper",recipe2:"kingdomkeys:fenrir"} 16
 
@@ -92,17 +96,16 @@ public class RecipeItem extends Item implements IItemCategory {
 			return;
 		}
 		boolean consume = false;
-		for (String recipe : recipes) {
-			ResourceLocation rl = ResourceLocation.parse(recipe);
-			if (RecipeRegistry.getInstance().containsKey(rl)) {
-				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(rl).getResult());
-				if (recipe == null || !RecipeRegistry.getInstance().containsKey(rl)) { // If recipe is not valid
-					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
+		for (ResourceLocation recipe : recipes) {
+			if (RecipeRegistry.getInstance().containsKey(recipe)) {
+				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(recipe).getResult());
+				if (!RecipeRegistry.getInstance().containsKey(recipe)) { // If recipe is not valid
+					String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
 					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
-				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
+				} else if (playerData.hasKnownRecipe(recipe)) { // If recipe already known
 					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.already_learnt"),ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
 				} else { // If recipe is not known, learn it
-					playerData.addKnownRecipe(rl);
+					playerData.addKnownRecipe(recipe);
 					consume = true;
 					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -112,78 +115,50 @@ public class RecipeItem extends Item implements IItemCategory {
 
 		if (consume) {
 			//remove all child tags so we don't contaminate the stack, this will set the stack's tag field to null once all are removed.
-			stack.removeTagKey("recipe1");
-			stack.removeTagKey("recipe2");
-			stack.removeTagKey("recipe3");
-			stack.removeTagKey("type");
+			stack.remove(ModComponents.RECIPES);
 			//reduce stack size by one.
 			player.getMainHandItem().shrink(1);
 		} else {
 			//try for fresh recipes, based on what type this stack was set to. No swapping from keyblade to item recipes etc.
 			//will fail successfully if none left.
-			shuffleRecipes(stack, player, stackTag.getString("type"));
+			shuffleRecipes(stack, player, stack.get(ModComponents.RECIPES).type);
 		}
 	}
 
 	public void shuffleRecipes(ItemStack stack, Player player, String type) {
 		PlayerData playerData = PlayerData.get(player);
-
-		ResourceLocation recipe1=null, recipe2=null, recipe3=null;
-		
 		List<ResourceLocation> list;
+		List<ResourceLocation> newRecipes = new ArrayList<>();
 		switch(type) {
 		case "keyblade":
 			list = getMissingRecipes(playerData, "keyblade", tier);
-			
-			if(list.size() == 0)
-				return;
-			
-			if(list.size() > 0) {
-				recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
+			int size = Math.min(list.size(), 3);
+			for (int i = 0; i < size; i++) {
+				int index = Utils.randomWithRange(0, list.size() - 1);
+				newRecipes.add(list.get(index));
+				list.remove(index);
 			}
-			
-			if(list.size() > 1) {
-				do {
-					recipe2 = list.get(Utils.randomWithRange(0, list.size() - 1));
-				} while(recipe2 == recipe1);
-			}
-			
-			if(list.size() > 2) {
-				do {
-					recipe3 = list.get(Utils.randomWithRange(0, list.size() - 1));
-				} while(recipe3 == recipe1 || recipe3 == recipe2);
-
-			}
-
 			break;
 		case "item":
 			list = getMissingRecipes(playerData, "item", tier);
-			if(list.size() > 0) {
-				recipe1 = list.get(Utils.randomWithRange(0, list.size() - 1));
+			if(!list.isEmpty()) {
+				newRecipes.add(list.get(Utils.randomWithRange(0, list.size() - 1)));
 			}
 			break;
 		}
 
-		stack.getOrCreateTag().putString("type", type);
-
-		//if any recipes are on this stack, such as already learned ones, they should get overwritten
-		if(recipe1 != null)
-			stack.getOrCreateTag().putString("recipe1", recipe1.toString());
-		if(recipe2 != null)
-			stack.getOrCreateTag().putString("recipe2", recipe2.toString());
-		if(recipe3 != null)
-			stack.getOrCreateTag().putString("recipe3", recipe3.toString());
+		stack.set(ModComponents.RECIPES, new Recipes(type, newRecipes));
 
 		//Call learn recipes immediately.
 		//This will remove all child tags and then reduce stack size by one
 		//recipe1 is not null if any recipes exist to learn
-		if (recipe1 != null) {
+		if (!newRecipes.isEmpty()) {
 			learnRecipes(player, stack);
 		}
 	}
 
 	private List<ResourceLocation> getMissingRecipes(PlayerData playerData, String type, int tier) {
-		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
+		List<ResourceLocation> list = new ArrayList<>();
 			for(Recipe r : RecipeRegistry.getInstance().getValues()) {
 				if(!playerData.hasKnownRecipe(r.getRegistryName())) {
 					if(r.getType().equals(type)) {
@@ -202,11 +177,11 @@ public class RecipeItem extends Item implements IItemCategory {
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.hasTag()) {
-			for (int i = 1; i <= 3; i++) {
-				String recipeName = stack.getTag().getString("recipe" + i);
-				if(RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipeName))) {
-					Recipe recipe = RecipeRegistry.getInstance().getValue(ResourceLocation.parse(recipeName));
+		if (stack.has(ModComponents.RECIPES)) {
+			List<ResourceLocation> recipes = stack.get(ModComponents.RECIPES).recipes;
+			recipes.forEach(recipeRL -> {
+				if(RecipeRegistry.getInstance().containsKey(recipeRL)) {
+					Recipe recipe = RecipeRegistry.getInstance().getValue(recipeRL);
 					if (recipe != null) {
 						String name;
 						if(recipe.getType().equals("keyblade")) {
@@ -218,12 +193,27 @@ public class RecipeItem extends Item implements IItemCategory {
 						tooltip.add(Component.translatable(Utils.translateToLocal(name)));
 					}
 				}
-			}
+			});
 		}
 	}
 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MISC;
+	}
+
+	public record Recipes(String type, List<ResourceLocation> recipes) {
+		public static final Codec<Recipes> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+					Codec.STRING.fieldOf("type").forGetter(Recipes::type),
+					Codec.list(ResourceLocation.CODEC).fieldOf("recipes").forGetter(Recipes::recipes)
+				).apply(instance, Recipes::new)
+		);
+		public static final StreamCodec<FriendlyByteBuf, Recipes> STREAM_CODEC = StreamCodec.composite(
+				ByteBufCodecs.STRING_UTF8,
+				Recipes::type,
+				ByteBufCodecs.collection(ArrayList::new, ResourceLocation.STREAM_CODEC),
+				Recipes::recipes,
+				Recipes::new
+		);
 	}
 }

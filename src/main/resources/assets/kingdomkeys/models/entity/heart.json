@@ -1,5 +1,5 @@
 {
   "parent": "block/block",
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "model": "kingdomkeys:models/entity/heart.obj"
 }

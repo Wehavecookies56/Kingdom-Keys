@@ -13,7 +13,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ReactionMagic extends ReactionCommand {
 	ResourceLocation magic;
 

@@ -1,7 +1,7 @@
 {
 	"parent": "forge:block/default",
 	"render_type": "minecraft:cutout",
-	"loader": "forge:obj",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/card_door.obj",
 	"flip_v" : true,
 	"transform":{

@@ -43,7 +43,7 @@ public class CastleOblivionHandler {
 
     //Ticking rooms that players are in, empty rooms should be inactive
     @SubscribeEvent
-    public void tick(LevelTickEvent event) {
+    public void tick(LevelTickEvent.Pre event) {
         if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
             CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
             if (interiorData != null) {
@@ -67,7 +67,7 @@ public class CastleOblivionHandler {
     }
 
     @SubscribeEvent
-    public void playerTick(PlayerTickEvent event) {
+    public void playerTick(PlayerTickEvent.Pre event) {
         if (!event.getEntity().level().isClientSide) {
             if (event.getEntity().level().dimension().equals(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")))) {
                 BlockPos pos = event.getEntity().blockPosition();
@@ -141,7 +141,7 @@ public class CastleOblivionHandler {
                 SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
                 event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
                 event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
-                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));
+                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Estelle"));
                 ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
                 CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
                 if (interiorData.getFloors().isEmpty()) {

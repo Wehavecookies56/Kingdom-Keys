@@ -1,6 +1,6 @@
 {
 	"parent": "forge:block/default",
-	"loader": "forge:obj",
+	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/card_door_open.obj",
 	"flip_v" : true,
 	"transform":{

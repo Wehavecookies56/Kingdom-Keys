@@ -380,7 +380,12 @@ public class ModConfigs {
         } else if (event.getConfig().getSpec() == COMMON_SPEC) {
             KingdomKeys.LOGGER.info("LOAD COMMON CONFIG");
             bakeCommon();
-        } else if (event.getConfig().getSpec() == SERVER_SPEC) {
+        }
+    }
+
+    @SubscribeEvent
+    public static void serverConfig(ModConfigEvent.Loading event) {
+        if (event.getConfig().getSpec() == SERVER_SPEC) {
             KingdomKeys.LOGGER.info("LOAD SERVER CONFIG");
             bakeServer();
         }

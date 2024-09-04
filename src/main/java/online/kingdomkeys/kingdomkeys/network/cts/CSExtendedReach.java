@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
@@ -28,7 +28,7 @@ public record CSExtendedReach(int entityId) implements Packet {
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		Entity theEntity = player.level().getEntity(entityId);
-		if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player))
+		if(EpicFightUtils.isBattleMode(player))
 			return;
 		if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY)) {
 			return;

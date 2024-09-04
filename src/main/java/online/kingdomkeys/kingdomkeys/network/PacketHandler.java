@@ -6,7 +6,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -18,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class PacketHandler {
 
 	private static PayloadRegistrar registrar;
@@ -42,6 +45,7 @@ public class PacketHandler {
 		client(SCShowOverlayPacket.TYPE, SCShowOverlayPacket.STREAM_CODEC);
 		client(SCSyncCastleOblivionInteriorData.TYPE, SCSyncCastleOblivionInteriorData.STREAM_CODEC);
 		client(SCSyncDimensionLists.TYPE, SCSyncDimensionLists.STREAM_CODEC);
+		client(SCSyncDriveFormData.TYPE, SCSyncDriveFormData.STREAM_CODEC);
 		client(SCSyncGlobalData.TYPE, SCSyncGlobalData.STREAM_CODEC);
 		client(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC);
 		client(SCSyncLimitData.TYPE, SCSyncLimitData.STREAM_CODEC);

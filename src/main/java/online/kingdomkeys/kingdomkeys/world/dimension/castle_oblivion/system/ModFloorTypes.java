@@ -13,9 +13,7 @@ import java.util.function.Supplier;
 public class ModFloorTypes {
 
     public static DeferredRegister<FloorType> FLOOR_TYPES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "floors"), KingdomKeys.MODID);
-
-    public static final ResourceKey<Registry<FloorType>> FLOOR_TYPES_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "floors"));
-    public static Registry<FloorType> registry = new RegistryBuilder<>(FLOOR_TYPES_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+    public static Registry<FloorType> registry = FLOOR_TYPES.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
     public static Supplier<FloorType>
         NONE = FLOOR_TYPES.register("none", () -> new FloorType("none", 0, 0, 0, 0, Color.BLACK).setRegistryName(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none"))),

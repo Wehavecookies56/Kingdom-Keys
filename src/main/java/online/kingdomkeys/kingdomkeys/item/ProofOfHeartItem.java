@@ -32,7 +32,7 @@ public class ProofOfHeartItem extends Item {
         	} else {
         		if(worldIn.isClientSide) {
 					if(Utils.findSummoned(playerIn.getInventory(), playerData.getEquippedWeapon()) > -1)
-						PacketHandler.sendToServer(new CSSummonKeyblade(true, playerData.getAlignment()));
+						PacketHandler.sendToServer(new CSSummonKeyblade(null, true));
         		}
         		playerIn.displayClientMessage(Component.translatable("gui.proofofheart.leftorg"), true);
 

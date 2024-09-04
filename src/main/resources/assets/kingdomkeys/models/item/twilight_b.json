@@ -1,7 +1,7 @@
 {
-	"parent": "forge:item/default",
-	"loader": "forge:obj",
-	"model": "kingdomkeys:models/item/keyblade/twilightb.obj",
+	"parent": "neoforge:item/default",
+	"loader": "neoforge:obj",
+	"model": "kingdomkeys:models/item/keyblade/twilight_b.obj",
 	"textures": {
 
 	},

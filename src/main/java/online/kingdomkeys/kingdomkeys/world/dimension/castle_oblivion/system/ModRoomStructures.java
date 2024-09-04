@@ -14,9 +14,7 @@ import java.util.function.Supplier;
 public class ModRoomStructures {
 
     public static DeferredRegister<RoomStructure> ROOM_STRUCTURES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomstructures"), KingdomKeys.MODID);
-
-    public static final ResourceKey<Registry<RoomStructure>> ROOM_STRUCTURES_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomstructures"));
-    public static Registry<RoomStructure> registry = new RegistryBuilder<>(ROOM_STRUCTURES_KEY).sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")).create();
+    public static Registry<RoomStructure> registry = ROOM_STRUCTURES.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
     @SuppressWarnings("unchecked")
 	public static final Supplier<RoomStructure>

@@ -12,9 +12,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import org.lwjgl.glfw.GLFW;
@@ -41,8 +41,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
@@ -211,25 +209,29 @@ public class InputHandler {
 
     public void summonKeyblade() {
         if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player)) {
-                if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE)
-                    if(!playerData.isAbilityEquipped(Strings.synchBlade))
-                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
-                    else
-                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
-                else if(Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE)
-
-                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
-                else
+            if(EpicFightUtils.isBattleMode(player)) {
+                if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE) {
+                    if (!playerData.isAbilityEquipped(Strings.synchBlade)) {
+                        //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
+                    } else {
+                        //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
+                    }
+                } else if(Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE) {
+                    //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
+                } else {
                     PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
+                }
             }
-            else
+            else {
                 PacketHandler.sendToServer(new CSSummonKeyblade());
+            }
         } else {
-            if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player) && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1)
-                PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
-            else
+
+            if(EpicFightUtils.isBattleMode(player) && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
+                //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
+            } else {
                 PacketHandler.sendToServer(new CSSummonKeyblade(ResourceLocation.parse(playerData.getActiveDriveForm())));
+            }
         }
 
         if(ModConfigs.summonTogether)
