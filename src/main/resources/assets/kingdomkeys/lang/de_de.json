@@ -1223,6 +1223,7 @@
   "item.kingdomkeys.pixie_petal.desc": "Ein Schlüsselschwert mit geringer Reichweite aber hoher Magiekraft. Es ermöglicht häuffiger kritische Treffer mit hohem Schaden.",
   "item.kingdomkeys.rainfell": "Regenfall", //aqua og
   "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
+  "item.kingdomkeys.rainfell.desc": "Aqua's erstes Schlüsselschwert. Es hat eine geringe Reichweite, aber ausgeglichene Angriffs- und Magiekraft.",
   "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
   "item.kingdomkeys.stroke_of_midnight_chain": "Punkt Mitternacht-Anhänger",
   "item.kingdomkeys.stroke_of_midnight.desc": "Dieses Schlüsselschwert ermöglicht kritische Treffer häufiger.",
@@ -1235,6 +1236,7 @@
   "item.kingdomkeys.ultima_weapon_bbs_chain": "Ultima (BBS)-Anhänger",
   "item.kingdomkeys.victory_line": "Freudenjubel",
   "item.kingdomkeys.victory_line_chain": "Freudenjubel-Anhänger",
+  "item.kingdomkeys.victory_line.desc": "Ein Schlüsselschwert mit relativ hoher Reichweite, das kritische Treffer häufiger ermöglicht.",
   "item.kingdomkeys.void_gear": "Vanitas' Schlüsselschwert", //vanitas
   "item.kingdomkeys.void_gear_chain": "Vanitas' Schlüsselschwert-Anhänger",
   "item.kingdomkeys.void_gear_remnant": "Clavis Vanitatum", // "Clavis Vanitatum Fragmentum",
@@ -1912,7 +1914,6 @@
   "item.kingdomkeys.pain_of_solitude.desc": "A weapon that boosts your Magic to give it more power.",
 
   "item.kingdomkeys.pumpkinhead.desc": "Has a long reach and the ability to deal a string of critical blows.",
-  "item.kingdomkeys.rainfell.desc": "Aqua's erstes Schlüsselschwert. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
 
   "item.kingdomkeys.royal_radiance.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.silent_dirge.desc": "A weapon that provides versatility by boosting both Strength and Magic.",
@@ -1931,7 +1932,6 @@
   "item.kingdomkeys.ultima_weapon_kh1.desc": "The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.",
 
   "item.kingdomkeys.umbrella.desc": "This looks awfully familiar...",
-  "item.kingdomkeys.victory_line.desc": "A Keyblade with above-average reach that makes it easier to land critical hits.",
   "item.kingdomkeys.void_gear.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
   "item.kingdomkeys.void_gear_remnant.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
 
