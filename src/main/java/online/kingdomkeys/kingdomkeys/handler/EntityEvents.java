@@ -1100,27 +1100,27 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
-		// EnderDragon killed makes heartless spawn if mode is 3
-		WorldData worldData = WorldData.get(event.getEntity().getServer());
-		if (event.getEntity() instanceof EnderDragon) {
-			LivingEntity entity = event.getEntity();
-			if (worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
-				worldData.setHeartlessSpawnLevel(1);
-			}
-
-			for (Player p : entity.level().players()) {
-				entity.level().addFreshEntity(new ItemEntity(entity.level(), p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
-			}
-		}
-
-		if (event.getEntity() instanceof Player player) {
-			if (player.level().getLevelData().isHardcore())
-				player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
-			else
-				player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
-		}
-
 		if (!event.getEntity().level().isClientSide) {
+			// EnderDragon killed makes heartless spawn if mode is 3
+			WorldData worldData = WorldData.get(event.getEntity().getServer());
+			if (event.getEntity() instanceof EnderDragon) {
+				LivingEntity entity = event.getEntity();
+				if (worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
+					worldData.setHeartlessSpawnLevel(1);
+				}
+
+				for (Player p : entity.level().players()) {
+					entity.level().addFreshEntity(new ItemEntity(entity.level(), p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+				}
+			}
+
+			if (event.getEntity() instanceof Player player) {
+				if (player.level().getLevelData().isHardcore())
+					player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS, 1F, 1F);
+				else
+					player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerDeath.get(), SoundSource.PLAYERS, 1F, 1F);
+			}
+
 			if (event.getSource().getDirectEntity() instanceof Player || event.getSource().getEntity() instanceof Player) { // If the player kills
 				Player player = (Player) event.getSource().getEntity();
 				if (player != null) {
@@ -1133,8 +1133,8 @@ public class EntityEvents {
 						if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
 							IOrgWeapon weapon = (IOrgWeapon) player.getMainHandItem().getItem();
 							if (weapon.getMember() == playerData.getAlignment() || (event.getSource().getDirectEntity() instanceof KKThrowableEntity && playerData.getAlignment() == OrgMember.AXEL)) { // If the item used to kill is for the correct alignment OR if it's been a
-																																																		// throwable entity and the player is Axel (probably the only case so far which
-																																																		// could be true)
+								// throwable entity and the player is Axel (probably the only case so far which
+								// could be true)
 								multiplier = 2;
 							}
 						}
@@ -1234,7 +1234,7 @@ public class EntityEvents {
 							Item recipeTier = ModItems.recipeD.get();
 							GlobalData mobData = GlobalData.get(entity);
 							if (mobData != null) {
-								int num2 = Utils.randomWithRange(0, mobData.getLevel()+1);
+								int num2 = Utils.randomWithRange(0, mobData.getLevel() + 1);
 								if (num2 < 15) {
 									recipeTier = ModItems.recipeD.get();
 								} else if (num2 < 30) {
@@ -1247,7 +1247,7 @@ public class EntityEvents {
 									recipeTier = ModItems.recipeS.get();
 								} else if (num2 < 200) {
 									recipeTier = ModItems.recipeSS.get();
-								}  else if (num2 == 200) {
+								} else if (num2 == 200) {
 									recipeTier = ModItems.recipeSSS.get();
 								}
 							}
@@ -1312,7 +1312,8 @@ public class EntityEvents {
 				Player player = (Player) event.getSource().getEntity();
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-				player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+				player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {
+				}));
 			}
 		}
 	}
