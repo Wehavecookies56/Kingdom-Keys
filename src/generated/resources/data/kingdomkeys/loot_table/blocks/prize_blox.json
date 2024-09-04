@@ -1,0 +1,146 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "predicates": {
+                      "minecraft:enchantments": [
+                        {
+                          "enchantments": "minecraft:silk_touch",
+                          "levels": {
+                            "min": 1
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "name": "kingdomkeys:prize_blox"
+            },
+            {
+              "type": "minecraft:group",
+              "children": [
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellfire"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellblizzard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellwater"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellthunder"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellcure"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellaero"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellmagnet"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellgravity"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellreflect"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:spellstop"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:betwixt_shard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:sinister_shard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:stormy_shard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:writhing_shard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:pulsing_shard"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:betwixt_stone"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:sinister_stone"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:stormy_stone"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:writhing_stone"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:pulsing_stone"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:fluorite",
+                  "weight": 4
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:damascus",
+                  "weight": 3
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:adamantite",
+                  "weight": 2
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:electrum"
+                },
+                {
+                  "type": "minecraft:item",
+                  "name": "kingdomkeys:orichalcum"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "kingdomkeys:blocks/prize_blox"
+}

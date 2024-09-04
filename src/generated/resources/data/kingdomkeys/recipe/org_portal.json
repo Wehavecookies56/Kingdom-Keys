@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "item": "minecraft:chorus_fruit"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "O": {
+      "tag": "c:obsidians"
+    },
+    "P": {
+      "tag": "c:ender_pearls"
+    }
+  },
+  "pattern": [
+    "OPO",
+    "CEC",
+    "OPO"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:org_portal"
+  }
+}

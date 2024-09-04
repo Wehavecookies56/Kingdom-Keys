@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:ventus_helmet"
+    },
+    {
+      "item": "kingdomkeys:ventus_chestplate"
+    },
+    {
+      "item": "kingdomkeys:ventus_leggings"
+    },
+    {
+      "item": "kingdomkeys:ventus_boots"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:ventus_shoulder"
+  }
+}

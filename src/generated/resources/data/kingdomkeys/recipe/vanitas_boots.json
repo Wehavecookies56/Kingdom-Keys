@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "minecraft:leather_boots"
+    },
+    "B": {
+      "tag": "c:dyes/black"
+    },
+    "E": {
+      "item": "minecraft:ghast_tear"
+    },
+    "L": {
+      "tag": "c:leathers"
+    }
+  },
+  "pattern": [
+    "EBE",
+    "LAL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:vanitas_boots"
+  }
+}

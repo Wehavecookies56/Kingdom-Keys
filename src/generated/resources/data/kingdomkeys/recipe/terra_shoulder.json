@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:terra_helmet"
+    },
+    {
+      "item": "kingdomkeys:terra_chestplate"
+    },
+    {
+      "item": "kingdomkeys:terra_leggings"
+    },
+    {
+      "item": "kingdomkeys:terra_boots"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:terra_shoulder"
+  }
+}

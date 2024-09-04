@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:vanitas_helmet"
+    },
+    {
+      "tag": "c:dyes/white"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:vanitas_remnant_helmet"
+  }
+}

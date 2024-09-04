@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:ira_chestplate"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:aced_chestplate"
+  }
+}

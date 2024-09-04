@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:ava_leggings"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gula_leggings"
+  }
+}

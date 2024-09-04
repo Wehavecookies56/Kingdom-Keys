@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "ava_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:ava_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gula_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "ava_chestplate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gula_chestplate"
+    ]
+  }
+}

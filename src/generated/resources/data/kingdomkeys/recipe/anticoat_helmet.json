@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "kingdomkeys:organization_helmet"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    },
+    "L": {
+      "tag": "c:leathers"
+    },
+    "P": {
+      "tag": "c:dyes/purple"
+    }
+  },
+  "pattern": [
+    "LPL",
+    "EAE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:anticoat_helmet"
+  }
+}

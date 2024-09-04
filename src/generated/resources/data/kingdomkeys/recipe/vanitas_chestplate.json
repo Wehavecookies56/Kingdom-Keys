@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "minecraft:leather_chestplate"
+    },
+    "B": {
+      "tag": "c:dyes/black"
+    },
+    "E": {
+      "item": "minecraft:ghast_tear"
+    },
+    "L": {
+      "tag": "c:dyes/red"
+    }
+  },
+  "pattern": [
+    "LAL",
+    "EBE",
+    "LLL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:vanitas_chestplate"
+  }
+}

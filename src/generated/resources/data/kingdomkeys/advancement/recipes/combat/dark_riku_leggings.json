@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:dark_riku_leggings"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "phantom_membrane": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:phantom_membrane"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "phantom_membrane"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dark_riku_leggings"
+    ]
+  }
+}

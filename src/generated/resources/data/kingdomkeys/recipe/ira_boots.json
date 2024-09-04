@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:invi_boots"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:ira_boots"
+  }
+}

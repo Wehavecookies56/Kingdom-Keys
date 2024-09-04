@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "H": {
+      "item": "kingdomkeys:hard_blox"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "HI",
+    "IH"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:metal_blox"
+  }
+}

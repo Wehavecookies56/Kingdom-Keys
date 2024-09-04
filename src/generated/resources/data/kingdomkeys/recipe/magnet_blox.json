@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "item": "kingdomkeys:normal_blox"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "pattern": [
+    "RIR",
+    "GBG",
+    "RIR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:magnet_blox"
+  }
+}

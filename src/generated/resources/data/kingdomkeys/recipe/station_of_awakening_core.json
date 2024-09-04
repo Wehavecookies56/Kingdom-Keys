@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "M": {
+      "item": "kingdomkeys:mosaic_stained_glass"
+    }
+  },
+  "pattern": [
+    "MMM",
+    "MGM",
+    "MMM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:station_of_awakening_core"
+  }
+}

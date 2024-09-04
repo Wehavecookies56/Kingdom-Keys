@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "GNG",
+    "GRG",
+    "GNG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:ghost_blox"
+  }
+}

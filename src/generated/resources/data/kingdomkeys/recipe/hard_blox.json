@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    },
+    "S": {
+      "tag": "c:stones"
+    }
+  },
+  "pattern": [
+    "NS",
+    "SN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:hard_blox"
+  }
+}

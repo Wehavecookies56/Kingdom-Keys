@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "item": "minecraft:cactus"
+    },
+    "N": {
+      "item": "kingdomkeys:normal_blox"
+    }
+  },
+  "pattern": [
+    "NC",
+    "CN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:danger_blox"
+  }
+}

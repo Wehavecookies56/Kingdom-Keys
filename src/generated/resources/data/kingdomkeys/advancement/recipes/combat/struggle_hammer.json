@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:struggle_hammer"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "struggle_hammer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:wooden_stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "struggle_hammer"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:struggle_hammer"
+    ]
+  }
+}

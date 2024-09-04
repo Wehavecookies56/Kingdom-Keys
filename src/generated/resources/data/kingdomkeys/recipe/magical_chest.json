@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "tag": "c:chests"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "N": {
+      "item": "minecraft:nether_bricks"
+    }
+  },
+  "pattern": [
+    "GNG",
+    "GCG",
+    "GNG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:magical_chest"
+  }
+}

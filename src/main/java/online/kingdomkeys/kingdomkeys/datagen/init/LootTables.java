@@ -1,14 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -18,6 +18,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
@@ -33,6 +34,33 @@ public class LootTables extends BlockLootSubProvider {
 
 	public LootTables(HolderLookup.Provider provider) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, provider);
+	}
+
+	@Override
+	protected Iterable<Block> getKnownBlocks() {
+		return ModBlocks.BLOCKS.getRegistry().get();
+	}
+
+	@Override
+	public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> pOutput) {
+		this.generate();
+		Set<ResourceKey<LootTable>> set = new HashSet<>();
+
+		for(Block block : getKnownBlocks()) {
+			if (block.isEnabled(this.enabledFeatures)) {
+				ResourceKey<LootTable> resourcekey = block.getLootTable();
+				if (resourcekey != BuiltInLootTables.EMPTY && set.add(resourcekey)) {
+					LootTable.Builder loottable$builder = this.map.remove(resourcekey);
+					if (loottable$builder != null) {
+						pOutput.accept(resourcekey, loottable$builder);
+					}
+				}
+			}
+		}
+
+		if (!this.map.isEmpty()) {
+			throw new IllegalStateException("Created block loot tables for non-blocks: " + this.map.keySet());
+		}
 	}
 
 	private void blox() {

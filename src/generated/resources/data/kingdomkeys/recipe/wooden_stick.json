@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "S",
+    "S",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:wooden_stick"
+  }
+}

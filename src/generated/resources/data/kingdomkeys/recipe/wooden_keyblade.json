@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    " WS",
+    " WS",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:wooden_keyblade"
+  }
+}

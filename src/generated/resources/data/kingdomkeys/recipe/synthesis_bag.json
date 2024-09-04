@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "L": {
+      "tag": "c:leathers"
+    },
+    "S": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "LSL",
+    "L L",
+    "LLL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:synthesis_bag"
+  }
+}

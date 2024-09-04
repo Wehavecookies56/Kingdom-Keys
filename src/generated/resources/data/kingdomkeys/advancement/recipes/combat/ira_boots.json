@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:ira_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "invi_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:invi_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "invi_boots"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:ira_boots"
+    ]
+  }
+}

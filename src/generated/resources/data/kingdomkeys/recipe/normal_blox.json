@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "N": {
+      "item": "minecraft:dirt"
+    },
+    "S": {
+      "tag": "c:stones"
+    }
+  },
+  "pattern": [
+    "NS",
+    "SN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:normal_blox"
+  }
+}

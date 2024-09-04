@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:ira_leggings"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "invi_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:invi_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "invi_leggings"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:ira_leggings"
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "I": {
+      "item": "minecraft:item_frame"
+    },
+    "M": {
+      "item": "kingdomkeys:metal_blox"
+    }
+  },
+  "pattern": [
+    " I ",
+    "MMM",
+    "MBM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:pedestal"
+  }
+}

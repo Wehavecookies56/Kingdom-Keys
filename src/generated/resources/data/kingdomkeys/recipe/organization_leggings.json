@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "minecraft:leather_leggings"
+    },
+    "B": {
+      "tag": "c:dyes/black"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    },
+    "L": {
+      "tag": "c:leathers"
+    }
+  },
+  "pattern": [
+    "LBL",
+    "EAE",
+    "L L"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:organization_leggings"
+  }
+}

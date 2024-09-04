@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "tag": "c:dyes/black"
+    },
+    "C": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "D": {
+      "tag": "c:dyes/blue"
+    },
+    "P": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "pattern": [
+    "P P",
+    "BCB",
+    "PDP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:dark_riku_chestplate"
+  }
+}

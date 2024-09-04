@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "pattern": [
+    " G ",
+    "GEG",
+    " G "
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:airstep_target"
+  }
+}
