@@ -64,7 +64,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                 if (itemStack.getItem() instanceof KeybladeArmorItem item) {
                     ArmorBaseModel<LivingEntity> model = armorModels.get(item);
                     HumanoidModel<LivingEntity> humanoidModel = new HumanoidModel<>(model.root);
-                    AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(humanoidModel, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i));
+                    AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(player, itemStack, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), humanoidModel, model, humanoidModel, Meshes.BIPED);
                     String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
                     String textureIndex = i == 1 ? "2" : "1";
                     texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");

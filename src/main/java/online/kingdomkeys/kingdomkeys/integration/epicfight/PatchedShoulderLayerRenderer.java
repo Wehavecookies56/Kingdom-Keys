@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import yesman.epicfight.api.client.model.AnimatedMesh;
+import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.client.model.transformer.CustomModelBakery;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
@@ -53,13 +54,15 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getModelName().equals("default");
                 //Item doesn't matter
-                AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(model, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST);
+
+                /**
+                AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(player, (ArmorItem) ModItems.terra_Chestplate.get(), EquipmentSlot.CHEST, model,   humanoidModel, model,humanoidModel, Meshes.BIPED);
 
                 poseStack.pushPose();
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);
                 modelAnimated.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(texture), i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
-                poseStack.popPose();
+                poseStack.popPose();**/
             }
         }
     }
