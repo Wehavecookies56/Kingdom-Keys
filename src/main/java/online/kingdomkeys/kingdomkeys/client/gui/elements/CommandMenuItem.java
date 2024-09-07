@@ -149,7 +149,7 @@ public class CommandMenuItem {
             CommandMenuGui.INSTANCE.playErrorSound();
         }
         if (active && onEnter != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemEnter(getId(), this))) {
+            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemEnter(getId(), this, onEnter))) {
                 this.onEnter.onEnter(this);
             }
         }
@@ -157,7 +157,7 @@ public class CommandMenuItem {
 
     public void onCancel() {
         if (onCancel != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemCancel(getId(), this))) {
+            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemCancel(getId(), this, onCancel))) {
                 this.onCancel.onCancel(this);
             }
         }
@@ -165,7 +165,7 @@ public class CommandMenuItem {
 
     public void onUpdate(GuiGraphics guiGraphics) {
         if (onUpdate != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemUpdate(getId(), this, guiGraphics))) {
+            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.ItemUpdate(getId(), this, guiGraphics, onUpdate))) {
                 this.onUpdate.onUpdate(this, guiGraphics);
             }
         }

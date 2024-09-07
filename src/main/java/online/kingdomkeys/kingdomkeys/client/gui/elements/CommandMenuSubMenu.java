@@ -179,7 +179,7 @@ public class CommandMenuSubMenu {
     public void onOpen() {
         if (active) {
             if (this.onOpen != null && !CommandMenuGui.INSTANCE.currentSubmenu.equals(CommandMenuGui.INSTANCE.target)) {
-                if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuOpen(getId(), this))) {
+                if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuOpen(getId(), this, onOpen))) {
                     this.onOpen.onOpen(this);
                 }
             }
@@ -197,7 +197,7 @@ public class CommandMenuSubMenu {
             setActive(false);
         }
         if (this.onUpdate != null) {
-            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics))) {
+            if (!MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics, onUpdate))) {
                 this.onUpdate.onUpdate(this, guiGraphics);
             }
         }

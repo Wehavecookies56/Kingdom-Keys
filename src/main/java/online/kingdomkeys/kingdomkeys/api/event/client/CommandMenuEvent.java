@@ -18,11 +18,13 @@ public class CommandMenuEvent extends Event {
         private final ResourceLocation id;
         private final CommandMenuItem item;
         private final GuiGraphics guiGraphics;
+        private final CommandMenuItem.OnUpdate onUpdate;
 
-        public ItemUpdate(ResourceLocation id, CommandMenuItem item, GuiGraphics guiGraphics) {
+        public ItemUpdate(ResourceLocation id, CommandMenuItem item, GuiGraphics guiGraphics, CommandMenuItem.OnUpdate onUpdate) {
             this.id = id;
             this.item = item;
             this.guiGraphics = guiGraphics;
+            this.onUpdate = onUpdate;
         }
 
         public CommandMenuItem getItem() {
@@ -35,6 +37,10 @@ public class CommandMenuEvent extends Event {
 
         public GuiGraphics getGuiGraphics() {
             return guiGraphics;
+        }
+
+        public CommandMenuItem.OnUpdate getOnUpdate() {
+            return onUpdate;
         }
     }
 
@@ -43,10 +49,12 @@ public class CommandMenuEvent extends Event {
     public static class ItemEnter extends CommandMenuEvent {
         private final ResourceLocation id;
         private final CommandMenuItem item;
+        private final CommandMenuItem.OnEnter onEnter;
 
-        public ItemEnter(ResourceLocation id, CommandMenuItem item) {
+        public ItemEnter(ResourceLocation id, CommandMenuItem item, CommandMenuItem.OnEnter onEnter) {
             this.id = id;
             this.item = item;
+            this.onEnter = onEnter;
         }
 
         public CommandMenuItem getItem() {
@@ -55,6 +63,10 @@ public class CommandMenuEvent extends Event {
 
         public ResourceLocation getId() {
             return id;
+        }
+
+        public CommandMenuItem.OnEnter getOnEnter() {
+            return onEnter;
         }
     }
 
@@ -62,10 +74,12 @@ public class CommandMenuEvent extends Event {
     public static class ItemCancel extends CommandMenuEvent {
         private final ResourceLocation id;
         private final CommandMenuItem item;
+        private final CommandMenuItem.OnCancel onCancel;
 
-        public ItemCancel(ResourceLocation id, CommandMenuItem item) {
+        public ItemCancel(ResourceLocation id, CommandMenuItem item, CommandMenuItem.OnCancel onCancel) {
             this.id = id;
             this.item = item;
+            this.onCancel = onCancel;
         }
 
         public CommandMenuItem getItem() {
@@ -74,6 +88,10 @@ public class CommandMenuEvent extends Event {
 
         public ResourceLocation getId() {
             return id;
+        }
+
+        public CommandMenuItem.OnCancel getOnCancel() {
+            return onCancel;
         }
     }
 
@@ -82,11 +100,13 @@ public class CommandMenuEvent extends Event {
         private final ResourceLocation id;
         private final CommandMenuSubMenu subMenu;
         private final GuiGraphics guiGraphics;
+        private final CommandMenuSubMenu.OnUpdate onUpdate;
 
-        public SubmenuUpdate(ResourceLocation id, CommandMenuSubMenu subMenu, GuiGraphics guiGraphics) {
+        public SubmenuUpdate(ResourceLocation id, CommandMenuSubMenu subMenu, GuiGraphics guiGraphics, CommandMenuSubMenu.OnUpdate onUpdate) {
             this.id = id;
             this.subMenu = subMenu;
             this.guiGraphics = guiGraphics;
+            this.onUpdate = onUpdate;
         }
 
         public ResourceLocation getId() {
@@ -100,16 +120,22 @@ public class CommandMenuEvent extends Event {
         public GuiGraphics getGuiGraphics() {
             return guiGraphics;
         }
+
+        public CommandMenuSubMenu.OnUpdate getOnUpdate() {
+            return onUpdate;
+        }
     }
 
     @Cancelable
     public static class SubmenuOpen extends CommandMenuEvent {
         private final ResourceLocation id;
         private final CommandMenuSubMenu subMenu;
+        private final CommandMenuSubMenu.OnOpen onOpen;
 
-        public SubmenuOpen(ResourceLocation id, CommandMenuSubMenu subMenu) {
+        public SubmenuOpen(ResourceLocation id, CommandMenuSubMenu subMenu, CommandMenuSubMenu.OnOpen onOpen) {
             this.id = id;
             this.subMenu = subMenu;
+            this.onOpen = onOpen;
         }
 
         public ResourceLocation getId() {
@@ -118,6 +144,10 @@ public class CommandMenuEvent extends Event {
 
         public CommandMenuSubMenu getSubMenu() {
             return subMenu;
+        }
+
+        public CommandMenuSubMenu.OnOpen getOnOpen() {
+            return onOpen;
         }
     }
 
