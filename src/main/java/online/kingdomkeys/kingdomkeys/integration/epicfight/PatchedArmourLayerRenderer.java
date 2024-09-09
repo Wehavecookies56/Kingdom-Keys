@@ -41,7 +41,6 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-@Mod.EventBusSubscriber(modid = KingdomKeys.MODID, value = Dist.CLIENT)
 public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, KeybladeArmorRenderer<E, M>> {
 	
     boolean hideHelmet;
