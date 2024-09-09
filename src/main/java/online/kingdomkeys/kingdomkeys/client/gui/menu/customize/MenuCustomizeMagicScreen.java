@@ -105,8 +105,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         }
         updateMagicButtons(false);
         ModConfigs.setMagicDisplayedInCommandMenu(displayedMagic.keySet().stream().map(ResourceLocation::toString).toList());
-        if(displayedMagic.size() < 1 && CommandMenuGui.submenu == CommandMenuGui.SUB_MAGIC) {
-        	CommandMenuGui.submenu = CommandMenuGui.SUB_MAIN;
+        if(displayedMagic.isEmpty() && CommandMenuGui.INSTANCE.currentSubmenu.equals(CommandMenuGui.INSTANCE.magic)) {
+        	CommandMenuGui.INSTANCE.changeSubmenu(CommandMenuGui.INSTANCE.root, true);
         }
     }
 

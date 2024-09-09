@@ -40,7 +40,7 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, cmCursorMemory;
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale;
 
     public enum ShowType {
@@ -253,6 +253,7 @@ public class ModConfigs {
         cmXPos = CLIENT.cmXPos.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
+        cmCursorMemory = CLIENT.cmCursorMemory.get();
 
         hpXPos = CLIENT.hpXPos.get();
         hpYPos = CLIENT.hpYPos.get();

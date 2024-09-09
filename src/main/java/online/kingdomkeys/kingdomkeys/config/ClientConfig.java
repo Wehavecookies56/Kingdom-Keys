@@ -40,6 +40,8 @@ public class ClientConfig {
 
 	public ForgeConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
 
+	public ForgeConfigSpec.BooleanValue cmCursorMemory;
+
 	ClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("general");
         	summonTogether = builder
@@ -99,6 +101,11 @@ public class ClientConfig {
 	                .comment("Command Menu Submenu X Offset %")
 	                .translation(KingdomKeys.MODID + ".config.cm_sub_x_offset")
 	                .defineInRange("cmSubXOffset", 100, -1000, 1000);
+
+			cmCursorMemory = builder
+					.comment("Keep the cursor position in the submenus")
+					.translation(KingdomKeys.MODID + "config.cm_cursor_memory")
+							.define("cmCursorMemory", true);
 	        
 	        builder.pop();
 	        

@@ -250,6 +250,7 @@ public class KingdomKeys {
 				if (ModList.get().isLoaded("epicfight")) {
 					FMLJavaModLoadingContext.get().getModEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 				}
+				CommandMenuGui.INSTANCE.initCommandMenu();
 				MinecraftForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 			}
 		});
