@@ -201,12 +201,6 @@ public class MenuConfigScreen extends MenuBackground {
 				ModConfigs.setCmXScale(Utils.getInt(getValue()));
 				return true;
 			}
-			
-			@Override
-			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-			}
-			
 		});
 		
 		addRenderableWidget(cmXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){

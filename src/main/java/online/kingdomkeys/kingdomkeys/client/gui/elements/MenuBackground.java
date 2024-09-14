@@ -108,6 +108,11 @@ public class MenuBackground extends Screen {
 	}
 
 	@Override
+	protected void renderBlurredBackground(float pPartialTick) {
+
+	}
+
+	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
