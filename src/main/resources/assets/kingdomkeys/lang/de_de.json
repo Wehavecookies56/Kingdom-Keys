@@ -133,8 +133,8 @@
   "ability.ability_mp_rage.name": "Esprit",
   "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
   "ability.ability_mp_safety.name": "MP-Aufladung",
-  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
-  "ability.ability_mp_thrift.name": "MP Thrift",
+  "ability.ability_mp_thrift.desc": "Senkt die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_mp_thrift.name": "MP-Sparfuchs",
 
   "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_negative_combo.name": "Combo -",
@@ -708,7 +708,7 @@
   "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
   "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
   "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
-  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Schattenlurch-Spawn-Ei",
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
@@ -716,6 +716,11 @@
 
   //boss
   "item.kingdomkeys.marluxia_spawn_egg": "Marluxia-Spawn-Ei",
+  //"item.kingdomkeys.xemnas_spawn_egg": "Xemnas-Spawn-Ei",
+  //"item.kingdomkeys.xigbar_spawn_egg": "Xigbar-Spawn-Ei",
+  //"item.kingdomkeys.larxene_spawn_egg": "Larxene-Spawn-Ei",
+  //"item.kingdomkeys.vexen_spawn_egg": "Vexen-Spawn-Ei",
+  //"item.kingdomkeys.luxorc_spawn_egg": "Luxord-Spawn-Ei",
 
   // -MATERIALS
 
@@ -1536,7 +1541,7 @@
   "item.kingdomkeys.snowman": "Schneemann", //mystery
 
 
-  // ---5 - Axe Sword / Axtschwert (Lexaaeus)
+  // ---5 - Axe Sword / Axtschwert (Lexaeus)
 
   "item.kingdomkeys.skysplitter": "Himmelsspalter", //main - zero mod
   "item.kingdomkeys.reticence": "Zurückhaltung", //no gear
