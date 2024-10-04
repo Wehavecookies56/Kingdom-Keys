@@ -63,7 +63,7 @@ public class ServerConfig {
         allowPartyKO = builder
                 .comment("If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
-                .define("allowPartyKO", true);
+                .define("allowPartyKO", false);
         
         wayfinderParty = builder
                 .comment("If true then players will only be able to use the Wayfinder with other party members, if false with anyone")

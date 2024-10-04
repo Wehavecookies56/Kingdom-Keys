@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -58,36 +59,36 @@ public class FortuneBonusModifier extends LootModifier {
             BlockEntity blockEntity = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
             Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
 
-            if (blockState != null && entity instanceof Player player)
-            {
-                // bonus for lucky amplifier.
-				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+            if (blockState != null && entity instanceof Player player) {
+                if (!(blockState.getBlock() instanceof ShulkerBoxBlock)) {                // bonus for lucky amplifier.
+                    IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+                    int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
 
-				if (totalFortuneBonus > 0) {
-					ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
+                    if (totalFortuneBonus > 0) {
+                        ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();
 
-					fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
+                        fakeTool.getOrCreateTag().putBoolean(hasLuckyLuckyBonus, true);
 
-                    Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
-                    enchantments.put(Enchantments.BLOCK_FORTUNE, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, fakeTool) + totalFortuneBonus);
+                        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(fakeTool);
+                        enchantments.put(Enchantments.BLOCK_FORTUNE, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, fakeTool) + totalFortuneBonus);
 
-					EnchantmentHelper.setEnchantments(enchantments, fakeTool);
+                        EnchantmentHelper.setEnchantments(enchantments, fakeTool);
 
-                    if (origin == null) {
-                        origin = player.position();
+                        if (origin == null) {
+                            origin = player.position();
+                        }
+
+                        LootParams.Builder builder = new LootParams.Builder((ServerLevel) player.level());
+                        builder.withParameter(LootContextParams.TOOL, fakeTool);
+                        builder.withParameter(LootContextParams.BLOCK_STATE, blockState);
+                        builder.withParameter(LootContextParams.ORIGIN, origin);
+                        builder.withParameter(LootContextParams.BLOCK_ENTITY, blockEntity);
+
+                        LootParams newContext = builder.create(LootContextParamSets.BLOCK);
+                        LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
+
+                        return lootTable.getRandomItems(newContext);
                     }
-
-                    LootParams.Builder builder = new LootParams.Builder((ServerLevel) player.level());
-                    builder.withParameter(LootContextParams.TOOL, fakeTool);
-                    builder.withParameter(LootContextParams.BLOCK_STATE, blockState);
-                    builder.withParameter(LootContextParams.ORIGIN, origin);
-                    builder.withParameter(LootContextParams.BLOCK_ENTITY, blockEntity);
-
-                    LootParams newContext = builder.create(LootContextParamSets.BLOCK);
-                    LootTable lootTable = context.getLevel().getServer().getLootData().getLootTable(blockState.getBlock().getLootTable());
-
-                    return lootTable.getRandomItems(newContext);
                 }
             }
         }
