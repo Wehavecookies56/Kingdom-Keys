@@ -133,8 +133,8 @@
   "ability.ability_mp_rage.name": "Esprit",
   "ability.ability_mp_safety.desc": "Deaktiviere das wieder aufladen nachdem die MP leer gehen, bei einem Kurzbefehl. Außer es ist Vita.",
   "ability.ability_mp_safety.name": "MP-Aufladung",
-  "ability.ability_mp_thrift.desc": "Verringert die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
-  "ability.ability_mp_thrift.name": "MP Thrift",
+  "ability.ability_mp_thrift.desc": "Senkt die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
+  "ability.ability_mp_thrift.name": "MP-Sparfuchs",
 
   "ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
   "ability.ability_negative_combo.name": "Combo -",
@@ -622,6 +622,9 @@
   "gui.proofofheart.notinorg": "Du bist nicht in der Organisation XIII",
   "gui.proofofheart.unequip": "Lege zuerst deine Organisation XIII Rüstung ab",
 
+  "gui.save.create.global": "Für alle freigeben",
+  "gui.save.create.global.desc": "Ermöglicht den Zugriff auf diesen Speicherpunkt für alle Spieler",
+
   "gui.save.create.title": "Neuer Speicherpunkt",
   "gui.save.create.prompt": "Gib diesem Speicherpunkt einen Namen",
   "gui.save.create.accept": "Einspeichern",
@@ -705,7 +708,7 @@
   "item.kingdomkeys.moogle_spawn_egg": "Mogry-Spawn-Ei",
   "item.kingdomkeys.red_nocturne_spawn_egg": "Pyrozipfler-Spawn-Ei",
   "item.kingdomkeys.shadow_glob_spawn_egg": "Schattenfleck-Spawn-Ei",
-  "item.kingdomkeys.shadow_spawn_egg": "Erschaffe Schattenlurch-Spawn-Ei",
+  "item.kingdomkeys.shadow_spawn_egg": "Schattenlurch-Spawn-Ei",
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
@@ -713,6 +716,11 @@
 
   //boss
   "item.kingdomkeys.marluxia_spawn_egg": "Marluxia-Spawn-Ei",
+  //"item.kingdomkeys.xemnas_spawn_egg": "Xemnas-Spawn-Ei",
+  //"item.kingdomkeys.xigbar_spawn_egg": "Xigbar-Spawn-Ei",
+  //"item.kingdomkeys.larxene_spawn_egg": "Larxene-Spawn-Ei",
+  //"item.kingdomkeys.vexen_spawn_egg": "Vexen-Spawn-Ei",
+  //"item.kingdomkeys.luxorc_spawn_egg": "Luxord-Spawn-Ei",
 
   // -MATERIALS
 
@@ -1056,6 +1064,7 @@
 
   "item.kingdomkeys.k111": "K111",
   "item.kingdomkeys.k111c": "K111a",
+  "item.kingdomkeys.k111.desc": "Ein Schlüsselschwert aus einer lang vergessenen Zeit, es sieht ziemlich vertraut aus...",
 
   // ---KH1
 
@@ -1067,11 +1076,13 @@
   "item.kingdomkeys.fairy_harp_chain": "Feenharfe-Anhänger",
   "item.kingdomkeys.jungle_king": "Simplexus",
   "item.kingdomkeys.jungle_king_chain": "Simplexus-Anhänger",
+  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
   "item.kingdomkeys.keyblade_of_peoples_hearts": "Schlüsselschwert der Herzen", //dark riku
   "item.kingdomkeys.keyblade_of_peoples_hearts_chain": "Schlüsselschwert der Herzen-Anhänger",
+  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "Ein Schlüsselschwert mit der Fähigkeit das Herz einer Person freizusetzen, somit auch die darin schlummernde Dunkelheit.",
   "item.kingdomkeys.kingdom_key": "Königsanhänger", //sora
   "item.kingdomkeys.kingdom_key_chain": "Königsanhänger-Anhänger",
-  "item.kingdomkeys.kingdom_key.desc": "Ein Schlüsselanhänger, der am Schlüsselschwert angebracht ist. Halbiert erlittenen Schaden in kritischen Situationen", //from kh2
+  "item.kingdomkeys.kingdom_key.desc": "Ein Schlüsselanhänger, der am Schlüsselschwert angebracht ist. Halbiert erlittenen Schaden in kritischen Situationen.", //from kh2
   "item.kingdomkeys.kingdom_key_d": "Königsanhänger D", //mickey
   "item.kingdomkeys.kingdom_key_d_chain": "Königsanhänger D-Anhänger",
   "item.kingdomkeys.kingdom_key_d.desc": "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.", //from kh2
@@ -1131,6 +1142,7 @@
   "item.kingdomkeys.decisive_pumpkin.desc": "Besitzt sehr große Angriffskraft und erhöht den Schaden, den ein Combo-Abschlussangriff verursacht, proportional zu der Anzahl der Schläge einer Boden-Combo.",
   "item.kingdomkeys.destinys_embrace": "Schicksalswink", //kairi
   "item.kingdomkeys.destinys_embrace_chain": "Schicksalswink-Anhänger", //aqua
+  "item.kingdomkeys.destinys_embrace.desc": "Kairi's Schlüsselschwert, dass sie von Aqua erhielt. Dieses Schlüsselschwert ermöglich kritische Treffer häufiger.",
   "item.kingdomkeys.fenrir": "Fenrir",
   "item.kingdomkeys.fenrir_chain": "Fenrir-Anhänger",
   "item.kingdomkeys.fenrir.desc": "Gute Reichweite und unvergleichliche Angriffskraft. Reduziert die maximale Anzahl der Schläge von Boden- und Luft-Combos um 1.",
@@ -1193,25 +1205,34 @@
   "item.kingdomkeys.darkgnaw.desc": "A Keyblade that makes up for its poor reach and low critical hit ratio by providing an extra boost in Strength.",
   "item.kingdomkeys.earthshaker": "Erderschütterer", //terra og
   "item.kingdomkeys.earthshaker_chain": "Erderschütterer-Anhänger",
+  "item.kingdomkeys.earthshaker.desc": "Das Schlüsselschwert mit dem Ventus seine Reise begann.\nWhat it lacks in reach it makes up for with a slight boost in Strength.",
   "item.kingdomkeys.ends_of_the_earth": "Hinter dem Horizont",
   "item.kingdomkeys.ends_of_the_earth_chain": "Hinter dem Horizont-Anhänger",
+  "item.kingdomkeys.ends_of_the_earth.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
   "item.kingdomkeys.fairy_stars": "Feengestirn",
   "item.kingdomkeys.fairy_stars_chain": "Feengestirn-Anhänger",
   "item.kingdomkeys.fairy_stars.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.frolic_flame": "Flammende Flausen", //ventus
   "item.kingdomkeys.frolic_flame_chain": "Flammende Flausen-Anhänger",
+  "item.kingdomkeys.frolic_flame.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft und hoher Reichweite.",
   "item.kingdomkeys.lost_memory": "Verlorene Erinnerung", //ventus
   "item.kingdomkeys.lost_memory_chain": "Verlorene Erinnerung-Anhänger",
+  "item.kingdomkeys.lost_memory.desc": "Ein Schlüsselschwert mit hoher Reichweite, das häufiger kritische Treffer mit hohem Schaden ermöglicht.",
   "item.kingdomkeys.hyperdrive": "Hyperantrieb",
   "item.kingdomkeys.hyperdrive_chain": "Hyperantrieb-Anhänger",
+  "item.kingdomkeys.hyperdrive.desc": "Ein Schlüsselschwert mit relativ hoher Reichweite und ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.mark_of_a_hero": "Heldenemblem",
   "item.kingdomkeys.mark_of_a_hero_chain": "Heldenemblem-Anhänger",
+  "item.kingdomkeys.mark_of_a_hero.desc": "Ein Schlüsselschwert mit hoher Angriffskraft und hohem Schaden bei kritischen Treffern.",
   "item.kingdomkeys.no_name_bbs": "Namenlose Klinge",
   "item.kingdomkeys.no_name_bbs_chain": "Namenlose Klinge-Anhänger",
+  "item.kingdomkeys.no_name_bbs.desc": "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.",
   "item.kingdomkeys.pixie_petal": "Feenblüte",
   "item.kingdomkeys.pixie_petal_chain": "Feenblüte-Anhänger",
+  "item.kingdomkeys.pixie_petal.desc": "Ein Schlüsselschwert mit geringer Reichweite aber hoher Magiekraft. Es ermöglicht häuffiger kritische Treffer mit hohem Schaden.",
   "item.kingdomkeys.rainfell": "Regenfall", //aqua og
   "item.kingdomkeys.rainfell_chain": "Regenfall-Anhänger",
+  "item.kingdomkeys.rainfell.desc": "Aquas erstes Schlüsselschwert.\nEs hat eine geringe Reichweite, aber ausgeglichene Angriffs- und Magiekraft.",
   "item.kingdomkeys.stroke_of_midnight": "Punkt Mitternacht",
   "item.kingdomkeys.stroke_of_midnight_chain": "Punkt Mitternacht-Anhänger",
   "item.kingdomkeys.stroke_of_midnight.desc": "Dieses Schlüsselschwert ermöglicht kritische Treffer häufiger.",
@@ -1222,22 +1243,26 @@
   "item.kingdomkeys.treasure_trove.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft, aber geringer Reichweite.",
   "item.kingdomkeys.ultima_weapon_bbs": "Ultima (BBS)",
   "item.kingdomkeys.ultima_weapon_bbs_chain": "Ultima (BBS)-Anhänger",
+  "item.kingdomkeys.ultima_weapon_bbs.desc": "The most powerful of Keyblades.",
   "item.kingdomkeys.victory_line": "Freudenjubel",
   "item.kingdomkeys.victory_line_chain": "Freudenjubel-Anhänger",
+  "item.kingdomkeys.victory_line.desc": "Ein Schlüsselschwert mit relativ hoher Reichweite, das kritische Treffer häufiger ermöglicht.",
   "item.kingdomkeys.void_gear": "Vanitas' Schlüsselschwert", //vanitas
   "item.kingdomkeys.void_gear_chain": "Vanitas' Schlüsselschwert-Anhänger",
   "item.kingdomkeys.void_gear_remnant": "Clavis Vanitatum", // "Clavis Vanitatum Fragmentum",
   "item.kingdomkeys.void_gear_remnant_chain": "Clavis Vanitatum-Anhänger",
   "item.kingdomkeys.wayward_wind": "Launischer Wind", //ventus main
   "item.kingdomkeys.wayward_wind_chain": "Launischer Wind-Anhänger",
-  "item.kingdomkeys.wayward_wind.desc": "Das Schlüsselschwert mit dem Ventus seine Reise begann. Es hat eine geringe Reichweite, aber eine relativ hohe Angriffskraft.",
+  "item.kingdomkeys.wayward_wind.desc": "Das Schlüsselschwert mit dem Ventus seine Reise begann.\nEs hat eine geringe Reichweite, aber eine relativ hohe Angriffskraft.",
 
-  "item.kingdomkeys.no_name": "Das starrende Auge", //luxu
-  "item.kingdomkeys.no_name_chain": "Das starrende Auge-Anhänger",
+  "item.kingdomkeys.incomplete_kiblade": "Unvollständige χ-Klinge",
+  "item.kingdomkeys.incomplete_kiblade_chain": "Unvollständige χ-Klinge-Anhänger",
+  "item.kingdomkeys.incomplete_kiblade.desc": "Eine unvollständige Version des legendären Schlüsselschwertes, der χ-Klinge.",
 
   //Final Mix
   "item.kingdomkeys.masters_defender": "Meisterhüter", //Eraqus
   "item.kingdomkeys.masters_defender_chain": "Meisterhüter-Anhänger",
+  "item.kingdomkeys.masters_defender.desc": "Meister Eraqus' Schlüsselschwert. All of its stats are high.",
   "item.kingdomkeys.royal_radiance": "Königsglanz",
   "item.kingdomkeys.royal_radiance_chain": "Königsglanz-Anhänger",
 
@@ -1246,17 +1271,17 @@
 
   "item.kingdomkeys.all_for_one": "Alle für einen",
   "item.kingdomkeys.all_for_one_chain": "Alle für einen-Anhänger",
-  "item.kingdomkeys.all_for_one.desc": "Ein Schlüsselschwert, das weniger Realitätswandeln auslöst, aber einen hohen Magiewert hat und kritische Treffer erliechtert.",
+  "item.kingdomkeys.all_for_one.desc": "Ein Schlüsselschwert, das weniger Realitätswandeln auslöst, aber eine hohe Magiekraft hat und kritische Treffer erliechtert.",
   "item.kingdomkeys.bond_of_the_blaze": "Flammenbund", //name not full
   "item.kingdomkeys.bond_of_the_blaze_chain": "Flammenbund-Anhänger",
   "item.kingdomkeys.counterpoint": "Kontrapunkt",
   "item.kingdomkeys.counterpoint_chain": "Kontrapunkt-Anhänger",
-  "item.kingdomkeys.counterpoint.desc": "Ein Schlüsselschwert mit hoher Reichweite und hohem Magiewert, das das Auslösen von Realitätswandeln erleichtert.",
+  "item.kingdomkeys.counterpoint.desc": "Ein Schlüsselschwert mit hoher Reichweite und hoher Magiekraft, das das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.divewing": "Flügeltaucher",
   "item.kingdomkeys.divewing_chain": "Flügeltaucher-Anhänger",
   "item.kingdomkeys.dual_disc": "Doppeldiskus",
   "item.kingdomkeys.dual_disc_chain": "Doppeldiskus-Anhänger",
-  "item.kingdomkeys.dual_disc.desc": "Ein Schlüsselschwert mit hohem Angriffswert, mit dem kritische Treffer leichter werden.",
+  "item.kingdomkeys.dual_disc.desc": "Ein Schlüsselschwert mit hoher Angriffskraft, mit dem kritische Treffer leichter werden.",
   "item.kingdomkeys.end_of_pain": "Garaus",
   "item.kingdomkeys.end_of_pain_chain": "Garaus-Anhänger",
   "item.kingdomkeys.fatal_crest": "Unheilbringer",
@@ -1264,25 +1289,26 @@
   "item.kingdomkeys.fatal_crest.desc": "Erhöht die Angriffskraft während der MP-Aufladung und ermöglicht endlose Combos. Kein Combo-Abschlussangriff möglich.",
   "item.kingdomkeys.ferris_gear": "Riesenrad",
   "item.kingdomkeys.ferris_gear_chain": "Riesenrad-Anhänger",
-  "item.kingdomkeys.ferris_gear.desc": "Ein Schlüsselschwert, das weniger realitätswandel auslöst, aber hohe Angriffs- und Magiewerte besitzt.",
+  "item.kingdomkeys.ferris_gear.desc": "Ein Schlüsselschwert, das weniger Realitätswandel auslöst, aber hohe Angriffs- und Magiekraft besitzt.",
   "item.kingdomkeys.guardian_bell": "Schutzglocke",
   "item.kingdomkeys.guardian_bell_chain": "Schutzglocke-Anhänger",
-  "item.kingdomkeys.guardian_bell.desc": "Ein Schlüsselschwert mit großer Reichweite und hohem Magiewert.",
+  "item.kingdomkeys.guardian_bell.desc": "Ein Schlüsselschwert mit großer Reichweite und hoher Magiekraft.",
   "item.kingdomkeys.knockout_punch": "K.-o.-Schlag",
   "item.kingdomkeys.knockout_punch_chain": "K.-o.-Schlag-Anhänger",
-  "item.kingdomkeys.knockout_punch.desc": "Ein Schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandeln ermöglicht.",
+  "item.kingdomkeys.knockout_punch.desc": "Ein Schlüsselschwert, das weniger kritische Treffer zufügt, aber hohe Magiekraft besitzt & häufiger Realitätswandeln ermöglicht.",
   "item.kingdomkeys.mirage_split": "Desillusion",
   "item.kingdomkeys.mirage_split_chain": "Desillusion-Anhänger",
+  "item.kingdomkeys.mirage_split.desc": "Ein Schlüsselschwert der einem Realitätswandel aus der Welt die Niemals war entsprungen ist.",
   "item.kingdomkeys.nightmares_end": "Albtraumende",
   "item.kingdomkeys.nightmares_end_chain": "Albtraumende-Anhänger",
   "item.kingdomkeys.nightmares_end_and_mirage_split": "Verbundene Klinge",
   "item.kingdomkeys.nightmares_end_and_mirage_split_chain": "Verbundene Klinge-Anhänger",
   "item.kingdomkeys.oceans_rage": "Tosende See",
   "item.kingdomkeys.oceans_rage_chain": "Tosende See-Anhänger",
-  "item.kingdomkeys.oceans_rage.desc": "Ein schlüsselschwert, das weniger kritische Treffer zufügt, aber hohen Magiewert besitzt & häufiger Realitätswandel ermöglicht.",
+  "item.kingdomkeys.oceans_rage.desc": "Ein schlüsselschwert, das weniger kritische Treffer zufügt, aber hohe Magiekraft besitzt & häufiger Realitätswandel ermöglicht.",
   "item.kingdomkeys.skull_noise": "Schädelklopfer",
   "item.kingdomkeys.skull_noise_chain": "Schädelklopfer-Anhänger",
-  "item.kingdomkeys.skull_noise.desc": "Ein Schlüsselschwert mit ausgeglichenen Angriffs- und Magiewerten.",
+  "item.kingdomkeys.skull_noise.desc": "Ein Schlüsselschwert mit ausgeglichener Angriffs- und Magiekraft.",
   "item.kingdomkeys.sweet_dreams": "Süße Träume",
   "item.kingdomkeys.sweet_dreams_chain": "Süße Träume-Anhänger",
   "item.kingdomkeys.ultima_weapon_ddd": "Ultima (DDD)",
@@ -1290,12 +1316,11 @@
   "item.kingdomkeys.ultima_weapon_ddd.desc": "Ein außergewöhnliches Schlüsselschwert, mit allgemein hohen Werten, das kritische Treffer und das Auslösen von Realitätswandeln erleichtert.",
   "item.kingdomkeys.unbound": "Entfessler",
   "item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
-  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert kritische Treffe und bes. das Auslösen von Realitätswandeln.",
-  "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanorts Schlüsselschwert",
-  "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanorts Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.young_xehanorts_keyblade.desc": "The Keyblade weilded by Young Xehanort.",
-
-
+  "item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert ds Landen von kritischen Treffern und besonders das Auslösen von Realitätswandel.",
+  "item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
+  "item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.young_xehanorts_keyblade.desc": "Das Schlüsselschwert, getragen vom Jungen Xehanort, es ermöglicht das Zeitreisen.",
+  
   // ---KH3
 
   "item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
@@ -1306,13 +1331,16 @@
   "item.kingdomkeys.dawn_till_dusk.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.dead_of_night": "Mondreign", //steam
   "item.kingdomkeys.dead_of_night_chain": "Mondreign-Anhänger",
+  "item.kingdomkeys.dead_of_night.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.elemental_encoder": "Elementarkodierer", //epic games
   "item.kingdomkeys.elemental_encoder_chain": "Elementarkodierer-Anhänger",
   "item.kingdomkeys.elemental_encoder.desc": "Ein Schlüsselschwert voll mystischer Energie.",
   "item.kingdomkeys.midnight_blue": "Mitternachtsblau", //pre-order
   "item.kingdomkeys.midnight_blue_chain": "Mitternachtsblau-Anhänger",
+  "item.kingdomkeys.midnight_blue.desc": "Ein Schlüsselschwert voll rätselhafter Energie.",
   "item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
   "item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
+  "item.kingdomkeys.phantom_green.desc": "Ein Schlüsselschwert voll mystischer Kraft.",
 
   "item.kingdomkeys.braveheart": "Braveheart", //riku
   "item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
@@ -1352,36 +1380,37 @@
   "item.kingdomkeys.star_cluster.desc": "Micky Schlüsselschwert, auch bekannt als Schlüsselanhänger W.",
   "item.kingdomkeys.ultima_weapon_kh3": "Ultima (KH3)",
   "item.kingdomkeys.ultima_weapon_kh3_chain": "Ultima (KH3)-Anhänger",
-  "item.kingdomkeys.ultima_weapon_kh3.desc": "The supreme Keyblade.",
+  "item.kingdomkeys.ultima_weapon_kh3.desc": "Das ultimative Schlüsselschwert.",
   "item.kingdomkeys.wheel_of_fate": "Schicksalsruder",
   "item.kingdomkeys.wheel_of_fate_chain": "Schicksalsruder-Anhänger",
   "item.kingdomkeys.wheel_of_fate.desc": "Ein Schlüsselschwert mit Fokus auf Angriff.",
 
-  "item.kingdomkeys.incomplete_kiblade": "Unvollständige χ-Klinge",
-  "item.kingdomkeys.incomplete_kiblade_chain": "Unvollständige χ-Klinge-Anhänger",
-  "item.kingdomkeys.incomplete_kiblade.desc": "Eine unvollständige Version des legendären Schlüsselschwertes, der χ-Klinge.",
   "item.kingdomkeys.kiblade": "\u03c7-Klinge",
   "item.kingdomkeys.kiblade_chain": "\u03c7-Klinge-Anhänger",
-  "item.kingdomkeys.kiblade.desc": "Eine legendäre Waffe, das Ur-Schlüsselschwert, dass als Beispiel für alle Anderen diente.",
+  //"item.kingdomkeys.kiblade.desc": "Eine legendäre Waffe, das Ur-Schlüsselschwert, dass als Beispiel für alle Anderen diente.",
+  "item.kingdomkeys.kiblade.desc": "Eine legendäre Waffe, die es ermöglichen soll das Kingdom Hearts zu öffnen.",
+  "item.kingdomkeys.no_name": "Das starrende Auge", //luxu
+  "item.kingdomkeys.no_name_chain": "Das starrende Auge-Anhänger",
+  "item.kingdomkeys.no_name.desc": "Das Schlüsselschwert, welches Luxu vom Meister der Meister erhalten hat. Das Auge seines Meisters ist eingebaut.",
 
 
   // Union Cross
 
   "item.kingdomkeys.aceds_keyblade": "Aceds Schlüsselschwert",
   "item.kingdomkeys.aceds_keyblade_chain": "Aceds Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.aceds_keyblade.desc": "The Keyblade owned by Ursus' Foreteller.",
+  "item.kingdomkeys.aceds_keyblade.desc": "Das Schlüsselschwert des Ursus Propheten.",
   "item.kingdomkeys.avas_keyblade": "Avas Schlüsselschwert",
   "item.kingdomkeys.avas_keyblade_chain": "Avas Schlüsselanhänger",
-  "item.kingdomkeys.avas_keyblade.desc": "The Keyblade owned by Vulpeus' Foreteller.",
+  "item.kingdomkeys.avas_keyblade.desc": "Das Schlüsselschwert des Vulpeus Propheten.",
   "item.kingdomkeys.gulas_keyblade": "Gulas Schlüsselschwert",
-  "item.kingdomkeys.gulas_keyblade_chain": "Gula' Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.gulas_keyblade.desc": "The Keyblade owned by Leopardos' Foreteller.",
+  "item.kingdomkeys.gulas_keyblade_chain": "Gulas Schlüsselschwert-Anhänger",
+  "item.kingdomkeys.gulas_keyblade.desc": "Das Schlüsselschwert des Leopardos Propheten.",
   "item.kingdomkeys.invis_keyblade": "Invis Schlüsselschwert",
   "item.kingdomkeys.invis_keyblade_chain": "Invis Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.invis_keyblade.desc": "The Keyblade owned by Anguis' Foreteller.",
+  "item.kingdomkeys.invis_keyblade.desc": "Das Schlüsselschwert des Anguis Propheten.",
   "item.kingdomkeys.iras_keyblade": "Iras Schlüsselschwert",
   "item.kingdomkeys.iras_keyblade_chain": "Iras Schlüsselschwert-Anhänger",
-  "item.kingdomkeys.iras_keyblade.desc": "The Keyblade owned by Unicornis' Foreteller.",
+  "item.kingdomkeys.iras_keyblade.desc": "Das Schlüsselschwert des Unicornis Propheten.",
   "item.kingdomkeys.starlight": "Sternenlicht",
   "item.kingdomkeys.starlight_chain": "Sternenlicht-Anhänger",
   "item.kingdomkeys.starlight.desc": "Ein Schlüsselschwert aus antiken Tagen.", //from kh3
@@ -1512,7 +1541,7 @@
   "item.kingdomkeys.snowman": "Schneemann", //mystery
 
 
-  // ---5 - Axe Sword / Axtschwert (Lexaaeus)
+  // ---5 - Axe Sword / Axtschwert (Lexaeus)
 
   "item.kingdomkeys.skysplitter": "Himmelsspalter", //main - zero mod
   "item.kingdomkeys.reticence": "Zurückhaltung", //no gear
@@ -1866,51 +1895,34 @@
   "item.kingdomkeys.darker_than_dark.desc": "A weapon that offers high Magic and combo reach.",
 
 
-  "item.kingdomkeys.destinys_embrace.desc": "A Keyblade that makes it easier to land critical hits.",
   "item.kingdomkeys.diamond_dust.desc": "Greatly enhances magic and summon power. Raises max MP by 3.",
   "item.kingdomkeys.divewing.desc": "A Keyblade with long reach that provides an extra boost in Magic and makes it easier to trigger Reality Shifts.",
   "item.kingdomkeys.divine_rose.desc": "A powerful weapon that is difficult to deflect. Capable of dealing a string of critical blows.",
-  "item.kingdomkeys.earthshaker.desc": "The Keyblade Terra started out with. What it lacks in reach it makes up for with a slight boost in Strength.",
+
 
   "item.kingdomkeys.end_of_pain.desc": "A Keyblade with high magical power and critical hit rate, but reduces the occurrence of Reality Shift.",
-  "item.kingdomkeys.ends_of_the_earth.desc": "A well-balanced Keyblade that provides an extra boost to all your stats.",
+
 
   "item.kingdomkeys.fairy_harp.desc": "Raises max MP by 1, and enhances magic and summon power. Sometimes deals powerful critical blows.",
 
-  "item.kingdomkeys.frolic_flame.desc": "A well-balanced Keyblade that provides an extra boost to all of your stats.",
   "item.kingdomkeys.glimpse_of_darkness.desc": "A weapon that possesses very high Strength. Effective against tough enemies.",
-
-  "item.kingdomkeys.hyperdrive.desc": "A Keyblade with above-average reach that provides a balanced boost in Strength and Magic.",
-
-
-  "item.kingdomkeys.jungle_king.desc": "Has a long reach, but seldom deals critical blows.",
-  "item.kingdomkeys.k111.desc": "A keyblade from a long forgotten age, it seems to resemble something familiar...",
-  "item.kingdomkeys.keyblade_of_peoples_hearts.desc": "A keyblade with the ability to unlock a person's heart, releasing the darkness within.",
 
   "item.kingdomkeys.lady_luck.desc": "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.",
   "item.kingdomkeys.lionheart.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
-  "item.kingdomkeys.lost_memory.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.lunar_eclipse.desc": "A weapon that boosts versatility by greatly boosting both Strength and Magic.",
-  "item.kingdomkeys.mark_of_a_hero.desc": "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.",
-  "item.kingdomkeys.masters_defender.desc": "Master Eraqus's Keyblade. All of its stats are high.",
   "item.kingdomkeys.maverick_flare.desc": "A weapon that offers high Strength and ground combo speed.",
   "item.kingdomkeys.metal_chocobo.desc": "Possesses incredible power and reach, but reduces max MP by 1. Rarely deals critical blows.",
-  "item.kingdomkeys.midnight_blue.desc": "A Keyblade imbued with wondrous power.",
-  "item.kingdomkeys.mirage_split.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
+
   "item.kingdomkeys.missing_ache.desc": "A weapon that lets you string together faster, longer ground combos.",
 
   "item.kingdomkeys.nightmares_end.desc": "A Keyblade formed from a Reality Shift in The World That Never Was.",
   "item.kingdomkeys.nightmares_end_and_mirage_split.desc": "A Keyblade formed by combining both the Mirage Split and Nightmare's End.",
-  "item.kingdomkeys.no_name.desc": "Das Schlüsselschwert, welches Luxu vom Meister der Meister erhalten hat. Das Auge seines Meisters ist eingebaut.",
-  "item.kingdomkeys.no_name_bbs.desc": "A Keyblade with long reach that provides an outstanding boost in Magic and makes it easier to land critical hits.",
   "item.kingdomkeys.olympia.desc": "A powerful weapon that is difficult to deflect. Capable of inflicting mighty critical blows.",
   "item.kingdomkeys.ominous_blight.desc": "A weapon that lets you string together faster, much longer ground combos.",
   "item.kingdomkeys.one_winged_angel.desc": "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.",
   "item.kingdomkeys.pain_of_solitude.desc": "A weapon that boosts your Magic to give it more power.",
-  "item.kingdomkeys.phantom_green.desc": "A Keyblade imbued with wondrous power.",
-  "item.kingdomkeys.pixie_petal.desc": "A Keyblade that makes up for its poor reach with an extra boost in Magic. It also makes it easier to land critical hits, and deals higher damage when you do.",
+
   "item.kingdomkeys.pumpkinhead.desc": "Has a long reach and the ability to deal a string of critical blows.",
-  "item.kingdomkeys.rainfell.desc": "The Keyblade Aqua started out with. What it lacks in reach it makes up for with a balanced boost to Strength and Magic.",
 
   "item.kingdomkeys.royal_radiance.desc": "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.",
   "item.kingdomkeys.silent_dirge.desc": "A weapon that provides versatility by boosting both Strength and Magic.",
@@ -1925,11 +1937,9 @@
 
 
   "item.kingdomkeys.twilight_blaze.desc": "A weapon that boasts superior Strength and ground combo speed.",
-  "item.kingdomkeys.ultima_weapon_bbs.desc": "The most powerful of Keyblades.",
   "item.kingdomkeys.ultima_weapon_kh1.desc": "The ultimate Keyblade. Raises max MP by 2, and possesses maximum power and attributes.",
 
   "item.kingdomkeys.umbrella.desc": "This looks awfully familiar...",
-  "item.kingdomkeys.victory_line.desc": "A Keyblade with above-average reach that makes it easier to land critical hits.",
   "item.kingdomkeys.void_gear.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
   "item.kingdomkeys.void_gear_remnant.desc": "A Keyblade with long reach that provides an outstanding boost in Strength and deals higher damage when you land a critical hit.",
 
