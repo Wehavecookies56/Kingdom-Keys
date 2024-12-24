@@ -837,7 +837,8 @@ public class Strings {
         woodenStick = "wooden_stick",
         youngXehanortsKeyblade = "young_xehanorts_keyblade",
         zeroOne = "zero_one",
-		k111 = "k111"
+		k111 = "k111",
+		retribution = "retribution"
 	;
 
     //Keychains
@@ -981,7 +982,9 @@ public class Strings {
         wishingStarChain = "wishing_star_chain",
         youngXehanortsKeybladeChain = "young_xehanorts_keyblade_chain",
         zeroOneChain = "zero_one_chain",
-		k111c = "k111c"
+
+		k111c = "k111c",
+		retributionChain = "retribution_chain"
 	;
 
     //Misc

@@ -168,6 +168,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.youngXehanortsKeyblade, Strings.youngXehanortsKeybladeChain, 9, 7, "", 5.0F, "item." + MODID + "." + Strings.youngXehanortsKeyblade + ".desc");
 		addStats(Strings.zeroOne, Strings.zeroOneChain, 6, 4, "", 5.0F, "item." + MODID + "." + Strings.zeroOne + ".desc");
 		addStats(Strings.k111, Strings.k111c, 10, 8, "", 5, "item." + MODID + "." + Strings.k111 + ".desc");
+		addStats(Strings.retribution, Strings.retributionChain, 5, 5, "", 5, "item." + MODID + "." + Strings.retribution + ".desc");
 	}
 
 	static Recipe[] recipes = {

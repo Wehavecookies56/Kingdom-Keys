@@ -1,0 +1,63 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:separate_transforms",
+	"textures": {
+
+	},
+	"base":	{
+		"parent": "forge:item/default",
+		"loader": "forge:obj",
+		"model": "kingdomkeys:models/item/keyblade/custom/retribution.obj",
+		"flip_v" : true,
+		"textures": {
+	
+		},
+		"display": {
+			"firstperson_righthand": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [22.0, 0, -20.0 ],
+				"scale": [2,2,2]
+			},
+			"firstperson_lefthand": {
+				"rotation": [0.0, -90.0, 0.0 ],
+				"translation": [-10.0, 0, -20.0 ],
+				"scale": [2,2,2]
+			},
+			"thirdperson_righthand": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [13.0, 5, -11.0 ],
+				"scale": [1.6,1.6,1.6]
+			},
+			"thirdperson_lefthand": {
+				"rotation": [0.0, -90.0, 0.0 ],
+				"translation": [-13.0, 5, -11.0 ],
+				"scale": [1.6,1.6,1.6]
+			},
+			"gui": {
+				"rotation": [45.0, 10.0, -45.0 ],
+				"translation": [-0.2, -0.2, 0.0 ],
+				"scale": [1,1,1 ]
+			},
+			"ground": {
+				"rotation": [45.0, 0.0, 0.0 ],
+				"translation": [0.0, 0.0, 0.0 ],
+				"scale": [1,1,1 ]
+			},
+			"fixed": {
+				"rotation": [0.0, 90.0, 0.0 ],
+				"translation": [0.0, -0.25, 0.0 ],
+				"scale": [1,1,1 ]
+			}
+		}
+	}
+,
+	"perspectives": {
+		"gui": {
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "kingdomkeys:item/keyblades/retribution"
+			}
+		}
+	}
+	
+}
