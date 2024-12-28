@@ -111,7 +111,9 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		transformations.putBoolean("flipped", flipped);
 		compound.put("transforms", transformations);
 		compound.putBoolean("soa_marker", stationOfAwakeningMarker);
-		compound.put("display_stack", displayStack.save(registries));
+
+		if(!displayStack.isEmpty())
+			compound.put("display_stack", displayStack.save(registries));
 	}
 
 	@Override

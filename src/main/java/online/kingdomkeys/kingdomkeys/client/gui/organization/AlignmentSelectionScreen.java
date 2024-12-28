@@ -57,6 +57,11 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
+    protected void renderBlurredBackground(float pPartialTick) {
+
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
         if (deltaY > 0 && prev.visible)

@@ -51,6 +51,11 @@ public class WeaponTreeSelectionScreen extends Screen {
     private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     @Override
+    protected void renderBlurredBackground(float pPartialTick) {
+
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
         if (deltaY > 0 && prev.visible)
