@@ -39,7 +39,7 @@ public class WhiteMushroomEntity extends BaseKHEntity {
             } else if(source.getMsgId().equals(KKResistanceType.lightning.toString())) {
                 checkSatisfy(3);
             } else {
-                EntityHelper.setState(this, -2);
+                setState(-2);
             }
         }
 
@@ -48,22 +48,21 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     }
 
     private void checkSatisfy(int i) {
-        if(EntityHelper.getState(this) >= 0) { //Prevents multiple hitting attacks from counting at the wrong moment
-            if (EntityHelper.getState(this) == i) { //If the magic is right
+        if(getState() >= 0) { //Prevents multiple hitting attacks from counting at the wrong moment
+            if (getState() == i) { //If the magic is right
                 //System.out.println("Happy");
-                EntityHelper.setState(this, -1); //Set to satisfied pose
+                setState(-1); //Set to satisfied pose
                 satisfied++;
                 if (satisfied >= 3) { //If it's the 3rd time in a row
                     //System.out.println("Drop smth");
-                    EntityHelper.setState(this, -3); //Set to victory pose
+                    setState(-3); //Set to victory pose
 
                     ItemEntity ie = new ItemEntity(level(), getX(), getY(), getZ(), new ItemStack(ModItems.orichalcum.get()));
                     level().addFreshEntity(ie);
                 }
             } else { //If magic is wrong set to angry pose
                 //System.out.println("Not happy");
-                EntityHelper.setState(this, -2);
-
+                setState(-2);
             }
         }
     }
@@ -93,12 +92,6 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     @Override
     public int getMaxSpawnClusterSize() {
         return 4;
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-        pBuilder.define(EntityHelper.ANIMATION, 0);
     }
 
     @Override

@@ -51,11 +51,6 @@ public class NobodyCreeperEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
-    @Override
     public EntityHelper.MobType getKHMobType() {
         return EntityHelper.MobType.NOBODY;
     }
@@ -115,11 +110,11 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 		@Override
 		public void start() {
 			canUseAttack = true;
-			if (EntityHelper.getState(theEntity) > 2)
+			if (theEntity.getState() > 2)
 				attackTimer = 10 + level().random.nextInt(5);
 			else
 				attackTimer = 20 + level().random.nextInt(5);
-			EntityHelper.setState(theEntity, 0);
+            theEntity.setState(0);
 			this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
 			whileAttackTimer = 0;
 		}
@@ -133,7 +128,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                 whileAttackTimer+=2;
                 LivingEntity target = this.theEntity.getTarget(); // Creates a new variable that holds the target
 
-                if(EntityHelper.getState(theEntity) == 0) { // if the state of the entity is 0 (meaning it does not executes any attack)
+                if(theEntity.getState() == 0) { // if the state of the entity is 0 (meaning it does not executes any attack)
                     this.theEntity.getLookControl().setLookAt(target, 30F, 30F); // we turn the entity to face the target
 
                     if(level().random.nextInt(100) + level().random.nextDouble() <= 75) { // some sort of primitive (could've looked better) percentage system..but if the random number is under or equal with 75 (so a 75% chance)
@@ -141,7 +136,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                         if(level().random.nextInt(100) + level().random.nextDouble() <= 50) { // again but for another randomized number to see which morph to run, there's a 50/50 chance for both
                             //SWORD
                             if(theEntity.distanceTo(theEntity.getTarget()) < 8) { // for the sword one we need to check if the target is 4 blocks or less away from the entity (just because it wouldn't make much sense for a close-ranged attack to occur when the target is 5 miles away)
-                                EntityHelper.setState(theEntity, 1); // setting the state to 1 (sword morphing)
+                                theEntity.setState(1); // setting the state to 1 (sword morphing)
 
 		            			/*
 		            			   Kinda optional for this one but I thought it's a nice touch...we set the movement speed and attack damage to 0
@@ -163,7 +158,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 		            			 Same as with the sword, the only difference being we move the entity 4 blocks above the target location (for that sweet "falling from sky" effect)
 		            			 Also deals only 3 hearts for entities around 2 blocks around it (cuz it's a spear not a sword, smaller range)
 		            			 */
-	                            EntityHelper.setState(theEntity, 2);
+                                theEntity.setState(2);
 	                            this.theEntity.teleportTo(target.getX(), target.getY() + 4, target.getZ());
 	                            this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	
@@ -177,7 +172,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
                     else {
                         if(theEntity.distanceTo(theEntity.getTarget()) < 5) {
                             //LEG SWIPE
-                            EntityHelper.setState(theEntity, 3);
+                            theEntity.setState(3);
 
                             this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
@@ -190,19 +185,19 @@ public class NobodyCreeperEntity extends BaseKHEntity {
 
                 }
 
-                if(EntityHelper.getState(theEntity) == 1 && whileAttackTimer > 20) { // special check if the sword AI is active and if it's been more than 1 second since the attack started,
+                if(theEntity.getState() == 1 && whileAttackTimer > 20) { // special check if the sword AI is active and if it's been more than 1 second since the attack started,
                 // did this because I want the sword attack to last 1 second and the other 2 attacks more than 1 second
         			/*
         			 	start the cooldown and reset the entity attributes
         			 */
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
+                    theEntity.setState(0);
                     this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
                 }
-                else if(EntityHelper.getState(theEntity) != 1 && whileAttackTimer > 30)
+                else if(theEntity.getState() != 1 && whileAttackTimer > 30)
                 {
                     canUseAttack = false;
-                    EntityHelper.setState(theEntity, 0);
+                    theEntity.setState(0);
                     this.theEntity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.17D);
                 }
             }

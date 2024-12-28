@@ -4,6 +4,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class ShadowGoal extends TargetGoal {
 	// 1 - in Shadow ; 0 - in Overworld
@@ -16,8 +17,11 @@ public class ShadowGoal extends TargetGoal {
 	public ShadowGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;   
-		this.originalAttackDamage = this.mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+		this.originalAttackDamage = creature.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+		this.mob = (BaseKHEntity) creature;
 	}
+	private BaseKHEntity mob;
+
 
 	@Override
 	public boolean canContinueToUse() {
@@ -30,7 +34,7 @@ public class ShadowGoal extends TargetGoal {
 				if (!isInShadow()) {
 					shadowTicks-=2;
 					if (shadowTicks <= 0) {
-						EntityHelper.setState(this.mob, 1);
+						mob.setState(1);
 	                    this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0.0D);
 						canUseNextAttack = false;
 					}
@@ -45,7 +49,7 @@ public class ShadowGoal extends TargetGoal {
 				canUseNextAttack = false;
 				shadowTicks+=2;
 				if (shadowTicks >= TIME_OUTSIDE_THE_SHADOW) {
-					EntityHelper.setState(this.mob, 0);
+					mob.setState(0);
 					this.mob.setInvulnerable(false);
 					canUseNextAttack = true;
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
@@ -104,11 +108,11 @@ public class ShadowGoal extends TargetGoal {
 				}
 
 				if (this.mob.level().random.nextInt(2) == 0) {
-					EntityHelper.setState(this.mob, 0);
+					mob.setState(0);
 					this.mob.setInvulnerable(false);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
-					EntityHelper.setState(this.mob, 1);
+					mob.setState(1);
 					this.mob.setInvulnerable(true);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
 				}
@@ -150,11 +154,11 @@ public class ShadowGoal extends TargetGoal {
 				}
 
 				if (this.mob.level().random.nextInt(2) == 0) {
-					EntityHelper.setState(this.mob, 0);
+					mob.setState(0);
 					this.mob.setInvulnerable(false);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 				} else {
-					EntityHelper.setState(this.mob, 1);
+					mob.setState(1);
 					this.mob.setInvulnerable(true);
                     this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(0D);
 				}
@@ -164,7 +168,7 @@ public class ShadowGoal extends TargetGoal {
 
 			return true;
 		}
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 		this.mob.setInvulnerable(false);
         this.mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(originalAttackDamage);
 		return false;
@@ -172,12 +176,12 @@ public class ShadowGoal extends TargetGoal {
 
 	@Override
 	public void start() {
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isInShadow() {
-		return EntityHelper.getState(this.mob) == 1;
+		return mob.getState() == 1;
 	}
 
 	@Override

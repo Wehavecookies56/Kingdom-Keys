@@ -34,7 +34,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
     @Override
     public void render(BaseBombEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
-        if (EntityHelper.getState(entityIn) == 1) {
+        if (entityIn.getState() == 1) {
             int timer = Math.max(entityIn.ticksToExplode, 0);
             String text = (int)Math.ceil(timer/20F) + "";
             matrixStackIn.pushPose();

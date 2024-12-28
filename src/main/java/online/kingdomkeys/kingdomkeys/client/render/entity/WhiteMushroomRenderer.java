@@ -34,7 +34,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 	public void render(Type entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			if (EntityHelper.getState(entity) == -2) {
+			if (entity.getState() == -2) {
 				if(prevState != -2){
 					ticksDespawning = entity.tickCount;
 				}
@@ -69,7 +69,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 			super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 		}
 		matrixStackIn.popPose();
-		prevState = EntityHelper.getState(entity);
+		prevState = entity.getState();
 	}
 	
 	@Override

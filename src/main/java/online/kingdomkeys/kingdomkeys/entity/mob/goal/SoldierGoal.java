@@ -8,29 +8,33 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class SoldierGoal extends TargetGoal {
 	// 0-Normal, 1-spinning
 
-		private final int MAX_SPINNING_TICKS = 2 * 20;
-		private int spinTicks = 0;
-				
-		private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
-		
-		public SoldierGoal(PathfinderMob creature) {
-			super(creature, true);
-			ticksToChooseAI = 20;
-		}
-		
-		@Override
+	private final int MAX_SPINNING_TICKS = 2 * 20;
+	private int spinTicks = 0;
+
+	private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
+
+	public SoldierGoal(PathfinderMob creature) {
+		super(creature, true);
+		ticksToChooseAI = 20;
+		this.mob = (BaseKHEntity) creature;
+	}
+	private BaseKHEntity mob;
+
+
+	@Override
 		public boolean canContinueToUse() {
 			if (this.mob.getTarget() != null) {
 				//Set AI to use
-				if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) { //No random since it has only one attack
+				if(ticksToChooseAI <= 0 && mob.getState() == 0) { //No random since it has only one attack
 					setSpinning(mob);
 					ticksToChooseAI = 150;
 				} else {
-					if(EntityHelper.getState(mob) == 0) {
+					if(mob.getState() == 0) {
 						ticksToChooseAI-=2;
 					}
 				}
@@ -41,7 +45,7 @@ public class SoldierGoal extends TargetGoal {
 				
 				return true;
 			} else { //If no target
-				EntityHelper.setState(this.mob, 0);
+				mob.setState(0);
 			}
 			return false;
 		}
@@ -59,23 +63,23 @@ public class SoldierGoal extends TargetGoal {
 			}
 			
 			if(spinTicks >= MAX_SPINNING_TICKS) {
-				EntityHelper.setState(this.mob, 0);
+				mob.setState(0);
 				spinTicks = 0;
 			}
 		}
 	
-		public void setSpinning(Mob mob) {
+		public void setSpinning(BaseKHEntity mob) {
 			spinTicks = 0;
-			EntityHelper.setState(mob, 1);
+			mob.setState(1);
 		}
 		
 		@Override
 		public void start() {
-			EntityHelper.setState(this.mob, 0);
+			mob.setState(0);
 		}
 
 		private boolean isSpinning() {
-			return EntityHelper.getState(this.mob) == 1;
+			return mob.getState() == 1;
 		}
 				
 		@Override

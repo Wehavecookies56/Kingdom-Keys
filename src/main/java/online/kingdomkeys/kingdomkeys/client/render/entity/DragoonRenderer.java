@@ -22,11 +22,11 @@ public class DragoonRenderer<Type extends DragoonEntity> extends MobRenderer<Typ
 	public void render(Type entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			if(EntityHelper.getState(entityIn) == 0) {
+			if(entityIn.getState() == 0) {
 				
-			} else if (EntityHelper.getState(entityIn) == 1) {
+			} else if (entityIn.getState() == 1) {
 				matrixStackIn.translate(0, -0.4, 0);
-			} else if(EntityHelper.getState(entityIn) == 2) {
+			} else if(entityIn.getState() == 2) {
 				matrixStackIn.translate(0, -0.8, 0);
 			}
 			super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -36,7 +36,7 @@ public class DragoonRenderer<Type extends DragoonEntity> extends MobRenderer<Typ
 	
 	@Override
 	protected void scale(Type entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-		if (EntityHelper.getState(entitylivingbaseIn) == 1) {
+		if (entitylivingbaseIn.getState() == 1) {
 			matrixStackIn.scale(0.6F, 0.6F, 0.6F);
 		} else {
 			matrixStackIn.scale(0.8F, 0.8F, 0.8F);

@@ -16,13 +16,14 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
-public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
+public class WhiteMushroomModel<T extends BaseKHEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "white_mushroom"), "main");
 	private final ModelPart main;
 	private final ModelPart body;
@@ -77,7 +78,7 @@ public class WhiteMushroomModel<T extends LivingEntity> extends EntityModel<T> {
 	@Override
 	public void setupAnim(T entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		if(!Minecraft.getInstance().isPaused()) {
-			switch(EntityHelper.getState(entity)) {
+			switch(entity.getState()) {
 			//switch(-2) {
 				case -3 ->{ //Full victory
 					this.main.y = 0;

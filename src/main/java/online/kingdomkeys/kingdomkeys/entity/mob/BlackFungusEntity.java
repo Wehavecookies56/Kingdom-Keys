@@ -25,7 +25,7 @@ public class BlackFungusEntity extends BaseKHEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!level().isClientSide()){
-            if (EntityHelper.getState(this) == -4) { //If the mushroom is stonified
+            if (getState() == -4) { //If the mushroom is stonified
                 return false;
             }
         }
@@ -61,12 +61,6 @@ public class BlackFungusEntity extends BaseKHEntity {
     @Override
     public int getMaxSpawnClusterSize() {
         return 4;
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-        pBuilder.define(EntityHelper.ANIMATION, 0);
     }
 
     @Override

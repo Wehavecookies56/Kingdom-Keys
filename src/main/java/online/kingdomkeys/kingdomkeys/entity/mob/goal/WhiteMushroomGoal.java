@@ -5,6 +5,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class WhiteMushroomGoal extends TargetGoal {
 	// 0-Normal, 1-Fire, 2-Blizzard, 3- Thunder
@@ -17,7 +18,10 @@ public class WhiteMushroomGoal extends TargetGoal {
 	public WhiteMushroomGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksToChooseCharade = 0;
+		this.mob = (BaseKHEntity) creature;
 	}
+	private BaseKHEntity mob;
+
 
 	@Override
 	public boolean canContinueToUse() {
@@ -69,22 +73,22 @@ public class WhiteMushroomGoal extends TargetGoal {
 			}
 			return true;
 		} else { //If no target
-			EntityHelper.setState(this.mob, 0);
+			mob.setState(0);
 		}
 		return false;
 	}
 
-	public void setCharade(Mob mob, int charadeID) {
-		EntityHelper.setState(mob, charadeID);
+	public void setCharade(BaseKHEntity mob, int charadeID) {
+		mob.setState(charadeID);
 	}
 
-	public int getCharade(Mob mob){
-		return EntityHelper.getState(mob);
+	public int getCharade(BaseKHEntity mob){
+		return mob.getState();
 	}
 
 	@Override
 	public void start() {
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 	}
 
 	@Override

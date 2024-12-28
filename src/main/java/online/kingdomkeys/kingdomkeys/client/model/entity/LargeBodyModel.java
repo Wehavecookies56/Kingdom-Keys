@@ -12,13 +12,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 /**
  * HeartlessLargeBody - WYND
  * Created using Tabula 7.0.0
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
-public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
+public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "largebodymodel"), "main");
 
     private final ModelPart neck4;
@@ -184,7 +185,7 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
             this.leftLeg1.xRot = this.rightLeg1.xRot = 0;
         }
 
-        if(EntityHelper.getState(ent) == 0) {
+        if(ent.getState() == 0) {
             this.body.yRot = 0;
             this.leftArm1.xRot = this.rightArm1.xRot = 0;
             this.leftLeg1.yRot = this.degToRad(-13);
@@ -192,22 +193,22 @@ public class LargeBodyModel<T extends Entity> extends EntityModel<T> {
 
             this.rightArm1.xRot = this.rightArm1.yRot = this.rightArm1.zRot = 0;
         }
-        else if(EntityHelper.getState(ent) == 1) {
-            cycleIndex = (int) (ent.tickCount % chargeFlailArmsAnimation.length);
+        else if(ent.getState() == 1) {
+            cycleIndex = ent.tickCount % chargeFlailArmsAnimation.length;
             this.leftArm1.xRot  = (float) -chargeFlailArmsAnimation[cycleIndex];
             this.rightArm1.xRot  = (float) chargeFlailArmsAnimation[cycleIndex];
         }
-        else if(EntityHelper.getState(ent) == 2) {
-            this.leftArm1.zRot  = degToRad(-60);
-            this.rightArm1.zRot  = degToRad(60);
+        else if(ent.getState() == 2) {
+            this.leftArm1.zRot = degToRad(-60);
+            this.rightArm1.zRot = degToRad(60);
             cycleIndex = (int) ((ent.tickCount * 1.4) % mowdownAttackAnimation.length);
             this.body.yRot = degToRad(mowdownAttackAnimation[cycleIndex]);
         }
-        else if(EntityHelper.getState(ent) == 10) {
+        else if(ent.getState() == 10) {
             this.leftArm1.zRot = this.rightArm1.zRot = 0;
             this.leftArm1.xRot = this.rightArm1.xRot = 0;
 
-            cycleIndex = (int) (ent.tickCount % afterAttackAnimation.length);
+            cycleIndex = ent.tickCount % afterAttackAnimation.length;
             this.rightArm1.xRot = degToRad((float) afterAttackAnimation[cycleIndex]);
             this.rightArm1.yRot = degToRad(-26);
             this.rightArm1.zRot = degToRad(18);

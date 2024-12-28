@@ -31,11 +31,11 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
 
     @Override
     public ResourceLocation getTextureLocation(NobodyCreeperEntity entity) {
-        if(EntityHelper.getState(entity) == 0 || EntityHelper.getState(entity) == 3)
+        if(entity.getState() == 0 || entity.getState() == 3)
             return this.texture;
-        else if(EntityHelper.getState(entity) == 1)
+        else if(entity.getState() == 1)
             return this.swordTexture;
-        else if(EntityHelper.getState(entity) == 2)
+        else if(entity.getState() == 2)
             return this.spearTexture;
         return texture;
     }
@@ -110,15 +110,14 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(rendertype);
             int i = getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
             //this.entityModel.render(matrixStackIn, ivertexbuilder, packedLightIn, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
-            if(EntityHelper.getState(entityIn) == 0 || EntityHelper.getState(entityIn) == 3)
-            {
+            if(entityIn.getState() == 0 || entityIn.getState() == 3) {
                 model.RightArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
                 model.BodyLower.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
                 model.LeftArmDetail.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
             }
-            else if(EntityHelper.getState(entityIn) == 1)
+            else if(entityIn.getState() == 1)
                 model.Sword_Handle1.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
-            else if(EntityHelper.getState(entityIn) == 2)
+            else if(entityIn.getState() == 2)
                 model.Spear_Handle.render(matrixStackIn, ivertexbuilder, packedLightIn, i);
         }
 

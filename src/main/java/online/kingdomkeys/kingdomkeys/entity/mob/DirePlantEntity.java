@@ -54,11 +54,6 @@ public class DirePlantEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
-    @Override
     public EntityHelper.MobType getKHMobType() {
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
@@ -67,8 +62,11 @@ public class DirePlantEntity extends BaseKHEntity {
         private boolean canUseAttack = true;
         private int attackTimer = 30;
 
+        private BaseKHEntity mob;
+
         public SeedGoal(DirePlantEntity e) {
         	super(e, true);
+            this.mob = e;
         }
 
         @Override
@@ -95,13 +93,14 @@ public class DirePlantEntity extends BaseKHEntity {
         public void start() {
             canUseAttack = true;
             attackTimer = 30;
-            EntityHelper.setState(mob, 0);
+
+            mob.setState(0);
         }
 
         @Override
         public void tick() {
             if(mob.getTarget() != null && canUseAttack) {
-                EntityHelper.setState(mob, 1);
+                mob.setState(1);
                 LivingEntity target = this.mob.getTarget();
                 this.mob.getLookControl().setLookAt(target, 30F, 30F);
                 double d1 = this.mob.getTarget().getX() - this.mob.getX();

@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
@@ -7,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -18,6 +20,25 @@ public class BaseKHEntity extends Monster implements IKHMob {
 
 	public BaseKHEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);
+	}
+
+	public static final EntityDataAccessor<Integer> ANIMATION = SynchedEntityData.defineId(BaseKHEntity.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(BaseKHEntity.class, EntityDataSerializers.INT);
+
+	public void setState(int i) {
+		getEntityData().set(STATE, i);
+	}
+
+	public int getState() {
+		return getEntityData().get(STATE);
+	}
+
+	public void setAnimation(int i) {
+		getEntityData().set(ANIMATION, i);
+	}
+
+	public int getAnimation() {
+		return getEntityData().get(ANIMATION);
 	}
 
 	@Override
@@ -61,6 +82,13 @@ public class BaseKHEntity extends Monster implements IKHMob {
 			}
 		}
 		return super.skipAttackInteraction(pEntity);
+	}
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
+		pBuilder.define(STATE, 0);
+		pBuilder.define(ANIMATION,0);
 	}
 
 }

@@ -21,9 +21,9 @@ public class AssassinRenderer extends MobRenderer<AssassinEntity, AssassinModel<
     public void render(AssassinEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
     	matrixStackIn.pushPose();
         {
-	    	if (EntityHelper.getState(entityIn) == 1) {
+	    	if (entityIn.getState() == 1) {
 	    		matrixStackIn.translate(0, -1.5F, 0);
-	    	} else if(EntityHelper.getState(entityIn) == 2){
+	    	} else if(entityIn.getState() == 2){
 	    		matrixStackIn.translate(0, 0.3F, 0);
 	    		if(entityIn.tickCount % 10 == 0) {
 	    			matrixStackIn.scale(1.2F, 1.2F, 1.2F);

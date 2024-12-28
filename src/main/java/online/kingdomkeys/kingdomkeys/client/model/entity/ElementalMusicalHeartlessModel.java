@@ -14,12 +14,13 @@ import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 /**
  * Dusk - WYND
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
-public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityModel<T> {
+public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "elementalmusicalheartless"), "main");
 
     private final ModelPart Body;
@@ -158,7 +159,7 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
 
 
         if(!Minecraft.getInstance().isPaused()) {
-            if(EntityHelper.getState(entityIn) == 1) {
+            if(entityIn.getState() == 1) {
                 if (entityIn instanceof BaseElementalMusicalHeartlessEntity) {
                     BaseElementalMusicalHeartlessEntity entity = (BaseElementalMusicalHeartlessEntity) entityIn;
                     if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.FIRE) {
@@ -170,7 +171,7 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
                             this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
                             this.Hat1.y = this.HatTop1.y = 0F;
                             frame = 0;
-                            EntityHelper.setState(entityIn, 0);
+                            entityIn.setState(0);
                         }
 
                         this.frame += 0.7;
@@ -188,14 +189,14 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
                             this.Hat1.y = this.HatTop1.y = 0F;
                             this.Body.xRot = degToRad(0);
                             frame = 0;
-                            EntityHelper.setState(entity, 0);
+                            entityIn.setState(0);
                         }
 
                         this.frame += 0.6;
                     }
                 }
             }
-            else if(EntityHelper.getState(entityIn) == 2) {
+            else if(entityIn.getState() == 2) {
                 if(frame < animationMeleeAttack.length) {
                     this.Hat1.y = this.HatTop1.y = -0.6F;
                     this.Body.xRot = degToRad(85);
@@ -206,12 +207,12 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
                     this.Hat1.yRot = this.Body.yRot = degToRad(0);
                     this.Hat1.y = this.HatTop1.y = 0F;
                     frame = 0;
-                    EntityHelper.setState(entityIn, 0);
+                    entityIn.setState(0);
                 }
 
                 this.frame += 1.2;
             }
-            else if(EntityHelper.getState(entityIn) == 3) {
+            else if(entityIn.getState() == 3) {
                 if(frame < animationMeleeAttack.length) {
                     this.Body.xRot = degToRad(90);
                     this.Body.zRot = degToRad(animationMeleeAttack[(int) frame]);
@@ -219,7 +220,7 @@ public class ElementalMusicalHeartlessModel<T extends Entity> extends EntityMode
                 else {
                     this.Body.xRot = this.Body.zRot = degToRad(0);
                     frame = 0;
-                    EntityHelper.setState(entityIn, 0);
+                    entityIn.setState(0);
                 }
 
                 this.frame += 1.2;

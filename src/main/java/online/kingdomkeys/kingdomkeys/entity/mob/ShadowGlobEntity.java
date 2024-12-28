@@ -45,11 +45,6 @@ public class ShadowGlobEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
-    @Override
     public boolean isNoAi() {
         return true;
     }

@@ -28,18 +28,18 @@ public class BlackFungusRenderer<Type extends BlackFungusEntity> extends MobRend
 	}
 	
 	@Override
-	protected void scale(Type entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-		if(EntityHelper.getState(entitylivingbaseIn) == -5){
+	protected void scale(Type entityIn, PoseStack matrixStackIn, float partialTickTime) {
+		if(entityIn.getState() == -5){
 			matrixStackIn.scale(0.8F, 0.4F, 0.8F);
 		} else {
 			matrixStackIn.scale(0.6F, 0.6F, 0.6F);
 		}
-		super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
+		super.scale(entityIn, matrixStackIn, partialTickTime);
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		if(EntityHelper.getState(pEntity) == -4)
+		if(pEntity.getState() == -4)
 			return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus_stone.png");
 		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus.png");
 	}

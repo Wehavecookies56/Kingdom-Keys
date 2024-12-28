@@ -62,11 +62,6 @@ public class DarkballEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
-    @Override
     public EntityHelper.MobType getKHMobType() {
         return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
     }
@@ -159,7 +154,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(!flag) {
                 this.theEntity.setPreviousAttackState(this.theEntity.getCurrentAttackState());
                 this.theEntity.setCurrentAttackState(null);
-                EntityHelper.setState(theEntity, 0);
+                theEntity.setState(0);
                 for(Entity p : EntityHelper.getEntitiesNear(theEntity, 1.4)) {
                 	theEntity.doHurtTarget(p);
                    // p.attackEntityFrom(DamageSource.causeMobDamage(theEntity), theEntity.DAMAGE_DARKCLOUD);
@@ -175,15 +170,15 @@ public class DarkballEntity extends BaseKHEntity {
             attackTimer = 50;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.DARKCLOUD);
-            EntityHelper.setState(theEntity, 0);
+            theEntity.setState(0);
         }
 
         @Override
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer+=2;
-                
-                EntityHelper.setState(theEntity, 3);
+
+                theEntity.setState(3);
                 LivingEntity target = this.theEntity.getTarget();
                 for (int i = 0; i < 20; i++) {
                     double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D; //3
@@ -247,7 +242,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(!flag) {
                 this.theEntity.setPreviousAttackState(this.theEntity.getCurrentAttackState());
                 this.theEntity.setCurrentAttackState(null);
-                EntityHelper.setState(theEntity, 0);
+                theEntity.setState(0);
             }
 
             return flag;
@@ -259,7 +254,7 @@ public class DarkballEntity extends BaseKHEntity {
             attackTimer = 70;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.BERSERK);
-            EntityHelper.setState(theEntity, 0);
+            theEntity.setState(0);
             pivotPosToBerserk = new double[] {theEntity.blockPosition().getX(), theEntity.blockPosition().getY(), theEntity.blockPosition().getZ()};
         }
 
@@ -267,8 +262,8 @@ public class DarkballEntity extends BaseKHEntity {
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer+=2;
-                
-                EntityHelper.setState(theEntity, 2);
+
+                theEntity.setState(2);
                 for (int i = 0; i < 20; i++) {
                     double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D; //3
                     double offsetY = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
@@ -328,7 +323,7 @@ public class DarkballEntity extends BaseKHEntity {
             if(!flag) {
                 this.theEntity.setPreviousAttackState(this.theEntity.getCurrentAttackState());
                 this.theEntity.setCurrentAttackState(null);
-                EntityHelper.setState(theEntity, 0);
+                theEntity.setState(0);
             }
 
             return flag; //(theEntity.getAttackTarget() != null && theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) < 400) ||
@@ -340,7 +335,7 @@ public class DarkballEntity extends BaseKHEntity {
             attackTimer = 50;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.CHARGE);
-            EntityHelper.setState(theEntity, 0);
+            theEntity.setState(0);
             LivingEntity target = this.theEntity.getTarget();
             initialHealth = theEntity.getHealth();
 
@@ -352,9 +347,8 @@ public class DarkballEntity extends BaseKHEntity {
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer+=2;
-                
-                EntityHelper.setState(theEntity, 1);
-                LivingEntity target = this.theEntity.getTarget();
+
+                theEntity.setState(1);
                 this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], 3.0D);
 
                 if(whileAttackTimer > 100)

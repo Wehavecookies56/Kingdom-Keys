@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -61,11 +60,6 @@ public class MarluxiaEntity extends BaseKHEntity {
 	@Override
 	public int getMaxSpawnClusterSize() {
 		return 1;
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(EntityHelper.STATE, 0);
 	}
 
 	@Override

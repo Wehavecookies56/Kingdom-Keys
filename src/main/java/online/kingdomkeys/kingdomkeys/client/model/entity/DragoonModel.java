@@ -13,16 +13,15 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class DragoonModel<T extends LivingEntity> extends EntityModel<T> {
+public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "dragoon"), "main");
     private final ModelPart right_leg;
 	private final ModelPart left_leg;
@@ -318,7 +317,7 @@ public class DragoonModel<T extends LivingEntity> extends EntityModel<T> {
     	
         if(!Minecraft.getInstance().isPaused()) {
         	//EntityHelper.setState(entity,0);
-        	if(EntityHelper.getState(entity) == 0) { //Normal, arms in front
+        	if(entity.getState() == 0) { //Normal, arms in front
         		this.head.xRot= 0;
         		this.left_leg.xRot= 0;
         		this.right_leg.xRot= 0;
@@ -332,7 +331,7 @@ public class DragoonModel<T extends LivingEntity> extends EntityModel<T> {
 	                animation.get(0).animate();
 	        	}
         		
-        	} else if(EntityHelper.getState(entity) == 1) { //Ball-shape
+        	} else if(entity.getState() == 1) { //Ball-shape
         		this.head.xRot = 90;
         		this.left_leg.xRot = 90;
         		this.right_leg.xRot = 90;
@@ -341,7 +340,7 @@ public class DragoonModel<T extends LivingEntity> extends EntityModel<T> {
         		this.body.xRot = 0;
         		this.body.z = 0;
 
-        	} else if(EntityHelper.getState(entity) == 2) { //Falling down
+        	} else if(entity.getState() == 2) { //Falling down
         		this.head.xRot = 90;
         		this.left_leg.xRot = 90;
         		this.right_leg.xRot = 90;
@@ -350,25 +349,7 @@ public class DragoonModel<T extends LivingEntity> extends EntityModel<T> {
         		this.body.xRot = (float) Math.toRadians(90);
         		this.body.z = -3;
         	}
-        		
         }
-
-        	
-        	/*if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
-        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-                    ModelAnimation m = animation.get(i);
-                    m.animate();
-                }
-        	} else {
-        		for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-                    ModelAnimation m = animation.get(i);
-                    m.setDefault();
-                }
-        		//this.right_arm.zRot = 0;
-        		//this.left_arm.zRot = 0;
-        	}
-	        
-        }	*/
     }
 
 	@Override

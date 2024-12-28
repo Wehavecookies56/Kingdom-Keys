@@ -51,12 +51,6 @@ public class ShadowEntity extends BaseKHEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-        pBuilder.define(EntityHelper.ANIMATION, 0);
-    }
-
-    @Override
 	public MobType getKHMobType() {
 		return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
 	}

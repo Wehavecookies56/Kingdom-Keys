@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class AssassinGoal extends TargetGoal {
 	// 2 - is Exploding ; 1 - in Shadow ; 0 - in Overworld
@@ -14,9 +15,11 @@ public class AssassinGoal extends TargetGoal {
 	private int undergroundTicks = 70, ticksUntilNextAttack, ticksToLowHealth = 70, ticksToExplode = 30;
 	private boolean canUseNextAttack = true;
 
+	private BaseKHEntity mob;
 	public AssassinGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;
+		this.mob = (BaseKHEntity) creature;
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class AssassinGoal extends TargetGoal {
 				} else {
 					ticksToLowHealth-=2;
 					if(ticksToLowHealth <= 0) {
-						EntityHelper.setState(this.mob, 2);
+						mob.setState(2);
 	                    this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 	                    this.mob.setInvulnerable(true);
 					}
@@ -47,7 +50,7 @@ public class AssassinGoal extends TargetGoal {
 				if(this.mob.distanceTo(this.mob.getTarget()) < 5) {
 					this.mob.doHurtTarget(this.mob.getTarget());
 				} else {
-					EntityHelper.setState(this.mob, 0);
+					mob.setState(0);
 					this.mob.setInvulnerable(false);
 					undergroundTicks = TIME_TO_GO_UNDERGROUND;
 					canUseNextAttack = true;
@@ -55,7 +58,7 @@ public class AssassinGoal extends TargetGoal {
 				
 				undergroundTicks+=2;
 				if (undergroundTicks >= TIME_UNDERGROUND) { //Go to the surface
-					EntityHelper.setState(this.mob, 0);
+					mob.setState(0);
 					this.mob.setInvulnerable(false);
 
 					canUseNextAttack = true;
@@ -67,7 +70,7 @@ public class AssassinGoal extends TargetGoal {
 					if (!isUnderground()) {
 						undergroundTicks-=2;
 						if (undergroundTicks <= 0) {
-							EntityHelper.setState(this.mob, 1);
+							mob.setState(1);
 							canUseNextAttack = false;
 						}
 					} else {
@@ -86,7 +89,7 @@ public class AssassinGoal extends TargetGoal {
 
 			return true;
 		}
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 		this.mob.setInvulnerable(false);
 		return false;
 	}
@@ -98,16 +101,16 @@ public class AssassinGoal extends TargetGoal {
 
 	@Override
 	public void start() {
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isUnderground() {
-		return EntityHelper.getState(this.mob) == 1;
+		return mob.getState() == 1;
 	}
 	
 	private boolean isExploding() {
-		return EntityHelper.getState(this.mob) == 2;
+		return mob.getState() == 2;
 	}
 
 	@Override

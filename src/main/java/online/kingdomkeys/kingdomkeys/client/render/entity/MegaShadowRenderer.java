@@ -28,7 +28,7 @@ public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowMode
 		matrixStackIn.pushPose();
         {
 	       
-	    	if (EntityHelper.getState(entityIn) == 1) {
+	    	if (entityIn.getState() == 1) {
 	            matrixStackIn.scale(1.5F, 0.01F, 1.5F);
 	        }
 	        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

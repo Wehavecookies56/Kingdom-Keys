@@ -90,7 +90,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             this.setCurrentAttackState(SpecialAttack.WAIT);
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
             this.setTarget(null);
-            EntityHelper.setState(this, 10);
+            setState(10);
             timeForNextAI-=2;
         }
         else if(timeForNextAI <= 0) {
@@ -100,7 +100,7 @@ public class LargeBodyEntity extends BaseKHEntity {
                 this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20);
             else
                 this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.15);
-            EntityHelper.setState(this, 0);
+            setState(0);
             this.setTarget(null);
             timeForNextAI = 80;
         }
@@ -167,11 +167,6 @@ public class LargeBodyEntity extends BaseKHEntity {
         return 4;
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
     class MowdownGoal extends Goal {
         private LargeBodyEntity theEntity;
         private boolean canUseAttack = true;
@@ -215,7 +210,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             if(!flag) {
                 this.theEntity.setPreviousAttackState(this.theEntity.getCurrentAttackState());
                 this.theEntity.setCurrentAttackState(null);
-                EntityHelper.setState(theEntity, 0);
+                setState(0);
             }
 
             return flag; //(theEntity.getAttackTarget() != null && theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) < 400) ||
@@ -227,7 +222,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             attackTimer = ATTACK_MAX_TIMER;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.MOWDOWN);
-            EntityHelper.setState(theEntity, 2);
+            setState(2);
             initialHealth = theEntity.getHealth();
         }
 
@@ -292,7 +287,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             if(!flag) {
                 this.theEntity.setPreviousAttackState(this.theEntity.getCurrentAttackState());
                 this.theEntity.setCurrentAttackState(null);
-                EntityHelper.setState(theEntity, 0);
+                setState(0);
             }
 
             return flag; //(theEntity.getAttackTarget() != null && theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) < 400) ||
@@ -304,7 +299,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             attackTimer = ATTACK_MAX_TIMER;
             whileAttackTimer = 0;
             this.theEntity.setCurrentAttackState(SpecialAttack.CHARGE);
-            EntityHelper.setState(theEntity, 1);
+            setState(1);
             LivingEntity target = this.theEntity.getTarget();
             initialHealth = theEntity.getHealth();
 

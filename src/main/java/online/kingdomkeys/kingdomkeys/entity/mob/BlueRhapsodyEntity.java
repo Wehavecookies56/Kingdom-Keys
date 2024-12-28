@@ -67,8 +67,10 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer, shotChargeTimer = 40;
 
+        private BaseKHEntity mob;
         public BlueRhapsodyGoal(BlueRhapsodyEntity e) {
         	super(e,true);
+            this.mob = e;
         }
 
         @Override
@@ -95,7 +97,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         public void start() {
             canUseAttack = true;
             attackTimer = 20 + level().random.nextInt(5);
-            EntityHelper.setState(mob, 0);
+            mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
         }
@@ -106,14 +108,14 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                 whileAttackTimer+=2;
                 LivingEntity target = this.mob.getTarget();
 
-                if (EntityHelper.getState(mob) == 0) {
+                if (mob.getState() == 0) {
                     this.mob.getLookControl().setLookAt(target, 30F, 30F);
 
                     if (level().random.nextInt(100) + level().random.nextDouble() <= 75) {
-                        EntityHelper.setState(this.mob, 1);
+                        mob.setState(1);
                     } else {
                         if (mob.distanceTo(mob.getTarget()) < 8) {
-                            EntityHelper.setState(this.mob, 2);
+                            mob.setState(2);
 
                             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
@@ -126,12 +128,12 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                     }
                 }
 
-                if (EntityHelper.getState(mob) == 2 && whileAttackTimer > 20) {
+                if (mob.getState() == 2 && whileAttackTimer > 20) {
                     canUseAttack = false;
-                    EntityHelper.setState(mob, 0);
+                    mob.setState(0);
                     this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                 }
-                else if (EntityHelper.getState(mob) == 1) {
+                else if (mob.getState() == 1) {
                     if(shotChargeTimer > 0){
                         shotChargeTimer--;
                         this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
@@ -151,7 +153,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
                         if(whileAttackTimer > 50){
                             shotChargeTimer = 40;
                             canUseAttack = false;
-                            EntityHelper.setState(mob, 0);
+                            mob.setState(0);
                             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
                         }
                     }

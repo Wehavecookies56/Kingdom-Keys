@@ -13,31 +13,6 @@ import net.minecraft.world.phys.AABB;
 
 public class EntityHelper {
 
-	public static final EntityDataAccessor<Integer> ANIMATION = SynchedEntityData.<Integer>defineId(Mob.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Integer> STATE = SynchedEntityData.<Integer>defineId(Mob.class, EntityDataSerializers.INT);
-
-	public static void setState(Entity e, int i) {
-		e.getEntityData().set(STATE, (int)i);
-	}
-
-	public static double percentage(double i, double j) {
-		return (i * 100) / j;
-	}
-
-	public static int getState(Entity e) {
-		//System.out.print("Getting value ");
-		//System.out.println(e.getDataManager().get(STATE));
-		return e.getEntityData().get(STATE);
-	}
-
-	public static void setAnimation(Entity e, int i) {
-		e.getEntityData().set(ANIMATION, i);
-	}
-
-	public static int getAnimation(Entity e) {
-		return e.getEntityData().get(ANIMATION);
-	}
-
 	public enum Dir {
 		SOUTH, SOUTH_EAST, EAST, NORTH, NORTH_EAST, NORTH_WEST, WEST, SOUTH_WEST;
 	}
@@ -47,26 +22,18 @@ public class EntityHelper {
 	}
 
 	public static Dir get8Directions(Entity e) {
-		switch (Mth.floor(e.getYRot() * 8.0F / 360.0F + 0.5D) & 7) {
-		case 0:
-			return Dir.SOUTH;
-		case 1:
-			return Dir.SOUTH_WEST;
-		case 2:
-			return Dir.WEST;
-		case 3:
-			return Dir.NORTH_WEST;
-		case 4:
-			return Dir.NORTH;
-		case 5:
-			return Dir.NORTH_EAST;
-		case 6:
-			return Dir.EAST;
-		case 7:
-			return Dir.SOUTH_EAST;
-		}
-		return null;
-	}
+        return switch (Mth.floor(e.getYRot() * 8.0F / 360.0F + 0.5D) & 7) {
+            case 0 -> Dir.SOUTH;
+            case 1 -> Dir.SOUTH_WEST;
+            case 2 -> Dir.WEST;
+            case 3 -> Dir.NORTH_WEST;
+            case 4 -> Dir.NORTH;
+            case 5 -> Dir.NORTH_EAST;
+            case 6 -> Dir.EAST;
+            case 7 -> Dir.SOUTH_EAST;
+            default -> null;
+        };
+    }
 
 	public static double[] generateAnimationArray(double startPos, double minPos, double maxPos, double frameSkip, int framesPerSlot) {
 		int framesCount = 0;

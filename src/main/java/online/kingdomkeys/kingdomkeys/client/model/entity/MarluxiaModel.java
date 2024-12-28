@@ -11,10 +11,11 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
-public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class MarluxiaModel<T extends BaseKHEntity> extends HumanoidModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "marluxia"), "main");
     private final ModelPart head;
 	private final ModelPart body;
@@ -142,7 +143,7 @@ public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
     	this.leftArm.x=7;
     	this.head.xRot -= (float) Math.toRadians(-20);
     	
-    	if(EntityHelper.getState(entityIn) == 1) {
+    	if(entityIn.getState() == 1) {
     		this.rightArm.zRot = (float) Math.toRadians(20);
     		this.leftArm.zRot = (float) Math.toRadians(-20);
     		this.leftArm.xRot = (float) Math.toRadians(0);
@@ -154,7 +155,7 @@ public class MarluxiaModel<T extends LivingEntity> extends HumanoidModel<T> {
     		this.leftLeg.zRot = (float) Math.toRadians(-10);	
     	}
     	
-    	if(EntityHelper.getState(entityIn) == 3) {
+    	if(entityIn.getState() == 3) {
     		this.rightArm.zRot = (float) Math.toRadians(20);
     		this.leftArm.zRot = (float) Math.toRadians(-20);
     		this.leftArm.xRot = (float) Math.toRadians(0);

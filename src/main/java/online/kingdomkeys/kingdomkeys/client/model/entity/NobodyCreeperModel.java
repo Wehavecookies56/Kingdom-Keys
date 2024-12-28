@@ -14,13 +14,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 /**
  * Creeper - Wynd
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 
-public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
+public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nobodycreeper"), "main");
     public final ModelPart BodyLower;
@@ -252,14 +253,14 @@ public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
         // we need to check if minecraft is paused otherwise the animation will run while the game is paused (doesn't look that good)
         if(!Minecraft.getInstance().isPaused())
         {
-            if(EntityHelper.getState(entity) == 0)
+            if(entity.getState() == 0)
             {
                 this.BodyLower.xRot = Mth.cos(limbSwing * 0.8F) * 2.0F * limbSwingAmount;
 
                 this.RightArmDetail.xRot = Mth.cos(limbSwing * 1.8F) * 0.9F * limbSwingAmount;
                 this.LeftArmDetail.xRot = Mth.cos(limbSwing * 1.8F + (float) Math.PI) * 0.9F * limbSwingAmount;
             }
-            else if (EntityHelper.getState(entity) == 1) // if the sword AI is active we begin the animation
+            else if (entity.getState() == 1) // if the sword AI is active we begin the animation
             {
 	    		/*
 	    		  small bits of math here but I hope it's understandable even if it's not the nicest looking code :'(
@@ -287,12 +288,12 @@ public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
 	    			 */
                     this.Sword_Handle1.xRot = this.Sword_Handle1.yRot = this.Sword_Handle1.zRot = degToRad(0);
                     frame = 0;
-                    EntityHelper.setState(entity, 0);
+                    entity.setState(0);
                 }
 
                 frame += 0.5;
             }
-            else if(EntityHelper.getState(entity) == 3) // if the sword AI is active we begin the animation
+            else if(entity.getState() == 3) // if the sword AI is active we begin the animation
             {
                 if(frame < animationLegHit.length)
                 {
@@ -302,7 +303,7 @@ public class NobodyCreeperModel<T extends Entity> extends EntityModel<T> {
                 {
                     this.BodyLower.xRot = degToRad(28);
                     frame = 0;
-                    EntityHelper.setState(entity, 0);
+                    entity.setState(0);
                 }
 
                 frame += 0.6;

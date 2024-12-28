@@ -51,11 +51,6 @@ public class DuskEntity extends BaseKHEntity {
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(EntityHelper.STATE, 0);
-	}
-
-	@Override
 	public EntityHelper.MobType getKHMobType() {
 		return EntityHelper.MobType.NOBODY;
 	}
@@ -101,7 +96,7 @@ public class DuskEntity extends BaseKHEntity {
 		public void start() {
 			canUseAttack = true;
 			attackTimer = 40 + level().random.nextInt(10);
-			EntityHelper.setState(theEntity, 0);
+			theEntity.setState(0);
 			LivingEntity target = this.theEntity.getTarget();
 
 			if (target != null)
@@ -111,7 +106,7 @@ public class DuskEntity extends BaseKHEntity {
 		@Override
 		public void tick() {
 			if (theEntity.getTarget() != null && canUseAttack) {
-				EntityHelper.setState(theEntity, 1);
+				theEntity.setState(1);
 				LivingEntity target = this.theEntity.getTarget();
 				this.theEntity.getLookControl().setLookAt(target, 30F, 30F);
 				this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], 10.0D);

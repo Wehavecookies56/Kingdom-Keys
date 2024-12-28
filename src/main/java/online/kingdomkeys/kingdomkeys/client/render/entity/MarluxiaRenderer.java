@@ -22,9 +22,9 @@ public class MarluxiaRenderer extends HumanoidMobRenderer<MarluxiaEntity, Marlux
 	public void render(MarluxiaEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			if (EntityHelper.getState(entityIn) == 1) {
+			if (entityIn.getState() == 1) {
 				matrixStackIn.translate(0, 0.4, 0);
-			} else if(EntityHelper.getState(entityIn) == 3) {
+			} else if(entityIn.getState() == 3) {
 				matrixStackIn.translate(0, 1.5, 0);
 			}
 			super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

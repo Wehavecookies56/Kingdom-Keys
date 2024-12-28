@@ -987,13 +987,12 @@ public class EntityEvents {
 			}
 
 			// Marluxia's final attack
-			if (event.getEntity() instanceof MarluxiaEntity) {
-				MarluxiaEntity mar = (MarluxiaEntity) event.getEntity();
-				if (EntityHelper.getState(event.getEntity()) != 3) {
+			if (event.getEntity() instanceof MarluxiaEntity mar) {
+                if (mar.getState() != 3) {
 					if (mar.marluxiaGoal.chasedTimes == 0) {
 						if (mar.getHealth() - damage <= 0) {
 							mar.marluxiaGoal.chasedTimes++;
-							EntityHelper.setState(mar, 3);
+							mar.setState(3);
 							event.setNewDamage(mar.getHealth() - 1);
 							mar.setInvulnerable(true);
 							return;
@@ -1001,14 +1000,14 @@ public class EntityEvents {
 					}
 				}
 
-				if (EntityHelper.getState(event.getEntity()) == 1) { // If marly is armored
+				if (mar.getState() == 1) { // If marly is armored
 					damage = event.getOriginalDamage() * 0.1F;
 					if (event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
-				} else if (EntityHelper.getState(event.getEntity()) == 2) {
+				} else if (mar.getState() == 2) {
 					if (event.getSource().getEntity() == mar.getKillCredit()) {
-						EntityHelper.setState(mar, 0);
+						mar.setState(0);
 						mar.setNoGravity(false);
 					}
 				}

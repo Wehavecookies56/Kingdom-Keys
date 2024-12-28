@@ -20,10 +20,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
-public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
+public class SoldierModel<T extends BaseKHEntity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "soldier"), "main");
     private final ModelPart right_leg;
 	private final ModelPart left_leg;
@@ -156,7 +157,7 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
     	this.head.y = -4;
     	
         if(!Minecraft.getInstance().isPaused()) {
-        	if(EntityHelper.getState(entity) == 0) { //Normal, arms in front
+        	if(entity.getState() == 0) { //Normal, arms in front
         		this.head.zRot = 0;
         		this.head.yRot = 0;
         		this.body.yRot = 0;
@@ -166,7 +167,7 @@ public class SoldierModel<T extends LivingEntity> extends EntityModel<T> {
         		
         		//this.right_arm.zRot = (float) Math.toRadians(90);
         		//this.left_arm.zRot = (float) Math.toRadians(-90);
-        	} else if(EntityHelper.getState(entity) == 1) {
+        	} else if(entity.getState() == 1) {
         		this.head.zRot = 0;
         		this.body.yRot = (entity.tickCount)%360;
         		this.right_arm.xRot = 0;//(float) Math.toRadians(90);

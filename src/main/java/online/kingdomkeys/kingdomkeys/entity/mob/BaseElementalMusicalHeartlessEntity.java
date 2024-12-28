@@ -53,11 +53,6 @@ public abstract class BaseElementalMusicalHeartlessEntity extends BaseKHEntity {
             ;
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
     public abstract Element getElementToUse();
 
     @Override

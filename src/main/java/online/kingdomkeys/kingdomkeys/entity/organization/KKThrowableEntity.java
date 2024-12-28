@@ -235,7 +235,6 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 		slot = compound.getInt("slot");
 		dmg = compound.getFloat("damage");
-
 	}
 	
 	public int getRotationPoint() {

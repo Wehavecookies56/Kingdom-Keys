@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import java.util.List;
 
+import net.minecraft.world.entity.animal.TropicalFish;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import org.joml.Vector3f;
 
 import net.minecraft.core.BlockPos;
@@ -26,7 +28,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
 public class MarluxiaGoal extends TargetGoal {
 	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)
-
+	private BaseKHEntity mob;
 	private final int MAX_ARMOR_TICKS = 30 * 20, MAX_ARMOR_USES = 3;
 	private int armorTicks = 0, armorUses = 0;
 	private final int MAX_TP_TICKS = 80;
@@ -38,6 +40,7 @@ public class MarluxiaGoal extends TargetGoal {
 	public MarluxiaGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksToChooseAI = 200;
+		this.mob = (BaseKHEntity) creature;
 	}
 	
 	double posX, posY, posZ;
@@ -58,7 +61,7 @@ public class MarluxiaGoal extends TargetGoal {
 		
 		if (this.mob.getTarget() != null) {
 			//Set AI to use
-			if(ticksToChooseAI <= 0 && EntityHelper.getState(mob) == 0) {
+			if(ticksToChooseAI <= 0 && mob.getState() == 0) {
 				int n = mob.level().random.nextInt()*100;
 				if(n < 50) { // Armored?
 					if(mob.getHealth() < mob.getMaxHealth() * 0.80 && !isArmored()) {
@@ -72,7 +75,7 @@ public class MarluxiaGoal extends TargetGoal {
 					ticksToChooseAI = 150;
 				}
 			} else {
-				if(EntityHelper.getState(mob) == 0) {
+				if(mob.getState() == 0) {
 					ticksToChooseAI-=2;
 				}
 			}
@@ -96,8 +99,8 @@ public class MarluxiaGoal extends TargetGoal {
 			} else {
 				if(mob.isNoGravity())
 					mob.setNoGravity(false);
-				if(EntityHelper.getState(mob) == 0) {
-					EntityHelper.setState(mob, 0);
+				if(mob.getState() == 0) {
+					mob.setState(0);
 				}
 			}
 		}
@@ -112,8 +115,7 @@ public class MarluxiaGoal extends TargetGoal {
 		}
 		if(tpTicks > MAX_TP_TICKS) {
 			mob.setNoGravity(false);
-			EntityHelper.setState(mob, 0);
-
+			mob.setState(0);
 		}
 		tpTicks+=2;
 	}
@@ -213,7 +215,7 @@ public class MarluxiaGoal extends TargetGoal {
 			this.mob.getTarget().setDeltaMovement(0,1.2,0);
         	mob.getTarget().hurt(mob.getTarget().damageSources().magic(), 2);
 		} else {
-			EntityHelper.setState(mob, 0);
+			mob.setState(0);
 		}
 	}
 
@@ -221,38 +223,38 @@ public class MarluxiaGoal extends TargetGoal {
 		//System.out.println(armorUses);
 		if(armorUses < MAX_ARMOR_USES || ignoreRestriction) {
 			armorTicks = 0;
-			EntityHelper.setState(entity, 1);
+			entity.setState(1);
 			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 2000, 200));
 			armorUses++;
 		}
 	}
 
 	public void removeArmor(MarluxiaEntity entity) {
-		EntityHelper.setState(entity, 0);
+		entity.setState(0);
 		entity.removeEffect(MobEffects.GLOWING);
 	}
 	
 	public void useTP(MarluxiaEntity entity) {
-		EntityHelper.setState(entity, 2);
+		entity.setState(2);
 		tpTicks = 0;
 	}
 	
 	@Override
 	public void start() {
-		EntityHelper.setState(this.mob, 0);
+		mob.setState(0);
 		this.mob.setInvulnerable(false);
 	}
 
 	private boolean isArmored() {
-		return EntityHelper.getState(this.mob) == 1;
+		return mob.getState() == 1;
 	}
 	
 	private boolean isTeleporting() {
-		return EntityHelper.getState(this.mob) == 2;
+		return mob.getState() == 2;
 	}
 
 	private boolean isChasing() {
-		return EntityHelper.getState(this.mob) == 3;
+		return mob.getState() == 3;
 	}
 	
 	@Override

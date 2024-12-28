@@ -90,7 +90,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
 
     @Override
     public void tick() {
-        if (EntityHelper.getState(this) == 1) 
+        if (getState() == 1)
         	ticksToExplode--;
         super.tick();
     }
@@ -113,11 +113,6 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        pBuilder.define(EntityHelper.STATE, 0);
-    }
-
     class BombGoal extends Goal {
         private BaseBombEntity bomb;
 
@@ -133,7 +128,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
         @Override
         public boolean canContinueToUse() {
             if (canUse()) {
-                EntityHelper.setState(bomb, 1);
+                bomb.setState(1);
                 bomb.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.8D);
                 if (bomb.ticksToExplode <= 0) {
                     bomb.explode();
