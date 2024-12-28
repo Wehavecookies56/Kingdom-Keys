@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -55,7 +56,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, KingdomKeys.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, KingdomKeys.MODID);
 
     public static HashMap<EntityType<? extends Entity>,Integer> pureblood = new HashMap<>();
     public static HashMap<EntityType<? extends Entity>,Integer> emblem = new HashMap<>();
@@ -181,7 +182,9 @@ public class ModEntities {
     public static final Supplier<Item> NOBODY_CREEPER_EGG = ModItems.ITEMS.register("nobody_creeper_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NOBODY_CREEPER, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
     public static final Supplier<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.8F);
     public static final Supplier<Item> DUSK_EGG = ModItems.ITEMS.register("dusk_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DUSK, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
-    public static final Supplier<EntityType<AssassinEntity>> TYPE_ASSASSIN = createEntityType(AssassinEntity::new, MobCategory.MONSTER, "assassin", 1.2F, 2F);
+    public static final Supplier<EntityType<AssassinEntity>> TYPE_ASSASSIN = /*ENTITIES.register("assassin", () -> EntityType.Builder.of(AssassinEntity::new, MobCategory.CREATURE)
+            .sized(0.75f, 0.35f).build("assassin"));*/
+    createEntityType(AssassinEntity::new, MobCategory.MONSTER, "assassin", 1.2F, 2F);
     public static final Supplier<Item> ASSASSIN_EGG = ModItems.ITEMS.register("assassin_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_ASSASSIN, 0xc9c9c9, 0xd4ccff, PROPERTIES));
     public static final Supplier<EntityType<DragoonEntity>> TYPE_DRAGOON = createEntityType(DragoonEntity::new, MobCategory.MONSTER, "dragoon", 1F, 2F);
     public static final Supplier<Item> DRAGOON_EGG = ModItems.ITEMS.register("dragoon_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DRAGOON, 0xc9c9c9, 0xc2387f, PROPERTIES));
@@ -206,6 +209,9 @@ public class ModEntities {
 	public static final Supplier<EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
     public static final Supplier<EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
 
+    public static void register(IEventBus eventBus) {
+        ENTITIES.register(eventBus);
+    }
     /**
      * Helper method to create a new EntityType and set the registry name
      * @param factory The entity type factory

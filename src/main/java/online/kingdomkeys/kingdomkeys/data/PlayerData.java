@@ -525,7 +525,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					if(player instanceof ServerPlayer svPlayer) {
-				        KKLevelUpTrigger.TRIGGER_LEVELUP.trigger(svPlayer, this.getLevel());
+				        //KKLevelUpTrigger.TRIGGER_LEVELUP.trigger(svPlayer, this.getLevel());
 					}
 					levelUpStatsAndDisplayMessage(player, sound);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) player);

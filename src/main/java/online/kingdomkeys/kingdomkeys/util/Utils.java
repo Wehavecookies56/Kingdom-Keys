@@ -1274,7 +1274,7 @@ public class Utils {
 					} else {
 						playerData.equipKeychain(DriveForm.NONE, chain);
 					}
-					if(playerData.isAbilityEquipped(Strings.synchBlade) && !extraChain.is(Items.AIR)) {
+					if(playerData.isAbilityEquipped(Strings.synchBlade) && extraChain != null && !extraChain.is(Items.AIR)) {
 						player.getInventory().setItem(40, ItemStack.EMPTY);
 					}
 					player.getInventory().setItem(slotSummoned, ItemStack.EMPTY);

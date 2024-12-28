@@ -1,126 +1,51 @@
 package online.kingdomkeys.kingdomkeys.advancements;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
+import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.critereon.CriterionValidator;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
-public class KKLevelUpTrigger implements CriterionTrigger<KKLevelUpTrigger.Instance> {
+import java.util.Optional;
 
-	public static KKLevelUpTrigger TRIGGER_LEVELUP;
-
-	private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "level_up");
-	private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
-
-	@Override
-	public void addPlayerListener(PlayerAdvancements pPlayerAdvancements, Listener<Instance> pListener) {
-		KKLevelUpTrigger.Listeners listeners = this.listeners.get(pPlayerAdvancements);
-		if (listeners == null) {
-			listeners = new KKLevelUpTrigger.Listeners(pPlayerAdvancements);
-			this.listeners.put(pPlayerAdvancements, listeners);
-		}
-		listeners.add(pListener);
-	}
-
-	@Override
-	public void removePlayerListener(PlayerAdvancements pPlayerAdvancements, Listener<Instance> pListener) {
-		KKLevelUpTrigger.Listeners listeners = this.listeners.get(pPlayerAdvancements);
-
-		if (listeners != null) {
-			listeners.remove(pListener);
-			if (listeners.isEmpty()) {
-				this.listeners.remove(pPlayerAdvancements);
-			}
-		}
-	}
-
-	@Override
-	public void removePlayerListeners(PlayerAdvancements pPlayerAdvancements) {
-		this.listeners.remove(pPlayerAdvancements);
-	}
-
-	@Override
-	public Codec<Instance> codec() {
-		return null;
-	}
-
-	public void trigger(ServerPlayer player, int lvl) {
-		KKLevelUpTrigger.Listeners listeners = this.listeners.get(player.getAdvancements());
-		if (listeners != null) {
-			listeners.trigger(player, lvl);
-		}
-	}
-
-	static class Instance implements CriterionTriggerInstance {
-
-		int lvl;
-
-		public Instance(int lvl) {
-			this.lvl = lvl;
-		}
-
-		public boolean matches(int lvl) {
-			return lvl >= this.lvl;
-		}
-
-
+	public class KKLevelUpTrigger extends SimpleCriterionTrigger<KKLevelUpTrigger.TriggerInstance> {
 		@Override
-		public void validate(CriterionValidator pValidator) {
-
-		}
-	}
-
-	static class Listeners {
-
-		private final PlayerAdvancements playerAdvancements;
-		private final Set<Listener<Instance>> listeners = Sets.newHashSet();
-
-		Listeners(PlayerAdvancements playerAdvancements) {
-			this.playerAdvancements = playerAdvancements;
+		public Codec<KKLevelUpTrigger.TriggerInstance> codec() {
+			return KKLevelUpTrigger.TriggerInstance.CODEC;
 		}
 
-		boolean isEmpty() {
-			return listeners.isEmpty();
+		public void trigger(ServerPlayer pPlayer, ItemStack pItem) {
+			this.trigger(pPlayer, p_23687_ -> p_23687_.matches(pItem));
 		}
 
-		void add(CriterionTrigger.Listener<KKLevelUpTrigger.Instance> listener) {
-			this.listeners.add(listener);
-		}
+		public static record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item) implements SimpleCriterionTrigger.SimpleInstance {
+			public static final Codec<KKLevelUpTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
+					p_337348_ -> p_337348_.group(
+									EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(KKLevelUpTrigger.TriggerInstance::player),
+									ItemPredicate.CODEC.optionalFieldOf("item").forGetter(KKLevelUpTrigger.TriggerInstance::item)
+							)
+							.apply(p_337348_, KKLevelUpTrigger.TriggerInstance::new)
+			);
 
-		void remove(CriterionTrigger.Listener<KKLevelUpTrigger.Instance> listener) {
-			this.listeners.remove(listener);
-		}
-
-		public void trigger(Player player, int lvl) {
-			List<Listener<Instance>> list = null;
-
-			for (CriterionTrigger.Listener<KKLevelUpTrigger.Instance> listener : this.listeners) {
-				if (list == null) {
-					list = Lists.newArrayList();
-				}
-				list.add(listener);
+			public static Criterion<net.minecraft.advancements.critereon.ConsumeItemTrigger.TriggerInstance> usedItem() {
+				return CriteriaTriggers.CONSUME_ITEM.createCriterion(new net.minecraft.advancements.critereon.ConsumeItemTrigger.TriggerInstance(Optional.empty(), Optional.empty()));
 			}
-			if (list != null) {
-				for (CriterionTrigger.Listener<KKLevelUpTrigger.Instance> listener1 : list) {
 
-					if (listener1.trigger().matches(lvl))
-						listener1.run(this.playerAdvancements);
-				}
+			public static Criterion<net.minecraft.advancements.critereon.ConsumeItemTrigger.TriggerInstance> usedItem(ItemLike pItem) {
+				return usedItem(ItemPredicate.Builder.item().of(pItem.asItem()));
+			}
+
+			public static Criterion<net.minecraft.advancements.critereon.ConsumeItemTrigger.TriggerInstance> usedItem(ItemPredicate.Builder pItem) {
+				return CriteriaTriggers.CONSUME_ITEM.createCriterion(new net.minecraft.advancements.critereon.ConsumeItemTrigger.TriggerInstance(Optional.empty(), Optional.of(pItem.build())));
+			}
+
+			public boolean matches(ItemStack pItem) {
+				return this.item.isEmpty() || this.item.get().test(pItem);
 			}
 		}
 	}
-
-}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.data.ModData;
@@ -191,7 +193,6 @@ public class KingdomKeys {
 		ModComponents.COMPONENTS.register(modEventBus);
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
 
-		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
 
 		if (FMLEnvironment.dist.isClient()) {
@@ -211,12 +212,16 @@ public class KingdomKeys {
 		modContainer.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
 		modContainer.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
 
+//		NeoForge.EVENT_BUS.addListener(this::onRegister);
+
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());
 	}
 
-	private void setup(final FMLCommonSetupEvent event) {
-        //TODO fix this probably need to register with DeferredRegister KKLevelUpTrigger.TRIGGER_LEVELUP = CriteriaTriggers.register("kingdomkeys:level_up", new KKLevelUpTrigger());
+	private void onRegister(RegisterEvent event) {
+		/*event.register(CriteriaTriggers.class, helper -> {
+			CriteriaTriggers.register("kingdomkeys:level_up", new KKLevelUpTrigger());
+		});*/
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
