@@ -114,6 +114,8 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	}
 
 	private void updateList() {
+		if(level().isClientSide())
+			return;
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
 		Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getCaster().getUUID());
 

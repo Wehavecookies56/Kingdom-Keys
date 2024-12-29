@@ -32,12 +32,10 @@ import online.kingdomkeys.kingdomkeys.item.organization.KnifeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 
 public class KKThrowableEntity extends ThrowableItemProjectile {
-	public static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);
 
 	Set<LivingEntity> hitSet = new HashSet<>();
 	
-	public ItemStack originalItem;
 	public int slot;
 	public UUID ownerUUID;
 
@@ -51,12 +49,12 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
 		this.blocksBuilding = true;
 	}
-	
+
 	public void setData(float damage, UUID ownerUUID, int slot, ItemStack stack) {
 		this.dmg = damage;
 		this.ownerUUID = ownerUUID;
 		this.slot = slot;
-		this.originalItem = stack;
+		this.setItem(stack);
 	}
 
 	public Player getProjOwner() {
@@ -86,7 +84,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				this.remove(RemovalReason.KILLED);
 			}
 
-			if (originalItem.getItem() instanceof KnifeItem){
+			if (getItem().getItem() instanceof KnifeItem){
 				((ServerLevel) level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,getX(),getY()+0.3F,getZ(),1, 0,0,0,0);
 			}
 
@@ -107,7 +105,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 						if (owner == getProjOwner()) {
 							this.remove(RemovalReason.KILLED);
 							returnItemToPlayer();
-							owner.getCooldowns().addCooldown(originalItem.getItem(), 20);
+							owner.getCooldowns().addCooldown(getItem().getItem(), 20);
 						}
 					}
 				}
@@ -117,19 +115,19 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	public void setReturn() {
 		hitSet.clear();
-		if(originalItem.getItem() instanceof KeybladeItem) {
+		if(getItem().getItem() instanceof KeybladeItem) {
 			this.remove(RemovalReason.KILLED);
-		} else if(originalItem.getItem() instanceof ChakramItem) {
+		} else if(getItem().getItem() instanceof ChakramItem) {
 			returning = true;
 			if (getProjOwner() != null)
 				shoot(this.getProjOwner().getX() - this.getX(), this.getProjOwner().getY() - this.getY() + 1.25, this.getProjOwner().getZ() - this.getZ(), 2f, 0);
-		} else if(originalItem.getItem() instanceof ScytheItem) {
+		} else if(getItem().getItem() instanceof ScytheItem) {
 			this.remove(RemovalReason.KILLED);
 			returnItemToPlayer();
-		} else if (originalItem.getItem() instanceof KnifeItem) {
+		} else if (getItem().getItem() instanceof KnifeItem) {
 			this.remove(RemovalReason.KILLED);
 			returnItemToPlayer();
-		} else if (originalItem.getItem() instanceof CardItem) {
+		} else if (getItem().getItem() instanceof CardItem) {
 			this.remove(RemovalReason.KILLED);
 			returnItemToPlayer();
 		}
@@ -138,11 +136,11 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	private void returnItemToPlayer() {
 		if(owner == null)
 			return;
-		if(!ItemStack.isSameItem(owner.getInventory().getItem(slot),originalItem)) {
+		if(!ItemStack.isSameItem(owner.getInventory().getItem(slot),getItem())) {
 			if(!ItemStack.isSameItem(owner.getInventory().getItem(slot), ItemStack.EMPTY)) {
-				owner.addItem(originalItem);
+				owner.addItem(getItem());
 			} else {
-				owner.getInventory().add(slot, originalItem);
+				owner.getInventory().add(slot, getItem());
 			}
 		}		
 	}
@@ -195,9 +193,6 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-		if (key.equals(ITEMSTACK)) {
-			this.originalItem = this.entityData.get(ITEMSTACK);
-		}
 		if (key.equals(ROTATION_POINT)) {
 			this.rotationPoint = this.entityData.get(ROTATION_POINT);
 		}
@@ -206,8 +201,6 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-
-		compound.put("ogitem", originalItem.save(this.registryAccess()));
 		if (ownerUUID != null) {
 			compound.putUUID("ownerUUID", ownerUUID);
 		}
@@ -220,13 +213,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        
-		if (compound.contains("ogitem")) {
-			originalItem = ItemStack.parse(this.registryAccess(), compound.getCompound("ogitem")).get();
-		}
-		entityData.set(ITEMSTACK, originalItem);
-
-		if (compound.contains("ownerUUID")) {
+      	if (compound.contains("ownerUUID")) {
 			ownerUUID = compound.getUUID("ownerUUID");
             owner = getProjOwner();
 		}
@@ -249,24 +236,20 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 		super.defineSynchedData(pBuilder);
-		pBuilder.define(ITEMSTACK, ItemStack.EMPTY);
 		pBuilder.define(ROTATION_POINT, 0);
 	}
 
-	@Override
+	/*@Override
 	public ItemStack getItem() {
 		if (originalItem == null) {
 			originalItem = entityData.get(ITEMSTACK);
 		}
 		return originalItem;
-	}
+	}*/
 
 	@Override
 	protected Item getDefaultItem() {
-		if (originalItem == null) {
-			originalItem = entityData.get(ITEMSTACK);
-		}
-		return originalItem.getItem();
+		return this.getItem().getItem();
 	}
 
 }

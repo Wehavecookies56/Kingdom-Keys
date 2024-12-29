@@ -180,6 +180,7 @@ public class LanceEntity extends KKThrowableEntity{
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
 		pBuilder.define(STOPPED, false);
 	}
 

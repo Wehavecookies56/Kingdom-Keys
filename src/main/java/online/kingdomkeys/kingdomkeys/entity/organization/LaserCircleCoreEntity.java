@@ -27,8 +27,8 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 70;
 	List<LaserDomeShotEntity> list = new ArrayList<LaserDomeShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
-	Set<Integer> usedIndexes = new HashSet<Integer>();
+	List<Entity> targetList = new ArrayList<>();
+	Set<Integer> usedIndexes = new HashSet<>();
 	float dmg;
 
 	float radius = 4;
@@ -79,19 +79,15 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 				this.setDeltaMovement(0, 0, 0);
 				this.hurtMarked = true;
-
-				/*if(getTarget() != null) {
-					this.setPosition(getTarget().getPosX(), getTarget().getPosY(), getTarget().getPosZ());
-					updatePos(radius);
-				}*/
 			} else if (tickCount == 60) {
+				if(level().isClientSide())
+					return;
 				updateList();//Get all entities in the radius
-				Entity target = this;
 				if(targetList.size() > 1) {
 					targetList.remove(this);
 				} //If there are more entities than the controller remove it and track a random of the left ones
 				int targetIndex = random.nextInt(targetList.size());
-				target = targetList.get(targetIndex);
+				Entity target = targetList.get(targetIndex);
 				
 				for (LaserDomeShotEntity bullet : list) {
 					if (target != null && target.isAlive() && getCaster() != null) {

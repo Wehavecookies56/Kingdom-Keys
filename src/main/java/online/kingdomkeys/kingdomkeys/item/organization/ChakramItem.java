@@ -50,10 +50,10 @@ public class ChakramItem extends OrgSwordItem implements IOrgWeapon {
 			entity.setData(DamageCalculation.getOrgStrengthDamage(player, stack), player.getUUID(), slot, stack);
 			entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
-			entity.getEntityData().set(KKThrowableEntity.ITEMSTACK, stack);
+			//entity.setItem(stack);
 
 			entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
-			level.addFreshEntity(entity);
+			//level.addFreshEntity(entity);
 			return super.use(world, player, hand);	
 
 		}

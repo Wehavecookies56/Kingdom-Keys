@@ -24,12 +24,6 @@ public class HPOrbEntity extends ItemDropEntity {
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-
-	}
-
-
-	@Override
 	void onPickup(Player player) {
 		if(!PlayerData.get(player).getActiveDriveForm().equals(Strings.Form_Anti))
 			player.heal(Math.min(this.value, 8));
