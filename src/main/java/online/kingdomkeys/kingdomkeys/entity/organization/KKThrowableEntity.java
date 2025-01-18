@@ -7,8 +7,6 @@ import java.util.UUID;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
@@ -97,18 +96,16 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 			}
 	
 			if (returning) {
-				List entityTagetList = this.level().getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D));
-				for (int i = 0; i < entityTagetList.size(); i++) {
-					Entity entityTarget = (Entity) entityTagetList.get(i);
-					if (entityTarget != null && entityTarget instanceof Player) {
-						Player owner = (Player) entityTarget;
-						if (owner == getProjOwner()) {
-							this.remove(RemovalReason.KILLED);
-							returnItemToPlayer();
-							owner.getCooldowns().addCooldown(getItem().getItem(), 20);
-						}
-					}
-				}
+				List<Entity> entityTagetList = this.level().getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(1.0D, 1.0D, 1.0D));
+                for (Entity entity : entityTagetList) {
+                    if (entity != null && entity instanceof Player player) {
+                        if (player == getProjOwner()) {
+                            this.remove(RemovalReason.KILLED);
+                            returnItemToPlayer();
+							player.getCooldowns().addCooldown(getItem().getItem(), 20);
+                        }
+                    }
+                }
 			}
 		}
 	}
@@ -168,7 +165,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 					target.invulnerableTime = 0;
 					target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					setDeltaMovement(getDeltaMovement().scale(0.8));
-					dmg *= 1.2;
+					dmg *= 1.2F;
 					
 				}
 			} else { // Block (not ERTR)
@@ -193,6 +190,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+		super.onSyncedDataUpdated(key);
 		if (key.equals(ROTATION_POINT)) {
 			this.rotationPoint = this.entityData.get(ROTATION_POINT);
 		}
@@ -249,7 +247,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	@Override
 	protected Item getDefaultItem() {
-		return this.getItem().getItem();
+		return Items.EGG;
 	}
 
 }
