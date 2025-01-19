@@ -757,6 +757,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.struggleWand, "Struggle Wand");
         addItem(ModItems.struggleHammer, "Struggle Hammer");
         addItem(ModItems.k111, "K111");
+        addItem(ModItems.retribution, "Retribution");
 
         //Keychains
         addItem(ModItems.abaddonPlasmaChain, "Abaddon Plasma Chain");
@@ -899,6 +900,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.youngXehanortsKeybladeChain, "Young Xehanort's Keyblade Chain");
         addItem(ModItems.zeroOneChain, "Zero/One Chain");
         addItem(ModItems.k111c, "K111c");
+        addItem(ModItems.retributionChain, "Retribution Chain");
+
 
         //Keyblade Descriptions
         add("item." + MODID + "." + Strings.abaddonPlasma + ".desc", "A weapon that lets you string together faster, incredibly long ground combos.");

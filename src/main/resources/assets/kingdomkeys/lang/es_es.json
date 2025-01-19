@@ -1018,6 +1018,7 @@
 	"item.kingdomkeys.struggle_sword": "Espada de Struggle",
 	"item.kingdomkeys.struggle_wand": "Varita de Struggle",
 	"item.kingdomkeys.struggle_hammer": "Martillo de Struggle",
+	"item.kingdomkeys.retribution": "Retribución",
 	
 	"_comment": "Keychains",
 	"item.kingdomkeys.abaddon_plasma_chain": "Llavero de Plasma de Abadón",
@@ -1161,6 +1162,8 @@
 	"item.kingdomkeys.wooden_stick_chain": "Llavero de Palo de Madera",
 	"item.kingdomkeys.young_xehanorts_keyblade_chain": "Llavero de Llave Espada de Joven Xehanort",
 	"item.kingdomkeys.zero_one_chain": "Llavero de Cero y Uno",
+	"item.kingdomkeys.retribution_chain": "Llavero de Retribución",
+
 
 	"_comment": "Organization",
 	"item.kingdomkeys.malice": "Malicia",

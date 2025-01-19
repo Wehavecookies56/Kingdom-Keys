@@ -1,4 +1,5 @@
 [
   {"names": "kingdomkeys:special"},
-  {"item": "kingdomkeys:k111c", "amount": 1, "tier": 1, "cost": 10111}
+  {"item": "kingdomkeys:k111c", "amount": 1, "tier": 1, "cost": 10111},
+  {"item": "kingdomkeys:retribution_chain", "amount": 1, "tier": 1, "cost": 9001}
 ]

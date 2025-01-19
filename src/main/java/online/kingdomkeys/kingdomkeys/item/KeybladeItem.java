@@ -168,8 +168,6 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 							if (!(mainChainID.equals(stackID) || formChainID.equals(stackID))) {
 								//This is either not your keychain or from an inactive form, either way it should not be here
-								//System.out.println(formChainID);
-								//if(playerData.isAbilityEquipped(Strings.synchBlade))
 								player.getInventory().setItem(slot, ItemStack.EMPTY);
 								player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 							}
@@ -214,13 +212,20 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 			if (itemstack != null && !playerData.getRecharge()) {
 				int cost = 10;
-	    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2);
 				playerData.remMP(Math.max(1, cost));
 				
 				if (!level.isClientSide) {
 					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
 
 					KKThrowableEntity entity = new KKThrowableEntity(level);
+					switch (ForgeRegistries.ITEMS.getKey(itemstack.getItem()).getPath()) {
+						case Strings.retribution:
+							entity.setRotationPoint(0);
+							break;
+						default:
+							entity.setRotationPoint(1);
+					}
 					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
 					entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
@@ -234,8 +239,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				return InteractionResultHolder.success(itemstack);
 
 			}
-			return super.use(world, player, hand);
-		} else { //Attack offhand and wisdom attack
+        } else { //Attack offhand and wisdom attack
 			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
 				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
 					HitResult rtr = player.getOffhandItem().getItem() instanceof IExtendedReach item ? InputHandler.getMouseOverExtended(item.getReach()) : Minecraft.getInstance().hitResult;
@@ -268,9 +272,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 				}
 			}
-			return super.use(world, player, hand);
-		}
-	}
+        }
+        return super.use(world, player, hand);
+    }
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {

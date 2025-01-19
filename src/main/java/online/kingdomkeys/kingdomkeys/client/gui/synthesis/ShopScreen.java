@@ -251,8 +251,13 @@ public class ShopScreen extends MenuFilterable {
 				line = Utils.getTierFromInt(item.getTier())+" - "+(10 + item.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				
-				matrixStack.scale((float)(boxM.getWidth() / 16F - offset / 16F), (float)(boxM.getWidth() / 16F - offset / 16F), 1);
-				ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -2, 12);
+				matrixStack.pushPose();
+				{
+					float size = 80;
+					matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()*0.6F - size / 2,0);
+					ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -30, (int)size);
+				}
+				matrixStack.popPose();
 			}
 		}
 		matrixStack.popPose();

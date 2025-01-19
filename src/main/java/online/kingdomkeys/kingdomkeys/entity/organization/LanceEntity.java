@@ -121,10 +121,9 @@ public class LanceEntity extends KKThrowableEntity{
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg < 4 ? 4 : dmg);
+			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity target) {
+                if (target != getOwner()) {
+	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
 					dmg *= 0.9F;
 				}
 			} else { // Block (not ERTR)

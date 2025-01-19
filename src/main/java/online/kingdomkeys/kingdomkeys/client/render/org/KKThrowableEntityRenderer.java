@@ -50,9 +50,9 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
         BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level(), null, 1);
         poseStack.translate(0, 0.4, 0);
         poseStack.mulPose(Axis.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
+		float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
 
         if(itemstack.getItem() instanceof ChakramItem) { //Chakrams rotation
-        	float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
         	if(itemstack.getItem() == ModItems.pizzaCut.get())
         		poseStack.scale(1,1,1);
         	else
@@ -73,21 +73,37 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 			}
 		} else if (itemstack.getItem() instanceof KeybladeItem) { //Strike raid rotation
 			poseStack.scale(2, 2, 2);
-			poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+			if(entityIn.getRotationPoint() == 0) {
+				poseStack.mulPose(Axis.ZP.rotationDegrees(180F));
+				poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+				poseStack.mulPose(Axis.XN.rotation(rotation));
+				poseStack.translate(0.5F,0,0);
+			}
+
+			if(entityIn.getRotationPoint() == 1) {
+				poseStack.mulPose(Axis.ZP.rotation(rotation));
+			}
+
+			if(entityIn.getRotationPoint() == 2) {
+				poseStack.mulPose(Axis.XP.rotationDegrees(90F));
+				poseStack.mulPose(Axis.ZP.rotation(rotation));
+			}
+
+			//poseStack.mulPose(Axis.ZP.rotation(rotation));
 			
 		} else if (itemstack.getItem() instanceof ScytheItem) { //Scythes rotation
 	        if(entityIn.getRotationPoint() == 0) {
 				poseStack.scale(10, 10, 10);
 
 				poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
-				poseStack.mulPose(Axis.XP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+				poseStack.mulPose(Axis.XP.rotation(rotation));
 	        }
 	        
 	        if(entityIn.getRotationPoint() == 1) {
 				poseStack.scale(2,2,2);
 
 				poseStack.mulPose(Axis.YP.rotationDegrees(0F));
-				poseStack.mulPose(Axis.ZP.rotation((entityIn.tickCount + partialTicks) * 1.5f));
+				poseStack.mulPose(Axis.ZP.rotation(rotation));
 	        }
 	        
 	        switch(BuiltInRegistries.ITEM.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
