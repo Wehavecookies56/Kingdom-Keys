@@ -395,22 +395,24 @@ public class MenuEquipmentButton extends Button {
 						stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
 
 						});
-	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet())) {
-		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-							posY+=10;
-	                    }
-	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate())) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-							posY+=10;
-	                    }
-	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings())) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-							posY+=10;
-	                    }
-	                    for(Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots())) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-							posY+=10;
-	                    }
+						if (stack.get(ModComponents.PAULDRON_ENCHANTMENTS) != null) {
+							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet())) {
+								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+								posY += 10;
+							}
+							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate())) {
+								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+								posY += 10;
+							}
+							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings())) {
+								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+								posY += 10;
+							}
+							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots())) {
+								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+								posY += 10;
+							}
+						}
                     }
                 } 
                 

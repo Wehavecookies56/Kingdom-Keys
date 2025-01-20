@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -149,7 +150,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
 
 				armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
@@ -163,7 +164,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "2.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -179,7 +180,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
 
 				armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
@@ -195,7 +196,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityTranslucent(texture), false, glint && itemStack.isEnchanted());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
 
 				armorModelHelmet.head.copyFrom(getParentModel().head);
 				armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
@@ -203,4 +204,8 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		}
 	}
 
+	@Override
+	protected ResourceLocation getTextureLocation(T pEntity) {
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + "terra" + "1.png");
+	}
 }

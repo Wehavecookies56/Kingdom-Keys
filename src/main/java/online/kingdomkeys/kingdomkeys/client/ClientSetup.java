@@ -72,34 +72,39 @@ public class ClientSetup {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         ModEntities.registerRenderers(event);
     }
-    
+
     @SubscribeEvent
-	public static void registerLayers(EntityRenderersEvent.AddLayers event) {
+	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+    	ModEntities.registerLayers(event);
+	}
+
+	@SubscribeEvent
+	public static void addLayers(EntityRenderersEvent.AddLayers event) {
 		Minecraft mc = Minecraft.getInstance();
-    	EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
+		EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
 		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
 		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
 
 		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
 		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
-		
+
 		TerraModel<LivingEntity> tTop = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_TOP));
 		TerraModel<LivingEntity> tBot = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_BOTTOM));
-		
+
 		AquaModel<LivingEntity> aTop = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_TOP));
 		AquaModel<LivingEntity> aBot = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_BOTTOM));
-		
+
 		EraqusModel<LivingEntity> eTop = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_TOP));
 		EraqusModel<LivingEntity> eBot = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_BOTTOM));
-		
+
 		XehanortModel<LivingEntity> xTop = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_TOP));
 		XehanortModel<LivingEntity> xBot = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_BOTTOM));
-		
+
 		UXArmorModel<LivingEntity> uxTop = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
 		UXArmorModel<LivingEntity> uxBot = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_BOTTOM));
 
 
-        armorModels.put(ModItems.terra_Helmet.get(), tTop);
+		armorModels.put(ModItems.terra_Helmet.get(), tTop);
 		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
 		armorModels.put(ModItems.terra_Leggings.get(), tBot);
 		armorModels.put(ModItems.terra_Boots.get(), tTop);
@@ -123,12 +128,12 @@ public class ClientSetup {
 		armorModels.put(ModItems.eraqus_Chestplate.get(), eTop);
 		armorModels.put(ModItems.eraqus_Leggings.get(), eBot);
 		armorModels.put(ModItems.eraqus_Boots.get(), eTop);
-		
+
 		armorModels.put(ModItems.xehanort_Helmet.get(), xTop);
 		armorModels.put(ModItems.xehanort_Chestplate.get(), xTop);
 		armorModels.put(ModItems.xehanort_Leggings.get(), xBot);
 		armorModels.put(ModItems.xehanort_Boots.get(), xTop);
-		
+
 		armorModels.put(ModItems.ux_Helmet.get(), uxTop);
 		armorModels.put(ModItems.ux_Chestplate.get(), uxTop);
 		armorModels.put(ModItems.ux_Leggings.get(), uxBot);
@@ -148,12 +153,12 @@ public class ClientSetup {
 		armorModels.put(ModItems.vanitas_Chestplate.get(), top);
 		armorModels.put(ModItems.vanitas_Leggings.get(), bot);
 		armorModels.put(ModItems.vanitas_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.vanitas_Remnant_Helmet.get(), top);
 		armorModels.put(ModItems.vanitas_Remnant_Chestplate.get(), top);
 		armorModels.put(ModItems.vanitas_Remnant_Leggings.get(), bot);
 		armorModels.put(ModItems.vanitas_Remnant_Boots.get(), top);
-		
+
 		armorModels.put(ModItems.dark_Riku_Chestplate.get(), top);
 		armorModels.put(ModItems.dark_Riku_Leggings.get(), bot);
 		armorModels.put(ModItems.dark_Riku_Boots.get(), top);
@@ -186,16 +191,8 @@ public class ClientSetup {
 		armorModels.put(ModItems.ira_Helmet.get(), top);
 		armorModels.put(ModItems.ira_Chestplate.get(), top);
 		armorModels.put(ModItems.ira_Leggings.get(), bot);
-		armorModels.put(ModItems.ira_Boots.get(), top);    	
-    }
+		armorModels.put(ModItems.ira_Boots.get(), top);
 
-    @SubscribeEvent
-	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-    	ModEntities.registerLayers(event);
-	}
-
-	@SubscribeEvent
-	public static void addLayers(EntityRenderersEvent.AddLayers event) {
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
@@ -308,26 +305,5 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/station_of_awakening")));
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
-	}
-
-	@SubscribeEvent
-	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-		event.registerItem(new IClientItemExtensions() {
-			@Override
-			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> original) {
-				ArmorBaseModel<LivingEntity> armorModel = ClientSetup.armorModels.get(itemStack.getItem());
-
-				if (armorModel != null) {
-					armorModel.head.visible = armorSlot == EquipmentSlot.HEAD;
-					armorModel.body.visible = armorSlot == EquipmentSlot.CHEST || armorSlot == EquipmentSlot.LEGS;
-					armorModel.rightArm.visible = armorSlot == EquipmentSlot.CHEST;
-					armorModel.leftArm.visible = armorSlot == EquipmentSlot.CHEST;
-					armorModel.rightLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
-					armorModel.leftLeg.visible = armorSlot == EquipmentSlot.LEGS || armorSlot == EquipmentSlot.FEET;
-					return new HumanoidModel<>(armorModel.root);
-				}
-				return original;
-			}
-		}, ModItems.terra_Helmet.get(), ModItems.terra_Chestplate.get(), ModItems.terra_Leggings.get(), ModItems.terra_Boots.get());
 	}
 }
