@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -46,6 +47,11 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 	public KKThrowableEntity(Level world) {
 		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
+		this.blocksBuilding = true;
+	}
+
+	public KKThrowableEntity(EntityType<? extends ThrowableItemProjectile> type, Level world) {
+		super(type, world);
 		this.blocksBuilding = true;
 	}
 

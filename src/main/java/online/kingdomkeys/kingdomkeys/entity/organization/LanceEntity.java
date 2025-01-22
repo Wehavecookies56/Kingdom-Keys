@@ -9,6 +9,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,19 +20,20 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class LanceEntity extends KKThrowableEntity{
 
 	int maxTicks = 100;
 	boolean stopped = false;
-	
-	public LanceEntity(EntityType<? extends KKThrowableEntity> type, Level world) {
-		super(world);
+
+	public LanceEntity(EntityType<? extends ThrowableItemProjectile> type, Level world) {
+		super(type, world);
 		this.blocksBuilding = true;
 	}
 
 	public LanceEntity(Level world) {
-		super(world);
+		super(ModEntities.TYPE_LANCE.get(), world);
 		this.blocksBuilding = true;
 	}
 
@@ -160,22 +163,22 @@ public class LanceEntity extends KKThrowableEntity{
 	
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+		super.onSyncedDataUpdated(key);
 		if (key.equals(STOPPED)) {
 			this.stopped = this.getStoppedDataManager();
 		}
-		super.onSyncedDataUpdated(key);
 	}
 	
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		compound.putBoolean("Stopped", this.isStopped());
 		super.addAdditionalSaveData(compound);
+		compound.putBoolean("Stopped", this.isStopped());
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
 		this.setStopped(compound.getBoolean("Stopped"));
-		this.readAdditionalSaveData(compound);
 	}
 
 	@Override

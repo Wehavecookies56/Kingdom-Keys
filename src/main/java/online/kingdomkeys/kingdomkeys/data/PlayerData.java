@@ -528,7 +528,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				        //KKLevelUpTrigger.TRIGGER_LEVELUP.trigger(svPlayer, this.getLevel());
 					}
 					levelUpStatsAndDisplayMessage(player, sound);
-					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) player);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), new ArrayList<>(getMessages())), (ServerPlayer) player);
 				}
 				PacketHandler.sendTo(new SCShowOverlayPacket("exp"), (ServerPlayer) player);
 			}
@@ -715,7 +715,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
 					Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 					if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
-						PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), getMessages()), (ServerPlayer) ally);
+						PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), new ArrayList<>(getMessages())), (ServerPlayer) ally);
 						PacketHandler.syncToAllAround(player, this);
 					}
 				}

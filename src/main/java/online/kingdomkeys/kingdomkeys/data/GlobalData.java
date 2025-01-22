@@ -10,7 +10,7 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	protected GlobalData() {}
 
 	public static GlobalData get(LivingEntity entity) {
-		if (entity.hasData(ModData.GLOBAL_DATA)) {
+		if (!entity.hasData(ModData.GLOBAL_DATA)) {
 			entity.setData(ModData.GLOBAL_DATA, new GlobalData());
 		}
 		return entity.getData(ModData.GLOBAL_DATA);
