@@ -170,10 +170,13 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			IItemHandler itemHandler = world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
-			if(itemHandler != null) {
-				for (int i = 0; i < itemHandler.getSlots(); i++) {
-					popResource(world, pos, itemHandler.getStackInSlot(i));
+			MagicalChestTileEntity TE = (MagicalChestTileEntity) world.getBlockEntity(pos);
+			if (TE != null) {
+				IItemHandler itemHandler = TE.inventory.get();
+				if (itemHandler != null) {
+					for (int i = 0; i < itemHandler.getSlots(); i++) {
+						popResource(world, pos, itemHandler.getStackInSlot(i));
+					}
 				}
 			}
 			world.removeBlockEntity(pos);

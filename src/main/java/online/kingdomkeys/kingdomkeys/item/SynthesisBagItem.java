@@ -34,6 +34,9 @@ public class SynthesisBagItem extends Item implements IItemCategory {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
+		if (!stack.has(ModComponents.SYNTH_BAG_LEVEL)) {
+			stack.set(ModComponents.SYNTH_BAG_LEVEL, 0);
+		}
 
 		if (!level.isClientSide) {
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);

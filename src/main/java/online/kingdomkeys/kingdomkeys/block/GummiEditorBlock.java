@@ -91,12 +91,15 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			IItemHandler iItemHandler = world.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
-			if (iItemHandler != null) {
-				for (int i = 0; i < iItemHandler.getSlots(); i++) {
-					popResource(world, pos, iItemHandler.getStackInSlot(i));
+			GummiEditorTileEntity TE = (GummiEditorTileEntity) world.getBlockEntity(pos);
+			if (TE != null) {
+				IItemHandler iItemHandler = TE.inventory.get();
+				if (iItemHandler != null) {
+					for (int i = 0; i < iItemHandler.getSlots(); i++) {
+						popResource(world, pos, iItemHandler.getStackInSlot(i));
+					}
 				}
-			};
+			}
 			world.removeBlockEntity(pos);
 			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}

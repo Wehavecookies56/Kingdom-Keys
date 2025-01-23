@@ -25,6 +25,6 @@ public class SynthesisBagInventory extends ComponentItemHandler {
 
 	@Override
 	public boolean isItemValid(int slot, ItemStack stack) {
-		return !stack.isEmpty() && stack.getItem() instanceof SynthesisItem;
+		return stack.isEmpty() || stack.getItem() instanceof SynthesisItem;
 	}
 }

@@ -9,6 +9,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.container.GummiEditorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.MagicalChestScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.util.function.Supplier;
 
@@ -35,15 +38,17 @@ public class ModMenus {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories(RegisterMenuScreensEvent event) {
-        //event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
-        //event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
-        //event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
-        //event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
-        //event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
+        event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
+        event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
+        event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
+        event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new SynthesisBagInventory(object));
+        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new SynthesisBagInventory(object), ModItems.synthesisBag.get());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_EDITOR.get(), (object, context) -> object.inventory.get());
     }
 
 }

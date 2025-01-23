@@ -194,6 +194,7 @@ public class KingdomKeys {
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
 
 		modEventBus.addListener(this::modLoaded);
+		modEventBus.addListener(ModMenus::registerCapabilities);
 
 		if (FMLEnvironment.dist.isClient()) {
 			modEventBus.addListener(ModMenus::registerGUIFactories);
