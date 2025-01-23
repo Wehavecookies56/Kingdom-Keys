@@ -36,3 +36,6 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     versionRange="[1.21.1-0.7.5,)"
     ordering="BEFORE"
     side="BOTH"
+[mc-publish]
+    modrinth="DrsqKwVw"
+    curseforge=242862
