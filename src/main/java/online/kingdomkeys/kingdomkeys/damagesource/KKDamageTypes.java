@@ -18,6 +18,7 @@ public class KKDamageTypes {
         context.register(KKDamageTypes.LIGHTNING, new DamageType(KKResistanceType.lightning.toString(), 0.1F));
         context.register(KKDamageTypes.ICE, new DamageType(KKResistanceType.ice.toString(), 0.1F));
         context.register(KKDamageTypes.WATER, new DamageType(KKResistanceType.water.toString(), 0.1F));
+        context.register(KKDamageTypes.AIR, new DamageType(KKResistanceType.air.toString(), 0.1F));
         context.register(KKDamageTypes.STOP, new DamageType("stop", 0.1F));
         context.register(KKDamageTypes.OFFHAND, new DamageType("offhand", 0.1F));
         context.register(KKDamageTypes.LIGHT, new DamageType(KKResistanceType.light.toString(),0.1F));
@@ -29,6 +30,7 @@ public class KKDamageTypes {
             LIGHTNING = register(KKResistanceType.lightning.toString()),
             ICE = register(KKResistanceType.ice.toString()),
             WATER = register(KKResistanceType.water.toString()),
+            AIR = register(KKResistanceType.air.toString()),
             STOP = register("stop"),
             OFFHAND = register("offhand"),
             LIGHT = register(KKResistanceType.light.toString());

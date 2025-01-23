@@ -29,7 +29,7 @@ public class MenuStatusScreen extends MenuBackground {
 	Button stats_player, stats_back;
 	List<MenuButton> dfStats = new ArrayList<>();
 
-	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
+	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
 
 	MenuColourBox[] playerWidgets = { level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, lRes, wRes, dRes };
 
@@ -159,6 +159,7 @@ public class MenuStatusScreen extends MenuBackground {
 		addRenderableWidget(bRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardRes),Utils.getArmorsStat(playerData, "ice")+"%", 0x887700));
 		addRenderableWidget(wRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_WaterRes),Utils.getArmorsStat(playerData, "water")+"%", 0x887700));
 		addRenderableWidget(tRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderRes),Utils.getArmorsStat(playerData, "lightning")+"%", 0x887700));
+		addRenderableWidget(aRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AirRes),Utils.getArmorsStat(playerData, "air")+"%", 0x887700));
 		addRenderableWidget(lRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_LightRes),Utils.getArmorsStat(playerData, "light")+"%", 0x887700));
 		addRenderableWidget(dRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes),Utils.getArmorsStat(playerData, "darkness")+"%", 0x887700));
 		

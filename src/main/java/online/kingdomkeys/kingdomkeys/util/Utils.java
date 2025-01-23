@@ -733,7 +733,10 @@ public class Utils {
 					if (kkArmorItem.CheckKey(KKResistanceType.ice))
 						res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
 					break;
-
+				case "air":
+					if (kkArmorItem.CheckKey(KKResistanceType.air))
+						res += kkArmorItem.GetResValue(KKResistanceType.air, res == 0 ? 100 : 100 - res);
+					break;
 				case "lightning":
 					if (kkArmorItem.CheckKey(KKResistanceType.lightning))
 						res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);

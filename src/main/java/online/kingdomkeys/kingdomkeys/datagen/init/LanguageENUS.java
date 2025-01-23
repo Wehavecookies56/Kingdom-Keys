@@ -125,10 +125,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FireRes, "Fire Resistance");
         add(Gui_Menu_Status_BlizzardRes, "Blizzard Resistance");
         add(Gui_Menu_Status_ThunderRes, "Thunder Resistance");
+        add(Gui_Menu_Status_LightRes, "Light Resistance");
+        add(Gui_Menu_Status_AirRes, "Air Resistance");
+        add(Gui_Menu_Status_WaterRes, "Water Resistance");
         add(Gui_Menu_Status_DarkRes, "Dark Resistance");
         add(Gui_Menu_Status_FireResShort, "Fire Res.");
         add(Gui_Menu_Status_BlizzardResShort, "Blizzard Res.");
         add(Gui_Menu_Status_ThunderResShort, "Thunder Res.");
+        add(Gui_Menu_Status_LightResShort, "Light Res.");
+        add(Gui_Menu_Status_AirResShort, "Air Res.");
+        add(Gui_Menu_Status_WaterResShort, "Water Res.");
         add(Gui_Menu_Status_DarkResShort, "Dark Res.");
         add(Gui_Menu_Status_FormLevel, "Form Level");
         add(Gui_Menu_Status_FormGauge, "Form Gauge");

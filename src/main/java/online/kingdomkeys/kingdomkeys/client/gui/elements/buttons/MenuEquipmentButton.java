@@ -255,6 +255,8 @@ public class MenuEquipmentButton extends Button {
 	                    String totalFireResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.fire));
 	                    String totalIceResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.ice));
 	                    String totalLightningResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.lightning));
+						String totalWaterResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.water));
+						String totalAirResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.air));
 	                    String totalLightResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.light));
 	                    String totalDarknessResStr = resistances == null ? "" : String.valueOf(resistances.get(KKResistanceType.darkness));
 	                    
@@ -343,6 +345,14 @@ public class MenuEquipmentButton extends Button {
 								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.ice.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
+							if(resistances.containsKey(KKResistanceType.water)) {
+								String resVal = resistances.get(KKResistanceType.water).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_WaterResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.water.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalWaterResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
 							if(resistances.containsKey(KKResistanceType.lightning)) {
 								String resVal = resistances.get(KKResistanceType.lightning).toString();
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
@@ -351,13 +361,21 @@ public class MenuEquipmentButton extends Button {
 								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.lightning.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
 								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
+							if(resistances.containsKey(KKResistanceType.air)) {
+								String resVal = resistances.get(KKResistanceType.air).toString();
+								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AirResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
+								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
+								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
+								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.air.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalAirResStr), (int) posY + 10 * pos++, 0xBF6004);
+							}
 							if(resistances.containsKey(KKResistanceType.light)) {
 								String resVal = resistances.get(KKResistanceType.light).toString();
 								gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
 								gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
 								gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
 								gui.drawString(fr, Utils.getArmorsStat(playerData, KKResistanceType.light.toString()) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
+								gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightResStr), (int) posY + 10 * pos++, 0xBF6004);
 							}
 							if(resistances.containsKey(KKResistanceType.darkness)) {
 								String resVal = resistances.get(KKResistanceType.darkness).toString();
