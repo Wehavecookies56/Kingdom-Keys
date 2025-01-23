@@ -738,6 +738,10 @@ public class Utils {
 					if (kkArmorItem.CheckKey(KKResistanceType.lightning))
 						res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
 					break;
+				case "water":
+					if (kkArmorItem.CheckKey(KKResistanceType.water))
+						res += kkArmorItem.GetResValue(KKResistanceType.water, res == 0 ? 100 : 100 - res);
+					break;
 				case "fire":
 					if (kkArmorItem.CheckKey(KKResistanceType.fire))
 						res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);

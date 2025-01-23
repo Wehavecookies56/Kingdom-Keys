@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -97,12 +98,9 @@ public class WaterzaEntity extends ThrowableProjectile {
 	        if (!list.isEmpty()) {
 				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.6F;
 				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-	            for (int i = 0; i < list.size(); i++) {
-	                Entity e = (Entity) list.get(i);
-	                if (e instanceof LivingEntity) {
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-	                }
-	            }
+                for (LivingEntity livingEntity : list) {
+					livingEntity.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER, this, this.getOwner()), dmg * dmgMult);
+                }
 	        }
 
 		} else { //Projectile
