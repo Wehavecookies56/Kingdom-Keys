@@ -219,7 +219,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
 
 					KKThrowableEntity entity = new KKThrowableEntity(level);
-					switch (ForgeRegistries.ITEMS.getKey(itemstack.getItem()).getPath()) {
+					switch (BuiltInRegistries.ITEM.getKey(itemstack.getItem()).getPath()) {
 						case Strings.retribution:
 							entity.setRotationPoint(0);
 							break;

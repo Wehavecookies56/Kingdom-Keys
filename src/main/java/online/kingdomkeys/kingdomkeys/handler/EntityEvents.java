@@ -1311,7 +1311,6 @@ public class EntityEvents {
 				}
 			}
 			if (event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
-				Player player = (Player) event.getSource().getEntity();
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 				player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {
