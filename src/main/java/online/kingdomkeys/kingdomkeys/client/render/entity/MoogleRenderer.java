@@ -38,7 +38,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 	            this.scale(entityIn, matrixStackIn, partialTicks);
 	            matrixStackIn.translate(0.5D, -1.501F, -0.5D);
 	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
-                Color colour = new Color(255, 255, 255, entityIn.isFakeMoogle() ? 255F/2F : 255);
+                Color colour = new Color(1F,1F,1F, entityIn.isFakeMoogle() ? 0.5F : 1F);
 	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), colour.getRGB());
             }
             matrixStackIn.pushPose();

@@ -95,7 +95,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}

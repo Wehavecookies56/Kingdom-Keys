@@ -199,8 +199,8 @@ public class EntityEvents {
 					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.defenseBoost.get()));
 					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.apBoost.get()));
 
-					if (playerData.getEquippedItems().size() == 0) {
-						HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
+					if (playerData.getEquippedItems().isEmpty()) {
+						HashMap<Integer, ItemStack> map = new HashMap<>();
 						for (int i = 0; i < 4; i++) {
 							map.put(i, ItemStack.EMPTY);
 						}
@@ -291,7 +291,7 @@ public class EntityEvents {
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
 
-				if (playerData.getEquippedKBArmors().size() == 0) {
+				if (playerData.getEquippedKBArmors().isEmpty()) {
 					HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
 					for (int i = 0; i < 1; i++) {
 						map.put(i, ItemStack.EMPTY);
@@ -375,7 +375,11 @@ public class EntityEvents {
 		}
 
 		PlayerData playerData = PlayerData.get(player);
-
+		if(!player.level().isClientSide()) {
+			System.out.println(playerData.getKnownRecipeList());
+			System.out.println("------");
+		}
+		//playerData.clearRecipes("all");
 		if (playerData != null) {
 			// Check if rc conditions match
 			List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();

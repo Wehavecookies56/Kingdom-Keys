@@ -1741,7 +1741,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			this.recipeList.clear();
 			break;
 		case "keyblade":
-			List<ResourceLocation> list = new ArrayList<ResourceLocation>();
+			List<ResourceLocation> list = new ArrayList<>();
 			for(ResourceLocation rl : recipeList) {
 				Recipe r = RecipeRegistry.getInstance().getValue(rl);
 				if(r.getType().equals("keyblade")) {
@@ -1752,7 +1752,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			break;
 			
 		case "item":
-			List<ResourceLocation> list2 = new ArrayList<ResourceLocation>();
+			List<ResourceLocation> list2 = new ArrayList<>();
 			for(ResourceLocation rl : recipeList) {
 				Recipe r = RecipeRegistry.getInstance().getValue(rl);
 				if(r.getType().equals("item")) {
