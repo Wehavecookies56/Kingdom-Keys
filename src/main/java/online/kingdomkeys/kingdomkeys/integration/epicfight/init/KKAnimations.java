@@ -34,7 +34,8 @@ public class KKAnimations {
     public static StaticAnimation CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
             VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1,
-            SORA_SUMMON, DRIVE_SUMMON;
+            SORA_SUMMON, DRIVE_SUMMON,
+            CHAKRAM_IDLE, CHAKRAM_RUN;
 
     public static Map<OrgMember, StaticAnimation> orgMap = new HashMap<>();
     public static Map<SingleChoices, StaticAnimation> singleKeybladeMap = new HashMap<>();
@@ -190,6 +191,8 @@ public class KKAnimations {
         KK_SHIELD_AUTO3 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/kk_shield_auto_3", Armatures.BIPED);
 
         CHAKRAM_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/chakram_auto_1", Armatures.BIPED);
+        CHAKRAM_IDLE = new StaticAnimation(true, "biped/living/axel_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        CHAKRAM_RUN = new StaticAnimation(true, "biped/living/axel_run", Armatures.BIPED);
 
 
 

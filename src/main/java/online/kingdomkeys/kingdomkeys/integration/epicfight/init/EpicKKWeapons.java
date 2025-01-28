@@ -34,6 +34,12 @@ public class EpicKKWeapons {
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, KKAnimations.CHAKRAM_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
@@ -71,6 +77,8 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.TERRA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(KKStyles.AQUA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(KKStyles.VENTUS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+
+
 
                     .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
                     .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
