@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSDepositMaterials(String inv, String name, int moogle) implements Packet {
@@ -32,7 +33,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 	public static final StreamCodec<FriendlyByteBuf, CSDepositMaterials> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,
 			CSDepositMaterials::inv,
-			ByteBufCodecs.STRING_UTF8,
+			StreamCodecs.STRING_UTF8,
 			CSDepositMaterials::name,
 			ByteBufCodecs.INT,
 			CSDepositMaterials::moogle,
@@ -77,8 +78,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 					}
 				}
 			}
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-			PacketHandler.sendTo(new SCOpenMaterialsScreen(inv, name, moogle), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData, player, inv, name, moogle), (ServerPlayer) player);
 		} catch (ConcurrentModificationException e) {
 			e.printStackTrace();
 		}
@@ -86,6 +86,6 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return null;
+		return TYPE;
 	}
 }

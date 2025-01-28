@@ -13,9 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -31,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
@@ -53,14 +52,15 @@ public class ShopScreen extends MenuFilterable {
 	
 	SynthesisScreen parent;
 
-	public ShopScreen(SynthesisScreen parent) {
+	public ShopScreen(PlayerData playerData, SynthesisScreen parent) {
 		super(Strings.Gui_Shop_Main_Title, new Color(255, 0, 0));
 		drawSeparately = true;
 		this.parent = parent;
+		parent.playerData = playerData;
 	}
 	
-	public ShopScreen(String nbt, SynthesisScreen parent) {
-		this(parent);
+	public ShopScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
+		this(playerData, parent);
 	}
 
 	protected void action(String string) {
@@ -145,7 +145,7 @@ public class ShopScreen extends MenuFilterable {
 			action("create");
 		}).bounds((boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
 		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 	}
 
 	@Override
@@ -164,7 +164,6 @@ public class ShopScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			PlayerData playerData = PlayerData.get(minecraft.player);
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
@@ -183,8 +182,8 @@ public class ShopScreen extends MenuFilterable {
 				
 			}			
 			if(item != null) {
-				enoughMunny = playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.requireSynthTier || playerData.getSynthLevel() >= item.getTier();
+				enoughMunny = parent.playerData.getMunny() >= item.getCost();
+				enoughTier = !ModConfigs.requireSynthTier || parent.playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
 	
 				create.active = enoughMunny && enoughTier;
@@ -333,7 +332,7 @@ public class ShopScreen extends MenuFilterable {
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}

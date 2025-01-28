@@ -34,15 +34,18 @@ import java.awt.*;
 
 public class MenuScreen extends MenuBackground {
 
-	public MenuScreen() {
+	public MenuScreen(PlayerData playerData) {
 		super(Strings.Gui_Menu_Main_Title, new Color(0,0,255));
 		minecraft = Minecraft.getInstance();
+		this.playerData = playerData;
 	}
 	
 
 	public enum buttons {
 		ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES;
 	}
+
+	PlayerData playerData;
 
 	MenuButton items, abilities, customize, party, status, journal, config, style;
 
@@ -145,7 +148,6 @@ public class MenuScreen extends MenuBackground {
 		float playerHeight = height * 0.45F;
 		float playerPosX = width * 0.5229F;
 		float playerPosY = height * 0.7F;
-		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (playerData != null) {
 			matrixStack.pushPose();
 			{

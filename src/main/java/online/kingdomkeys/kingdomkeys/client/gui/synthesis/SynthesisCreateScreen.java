@@ -13,9 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -29,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -51,10 +50,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	private MenuButton back;
 	SynthesisScreen parent;
 
-	public SynthesisCreateScreen(SynthesisScreen parent) {
+	public SynthesisCreateScreen(PlayerData playerData, SynthesisScreen parent) {
 		super(Strings.Gui_Synthesis_Synthesise_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
+		parent.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -108,9 +108,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 
 		List<ResourceLocation> items = new ArrayList<>();
-		PlayerData playerData = PlayerData.get(player);
-		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
-			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
+		for (int i = 0; i < parent.playerData.getKnownRecipeList().size(); i++) {
+			ResourceLocation itemName = parent.playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
 			if(recipe != null) {
 				ResourceLocation recipeRL = recipe.getRegistryName();
@@ -144,7 +143,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			action("create");
 		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
         
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 
 	}
 
@@ -359,7 +358,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}

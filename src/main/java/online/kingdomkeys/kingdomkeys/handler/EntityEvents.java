@@ -375,10 +375,6 @@ public class EntityEvents {
 		}
 
 		PlayerData playerData = PlayerData.get(player);
-		if(!player.level().isClientSide()) {
-			System.out.println(playerData.getKnownRecipeList());
-			System.out.println("------");
-		}
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
 			// Check if rc conditions match
@@ -1424,9 +1420,9 @@ public class EntityEvents {
 		GlobalData globalData = GlobalData.get(localPlayer);
 		if(playerData == null || globalData == null)
 			return;
-		PacketHandler.syncToAllAround(localPlayer, playerData);
-		PacketHandler.syncToAllAround(localPlayer, globalData);
 		if (e.getTarget() instanceof Player targetPlayer) {
+			PacketHandler.syncToAllAround(localPlayer, playerData);
+			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);
 			GlobalData globalData2 = GlobalData.get(targetPlayer);
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);

@@ -5,4 +5,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public interface Packet extends CustomPacketPayload {
     void handle(IPayloadContext context);
+    default Packet reply(IPayloadContext context) {
+        return null;
+    }
 }

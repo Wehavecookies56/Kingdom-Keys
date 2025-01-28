@@ -10,6 +10,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
@@ -459,6 +460,12 @@ public class ClientUtils {
         vertexBuilder.addVertex(matrix, maxX, minY, maxZ).setUv((maxTexU * cor), (maxTexV) * cor);
         vertexBuilder.addVertex(matrix, maxX, maxY, minZ).setUv((maxTexU * cor), (minTexV) * cor);
         vertexBuilder.addVertex(matrix, minX, maxY, minZ).setUv((minTexU * cor), (minTexV) * cor);
+    }
+
+    public static PlayerData readPlayerData(CompoundTag data, int player) {
+        PlayerData playerData = PlayerData.get((Player) Minecraft.getInstance().level.getEntity(player));
+        playerData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), data);
+        return playerData;
     }
 }
 

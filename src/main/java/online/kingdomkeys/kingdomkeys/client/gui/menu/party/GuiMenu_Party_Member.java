@@ -2,15 +2,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -21,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +45,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 	protected void action(String string) {
 		switch(string) {
 		case "back":
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 			break;		
 		case "leave":
 			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
@@ -73,7 +71,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party == null) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		} else {			
 			if(party.getMember(minecraft.player.getUUID()).isLeader()) {
 				minecraft.setScreen(new GuiMenu_Party_Leader());
@@ -100,7 +98,7 @@ public class GuiMenu_Party_Member extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
 		if(party == null) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		} else {
 			if(party.getMember(minecraft.player.getUUID()).isLeader()) {
 				minecraft.setScreen(new GuiMenu_Party_Leader());

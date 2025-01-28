@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +23,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -62,6 +64,18 @@ import online.kingdomkeys.kingdomkeys.util.Utils.castMagic;
 public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	protected PlayerData() {}
+
+	public static PlayerData get(CompoundTag nbt, Player player) {
+		//Only deserialize on client, there shouldn't be a reason to do this on the server
+		if (FMLEnvironment.dist.isClient()) {
+			PlayerData data = new PlayerData();
+			data.deserializeNBT(player.level().registryAccess(), nbt);
+			player.setData(ModData.PLAYER_DATA, data);
+			return data;
+		} else {
+			return get(player);
+		}
+	}
 
 	public static PlayerData get(Player player) {
 		if (!player.hasData(ModData.PLAYER_DATA)) {
@@ -292,11 +306,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		CompoundTag sacrificePedestal = nbt.getCompound("soa_sacrifice_pedestal");
 		this.setSacrificePedestal(new BlockPos(sacrificePedestal.getInt("x"), sacrificePedestal.getInt("y"), sacrificePedestal.getInt("z")));
 
+		recipeList.clear();
 		for (String key : nbt.getCompound("recipes").getAllKeys()) {
 			this.getKnownRecipeList().add(ResourceLocation.parse(key));
 		}
 		Collections.sort(recipeList);
 
+		magicList.clear();
 		for (String magicName : nbt.getCompound("magics").getAllKeys()) {
 			int[] array;
 			if (nbt.getCompound("magics").contains(magicName, 99)) {
@@ -310,6 +326,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
+		shotlockList.clear();
 		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
 			if (ModShotlocks.registry.containsKey(ResourceLocation.parse(key))) {
 				this.getShotlockList().add(key);
@@ -318,36 +335,44 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setEquippedShotlock(nbt.getString("equipped_shotlock"));
 
+		driveForms.clear();
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
 			if (ModDriveForms.registry.containsKey(ResourceLocation.parse(driveFormName))) {
 				this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
 			}
 		}
-		
+
+		visibleDriveforms.clear();
 		for (String driveFormName : nbt.getCompound("visible_drive_forms").getAllKeys()) {
 			if (ModDriveForms.registry.containsKey(ResourceLocation.parse(driveFormName))) { //If form exists
 				this.getVisibleDriveForms().add(driveFormName);
 			}
 		}
 
+		abilityMap.clear();
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
 			if (ModAbilities.registry.containsKey(ResourceLocation.parse(abilityName))) {
 				this.getAbilityMap().put(abilityName, nbt.getCompound("abilities").getIntArray(abilityName));
 			}
 		}
 
+		equippedKeychains.clear();
 		CompoundTag keychainsNBT = nbt.getCompound("keychains");
 		keychainsNBT.getAllKeys().forEach((chain) -> this.setNewKeychain(ResourceLocation.parse(chain), ItemStack.parseOptional(provider, keychainsNBT.getCompound(chain))));
 
+		equippedItems.clear();
 		CompoundTag itemsNBT = nbt.getCompound("items");
 		itemsNBT.getAllKeys().forEach((slot) -> this.setNewItem(Integer.parseInt(slot), ItemStack.parseOptional(provider, itemsNBT.getCompound(slot))));
 
+		equippedAccessories.clear();
 		CompoundTag accessoriesNBT = nbt.getCompound("accessories");
 		accessoriesNBT.getAllKeys().forEach((slot) -> this.setNewAccessory(Integer.parseInt(slot), ItemStack.parseOptional(provider, accessoriesNBT.getCompound(slot))));
-		
+
+		equippedKBArmors.clear();
 		CompoundTag kbArmorsNBT = nbt.getCompound("kbarmors");
 		kbArmorsNBT.getAllKeys().forEach((slot) -> this.setNewKBArmor(Integer.parseInt(slot), ItemStack.parseOptional(provider, kbArmorsNBT.getCompound(slot))));
 
+		equippedArmors.clear();
 		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.parseOptional(provider, armorsNBT.getCompound(slot))));
 
@@ -358,12 +383,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setAlignment(nbt.getInt("org_alignment"));
 		this.equipWeapon(ItemStack.parseOptional(provider, nbt.getCompound("org_equipped_weapon")));
 		CompoundTag unlocksCompound = nbt.getCompound("org_weapons_unlocked");
+		weaponUnlocks.clear();
 		unlocksCompound.getAllKeys().forEach(key -> this.unlockWeapon(ItemStack.parseOptional(provider, unlocksCompound.getCompound(key))));
 
+		partyList.clear();
 		for (String key : nbt.getCompound("parties").getAllKeys()) {
 			this.getPartiesInvited().add(key);
 		}
 
+		materials.clear();
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
 			ResourceLocation loc = ResourceLocation.parse(mat);
 			if (ModMaterials.registry.containsKey(ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), Strings.SM_Prefix + loc.getPath()))) {
@@ -373,6 +401,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
 
+		shortcutsMap.clear();
 		for (String s : nbt.getCompound("shortcuts").getAllKeys()) {
 			int shortcutPos = Integer.parseInt(s);
 			this.getShortcutsMap().put(shortcutPos, nbt.getCompound("shortcuts").getString(shortcutPos + ""));
@@ -394,6 +423,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		CompoundTag airStepCompound = nbt.getCompound("airstep_pos_compound");
 		this.setAirStep(new BlockPos((int)airStepCompound.getDouble("x"), (int)airStepCompound.getDouble("y"), (int)airStepCompound.getDouble("z")));
 
+		discoveredSavePoints.clear();
 		CompoundTag savePoints = nbt.getCompound("save_points");
 		for (String key : savePoints.getAllKeys()) {
 			UUID uuid = UUID.fromString(key);
@@ -414,7 +444,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	LinkedHashSet<String> visibleDriveforms = new LinkedHashSet<>();
 	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
-	List<Utils.ShotlockPosition> shotlockEnemies;
+	List<Utils.ShotlockPosition> shotlockEnemies = new ArrayList<>();
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
@@ -1818,6 +1848,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			if (amount > currAmount)
 				amount = currAmount;
 			materials.replace(material.getMaterialName(), currAmount - amount);
+			if (materials.get(material.getMaterialName()) <= 0) {
+				materials.remove(material.getMaterialName());
+			}
 		}
 	}
 

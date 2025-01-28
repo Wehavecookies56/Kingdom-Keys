@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.status;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -13,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +42,7 @@ public class MenuStatusScreen extends MenuBackground {
 
 	protected void action(String string) {
 		if (string.equals("back"))
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		else
 			form = string;
 

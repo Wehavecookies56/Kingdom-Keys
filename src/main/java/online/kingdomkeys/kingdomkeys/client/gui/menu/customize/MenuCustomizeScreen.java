@@ -1,13 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import net.minecraft.client.gui.GuiGraphics;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +36,7 @@ public class MenuCustomizeScreen extends MenuBackground {
                 PacketHandler.sendToServer(new CSOpenMagicCustomize());
                 break;
             case "back":
-                GuiHelper.openMenu();
+                PacketHandler.sendToServer(new CSOpenMenu());
                 break;
         }
     }

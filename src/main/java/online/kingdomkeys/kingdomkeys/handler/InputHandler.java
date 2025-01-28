@@ -33,8 +33,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.*;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -49,7 +47,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class InputHandler {
 
@@ -197,14 +194,7 @@ public class InputHandler {
     }
 
     public void openMenu() {
-        PacketHandler.sendToServer(new CSSyncAllClientDataPacket());
-        if (playerData.getSoAState() != SoAState.COMPLETE) {
-            if (level.dimension() != ModDimensions.DIVE_TO_THE_HEART) {
-                mc.setScreen(new NoChoiceMenuPopup());
-            }
-        } else {
-            GuiHelper.openMenu();
-        }
+        PacketHandler.sendToServer(new CSOpenMenu());
     }
 
     public void summonKeyblade() {

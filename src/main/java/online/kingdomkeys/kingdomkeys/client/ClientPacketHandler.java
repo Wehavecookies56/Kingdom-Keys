@@ -4,6 +4,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -12,10 +13,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.*;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.data.*;
-import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
-import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
-import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
@@ -83,11 +84,13 @@ public class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new OrgPortalGui(message.pos()));
     }
 
-    public static void openSynthesisGui(String inv, String name, int moogle) {
+    public static void openSynthesisGui(CompoundTag playerData, String inv, String name, int moogle) {
+        PlayerData data = PlayerData.get(Minecraft.getInstance().player);
+        data.deserializeNBT(Minecraft.getInstance().level.registryAccess(), playerData);
         if(inv != null && !inv.equals(""))
-            Minecraft.getInstance().setScreen(new SynthesisScreen(inv, name, moogle));
+            Minecraft.getInstance().setScreen(new SynthesisScreen(data, inv, name, moogle));
         else
-            Minecraft.getInstance().setScreen(new SynthesisScreen(name));
+            Minecraft.getInstance().setScreen(new SynthesisScreen(data, name));
         Minecraft.getInstance().level.playSound(Minecraft.getInstance().player, Minecraft.getInstance().player.blockPosition(), ModSounds.kupo.get(), SoundSource.MASTER, 1, 1);
     }
 
@@ -104,8 +107,7 @@ public class ClientPacketHandler {
     }
 
     public static void syncCapability(SCSyncPlayerData message) {
-        PlayerData playerData = PlayerData.get((Player) Minecraft.getInstance().level.getEntity(message.player()));
-        playerData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.data());
+        PlayerData playerData = PlayerData.get(message.data(), (Player) Minecraft.getInstance().level.getEntity(message.player()));
         Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
     }
 
@@ -280,6 +282,21 @@ public class ClientPacketHandler {
             SoAMessages.INSTANCE.queueMessage(t);
         }
         //SoAMessages.INSTANCE.queueMessages((Title[]) message.titles.toArray());
+    }
+
+    public static void sendPlayerDataToClient(SCSendPlayerDataToClient message) {
+        if (Minecraft.getInstance().screen instanceof IPlayerDataRequester gui) {
+            PlayerData data = PlayerData.get(message.playerData(), Minecraft.getInstance().player);
+            gui.updatePlayerData(data);
+        }
+    }
+
+    public static void openMenu(SCOpenMenu message) {
+        if (message.open()) {
+            Minecraft.getInstance().setScreen(new MenuScreen(PlayerData.get(message.playerData(), Minecraft.getInstance().player)));
+        } else {
+            Minecraft.getInstance().setScreen(new NoChoiceMenuPopup());
+        }
     }
     
 }

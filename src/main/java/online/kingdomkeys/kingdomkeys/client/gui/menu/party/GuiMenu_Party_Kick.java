@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -16,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSPartyLeave;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -99,7 +98,7 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party == null) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 			return;
 		} else {			
 			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {

@@ -14,20 +14,20 @@ import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuAbilitiesButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -74,7 +74,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	protected void action(String string) {
 		switch (string) {
 		case "back":
-			GuiHelper.openMenu();
+			Minecraft.getInstance().setScreen(new MenuScreen(playerData));
 			break;
 		default:
 			form = string;
@@ -564,7 +564,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}

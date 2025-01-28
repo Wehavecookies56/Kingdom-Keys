@@ -158,7 +158,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
 					return InteractionResult.FAIL;
 	        	} else {
-	        		PacketHandler.sendTo(new SCOpenSynthesisGui(inv, name, this.getId()), (ServerPlayer)player);
+	        		PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
                     interacting = player;
                     goalSelector.removeAllGoals(Objects::nonNull);
                     goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));

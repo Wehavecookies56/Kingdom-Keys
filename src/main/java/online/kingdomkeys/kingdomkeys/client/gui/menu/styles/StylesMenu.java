@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.styles;
 
 import net.minecraft.client.gui.GuiGraphics;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -12,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSChangeStyle;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
@@ -38,7 +37,7 @@ public class StylesMenu extends MenuBackground {
         initDualStyle();
         addRenderableWidget(singleButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.single"), MenuButton.ButtonType.BUTTON, e -> window = ActualWindow.SINGLE));
         addRenderableWidget(dualButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (18), (int) buttonWidth, Utils.translateToLocal("gui.menu.style.dual"), MenuButton.ButtonType.BUTTON, e -> window = ActualWindow.DUAL));
-        addRenderableWidget(backButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (36), (int) buttonWidth, Utils.translateToLocal("gui.menu.back"), MenuButton.ButtonType.BUTTON, e -> GuiHelper.openMenu()));
+        addRenderableWidget(backButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (36), (int) buttonWidth, Utils.translateToLocal("gui.menu.back"), MenuButton.ButtonType.BUTTON, e -> PacketHandler.sendToServer(new CSOpenMenu())));
     }
 
     private void initSingle(){

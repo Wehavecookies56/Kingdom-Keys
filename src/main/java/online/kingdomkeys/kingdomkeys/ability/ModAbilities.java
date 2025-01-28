@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class ModAbilities {
 
 	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
-	public static Registry<Ability> registry = ABILITIES.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
+	public static Registry<Ability> registry = ABILITIES.makeRegistry(builder -> builder.sync(true));
 
 	public static int order = 0;
 

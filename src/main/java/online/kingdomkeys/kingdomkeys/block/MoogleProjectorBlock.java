@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
@@ -36,7 +37,7 @@ public class MoogleProjectorBlock extends BaseBlock implements EntityBlock, INoD
 	@Override
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		if (!worldIn.isClientSide) {
-			PacketHandler.sendTo(new SCOpenSynthesisGui("", "", -1), (ServerPlayer)player);
+			PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(worldIn.registryAccess()), "", "", -1), (ServerPlayer)player);
 		}
 		return ItemInteractionResult.SUCCESS;
 	}

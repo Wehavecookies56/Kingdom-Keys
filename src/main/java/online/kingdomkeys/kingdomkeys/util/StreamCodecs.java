@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Function9;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.Utf8String;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -103,6 +104,22 @@ public class StreamCodecs {
             Vec3::z,
             Vec3::new
     );
+
+    public static StreamCodec<FriendlyByteBuf, String> STRING_UTF8 = nullableStringUtf8(32767);
+    static StreamCodec<FriendlyByteBuf, String> nullableStringUtf8(final int maxLength) {
+        return new StreamCodec<>() {
+            public String decode(FriendlyByteBuf p_332176_) {
+                return Utf8String.read(p_332176_, maxLength);
+            }
+
+            public void encode(FriendlyByteBuf p_331068_, String p_341104_) {
+                if (p_341104_ == null) {
+                    p_341104_ = "";
+                }
+                Utf8String.write(p_331068_, p_341104_, maxLength);
+            }
+        };
+    }
 
     public static <B, C, T1, T2, T3, T4, T5, T6, T7, T8> StreamCodec<B, C> composite(
             final StreamCodec<? super B, T1> codec1,

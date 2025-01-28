@@ -44,15 +44,16 @@ public record CSTakeMaterials(ItemStack stack, int amount, String inv, String na
 		if(!ItemStack.isSameItem(stack, ItemStack.EMPTY)) {
 			Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(stack.getItem()).getPath()));
 
-			if(playerData.getMaterialAmount(mat)<stack.getCount()) {
-
-			} else {
-				playerData.removeMaterial(mat, stack.getCount());
-				player.getInventory().add(stack);
+			int amountToTake = amount;
+			if(playerData.getMaterialAmount(mat)<amount) {
+				amountToTake = playerData.getMaterialAmount(mat);
 			}
+			ItemStack toAdd = stack.copy();
+			toAdd.setCount(amountToTake);
+			playerData.removeMaterial(mat, amountToTake);
+			player.getInventory().add(toAdd);
 		}
-		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-		PacketHandler.sendTo(new SCOpenMaterialsScreen(inv, name, moogle), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);
 	}
 
 	@Override

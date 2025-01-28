@@ -59,6 +59,8 @@ public class PacketHandler {
 		client(SCSyncWorldData.TYPE, SCSyncWorldData.STREAM_CODEC);
 		client(SCUpdateCORooms.TYPE, SCUpdateCORooms.STREAM_CODEC);
 		client(SCUpdateSavePoints.TYPE, SCUpdateSavePoints.STREAM_CODEC);
+		client(SCSendPlayerDataToClient.TYPE, SCSendPlayerDataToClient.STREAM_CODEC);
+		client(SCOpenMenu.TYPE, SCOpenMenu.STREAM_CODEC);
 
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
@@ -117,6 +119,8 @@ public class PacketHandler {
 		server(CSUseMagicPacket.TYPE, CSUseMagicPacket.STREAM_CODEC);
 		server(CSUseReactionCommandPacket.TYPE, CSUseReactionCommandPacket.STREAM_CODEC);
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
+		server(CSRequestPlayerDataFromServer.TYPE, CSRequestPlayerDataFromServer.STREAM_CODEC);
+		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {
@@ -144,6 +148,10 @@ public class PacketHandler {
 			KingdomKeys.LOGGER.warn("Packet \"{}\" handling failed, something is likely broken", data.type());
 			return null;
 		});
+		Packet reply = data.reply(context);
+		if (reply != null) {
+			context.reply(reply);
+		}
 	}
 
 	public static void syncToAllAround(Player player, PlayerData playerData) {

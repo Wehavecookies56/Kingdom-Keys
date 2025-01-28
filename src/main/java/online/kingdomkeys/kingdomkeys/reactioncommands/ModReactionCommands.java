@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 public class ModReactionCommands {
 
 	public static DeferredRegister<ReactionCommand> REACTION_COMMANDS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "reactioncommands"), KingdomKeys.MODID);
-	public static Registry<ReactionCommand> registry = REACTION_COMMANDS.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
+	public static Registry<ReactionCommand> registry = REACTION_COMMANDS.makeRegistry(builder -> builder.sync(true));
 
 	public static final Supplier<ReactionCommand>
 		AUTO_VALOR = REACTION_COMMANDS.register(Strings.autoValorRC, () -> new ReactionAutoForm(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.autoValorRC), Strings.autoValor, Strings.Form_Valor)),

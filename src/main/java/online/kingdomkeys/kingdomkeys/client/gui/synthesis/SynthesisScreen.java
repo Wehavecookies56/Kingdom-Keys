@@ -1,40 +1,51 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
+import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class SynthesisScreen extends MenuBackground {
+public class SynthesisScreen extends MenuBackground implements IPlayerDataRequester {
 		
 	MenuButton synthesise, forge, materials, shop;
+
+	PlayerData playerData;
 	
 	String invFile = ModConfigs.projectorHasShop ? "kingdomkeys:default" : "";
 	int moogle = -1;
 
 	String name;
 
-	public SynthesisScreen(String name) {
+	public SynthesisScreen(PlayerData playerData, String name) {
 		super(!name.isEmpty() ? name : Strings.Gui_Synthesis, new Color(0,255,0));
 		drawPlayerInfo = true;
+		this.playerData = playerData;
 	}
 	
-	public SynthesisScreen(String inv, String name, int moogle) {
-		this(name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
+	public SynthesisScreen(PlayerData playerData, String inv, String name, int moogle) {
+		this(playerData, name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
 		this.moogle = moogle;
 		this.name = name;
 		if (ShopListRegistry.getInstance().containsKey(ResourceLocation.parse(inv)) || inv.isEmpty())
@@ -49,19 +60,19 @@ public class SynthesisScreen extends MenuBackground {
 		switch(string) {
 		case "synthesise":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisCreateScreen(this));
+			minecraft.setScreen(new SynthesisCreateScreen(playerData, this));
 			break;
 		case "forge":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisForgeScreen(this));
+			minecraft.setScreen(new SynthesisForgeScreen(playerData, this));
 			break;
 		case "materials":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new SynthesisMaterialScreen(this));
+			minecraft.setScreen(new SynthesisMaterialScreen(playerData, this));
 			break;
 		case "shop":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new ShopScreen(this));
+			minecraft.setScreen(new ShopScreen(playerData, this));
 			break;
 		}
 	}
@@ -94,6 +105,36 @@ public class SynthesisScreen extends MenuBackground {
 		addRenderableWidget(synthesise = new MenuButton((int) buttonPosX, button_statsY + (pos++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise), ButtonType.BUTTON, (e) -> { action("synthesise"); }));
 		addRenderableWidget(forge = new MenuButton((int) buttonPosX, button_statsY + (pos++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Forge), ButtonType.BUTTON, (e) -> { action("forge"); }));
 		addRenderableWidget(materials = new MenuButton((int) buttonPosX, button_statsY + (pos++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials), ButtonType.BUTTON, (e) -> { action("materials"); }));
+
+		boolean hasKeychain = false;
+		boolean hasMaterial = false;
+		Player player = Minecraft.getInstance().player;
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			if (!hasKeychain && player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
+				hasKeychain = true;
+			}
+			ResourceLocation itemKey = BuiltInRegistries.ITEM.getKey(player.getInventory().getItem(i).getItem());
+			ResourceLocation materialKey = ResourceLocation.fromNamespaceAndPath(itemKey.getNamespace(), Strings.SM_Prefix + itemKey.getPath());
+			if (!hasMaterial && ModMaterials.registry.containsKey(materialKey)) {
+				hasMaterial = true;
+			}
+		}
+
+		for (ItemStack stack : playerData.getEquippedKeychains().values()) {
+			if (!stack.isEmpty()) {
+				hasKeychain = true;
+			}
+		}
+
+		if (playerData.getKnownRecipeList().isEmpty()) {
+			synthesise.active = false;
+		}
+		if (!hasKeychain) {
+			forge.active = false;
+		}
+		if (playerData.getMaterialMap().isEmpty() && !hasMaterial) {
+			materials.active = false;
+		}
 	}
 
 	@Override
@@ -107,5 +148,9 @@ public class SynthesisScreen extends MenuBackground {
 	public boolean isPauseScreen() {
 		return false;
 	}
-	
+
+	@Override
+	public void updatePlayerData(PlayerData playerData) {
+		this.playerData = playerData;
+	}
 }

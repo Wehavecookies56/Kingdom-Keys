@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,11 +13,13 @@ import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public record SCOpenSynthesisGui(String inv, String name, int moogle) implements Packet {
+public record SCOpenSynthesisGui(CompoundTag playerData, String inv, String name, int moogle) implements Packet {
 
 	public static final Type<SCOpenSynthesisGui> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_synthesis_gui"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCOpenSynthesisGui> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.COMPOUND_TAG,
+			SCOpenSynthesisGui::playerData,
 			ByteBufCodecs.STRING_UTF8,
 			SCOpenSynthesisGui::inv,
 			ByteBufCodecs.STRING_UTF8,
@@ -29,7 +32,7 @@ public record SCOpenSynthesisGui(String inv, String name, int moogle) implements
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			ClientPacketHandler.openSynthesisGui(inv, name, moogle);
+			ClientPacketHandler.openSynthesisGui(playerData, inv, name, moogle);
 		}
 	}
 

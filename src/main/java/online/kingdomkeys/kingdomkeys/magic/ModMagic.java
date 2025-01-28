@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class ModMagic {
 
 	public static DeferredRegister<Magic> MAGIC = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "magics"), KingdomKeys.MODID);
-	public static Registry<Magic> registry = MAGIC.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
+	public static Registry<Magic> registry = MAGIC.makeRegistry(builder -> builder.sync(true));
 
 	public static int order = 0;
 

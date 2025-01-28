@@ -12,9 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -28,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -49,10 +48,12 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	private MenuButton back;
 	SynthesisScreen parent;
 
-	public SynthesisForgeScreen(SynthesisScreen parent) {
+
+	public SynthesisForgeScreen(PlayerData playerData, SynthesisScreen parent) {
 		super(Strings.Gui_Synthesis_Forge_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
+		parent.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -133,7 +134,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 
 		super.init();
 		itemsPerPage = (int) (middleHeight / 14);
@@ -336,7 +337,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}

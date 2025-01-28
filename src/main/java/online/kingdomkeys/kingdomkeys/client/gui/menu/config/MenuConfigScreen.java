@@ -12,18 +12,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -100,10 +100,10 @@ public class MenuConfigScreen extends MenuBackground {
 
 	
 	protected void action(String string) {
-		PlayerData playerData;
+		PlayerData playerData = PlayerData.get(minecraft.player);
 		switch(string) {
 		case "back":
-			GuiHelper.openMenu();
+			PacketHandler.sendToServer(new CSOpenMenu());
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
@@ -123,7 +123,6 @@ public class MenuConfigScreen extends MenuBackground {
 		case "glint":
 			glint = !glint;
 			glintButton.setMessage(Component.translatable(glint+""));
-			playerData = PlayerData.get(minecraft.player);
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 
 			break;
