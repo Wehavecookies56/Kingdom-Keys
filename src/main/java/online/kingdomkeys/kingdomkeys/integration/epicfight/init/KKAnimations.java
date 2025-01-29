@@ -211,7 +211,6 @@ public class KKAnimations {
                 }, AnimationEvent.Side.BOTH));
 
 
-
         initSummonMap();
     }
 }
