@@ -43,6 +43,36 @@ public class EpicKKWeapons {
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
+    public static final Function<Item, CapabilityItem.Builder> ARROWGUN = item ->
+            WeaponCapability.builder()
+                    .category(EpicKKWeaponEnum.KK_ARROW_GUNS)
+                    .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_ARROW_GUNS ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                    .hitSound(EpicFightSounds.LASER_BLAST.get())
+                    .collider(ColliderPreset.SWORD)
+                    .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_ARROW_GUNS)
+                    .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
+
+    public static final Function<Item, CapabilityItem.Builder> CLAYMORE = item ->
+            WeaponCapability.builder()
+                    .category(EpicKKWeaponEnum.KK_CLAYMORE)
+                    .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_CLAYMORE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
+                    .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_CLAYMORE)
+                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.TRIDENT_AUTO1, Animations.LONGSWORD_AUTO3, Animations.GREATSWORD_DASH, Animations.TSUNAMI, Animations.GREATSWORD_AIR_SLASH)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN);
+
+
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
@@ -140,6 +170,8 @@ public class EpicKKWeapons {
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
     }

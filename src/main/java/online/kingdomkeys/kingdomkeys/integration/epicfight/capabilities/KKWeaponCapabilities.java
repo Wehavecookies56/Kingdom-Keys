@@ -23,7 +23,8 @@ public class KKWeaponCapabilities extends WeaponCapability {
         guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KK_KEYBLADE.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
         guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KK_CHAKRAM.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
         guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KK_CHAKRAM.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
-
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KK_ARROW_GUNS.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeapons.EpicKKWeaponEnum.KK_ARROW_GUNS.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
 
     }
 

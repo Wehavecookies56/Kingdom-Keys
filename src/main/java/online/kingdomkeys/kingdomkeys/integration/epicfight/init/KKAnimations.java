@@ -35,7 +35,7 @@ public class KKAnimations {
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
             VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1,
             SORA_SUMMON, DRIVE_SUMMON,
-            CHAKRAM_IDLE, CHAKRAM_RUN;
+            CHAKRAM_IDLE, CHAKRAM_RUN, AXEL_SUMMON, XIGBAR_IDLE, XIGBAR_WALK, SAIX_IDLE, SAIX_WALK, SAIX_RUN;
 
     public static Map<OrgMember, StaticAnimation> orgMap = new HashMap<>();
     public static Map<SingleChoices, StaticAnimation> singleKeybladeMap = new HashMap<>();
@@ -53,7 +53,7 @@ public class KKAnimations {
     }
 
     public static void initSummonMap() {
-        orgMap.put(OrgMember.AXEL, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.AXEL, KKAnimations.AXEL_SUMMON);
         orgMap.put(OrgMember.DEMYX, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.LARXENE, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.LEXAEUS, KKAnimations.SORA_SUMMON);
@@ -193,6 +193,22 @@ public class KKAnimations {
         CHAKRAM_AUTO1 = new BasicAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.toolR, "biped/combat/chakram_auto_1", Armatures.BIPED);
         CHAKRAM_IDLE = new StaticAnimation(true, "biped/living/axel_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
         CHAKRAM_RUN = new StaticAnimation(true, "biped/living/axel_run", Armatures.BIPED);
+
+        XIGBAR_WALK = new StaticAnimation(true, "biped/living/xigbar_walk", Armatures.BIPED);
+        XIGBAR_IDLE = new StaticAnimation(true, "biped/living/xigbar_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+
+        SAIX_IDLE = new StaticAnimation(true, "biped/living/saix_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        SAIX_WALK = new StaticAnimation(true, "biped/living/saix_walk", Armatures.BIPED);
+        SAIX_RUN = new StaticAnimation(true, "biped/living/saix_run", Armatures.BIPED);
+
+
+        AXEL_SUMMON = new ActionAnimation(0.05F, "biped/living/axel_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
 
 
 
