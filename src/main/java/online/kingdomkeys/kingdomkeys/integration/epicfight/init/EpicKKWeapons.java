@@ -72,7 +72,7 @@ public class EpicKKWeapons {
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN);
-
+  
     public static final Function<Item, CapabilityItem.Builder> ETHEREAL_BLADE = item ->
             WeaponCapability.builder()
                     .category(EpicKKWeaponEnum.KK_ETHEREAL_BLADE)
@@ -106,7 +106,6 @@ public class EpicKKWeapons {
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN);
-
 
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
