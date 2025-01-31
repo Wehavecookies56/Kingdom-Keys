@@ -65,12 +65,47 @@ public class EpicKKWeapons {
                     .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_CLAYMORE)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.TRIDENT_AUTO1, Animations.LONGSWORD_AUTO3, Animations.GREATSWORD_DASH, Animations.TSUNAMI, Animations.GREATSWORD_AIR_SLASH)
+                    .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.TRIDENT_AUTO1, Animations.LONGSWORD_AUTO3, Animations.GREATSWORD_DASH, Animations.TSUNAMI, Animations.GREATSWORD_AIR_SLASH)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN);
+
+    public static final Function<Item, CapabilityItem.Builder> ETHEREAL_BLADE = item ->
+            WeaponCapability.builder()
+                    .category(EpicKKWeaponEnum.KK_ETHEREAL_BLADE)
+                    .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_ETHEREAL_BLADE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
+                    .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_ETHEREAL_BLADE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XEMNAS_RUN);
+
+    public static final Function<Item, CapabilityItem.Builder> LANCE = item ->
+            WeaponCapability.builder()
+                    .category(EpicKKWeaponEnum.KK_LANCE)
+                    .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_LANCE ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
+                    .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_LANCE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XALDIN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XALDIN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN);
 
 
 
@@ -169,8 +204,10 @@ public class EpicKKWeapons {
     }
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ETHEREAL_BLADE.toString().toLowerCase()), ETHEREAL_BLADE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LANCE.toString().toLowerCase()), LANCE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
