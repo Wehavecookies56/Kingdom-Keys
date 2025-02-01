@@ -107,6 +107,22 @@ public class EpicKKWeapons {
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN);
 
+    public static final Function<Item, CapabilityItem.Builder> SITAR = item ->
+            WeaponCapability.builder()
+                    .category(EpicKKWeaponEnum.KK_SITAR)
+                    .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_SITAR ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
+                    .hitSound(EpicFightSounds.BLADE_HIT.get())
+                    .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_SITAR)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK);
+
+
+
+
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
@@ -208,6 +224,7 @@ public class EpicKKWeapons {
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LANCE.toString().toLowerCase()), LANCE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SITAR.toString().toLowerCase()), SITAR);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
     }

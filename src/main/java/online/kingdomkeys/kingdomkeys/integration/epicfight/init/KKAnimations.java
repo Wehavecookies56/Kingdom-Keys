@@ -31,11 +31,22 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public class KKAnimations {
-    public static StaticAnimation CHAKRAM_AUTO1, ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
-            KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3, SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2,
-            VALOR_AUTO3, MASTER_IDLE, WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER, FINAL_IDLE, FINAL_AUTO1,
-            SORA_SUMMON, DRIVE_SUMMON,
-            CHAKRAM_IDLE, CHAKRAM_RUN, AXEL_SUMMON, XEMNAS_IDLE, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XEMNAS_SUMMON, XIGBAR_IDLE, XIGBAR_WALK, XIGBAR_SUMMON, XALDIN_IDLE, XALDIN_WALK, XALDIN_RUN, XALDIN_SUMMON, SAIX_IDLE, SAIX_WALK, SAIX_RUN, SAIX_SUMMON;
+    public static StaticAnimation
+            ROXAS_AUTO1, ROXAS_IDLE, ROXAS_RUN,
+            KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3,
+            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1,
+            VALOR_IDLE, VALOR_AUTO1, VALOR_AUTO2, VALOR_AUTO3,
+            MASTER_IDLE,
+            WISDOM_IDLE, WISDOM_RUN, WISDOM_COMBO1, WISDOM_FINISHER,
+            FINAL_IDLE, FINAL_AUTO1,
+            SORA_SUMMON,
+            DRIVE_SUMMON,
+            XEMNAS_IDLE, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XEMNAS_SUMMON,
+            XIGBAR_IDLE, XIGBAR_WALK, XIGBAR_SUMMON,
+            XALDIN_IDLE, XALDIN_WALK, XALDIN_RUN, XALDIN_SUMMON,
+            SAIX_IDLE, SAIX_WALK, SAIX_RUN, SAIX_SUMMON,
+            CHAKRAM_AUTO1, CHAKRAM_IDLE, CHAKRAM_RUN, AXEL_SUMMON,
+            DEMYX_IDLE, DEMYX_WALK, DEMYX_RUN, DEMYX_SUMMON;
 
     public static Map<OrgMember, StaticAnimation> orgMap = new HashMap<>();
     public static Map<SingleChoices, StaticAnimation> singleKeybladeMap = new HashMap<>();
@@ -54,7 +65,7 @@ public class KKAnimations {
 
     public static void initSummonMap() {
         orgMap.put(OrgMember.AXEL, KKAnimations.AXEL_SUMMON);
-        orgMap.put(OrgMember.DEMYX, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.DEMYX, KKAnimations.DEMYX_SUMMON);
         orgMap.put(OrgMember.LARXENE, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.LEXAEUS, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.ROXAS, KKAnimations.SORA_SUMMON);
@@ -210,6 +221,10 @@ public class KKAnimations {
         XALDIN_WALK = new StaticAnimation(true, "biped/living/xaldin_walk", Armatures.BIPED);
         XALDIN_RUN = new StaticAnimation(true, "biped/living/xaldin_run", Armatures.BIPED);
 
+        DEMYX_IDLE = new StaticAnimation(true, "biped/living/demyx_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        DEMYX_WALK = new StaticAnimation(true, "biped/living/demyx_walk", Armatures.BIPED);
+
+
         XEMNAS_SUMMON = new ActionAnimation(0.05F, "biped/living/xemnas_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -246,6 +261,15 @@ public class KKAnimations {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
                         PacketHandler.sendToServer(new CSSummonKeyblade());
                 }, AnimationEvent.Side.BOTH));
+
+        DEMYX_SUMMON = new ActionAnimation(0.05F, "biped/living/demyx_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+
 
         initSummonMap();
     }
