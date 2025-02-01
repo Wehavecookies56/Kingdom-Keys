@@ -120,10 +120,6 @@ public class EpicKKWeapons {
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK);
 
-
-
-
-
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
