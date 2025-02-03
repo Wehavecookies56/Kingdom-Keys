@@ -50,54 +50,61 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         //RenderSystem.setShaderTexture(0, new ResourceLocation(KingdomKeys.MODID, "textures/environment/sky.png"));
         Tesselator tesselator = Tesselator.getInstance();
-        Matrix4f matrix4f = modelViewMatrix;
+        Matrix4f frustumMatrix = modelViewMatrix;
+
+        PoseStack posestack = new PoseStack();
+        posestack.mulPose(frustumMatrix);
 
         for(int i = 0; i < 6; ++i) {
+            posestack.pushPose();
             RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/environment/skybox_" + i + ".png"));
             //0 = down
 
             //north
             if (i == 1) {
-                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
+                posestack.mulPose(Axis.XP.rotationDegrees(90.0F));
             }
 
             //south
             if (i == 2) {
-                matrix4f.rotate(Axis.ZP.rotationDegrees(180.0F));
-                matrix4f.rotate(Axis.XP.rotationDegrees(-90.0F));
+                posestack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+                posestack.mulPose(Axis.XP.rotationDegrees(-90.0F));
             }
 
             //up
             if (i == 3) {
-                matrix4f.rotate(Axis.XP.rotationDegrees(180.0F));
-                matrix4f.rotate(Axis.YP.rotationDegrees(-90.0F));
+                posestack.mulPose(Axis.XP.rotationDegrees(180.0F));
+                posestack.mulPose(Axis.YP.rotationDegrees(-90.0F));
             }
 
             //east
             if (i == 4) {
-                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
-                matrix4f.rotate(Axis.ZP.rotationDegrees(90.0F));
+                posestack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                posestack.mulPose(Axis.ZP.rotationDegrees(90.0F));
             }
 
             //west
             if (i == 5) {
-                matrix4f.rotate(Axis.XP.rotationDegrees(90.0F));
-                matrix4f.rotate(Axis.ZP.rotationDegrees(-90.0F));
+                posestack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                posestack.mulPose(Axis.ZP.rotationDegrees(-90.0F));
             }
 
+            Matrix4f matrix4f = posestack.last().pose();
             BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
             bufferbuilder.addVertex(matrix4f, -100.0F, -100.0F, -100.0F).setUv(0.0F, 0.0F).setColor(r, g, b, 255);
             bufferbuilder.addVertex(matrix4f, -100.0F, -100.0F, 100.0F).setUv(0.0F, 1.0F).setColor(r, g, b, 255);
             bufferbuilder.addVertex(matrix4f, 100.0F, -100.0F, 100.0F).setUv(1.0F, 1.0F).setColor(r, g, b, 255);
             bufferbuilder.addVertex(matrix4f, 100.0F, -100.0F, -100.0F).setUv(1.0F, 0.0F).setColor(r, g, b, 255);
-            BufferUploader.drawWithShader(bufferbuilder.build());
+            BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+            posestack.popPose();
         }
+        posestack.pushPose();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         float f11 = 1.0F - level.getRainLevel(partialTick);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
-        matrix4f.rotate(Axis.YP.rotationDegrees(-90.0F));
-        matrix4f.rotate(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
-        Matrix4f matrix4f1 = modelViewMatrix;
+        posestack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        posestack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
+        Matrix4f matrix4f1 = posestack.last().pose();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         float f12 = 20.0F;
         RenderSystem.setShaderTexture(0, ResourceLocation.withDefaultNamespace("textures/environment/moon_phases.png"));
@@ -113,8 +120,8 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         bufferbuilder.addVertex(matrix4f1, f12, -100.0F, f12).setUv(f13, f16);
         bufferbuilder.addVertex(matrix4f1, f12, -100.0F, -f12).setUv(f13, f14);
         bufferbuilder.addVertex(matrix4f1, -f12, -100.0F, -f12).setUv(f15, f14);
-        BufferUploader.drawWithShader(bufferbuilder.build());
-
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        posestack.popPose();
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
         return true;
