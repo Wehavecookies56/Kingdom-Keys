@@ -1,6 +1,6 @@
 {
-	"type": "forge:add_spawns",
-	"biomes": "#minecraft:is_nether",
+	"type": "neoforge:add_spawns",
+	"biomes": "#minecraft:is_overworld",
 	"spawners":
 	[
 		{
