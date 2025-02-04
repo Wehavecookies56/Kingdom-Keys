@@ -47,7 +47,7 @@ public class RoomGenerator {
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
             String floorFolder = structureToGenerate.floor == null ? "all" : structureToGenerate.floor.name;
-            Resource resource = level.getServer().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt")).get();
+            Resource resource = level.getServer().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt")).get();
             CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
 
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);

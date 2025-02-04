@@ -44,14 +44,16 @@ public class CastleOblivionHandler {
     //Ticking rooms that players are in, empty rooms should be inactive
     @SubscribeEvent
     public void tick(LevelTickEvent.Pre event) {
-        if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
-            if (interiorData != null) {
-                interiorData.getFloors().forEach(floor -> {
-                    if (floor.shouldTick()) {
-                        floor.getPlayers().values().forEach(room -> room.getRoomData(event.getLevel()).getGenerated().tick());
-                    }
-                });
+        if (!event.getLevel().isClientSide()) {
+            if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
+                CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
+                if (interiorData != null) {
+                    interiorData.getFloors().forEach(floor -> {
+                        if (floor.shouldTick()) {
+                            floor.getPlayers().values().forEach(room -> room.getRoomData(event.getLevel()).getGenerated().tick());
+                        }
+                    });
+                }
             }
         }
     }

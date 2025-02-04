@@ -1,6 +1,6 @@
 {
   "values": [
-    "#forge:is_cold/overworld",
-    "#forge:is_wet/overworld"
+    "#c:is_cold/overworld",
+    "#c:is_wet/overworld"
   ]
 }

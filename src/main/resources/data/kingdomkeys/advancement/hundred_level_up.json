@@ -18,7 +18,7 @@
         "levelup": {
             "trigger": "kingdomkeys:level_up",
 			"conditions": {
-				"lvl": 100
+				"level": 100
 			}
         }
     },

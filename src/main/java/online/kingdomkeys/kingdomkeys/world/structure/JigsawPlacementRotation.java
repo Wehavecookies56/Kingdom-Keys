@@ -216,53 +216,6 @@ public class JigsawPlacementRotation {
 		}
 	}
 
-	public static boolean generateJigsaw(
-			ServerLevel level, Holder<StructureTemplatePool> startPool, ResourceLocation startJigsawName, int maxDepth, BlockPos pos, boolean keepJigsaws, Rotation rotation
-	) {
-		ChunkGenerator chunkgenerator = level.getChunkSource().getGenerator();
-		StructureTemplateManager structuretemplatemanager = level.getStructureManager();
-		StructureManager structuremanager = level.structureManager();
-		RandomSource randomsource = level.getRandom();
-		Structure.GenerationContext structure$generationcontext = new Structure.GenerationContext(
-				level.registryAccess(),
-				chunkgenerator,
-				chunkgenerator.getBiomeSource(),
-				level.getChunkSource().randomState(),
-				structuretemplatemanager,
-				level.getSeed(),
-				new ChunkPos(pos),
-				level,
-				p_227255_ -> true
-		);
-		Optional<Structure.GenerationStub> optional = addPieces(
-				structure$generationcontext,
-				startPool,
-				Optional.of(startJigsawName),
-				maxDepth,
-				pos,
-				false,
-				Optional.empty(),
-				128,
-				PoolAliasLookup.EMPTY,
-				JigsawStructure.DEFAULT_DIMENSION_PADDING,
-				JigsawStructure.DEFAULT_LIQUID_SETTINGS,
-				rotation
-		);
-		if (optional.isPresent()) {
-			StructurePiecesBuilder structurepiecesbuilder = optional.get().getPiecesBuilder();
-
-			for (StructurePiece structurepiece : structurepiecesbuilder.build().pieces()) {
-				if (structurepiece instanceof PoolElementStructurePiece poolelementstructurepiece) {
-					poolelementstructurepiece.place(level, structuremanager, chunkgenerator, randomsource, BoundingBox.infinite(), pos, keepJigsaws);
-				}
-			}
-
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	static record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> free, int depth) {
 	}
 

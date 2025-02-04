@@ -1,14 +1,14 @@
 {
-	"parent": "kingdomkeys:soa",
+	"parent": "kingdomkeys:first_level_up",
     "display": {
         "icon": {
-            "item": "kingdomkeys:kingdom_key"
+            "item": "kingdomkeys:incomplete_kiblade"
         },
         "title": {
-            "translate": "advancements.kingdomkeys.levelup1"
+            "translate": "advancements.kingdomkeys.levelup50"
         },
         "description": {
-            "translate": "advancements.kingdomkeys.levelup1.desc"
+            "translate": "advancements.kingdomkeys.levelup50.desc"
         },
         "show_toast": true,
         "announce_to_chat": true,
@@ -18,7 +18,7 @@
         "levelup": {
             "trigger": "kingdomkeys:level_up",
 			"conditions": {
-				"lvl": 2
+				"level": 50
 			}
         }
     },
@@ -26,5 +26,8 @@
         [
             "levelup"
         ]
-    ]
+    ],
+    "rewards": {
+    	"experience": 50
+  }
 }
