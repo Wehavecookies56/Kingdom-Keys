@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#forge:is_hot/overworld",
+  "biomes": "#c:is_hot/overworld",
   "features": "kingdomkeys:blazing_ore",
   "step": "underground_ores"
 }

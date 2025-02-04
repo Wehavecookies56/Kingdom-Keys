@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#forge:is_wet/overworld",
+  "biomes": "#c:is_wet/overworld",
   "features": "kingdomkeys:stormy_ore_wet",
   "step": "underground_ores"
 }
