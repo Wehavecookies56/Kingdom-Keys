@@ -1418,9 +1418,12 @@ public class EntityEvents {
 		Player localPlayer = e.getEntity();
 		PlayerData playerData = PlayerData.get(localPlayer);
 		GlobalData globalData = GlobalData.get(localPlayer);
-		if(playerData == null || globalData == null)
+		if(localPlayer == null || playerData == null || globalData == null)
 			return;
+
 		if (e.getTarget() instanceof Player targetPlayer) {
+			System.out.println("localPlayer "+localPlayer);
+			System.out.println("targetPlayer "+targetPlayer);
 			PacketHandler.syncToAllAround(localPlayer, playerData);
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);

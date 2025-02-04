@@ -191,6 +191,7 @@ public class SpawningOrbEntity extends Monster {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
 		pBuilder.define(ENTITY_TYPE, "");
 	}
 

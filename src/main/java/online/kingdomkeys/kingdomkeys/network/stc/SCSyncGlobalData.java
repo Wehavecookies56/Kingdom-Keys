@@ -33,6 +33,9 @@ public record SCSyncGlobalData(int entity, CompoundTag data) implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
+			//TODO keep an eye if something doesn't sync cause of this
+			if(Minecraft.getInstance().level.getEntity(entity) == null)
+				return;
 			GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(entity));
 			globalData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), data);
 		}

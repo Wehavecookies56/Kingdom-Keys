@@ -30,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.KKLevelUpTrigger;
+import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -555,7 +556,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					if(player instanceof ServerPlayer svPlayer) {
-				        //KKLevelUpTrigger.TRIGGER_LEVELUP.trigger(svPlayer, this.getLevel());
+				       // ModAdvancements.levelUp.trigger(svPlayer, this.getLevel());
 					}
 					levelUpStatsAndDisplayMessage(player, sound);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getDisplayName().getString(), getLevel(), getNotifColor(), new ArrayList<>(getMessages())), (ServerPlayer) player);
