@@ -44,9 +44,13 @@ public class KKAnimations {
             XEMNAS_IDLE, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XEMNAS_SUMMON,
             XIGBAR_IDLE, XIGBAR_WALK, XIGBAR_SUMMON,
             XALDIN_IDLE, XALDIN_WALK, XALDIN_RUN, XALDIN_SUMMON,
+            VEXEN_IDLE, VEXEN_WALK, VEXEN_SUMMON,
+            LEXAEUS_IDLE, LEXAEUS_WALK, LEXAEUS_RUN, LEXAEUS_SUMMON,
+            ZEXION_IDLE, ZEXION_WALK, ZEXION_RUN, ZEXION_SUMMON,
             SAIX_IDLE, SAIX_WALK, SAIX_RUN, SAIX_SUMMON,
             CHAKRAM_AUTO1, CHAKRAM_IDLE, CHAKRAM_RUN, AXEL_SUMMON,
-            DEMYX_IDLE, DEMYX_WALK, DEMYX_RUN, DEMYX_SUMMON;
+            DEMYX_IDLE, DEMYX_WALK, DEMYX_RUN, DEMYX_SUMMON,
+            LUXORD_IDLE, LUXORD_WALK, LUXORD_RUN, LUXORD_SUMMON;
 
     public static Map<OrgMember, StaticAnimation> orgMap = new HashMap<>();
     public static Map<SingleChoices, StaticAnimation> singleKeybladeMap = new HashMap<>();
@@ -67,15 +71,15 @@ public class KKAnimations {
         orgMap.put(OrgMember.AXEL, KKAnimations.AXEL_SUMMON);
         orgMap.put(OrgMember.DEMYX, KKAnimations.DEMYX_SUMMON);
         orgMap.put(OrgMember.LARXENE, KKAnimations.SORA_SUMMON);
-        orgMap.put(OrgMember.LEXAEUS, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.LEXAEUS, KKAnimations.LEXAEUS_SUMMON);
         orgMap.put(OrgMember.ROXAS, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.SAIX, KKAnimations.SAIX_SUMMON);
         orgMap.put(OrgMember.XALDIN, KKAnimations.XALDIN_SUMMON);
         orgMap.put(OrgMember.XEMNAS, KKAnimations.XEMNAS_SUMMON);
         orgMap.put(OrgMember.XIGBAR, KKAnimations.XIGBAR_SUMMON);
-        orgMap.put(OrgMember.LUXORD, KKAnimations.SORA_SUMMON);
-        orgMap.put(OrgMember.ZEXION, KKAnimations.SORA_SUMMON);
-        orgMap.put(OrgMember.VEXEN, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.LUXORD, KKAnimations.LUXORD_SUMMON);
+        orgMap.put(OrgMember.ZEXION, KKAnimations.ZEXION_SUMMON);
+        orgMap.put(OrgMember.VEXEN, KKAnimations.VEXEN_SUMMON);
         orgMap.put(OrgMember.MARLUXIA, KKAnimations.SORA_SUMMON);
 
         singleKeybladeMap.put(SingleChoices.SORA, KKAnimations.SORA_SUMMON);
@@ -224,6 +228,21 @@ public class KKAnimations {
         DEMYX_IDLE = new StaticAnimation(true, "biped/living/demyx_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
         DEMYX_WALK = new StaticAnimation(true, "biped/living/demyx_walk", Armatures.BIPED);
 
+        VEXEN_IDLE = new StaticAnimation(true, "biped/living/vexen_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        VEXEN_WALK = new StaticAnimation(true, "biped/living/vexen_walk", Armatures.BIPED);
+
+        LEXAEUS_IDLE = new StaticAnimation(true, "biped/living/lexaeus_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        LEXAEUS_WALK = new StaticAnimation(true, "biped/living/lexaeus_walk", Armatures.BIPED);
+        LEXAEUS_RUN = new StaticAnimation(true, "biped/living/lexaeus_run", Armatures.BIPED);
+
+        ZEXION_IDLE = new StaticAnimation(true, "biped/living/zexion_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        ZEXION_WALK = new StaticAnimation(true, "biped/living/zexion_walk", Armatures.BIPED);
+        ZEXION_RUN = new StaticAnimation(true, "biped/living/zexion_run", Armatures.BIPED);
+
+        LUXORD_IDLE = new StaticAnimation(true, "biped/living/luxord_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        LUXORD_WALK = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
+        LUXORD_RUN = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
+
 
         XEMNAS_SUMMON = new ActionAnimation(0.05F, "biped/living/xemnas_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
@@ -246,6 +265,27 @@ public class KKAnimations {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
                         PacketHandler.sendToServer(new CSSummonKeyblade());
                 }, AnimationEvent.Side.BOTH));
+        VEXEN_SUMMON = new ActionAnimation(0.05F, "biped/living/vexen_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+        LEXAEUS_SUMMON = new ActionAnimation(0.05F, "biped/living/lexaeus_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+        ZEXION_SUMMON = new ActionAnimation(0.05F, "biped/living/zexion_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
         SAIX_SUMMON = new ActionAnimation(0.05F, "biped/living/saix_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -261,6 +301,13 @@ public class KKAnimations {
                         PacketHandler.sendToServer(new CSSummonKeyblade());
                 }, AnimationEvent.Side.BOTH));
         DEMYX_SUMMON = new ActionAnimation(0.05F, "biped/living/demyx_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+        LUXORD_SUMMON = new ActionAnimation(0.08F, "biped/living/luxord_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
