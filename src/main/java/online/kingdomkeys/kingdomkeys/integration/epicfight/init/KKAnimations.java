@@ -243,7 +243,6 @@ public class KKAnimations {
         LUXORD_WALK = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
         LUXORD_RUN = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
 
-
         XEMNAS_SUMMON = new ActionAnimation(0.05F, "biped/living/xemnas_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
