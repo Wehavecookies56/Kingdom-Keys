@@ -7,7 +7,6 @@ import net.minecraft.advancements.critereon.*;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public class KKLevelUpTrigger extends SimpleCriterionTrigger<KKLevelUpTrigger.TriggerInstance> {
 		public static final Codec<KKLevelUpTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(i -> i.group(

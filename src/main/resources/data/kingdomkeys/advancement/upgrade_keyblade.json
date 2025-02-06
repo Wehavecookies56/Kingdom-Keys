@@ -21,7 +21,7 @@
 			"conditions": {
 				"items": [
 					{
-						"component": "{level:1}"
+						 "components": { "kingdomkeys:keyblade_level": 1 }
 					}
 				]
 			}
