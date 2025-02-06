@@ -21,16 +21,7 @@ public class KKLevelUpTrigger extends SimpleCriterionTrigger<KKLevelUpTrigger.Tr
 		}
 
 		public void trigger(ServerPlayer player, int level) {
-			//TODO trigger based on level
-			System.out.println("Player: "+player);
-			System.out.println("Level up detected "+level);
-
-			Predicate<TriggerInstance> test = instance -> {
-				System.out.println("Leveled up to " + level);
-				System.out.println(instance.level);
-				return instance.level == level;
-			};
-			trigger(player, test);
+			trigger(player, instance -> instance.level == level);
 		}
 
 		record TriggerInstance(Optional<ContextAwarePredicate> player, Integer level) implements SimpleInstance {}

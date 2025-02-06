@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:moogle_projector"
+            "id": "kingdomkeys:moogle_projector",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.obtain_projector"

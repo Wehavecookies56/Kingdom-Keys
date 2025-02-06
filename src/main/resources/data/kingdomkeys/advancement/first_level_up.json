@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:kingdom_key"
+            "id": "kingdomkeys:kingdom_key",
+			"count": 1
         },
         "title": {
             "translate": "advancements.kingdomkeys.levelup1"

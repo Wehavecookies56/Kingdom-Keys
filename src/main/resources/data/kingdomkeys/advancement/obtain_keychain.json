@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:kingdom_key_chain"
+            "id": "kingdomkeys:kingdom_key_chain",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.obtain_keychain"
@@ -20,7 +21,7 @@
 			"conditions": {
 				"items": [
 					{
-						"tag": "kingdomkeys:keychains"
+						"items": "#kingdomkeys:keychains"
 					}
 				]
 			}

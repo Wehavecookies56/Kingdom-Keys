@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:root",
     "display": {
         "icon": {
-            "item": "kingdomkeys:rod_cracked_stone"
+            "id": "kingdomkeys:rod_cracked_stone",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.to_rod"

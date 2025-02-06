@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:organization_helmet"
+            "id": "kingdomkeys:organization_helmet",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.obtain_org"

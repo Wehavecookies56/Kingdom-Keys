@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:root",
     "display": {
         "icon": {
-            "item": "kingdomkeys:pedestal"
+            "id": "kingdomkeys:pedestal",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.to_soa"

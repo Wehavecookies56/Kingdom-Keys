@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:first_level_up",
     "display": {
         "icon": {
-            "item": "kingdomkeys:incomplete_kiblade"
+            "id": "kingdomkeys:incomplete_kiblade",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.levelup50"

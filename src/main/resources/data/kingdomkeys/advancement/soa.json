@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:to_soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:dream_sword"
+            "id": "kingdomkeys:dream_sword",
+			"count": 1
         },
         "title": {
             "translate": "advancements.kingdomkeys.choice"

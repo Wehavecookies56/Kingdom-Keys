@@ -2,7 +2,8 @@
 	"parent": "kingdomkeys:soa",
     "display": {
         "icon": {
-            "item": "kingdomkeys:spellfire"
+            "id": "kingdomkeys:spellfire",
+			"count":1
         },
         "title": {
             "translate": "advancements.kingdomkeys.obtain_magic"
@@ -20,7 +21,7 @@
 			"conditions": {
 				"items": [
 					{
-						"tag": "kingdomkeys:magics"
+						"items": "#kingdomkeys:magics"
 					}
 				]
 			}
