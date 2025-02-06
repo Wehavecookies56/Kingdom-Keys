@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -20,7 +22,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
-        super(new OrganizationItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new OrganizationItemTier(0), 0, 1)).stacksTo(1));
+        super(new OrganizationItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new OrganizationItemTier(0), 0, 1)).stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
     }
     @Override
 	public float getReach() {

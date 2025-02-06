@@ -19,7 +19,7 @@ public class KeybladeItemTier implements Tier {
 
     @Override
     public int getUses() {
-        return -1;
+        return 0;
     }
 
     @Override

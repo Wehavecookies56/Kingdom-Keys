@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
@@ -77,7 +79,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
-		super(new KeybladeItemTier(0), properties.attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, -1F)));
+		super(new KeybladeItemTier(0), properties.attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, -1F)).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
 		this.properties = properties;
 	}
 
