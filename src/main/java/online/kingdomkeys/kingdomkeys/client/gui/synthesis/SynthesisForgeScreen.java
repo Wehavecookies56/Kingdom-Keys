@@ -218,8 +218,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			upgrade.visible = false;
 		}
 
-		matrixStack.popPose();
-
 		for(Renderable renderable : this.inventory){
 			if(renderable instanceof MenuStockItem menuStockItem){
 				menuStockItem.active = true;
