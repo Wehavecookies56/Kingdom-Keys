@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.item;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.component.ItemContainerContents;
@@ -17,7 +19,7 @@ import java.util.UUID;
 
 public class ModComponents {
 
-    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(KingdomKeys.MODID);
+    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KingdomKeys.MODID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SYNTH_BAG_LEVEL = COMPONENTS.registerComponentType("synth_bag_level", builder -> builder.persistent(ExtraCodecs.intRange(0, 3)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> INVENTORY = COMPONENTS.registerComponentType("inventory", builder -> builder.persistent(ItemContainerContents.CODEC).networkSynchronized(ItemContainerContents.STREAM_CODEC).cacheEncoding());
