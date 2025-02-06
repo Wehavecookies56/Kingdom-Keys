@@ -65,7 +65,10 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 		String materialName = StringArgumentType.getString(context, "material");
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Material material = ModMaterials.registry.get(ResourceLocation.parse(materialName));
-
+		if(material == null){
+			context.getSource().sendFailure(Component.literal("Material '"+materialName+ "' does not exist"));
+			return 0;
+		}
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addMaterial(material, amount);

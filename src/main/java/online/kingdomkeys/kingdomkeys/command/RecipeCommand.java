@@ -88,6 +88,10 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
+		if(!RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe))){
+			context.getSource().sendFailure(Component.literal("Recipe '"+recipe+ "' does not exist"));
+			return 0;
+		}
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addKnownRecipe(ResourceLocation.parse(recipe));

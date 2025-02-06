@@ -69,10 +69,14 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 	private static int addAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String abilityName = StringArgumentType.getString(context, "ability");
+		Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+		if(a == null) {
+			context.getSource().sendFailure(Component.literal("Ability '"+abilityName+ "' does not exist"));
+			return 0;
+		}
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 			playerData.addAbility(abilityName, true);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);

@@ -65,10 +65,14 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 	private static int addShotlock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String shotlockName = StringArgumentType.getString(context, "shotlock");
+		Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
+		if(a == null){
+			context.getSource().sendFailure(Component.literal("Shotlock '"+shotlockName+ "' does not exist"));
+			return 0;
+		}
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
 			playerData.addShotlockToList(shotlockName, true);
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' shotlock to " + player.getDisplayName().getString()), true);

@@ -49,10 +49,10 @@ public class DimensionCommand extends BaseCommand {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		String dim = StringArgumentType.getString(context, "dim");
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
-
-		if (dimension == null) {
-			context.getSource().sendSuccess(() -> Component.translatable("Invalid dimension " + dim), true);
-			return 1;
+		System.out.println(dimension);
+		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
+			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
+			return 0;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
