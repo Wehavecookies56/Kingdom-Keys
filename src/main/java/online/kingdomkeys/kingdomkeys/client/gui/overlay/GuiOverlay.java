@@ -30,6 +30,8 @@ public class GuiOverlay extends OverlayBase {
 	public static boolean showMunny;
 	//public static boolean showLevelUp;
 	public static List<LevelUpData> levelUpList = new ArrayList<LevelUpData>();
+	public static LevelUpData driveLevelData = new LevelUpData();
+
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
 	public static String driveForm = "";
@@ -56,7 +58,8 @@ public class GuiOverlay extends OverlayBase {
 		public int prevNotifTicks, notifTicks;
 		public boolean sliding = true;
 		public long timeLevelUp;
-		public List<String> messages = new ArrayList<String>();
+		public List<String> messages1 = new ArrayList<String>();
+		public List<String> messages2 = new ArrayList<String>();
 		public int color;
 	}
 	
@@ -145,7 +148,7 @@ public class GuiOverlay extends OverlayBase {
 			for(int i = 0;i<actual;i++) {
 				totalSpace += 36*0.6F;
 
-				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages.size());
+				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages1.size());
 			
 				totalSpace += 18*0.6F;
 			}
@@ -158,7 +161,7 @@ public class GuiOverlay extends OverlayBase {
 			
 			matrixStack.translate(notifXPos + 155, 4, 0);
 
-			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages.size());
+			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages1.size());
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
@@ -202,8 +205,8 @@ public class GuiOverlay extends OverlayBase {
 
 			// Text
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-			for (int i = 0; i < levelData.messages.size(); i++) {
-				String message = levelData.messages.get(i).toString();
+			for (int i = 0; i < levelData.messages1.size(); i++) {
+				String message = levelData.messages1.get(i).toString();
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
@@ -247,6 +250,7 @@ public class GuiOverlay extends OverlayBase {
 
 	private void showDriveLevelUp(GuiGraphics gui, DeltaTracker deltaTracker) {
 		PoseStack matrixStack = gui.pose();
+
 		if(playerData == null || driveForm == null)
 			return;
 
@@ -260,8 +264,8 @@ public class GuiOverlay extends OverlayBase {
 				driveNotifXPos = 155;
 			
 			matrixStack.translate(driveNotifXPos - 155, 4, 0);
-			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * (playerData.getBFMessages().size());
-			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * playerData.getDFMessages().size();
+			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages1.size();
+			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages2.size();
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 
@@ -303,8 +307,8 @@ public class GuiOverlay extends OverlayBase {
 				
 				// Text
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
-				for (int i = 0; i < playerData.getBFMessages().size(); i++) {
-					String message = playerData.getBFMessages().get(i);
+				for (int i = 0; i < driveLevelData.messages1.size(); i++) {
+					String message = driveLevelData.messages1.get(i);
 					float x = 33;
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
@@ -373,10 +377,9 @@ public class GuiOverlay extends OverlayBase {
 				matrixStack.pushPose();
 				{
 					matrixStack.translate(0, sHeight / 3 + 50 + heightBase, 0);
-
 					RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
-					for (int i = 0; i < playerData.getDFMessages().size(); i++) {
-						String message = playerData.getDFMessages().get(i);
+					for (int i = 0; i < driveLevelData.messages2.size(); i++) {
+						String message = driveLevelData.messages2.get(i);
 						
 						float x = 33;
 						float y = minecraft.font.lineHeight * 1.1F * i; 

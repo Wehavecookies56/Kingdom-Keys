@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.LevelUpData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
-public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUID player, String playerName, int level, int color, List<String> messages) implements Packet {
+public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) implements Packet {
 
 	public static final Type<SCShowOverlayPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_show_overlay"));
 
@@ -40,32 +40,33 @@ public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUI
 			ByteBufCodecs.INT,
 			SCShowOverlayPacket::color,
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),
-			SCShowOverlayPacket::messages,
+			SCShowOverlayPacket::messages1,
+			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),
+			SCShowOverlayPacket::messages2,
 			SCShowOverlayPacket::new
 	);
 
 	public SCShowOverlayPacket(String type) {
-		this(type, 0, "", Util.NIL_UUID, "", 0, 0, List.of());
+		this(type, 0, "", Util.NIL_UUID, "", 0, 0, List.of(), List.of());
 	}
 
 	public SCShowOverlayPacket(String type, int munny) {
-		this(type, munny, "", Util.NIL_UUID, "", 0, 0, List.of());
+		this(type, munny, "", Util.NIL_UUID, "", 0, 0, List.of(), List.of());
 	}
 
-	public SCShowOverlayPacket(String type, String driveForm) {
-		this(type, 0, driveForm, Util.NIL_UUID, "", 0, 0, List.of());
+	public SCShowOverlayPacket(String type, String driveForm, List<String> messages1, List<String> messages2) {
+		this(type, 0, driveForm, Util.NIL_UUID, "", 0, 0, messages1, messages2);
 
 	}
 
 	//Party player
-	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages) {
-		this(type, 0, "", player, playerName, level, color, messages);
+	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) {
+		this(type, 0, "", player, playerName, level, color, messages1, messages2);
 	}
 
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			Minecraft mc = Minecraft.getInstance();
 			long time = System.currentTimeMillis()/1000;
 			switch(_type) {
 				case "exp":
@@ -83,16 +84,20 @@ public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUI
 					instance.notifTicks = 0;
 					instance.playerUUID = player;
 					instance.playerName = playerName;
-					instance.messages = messages;
+					instance.messages1 = messages1;
 					instance.lvl = level;
 					instance.color = color;
 					GuiOverlay.levelUpList.add(0,instance);
 					break;
 				case "drivelevelup":
+					LevelUpData driveData = new GuiOverlay.LevelUpData();
 					GuiOverlay.showDriveLevelUp = true;
 					GuiOverlay.timeDriveLevelUp = time;
 					GuiOverlay.driveForm = driveForm;
 					GuiOverlay.driveNotifTicks = 0;
+					driveData.messages1 = messages1;
+					driveData.messages2 = messages2;
+					GuiOverlay.driveLevelData = driveData;
 					break;
 			}
 		}
