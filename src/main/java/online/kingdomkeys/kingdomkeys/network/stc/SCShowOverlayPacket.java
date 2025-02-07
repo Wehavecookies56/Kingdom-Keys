@@ -60,8 +60,8 @@ public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUI
 	}
 
 	//Party player
-	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) {
-		this(type, 0, "", player, playerName, level, color, messages1, messages2);
+	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages1) {
+		this(type, 0, "", player, playerName, level, color, messages1, List.of());
 	}
 
 	@Override
