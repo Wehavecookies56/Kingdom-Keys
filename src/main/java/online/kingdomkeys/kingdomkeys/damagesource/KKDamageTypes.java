@@ -35,7 +35,6 @@ public class KKDamageTypes {
     }
 
     public static DamageSource getElementalDamage(ResourceKey<DamageType> element, Entity directEntity, Entity indirectEntity) {
-        System.out.println(element.location().getPath()+" damage dealt by "+indirectEntity.getName().getString()+" using "+directEntity.getName().getString());
         return directEntity.damageSources().source(element, directEntity, indirectEntity);
     }
 

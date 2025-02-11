@@ -249,7 +249,7 @@ public class InputHandler {
         if (lockOn == null) {
             int reach = 35;
             HitResult rtr = getMouseOverExtended(reach);
-            if (rtr instanceof EntityHitResult ertr) {
+            if (rtr != null && rtr instanceof EntityHitResult ertr) {
                 double distance = player.distanceTo(ertr.getEntity());
 
                 if (reach >= distance) {
@@ -448,6 +448,9 @@ public class InputHandler {
     public static HitResult getMouseOverExtended(float dist) {
         Minecraft mc = Minecraft.getInstance();
         Entity theRenderViewEntity = mc.getCameraEntity();
+        if(theRenderViewEntity == null){
+            return null;
+        }
         AABB theViewBoundingBox = new AABB(theRenderViewEntity.getX() - 0.5D, theRenderViewEntity.getY() - 0.0D, theRenderViewEntity.getZ() - 0.5D, theRenderViewEntity.getX() + 0.5D, theRenderViewEntity.getY() + 1.5D, theRenderViewEntity.getZ() + 0.5D);
         HitResult returnMOP = null;
         if (mc.level != null) {
