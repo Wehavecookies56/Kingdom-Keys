@@ -50,7 +50,9 @@ public class KKAnimations {
             SAIX_IDLE, SAIX_WALK, SAIX_RUN, SAIX_SUMMON,
             CHAKRAM_AUTO1, CHAKRAM_IDLE, CHAKRAM_RUN, AXEL_SUMMON,
             DEMYX_IDLE, DEMYX_WALK, DEMYX_RUN, DEMYX_SUMMON,
-            LUXORD_IDLE, LUXORD_WALK, LUXORD_RUN, LUXORD_SUMMON;
+            LUXORD_IDLE, LUXORD_WALK, LUXORD_RUN, LUXORD_SUMMON,
+            MARLUXIA_IDLE, MARLUXIA_WALK, MARLUXIA_RUN, MARLUXIA_SUMMON,
+            LARXENE_IDLE, LARXENE_WALK, LARXENE_RUN, LARXENE_SUMMON;
 
     public static Map<OrgMember, StaticAnimation> orgMap = new HashMap<>();
     public static Map<SingleChoices, StaticAnimation> singleKeybladeMap = new HashMap<>();
@@ -70,7 +72,7 @@ public class KKAnimations {
     public static void initSummonMap() {
         orgMap.put(OrgMember.AXEL, KKAnimations.AXEL_SUMMON);
         orgMap.put(OrgMember.DEMYX, KKAnimations.DEMYX_SUMMON);
-        orgMap.put(OrgMember.LARXENE, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.LARXENE, KKAnimations.LARXENE_SUMMON);
         orgMap.put(OrgMember.LEXAEUS, KKAnimations.LEXAEUS_SUMMON);
         orgMap.put(OrgMember.ROXAS, KKAnimations.SORA_SUMMON);
         orgMap.put(OrgMember.SAIX, KKAnimations.SAIX_SUMMON);
@@ -80,7 +82,7 @@ public class KKAnimations {
         orgMap.put(OrgMember.LUXORD, KKAnimations.LUXORD_SUMMON);
         orgMap.put(OrgMember.ZEXION, KKAnimations.ZEXION_SUMMON);
         orgMap.put(OrgMember.VEXEN, KKAnimations.VEXEN_SUMMON);
-        orgMap.put(OrgMember.MARLUXIA, KKAnimations.SORA_SUMMON);
+        orgMap.put(OrgMember.MARLUXIA, KKAnimations.MARLUXIA_SUMMON);
 
         singleKeybladeMap.put(SingleChoices.SORA, KKAnimations.SORA_SUMMON);
         singleKeybladeMap.put(SingleChoices.AQUA, KKAnimations.SORA_SUMMON);
@@ -243,6 +245,15 @@ public class KKAnimations {
         LUXORD_WALK = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
         LUXORD_RUN = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
 
+        MARLUXIA_IDLE = new StaticAnimation(true, "biped/living/marluxia_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        MARLUXIA_WALK = new StaticAnimation(true, "biped/living/marluxia_walk", Armatures.BIPED);
+        MARLUXIA_RUN = new StaticAnimation(true, "biped/living/marluxia_run", Armatures.BIPED);
+
+        LARXENE_IDLE = new StaticAnimation(true, "biped/living/larxene_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
+        LARXENE_WALK = new StaticAnimation(true, "biped/living/larxene_walk", Armatures.BIPED);
+        LARXENE_RUN = new StaticAnimation(true, "biped/living/larxene_run", Armatures.BIPED);
+
+
         XEMNAS_SUMMON = new ActionAnimation(0.05F, "biped/living/xemnas_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -306,7 +317,21 @@ public class KKAnimations {
                     if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
                         PacketHandler.sendToServer(new CSSummonKeyblade());
                 }, AnimationEvent.Side.BOTH));
-        LUXORD_SUMMON = new ActionAnimation(0.08F, "biped/living/luxord_summon", Armatures.BIPED)
+        LUXORD_SUMMON = new ActionAnimation(0.05F, "biped/living/luxord_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+        MARLUXIA_SUMMON = new ActionAnimation(0.05F, "biped/living/marluxia_summon", Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
+                .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
+                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                }, AnimationEvent.Side.BOTH));
+        LARXENE_SUMMON = new ActionAnimation(0.05F, "biped/living/larxene_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
