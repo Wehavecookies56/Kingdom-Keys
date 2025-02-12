@@ -27,7 +27,7 @@ public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
     public void render(SeedBulletEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
     	matrixStackIn.pushPose();
     	{	matrixStackIn.translate(0, 0.25, 0);
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color(0.6F * 255, 255, 0.6F * 255, 255).getRGB());
+    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color((int)(0.6F * 255), 255, (int)(0.6F * 255), 255).getRGB());
      	}
      	matrixStackIn.popPose();
     }
