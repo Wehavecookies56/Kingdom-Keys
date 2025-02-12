@@ -132,6 +132,7 @@ public class WorldData extends SavedData {
     }
 
     public static WorldData get(MinecraftServer server) {
+        if (server == null) return null;
         return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(WorldData::create, WorldData::load), "kingdomkeys_data");
     }
 
