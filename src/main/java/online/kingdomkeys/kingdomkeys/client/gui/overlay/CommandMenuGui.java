@@ -217,21 +217,21 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuItem.Builder[] createMagicFromRegistry() {
 		List<CommandMenuItem.Builder> magic = new ArrayList<>();
-		ModMagic.MAGIC.getEntries().forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getId(), Component.translatable(magicRegistryObject.get().getTranslationKey()), item -> {
+		ModMagic.registry.forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getRegistryName(), Component.translatable(magicRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			WorldData worldData = WorldData.getClient();
-			int[] mag = playerData.getMagicsMap().get(magicRegistryObject.getId().toString());
-			double cost = magicRegistryObject.get().getCost(mag[0], minecraft.player);
+			int[] mag = playerData.getMagicsMap().get(magicRegistryObject.getRegistryName().toString());
+			double cost = magicRegistryObject.getCost(mag[0], minecraft.player);
 
 			if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 				playErrorSound();
 				changeSubmenu(root, true);
 			} else {
-				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getId()).getHasToSelect()) { //Open party target selector
+				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
 						String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
-						int level = playerData.getMagicLevel(magicRegistryObject.getId());
-						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getId().toString(), target, level));
+						int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
+						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), target, level));
 						changeSubmenu(root, true);
 					} else {
 						changeSubmenu(target, true);
@@ -239,8 +239,8 @@ public class CommandMenuGui extends OverlayBase {
 						return;
 					}
 				} else { //Cast Magic
-					int level = playerData.getMagicLevel(magicRegistryObject.getId());
-					PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getId().toString(), level, InputHandler.lockOn));
+					int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
+					PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), level, InputHandler.lockOn));
 					changeSubmenu(root, true);
 				}
 				playSelectSound();
@@ -265,11 +265,11 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuItem.Builder[] createDriveFormsFromRegistry() {
 		List<CommandMenuItem.Builder> forms = new ArrayList<>();
-		ModDriveForms.DRIVE_FORMS.getEntries().stream().filter(driveFormRegistryObject -> driveFormRegistryObject.get().displayInCommandMenu(minecraft.player)).forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getId(), Component.translatable(driveFormRegistryObject.get().getTranslationKey()), item -> {
+		ModDriveForms.registry.stream().filter(driveFormRegistryObject -> driveFormRegistryObject.displayInCommandMenu(minecraft.player)).forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getRegistryName(), Component.translatable(driveFormRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			if (playerData.getDP() >= driveFormRegistryObject.get().getDriveCost()) {
-				if (!antiFormCheck(playerData, driveFormRegistryObject.get())) {
-					PacketHandler.sendToServer(new CSUseDriveFormPacket(driveFormRegistryObject.getId().toString()));
+			if (playerData.getDP() >= driveFormRegistryObject.getDriveCost()) {
+				if (!antiFormCheck(playerData, driveFormRegistryObject)) {
+					PacketHandler.sendToServer(new CSUseDriveFormPacket(driveFormRegistryObject.getRegistryName().toString()));
 				}
 
 				changeSubmenu(root, true);
@@ -291,15 +291,15 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuItem.Builder[] createLimitsFromRegistry() {
 		List<CommandMenuItem.Builder> limits = new ArrayList<>();
-		ModLimits.LIMITS.getEntries().forEach(limitRegistryObject -> limits.add(new CommandMenuItem.Builder(limitRegistryObject.getId(), Component.translatable(limitRegistryObject.get().getTranslationKey()), item -> {
+		ModLimits.registry.forEach(limitRegistryObject -> limits.add(new CommandMenuItem.Builder(limitRegistryObject.getRegistryName(), Component.translatable(limitRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			if (playerData.getDP() < limitRegistryObject.get().getCost()) {
+			if (playerData.getDP() < limitRegistryObject.getCost()) {
 				playErrorSound();
 			} else {
 				if (InputHandler.lockOn != null)
-					PacketHandler.sendToServer(new CSUseLimitPacket(limitRegistryObject.getId(), InputHandler.lockOn.getId()));
+					PacketHandler.sendToServer(new CSUseLimitPacket(limitRegistryObject.getRegistryName(), InputHandler.lockOn.getId()));
 				else
-					PacketHandler.sendToServer(new CSUseLimitPacket(limitRegistryObject.getId()));
+					PacketHandler.sendToServer(new CSUseLimitPacket(limitRegistryObject.getRegistryName()));
 				changeSubmenu(root, true);
 				playInSound();
 			}

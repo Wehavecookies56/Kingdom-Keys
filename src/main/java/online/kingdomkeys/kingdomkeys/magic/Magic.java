@@ -103,7 +103,7 @@ public abstract class Magic {
 				if(getRCProb(casterData)) {// If the actual uses is equals or above the required
 					//If player has max level magic (and doesnt have GM) don't give RC
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
-						casterData.addReactionCommand(KingdomKeys.MODID + ":" +getRegistryName().getPath(), caster);
+						casterData.addReactionCommand(getRegistryName().toString(), caster);
 					} else {
 						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
 					}
