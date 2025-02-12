@@ -1,2 +1,2 @@
-Changed:
-* Ported to 1.21.1
+Fixed:
+* Fixed crash when rendering the Dire Plant seed bullets
