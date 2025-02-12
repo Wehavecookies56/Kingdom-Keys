@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import online.kingdomkeys.kingdomkeys.entity.ItemDropEntity;
+import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {

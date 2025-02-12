@@ -5,13 +5,11 @@ import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 import java.awt.Color;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Item;
@@ -48,9 +46,11 @@ import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotE
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.block.*;
+import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.*;
+import online.kingdomkeys.kingdomkeys.entity.mob.SeedBulletEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.*;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 

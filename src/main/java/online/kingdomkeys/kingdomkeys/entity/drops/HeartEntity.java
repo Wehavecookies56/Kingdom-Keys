@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.entity;
+package online.kingdomkeys.kingdomkeys.entity.drops;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -6,6 +6,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class HeartEntity extends Entity {
 

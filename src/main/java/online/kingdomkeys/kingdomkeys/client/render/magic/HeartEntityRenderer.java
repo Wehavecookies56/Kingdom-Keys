@@ -22,7 +22,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.HeartEntity;
+import online.kingdomkeys.kingdomkeys.entity.drops.HeartEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {

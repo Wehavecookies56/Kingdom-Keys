@@ -6,11 +6,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
@@ -30,7 +28,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
 import online.kingdomkeys.kingdomkeys.util.SetBlockStateFlags;
 
@@ -111,7 +108,7 @@ public class BlastBloxBlock extends BaseBlock {
     @Deprecated //Forge: Prefer using IForgeBlock#catchFire
     private static void explode(Level level, BlockPos pos, @Nullable LivingEntity entity) {
         if (!level.isClientSide) {
-            PrimedTnt primedtnt = new PrimedTnt(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, entity);
+            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, entity);
             level.addFreshEntity(primedtnt);
             level.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
             level.gameEvent(entity, GameEvent.PRIME_FUSE, pos);

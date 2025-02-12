@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -15,7 +14,6 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
 
 //TODO fix seed bullet
 public class DirePlantEntity extends BaseKHEntity {

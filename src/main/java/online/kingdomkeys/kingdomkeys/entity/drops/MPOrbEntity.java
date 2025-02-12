@@ -1,39 +1,36 @@
-package online.kingdomkeys.kingdomkeys.entity;
+package online.kingdomkeys.kingdomkeys.entity.drops;
 
 import java.util.List;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-public class MunnyEntity extends ItemDropEntity {
+public class MPOrbEntity extends ItemDropEntity {
 
-	public MunnyEntity(Level worldIn, double x, double y, double z, int expValue) {
-		super(ModEntities.TYPE_MUNNY.get(), worldIn, x, y, z, expValue);
+	public MPOrbEntity(Level worldIn, double x, double y, double z, int expValue) {
+		super(ModEntities.TYPE_MPORB.get(), worldIn, x, y, z, expValue);
 	}
 
-	public MunnyEntity(EntityType<? extends Entity> type, Level world) {
+	public MPOrbEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
+	
 
 	@Override
 	void onPickup(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.setMunny(playerData.getMunny() + value);
-		PacketHandler.sendTo(new SCShowOverlayPacket("munny", value), (ServerPlayer) player);
+		playerData.addMP(value);
 	}
 
 	@Override
 	SoundEvent getPickupSound() {
-		return ModSounds.munny.get();
+		return ModSounds.mp_orb.get();
 	}
 	
 	@Override
@@ -45,7 +42,7 @@ public class MunnyEntity extends ItemDropEntity {
 			for (int i = 0; i < list.size(); i++) {
 				if(list.get(i) instanceof ItemDropEntity) {
 					ItemDropEntity e = (ItemDropEntity) list.get(i);
-					if(e instanceof MunnyEntity) {
+					if(e instanceof MPOrbEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
 							e.remove(RemovalReason.KILLED);

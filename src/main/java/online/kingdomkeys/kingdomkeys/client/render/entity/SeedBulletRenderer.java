@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
-import online.kingdomkeys.kingdomkeys.entity.SeedBulletEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.SeedBulletEntity;
 
 import java.awt.*;
 

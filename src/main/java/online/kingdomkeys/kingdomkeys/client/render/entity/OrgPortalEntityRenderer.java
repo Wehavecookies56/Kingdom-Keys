@@ -21,7 +21,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.OrgPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.OrgPortalEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
