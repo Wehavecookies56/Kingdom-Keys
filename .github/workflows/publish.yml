@@ -50,5 +50,6 @@ jobs:
           version: "${{env.VERSION}}"
           version-type: release
           changelog-file: CHANGELOG.md
+          loaders: neoforge
 
           java: "${{env.JAVA_VERSION}}"
