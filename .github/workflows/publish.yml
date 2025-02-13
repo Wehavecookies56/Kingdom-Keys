@@ -4,8 +4,9 @@ on: [ workflow_dispatch ]
 
 env:                                             
   JAVA_VERSION: 21
-  VERSION: 2.6.0b-1.21.1
-  RELEASE_NAME: Kingdom Keys 2.6.0b
+  MC_VERSION: 1.21.1
+  VERSION: 2.6.0b
+  RELEASE_NAME: Kingdom Keys
   MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
   CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
 
@@ -46,11 +47,11 @@ jobs:
           modrinth-id: DrsqKwVw
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
 
-          name: "${{env.RELEASE_NAME}}"
-          version: "${{env.VERSION}}"
+          name: "${{env.RELEASE_NAME}} ${{env.VERSION}}"
+          version: "${{env.VERSION}}-${{env.MC_VERSION}}"
           version-type: release
           changelog-file: CHANGELOG.md
           loaders: neoforge
-          game-versions: 1.21.1
+          game-versions: "${{env.MC_VERSION}}"
 
           java: "${{env.JAVA_VERSION}}"
