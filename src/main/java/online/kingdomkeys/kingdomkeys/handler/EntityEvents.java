@@ -875,7 +875,9 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
-				event.setNewDamage((event.getOriginalDamage()-1)+dmg * player.getAttackStrengthScale(0));
+				float newDMG = (event.getOriginalDamage() - 1) + dmg * player.getAttackStrengthScale(0);
+				System.out.println(newDMG);
+				event.setNewDamage(newDMG);
 			}
 
 			PlayerData playerData = PlayerData.get(player);
@@ -974,7 +976,7 @@ public class EntityEvents {
 
 		// Mobs defense formula
 		if (event.getEntity() instanceof BaseKHEntity) {
-			float damage = event.getOriginalDamage();
+			float damage = event.getNewDamage();
 			int defense = ((BaseKHEntity) event.getEntity()).getDefense();
 			if (defense > 0)
 				damage = (float) Math.round((damage * 100 / (300 + defense)));
@@ -1268,9 +1270,8 @@ public class EntityEvents {
 				event.getEntity().level().addFreshEntity(ie);
 			}
 
-			if (event.getSource().getEntity() instanceof IKHMob && ModConfigs.playerSpawnHeartless) {
-				IKHMob killerMob = (IKHMob) event.getSource().getEntity();
-				if (!event.getSource().getEntity().hasCustomName() && (killerMob.getKHMobType() == MobType.HEARTLESS_EMBLEM || killerMob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD)) {
+			if (event.getSource().getEntity() instanceof IKHMob killerMob && ModConfigs.playerSpawnHeartless) {
+                if (!event.getSource().getEntity().hasCustomName() && (killerMob.getKHMobType() == MobType.HEARTLESS_EMBLEM || killerMob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD)) {
 					if (event.getEntity() instanceof Player) { // If a player gets killed by a heartless
 						PlayerData playerData = PlayerData.get((Player) event.getEntity());
 
