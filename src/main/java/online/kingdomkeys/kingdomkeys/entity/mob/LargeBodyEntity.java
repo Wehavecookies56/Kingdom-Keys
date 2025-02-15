@@ -159,7 +159,7 @@ public class LargeBodyEntity extends BaseKHEntity {
 
     @Override
     public float getScale() {
-    	return 2;
+    	return 1.5F;
     }
 
     @Override

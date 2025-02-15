@@ -18,11 +18,5 @@ public class LargeBodyRenderer extends MobRenderer<LargeBodyEntity, LargeBodyMod
     @Override
     public ResourceLocation getTextureLocation(LargeBodyEntity entity) {
         return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/large_body.png");
-    }    
-    
-    @Override
-    protected void scale(LargeBodyEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-    	matrixStackIn.scale(1.5F, 1.5F, 1.5F);
-    	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 }
