@@ -22,7 +22,17 @@ public class LevelStats {
     	}
     	
     	Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
-		
+
+		if (levelData == null) {
+			KingdomKeys.LOGGER.error("Failed to get level from registry location {}, this should never happen", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
+			return;
+		}
+
+		if (levelData.getLevelingData() == null) {
+			KingdomKeys.LOGGER.error("Failed to get leveling data from registry location {}, this means the data was not loaded from the json correctly", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
+			return;
+		}
+
     	if (levelData.getStr(level) > 0) {
 			cap.addStrength(levelData.getStr(level));
 		}
