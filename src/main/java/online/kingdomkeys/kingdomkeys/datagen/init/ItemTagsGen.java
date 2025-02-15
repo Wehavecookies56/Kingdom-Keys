@@ -48,12 +48,15 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof KeychainItem) {
 				add(KEYCHAINS,item);
+				add(ItemTags.SWORD_ENCHANTABLE, item);
 			}
 			if(item instanceof KeybladeItem) {
 				add(KEYBLADES,item);
+				add(ItemTags.SWORD_ENCHANTABLE, item);
 			}
 			if(item instanceof IOrgWeapon) {
 				add(ORG,item);
+				add(ItemTags.SWORD_ENCHANTABLE, item);
 			}
 			if(item instanceof PauldronItem) {
 				add(PAULDRONS,item);
