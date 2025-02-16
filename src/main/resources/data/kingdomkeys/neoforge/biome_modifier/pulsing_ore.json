@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#neoforge:wet_cold",
+  "biomes": "#c:wet_cold",
   "features": "kingdomkeys:pulsing_ore",
   "step": "underground_ores"
 }

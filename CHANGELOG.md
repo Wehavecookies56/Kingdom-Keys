@@ -1,2 +1,2 @@
 Fixed:
-* Fix server crashing
+* Fix wrong tags for frost and pulsing ore
