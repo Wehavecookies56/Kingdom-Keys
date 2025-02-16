@@ -38,6 +38,7 @@ public record SCSyncLimitData(List<String> names, List<String> data) implements 
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncLimitData(this);
 		}
+		KingdomKeys.LOGGER.info("Limit data sync complete");
 	}
 
 	@Override

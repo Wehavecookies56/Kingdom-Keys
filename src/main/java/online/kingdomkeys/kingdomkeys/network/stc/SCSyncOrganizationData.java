@@ -38,6 +38,7 @@ public record SCSyncOrganizationData(List<String> names, List<String> data) impl
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncOrgData(this);
 		}
+		KingdomKeys.LOGGER.info("Organization weapon data sync complete");
 	}
 
 	@Override

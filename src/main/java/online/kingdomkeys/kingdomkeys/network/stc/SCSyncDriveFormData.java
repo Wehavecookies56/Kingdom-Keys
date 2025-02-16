@@ -38,6 +38,7 @@ public record SCSyncDriveFormData(List<String> names, List<String> data) impleme
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncDriveFormData(this);
 		}
+		KingdomKeys.LOGGER.info("Drive Form data sync complete");
 	}
 
 	@Override

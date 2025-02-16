@@ -38,6 +38,7 @@ public record SCSyncKeybladeData(List<String> names, List<String> data) implemen
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncKeybladeData(this);
 		}
+		KingdomKeys.LOGGER.info("Keyblade data sync complete");
 	}
 
 	@Override

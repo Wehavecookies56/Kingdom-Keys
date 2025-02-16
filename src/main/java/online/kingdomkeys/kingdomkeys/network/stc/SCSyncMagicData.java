@@ -38,6 +38,7 @@ public record SCSyncMagicData(List<String> names, List<String> data) implements 
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncMagicData(this);
 		}
+		KingdomKeys.LOGGER.info("Magic data sync complete");
 	}
 
 	@Override

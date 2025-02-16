@@ -30,6 +30,7 @@ public record SCSyncSynthesisData(List<Recipe> recipes) implements Packet {
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncSynthesisData(this);
 		}
+		KingdomKeys.LOGGER.info("Synthesis recipe data sync complete");
 	}
 
 	@Override

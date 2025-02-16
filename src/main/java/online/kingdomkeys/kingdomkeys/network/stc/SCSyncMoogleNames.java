@@ -34,6 +34,7 @@ public record SCSyncMoogleNames(Map<ResourceLocation, List<String>> names) imple
         if (FMLEnvironment.dist.isClient()) {
             ClientPacketHandler.syncMoogleNames(this);
         }
+        KingdomKeys.LOGGER.info("Moogle name data sync complete");
     }
 
     @Override

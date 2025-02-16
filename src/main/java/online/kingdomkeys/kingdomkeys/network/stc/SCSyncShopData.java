@@ -30,6 +30,7 @@ public record SCSyncShopData(List<ShopList> list) implements Packet {
 		if (FMLEnvironment.dist.isClient()) {
 			ClientPacketHandler.syncShopData(this);
 		}
+		KingdomKeys.LOGGER.info("Shop data sync complete");
 	}
 
 	@Override
