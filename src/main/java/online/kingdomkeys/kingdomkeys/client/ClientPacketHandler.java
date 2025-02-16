@@ -3,18 +3,23 @@ package online.kingdomkeys.kingdomkeys.client;
 import com.google.gson.JsonParseException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.data.*;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
@@ -53,6 +58,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class ClientPacketHandler {
 
@@ -297,5 +303,32 @@ public class ClientPacketHandler {
             Minecraft.getInstance().setScreen(new NoChoiceMenuPopup());
         }
     }
-    
+
+    public static void openEquipmentScreen() {
+        Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
+    }
+
+    public static void openMaterialsScreen(SCOpenMaterialsScreen message) {
+        PlayerData data = PlayerData.get(message.playerData(), Minecraft.getInstance().player);
+        Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(data, message.inv(), message.name(), message.moogle()));
+    }
+
+    public static void syncGlobalData(SCSyncGlobalData message) {
+        //TODO keep an eye if something doesn't sync cause of this
+        if(Minecraft.getInstance().level.getEntity(message.entity()) == null)
+            return;
+        GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()));
+        globalData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.data());
+
+    }
+
+    public static void syncDimensionLists(SCSyncDimensionLists message) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            final Set<ResourceKey<Level>> levels = player.connection.levels();
+            levels.addAll(message.addedDims());
+            message.removedDims().forEach(levels::remove);
+        }
+    }
+
 }

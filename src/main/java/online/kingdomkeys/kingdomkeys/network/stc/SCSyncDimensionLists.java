@@ -1,14 +1,8 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableSet;
-import it.unimi.dsi.fastutil.Hash;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -20,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -42,12 +37,7 @@ public record SCSyncDimensionLists(Set<ResourceKey<Level>> addedDims, Set<Resour
     @Override
     public void handle(IPayloadContext context) {
         if (FMLEnvironment.dist.isClient()) {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player != null) {
-                final Set<ResourceKey<Level>> levels = player.connection.levels();
-                levels.addAll(addedDims);
-                removedDims.forEach(levels::remove);
-            }
+            ClientPacketHandler.syncDimensionLists(this);
         }
     }
 

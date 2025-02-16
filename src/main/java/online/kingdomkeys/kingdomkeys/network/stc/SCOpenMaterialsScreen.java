@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -43,8 +43,7 @@ public record SCOpenMaterialsScreen(CompoundTag playerData, String inv, String n
     @Override
     public void handle(IPayloadContext context) {
         if (FMLEnvironment.dist.isClient()) {
-            PlayerData data = PlayerData.get(playerData, Minecraft.getInstance().player);
-            Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(data, inv, name, moogle));
+            ClientPacketHandler.openMaterialsScreen(this);
         }
     }
 

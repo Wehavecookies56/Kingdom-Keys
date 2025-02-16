@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -16,7 +15,6 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataDeserializer;
 import online.kingdomkeys.kingdomkeys.network.Packet;

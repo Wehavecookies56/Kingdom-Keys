@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -16,12 +15,9 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.limit.LimitData;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataDeserializer;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
-import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataDeserializer;
 
 public record SCSyncLimitData(List<String> names, List<String> data) implements Packet {
 

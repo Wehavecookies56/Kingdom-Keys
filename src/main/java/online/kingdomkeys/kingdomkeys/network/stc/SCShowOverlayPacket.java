@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

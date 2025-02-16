@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
@@ -33,11 +33,7 @@ public record SCSyncGlobalData(int entity, CompoundTag data) implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			//TODO keep an eye if something doesn't sync cause of this
-			if(Minecraft.getInstance().level.getEntity(entity) == null)
-				return;
-			GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(entity));
-			globalData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), data);
+			ClientPacketHandler.syncGlobalData(this);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

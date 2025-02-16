@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -26,7 +25,6 @@ import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
 import java.time.Instant;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, String ownerName, boolean global) implements Packet {
 
