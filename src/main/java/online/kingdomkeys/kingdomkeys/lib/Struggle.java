@@ -9,17 +9,17 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 public class Struggle {
 
 	public static final byte PARTICIPANTS_LIMIT = 8;
 
 	private String name;
-	private List<Participant> participants = new ArrayList<Participant>();
+	private final List<Participant> participants = new ArrayList<Participant>();
 	//private boolean priv;
 	private byte size;
 	private int damageMult;
@@ -185,8 +185,8 @@ public class Struggle {
 	}
 
 	public static class Participant {
-		private UUID uuid;
-		private String username;
+		private final UUID uuid;
+		private final String username;
 		private boolean isOwner;
 
 		public Participant(LivingEntity entity) {

@@ -73,7 +73,7 @@ public class LimitDataLoader extends SimpleJsonResourceReloadListener {
                     names.add(limitName.toString());
                    
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 limit.setLimitData(result);

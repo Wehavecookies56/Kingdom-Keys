@@ -27,7 +27,7 @@ public class DriveFormMaster extends DriveForm {
 	
 	@SubscribeEvent
 	public static void onLivingUpdate(PlayerTickEvent.Pre event) {
-		Player player = (Player) event.getEntity();
+		Player player = event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 
 		if (playerData != null) {

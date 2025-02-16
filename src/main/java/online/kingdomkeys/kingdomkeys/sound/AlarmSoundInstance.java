@@ -26,9 +26,9 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
       this.looping = true;
       this.delay = 0;
       this.volume = 0.0F;
-      this.x = (double)((float)player.getX());
-      this.y = (double)((float)player.getY());
-      this.z = (double)((float)player.getZ());
+      this.x = (float)player.getX();
+      this.y = (float)player.getY();
+      this.z = (float)player.getZ();
    }
 	
 	public boolean canPlaySound() {
@@ -47,9 +47,9 @@ public class AlarmSoundInstance extends AbstractTickableSoundInstance {
 	      if (!Utils.isPlayerLowHP(player)) {
 	         this.volume = 0;
 	      } else {
-	         this.x = (double)((float)this.player.getX());
-	         this.y = (double)((float)this.player.getY());
-	         this.z = (double)((float)this.player.getZ());
+	         this.x = (float)this.player.getX();
+	         this.y = (float)this.player.getY();
+	         this.z = (float)this.player.getZ();
 	         this.pitch = 1F;
 	         this.volume = ModConfigs.hpAlarm/10F;	
 	      }

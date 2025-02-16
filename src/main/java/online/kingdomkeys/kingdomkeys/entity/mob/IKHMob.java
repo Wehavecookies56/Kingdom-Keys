@@ -5,6 +5,6 @@ import net.minecraft.world.level.LevelAccessor;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 
 public interface IKHMob {
-    public MobType getKHMobType();
-    public int getDefense();
+    MobType getKHMobType();
+    int getDefense();
 }

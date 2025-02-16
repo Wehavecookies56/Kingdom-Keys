@@ -8,9 +8,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -56,7 +55,7 @@ public class MagicStop extends Magic {
 
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
-				Entity e = (Entity) list.get(i);
+				Entity e = list.get(i);
 				if (e instanceof LivingEntity livingEntity) {
 					GlobalData globalData = GlobalData.get((LivingEntity) e);
 					if (e instanceof Mob) {

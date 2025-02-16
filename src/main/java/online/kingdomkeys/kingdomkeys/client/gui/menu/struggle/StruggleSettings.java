@@ -7,7 +7,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -129,7 +128,7 @@ public class StruggleSettings extends MenuBackground {
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
 	
-			addRenderableWidget(nameBox = new EditBox(minecraft.font, (int)(width*0.25), button_statsY + (1 * 18), 100, 16, Component.translatable("")) {
+			addRenderableWidget(nameBox = new EditBox(minecraft.font, (int)(width*0.25), button_statsY + (18), 100, 16, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					super.charTyped(c, i);
@@ -146,11 +145,11 @@ public class StruggleSettings extends MenuBackground {
 				
 			});
 			
-			addRenderableWidget(size = Button.builder(Component.translatable(""), (e) -> {
+			addRenderableWidget(size = Button.builder(Component.literal(""), (e) -> {
 				action("size");
-			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (1 * 18)-2, (int) 20, 20).build());
+			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (18)-2, 20, 20).build());
 
-			addRenderableWidget(dmgMultBox = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (3 * 18), 30, 15, Component.translatable("")) {
+			addRenderableWidget(dmgMultBox = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (3 * 18), 30, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-') {
@@ -182,7 +181,7 @@ public class StruggleSettings extends MenuBackground {
 
 			});
 			
-			addRenderableWidget(pos1Box = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (5 * 18), 100, 15, Component.translatable("")) {
+			addRenderableWidget(pos1Box = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -212,7 +211,7 @@ public class StruggleSettings extends MenuBackground {
 
 			});
 			
-			addRenderableWidget(pos2Box = new EditBox(minecraft.font, (int) (width * 0.25) + 110, button_statsY + (5 * 18), 100, 15, Component.translatable("")) {
+			addRenderableWidget(pos2Box = new EditBox(minecraft.font, (int) (width * 0.25) + 110, button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -243,11 +242,11 @@ public class StruggleSettings extends MenuBackground {
 			});
 			
 			
-			addRenderableWidget(accept = Button.builder(Component.translatable(""), (e) -> {
+			addRenderableWidget(accept = Button.builder(Component.literal(""), (e) -> {
 				action("accept");
-			}).bounds((int) (width*0.25)-2, button_statsY + (6 * 18), (int) 130, 20).build());
+			}).bounds((int) (width*0.25)-2, button_statsY + (6 * 18), 130, 20).build());
 			
-			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
 		
 		updateButtons();

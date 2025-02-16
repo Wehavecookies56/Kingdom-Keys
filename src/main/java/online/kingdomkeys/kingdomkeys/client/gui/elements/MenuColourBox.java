@@ -15,12 +15,12 @@ import java.awt.*;
 
 public class MenuColourBox extends AbstractWidget {
 
-	private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	private int u = 215;
-	private int vPos = 0;
+	private final int u = 215;
+	private final int vPos = 0;
 
-	private int middleWidth;
+	private final int middleWidth;
 
 	private boolean selected;
 

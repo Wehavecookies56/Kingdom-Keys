@@ -82,7 +82,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
@@ -99,7 +99,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 			}
 			Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
@@ -133,7 +133,7 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}

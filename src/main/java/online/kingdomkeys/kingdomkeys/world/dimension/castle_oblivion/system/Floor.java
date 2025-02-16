@@ -11,8 +11,8 @@ import net.neoforged.neoforge.common.util.Size2i;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.*;
+import javax.annotation.Nullable;
 
 public class Floor {
 
@@ -68,7 +68,7 @@ public class Floor {
     }
 
     public boolean inFloor(BlockPos pos) {
-        if (rooms.size() > 0) {
+        if (!rooms.isEmpty()) {
             Room lobby = rooms.get(RoomUtils.ZERO).getGenerated();
             if (lobby != null) {
                 int maxX = lobby.position.getX() + lobby.type.getProperties().getDimensions().width;
@@ -130,7 +130,7 @@ public class Floor {
                 directions.remove(direction);
             }
             //No more possible directions to continue so exit is created
-            if (directions.size() == 0) {
+            if (directions.isEmpty()) {
                 boolean exitCreated = false;
                 for (RoomUtils.Direction dir : Arrays.stream(RoomUtils.Direction.values()).toList()) {
                     if (!exitCreated) {
@@ -193,7 +193,7 @@ public class Floor {
     }
 
     public boolean shouldTick() {
-        return players.size() > 0;
+        return !players.isEmpty();
     }
 
     public boolean shouldRoomTick(Room room) {

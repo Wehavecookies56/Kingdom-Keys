@@ -61,7 +61,7 @@ public class DuskEntity extends BaseKHEntity {
 	}
 
 	class CoilGoal extends Goal {
-		private DuskEntity theEntity;
+		private final DuskEntity theEntity;
 		private boolean canUseAttack = true;
 		private int attackTimer = 30;
 		private double[] posToCharge;

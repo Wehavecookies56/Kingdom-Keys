@@ -69,8 +69,7 @@ public class LockOnGui extends OverlayBase {
 			Entity target = InputHandler.lockOn;
 			if (target == null) {
 				missingHpBarWidth = 0;
-				return;
-			} else {
+            } else {
 				if(player.distanceTo(target) > 35){
 					InputHandler.lockOn = null;
 					return;
@@ -146,7 +145,7 @@ public class LockOnGui extends OverlayBase {
 		if (targetHealth % hpPerBar == 0 && targetHealth != 0) {
 			hpBarWidth = oneBar * widthMultiplier;
 		} else {
-			hpBarWidth = (float) ((targetHealth % hpPerBar) * widthMultiplier);
+			hpBarWidth = (targetHealth % hpPerBar) * widthMultiplier;
 		}
 
 		float i = (targetHealth);

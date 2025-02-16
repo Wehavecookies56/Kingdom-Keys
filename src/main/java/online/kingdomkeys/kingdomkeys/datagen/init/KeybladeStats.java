@@ -189,7 +189,7 @@ public class KeybladeStats extends KeybladeProvider {
 	}
 
 	public static class Recipe {
-        private List<Map.Entry<String, Integer>> recipe = new ArrayList<>();
+        private final List<Map.Entry<String, Integer>> recipe = new ArrayList<>();
 
         public Recipe() { }
 

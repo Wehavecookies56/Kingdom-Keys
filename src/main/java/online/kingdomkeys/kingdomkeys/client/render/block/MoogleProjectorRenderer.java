@@ -26,7 +26,7 @@ public class MoogleProjectorRenderer implements BlockEntityRenderer<MoogleProjec
         {
 	        Minecraft mc = Minecraft.getInstance();
 	        //mc.getRenderManager().renderEntityStatic(new MoogleEntity(ModEntities.TYPE_MOOGLE.get(), (World)mc.world), 0.5, 0.5, 0.5, 0, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
-	        MoogleEntity fakeMoogle = new MoogleEntity(ModEntities.TYPE_MOOGLE.get(), (Level)mc.level);
+	        MoogleEntity fakeMoogle = new MoogleEntity(ModEntities.TYPE_MOOGLE.get(), mc.level);
 	        fakeMoogle.setFakeMoogle(true);
 	        EntityRenderer<MoogleEntity> moogleRenderer = (EntityRenderer<MoogleEntity>) mc.getEntityRenderDispatcher().getRenderer(fakeMoogle);
 	        Vec3 vec3d = moogleRenderer.getRenderOffset(fakeMoogle, partialTicks);

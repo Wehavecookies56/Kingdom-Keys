@@ -69,9 +69,9 @@ public class MPGui extends OverlayBase {
 
 			poseStack.pushPose();// MP Bar
 			{
-				poseStack.translate((screenWidth - ((int) mpBarWidth) * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
+				poseStack.translate((screenWidth - mpBarWidth * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
 				poseStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarTop(guiGraphics, 0, 0, (int) Math.ceil(mpBarWidth), scale);
+				drawMPBarTop(guiGraphics, 0, 0, mpBarWidth, scale);
 			}
 			poseStack.popPose();
 			RenderSystem.disableBlend();

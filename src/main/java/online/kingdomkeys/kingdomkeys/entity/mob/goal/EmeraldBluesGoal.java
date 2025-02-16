@@ -26,7 +26,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 			ticksToChooseAI = 20;
 			this.mob = (BaseKHEntity) creature;
 		}
-		private BaseKHEntity mob;
+		private final BaseKHEntity mob;
 
 		@Override
 		public boolean canContinueToUse() {

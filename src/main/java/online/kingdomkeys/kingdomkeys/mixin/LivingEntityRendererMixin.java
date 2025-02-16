@@ -14,23 +14,23 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends Entity> implements IDisabledAnimations {
 
-    @Unique private boolean disabled = false;
+    @Unique private boolean kingdom_Keys$disabled = false;
 
     @Unique
     @Override
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public void kingdom_Keys$setDisabled(boolean disabled) {
+        this.kingdom_Keys$disabled = disabled;
     }
 
     @Unique
     @Override
-    public boolean isDisabled() {
-        return disabled;
+    public boolean kingdom_Keys$isDisabled() {
+        return kingdom_Keys$disabled;
     }
 
     @Redirect(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;setupAnim(Lnet/minecraft/world/entity/Entity;FFFFF)V"))
     public void redirectSetupAnim(EntityModel<T> instance, T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (isDisabled()) {
+        if (kingdom_Keys$isDisabled()) {
             if (instance instanceof PlayerModel) {
                 PlayerModel<AbstractClientPlayer> model = (PlayerModel<AbstractClientPlayer>) instance;
                 model.leftArm.resetPose();

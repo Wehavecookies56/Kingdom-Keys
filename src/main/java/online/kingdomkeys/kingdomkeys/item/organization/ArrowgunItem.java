@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,7 +7,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
@@ -77,9 +74,8 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 
 	@Override
 	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
-		if (entity instanceof Player && !world.isClientSide) {
-			Player player = (Player) entity;
-			if (!itemStack.has(ModComponents.ARROWGUN_AMMO)) {
+		if (entity instanceof Player player && !world.isClientSide) {
+            if (!itemStack.has(ModComponents.ARROWGUN_AMMO)) {
 				itemStack.set(ModComponents.ARROWGUN_AMMO, getMaxAmmo(player));
 			}
 		}

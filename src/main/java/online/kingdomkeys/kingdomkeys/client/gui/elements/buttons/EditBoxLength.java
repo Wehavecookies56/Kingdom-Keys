@@ -72,7 +72,7 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
     };
 
     public EditBoxLength(Font pFont, int pX, int pY, int pWidth, int pHeight, int maxLength, Component pMessage) {
-        this(pFont, pX, pY, pWidth, pHeight, maxLength, (net.minecraft.client.gui.components.EditBox)null, pMessage);
+        this(pFont, pX, pY, pWidth, pHeight, maxLength, null, pMessage);
     }
 
     public EditBoxLength(Font p_94106_, int p_94107_, int p_94108_, int p_94109_, int p_94110_, int maxLength, @Nullable net.minecraft.client.gui.components.EditBox p_94111_, Component p_94112_) {

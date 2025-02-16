@@ -24,7 +24,7 @@ public class MagicGravity extends Magic {
 
 		switch (level) {
 			case 0 -> {
-				ThrowableProjectile gravity = new GravityEntity(player.level(), player, dmg * 1F);
+				ThrowableProjectile gravity = new GravityEntity(player.level(), player, dmg);
 				player.level().addFreshEntity(gravity);
 				gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				if(lockOnEntity != null) {

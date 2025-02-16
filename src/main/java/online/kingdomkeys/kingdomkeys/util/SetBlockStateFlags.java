@@ -6,7 +6,7 @@ package online.kingdomkeys.kingdomkeys.util;
  */
 public enum SetBlockStateFlags {
 
-    BLOCK_UPDATE(1 << 0),
+    BLOCK_UPDATE(1),
     SEND_TO_CLIENT(1 << 1),
     DONT_RERENDER(1 << 2),
     RERENDER_ON_MAIN(1 << 3),
@@ -14,7 +14,7 @@ public enum SetBlockStateFlags {
     PREVENT_NEIGHBOR_DROPS(1 << 5),
     MOVED(1 << 6);
 
-    private int value;
+    private final int value;
 
     SetBlockStateFlags(int value) {
         this.value = value;

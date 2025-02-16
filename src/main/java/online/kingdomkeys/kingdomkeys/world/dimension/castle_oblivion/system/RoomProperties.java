@@ -8,15 +8,15 @@ import java.util.List;
 
 public class RoomProperties {
 
-    private boolean lobby;
-    private RoomSize size;
-    private RoomCategory category;
-    private RoomEnemies enemies;
-    private Size2i dimensions;
-    private Color colour;
-    private List<RoomModifier> modifiers;
-    private List<FloorType> compatibleFloors;
-    private RoomStructure fixedRoom;
+    private final boolean lobby;
+    private final RoomSize size;
+    private final RoomCategory category;
+    private final RoomEnemies enemies;
+    private final Size2i dimensions;
+    private final Color colour;
+    private final List<RoomModifier> modifiers;
+    private final List<FloorType> compatibleFloors;
+    private final RoomStructure fixedRoom;
     private List<RoomUtils.Direction> doorDirections;
 
     private RoomProperties(Builder builder) {

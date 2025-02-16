@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,7 +14,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
-import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 
 import java.util.List;
 
@@ -68,9 +66,8 @@ public class GummiShipItem extends Item implements IItemCategory {
 	
 	@Override
 	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
-		if (entity instanceof Player && !world.isClientSide) {
-			Player player = (Player) entity;
-			//if (!itemStack.hasTag()) {
+		if (entity instanceof Player player && !world.isClientSide) {
+            //if (!itemStack.hasTag()) {
 			//	itemStack.setTag(new CompoundTag());
 			//	itemStack.getTag().putString("data", data);
 			//}

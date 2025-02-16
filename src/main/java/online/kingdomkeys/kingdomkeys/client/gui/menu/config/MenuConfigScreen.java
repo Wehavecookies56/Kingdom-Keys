@@ -18,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -154,8 +153,8 @@ public class MenuConfigScreen extends MenuBackground {
 		initFocus();
 		initImpExp();
 		
-		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (0 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
-		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (1 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
+		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
+		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
 		addRenderableWidget(mpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.mp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.MP; }));
 		addRenderableWidget(dpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (3 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.dp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.DRIVE; }));
 		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (4 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
@@ -165,7 +164,7 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
-		addRenderableWidget(backgroundButton = new MenuButton((int) width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+		addRenderableWidget(backgroundButton = new MenuButton(width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 	}
 
 	private void initCommandMenu() {
@@ -1443,7 +1442,7 @@ public class MenuConfigScreen extends MenuBackground {
 				matrixStack.popPose();
 				RenderSystem.setShaderColor(1,1,1,1F);
 
-				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width*0.5F), (int) (height*0.55F), (int) 50, 0, 0, player);
+				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
@@ -1579,7 +1578,7 @@ public class MenuConfigScreen extends MenuBackground {
 			builder.append(b36);
 			builder.append(c);
 		});
-		if (nValues.size() > 0) {
+		if (!nValues.isEmpty()) {
 			builder.append("-");
 			nValues.forEach((b36, c) -> {
 				builder.append(b36);
@@ -1600,7 +1599,7 @@ public class MenuConfigScreen extends MenuBackground {
 		boolean minusToggle = false;
 		StringBuilder currentVal = new StringBuilder();
 		boolean base36 = true;
-		while (remaningCode.length() > 0) {
+		while (!remaningCode.isEmpty()) {
 			char currChar = remaningCode.charAt(0);
 			if (currChar == '-') {
 				remaningCode = remaningCode.substring(1);
@@ -1624,7 +1623,7 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			currentVal.append(currChar);
 			remaningCode = remaningCode.substring(1);
-			if (remaningCode.length() == 0) {
+			if (remaningCode.isEmpty()) {
 				configs.add(currentVal.toString());
 			}
 		}

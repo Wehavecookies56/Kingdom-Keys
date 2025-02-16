@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -63,7 +62,7 @@ public class MenuArmorSelectorScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedArmor = playerData.getEquippedArmor(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedArmorName = (equippedArmor != null && equippedArmor.getItem() instanceof KKArmorItem) ? ((KKArmorItem) equippedArmor.getItem()).getDescriptionId() : "---";
+		String equippedArmorName = (equippedArmor != null && equippedArmor.getItem() instanceof KKArmorItem) ? equippedArmor.getItem().getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedArmorName),"", buttonColour));
@@ -76,9 +75,8 @@ public class MenuArmorSelectorScreen extends MenuBackground {
 			
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKArmorItem) {
-						KKArmorItem armor = (KKArmorItem) minecraft.player.getInventory().getItem(i).getItem();
-						if(addedArmorList.containsKey(armor)) {
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKArmorItem armor) {
+                        if(addedArmorList.containsKey(armor)) {
 							int amount = addedArmorList.get(armor);
 							addedArmorList.replace(armor, amount+1);
 						} else {

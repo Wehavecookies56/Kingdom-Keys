@@ -111,8 +111,8 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
         int k = 0; //moon phase
         int l = k % 4;
         int i1 = k / 4 % 2;
-        float f13 = (float)(l + 0) / 4.0F;
-        float f14 = (float)(i1 + 0) / 2.0F;
+        float f13 = (float)(l) / 4.0F;
+        float f14 = (float)(i1) / 2.0F;
         float f15 = (float)(l + 1) / 4.0F;
         float f16 = (float)(i1 + 1) / 2.0F;
         BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);

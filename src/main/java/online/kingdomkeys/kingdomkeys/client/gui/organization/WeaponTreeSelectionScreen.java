@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class WeaponTreeSelectionScreen extends Screen {
     public WeaponTreeSelectionScreen() {
-        super(Component.translatable(""));
+        super(Component.literal(""));
     }
 
     public WeaponTreeSelectionScreen(Utils.OrgMember current) {
-        super(Component.translatable(""));
+        super(Component.literal(""));
         this.current = current;
     }
     Button cancel, next, prev, select;
@@ -183,11 +183,11 @@ public class WeaponTreeSelectionScreen extends Screen {
     		actionPerformed(CANCEL);
 		}).bounds(0, 0, 50, 20).build());
     	
-        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
     		actionPerformed(NEXT);
 		}).bounds(0, 0, 20, 20).build());
         
-        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
     		actionPerformed(PREV);
 		}).bounds(0, 0, 20, 20).build());
 

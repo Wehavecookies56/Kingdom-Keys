@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -17,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class KKAccessoryItem extends Item implements IItemCategory {
@@ -45,7 +43,7 @@ public class KKAccessoryItem extends Item implements IItemCategory {
     	if(getMag() != 0) {
     		tooltip.add(Component.translatable(ChatFormatting.BLUE+Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+getMag()));
     	}
-    	if(getAbilities().size() > 0) {
+    	if(!getAbilities().isEmpty()) {
 			tooltip.add(Component.translatable(ChatFormatting.GOLD+Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
     		for(String a : getAbilities()) {
     			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));

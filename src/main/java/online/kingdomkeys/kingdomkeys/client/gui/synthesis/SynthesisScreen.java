@@ -121,9 +121,10 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		}
 
 		for (ItemStack stack : playerData.getEquippedKeychains().values()) {
-			if (!stack.isEmpty()) {
-				hasKeychain = true;
-			}
+            if (!stack.isEmpty()) {
+                hasKeychain = true;
+                break;
+            }
 		}
 
 		if (playerData.getKnownRecipeList().isEmpty()) {

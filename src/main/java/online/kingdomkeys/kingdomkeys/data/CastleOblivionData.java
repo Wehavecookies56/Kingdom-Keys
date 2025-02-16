@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.data;
 
-import java.util.*;
-
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -15,6 +13,8 @@ import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+
+import java.util.*;
 
 public class CastleOblivionData {
 
@@ -47,7 +47,7 @@ public class CastleOblivionData {
             clientCache.put(level.dimension(), data);
         }
 
-        private static Map<ResourceKey<Level>, InteriorData> clientCache = new HashMap<>();
+        private static final Map<ResourceKey<Level>, InteriorData> clientCache = new HashMap<>();
 
         @Override
         public CompoundTag save(CompoundTag pTag, HolderLookup.Provider pRegistries) {
@@ -113,7 +113,7 @@ public class CastleOblivionData {
 
         public Floor getFloorByID(UUID id) {
             List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID().equals(id)).toList();
-            return f.size() > 0 ? f.get(0) : null;
+            return !f.isEmpty() ? f.getFirst() : null;
         }
 
         public boolean isInRoom(BlockPos pos) {

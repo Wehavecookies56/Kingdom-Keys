@@ -64,7 +64,7 @@ public abstract class MenuPopup extends Screen {
     }
 
     public MenuPopup() {
-        super(Component.translatable(""));
+        super(Component.literal(""));
     }
 
     int[] alpha;

@@ -77,7 +77,7 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
                     names.add(organizationDataID.toString());
                    
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 weapon.setOrganizationData(result);
@@ -89,7 +89,7 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
                 KingdomKeys.LOGGER.warn("Found Organization weapon data: {} for item that does not exist, ignoring.");
             }
         }
-        System.out.println("");
+        System.out.println();
 
     }
 }

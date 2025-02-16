@@ -120,7 +120,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 							Witch witchentity = EntityType.WITCH.create(level());
 							witchentity.moveTo(villager.getX(), villager.getY(), villager.getZ(), villager.getYRot(), villager.getXRot());
-							witchentity.finalizeSpawn((ServerLevel) level(), level().getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null);
+							witchentity.finalizeSpawn((ServerLevel) level(), level().getCurrentDifficultyAt(witchentity.blockPosition()), MobSpawnType.CONVERSION, null);
 							witchentity.setNoAi(villager.isNoAi());
 							if (villager.hasCustomName()) {
 								witchentity.setCustomName(villager.getCustomName());
@@ -171,7 +171,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER) != null) {
+		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 		}
 	}

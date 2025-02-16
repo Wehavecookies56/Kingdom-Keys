@@ -5,7 +5,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 
 public class SynthesisItem extends Item implements IItemCategory {
-    private String rank;
+    private final String rank;
     public SynthesisItem(Properties properties, String rank)
     {
         super(properties);

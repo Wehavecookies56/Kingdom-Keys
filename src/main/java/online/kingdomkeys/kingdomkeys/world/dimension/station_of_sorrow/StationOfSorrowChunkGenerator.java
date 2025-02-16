@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.levelgen.blending.Blender;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
@@ -87,7 +85,7 @@ public class StationOfSorrowChunkGenerator extends ChunkGenerator {
 
     }
 
-    enum Corner { TL, TR, BL, BR }
+    public enum Corner { TL, TR, BL, BR }
 
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureManager pStructureManager, RandomState pRandom, ChunkAccess pChunk) {

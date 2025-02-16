@@ -20,7 +20,7 @@ public class WhiteMushroomGoal extends TargetGoal {
 		ticksToChooseCharade = 0;
 		this.mob = (BaseKHEntity) creature;
 	}
-	private BaseKHEntity mob;
+	private final BaseKHEntity mob;
 
 
 	@Override

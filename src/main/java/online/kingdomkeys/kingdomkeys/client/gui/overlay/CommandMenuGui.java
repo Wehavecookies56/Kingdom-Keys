@@ -280,11 +280,7 @@ public class CommandMenuGui extends OverlayBase {
 		}).onUpdate((item, guiGraphics) -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			DriveForm form = ModDriveForms.registry.get(item.getId());
-			if (playerData.getDP() >= form.getDriveCost()) {
-				item.setActive(true);
-			} else {
-				item.setActive(false);
-			}
+            item.setActive(playerData.getDP() >= form.getDriveCost());
 		}).iconUV(140, 18)));
 		return forms.toArray(new CommandMenuItem.Builder[0]);
 	}
@@ -307,11 +303,7 @@ public class CommandMenuGui extends OverlayBase {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			Limit limit = ModLimits.registry.get(item.getId());
 			item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + ":  "));
-			if (playerData.getDP() >= limit.getCost()) {
-				item.setActive(true);
-			} else {
-				item.setActive(false);
-			}
+            item.setActive(playerData.getDP() >= limit.getCost());
 			if (item.getParent().isVisible()) {
 				drawString(guiGraphics, font, String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100), item.getX() + font.width(item.getMessage().getString()), item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
 			}
@@ -409,16 +401,14 @@ public class CommandMenuGui extends OverlayBase {
 		} else {
 			HitResult rtr = InputHandler.getMouseOverExtended(100);
 			if (rtr != null) {
-				if(rtr instanceof BlockHitResult) {
-					BlockHitResult brtr = (BlockHitResult)rtr;
-					double distanceSq = minecraft.player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
+				if(rtr instanceof BlockHitResult brtr) {
+                    double distanceSq = minecraft.player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
 					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getBlockPos().above(), destination, coords.getDimID()));
 					}
-				} else if(rtr instanceof EntityHitResult) {
-					EntityHitResult ertr = (EntityHitResult)rtr;
-					double distanceSq = minecraft.player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
+				} else if(rtr instanceof EntityHitResult ertr) {
+                    double distanceSq = minecraft.player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
 					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().blockPosition(), destination, coords.getDimID()));
@@ -439,9 +429,8 @@ public class CommandMenuGui extends OverlayBase {
 							ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, integer.toString()),
 							Component.literal(stack.getDisplayName().getString().substring(1, stack.getDisplayName().getString().length()-1)),
 							item -> {
-								if(stack.getItem() instanceof KKPotionItem) {
-									KKPotionItem potion = (KKPotionItem) stack.getItem();
-									//potion.potionEffect(player);
+								if(stack.getItem() instanceof KKPotionItem potion) {
+                                    //potion.potionEffect(player);
 									Party party = worldData.getPartyFromMember(minecraft.player.getUUID());
 
 									if(potion.isGlobal() || party == null) {

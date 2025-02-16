@@ -6,9 +6,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 
 @OnlyIn(Dist.CLIENT)
 public class AeroSoundInstance extends AbstractTickableSoundInstance {
@@ -20,9 +19,9 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
       this.looping = true;
       this.delay = 0;
       this.volume = 0.0F;
-      this.x = (double)((float)ent.getX());
-      this.y = (double)((float)ent.getY());
-      this.z = (double)((float)ent.getZ());
+      this.x = (float)ent.getX();
+      this.y = (float)ent.getY();
+      this.z = (float)ent.getZ();
    }
    
 	public boolean canPlaySound() {
@@ -42,9 +41,9 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 	    	  if(GlobalData.get(ent).getAeroTicks() <= 0) {
 	    		  this.stop();
 		      } else {
-		         this.x = (double)((float)this.ent.getX());
-		         this.y = (double)((float)this.ent.getY());
-		         this.z = (double)((float)this.ent.getZ());
+		         this.x = (float)this.ent.getX();
+		         this.y = (float)this.ent.getY();
+		         this.z = (float)this.ent.getZ();
 		         this.pitch = 1F;
 		         this.volume = 1F;
 		      }

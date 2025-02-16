@@ -29,9 +29,8 @@ public class DriveFormValor extends DriveForm {
 	@SubscribeEvent
 	public static void getValorFormXP(LivingDamageEvent.Post event) {
 		if (!event.getEntity().level().isClientSide && (event.getEntity() instanceof Monster || event.getEntity() instanceof EnderDragon)) {
-			if (event.getSource().getEntity() instanceof Player) {
-				Player player = (Player) event.getSource().getEntity();
-				PlayerData playerData = PlayerData.get(player);
+			if (event.getSource().getEntity() instanceof Player player) {
+                PlayerData playerData = PlayerData.get(player);
 				
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(0).split(",")[1]);
@@ -44,7 +43,7 @@ public class DriveFormValor extends DriveForm {
 	
 	@SubscribeEvent
 	public static void onLivingUpdate(PlayerTickEvent.Pre event) {
-		Player player = (Player) event.getEntity();
+		Player player = event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 
 		if (playerData != null) {
@@ -63,11 +62,8 @@ public class DriveFormValor extends DriveForm {
 			return true;
 		}
 		DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-		if (form.getBaseGrowthAbilities() || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0)) {
-			return true;
-		}
-		return false;
-	}
+        return form.getBaseGrowthAbilities() || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0);
+    }
 
 	private static void handleHighJump(Player player, PlayerData playerData) {
 		boolean j = false;

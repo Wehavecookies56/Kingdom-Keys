@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.Size2i;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegistryBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public class ModRoomStructures {
     public static DeferredRegister<RoomStructure> ROOM_STRUCTURES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "roomstructures"), KingdomKeys.MODID);
     public static Registry<RoomStructure> registry = ROOM_STRUCTURES.makeRegistry(builder -> builder.sync(true).defaultKey(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "empty")));
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unused")
 	public static final Supplier<RoomStructure>
         LOBBY = ROOM_STRUCTURES.register("lobby", () -> new RoomStructure("lobby", null, RoomProperties.RoomSize.SPECIAL, List.of(RoomProperties.RoomCategory.SPECIAL), new Size2i(33, 69)).setRegistryName(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lobby"))),
         TEST_ROOM = ROOM_STRUCTURES.register("test_room", () -> new RoomStructure("test_room", null, RoomProperties.RoomSize.M, List.of(RoomProperties.RoomCategory.ENEMY, RoomProperties.RoomCategory.STATUS, RoomProperties.RoomCategory.BOUNTY), new Size2i(32, 32)).setRegistryName(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "test_room"))),

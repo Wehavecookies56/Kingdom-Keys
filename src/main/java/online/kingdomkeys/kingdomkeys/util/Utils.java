@@ -6,11 +6,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -50,12 +48,11 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -327,7 +324,7 @@ public class Utils {
 
 	}
 
-	public static enum OrgMember {
+	public enum OrgMember {
 		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS;
 
 		public static final StreamCodec<FriendlyByteBuf, OrgMember> STREAM_CODEC = StreamCodec.composite(
@@ -575,11 +572,8 @@ public class Utils {
 	}
 
 	public static boolean hasKeybladeID(ItemStack stack) {
-		if (stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR)) {
-			return true;
-		}
-		return false;
-	}
+        return stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR);
+    }
 
 	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
@@ -590,9 +584,7 @@ public class Utils {
 
 	public static boolean hasArmorID(ItemStack stack) {
 		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
-			if (stack.has(ModComponents.ARMOR_ID)) {
-				return true;
-			}
+            return stack.has(ModComponents.ARMOR_ID);
 		}
 		return false;
 	}
@@ -897,7 +889,7 @@ public class Utils {
 		List<Entity> list2 = new ArrayList<Entity>();
 		for (Entity e : list) {
 			if (e instanceof Monster || e instanceof Player) {
-				list2.add((LivingEntity) e);
+				list2.add(e);
 			}
 		}
 		return list2;
@@ -1050,7 +1042,7 @@ public class Utils {
 
 	public static double getMinimumDPForLimit(Player player) {
 		int minCost = 1000;
-		if (Utils.getPlayerLimitAttacks(player).size() > 0) {
+		if (!Utils.getPlayerLimitAttacks(player).isEmpty()) {
 			for (Limit limit : Utils.getPlayerLimitAttacks(player)) {
 				minCost = Math.min(minCost, limit.getCost());
 			}
@@ -1089,11 +1081,8 @@ public class Utils {
 			}
 		}
 		GlobalData globalData = GlobalData.get(player);
-		if (globalData != null && globalData.isKO())
-			return false;
-
-		return true;
-	}
+        return globalData == null || !globalData.isKO();
+    }
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
 		return new BlockPos(getInt(temp[0]), getInt(temp[1]), getInt(temp[2]));
@@ -1127,7 +1116,7 @@ public class Utils {
 				}
 				if (membersOnline == 0) {
 					avgLevel = 1;
-					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location().toString());
+					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location());
 				} else {
 					avgLevel = total / membersOnline;
 				}

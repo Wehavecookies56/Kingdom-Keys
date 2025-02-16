@@ -57,13 +57,13 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     private int cycleIndex;
     private double totalDistance;
-    private double[] chargeFlailArmsAnimation = new double[]
+    private final double[] chargeFlailArmsAnimation = new double[]
             {1.65, 1.60, 1.57, 1.50, 1.57, 1.60, 1.65};
-    private double[] legsMovementAnimation = new double[]
+    private final double[] legsMovementAnimation = new double[]
             {-22, -18, -14, -10, -6, -2, 2, 6, 10, 14, 18, 22, 18, 14, 10, 6, 2, -2, -6, -10, -14, -18, -22};
-    private double[] afterAttackAnimation = new double[]
+    private final double[] afterAttackAnimation = new double[]
             {-180, -182, -184, -186, -188, -190, -188, -186, -184, -182, -180};
-    private double[] mowdownAttackAnimation = new double[]
+    private final double[] mowdownAttackAnimation = new double[]
             {50, 40, 30, 20, 10, 0, -10, -20, -30, -40, -50, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50};
 
     public LargeBodyModel(ModelPart root) {
@@ -216,7 +216,7 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
     }
 
     protected float degToRad(double degrees) {
-        return (float) (degrees * (double)Math.PI / 180) ;
+        return (float) (degrees * Math.PI / 180) ;
     }
 
     @Override

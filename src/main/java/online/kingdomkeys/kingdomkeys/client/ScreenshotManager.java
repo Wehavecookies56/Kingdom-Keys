@@ -82,7 +82,7 @@ public class ScreenshotManager {
             resized.writeToFile(fileToCreate);
             KingdomKeys.LOGGER.info("Saved save point screenshot " + fileName);
         } catch (IOException ioexception) {
-            KingdomKeys.LOGGER.warn("Couldn't save screenshot", (Throwable)ioexception);
+            KingdomKeys.LOGGER.warn("Couldn't save screenshot", ioexception);
         } finally {
             image.close();
         }

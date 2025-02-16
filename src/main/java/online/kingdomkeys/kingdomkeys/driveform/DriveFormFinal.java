@@ -35,9 +35,8 @@ public class DriveFormFinal extends DriveForm {
 	@SubscribeEvent
 	public static void getFinalFormXP(LivingDeathEvent event) {
 		if (!event.getEntity().level().isClientSide && (event.getEntity() instanceof EnderMan) || event.getEntity() instanceof IKHMob && ((IKHMob)event.getEntity()).getKHMobType() == MobType.NOBODY) {
-			if (event.getSource().getEntity() instanceof Player) {
-				Player player = (Player) event.getSource().getEntity();
-				PlayerData playerData = PlayerData.get(player);
+			if (event.getSource().getEntity() instanceof Player player) {
+                PlayerData playerData = PlayerData.get(player);
 
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(4).split(",")[1]);
@@ -50,7 +49,7 @@ public class DriveFormFinal extends DriveForm {
 	
 	@SubscribeEvent
 	public static void onLivingUpdate(PlayerTickEvent.Pre event) {
-		Player player = (Player) event.getEntity();
+		Player player = event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 
 		if (playerData != null) {

@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 public class CastleOblivionLobbyStructure extends Structure {
 
-    public static final MapCodec<CastleOblivionLobbyStructure> CODEC = RecordCodecBuilder.<CastleOblivionLobbyStructure>mapCodec(instance ->
+    public static final MapCodec<CastleOblivionLobbyStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(CastleOblivionLobbyStructure.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size)

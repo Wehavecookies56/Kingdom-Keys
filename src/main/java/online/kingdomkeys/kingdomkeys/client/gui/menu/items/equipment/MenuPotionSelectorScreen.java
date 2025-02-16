@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -63,7 +62,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedPotion = playerData.getEquippedItem(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? ((KKPotionItem) equippedPotion.getItem()).getDescriptionId() : "---";
+		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? equippedPotion.getItem().getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
@@ -76,9 +75,8 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 			
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKPotionItem) {
-						KKPotionItem item = (KKPotionItem) minecraft.player.getInventory().getItem(i).getItem();
-						if(addedItemsList.containsKey(item)) {
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKPotionItem item) {
+                        if(addedItemsList.containsKey(item)) {
 							int amount = addedItemsList.get(item);
 							addedItemsList.replace(item, amount+1);
 						} else {

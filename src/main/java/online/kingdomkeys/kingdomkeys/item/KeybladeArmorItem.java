@@ -13,7 +13,6 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nonnull;
 import java.util.UUID;
 
 public class KeybladeArmorItem extends BaseArmorItem {

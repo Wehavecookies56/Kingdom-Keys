@@ -144,6 +144,5 @@ public class Constants {
     public static final double
             PLAYER_WALKSPEED = 0.10000000149011612D,
             PLAYER_JUMP = 0.42D;
-    ;
 
 }

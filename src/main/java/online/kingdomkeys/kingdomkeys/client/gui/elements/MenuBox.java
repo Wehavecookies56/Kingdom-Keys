@@ -18,7 +18,7 @@ public class MenuBox extends AbstractWidget{
     Color colour;
 
     public MenuBox(int posX, int posY, int width, int height, Color colour) {
-		super(posX, posY, width, 14, Component.translatable(""));
+		super(posX, posY, width, 14, Component.literal(""));
         this.posX = posX;
         this.posY = posY;
         this.width = width;

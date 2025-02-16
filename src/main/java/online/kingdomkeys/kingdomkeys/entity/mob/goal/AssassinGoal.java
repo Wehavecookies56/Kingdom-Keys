@@ -15,7 +15,7 @@ public class AssassinGoal extends TargetGoal {
 	private int undergroundTicks = 70, ticksUntilNextAttack, ticksToLowHealth = 70, ticksToExplode = 30;
 	private boolean canUseNextAttack = true;
 
-	private BaseKHEntity mob;
+	private final BaseKHEntity mob;
 	public AssassinGoal(PathfinderMob creature) {
 		super(creature, true);
 		ticksUntilNextAttack = TIME_BEFORE_NEXT_ATTACK;

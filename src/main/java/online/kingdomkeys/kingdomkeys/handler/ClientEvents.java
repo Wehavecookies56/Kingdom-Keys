@@ -182,7 +182,7 @@ public class ClientEvents {
 				if(globalData != null) {
 					if(globalData.isKO()) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
-						if (!((IDisabledAnimations) renderer).isDisabled()) {
+						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
 							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
 							event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
 							float MAX = 100;
@@ -207,7 +207,7 @@ public class ClientEvents {
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
-						if (!((IDisabledAnimations) renderer).isDisabled()) {
+						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
 							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
 						}
 					}

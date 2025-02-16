@@ -66,7 +66,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         	super(e, true);
             this.mob = e;
         }
-        private BaseKHEntity mob;
+        private final BaseKHEntity mob;
 
 
         @Override
@@ -117,7 +117,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 
                         this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 
-                        if(EntityHelper.getEntitiesNear(this.mob, 10).size() > 0) {
+                        if(!EntityHelper.getEntitiesNear(this.mob, 10).isEmpty()) {
                             for (LivingEntity heartless : EntityHelper.getEntitiesNear(this.mob, 10)) {
                                 if (heartless instanceof IKHMob && ((IKHMob)heartless).getKHMobType() != EntityHelper.MobType.NPC) {
                                     if (heartless.getHealth() < heartless.getMaxHealth()) {

@@ -144,8 +144,7 @@ public class InputHandler {
                                 float reach = ieri.getReach();
                                 HitResult rtr = getMouseOverExtended(reach);
                                 if (rtr != null) {
-                                    if (rtr instanceof EntityHitResult) {
-                                        EntityHitResult ertr = (EntityHitResult) rtr;
+                                    if (rtr instanceof EntityHitResult ertr) {
                                         if (ertr.getEntity() != null && ertr.getEntity().invulnerableTime == 0) {
                                             if (ertr.getEntity() != player) {
                                                 if(!ertr.getEntity().getPassengers().contains(player)) {

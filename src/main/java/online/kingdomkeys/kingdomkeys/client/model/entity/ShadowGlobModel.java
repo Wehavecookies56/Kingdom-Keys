@@ -147,7 +147,7 @@ public class ShadowGlobModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	protected float degToRad(double degrees) {
-		return (float) (degrees * (double) Math.PI / 180);
+		return (float) (degrees * Math.PI / 180);
 	}
 
 	@Override

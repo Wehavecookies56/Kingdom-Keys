@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetEquippedAbilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -153,13 +154,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 				int level = abilitiesMap.get(abilityName)[0];
 				if (level == 0 || ability.getType() == AbilityType.GROWTH) {
-					abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+					abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
 						action(ability, 0);
 					}));
 				} else {
 					for (int j = 0; j < level; j++) {
 						int finalJ = j;
-						abilities.add(new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
+						abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
 							action(ability, finalJ);
 						}));
 					}
@@ -174,7 +175,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for(String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if(ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
 							abilities.add(aa);
 							aa.visible = false;
 						}
@@ -192,14 +193,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) { //Add weapon ability display
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 							});
 							abilities.add(aa);
 							aa.visible = false;
 							
 							//If synch blade do it again
 							if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0) { //Org synch blade
-								MenuAbilitiesButton aaa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								MenuAbilitiesButton aaa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 								});
 								abilities.add(aaa);
 								aaa.visible = false;
@@ -216,7 +217,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for (String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 							});
 							abilities.add(aa);
 							aa.visible = false;
@@ -232,7 +233,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						for (String a : abilitiesList) {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
-								MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 								});
 								abilities.add(aa);
 								aa.visible = false;
@@ -246,7 +247,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			for (String a : abilitiesList) {
 				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 				if (ability != null) {
-					MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.ACCESSORY, (e) -> {
+					MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.ACCESSORY, (e) -> {
 					});
 					abilities.add(aa);
 					aa.visible = false;
@@ -264,7 +265,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 					int level = abilitiesMap.get(abilityName)[0];
 					if (level == 0 || ability.getType() == AbilityType.GROWTH) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, abilityName, ability.getType(), (e) -> {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
 						});
 						//System.out.println(level);
 
@@ -279,7 +280,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					String growth = driveForm.getDFAbilityForLevel(1);
 					Ability ab = ModAbilities.registry.get(ResourceLocation.parse(growth));
 					if (ab != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, growth, ab.getType(), (e) -> {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, growth, ab.getType(), (e) -> {
 						});
 						abilities.add(aa);
 						aa.visible = false;
@@ -292,7 +293,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				for (String a : driveForm.getDriveFormData().getAbilities()) {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if (ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), ability.getType(), (e) -> {
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), ability.getType(), (e) -> {
 						});
 						abilities.add(aa);
 						aa.visible = false;
@@ -306,7 +307,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if(ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
 						abilities.add(aa);
 						aa.visible = false;
 					}
@@ -321,7 +322,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						for (String a : abilitiesList) {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
-								MenuAbilitiesButton aa = new MenuAbilitiesButton((int) buttonPosX, buttonPosY, (int) buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
+								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
 								});
 								abilities.add(aa);
 								aa.visible = false;
@@ -385,8 +386,8 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			if (abilities.get(i) != null) {
 				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollBar.scrollOffset));
 				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
-					abilities.get(i).active =true;;
-										String abilityName = abilities.get(i).getText();
+					abilities.get(i).active =true;
+                    String abilityName = abilities.get(i).getText();
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 
 					if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
@@ -435,18 +436,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			String text = Utils.translateToLocal(new StringBuilder(abilityName).insert(abilityName.lastIndexOf('.'), lvl).toString());
 
 			if (abilities.get(i) instanceof MenuAbilitiesButton) {
-				MenuAbilitiesButton button = (MenuAbilitiesButton) abilities.get(i);
-
-				/*if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
-					button.active = button.equipped;
-				}
-				
-				if (button.abilityType == AbilityType.WEAPON || button.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
-					button.active = true;
-				}*/
-
-				button.setMessage(Component.translatable(text));
-				button.setAP(ability.getAPCost());
+				MenuAbilitiesButton button = getMenuAbilitiesButton(i, text, ability);
 				if (button.isHovered()) {
 					hoveredAbility = ability;
 					hoveredIndex = button.index;
@@ -558,6 +548,22 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			
 		}
 		matrixStack.popPose();
+	}
+
+	private @NotNull MenuAbilitiesButton getMenuAbilitiesButton(int i, String text, Ability ability) {
+		MenuAbilitiesButton button = abilities.get(i);
+
+				/*if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
+					button.active = button.equipped;
+				}
+				
+				if (button.abilityType == AbilityType.WEAPON || button.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
+					button.active = true;
+				}*/
+
+		button.setMessage(Component.translatable(text));
+		button.setAP(ability.getAPCost());
+		return button;
 	}
 
 	@Override

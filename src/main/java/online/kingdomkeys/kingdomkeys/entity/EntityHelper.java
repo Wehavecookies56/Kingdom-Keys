@@ -14,12 +14,12 @@ import net.minecraft.world.phys.AABB;
 public class EntityHelper {
 
 	public enum Dir {
-		SOUTH, SOUTH_EAST, EAST, NORTH, NORTH_EAST, NORTH_WEST, WEST, SOUTH_WEST;
-	}
+		SOUTH, SOUTH_EAST, EAST, NORTH, NORTH_EAST, NORTH_WEST, WEST, SOUTH_WEST
+    }
 
 	public enum MobType {
-		HEARTLESS_PUREBLOOD, HEARTLESS_EMBLEM, NOBODY, NPC, BOSS;
-	}
+		HEARTLESS_PUREBLOOD, HEARTLESS_EMBLEM, NOBODY, NPC, BOSS
+    }
 
 	public static Dir get8Directions(Entity e) {
         return switch (Mth.floor(e.getYRot() * 8.0F / 360.0F + 0.5D) & 7) {
@@ -52,7 +52,7 @@ public class EntityHelper {
 
 		framesCount *= framesPerSlot;
 
-		framesCount -= 1 * framesPerSlot;
+		framesCount -= framesPerSlot;
 
 		double[] animation = new double[framesCount];
 

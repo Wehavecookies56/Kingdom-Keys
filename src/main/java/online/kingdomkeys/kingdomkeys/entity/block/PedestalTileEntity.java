@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
-	private ItemStackHandler itemStackHandler = createInventory();
+	private final ItemStackHandler itemStackHandler = createInventory();
 	public Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
 	public static final float DEFAULT_HEIGHT = 1.25F;

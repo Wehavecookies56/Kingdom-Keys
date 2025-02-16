@@ -215,14 +215,12 @@ public class MenuEquipmentButton extends Button {
 						magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
 						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
 						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
-					} else if (stack.getItem() instanceof IOrgWeapon) {
-                        final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
+					} else if (stack.getItem() instanceof IOrgWeapon orgWeapon) {
                         strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
 						if(orgWeapon.getAbilities() != null)
 							abilities = Lists.newArrayList(orgWeapon.getAbilities());
-                    } else if (stack.getItem() instanceof KKArmorItem) {
-                    	KKArmorItem armorItem = (KKArmorItem) stack.getItem();
+                    } else if (stack.getItem() instanceof KKArmorItem armorItem) {
                         resistances = armorItem.getResList();
                     	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
@@ -387,7 +385,7 @@ public class MenuEquipmentButton extends Button {
 							}
 	                    }
 	                    
-						if(abilities.size() > 0) {
+						if(!abilities.isEmpty()) {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));

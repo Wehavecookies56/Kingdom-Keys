@@ -70,7 +70,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER) != null) {
+		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 			compound.putInt("TargetUUID", this.entityData.get(TARGET));
 			compound.putInt("Color", this.entityData.get(COLOR));

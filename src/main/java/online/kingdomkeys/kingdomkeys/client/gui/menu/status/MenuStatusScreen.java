@@ -147,7 +147,7 @@ public class MenuStatusScreen extends MenuBackground {
 		
 		addRenderableWidget(hp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_HP),"" + (int) minecraft.player.getMaxHealth(), 0x008800));
 		addRenderableWidget(mp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) playerData.getMaxMP(), 0x008800));
-		addRenderableWidget(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP),"" + Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(true), 0x008800));
+		addRenderableWidget(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(true), 0x008800));
 		addRenderableWidget(driveGauge = new MenuColourBox(col1X,  button_statsY + (c++* spacer), (int) dataWidth*2, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 		
 		c=0;

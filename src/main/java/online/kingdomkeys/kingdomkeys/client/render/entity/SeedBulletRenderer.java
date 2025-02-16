@@ -16,7 +16,7 @@ import java.awt.*;
 public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
 
     int red = 96, green = 140, blue = 109, alpha = 255;
-    private CubeModel model;
+    private final CubeModel model;
 
     public SeedBulletRenderer(EntityRendererProvider.Context context) {
         super(context);

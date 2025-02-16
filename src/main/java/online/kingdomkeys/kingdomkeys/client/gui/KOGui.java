@@ -46,8 +46,8 @@ public class KOGui extends ChatScreen {
 	protected void init() {
 		//GLFW.glfwSetInputMode(minecraft.getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		super.init();
-		addRenderableWidget(giveUp = new MenuButton((int) (width/2F) - 40, (int)(height * 0.6F), (int) 40, Utils.translateToLocal(Strings.Gui_KO_Die), MenuButton.ButtonType.BUTTON, (e) -> { action("giveup"); }));
-		addRenderableWidget(exit = new MenuButton((int) (width/2F) - 40, (int)(height * 0.6F) + 18, (int) 40, Utils.translateToLocal(Strings.Gui_KO_Quit), MenuButton.ButtonType.BUTTON, (e) -> { action("exit"); }));
+		addRenderableWidget(giveUp = new MenuButton((int) (width/2F) - 40, (int)(height * 0.6F), 40, Utils.translateToLocal(Strings.Gui_KO_Die), MenuButton.ButtonType.BUTTON, (e) -> { action("giveup"); }));
+		addRenderableWidget(exit = new MenuButton((int) (width/2F) - 40, (int)(height * 0.6F) + 18, 40, Utils.translateToLocal(Strings.Gui_KO_Quit), MenuButton.ButtonType.BUTTON, (e) -> { action("exit"); }));
 	}
 
 	@Override

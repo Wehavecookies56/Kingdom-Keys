@@ -78,7 +78,7 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' shotlock to " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
@@ -95,7 +95,7 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 			}
 			Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
 			player.sendSystemMessage(Component.translatable("Your shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
@@ -111,7 +111,7 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all shotlocks from " + player.getDisplayName().getString()), true);
 			}
 			player.sendSystemMessage(Component.translatable("Your shotlocks have been taken away"));
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}

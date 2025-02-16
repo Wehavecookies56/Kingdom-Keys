@@ -59,7 +59,7 @@ public class RecipeDataLoader extends SimpleJsonResourceReloadListener {
                     result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), Recipe.class);
                     result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 RecipeRegistry.getInstance().register(result);

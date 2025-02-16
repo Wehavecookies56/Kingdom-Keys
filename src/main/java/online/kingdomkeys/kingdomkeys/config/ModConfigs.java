@@ -13,9 +13,9 @@ import org.apache.commons.lang3.tuple.Pair;
 @EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
 
-    private static ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
-    private static CommonConfig COMMON; //Stuff in both sides
-    private static ServerConfig SERVER; //Client stuff that needs to be synced from the server
+    private static final ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
+    private static final CommonConfig COMMON; //Stuff in both sides
+    private static final ServerConfig SERVER; //Client stuff that needs to be synced from the server
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec COMMON_SPEC;
     public static final ModConfigSpec SERVER_SPEC;

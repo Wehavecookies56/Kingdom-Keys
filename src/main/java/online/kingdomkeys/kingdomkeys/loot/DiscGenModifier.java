@@ -14,8 +14,8 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
+import javax.annotation.Nonnull;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.

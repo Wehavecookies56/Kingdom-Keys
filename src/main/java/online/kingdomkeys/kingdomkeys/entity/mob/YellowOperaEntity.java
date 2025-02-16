@@ -73,7 +73,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         	super(e,true);
             this.mob = e;
         }
-        private BaseKHEntity mob;
+        private final BaseKHEntity mob;
 
 
         @Override

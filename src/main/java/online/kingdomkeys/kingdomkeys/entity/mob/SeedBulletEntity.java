@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class SeedBulletEntity extends ThrowableProjectile {
 
-    private int ticks = 80;
+    private final int ticks = 80;
 
     public SeedBulletEntity(EntityType<? extends ThrowableProjectile> type, Level worldIn) {
         super(type, worldIn);

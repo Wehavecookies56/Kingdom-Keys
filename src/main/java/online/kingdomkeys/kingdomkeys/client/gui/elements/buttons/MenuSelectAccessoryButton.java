@@ -110,8 +110,8 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 		} else {
 			accessory = (KKAccessoryItem) stack.getItem();
 		}
-		if (visible) { ;
-			Lighting.setupForFlatItems();
+		if (visible) {
+            Lighting.setupForFlatItems();
 			float itemWidth = parent.width * 0.3F;
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
@@ -156,7 +156,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
                     {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
-                        matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                        matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
                         ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
 
                     }
@@ -180,9 +180,8 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 						magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
 						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
 						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
-					} else if (stack.getItem() instanceof IOrgWeapon) {
-						final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
-						strength = orgWeapon.getStrength();
+					} else if (stack.getItem() instanceof IOrgWeapon orgWeapon) {
+                        strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
                     } else if (stack.getItem() instanceof ArmorItem) {
                         //ArmorItem armour = (ArmorItem) stack.getItem();
@@ -208,9 +207,8 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	                    int oldAP=0,oldStr=0,oldMag=0;
 	                    PlayerData playerData = PlayerData.get(minecraft.player);
                     	ItemStack replacedItem = playerData.getEquippedAccessory(parent.slot);
-                    	if(!ItemStack.matches(replacedItem, ItemStack.EMPTY) && replacedItem.getItem() instanceof KKAccessoryItem){
-                    		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedItem.getItem();
-                    		oldAP = oldAccessory.getAp();
+                    	if(!ItemStack.matches(replacedItem, ItemStack.EMPTY) && replacedItem.getItem() instanceof KKAccessoryItem oldAccessory){
+                            oldAP = oldAccessory.getAp();
             				oldStr = oldAccessory.getStr();
     						oldMag = oldAccessory.getMag();	
                     	}

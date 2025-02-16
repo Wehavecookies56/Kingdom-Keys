@@ -119,7 +119,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
 		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxR = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 
@@ -177,7 +177,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
         addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
 			action("upgrade");
-		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), 70, 20).build());
+		}).bounds(boxM.getX()+3, (int) (height * 0.67), 70, 20).build());
 	}
 
 	@Override
@@ -198,10 +198,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		if (selectedItemStack != null && !selectedItemStack.isEmpty() && selectedItemStack.getItem() instanceof KeychainItem keychain && keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			boolean enoughMats = true;
-			KeychainItem kcItem = (KeychainItem)selectedItemStack.getItem();
 
-			//Set create button state
-			if(kcItem.getKeybladeLevel(selectedItemStack) < kcItem.getKeyblade().getMaxLevel()) {
+            //Set create button state
+			if(keychain.getKeybladeLevel(selectedItemStack) < keychain.getKeyblade().getMaxLevel()) {
 				KeychainItem kChain = (KeychainItem) selectedItemStack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
 				upgrade.visible = true;

@@ -20,20 +20,22 @@ import java.awt.*;
 
 public class MenuAbilitiesButton extends MenuButtonBase {
 
-	private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	private int endWidth = 11;
+	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private final int endWidth = 11;
 
-	private int leftU = 47, middleU = 59, rightU = 61;
-	private int vPos = 118;
-	private int selectedVPos = 138;
+	private final int leftU = 47;
+    private final int middleU = 59;
+    private final int rightU = 61;
+	private final int vPos = 118;
+	private final int selectedVPos = 138;
 	
 
-	private int middleWidth;
-	private int apMiddleWidth;
+	private final int middleWidth;
+	private final int apMiddleWidth;
 
 	public AbilityType abilityType;
 
-	private String text;
+	private final String text;
 
 	private boolean selected;
 	private int ap;

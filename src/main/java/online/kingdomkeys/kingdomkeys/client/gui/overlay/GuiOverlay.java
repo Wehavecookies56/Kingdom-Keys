@@ -206,7 +206,7 @@ public class GuiOverlay extends OverlayBase {
 			// Text
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			for (int i = 0; i < levelData.messages1.size(); i++) {
-				String message = levelData.messages1.get(i).toString();
+				String message = levelData.messages1.get(i);
 				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {

@@ -27,7 +27,7 @@ import java.util.List;
 public class CardSelectionScreen extends MenuBackground {
 
 	public CardDoorTileEntity te;
-	private List<CardSelectButton> cards = new ArrayList<>();
+	private final List<CardSelectButton> cards = new ArrayList<>();
 	private ItemStack selectedCardStack;
 	private MenuButton createBtn;
 	

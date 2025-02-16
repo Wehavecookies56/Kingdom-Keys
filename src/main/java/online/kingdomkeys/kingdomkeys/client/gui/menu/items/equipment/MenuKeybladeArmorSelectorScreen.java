@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -63,7 +62,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedKBArmor = playerData.getEquippedKBArmor(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedKBArmorName = (equippedKBArmor != null && equippedKBArmor.getItem() instanceof PauldronItem) ? ((PauldronItem) equippedKBArmor.getItem()).getDescriptionId() : "---";
+		String equippedKBArmorName = (equippedKBArmor != null && equippedKBArmor.getItem() instanceof PauldronItem) ? equippedKBArmor.getItem().getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKBArmorName),"", buttonColour));
@@ -76,9 +75,8 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 			
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof PauldronItem) {
-						PauldronItem armor = (PauldronItem) minecraft.player.getInventory().getItem(i).getItem();
-						if(addedShoulderArmorList.containsKey(armor)) {
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof PauldronItem armor) {
+                        if(addedShoulderArmorList.containsKey(armor)) {
 							int amount = addedShoulderArmorList.get(armor);
 							addedShoulderArmorList.replace(armor, amount+1);
 						} else {

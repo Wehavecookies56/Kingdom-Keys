@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +33,8 @@ import javax.annotation.Nullable;
 
 public class MagnetBloxBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
-    private static int min = 1, max = 10;
+    private static final int min = 1;
+    private static final int max = 10;
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final IntegerProperty RANGE = IntegerProperty.create("range", min, max);

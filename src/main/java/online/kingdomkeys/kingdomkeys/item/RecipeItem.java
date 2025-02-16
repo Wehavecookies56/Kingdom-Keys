@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.item;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -56,10 +55,10 @@ public class RecipeItem extends Item implements IItemCategory {
 						List<String> types = new ArrayList<String>();
 						types.add("keyblade");
 						types.add("item");
-						if (missingKeyblades.size() == 0) {
+						if (missingKeyblades.isEmpty()) {
 							types.remove("keyblade");
 						}
-						if (missingItems.size() == 0) {
+						if (missingItems.isEmpty()) {
 							types.remove("item");
 						}
 

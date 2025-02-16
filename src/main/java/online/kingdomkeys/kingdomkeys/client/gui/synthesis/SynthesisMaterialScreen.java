@@ -185,18 +185,18 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		
 		inventory.forEach(this::addWidget);
 
-		addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
+		addRenderableWidget(prev = Button.builder(Component.literal("<--"), (e) -> {
 			action("prev");
 		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
 
-		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
+		addRenderableWidget(next = Button.builder(Component.literal("-->"), (e) -> {
 			action("next");
 		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
 		
 		prev.visible = false;
 		next.visible = false;
-		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.getX()+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -213,7 +213,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		});
 		addRenderableWidget(take = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> {
 			action("take");
-		}).bounds((int) amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
+		}).bounds(amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
 		
 		take.visible = false;
 		updateButtons();

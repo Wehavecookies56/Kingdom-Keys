@@ -19,7 +19,7 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class UltimaCannonShotlockShotEntityRenderer extends EntityRenderer<BaseShotlockShotEntity> {
 
-	private CubeModel model;
+	private final CubeModel model;
 
 	public UltimaCannonShotlockShotEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);

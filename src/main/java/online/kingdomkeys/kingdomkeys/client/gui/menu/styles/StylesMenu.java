@@ -23,7 +23,7 @@ public class StylesMenu extends MenuBackground {
 
     private MenuButton kh2RoxasDual, daysRoxasDual;
     private final List<MenuButton> singleStyleList = new ArrayList<>();
-    private List<MenuButton> dualStyleList = new ArrayList<>();
+    private final List<MenuButton> dualStyleList = new ArrayList<>();
 
     public StylesMenu() {
         super(Strings.Gui_Menu_Style, new Color(0, 0, 255));

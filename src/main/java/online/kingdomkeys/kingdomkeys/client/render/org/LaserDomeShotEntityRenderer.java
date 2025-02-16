@@ -22,7 +22,7 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEntity> {
 
-	private CubeModel model;
+	private final CubeModel model;
 
 	public LaserDomeShotEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);

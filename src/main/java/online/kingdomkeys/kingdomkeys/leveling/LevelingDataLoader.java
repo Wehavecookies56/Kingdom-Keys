@@ -50,7 +50,7 @@ public class LevelingDataLoader extends SimpleJsonResourceReloadListener {
                 try {
                     result = GSON_BUILDER.fromJson(br2, LevelingData.class);
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 level.setLevelingData(result);

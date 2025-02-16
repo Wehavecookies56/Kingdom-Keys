@@ -105,7 +105,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         }
         updateMagicButtons(false);
         ModConfigs.setMagicDisplayedInCommandMenu(displayedMagic.keySet().stream().map(ResourceLocation::toString).toList());
-        if(displayedMagic.size() < 1 && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.magic) {
+        if(displayedMagic.isEmpty() && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.magic) {
         	CommandMenuGui.INSTANCE.changeSubmenu(CommandMenuGui.INSTANCE.root, true);
         }
     }
@@ -143,7 +143,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         addRenderableWidget(rightScroll = new MenuScrollBar((int) (boxRightPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight - 3 - font.lineHeight, 0));
         addRenderableWidget(leftScroll = new MenuScrollBar((int) (boxLeftPosX + boxWidth - 14), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight - 3 - font.lineHeight, 0));
         updateMagicButtons(true);
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 
@@ -191,7 +191,7 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         drawSeparately = true;
         gui.drawCenteredString(Minecraft.getInstance().font, "Hidden", (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
         gui.drawCenteredString(Minecraft.getInstance().font, "Command Menu", (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
-        gui.enableScissor((int) boxLeftPosX, (int) topBarHeight + 3 + font.lineHeight, (int) boxLeft.getWidth()*4, (int) (topBarHeight + middleHeight));
+        gui.enableScissor((int) boxLeftPosX, (int) topBarHeight + 3 + font.lineHeight, boxLeft.getWidth() *4, (int) (topBarHeight + middleHeight));
         for(Renderable renderable : this.renderables) {
             if (renderable instanceof Button button) {
                 if (button.getX() >= boxLeftPosX-1) {

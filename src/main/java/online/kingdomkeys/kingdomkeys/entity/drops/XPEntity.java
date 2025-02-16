@@ -65,12 +65,10 @@ public class XPEntity extends Entity {
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		if (this.entityData.get(OWNER) != null) {
+		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 		}
-		if (this.entityData.get(EXP) != null) {
-			compound.putInt("exp", this.entityData.get(EXP));
-		}
+		compound.putInt("exp", this.entityData.get(EXP));
 	}
 
 	@Override

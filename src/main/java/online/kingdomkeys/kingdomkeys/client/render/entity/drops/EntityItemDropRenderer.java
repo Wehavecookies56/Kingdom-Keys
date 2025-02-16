@@ -44,7 +44,7 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 			value = Mth.clamp(Utils.map(value, 1, 35, 0.5F, 3),0.5F,3F);
 			matrixStackIn.scale(value,value,value);
 	
-			matrixStackIn.translate(0.0D, (double) 0.1F, 0.0D);
+			matrixStackIn.translate(0.0D, 0.1F, 0.0D);
 			matrixStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
 			matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
 			matrixStackIn.scale(0.3F, 0.3F, 0.3F);

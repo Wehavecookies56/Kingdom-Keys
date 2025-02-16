@@ -57,7 +57,7 @@ public class ThundaraEntity extends ThrowableProjectile {
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		if (this.entityData.get(OWNER) != null) {
+		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 		}
 	}
@@ -109,7 +109,7 @@ public class ThundaraEntity extends ThrowableProjectile {
 			if (tickCount % 8 == 1) {
 				if (!list.isEmpty()) { // find random entity
 					int i = level().random.nextInt(list.size());
-					Entity e = (Entity) list.get(i);
+					Entity e = list.get(i);
 					if (e instanceof LivingEntity) {
 						if(!e.isAlive()) {
 							list.remove(e);

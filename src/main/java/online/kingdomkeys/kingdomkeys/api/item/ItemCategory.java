@@ -10,7 +10,8 @@ public enum ItemCategory {
     SHOTLOCK(0,160),
     KBARMOR(0,180);
 
-    private int u, v;
+    private final int u;
+    private final int v;
     ItemCategory(int u, int v) {
         this.u = u;
         this.v = v;

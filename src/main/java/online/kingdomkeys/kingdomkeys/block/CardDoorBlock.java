@@ -109,7 +109,6 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		return ModEntities.TYPE_CARD_DOOR.get().create(pPos, pState);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		if(!level.isClientSide) {

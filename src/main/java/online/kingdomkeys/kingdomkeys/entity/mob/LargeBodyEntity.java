@@ -22,11 +22,11 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class LargeBodyEntity extends BaseKHEntity {
 
-    enum SpecialAttack {
+    public enum SpecialAttack {
         WAIT,
         CHARGE,
         MOWDOWN,
-        SHOCKWAVE;
+        SHOCKWAVE
     }
 
     private SpecialAttack currentAttack, previousAttack;
@@ -168,7 +168,7 @@ public class LargeBodyEntity extends BaseKHEntity {
     }
 
     class MowdownGoal extends Goal {
-        private LargeBodyEntity theEntity;
+        private final LargeBodyEntity theEntity;
         private boolean canUseAttack = true;
         private final int ATTACK_MAX_TIMER = 50;
         private int attackTimer = ATTACK_MAX_TIMER, whileAttackTimer;
@@ -197,8 +197,7 @@ public class LargeBodyEntity extends BaseKHEntity {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.MOWDOWN) {
-                if(theEntity.random.nextFloat() <= 0.5f) return true;
-                else return false;
+                return theEntity.random.nextFloat() <= 0.5f;
             }
             return true;
         }
@@ -246,7 +245,7 @@ public class LargeBodyEntity extends BaseKHEntity {
     }
 
     class ChargeGoal extends Goal {
-        private LargeBodyEntity theEntity;
+        private final LargeBodyEntity theEntity;
         private boolean canUseAttack = true;
         private final int ATTACK_MAX_TIMER = 70;
         private int attackTimer = ATTACK_MAX_TIMER, whileAttackTimer;
@@ -274,8 +273,7 @@ public class LargeBodyEntity extends BaseKHEntity {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.CHARGE) {
-                if(theEntity.random.nextFloat() <= 0.2f) return true;
-                else return false;
+                return theEntity.random.nextFloat() <= 0.2f;
             }
             return true;
         }

@@ -28,7 +28,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 
 public class MarluxiaGoal extends TargetGoal {
 	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)
-	private BaseKHEntity mob;
+	private final BaseKHEntity mob;
 	private final int MAX_ARMOR_TICKS = 30 * 20, MAX_ARMOR_USES = 3;
 	private int armorTicks = 0, armorUses = 0;
 	private final int MAX_TP_TICKS = 80;
@@ -211,7 +211,7 @@ public class MarluxiaGoal extends TargetGoal {
 		
 		if(this.mob.getTarget().distanceTo(mob) <= 1) {
 			if(this.mob.getTarget() instanceof Player)
-				((Player)this.mob.getTarget()).travel(new Vec3(0,2,0));
+				this.mob.getTarget().travel(new Vec3(0,2,0));
 			this.mob.getTarget().setDeltaMovement(0,1.2,0);
         	mob.getTarget().hurt(mob.getTarget().damageSources().magic(), 2);
 		} else {

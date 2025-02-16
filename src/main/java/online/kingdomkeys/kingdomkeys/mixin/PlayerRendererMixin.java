@@ -11,23 +11,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerRenderer.class)
 public abstract class PlayerRendererMixin implements IDisabledAnimations {
 
-    @Unique private boolean disabled = false;
+    @Unique private boolean kingdom_Keys$disabled = false;
 
     @Unique
     @Override
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
+    public void kingdom_Keys$setDisabled(boolean disabled) {
+        this.kingdom_Keys$disabled = disabled;
     }
 
     @Unique
     @Override
-    public boolean isDisabled() {
-        return disabled;
+    public boolean kingdom_Keys$isDisabled() {
+        return kingdom_Keys$disabled;
     }
 
     @Inject(method = "setupRotations(Lnet/minecraft/client/player/AbstractClientPlayer;Lcom/mojang/blaze3d/vertex/PoseStack;FFFF)V", at = @At(value = "HEAD"), cancellable = true)
     public void injectSetupRotations(CallbackInfo ci) {
-        if (isDisabled()) {
+        if (kingdom_Keys$isDisabled()) {
             ci.cancel();
         }
     }

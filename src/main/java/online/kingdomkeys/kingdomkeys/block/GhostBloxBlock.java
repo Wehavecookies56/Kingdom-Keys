@@ -89,7 +89,6 @@ public class GhostBloxBlock extends BaseBlock implements SimpleWaterloggedBlock 
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return (state.getValue(VISIBLE)) ? super.getLightBlock(state, worldIn, pos) : 0;
@@ -105,13 +104,11 @@ public class GhostBloxBlock extends BaseBlock implements SimpleWaterloggedBlock 
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return (state.getValue(VISIBLE)) ? super.getCollisionShape(state, worldIn, pos, context) : Shapes.empty();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return (state.getValue(VISIBLE)) ? super.getShape(state, worldIn, pos, context) : Shapes.empty();

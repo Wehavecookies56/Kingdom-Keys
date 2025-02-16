@@ -67,7 +67,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer, shotChargeTimer = 40;
 
-        private BaseKHEntity mob;
+        private final BaseKHEntity mob;
         public BlueRhapsodyGoal(BlueRhapsodyEntity e) {
         	super(e,true);
             this.mob = e;

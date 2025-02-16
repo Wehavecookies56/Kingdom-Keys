@@ -56,47 +56,44 @@ public class LevelStats {
 		if (levelData.getMaxMp(level) > 0) {
 			cap.addMaxMP(levelData.getMaxMp(level));
 		}
-		
-		if (levelData.getAbilities(level).length > 0) {
-			for (String ability : levelData.getAbilities(level)) {
-				if (ability != null) {
-					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
-					if (a != null) {
-						cap.addAbility(ability, true);
-					}
-				}
-			}
-		}
-		
-		if (levelData.getShotlocks(level).length > 0) {
-			for (String shotlock : levelData.getShotlocks(level)) {
-				if (shotlock != null) {
-					Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
-					if (a != null) {
-						cap.addShotlockToList(shotlock, true);
-					}
-				}
-			}
-		}
-		
-		if (levelData.getSpells(level).length > 0) {
-			for (String magic : levelData.getSpells(level)) {
-				if (magic != null) {
-					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-					if (magicInstance != null) {
-						if (cap != null && cap.getMagicsMap() != null) {
-							if (!cap.getMagicsMap().containsKey(magic)) {
-								cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)), true);
-							} else {
-								cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic))+1, true);
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		if (levelData.getMaxAccessories(level) > 0) {
+
+        levelData.getAbilities(level);
+        for (String ability : levelData.getAbilities(level)) {
+            if (ability != null) {
+                Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+                if (a != null) {
+                    cap.addAbility(ability, true);
+                }
+            }
+        }
+
+        levelData.getShotlocks(level);
+        for (String shotlock : levelData.getShotlocks(level)) {
+            if (shotlock != null) {
+                Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+                if (a != null) {
+                    cap.addShotlockToList(shotlock, true);
+                }
+            }
+        }
+
+        levelData.getSpells(level);
+        for (String magic : levelData.getSpells(level)) {
+            if (magic != null) {
+                Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+                if (magicInstance != null) {
+                    if (cap != null && cap.getMagicsMap() != null) {
+                        if (!cap.getMagicsMap().containsKey(magic)) {
+                            cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)), true);
+                        } else {
+                            cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (levelData.getMaxAccessories(level) > 0) {
 			cap.addMaxAccessories(levelData.getMaxAccessories(level));
 		}
 		if (levelData.getMaxArmors(level) > 0) {

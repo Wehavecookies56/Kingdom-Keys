@@ -17,11 +17,11 @@ public class DragoonGoal extends TargetGoal {
 		private final int MAX_BALL_TICKS = 3 * 20;
 		private int ballTicks = 0;
 				
-		private final int MAX_FALL_TICKS = 1 * 20;
+		private final int MAX_FALL_TICKS = 20;
 		private int fallTicks = 0;
 		
 		private int ticksToChooseAI = 0; //Ticks in base state after an attack happened
-		private BaseKHEntity mob;
+		private final BaseKHEntity mob;
 		public DragoonGoal(PathfinderMob creature) {
 			super(creature, true);
 			ticksToChooseAI = 20;

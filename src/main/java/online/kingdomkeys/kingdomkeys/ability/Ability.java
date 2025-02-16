@@ -5,7 +5,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Ability {
 
-	public static enum AbilityType{
+	public enum AbilityType{
 		ACTION, GROWTH, SUPPORT, WEAPON, ACCESSORY
 	}
 	

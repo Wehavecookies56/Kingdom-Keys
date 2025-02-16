@@ -114,7 +114,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
     }
 
     class BombGoal extends Goal {
-        private BaseBombEntity bomb;
+        private final BaseBombEntity bomb;
 
         public BombGoal(BaseBombEntity bomb) {
             this.bomb = bomb;

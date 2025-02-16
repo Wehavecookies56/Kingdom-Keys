@@ -134,7 +134,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			if (keyblade != null) {
 				int level = keyblade.getKeybladeLevel(stack);
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade, level);
-				if (abilities.size() > 0) {
+				if (!abilities.isEmpty()) {
 					Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(0)));
 					ab = Utils.translateToLocal(a.getTranslationKey());
 					if(abilities.size() > 1) {
@@ -169,7 +169,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
                     {
                         
                         matrixStack.translate(iconPosX, iconPosY, 0);
-                        matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                        matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
                         ClientUtils.drawItemAsIcon(new ItemStack(keyblade), matrixStack, 0, 0, 16);
                         
                     }
@@ -181,11 +181,11 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
                     float abiPosX = parent.width * 0.72F;
                     float abiPosY = parent.height * 0.62F;
 					
-					String strengthStr = String.valueOf(((int) keyblade.getStrength(stack)));
-					String magicStr = String.valueOf(((int) keyblade.getMagic(stack)));
+					String strengthStr = String.valueOf(keyblade.getStrength(stack));
+					String magicStr = String.valueOf(keyblade.getMagic(stack));
 					PlayerData playerData = PlayerData.get(minecraft.player);
-					int strength = playerData.getStrength(true) + ((int) keyblade.getStrength(stack)); //TODO a
-					int magic = playerData.getMagic(true) + ((int) keyblade.getMagic(stack));
+					int strength = playerData.getStrength(true) + keyblade.getStrength(stack); //TODO a
+					int magic = playerData.getMagic(true) + keyblade.getMagic(stack);
 					
 					String totalStrengthStr = String.valueOf(strength);
                     String totalMagicStr = String.valueOf(magic);
@@ -215,7 +215,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 					List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
-					if(abilities.size() > 0) {
+					if(!abilities.isEmpty()) {
 						gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);
 						for(int i = 0; i < abilities.size();i++) {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));

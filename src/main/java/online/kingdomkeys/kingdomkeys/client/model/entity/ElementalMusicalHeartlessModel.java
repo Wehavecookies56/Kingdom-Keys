@@ -51,7 +51,7 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
     private final ModelPart HatTop4;
     private final ModelPart HatTop5;
 
-    private boolean canAnimate = true;
+    private final boolean canAnimate = true;
     private double frame;
 
     public ElementalMusicalHeartlessModel(ModelPart root) {
@@ -160,8 +160,7 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
 
         if(!Minecraft.getInstance().isPaused()) {
             if(entityIn.getState() == 1) {
-                if (entityIn instanceof BaseElementalMusicalHeartlessEntity) {
-                    BaseElementalMusicalHeartlessEntity entity = (BaseElementalMusicalHeartlessEntity) entityIn;
+                if (entityIn instanceof BaseElementalMusicalHeartlessEntity entity) {
                     if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.FIRE) {
                         if (frame < animationShootFire.length) {
                             this.Hat1.y = this.HatTop1.y = -0.2F;
@@ -229,7 +228,7 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
     }
 
     protected float degToRad(double degrees) {
-        return (float) (degrees * (double)Math.PI / 180);
+        return (float) (degrees * Math.PI / 180);
     }
 
 

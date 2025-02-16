@@ -68,11 +68,9 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target != getOwner()) {
+                if (target != getOwner()) {
 					target.invulnerableTime = 0;
 					target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
@@ -91,7 +89,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(LaserDomeShotEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(ArrowgunShotEntity.class, EntityDataSerializers.INT);
 	int type = 0;
 	
 	@Override

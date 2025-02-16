@@ -32,7 +32,7 @@ public class WeaponUnlockScreen extends Screen {
     Utils.OrgMember member;
 
     public WeaponUnlockScreen(Utils.OrgMember member) {
-        super(Component.translatable(""));
+        super(Component.literal(""));
         this.member = member;
         this.weapons = Lists.getListForMember(member);
         playerData = PlayerData.get(Minecraft.getInstance().player);
@@ -103,11 +103,11 @@ public class WeaponUnlockScreen extends Screen {
         addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
     		actionPerformed(CANCEL);
 		}).bounds(0, 0, 50, 20).build());
-        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
     		actionPerformed(NEXT);
 		}).bounds(0, 0, 20, 20).build());
         
-        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
     		actionPerformed(PREV);
 		}).bounds(0, 0, 20, 20).build());
 
@@ -225,16 +225,9 @@ public class WeaponUnlockScreen extends Screen {
                 if (playerData.isWeaponUnlocked(getStarterWeapon(leftMember))) {
                     return true;
                 }
-                if (playerData.isWeaponUnlocked(getStarterWeapon(rightMember))) {
-                    return true;
-                }
-                return false;
+                return playerData.isWeaponUnlocked(getStarterWeapon(rightMember));
             } else {
-                if (playerData.isWeaponUnlocked(weapons.get(current - 1))) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return playerData.isWeaponUnlocked(weapons.get(current - 1));
             }
         } else {
             return false;
@@ -257,11 +250,7 @@ public class WeaponUnlockScreen extends Screen {
         } else {
             unlock = true;
             select.setMessage(Component.translatable("Unlock"));
-            if (canUnlock()) {
-                select.active = true;
-            } else {
-                select.active = false;
-            }
+            select.active = canUnlock();
         }
         next.visible = true;
         next.setX((width / 2) - (next.getWidth() / 2) + 128);

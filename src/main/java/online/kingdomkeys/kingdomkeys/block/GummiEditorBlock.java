@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.SimpleMapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +11,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
@@ -74,12 +74,10 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, IN
 
 		MenuProvider namedContainerProvider = this.getMenuProvider(state, level, pos);
 		if (namedContainerProvider != null) {
-			if (!(player instanceof ServerPlayer))
+			if (!(player instanceof ServerPlayer serverPlayerEntity))
 				return ItemInteractionResult.FAIL;
-			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof GummiEditorTileEntity) {
-				GummiEditorTileEntity te = (GummiEditorTileEntity) level.getBlockEntity(pos);
-				if (te != null) {
+            if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof GummiEditorTileEntity te) {
+                if (te != null) {
 					serverPlayerEntity.openMenu(namedContainerProvider, (packetBuffer) -> {
 						packetBuffer.writeBlockPos(pos);
 					});

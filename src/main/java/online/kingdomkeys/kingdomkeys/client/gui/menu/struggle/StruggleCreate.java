@@ -6,7 +6,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -103,21 +102,21 @@ public class StruggleCreate extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 
-		addRenderableWidget(togglePriv = Button.builder(Component.translatable(""), (e) -> {
+		addRenderableWidget(togglePriv = Button.builder(Component.literal(""), (e) -> {
 			action("togglePriv");
 		}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
 		
 		addRenderableWidget(accept = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
 			action("accept");
-		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), (int) 100, 20).build());
+		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), 100, 20).build());
 		
 		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.partyMembersLimit+""), (e) -> {
 			action("size");
-		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), (int) 20, 20).build());
+		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), 20, 20).build());
 		
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
-		addRenderableWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, Component.translatable("")) {
+		addRenderableWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, Component.literal("")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				super.charTyped(c, i);

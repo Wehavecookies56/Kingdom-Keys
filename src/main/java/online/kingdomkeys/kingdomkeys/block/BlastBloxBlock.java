@@ -60,7 +60,6 @@ public class BlastBloxBlock extends BaseBlock {
     }
 
     //Explode if powered when placed
-    @SuppressWarnings("deprecation")
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!oldState.is(state.getBlock())) {
@@ -71,7 +70,6 @@ public class BlastBloxBlock extends BaseBlock {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         //Trigger explosion with redstone power
@@ -93,29 +91,22 @@ public class BlastBloxBlock extends BaseBlock {
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         if (!level.isClientSide) {
-            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, explosion.getIndirectSourceEntity());
+            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getIndirectSourceEntity());
             int i = primedtnt.getFuse();
             primedtnt.setFuse((short)(level.random.nextInt(i / 4) + i / 8));
             level.addFreshEntity(primedtnt);
         }
     }
 
-    @Deprecated //Forge: Prefer using IForgeBlock#catchFire
-    public static void explode(Level level, BlockPos pos) {
-        explode(level, pos, null);
-    }
-
-    @Deprecated //Forge: Prefer using IForgeBlock#catchFire
     private static void explode(Level level, BlockPos pos, @Nullable LivingEntity entity) {
         if (!level.isClientSide) {
-            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, (double)pos.getY(), (double)pos.getZ() + 0.5, entity);
+            BlastBloxEntity primedtnt = new BlastBloxEntity(level, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, entity);
             level.addFreshEntity(primedtnt);
             level.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
             level.gameEvent(entity, GameEvent.PRIME_FUSE, pos);
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
         //Explode when clicked unless the player is holding a feather in their main hand
@@ -160,7 +151,6 @@ public class BlastBloxBlock extends BaseBlock {
     }
 
     //Explode when collided with an entity
-    @SuppressWarnings("deprecation")
     @Override
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entity) {
         if (!worldIn.isClientSide) {
@@ -169,7 +159,6 @@ public class BlastBloxBlock extends BaseBlock {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return collisionShape;
@@ -178,7 +167,7 @@ public class BlastBloxBlock extends BaseBlock {
     //Explode when walked on by an entity
     @Override
     public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
-        this.explode(world, pos, entity instanceof LivingEntity ? (LivingEntity) entity : null);
+        explode(world, pos, entity instanceof LivingEntity ? (LivingEntity) entity : null);
         world.removeBlock(pos, false);
     }
 

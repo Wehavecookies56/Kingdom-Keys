@@ -14,7 +14,7 @@ public class MenuBar extends Screen {
     boolean flipGradient;
 
     public MenuBar(int posX, int posY, int width, int height, boolean flipGradient) {
-		super(Component.translatable(""));
+		super(Component.literal(""));
         this.posX = posX;
         this.posY = posY;
         this.width = width;

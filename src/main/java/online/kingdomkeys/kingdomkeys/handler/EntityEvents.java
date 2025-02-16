@@ -796,7 +796,7 @@ public class EntityEvents {
 
 						if (!list.isEmpty()) {
 							for (int i = 0; i < list.size(); i++) {
-								Entity e = (Entity) list.get(i);
+								Entity e = list.get(i);
 								if (e instanceof LivingEntity) {
 									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
 								}
@@ -1049,9 +1049,8 @@ public class EntityEvents {
 					}
 				}
 			}
-			if (event.getSource().getEntity() instanceof LivingEntity) { // If attacker is a LivingEntity
-				LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
-				LivingEntity target = event.getEntity();
+			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
+                LivingEntity target = event.getEntity();
 
 				if (attacker instanceof Player && target instanceof Player) {
 					Party p = WorldData.get(attacker.getServer()).getPartyFromMember(attacker.getUUID());
@@ -1072,9 +1071,8 @@ public class EntityEvents {
 				}
 
 				GlobalData globalData = GlobalData.get(target);
-				if (globalData != null && event.getSource().getEntity() instanceof Player) {
-					Player source = (Player) event.getSource().getEntity();
-					if (globalData.getStoppedTicks() > 0) {
+				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
+                    if (globalData.getStoppedTicks() > 0) {
 						float dmg = event.getAmount();
 						if (event.getSource().getEntity() instanceof Player) {
 							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
@@ -1134,18 +1132,9 @@ public class EntityEvents {
 				// TODO more sophisticated and dynamic way to do this
 				// Give hearts
 				if (player.getMainHandItem().getItem() instanceof IOrgWeapon || player.getMainHandItem().getItem() instanceof KeybladeItem || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
-					int multiplier = 1;
-					if (player.getMainHandItem().getItem() instanceof IOrgWeapon) {
-						IOrgWeapon weapon = (IOrgWeapon) player.getMainHandItem().getItem();
-						if (weapon.getMember() == playerData.getAlignment() || (event.getSource().getDirectEntity() instanceof KKThrowableEntity && playerData.getAlignment() == OrgMember.AXEL)) { // If the item used to kill is for the correct alignment OR if it's been a
-							// throwable entity and the player is Axel (probably the only case so far which
-							// could be true)
-							multiplier = 2;
-						}
-					}
-					if (event.getEntity() instanceof IKHMob) {
-						IKHMob mob = (IKHMob) event.getEntity();
-						if (mob.getKHMobType() == MobType.HEARTLESS_EMBLEM) {
+					int multiplier = getMultiplier(event, player, playerData);
+					if (event.getEntity() instanceof IKHMob mob) {
+                        if (mob.getKHMobType() == MobType.HEARTLESS_EMBLEM) {
 							playerData.addHearts((int) ((20 * multiplier) * ModConfigs.heartMultiplier));
 						}
 					} else if (event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
@@ -1155,12 +1144,11 @@ public class EntityEvents {
 					} else if (event.getEntity() instanceof Monster) {
 						playerData.addHearts((int) ((2 * multiplier) * ModConfigs.heartMultiplier));
 					} else {
-						playerData.addHearts((int) ((1 * multiplier) * ModConfigs.heartMultiplier));
+						playerData.addHearts((int) ((multiplier) * ModConfigs.heartMultiplier));
 					}
 				}
-				if (event.getEntity() instanceof IKHMob) {
-					IKHMob heartless = (IKHMob) event.getEntity();
-					if (heartless.getKHMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
+				if (event.getEntity() instanceof IKHMob heartless) {
+                    if (heartless.getKHMobType() == MobType.HEARTLESS_EMBLEM && Utils.getWeaponDamageStack(event.getSource(), player) != null && Utils.getWeaponDamageStack(event.getSource(), player).getItem() instanceof KeybladeItem) {
 						HeartEntity heart = new HeartEntity(event.getEntity().level());
 						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
 						event.getEntity().level().addFreshEntity(heart);
@@ -1176,7 +1164,7 @@ public class EntityEvents {
 
 				if (event.getEntity().getClassification(false) == MobCategory.MONSTER) {
 					if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
-						LivingEntity mob = (LivingEntity) event.getEntity();
+						LivingEntity mob = event.getEntity();
 
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
@@ -1320,11 +1308,22 @@ public class EntityEvents {
 		}
 	}
 
+	private static int getMultiplier(LivingDeathEvent event, Player player, PlayerData playerData) {
+		int multiplier = 1;
+		if (player.getMainHandItem().getItem() instanceof IOrgWeapon weapon) {
+			if (weapon.getMember() == playerData.getAlignment() || (event.getSource().getDirectEntity() instanceof KKThrowableEntity && playerData.getAlignment() == OrgMember.AXEL)) { // If the item used to kill is for the correct alignment OR if it's been a
+				// throwable entity and the player is Axel (probably the only case so far which
+				// could be true)
+				multiplier = 2;
+			}
+		}
+		return multiplier;
+	}
+
 	@SubscribeEvent
 	public void onFall(LivingFallEvent event) {
-		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			PlayerData playerData = PlayerData.get(player);
+		if (event.getEntity() instanceof Player player) {
+            PlayerData playerData = PlayerData.get(player);
 			// Check to prevent edge case crash
 			if (playerData != null && playerData.getActiveDriveForm() != null) {
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
@@ -1401,9 +1400,8 @@ public class EntityEvents {
 			if (e.getTo() == ModDimensions.STATION_OF_SORROW) {
 				BlockPos blockPos = player.blockPosition().below(2);
 				world.setBlock(blockPos, ModBlocks.sorCore.get().defaultBlockState(), 2);
-				if (world.getBlockEntity(blockPos) instanceof SoRCoreTileEntity) {
-					SoRCoreTileEntity te = (SoRCoreTileEntity) world.getBlockEntity(blockPos);
-					te.setUUID(player.getUUID());
+				if (world.getBlockEntity(blockPos) instanceof SoRCoreTileEntity te) {
+                    te.setUUID(player.getUUID());
 				}
 			}
 

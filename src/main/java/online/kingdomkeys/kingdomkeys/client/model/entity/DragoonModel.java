@@ -327,8 +327,8 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
         		this.body.xRot = 0;
 
 
-        		if(animation.size() > 0) {
-	                animation.get(0).animate();
+        		if(!animation.isEmpty()) {
+	                animation.getFirst().animate();
 	        	}
         		
         	} else if(entity.getState() == 1) { //Ball-shape

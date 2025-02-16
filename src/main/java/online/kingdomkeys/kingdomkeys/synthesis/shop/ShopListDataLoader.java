@@ -61,7 +61,7 @@ public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
                         result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
                     } catch (JsonParseException e) {
                         //System.out.println(file+" is having issues "+shopList);
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                         continue;
                     }
                     ShopListRegistry.getInstance().register(result);

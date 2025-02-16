@@ -22,7 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
@@ -41,7 +40,7 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (entitylivingbaseIn instanceof AbstractClientPlayer) {
 			LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) entitylivingbaseIn);
-			if (!((IDisabledAnimations) renderer).isDisabled()) {
+			if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
 				renderEntity(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
 			}
 		} else {
@@ -67,7 +66,7 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 						if (entitylivingbaseIn instanceof Player) {
 							scale = 0.75F * i;
 							matrixStackIn.scale(scale, scale * 1.2F, scale);
-							matrixStackIn.translate(0.0D, (double) (-0.4F + 0.8F * (float) i), 0.0D);
+							matrixStackIn.translate(0.0D, -0.4F + 0.8F * (float) i, 0.0D);
 						} else {
 							scale = 0.35F * i;
 							matrixStackIn.scale(scale, scale, scale);
@@ -77,8 +76,8 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 					case 1:
 						if (entitylivingbaseIn instanceof Player) {
 							scale = 0.85F * i;
-							matrixStackIn.scale(scale, scale * 1F, scale);
-							matrixStackIn.translate(0.0D, (double) (-0.8F + 0.8F * (float) i), 0.0D);
+							matrixStackIn.scale(scale, scale, scale);
+							matrixStackIn.translate(0.0D, -0.8F + 0.8F * (float) i, 0.0D);
 						} else {
 							scale = 0.45F * i;
 							matrixStackIn.scale(scale, scale, scale);
@@ -89,7 +88,7 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 						if (entitylivingbaseIn instanceof Player) {
 							scale = 0.7F * i;
 							matrixStackIn.scale(scale, scale * 0.6F, scale);
-							matrixStackIn.translate(0.0D, (double) (-1.2F + 0.6F * (float) i), 0.0D);
+							matrixStackIn.translate(0.0D, -1.2F + 0.6F * (float) i, 0.0D);
 						} else {
 							scale = 0.55F * i;
 							matrixStackIn.scale(scale, scale * 0.6F, scale);

@@ -165,7 +165,7 @@ public class ModSounds {
             Music_What_Lies_Beneath = registerSound("music.what_lies_beneath"),
             Music_Working_Together = registerSound("music.working_together")
                     */
-                    ;
+
     public static DeferredHolder<SoundEvent, SoundEvent> registerSound(String name) {
         final ResourceLocation soundID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name);
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(soundID));

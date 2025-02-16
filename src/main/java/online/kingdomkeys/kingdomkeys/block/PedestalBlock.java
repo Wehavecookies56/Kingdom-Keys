@@ -17,11 +17,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -62,12 +60,10 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 
 		MenuProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
-			if (!(player instanceof ServerPlayer))
+			if (!(player instanceof ServerPlayer serverPlayerEntity))
 				return ItemInteractionResult.FAIL;
-			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof PedestalTileEntity) {
-				PedestalTileEntity te = (PedestalTileEntity) worldIn.getBlockEntity(pos);
-				if (te != null) {
+            if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof PedestalTileEntity te) {
+                if (te != null) {
 					if (te.isStationOfAwakeningMarker()) {
 						PlayerData playerData = PlayerData.get(player);
 						SoAState soAState = playerData.getSoAState();

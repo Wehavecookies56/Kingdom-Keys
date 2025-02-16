@@ -89,10 +89,9 @@ public class FirazaEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-				if (target != getOwner()) {
+                if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
 						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
@@ -133,7 +132,7 @@ public class FirazaEntity extends ThrowableProjectile {
 				
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
-						Entity e = (Entity) list.get(i);
+						Entity e = list.get(i);
 						if (e instanceof LivingEntity) {
 							e.setRemainingFireTicks(25);
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;

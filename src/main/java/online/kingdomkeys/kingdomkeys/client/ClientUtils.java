@@ -48,7 +48,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -232,9 +231,9 @@ public class ClientUtils {
 
   //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
   	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
-  		float f = (float)Math.atan((double)(pMouseX / 40.0F));
-  		float f1 = (float)Math.atan((double)(pMouseY / 40.0F));
-  		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, (Player) pLivingEntity);
+  		float f = (float)Math.atan(pMouseX / 40.0F);
+  		float f1 = (float)Math.atan(pMouseY / 40.0F);
+  		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, pLivingEntity);
   	}
 
     public static boolean disableEFMAnims = false;
@@ -264,7 +263,7 @@ public class ClientUtils {
         posestack.translate(0.0F, 0.0F, 1000.0F);
         RenderSystem.applyModelViewMatrix();
         p_275396_.pushPose();
-        p_275396_.translate((double) p_275688_, (double) p_275245_, -950.0D);
+        p_275396_.translate(p_275688_, p_275245_, -950.0D);
         p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
         p_275396_.mulPose(quaternionf);
         Lighting.setupForEntityInInventory();
@@ -278,11 +277,11 @@ public class ClientUtils {
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
         RenderSystem.runAsFancy(() -> {
             LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
-            ((IDisabledAnimations) renderer).setDisabled(true);
+            ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(true);
             disableEFMAnims = true;
             renderer.render((AbstractClientPlayer) p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
             renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
-            ((IDisabledAnimations) renderer).setDisabled(false);
+            ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(false);
             disableEFMAnims = false;
         });
 

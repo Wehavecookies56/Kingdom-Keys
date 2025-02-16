@@ -122,8 +122,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party == null) {
 			PacketHandler.sendToServer(new CSOpenMenu());
-			return;
-		} else {			
+        } else {
 			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
 				minecraft.setScreen(new GuiMenu_Party_Member());
 				return;
@@ -219,7 +218,7 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				
 				matrixStack.pushPose();
 				{
-					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
+					matrixStack.translate(infoBoxPosX + 8, infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
 					// matrixStack.scale(0.75F, 0.75F, 1);
 					gui.drawString(minecraft.font, member.getUsername(), 0, 0, 0xFFFFFF);
 				}
@@ -239,9 +238,9 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 						mMP = (int) playerData.getMaxMP();
 					}
 				}
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + level, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + cHP + "/" + mHP, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + cMP + "/" + mMP, (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": " + level, infoBoxPosX + 4, infoBoxPosY + 26, 0xFFD900);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + cHP + "/" + mHP, infoBoxPosX + 4, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + cMP + "/" + mMP, infoBoxPosX + 4, infoBoxPosY + 26 + (minecraft.font.lineHeight * 2), 0x4444FF);
 
 			}
 			matrixStack.popPose();

@@ -141,11 +141,9 @@ public class WateraEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity) {
+			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target.isOnFire()) {
+                if (target.isOnFire()) {
 					target.clearFire();
 				} else {
 					if (target != getOwner()) {

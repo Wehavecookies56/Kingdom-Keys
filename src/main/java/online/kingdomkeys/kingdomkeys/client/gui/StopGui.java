@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 public class StopGui extends Screen {
 
 	public StopGui() {
-		super(Component.translatable(""));
+		super(Component.literal(""));
 		minecraft = Minecraft.getInstance();
 	}
 

@@ -19,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class CardSelectButton extends MenuButtonBase {
 
-    private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     ItemStack stack;
     MapCardItem card;

@@ -1,18 +1,11 @@
 package online.kingdomkeys.kingdomkeys.item;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -73,7 +66,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	// Level 0 = no upgrades, will use base stats in the data file
 	public KeybladeData data;
 
-	private Item.Properties properties;
+	private final Item.Properties properties;
 	
 	public Recipe recipe;
 
@@ -319,7 +312,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
 				while(it.hasNext()) {
 					Entry<Material, Integer> mat = it.next();
-					tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
+					tooltip.add(Component.translatable(ChatFormatting.WHITE+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
 				}
 			}
 		} else {

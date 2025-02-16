@@ -38,7 +38,7 @@ public class StreamCodecs {
             Iterator<Map.Entry<String, int[]>> magicsIt = value.entrySet().iterator();
             while (magicsIt.hasNext()) {
                 Map.Entry<String, int[]> pair = magicsIt.next();
-                magic.putIntArray(pair.getKey().toString(), pair.getValue());
+                magic.putIntArray(pair.getKey(), pair.getValue());
             }
             buffer.writeNbt(magic);
         }

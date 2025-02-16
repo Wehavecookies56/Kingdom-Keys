@@ -40,8 +40,8 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 	}
 
 	@Override
-	protected void init() {;
-		bagLevel = menu.bag.getOrDefault(ModComponents.SYNTH_BAG_LEVEL, 0);
+	protected void init() {
+        bagLevel = menu.bag.getOrDefault(ModComponents.SYNTH_BAG_LEVEL, 0);
 		this.imageHeight = texHeight[bagLevel];
 		this.imageWidth = 193;
 		addRenderableWidget(upgradeButton = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {

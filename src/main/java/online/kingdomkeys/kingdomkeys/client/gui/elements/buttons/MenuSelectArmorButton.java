@@ -138,7 +138,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 					matrixStack.pushPose();
                     {
                         matrixStack.translate(iconPosX, iconPosY, 0);
-                        matrixStack.scale((float) (0.0625F * iconHeight), (float) (0.0625F * iconHeight), 1);
+                        matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
                         ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
@@ -163,12 +163,10 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 						magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
 						int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
 						abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
-					} else if (stack.getItem() instanceof IOrgWeapon) {
-						final IOrgWeapon orgWeapon = (IOrgWeapon) stack.getItem();
-						strength = orgWeapon.getStrength();
+					} else if (stack.getItem() instanceof IOrgWeapon orgWeapon) {
+                        strength = orgWeapon.getStrength();
 						magic = orgWeapon.getMagic();
-                    } else if (stack.getItem() instanceof KKArmorItem) {
-                        KKArmorItem armorItem = (KKArmorItem) stack.getItem();
+                    } else if (stack.getItem() instanceof KKArmorItem armorItem) {
                         resistances = armorItem.getResList();
                     	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
@@ -191,9 +189,8 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	                    int oldAP=0,oldStr=0,oldMag=0;
 	                    PlayerData playerData = PlayerData.get(minecraft.player);
                     	ItemStack replacedAccessory = playerData.getEquippedAccessory(parent.slot);
-                    	if(!ItemStack.matches(replacedAccessory, ItemStack.EMPTY) && replacedAccessory.getItem() instanceof KKAccessoryItem){
-                    		KKAccessoryItem oldAccessory = (KKAccessoryItem) replacedAccessory.getItem();
-                    		oldAP = oldAccessory.getAp();
+                    	if(!ItemStack.matches(replacedAccessory, ItemStack.EMPTY) && replacedAccessory.getItem() instanceof KKAccessoryItem oldAccessory){
+                            oldAP = oldAccessory.getAp();
             				oldStr = oldAccessory.getStr();
     						oldMag = oldAccessory.getMag();	
                     	}
@@ -201,9 +198,8 @@ public class MenuSelectArmorButton extends MenuButtonBase {
                     	ImmutableMap<KKResistanceType, Integer> oldResistances = null;
                     	int oldDefense = 0;
                     	ItemStack replacedArmor = playerData.getEquippedArmor(parent.slot);
-                    	if(!ItemStack.matches(replacedArmor, ItemStack.EMPTY) && replacedArmor.getItem() instanceof KKArmorItem){
-                    		KKArmorItem oldArmor = (KKArmorItem) replacedArmor.getItem();
-                    		oldDefense = oldArmor.getDefense();
+                    	if(!ItemStack.matches(replacedArmor, ItemStack.EMPTY) && replacedArmor.getItem() instanceof KKArmorItem oldArmor){
+                            oldDefense = oldArmor.getDefense();
                     		oldResistances = oldArmor.getResList();	
                     	}
 

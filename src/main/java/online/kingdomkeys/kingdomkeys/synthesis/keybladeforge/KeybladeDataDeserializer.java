@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Custom deserializer for Keyblade Data json files located in
@@ -75,54 +76,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			case "levels":
 				// A keyblade without a keychain doesn't have upgrades so only read levels if it does have one
 				if (out.keychain != null) {
-					List<KeybladeLevel> levels = new ArrayList<>();
-					JsonArray levelsArray = element.getAsJsonArray();
-					levelsArray.forEach(e -> {
-						KeybladeLevel level = new KeybladeLevel();
-						Map<Material, Integer> recipe = new LinkedHashMap<>();
-						JsonObject levelObject = e.getAsJsonObject();
-						levelObject.entrySet().forEach(levelEntry -> {
-							JsonElement levelElement = levelEntry.getValue();
-							switch (levelEntry.getKey()) {
-							case "str":
-								level.setStrength(levelElement.getAsInt());
-								break;
-							case "mag":
-								level.setMagic(levelElement.getAsInt());
-								break;
-							case "recipe":
-								JsonArray recipeArray = levelElement.getAsJsonArray();
-								recipeArray.forEach(ingredient -> {
-									JsonObject ingredientObject = ingredient.getAsJsonObject();
-									Material m = null;
-									int quantity = 0;
-									boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
-									if (valid) {
-										m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
-										if (m == null) {
-											throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
-										} else {
-											quantity = ingredientObject.get("quantity").getAsInt();
-											recipe.put(m, quantity);
-										}
-									} else {
-										throw new JsonParseException("Invalid recipe ingredient, missing material/quantity" + json);
-									}
-									level.setMaterials(recipe);
-								});
-								break;
-							case "ability":
-								String name = levelElement.getAsString();
-								if(ModAbilities.registry.containsKey(ResourceLocation.parse(name))) {
-									level.setAbility(levelElement.getAsString());
-								} else {
-									KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+out.keychain);
-								}
-								break;
-							}
-						});
-						levels.add(level);
-					});
+					List<KeybladeLevel> levels = getKeybladeLevels(json, element, out);
 					out.setLevels(levels);
 				}
 				break;
@@ -133,5 +87,57 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			}
 		});
 		return out;
+	}
+
+	private static @NotNull List<KeybladeLevel> getKeybladeLevels(JsonElement json, JsonElement element, KeybladeData out) {
+		List<KeybladeLevel> levels = new ArrayList<>();
+		JsonArray levelsArray = element.getAsJsonArray();
+		levelsArray.forEach(e -> {
+			KeybladeLevel level = new KeybladeLevel();
+			Map<Material, Integer> recipe = new LinkedHashMap<>();
+			JsonObject levelObject = e.getAsJsonObject();
+			levelObject.entrySet().forEach(levelEntry -> {
+				JsonElement levelElement = levelEntry.getValue();
+				switch (levelEntry.getKey()) {
+				case "str":
+					level.setStrength(levelElement.getAsInt());
+					break;
+				case "mag":
+					level.setMagic(levelElement.getAsInt());
+					break;
+				case "recipe":
+					JsonArray recipeArray = levelElement.getAsJsonArray();
+					recipeArray.forEach(ingredient -> {
+						JsonObject ingredientObject = ingredient.getAsJsonObject();
+						Material m = null;
+						int quantity = 0;
+						boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
+						if (valid) {
+							m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
+							if (m == null) {
+								throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
+							} else {
+								quantity = ingredientObject.get("quantity").getAsInt();
+								recipe.put(m, quantity);
+							}
+						} else {
+							throw new JsonParseException("Invalid recipe ingredient, missing material/quantity" + json);
+						}
+						level.setMaterials(recipe);
+					});
+					break;
+				case "ability":
+					String name = levelElement.getAsString();
+					if(ModAbilities.registry.containsKey(ResourceLocation.parse(name))) {
+						level.setAbility(levelElement.getAsString());
+					} else {
+						KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+ out.keychain);
+					}
+					break;
+				}
+			});
+			levels.add(level);
+		});
+		return levels;
 	}
 }

@@ -20,7 +20,9 @@ import online.kingdomkeys.kingdomkeys.entity.mob.NobodyCreeperEntity;
 
 public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, NobodyCreeperModel<NobodyCreeperEntity>> {
 
-    private ResourceLocation texture, swordTexture, spearTexture;
+    private final ResourceLocation texture;
+    private final ResourceLocation swordTexture;
+    private final ResourceLocation spearTexture;
 
     public NobodyCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new NobodyCreeperModel<>(context.bakeLayer(NobodyCreeperModel.LAYER_LOCATION)), 0.35F);
@@ -51,8 +53,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
         float f = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
         float f1 = Mth.rotLerp(partialTicks, entityIn.yHeadRotO, entityIn.yHeadRot);
         float f2 = f1 - f;
-        if (shouldSit && entityIn.getVehicle() instanceof LivingEntity) {
-            LivingEntity livingentity = (LivingEntity)entityIn.getVehicle();
+        if (shouldSit && entityIn.getVehicle() instanceof LivingEntity livingentity) {
             f = Mth.rotLerp(partialTicks, livingentity.yBodyRotO, livingentity.yBodyRot);
             f2 = f1 - f;
             float f3 = Mth.wrapDegrees(f2);
@@ -77,7 +78,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
             Direction direction = entityIn.getBedOrientation();
             if (direction != null) {
                 float f4 = entityIn.getEyeHeight(Pose.STANDING) - 0.1F;
-                matrixStackIn.translate((double)((float)(-direction.getStepX()) * f4), 0.0D, (double)((float)(-direction.getStepZ()) * f4));
+                matrixStackIn.translate((float)(-direction.getStepX()) * f4, 0.0D, (float)(-direction.getStepZ()) * f4);
             }
         }
 
@@ -85,7 +86,7 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
         this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks, entityIn.getScale());
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
         this.scale(entityIn, matrixStackIn, partialTicks);
-        matrixStackIn.translate(0.0D, (double)-1.501F, 0.0D);
+        matrixStackIn.translate(0.0D, -1.501F, 0.0D);
         float f8 = 0.0F;
         float f5 = 0.0F;
         if (!shouldSit && entityIn.isAlive()) {

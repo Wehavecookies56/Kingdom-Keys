@@ -39,9 +39,8 @@ public class FocusOrbEntity extends ItemDropEntity {
 		List<Entity> list = level().getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i) instanceof ItemDropEntity) {
-					ItemDropEntity e = (ItemDropEntity) list.get(i);
-					if(e instanceof FocusOrbEntity) {
+				if(list.get(i) instanceof ItemDropEntity e) {
+                    if(e instanceof FocusOrbEntity) {
 						if(this.tickCount > e.tickCount) {
 							this.value += e.value;
 							e.remove(RemovalReason.KILLED);

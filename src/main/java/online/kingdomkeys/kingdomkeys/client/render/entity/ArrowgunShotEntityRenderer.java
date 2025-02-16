@@ -21,7 +21,7 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntity> {
 
-	private CubeModel model;
+	private final CubeModel model;
 	private Color color;
 
 	public ArrowgunShotEntityRenderer(EntityRendererProvider.Context context) {

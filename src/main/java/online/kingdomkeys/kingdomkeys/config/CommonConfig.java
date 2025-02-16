@@ -125,7 +125,7 @@ public class CommonConfig {
         mobSpawnRate = builder
                 .comment("Mob Spawn chance in percentage [type, chance] (if the chance doesn't add up to 100, enemies will not spawn)")
                 .translation(KingdomKeys.MODID + ".config.mob_spawn")
-                .defineList("mobSpawn", Lists.newArrayList("Pureblood,35", "Emblem,35", "Nobody,30"), o -> o instanceof String);
+                .defineList("mobSpawn", Lists.newArrayList("Pureblood,35", "Emblem,35", "Nobody,30"), () -> "Pureblood,35", o -> o instanceof String);
 
         playerSpawnHeartless = builder
                 .comment("Allow a heartless and a nobody to spawn when a player gets killed by a heartless")
@@ -150,7 +150,7 @@ public class CommonConfig {
         playerSpawnHeartlessData = builder
                 .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
                 .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
-                .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), o -> o instanceof String);
+                .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), () -> "Heartless,100,100", o -> o instanceof String);
         
         respawnROD = builder
                 .comment("Force players who die in the Realm of Darkness to respawn there")

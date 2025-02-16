@@ -41,7 +41,7 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 	protected double distanceMovedTotal = 0.0D;
 	public double CYCLES_PER_BLOCK = 2;
 	protected int cycleIndex = 0;
-	private int[][] ticksForWalkingAnimation = new int[][] { { 0, -90 }, { 100, 2 }, { 51, -51 } };
+	private final int[][] ticksForWalkingAnimation = new int[][] { { 0, -90 }, { 100, 2 }, { 51, -51 } };
 
 	// Walking animation
 	protected double[][] animationWalk = new double[][] { { 0, 100, 51, -90, 2, -46 }, { -40, 51, 0, -40, 51, 0 }, { -90, 2, -46, 0, 100, 51 }, { -90, 2, -46, 0, 100, 51 }, { -40, 51, 0, -40, 51, 0 }, { 0, 100, -51, -90, 2, -46 }, };
@@ -164,6 +164,6 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 	}
 
 	protected float degToRad(double degrees) {
-		return (float) (degrees * (double) Math.PI / 180);
+		return (float) (degrees * Math.PI / 180);
 	}
 }

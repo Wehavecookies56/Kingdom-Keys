@@ -194,11 +194,7 @@ public class SavePointScreen extends MenuBackground {
 
     private void updateButtons() {
         if (create) {
-            if (nameField.getValue().isEmpty()) {
-                save.active = false;
-            } else {
-                save.active = true;
-            }
+            save.active = !nameField.getValue().isEmpty();
         } else {
 
         }
@@ -307,7 +303,7 @@ public class SavePointScreen extends MenuBackground {
         int yPos = 0;
         Comparator<? super Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>>> comparator = getSortedList(sorting);
         comparator = ordering == 0 ? comparator : comparator.reversed();
-        List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(comparator).map(Map.Entry::getKey).collect(Collectors.toList());;
+        List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(comparator).map(Map.Entry::getKey).collect(Collectors.toList());
         sortedList.add(0, tileEntity.getID());
         for (UUID uuid : sortedList) {
             SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();

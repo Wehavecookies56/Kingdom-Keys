@@ -1,17 +1,11 @@
 package online.kingdomkeys.kingdomkeys.data;
 
-import java.time.Instant;
-import java.util.*;
-import java.util.Map.Entry;
-
 import com.google.common.collect.Lists;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,7 +23,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.advancements.KKLevelUpTrigger;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -61,6 +54,10 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.util.Utils.castMagic;
+
+import java.time.Instant;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class PlayerData implements INBTSerializable<CompoundTag> {
 
@@ -293,7 +290,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setFP(nbt.getDouble("fp"));
 		this.setActiveDriveForm(nbt.getString("drive_form"));
 		this.setAntiPoints(nbt.getInt("anti_points"));
-		this.setReflectTicks(nbt.getInt("reflect_ticks"), ((CompoundTag) nbt).getInt("reflect_level"));
+		this.setReflectTicks(nbt.getInt("reflect_ticks"), nbt.getInt("reflect_level"));
 		this.setReflectActive(nbt.getBoolean("reflect_active"));
 		this.setMunny(nbt.getInt("munny"));
 		this.setSoAState(SoAState.fromByte(nbt.getByte("soa_state")));
@@ -601,7 +598,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public int getExpNeeded(int level, int currentExp) {
 		if (level == 100)
 			return 0;
-		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25));
+		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25);
 		this.remainingExp = ((int) nextLevel - currentExp);
 		return remainingExp;
 	}
@@ -874,9 +871,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void remVisibleDriveForm(String form) {
-		if(visibleDriveforms.contains(form)) {
-			visibleDriveforms.remove(form);
-		}
+        visibleDriveforms.remove(form);
 		
 	}
 
@@ -1144,9 +1139,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void removeShotlockFromList(String shotlock) {
-		if (shotlockList.contains(shotlock)) {
-			shotlockList.remove(shotlock);
-		}
+        shotlockList.remove(shotlock);
 	}
 
 	//endregion
@@ -1196,9 +1189,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedKeychain(form) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
 				//If there is more than 1 item in the stack don't handle it
-				if (stack.getCount() <= 1) {
-					return true;
-				}
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1246,9 +1237,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedItem(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
 				//If there is more than 1 item in the stack don't handle it
-				if (stack.getCount() <= 1) {
-					return true;
-				}
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1296,9 +1285,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedAccessory(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
 				//If there is more than 1 item in the stack don't handle it
-				if (stack.getCount() <= 1) {
-					return true;
-				}
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1346,9 +1333,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedKBArmor(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof PauldronItem) {
 				//If there is more than 1 item in the stack don't handle it
-				if (stack.getCount() <= 1) {
-					return true;
-				}
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1409,9 +1394,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedArmor(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKArmorItem) {
 				//If there is more than 1 item in the stack don't handle it
-				if (stack.getCount() <= 1) {
-					return true;
-				}
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -2043,7 +2026,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public int getSynthExpNeeded(int level, int currentExp) {
 		if (level > 7)
 			return 0;
-		double nextLevel = (double) ((level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25));
+		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25);
 		remainingSynthExp = ((int) nextLevel - currentExp);
 		return remainingSynthExp;
 	}

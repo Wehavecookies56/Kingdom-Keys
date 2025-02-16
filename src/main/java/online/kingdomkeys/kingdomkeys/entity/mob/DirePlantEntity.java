@@ -60,7 +60,7 @@ public class DirePlantEntity extends BaseKHEntity {
         private boolean canUseAttack = true;
         private int attackTimer = 30;
 
-        private BaseKHEntity mob;
+        private final BaseKHEntity mob;
 
         public SeedGoal(DirePlantEntity e) {
         	super(e, true);

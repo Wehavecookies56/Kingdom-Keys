@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.levelgen.blending.Blender;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class CastleOblivionInteriorChunkGenerator extends ChunkGenerator {
 

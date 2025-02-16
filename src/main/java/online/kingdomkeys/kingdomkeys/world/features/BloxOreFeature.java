@@ -33,13 +33,13 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
         float f = rand.nextFloat() * (float)Math.PI;
         float f1 = (float)config.size / 8.0F;
         int i = Mth.ceil(((float)config.size / 16.0F * 2.0F + 1.0F) / 2.0F);
-        double d0 = (double)(pos.getX() + Mth.sin(f) * f1);
-        double d1 = (double)(pos.getX() - Mth.sin(f) * f1);
-        double d2 = (double)(pos.getZ() + Mth.cos(f) * f1);
-        double d3 = (double)(pos.getZ() - Mth.cos(f) * f1);
+        double d0 = pos.getX() + Mth.sin(f) * f1;
+        double d1 = pos.getX() - Mth.sin(f) * f1;
+        double d2 = pos.getZ() + Mth.cos(f) * f1;
+        double d3 = pos.getZ() - Mth.cos(f) * f1;
         int j = 2;
-        double d4 = (double)(pos.getY() + rand.nextInt(3) - 2);
-        double d5 = (double)(pos.getY() + rand.nextInt(3) - 2);
+        double d4 = pos.getY() + rand.nextInt(3) - 2;
+        double d5 = pos.getY() + rand.nextInt(3) - 2;
         int k = pos.getX() - Mth.ceil(f1) - i;
         int l = pos.getY() - 2 - i;
         int i1 = pos.getZ() - Mth.ceil(f1) - i;
@@ -66,12 +66,12 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
 
         for(int k = 0; k < config.size; ++k) {
             float f = (float)k / (float)j;
-            double d0 = Mth.lerp((double)f, pMinX, pMaxX);
-            double d1 = Mth.lerp((double)f, pMinY, pMaxY);
-            double d2 = Mth.lerp((double)f, pMinZ, pMaxZ);
+            double d0 = Mth.lerp(f, pMinX, pMaxX);
+            double d1 = Mth.lerp(f, pMinY, pMaxY);
+            double d2 = Mth.lerp(f, pMinZ, pMaxZ);
             double d3 = random.nextDouble() * (double)j / 16.0D;
             double d4 = ((double)(Mth.sin((float)Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
-            adouble[k * 4 + 0] = d0;
+            adouble[k * 4] = d0;
             adouble[k * 4 + 1] = d1;
             adouble[k * 4 + 2] = d2;
             adouble[k * 4 + 3] = d4;
@@ -81,7 +81,7 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
             if (!(adouble[l3 * 4 + 3] <= 0.0D)) {
                 for(int i4 = l3 + 1; i4 < j; ++i4) {
                     if (!(adouble[i4 * 4 + 3] <= 0.0D)) {
-                        double d8 = adouble[l3 * 4 + 0] - adouble[i4 * 4 + 0];
+                        double d8 = adouble[l3 * 4] - adouble[i4 * 4];
                         double d10 = adouble[l3 * 4 + 1] - adouble[i4 * 4 + 1];
                         double d12 = adouble[l3 * 4 + 2] - adouble[i4 * 4 + 2];
                         double d14 = adouble[l3 * 4 + 3] - adouble[i4 * 4 + 3];
@@ -103,7 +103,7 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
             for(int j4 = 0; j4 < j; ++j4) {
                 double d9 = adouble[j4 * 4 + 3];
                 if (!(d9 < 0.0D)) {
-                    double d11 = adouble[j4 * 4 + 0];
+                    double d11 = adouble[j4 * 4];
                     double d13 = adouble[j4 * 4 + 1];
                     double d15 = adouble[j4 * 4 + 2];
                     int k4 = Math.max(Mth.floor(d11 - d9), pX);

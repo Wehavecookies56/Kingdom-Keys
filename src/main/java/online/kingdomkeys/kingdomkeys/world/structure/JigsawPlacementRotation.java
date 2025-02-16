@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.structure;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
@@ -9,12 +8,9 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.SequencedPriorityIterator;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -24,11 +20,8 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.pools.*;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
-import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
@@ -39,7 +32,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.slf4j.Logger;
 
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -69,7 +61,7 @@ public class JigsawPlacementRotation {
 		WorldgenRandom worldgenrandom = context.random();
 		Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registries.TEMPLATE_POOL);
 		StructureTemplatePool structuretemplatepool = startPool.unwrapKey()
-				.flatMap(p_314915_ -> registry.getOptional(aliasLookup.lookup((ResourceKey<StructureTemplatePool>)p_314915_)))
+				.flatMap(p_314915_ -> registry.getOptional(aliasLookup.lookup(p_314915_)))
 				.orElse(startPool.value());
 		StructurePoolElement structurepoolelement = structuretemplatepool.getRandomTemplate(worldgenrandom);
 		if (structurepoolelement == EmptyPoolElement.INSTANCE) {
@@ -127,12 +119,12 @@ public class JigsawPlacementRotation {
 								list.add(poolelementstructurepiece);
 								if (maxDepth > 0) {
 									AABB aabb = new AABB(
-											(double)(i - maxDistanceFromCenter),
-											(double)Math.max(i1 - maxDistanceFromCenter, levelheightaccessor.getMinBuildHeight() + dimensionPadding.bottom()),
-											(double)(j - maxDistanceFromCenter),
-											(double)(i + maxDistanceFromCenter + 1),
-											(double)Math.min(i1 + maxDistanceFromCenter + 1, levelheightaccessor.getMaxBuildHeight() - dimensionPadding.top()),
-											(double)(j + maxDistanceFromCenter + 1)
+                                            i - maxDistanceFromCenter,
+                                            Math.max(i1 - maxDistanceFromCenter, levelheightaccessor.getMinBuildHeight() + dimensionPadding.bottom()),
+                                            j - maxDistanceFromCenter,
+                                            i + maxDistanceFromCenter + 1,
+                                            Math.min(i1 + maxDistanceFromCenter + 1, levelheightaccessor.getMaxBuildHeight() - dimensionPadding.top()),
+                                            j + maxDistanceFromCenter + 1
 									);
 									VoxelShape voxelshape = Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST);
 									addPieces(
@@ -216,7 +208,7 @@ public class JigsawPlacementRotation {
 		}
 	}
 
-	static record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> free, int depth) {
+	record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> free, int depth) {
 	}
 
 	static final class Placer {
@@ -277,7 +269,7 @@ public class JigsawPlacementRotation {
 				if (optional.isEmpty()) {
 					LOGGER.warn("Empty or non-existent pool: {}", resourcekey.location());
 				} else {
-					Holder<StructureTemplatePool> holder = (Holder<StructureTemplatePool>)optional.get();
+					Holder<StructureTemplatePool> holder = optional.get();
 					if (holder.value().size() == 0 && !holder.is(Pools.EMPTY)) {
 						LOGGER.warn("Empty or non-existent pool: {}", resourcekey.location());
 					} else {
@@ -333,11 +325,11 @@ public class JigsawPlacementRotation {
 																Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(
 																		p_255600_ -> p_255600_.value().getFallback()
 																);
-																int k3 = optional1.<Integer>map(
+																int k3 = optional1.map(
 																				p_255596_ -> p_255596_.value().getMaxSize(this.structureTemplateManager)
 																		)
 																		.orElse(0);
-																int l3 = optional2.<Integer>map(
+																int l3 = optional2.map(
 																				p_255601_ -> p_255601_.value().getMaxSize(this.structureTemplateManager)
 																		)
 																		.orElse(0);

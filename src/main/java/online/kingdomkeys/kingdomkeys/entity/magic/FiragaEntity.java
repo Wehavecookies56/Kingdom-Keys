@@ -89,10 +89,9 @@ public class FiragaEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-				if (target != getOwner()) {
+                if (target != getOwner()) {
 					Party p = null;
 					if (getOwner() != null) {
 						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());

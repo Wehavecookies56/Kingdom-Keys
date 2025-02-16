@@ -33,8 +33,7 @@ public record CSSetOrgPortalName(BlockPos pos, String name) implements Packet {
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        if(player.level().getBlockEntity(pos) != null && player.level().getBlockEntity(pos) instanceof OrgPortalTileEntity) {
-            OrgPortalTileEntity te = (OrgPortalTileEntity) player.level().getBlockEntity(pos);
+        if(player.level().getBlockEntity(pos) != null && player.level().getBlockEntity(pos) instanceof OrgPortalTileEntity te) {
             UUID portalUUID = te.getUUID();
             WorldData.get(player.getServer()).getPortalFromUUID(portalUUID).setName(name);
             PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);

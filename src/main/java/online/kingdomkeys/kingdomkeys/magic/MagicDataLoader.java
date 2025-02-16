@@ -73,7 +73,7 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
                     names.add(magicName.toString());
                    
                 } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
                     continue;
                 }
                 magic.setMagicData(result);

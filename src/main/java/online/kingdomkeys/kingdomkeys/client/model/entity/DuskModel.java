@@ -54,7 +54,7 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
 
     private int cycleIndex;
     private double totalDistance;
-    private boolean legRotation = false;
+    private final boolean legRotation = false;
 
     public DuskModel(ModelPart root) {
         this.RightLegUpper = root.getChild("RightLegUpper");
@@ -186,7 +186,7 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
     }
 
     protected float degToRad(double degrees) {
-        return (float) (degrees * (double)Math.PI / 180) ;
+        return (float) (degrees * Math.PI / 180) ;
     }
 
     @Override

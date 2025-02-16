@@ -20,7 +20,7 @@ public class ShadowGoal extends TargetGoal {
 		this.originalAttackDamage = creature.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
 		this.mob = (BaseKHEntity) creature;
 	}
-	private BaseKHEntity mob;
+	private final BaseKHEntity mob;
 
 
 	@Override

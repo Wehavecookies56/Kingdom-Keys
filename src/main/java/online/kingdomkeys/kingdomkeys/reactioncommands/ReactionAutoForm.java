@@ -102,9 +102,7 @@ public class ReactionAutoForm extends ReactionCommand {
 				if(playerData.getAlignment() == OrgMember.NONE) {
 					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 						if(playerData.getDP() >= ModDriveForms.registry.get(ResourceLocation.parse(form)).getDriveCost()) {
-							if(playerData.getEquippedAbilityLevel(abilityName)[1] > 0) {
-								return true;
-							}
+                            return playerData.getEquippedAbilityLevel(abilityName)[1] > 0;
 						}
 					}
 				}

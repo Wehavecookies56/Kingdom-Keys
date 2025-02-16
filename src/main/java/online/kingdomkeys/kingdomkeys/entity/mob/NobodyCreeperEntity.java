@@ -61,7 +61,7 @@ public class NobodyCreeperEntity extends BaseKHEntity {
     }
 
     class NobodyCreeperGoal extends Goal {
-    	private NobodyCreeperEntity theEntity;	// the entity who holds this AI
+    	private final NobodyCreeperEntity theEntity;	// the entity who holds this AI
         private boolean canUseAttack = true;	// true/false value to decide if we can use this ability or if the cooldown starts
         private int attackTimer = 5, whileAttackTimer; // attackTimer is the cooldown while whileAttackTimer is the amount of ticks the attack runned for
         private double[] posToFall; // an double array that holds the pos values (x,y,z) for where to drop the entity

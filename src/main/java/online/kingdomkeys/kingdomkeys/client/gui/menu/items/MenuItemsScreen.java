@@ -28,7 +28,7 @@ public class MenuItemsScreen extends MenuBackground {
 		this.renderables.clear();
 
         int button_items_playerY = buttonPosY;
-        int button_items_stockY = button_items_playerY + 18 * 1;
+        int button_items_stockY = button_items_playerY + 18;
         int button_items_backY = button_items_playerY + 18 * 2;
 
         Minecraft mc = Minecraft.getInstance();

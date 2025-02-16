@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.util;
 
 public interface IDisabledAnimations {
-    void setDisabled(boolean disabled);
-    boolean isDisabled();
+    void kingdom_Keys$setDisabled(boolean disabled);
+    boolean kingdom_Keys$isDisabled();
 
 }

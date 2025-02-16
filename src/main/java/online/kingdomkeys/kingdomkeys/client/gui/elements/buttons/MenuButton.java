@@ -18,16 +18,20 @@ import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
 
-	private ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	private int endWidth = 11;
+	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private final int endWidth = 11;
 
-	private int bLeftU = 0, bMiddleU = 12, bRightU = 14;
-	private int bVPos = 0;
-	private int bSelectedVPos = 20;
+	private final int bLeftU = 0;
+    private final int bMiddleU = 12;
+    private final int bRightU = 14;
+	private final int bVPos = 0;
+	private final int bSelectedVPos = 20;
 
-	private int sbLeftU = 22, sbMiddleU = 34, sbRightU = 36;
-	private int sbVPos = 118;
-	private int sbSelectedVPos = 138;
+	private final int sbLeftU = 22;
+    private final int sbMiddleU = 34;
+    private final int sbRightU = 36;
+	private final int sbVPos = 118;
+	private final int sbSelectedVPos = 138;
 
 	private int middleWidth;
 

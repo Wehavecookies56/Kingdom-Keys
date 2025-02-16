@@ -33,5 +33,4 @@ public class ModReactionCommands {
 		STOP = REACTION_COMMANDS.register(ResourceLocation.parse(Strings.Magic_Stop).getPath(), () -> new ReactionMagic(ResourceLocation.parse(Strings.Magic_Stop))),
 
 		SAVE = REACTION_COMMANDS.register("save_rc", () -> new ReactionSave(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_rc")));
-	;
 }

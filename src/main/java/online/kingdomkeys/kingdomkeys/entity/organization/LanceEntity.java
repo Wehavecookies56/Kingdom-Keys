@@ -54,7 +54,7 @@ public class LanceEntity extends KKThrowableEntity{
 
 			if (this.onGround()) {
 				this.setOnGround(false);
-				this.setDeltaMovement(this.getDeltaMovement().multiply((double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F), (double) (this.random.nextFloat() * 0.2F)));
+				this.setDeltaMovement(this.getDeltaMovement().multiply(this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F, this.random.nextFloat() * 0.2F));
 			}
 
 			HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
@@ -90,10 +90,10 @@ public class LanceEntity extends KKThrowableEntity{
 					f1 = 0.99F;
 				}
 
-				this.setDeltaMovement(vec3d.scale((double) f1));
+				this.setDeltaMovement(vec3d.scale(f1));
 				if (!this.isNoGravity()) {
 					Vec3 vec3d1 = this.getDeltaMovement();
-					this.setDeltaMovement(vec3d1.x, vec3d1.y - (double) this.getGravity(), vec3d1.z);
+					this.setDeltaMovement(vec3d1.x, vec3d1.y - this.getGravity(), vec3d1.z);
 				}
 
 				this.setPos(d0, d1, d2);

@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.mixin;
 
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

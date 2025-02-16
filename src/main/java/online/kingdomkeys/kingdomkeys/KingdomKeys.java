@@ -90,7 +90,6 @@ public class KingdomKeys {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MODID = "kingdomkeys";
-	public static final String MODNAME = "Kingdom Keys";
 
 	public static boolean efmLoaded = false;
 
@@ -103,6 +102,7 @@ public class KingdomKeys {
 	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> (item.getItem() instanceof KKPotionItem || item.getItem() instanceof KKArmorItem || item.getItem() instanceof KKAccessoryItem)).toList());
 	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof KeychainItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem)).toList());
 
+	@SuppressWarnings("unused")
 	public static final Supplier<CreativeModeTab>
 			keyblades_tab = TABS.register(Strings.keybladesGroup, () -> CreativeModeTab.builder()
 				.title(Component.translatable("itemGroup." + Strings.keybladesGroup))

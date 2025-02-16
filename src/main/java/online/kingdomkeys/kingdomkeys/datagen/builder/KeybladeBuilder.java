@@ -19,7 +19,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
     private String desc;
     private String baseAbility;
     private float reach;
-    private ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
+    private final ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
         super((ResourceLocation) o);

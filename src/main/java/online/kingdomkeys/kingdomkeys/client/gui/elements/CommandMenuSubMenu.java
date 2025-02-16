@@ -28,19 +28,22 @@ public class CommandMenuSubMenu {
     private int maxY;
 
     private int width;
-    private int height;
+    private final int height;
     private Component title;
     private CommandMenuItem selected;
     private boolean visible, open, active;
 
-    private List<CommandMenuItem> children;
+    private final List<CommandMenuItem> children;
 
     private CommandMenuSubMenu parent;
 
     private final OnOpen onOpen;
     private final OnUpdate onUpdate;
     private Color colour, titleColour;
-    private boolean useOrgColour, useBossColour, useHostileColour, autoResize;
+    private boolean useOrgColour;
+    private boolean useBossColour;
+    private boolean useHostileColour;
+    private final boolean autoResize;
 
     public static final Color ORG_COLOUR = new Color(204, 204, 204);
     public static final Color BOSS_COLOUR = new Color(255, 0, 0);

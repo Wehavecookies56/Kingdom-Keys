@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HiddenButton extends Button {
 	public HiddenButton(int x, int y, int width, int height, OnPress onPress) {
-		super(new Builder(Component.translatable(""),onPress).bounds(x,y, width, height));		
+		super(new Builder(Component.literal(""),onPress).bounds(x,y, width, height));
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class SoldierGoal extends TargetGoal {
 		ticksToChooseAI = 20;
 		this.mob = (BaseKHEntity) creature;
 	}
-	private BaseKHEntity mob;
+	private final BaseKHEntity mob;
 
 
 	@Override

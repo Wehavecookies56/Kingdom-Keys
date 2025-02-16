@@ -33,7 +33,6 @@ public class MagicalChestMenu extends AbstractContainerMenu {
                 addSlot(new SlotItemHandler(iih, j + i * 9, 8 + j * 18, 20 + i * 18));
             }
         }
-        ;
 
         int i,j;
 

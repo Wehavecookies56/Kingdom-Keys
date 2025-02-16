@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +32,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -42,9 +40,9 @@ import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -89,9 +87,8 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
-			MagicalChestTileEntity te = (MagicalChestTileEntity) worldIn.getBlockEntity(pos);
-			if (te != null) {
+		if (state.hasBlockEntity() && worldIn.getBlockEntity(pos) instanceof MagicalChestTileEntity te) {
+            if (te != null) {
 				Player player = (Player) placer;
 				te.setOwner(player.getGameProfile().getId());
 				player.displayClientMessage(Component.translatable("message.chest.lock"), true);
@@ -107,12 +104,10 @@ public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 
 		MenuProvider namedContainerProvider = this.getMenuProvider(state, level, pos);
 		if (namedContainerProvider != null) {
-			if (!(player instanceof ServerPlayer))
+			if (!(player instanceof ServerPlayer serverPlayerEntity))
 				return ItemInteractionResult.FAIL;
-			ServerPlayer serverPlayerEntity = (ServerPlayer) player;
-			if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof MagicalChestTileEntity) {
-				MagicalChestTileEntity te = (MagicalChestTileEntity) level.getBlockEntity(pos);
-				if (te != null) {
+            if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof MagicalChestTileEntity te) {
+                if (te != null) {
 					UUID keyblade = te.getKeyblade();
 					ItemStack held = player.getItemInHand(hand);
 					if (held.getItem() instanceof KeybladeItem) {

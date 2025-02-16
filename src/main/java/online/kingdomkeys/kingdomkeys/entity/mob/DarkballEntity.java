@@ -18,10 +18,10 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class DarkballEntity extends BaseKHEntity {
 
-    enum SpecialAttack {
+    public enum SpecialAttack {
         CHARGE,
         BERSERK,
-        DARKCLOUD;
+        DARKCLOUD
     }
 
     private SpecialAttack currentAttack, previousAttack;
@@ -115,7 +115,7 @@ public class DarkballEntity extends BaseKHEntity {
     }
 
     class DarkCloudGoal extends Goal {
-        private DarkballEntity theEntity;
+        private final DarkballEntity theEntity;
         private boolean canUseAttack = true;
         private int attackTimer = 50, whileAttackTimer;
         private double[] pivotPosToMove;
@@ -141,8 +141,7 @@ public class DarkballEntity extends BaseKHEntity {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.DARKCLOUD) {
-                if(theEntity.random.nextFloat() <= 0.3f) return true;
-                else return false;
+                return theEntity.random.nextFloat() <= 0.3f;
             }
             return true;
         }
@@ -191,8 +190,10 @@ public class DarkballEntity extends BaseKHEntity {
                 }
 
                 for(Entity p : EntityHelper.getEntitiesNear(theEntity, 1))
-                    if(p == target)
+                    if (p == target) {
                         canUseAttack = false;
+                        break;
+                    }
 
                 if(whileAttackTimer > 80)
                     canUseAttack = false;
@@ -203,7 +204,7 @@ public class DarkballEntity extends BaseKHEntity {
 
 
     class BerserkGoal extends Goal {
-        private DarkballEntity theEntity;
+        private final DarkballEntity theEntity;
         private boolean canUseAttack = true;
         private int attackTimer = 70, whileAttackTimer;
         private double[] pivotPosToBerserk;
@@ -229,8 +230,7 @@ public class DarkballEntity extends BaseKHEntity {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.BERSERK) {
-                if(theEntity.random.nextFloat() <= 0.5f) return true;
-                else return false;
+                return theEntity.random.nextFloat() <= 0.5f;
             }
             return true;
         }
@@ -283,7 +283,7 @@ public class DarkballEntity extends BaseKHEntity {
     }
 
     class ChargeGoal extends Goal {
-        private DarkballEntity theEntity;
+        private final DarkballEntity theEntity;
         private boolean canUseAttack = true;
         private int attackTimer = 50, whileAttackTimer;
         private double[] posToCharge;
@@ -310,8 +310,7 @@ public class DarkballEntity extends BaseKHEntity {
 
         public boolean prevAttackCalc() {
             if(this.theEntity.getPreviousAttackState() == SpecialAttack.CHARGE) {
-                if(theEntity.random.nextFloat() <= 0.1f) return true;
-                else return false;
+                return theEntity.random.nextFloat() <= 0.1f;
             }
             return true;
         }

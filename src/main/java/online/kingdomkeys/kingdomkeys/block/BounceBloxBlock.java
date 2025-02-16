@@ -60,13 +60,11 @@ public class BounceBloxBlock extends BaseBlock {
 		super.stepOn(worldIn, pos, state, entityIn);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return collisionShape;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		double x = entity.getDeltaMovement().x;

@@ -27,7 +27,6 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
@@ -157,7 +156,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         return CompletableFuture.completedFuture(chunk);
     }
 
-    enum Corner { TL, TR, BL, BR }
+    public enum Corner { TL, TR, BL, BR }
 
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureManager pStructureManager, RandomState pRandom, ChunkAccess pChunk) {

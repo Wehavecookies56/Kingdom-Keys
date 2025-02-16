@@ -98,7 +98,7 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 
 					float combinedDamage = damage + enchantDamage;
 					boolean canSweep = false;
-					double d0 = (double)(player.walkDist - player.walkDistO);
+					double d0 = player.walkDist - player.walkDistO;
 					if (charged && !isCrit && !knockback && player.onGround() && d0 < (double)player.getSpeed()) {
 						ItemStack itemstack1 = player.getItemInHand(InteractionHand.OFF_HAND);
 						if (itemstack.getItem() instanceof KeybladeItem) {
@@ -118,15 +118,15 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 						if (f4 > 0.0F) {
 							if (targetEntity instanceof LivingEntity livingentity1) {
 								livingentity1.knockback(
-										(double)(f4 * 0.5F),
-										(double)Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)),
-										(double)(-Mth.cos(player.getYRot() * (float) (Math.PI / 180.0)))
+                                        f4 * 0.5F,
+                                        Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)),
+                                        -Mth.cos(player.getYRot() * (float) (Math.PI / 180.0))
 								);
 							} else {
 								targetEntity.push(
-										(double)(-Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)) * f4 * 0.5F),
+                                        -Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)) * f4 * 0.5F,
 										0.1,
-										(double)(Mth.cos(player.getYRot() * (float) (Math.PI / 180.0)) * f4 * 0.5F)
+                                        Mth.cos(player.getYRot() * (float) (Math.PI / 180.0)) * f4 * 0.5F
 								);
 							}
 
@@ -148,8 +148,8 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 									float totalSweepDamage = getEnchantedDamage(player, livingentity2, sweepDamage, damagesource) * scale;
 									livingentity2.knockback(
 											0.4F,
-											(double)Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)),
-											(double)(-Mth.cos(player.getYRot() * (float) (Math.PI / 180.0)))
+                                            Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)),
+                                            -Mth.cos(player.getYRot() * (float) (Math.PI / 180.0))
 									);
 									livingentity2.hurt(damagesource, totalSweepDamage);
 									if (player.level() instanceof ServerLevel serverlevel) {
@@ -248,9 +248,8 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 		Player player = context.player();
 		Entity entity = player.level().getEntity(entityId);
 		if (entity != null) {
-			if (player.getOffhandItem().getItem() instanceof IExtendedReach) {
-				IExtendedReach theExtendedReachWeapon = (IExtendedReach) player.getOffhandItem().getItem();
-				double distanceSq = player.distanceToSqr(entity);
+			if (player.getOffhandItem().getItem() instanceof IExtendedReach theExtendedReachWeapon) {
+                double distanceSq = player.distanceToSqr(entity);
 				float reach = Math.max(5,theExtendedReachWeapon.getReach());
 				double reachSq = reach * reach;
 				if (reachSq >= distanceSq) {

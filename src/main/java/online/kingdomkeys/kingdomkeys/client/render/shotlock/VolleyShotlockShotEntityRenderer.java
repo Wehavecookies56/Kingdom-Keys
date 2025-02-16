@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 @OnlyIn(Dist.CLIENT)
 public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotlockShotEntity> {
 
-	private CubeModel model;
+	private final CubeModel model;
 
 	public VolleyShotlockShotEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);

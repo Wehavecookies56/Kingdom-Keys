@@ -23,5 +23,5 @@ public class KKLevelUpTrigger extends SimpleCriterionTrigger<KKLevelUpTrigger.Tr
 			trigger(player, instance -> instance.level == level);
 		}
 
-		record TriggerInstance(Optional<ContextAwarePredicate> player, Integer level) implements SimpleInstance {}
+		public record TriggerInstance(Optional<ContextAwarePredicate> player, Integer level) implements SimpleInstance {}
 	}

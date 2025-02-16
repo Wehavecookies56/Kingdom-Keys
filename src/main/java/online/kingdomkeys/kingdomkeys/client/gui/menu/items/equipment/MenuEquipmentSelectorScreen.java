@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -70,7 +69,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		String ability = "N/A";
 		if(!ItemStack.matches(equippedKeychain, ItemStack.EMPTY)) {
 			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(equippedKeychain.getItem(), ((IKeychain) equippedKeychain.getItem()).toSummon().getKeybladeLevel(equippedKeychain));
-			if(abilities.size() > 0) {
+			if(!abilities.isEmpty()) {
 				Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(0)));
 				ability = Utils.translateToLocal(a.getTranslationKey());
 			}

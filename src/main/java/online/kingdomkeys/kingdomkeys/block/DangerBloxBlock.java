@@ -17,7 +17,7 @@ public class DangerBloxBlock extends BaseBlock {
 
     /** Smaller collision box otherwise {@link #entityInside(BlockState, Level, BlockPos, Entity)} doesn't trigger */
     private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
-    private float damage = 3.0F;
+    private final float damage = 3.0F;
 
     public DangerBloxBlock(Properties properties) {
         super(properties);
@@ -30,8 +30,7 @@ public class DangerBloxBlock extends BaseBlock {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity) {
-            LivingEntity entityLiving = (LivingEntity) entity;
+        if (entity instanceof LivingEntity entityLiving) {
             if (ItemStack.matches(entityLiving.getItemBySlot(EquipmentSlot.FEET), ItemStack.EMPTY)) {
                 entity.hurt(entity.damageSources().magic(), damage);
             }

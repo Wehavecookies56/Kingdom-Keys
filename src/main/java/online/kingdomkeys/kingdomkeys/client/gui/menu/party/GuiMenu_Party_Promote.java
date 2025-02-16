@@ -19,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPromote;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.awt.*;
+import javax.annotation.Nullable;
 
 public class GuiMenu_Party_Promote extends MenuBackground {
 	
@@ -104,8 +104,7 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		if(party == null) {
 			PacketHandler.sendToServer(new CSOpenMenu());
-			return;
-		} else {			
+        } else {
 			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
 				minecraft.setScreen(new GuiMenu_Party_Member());
 				return;
@@ -138,7 +137,7 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
 	}

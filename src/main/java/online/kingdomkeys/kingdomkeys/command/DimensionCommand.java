@@ -57,8 +57,8 @@ public class DimensionCommand extends BaseCommand {
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
-			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
+			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location()), true);
+			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 		}
 		return 1;
 	}

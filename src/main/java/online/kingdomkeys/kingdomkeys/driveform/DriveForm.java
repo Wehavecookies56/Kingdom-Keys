@@ -162,7 +162,7 @@ public abstract class DriveForm {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
-				Entity e = (Entity) list.get(i);
+				Entity e = list.get(i);
 				if (e instanceof LivingEntity) {
 					double d = e.getX() - player.getX();
 					double d1 = e.getZ() - player.getZ();

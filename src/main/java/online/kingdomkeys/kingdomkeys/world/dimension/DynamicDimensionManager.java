@@ -269,7 +269,7 @@ public class DynamicDimensionManager {
         }
         Registry.register(newRegistry, dimensionKey, dimension);
         regmap.replace(key, newRegistry);
-        Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> newmap = (Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>>) regmap;
+        Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> newmap = regmap;
         composite.registries = newmap;
 
         // create the world instance

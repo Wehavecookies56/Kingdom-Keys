@@ -17,7 +17,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
 
     private ResourceLocation output;
     private String type;
-    private Map<String, Integer> recipe = new HashMap<>();
+    private final Map<String, Integer> recipe = new HashMap<>();
     private int quantity;
     private int cost;
     private int tier;
@@ -91,7 +91,7 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         if (recipe != null) {
             recipe.forEach((key, value) -> {
                 JsonObject matObj = new JsonObject();
-                matObj.addProperty("material", key.toString());
+                matObj.addProperty("material", key);
                 matObj.addProperty("quantity", value.toString());
                 recipes.add(matObj);
             });

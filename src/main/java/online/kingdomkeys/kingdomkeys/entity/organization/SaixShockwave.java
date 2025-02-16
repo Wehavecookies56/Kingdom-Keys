@@ -63,11 +63,9 @@ public class SaixShockwave extends ThrowableProjectile {
 	protected void onHit(HitResult rtRes) {
 		if (!level().isClientSide) {
 			if (rtRes instanceof EntityHitResult ertResult) {
-				if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
+				if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-					LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-					if (target != getOwner()) {
+                    if (target != getOwner()) {
 						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					}
 				}

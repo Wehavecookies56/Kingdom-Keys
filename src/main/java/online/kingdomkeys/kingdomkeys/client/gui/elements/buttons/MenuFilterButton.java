@@ -22,7 +22,7 @@ public class MenuFilterButton extends Button {
 
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, ItemCategory category) {
-		super(new Builder(Component.translatable(""),b -> parent.onClickFilter(category)).bounds(x,y,26,15));		
+		super(new Builder(Component.literal(""),b -> parent.onClickFilter(category)).bounds(x,y,26,15));
         this.parent = parent;
         this.category = category;
     }

@@ -18,6 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.fluids.FluidType;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -61,7 +63,7 @@ public abstract class ItemDropEntity extends Entity {
 		this.xo = this.getX();
 		this.yo = this.getY();
 		this.zo = this.getZ();
-		if (this.isEyeInFluid(FluidTags.WATER)) {
+		if (this.isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())) {
 			this.applyFloatMotion();
 		} else if (!this.isNoGravity()) {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
@@ -105,7 +107,7 @@ public abstract class ItemDropEntity extends Entity {
 			f = this.level().getBlockState(pos).getFriction(this.level(), pos, this) * 0.98F;
 		}
 
-		this.setDeltaMovement(this.getDeltaMovement().multiply((double) f, 0.98D, (double) f));
+		this.setDeltaMovement(this.getDeltaMovement().multiply(f, 0.98D, f));
 		if (this.onGround()) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, -0.9D, 1.0D));
 		}
@@ -114,7 +116,7 @@ public abstract class ItemDropEntity extends Entity {
 
 	private void applyFloatMotion() {
 		Vec3 vec3d = this.getDeltaMovement();
-		this.setDeltaMovement(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, (double) 0.06F), vec3d.z * (double) 0.99F);
+		this.setDeltaMovement(vec3d.x * (double) 0.99F, Math.min(vec3d.y + (double) 5.0E-4F, 0.06F), vec3d.z * (double) 0.99F);
 	}
 
 	protected void dealFireDamage(int amount) {

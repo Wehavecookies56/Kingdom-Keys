@@ -52,7 +52,7 @@ public class AlignmentSelectionScreen extends Screen {
     private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
 
     public AlignmentSelectionScreen() {
-        super(Component.translatable(""));
+        super(Component.literal(""));
         minecraft = Minecraft.getInstance();
     }
 
@@ -212,11 +212,11 @@ public class AlignmentSelectionScreen extends Screen {
 			actionPerformed(CANCEL);
 		}).bounds(0, 0, 60, 20).build());
         
-        addRenderableWidget(next = Button.builder(Component.translatable(">"), (e) -> {
+        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
 			actionPerformed(NEXT);
 		}).bounds(0, 0, 20, 20).build());
                 
-        addRenderableWidget(prev = Button.builder(Component.translatable("<"), (e) -> {
+        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
 			actionPerformed(PREV);
 		}).bounds(0, 0, 20, 20).build());
         

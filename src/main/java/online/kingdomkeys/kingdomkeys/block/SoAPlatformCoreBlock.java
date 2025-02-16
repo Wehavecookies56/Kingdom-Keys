@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock, INoDataGen {
 
@@ -225,8 +224,7 @@ public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock, INoD
         BlockEntity te = worldIn.getBlockEntity(pos);
         if (newState.getBlock() != ModBlocks.station_of_awakening_core.get()) {
             if (te != null) {
-                if (te instanceof SoAPlatformTileEntity) {
-                    SoAPlatformTileEntity soAPlatformTileEntity = (SoAPlatformTileEntity) te;
+                if (te instanceof SoAPlatformTileEntity soAPlatformTileEntity) {
                     if (soAPlatformTileEntity.isMultiblockFormed()) {
                         setBlockStates(worldIn, soAPlatformTileEntity.structureBlockPosCache, false);
                         soAPlatformTileEntity.setMultiblockFormed(false);

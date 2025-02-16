@@ -78,7 +78,7 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 		this.updateRotation();
 		if (!this.isNoGravity()) {
 			Vec3 vector3d1 = this.getDeltaMovement();
-			this.setDeltaMovement(vector3d1.x, vector3d1.y - (double) this.getGravity(), vector3d1.z);
+			this.setDeltaMovement(vector3d1.x, vector3d1.y - this.getGravity(), vector3d1.z);
 		}
 
 		this.setPos(d2, d0, d1);
@@ -98,9 +98,8 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-				if (target != getOwner()) {
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
+                if (target != getOwner()) {
 	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
 				}

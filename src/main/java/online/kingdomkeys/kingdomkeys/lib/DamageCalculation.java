@@ -6,7 +6,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -162,8 +161,7 @@ public class DamageCalculation {
         	PlayerData playerData = PlayerData.get(player);
             float damage = 0;
             float finalDamage = 0;
-            if (stack.getItem() instanceof IOrgWeapon) {
-            	IOrgWeapon org = (IOrgWeapon) stack.getItem();
+            if (stack.getItem() instanceof IOrgWeapon org) {
                 damage = (float) org.getStrength() + playerData.getStrength(true);
                 finalDamage = damage;// + getSharpnessDamage(stack);
             }

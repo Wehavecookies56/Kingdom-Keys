@@ -89,8 +89,8 @@ public class GuiMenu_Party_None extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		addRenderableWidget(create = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Strings.Gui_Menu_Party_Create, ButtonType.BUTTON, true, (e) -> { action("create"); }));
-		addRenderableWidget(join = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Strings.Gui_Menu_Party_Join, ButtonType.BUTTON, true, (e) -> { action("join"); }));
+		addRenderableWidget(create = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Strings.Gui_Menu_Party_Create, ButtonType.BUTTON, true, (e) -> { action("create"); }));
+		addRenderableWidget(join = new MenuButton((int) buttonPosX, button_statsY + (18), (int) buttonWidth, Strings.Gui_Menu_Party_Join, ButtonType.BUTTON, true, (e) -> { action("join"); }));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (2 * 18), (int) buttonWidth, Strings.Gui_Menu_Back, ButtonType.BUTTON, true, (e) -> { action("back"); }));
 	
 		updateButtons();
@@ -164,7 +164,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 				
 				matrixStack.pushPose();
 				{
-					matrixStack.translate((int) infoBoxPosX + 8, (int) infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
+					matrixStack.translate(infoBoxPosX + 8, infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
 					// matrixStack.scale(0.75F, 0.75F, 1);
 					gui.drawString(minecraft.font, member.getUsername(), 0, 0, 0xFFFFFF);
 				}
@@ -172,9 +172,9 @@ public class GuiMenu_Party_None extends MenuBackground {
 				if(player != null) {
 					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null) {
-						gui.drawString(minecraft.font, "LV: " + playerData.getLevel(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26), 0xFFD900);
-						gui.drawString(minecraft.font, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + minecraft.font.lineHeight, 0x00FF00);
-						gui.drawString(minecraft.font, "MP: " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), (int) infoBoxPosX + 4, (int) (infoBoxPosY + 26) + (minecraft.font.lineHeight * 2), 0x4444FF);
+						gui.drawString(minecraft.font, "LV: " + playerData.getLevel(), infoBoxPosX + 4, infoBoxPosY + 26, 0xFFD900);
+						gui.drawString(minecraft.font, "HP: " + (int) player.getHealth() + "/" + (int) player.getMaxHealth(), infoBoxPosX + 4, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
+						gui.drawString(minecraft.font, "MP: " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), infoBoxPosX + 4, infoBoxPosY + 26 + (minecraft.font.lineHeight * 2), 0x4444FF);
 					}
 				}
 			}

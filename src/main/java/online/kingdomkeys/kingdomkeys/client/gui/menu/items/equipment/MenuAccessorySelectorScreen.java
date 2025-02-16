@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -66,7 +65,7 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		ItemStack equippedAccessory = playerData.getEquippedAccessory(slot);
 		//If the equipped item is an item get the translation key, otherwise ---
-		String equippedAccessoryName = (equippedAccessory != null && equippedAccessory.getItem() instanceof KKAccessoryItem) ? ((KKAccessoryItem) equippedAccessory.getItem()).getDescriptionId() : "---";
+		String equippedAccessoryName = (equippedAccessory != null && equippedAccessory.getItem() instanceof KKAccessoryItem) ? equippedAccessory.getItem().getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedAccessoryName),"", buttonColour));
@@ -79,9 +78,8 @@ public class MenuAccessorySelectorScreen extends MenuBackground {
 			
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKAccessoryItem) {
-						KKAccessoryItem accessory = (KKAccessoryItem) minecraft.player.getInventory().getItem(i).getItem();
-						if(addedAccessoriesList.containsKey(accessory)) {
+					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KKAccessoryItem accessory) {
+                        if(addedAccessoriesList.containsKey(accessory)) {
 							int amount = addedAccessoriesList.get(accessory);
 							addedAccessoriesList.replace(accessory, amount+1);
 						} else {

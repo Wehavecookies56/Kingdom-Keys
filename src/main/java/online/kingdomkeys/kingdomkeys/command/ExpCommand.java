@@ -56,12 +56,12 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 
 			if(playerData.getSoAState() == SoAState.COMPLETE) {
 				playerData.addExperience(player, exp, false, false);
-				player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+				player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 			} else {
 				context.getSource().sendSuccess(() -> Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
 			}
             Utils.restartLevel2(playerData, player);			
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
 
@@ -78,9 +78,9 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addExperience(player, value, false, false);
-			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+			player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
 			context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " experience to " + player.getDisplayName().getString()), true);
 
@@ -96,8 +96,8 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 			PlayerData playerData = PlayerData.get(player);
 			int exp = playerData.getExperience();
 			fix(playerData,player);
-			player.level().playSound((Player) null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
-			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
 			player.sendSystemMessage(Component.translatable("Your experience is now " + exp + ", all your missing abilities have been added to you"));
 		}

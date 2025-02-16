@@ -74,7 +74,7 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
     public final ModelPart Sword_Blade5;
 
     private int cycleIndex;
-    private boolean canAnimate = true;
+    private final boolean canAnimate = true;
     private double frame;
 
     public NobodyCreeperModel(ModelPart root) {
@@ -313,7 +313,7 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     protected float degToRad(double degrees)
     {
-        return (float) (degrees * (double)Math.PI / 180) ;
+        return (float) (degrees * Math.PI / 180) ;
     }
 
     @Override

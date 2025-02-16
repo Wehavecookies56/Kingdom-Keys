@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 
 @OnlyIn(Dist.CLIENT)
 public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
-	private PlayerRenderer renderPlayer;
+	private final PlayerRenderer renderPlayer;
 
 	public DriveLayerRenderer(RenderLayerParent<T, M> entityRendererIn) {
 		super(entityRendererIn);

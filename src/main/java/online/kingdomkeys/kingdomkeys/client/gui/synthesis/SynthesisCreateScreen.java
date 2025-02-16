@@ -141,7 +141,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		
         addRenderableWidget(create = Button.builder(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create), (e) -> {
 			action("create");
-		}).bounds((int) (boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+		}).bounds(boxM.getX()+3, (int) (height * 0.67), boxM.getWidth()-5, 20).build());
         
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 
@@ -244,22 +244,19 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			String desc = "";
 			String ability = "";
 			int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
-			if(selectedItemStack.getItem() instanceof KeybladeItem) {
-				KeybladeItem kb = (KeybladeItem) selectedItemStack.getItem();
-				desc = kb.getDesc();
+			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
+                desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
 				str= kb.getStrength(0);
 				mag = kb.getMagic(0);
 				
-			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem) {
-				KKAccessoryItem accessory = (KKAccessoryItem) selectedItemStack.getItem();
-				ability = accessory.getAbilities().size() > 0 ? accessory.getAbilities().get(0) : null;
+			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
+                ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().getFirst() : null;
 				str = accessory.getStr();
 				mag = accessory.getMag();
 				ap = accessory.getAp();
-			} else if(selectedItemStack.getItem() instanceof KKArmorItem) {
-				KKArmorItem armor = (KKArmorItem) selectedItemStack.getItem();
-				def = armor.getDefense();
+			} else if(selectedItemStack.getItem() instanceof KKArmorItem armor) {
+                def = armor.getDefense();
 				for (Map.Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
 					switch (resistanceType.getKey()) {
 					case fire -> fireRes = resistanceType.getValue();

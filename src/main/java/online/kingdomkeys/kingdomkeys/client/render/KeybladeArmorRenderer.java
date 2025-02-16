@@ -69,40 +69,40 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		uxTopSlim = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.SLIM_LAYER_LOCATION_TOP));
 		uxBotSlim = new UXArmorModel<>(modelSet.bakeLayer(UXArmorModel.SLIM_LAYER_LOCATION_BOTTOM));
 
-		armorModels.put((BaseArmorItem) ModItems.ux_Helmet.get(), uxTop);
-		armorModels.put((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTop);
-		armorModels.put((BaseArmorItem) ModItems.ux_Leggings.get(), uxBot);
-		armorModels.put((BaseArmorItem) ModItems.ux_Boots.get(), uxTop);
+		armorModels.put(ModItems.ux_Helmet.get(), uxTop);
+		armorModels.put(ModItems.ux_Chestplate.get(), uxTop);
+		armorModels.put(ModItems.ux_Leggings.get(), uxBot);
+		armorModels.put(ModItems.ux_Boots.get(), uxTop);
 
-		armorModels.put((BaseArmorItem) ModItems.terra_Helmet.get(), tTop);
-		armorModels.put((BaseArmorItem) ModItems.terra_Chestplate.get(), tTop);
-		armorModels.put((BaseArmorItem) ModItems.terra_Leggings.get(), tBot);
-		armorModels.put((BaseArmorItem) ModItems.terra_Boots.get(), tTop);
+		armorModels.put(ModItems.terra_Helmet.get(), tTop);
+		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
+		armorModels.put(ModItems.terra_Leggings.get(), tBot);
+		armorModels.put(ModItems.terra_Boots.get(), tTop);
 
-		armorModels.put((BaseArmorItem) ModItems.aqua_Helmet.get(), aTop);
-		armorModels.put((BaseArmorItem) ModItems.aqua_Chestplate.get(), aTop);
-		armorModels.put((BaseArmorItem) ModItems.aqua_Leggings.get(), aBot);
-		armorModels.put((BaseArmorItem) ModItems.aqua_Boots.get(), aTop);
+		armorModels.put(ModItems.aqua_Helmet.get(), aTop);
+		armorModels.put(ModItems.aqua_Chestplate.get(), aTop);
+		armorModels.put(ModItems.aqua_Leggings.get(), aBot);
+		armorModels.put(ModItems.aqua_Boots.get(), aTop);
 
-		armorModels.put((BaseArmorItem) ModItems.ventus_Helmet.get(), vTop);
-		armorModels.put((BaseArmorItem) ModItems.ventus_Chestplate.get(), vTop);
-		armorModels.put((BaseArmorItem) ModItems.ventus_Leggings.get(), vBot);
-		armorModels.put((BaseArmorItem) ModItems.ventus_Boots.get(), vTop);
+		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
+		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
+		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
+		armorModels.put(ModItems.ventus_Boots.get(), vTop);
 
-		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Helmet.get(), vTop);
-		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Chestplate.get(), vTop);
-		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Leggings.get(), vBot);
-		armorModels.put((BaseArmorItem) ModItems.nightmareVentus_Boots.get(), vTop);
+		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
+		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
+		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
+		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
 
-		armorModels.put((BaseArmorItem) ModItems.eraqus_Helmet.get(), eTop);
-		armorModels.put((BaseArmorItem) ModItems.eraqus_Chestplate.get(), eTop);
-		armorModels.put((BaseArmorItem) ModItems.eraqus_Leggings.get(), eBot);
-		armorModels.put((BaseArmorItem) ModItems.eraqus_Boots.get(), eTop);
+		armorModels.put(ModItems.eraqus_Helmet.get(), eTop);
+		armorModels.put(ModItems.eraqus_Chestplate.get(), eTop);
+		armorModels.put(ModItems.eraqus_Leggings.get(), eBot);
+		armorModels.put(ModItems.eraqus_Boots.get(), eTop);
 
-		armorModels.put((BaseArmorItem) ModItems.xehanort_Helmet.get(), xTop);
-		armorModels.put((BaseArmorItem) ModItems.xehanort_Chestplate.get(), xTop);
-		armorModels.put((BaseArmorItem) ModItems.xehanort_Leggings.get(), xBot);
-		armorModels.put((BaseArmorItem) ModItems.xehanort_Boots.get(), xTop);
+		armorModels.put(ModItems.xehanort_Helmet.get(), xTop);
+		armorModels.put(ModItems.xehanort_Chestplate.get(), xTop);
+		armorModels.put(ModItems.xehanort_Leggings.get(), xBot);
+		armorModels.put(ModItems.xehanort_Boots.get(), xTop);
 	}
 
 	@Override
@@ -121,11 +121,11 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		if (entitylivingbaseIn instanceof Player player) {
 			if (PlayerData.get(player) != null) {
 				if (Minecraft.getInstance().player.getSkin().model().id().equals("slim")) {
-					if (!armorModels.get((BaseArmorItem) ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
-						armorModels.replace((BaseArmorItem) ModItems.ux_Helmet.get(), uxTopSlim);
-						armorModels.replace((BaseArmorItem) ModItems.ux_Chestplate.get(), uxTopSlim);
-						armorModels.replace((BaseArmorItem) ModItems.ux_Leggings.get(), uxBotSlim);
-						armorModels.replace((BaseArmorItem) ModItems.ux_Boots.get(), uxTopSlim);
+					if (!armorModels.get(ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
+						armorModels.replace(ModItems.ux_Helmet.get(), uxTopSlim);
+						armorModels.replace(ModItems.ux_Chestplate.get(), uxTopSlim);
+						armorModels.replace(ModItems.ux_Leggings.get(), uxBotSlim);
+						armorModels.replace(ModItems.ux_Boots.get(), uxTopSlim);
 					}
 				}
 
