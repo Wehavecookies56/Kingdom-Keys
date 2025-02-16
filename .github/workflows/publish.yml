@@ -53,7 +53,7 @@ jobs:
           modrinth-id: DrsqKwVw
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
 
-          name: "${{env.RELEASE_NAME}} ${{env.VERSION}}"
+          name: "${{env.RELEASE_NAME}} ${{steps.mod_version.outputs.mod_version}}"
           version: "${{steps.mod_version.outputs.mod_version}}-${{env.MC_VERSION}}"
           version-type: release
           changelog-file: CHANGELOG.md
