@@ -1,11 +1,11 @@
 {
-	"type": "epicfight:dagger",
+	"type": "kingdomkeys:kk_chakram",
 	"attributes":{
 		"common":{
 			"armor_negation": 0.0,
-			"impact": 3.2,
+			"impact": 2.5,
 			"max_strikes": 1,
-			"speed_bonus": -3.30
+			"speed_bonus": -2.75
 		}
 	}
 }
