@@ -1,11 +1,11 @@
 {
-	"type": "kingdomkeys:kk_scythe",
+	"type": "kingdomkeys:kk_sitar",
 	"attributes":{
 		"common":{
 			"armor_negation": 0.0,
-			"impact": 3.3,
+			"impact": 1.0,
 			"max_strikes": 1,
-			"speed_bonus": -3.60
+			"speed_bonus": -2.90
 		}
 	}
 }
