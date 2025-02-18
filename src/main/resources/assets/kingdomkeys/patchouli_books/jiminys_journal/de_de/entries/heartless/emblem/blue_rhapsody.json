@@ -2,7 +2,7 @@
 	"name": "Arktikzipfler",
 	"icon": "kingdomkeys:blue_rhapsody_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 104,
+	"sortnum": 204,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{

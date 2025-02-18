@@ -94,7 +94,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
-        add(Gui_Menu_Customize + ".magic", "Magics");
+        add(Gui_Menu_Customize_Magic, "Magics");
+        add(Gui_Menu_Customize_Magic_Hidden, "Hidden");
+        add(Gui_Menu_Customize_Magic_Active, "Command Menu");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");
@@ -125,10 +127,12 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FireRes, "Fire Resistance");
         add(Gui_Menu_Status_BlizzardRes, "Blizzard Resistance");
         add(Gui_Menu_Status_ThunderRes, "Thunder Resistance");
+        add(Gui_Menu_Status_LightRes, "Light Resistance");
         add(Gui_Menu_Status_DarkRes, "Dark Resistance");
         add(Gui_Menu_Status_FireResShort, "Fire Res.");
         add(Gui_Menu_Status_BlizzardResShort, "Blizzard Res.");
         add(Gui_Menu_Status_ThunderResShort, "Thunder Res.");
+        add(Gui_Menu_Status_LightResShort, "Light Res.");
         add(Gui_Menu_Status_DarkResShort, "Dark Res.");
         add(Gui_Menu_Status_FormLevel, "Form Level");
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
@@ -1044,6 +1048,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.youngXehanortsKeyblade + ".desc", "The Keyblade weilded by Young Xehanort.");
         add("item." + MODID + "." + Strings.zeroOne + ".desc", "A Keyblade newly wrought within the datascape. Its powers render all opponents helpless.");
         add("item." + MODID + "." + Strings.k111 + ".desc", "A keyblade from a long forgotten age, it seems to resemble something familiar...");
+        add("item." + MODID + "." + Strings.retribution + ".desc", "A carefully forged Keyblade, with the intention to refine combat.\nSubmitted by TopazTK & Televo.");
 
         //Organization Weapons
         addItem(ModItems.malice, "Malice");

@@ -1,0 +1,17 @@
+{
+	"name": "Black Fungus",
+	"icon": "kingdomkeys:black_fungus_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 221,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Hostile $(heartless)Heartless$(), unlike $(l:kingdomkeys:heartless/emblem/white_mushroom)White Mushrooms$(). They attack with $(thing)poison$(). Defeating them may bring good things, but it is not easy.$(p)$(lissa)$(l)$(o)[KH1]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:black_fungus"
+		}
+	]
+}

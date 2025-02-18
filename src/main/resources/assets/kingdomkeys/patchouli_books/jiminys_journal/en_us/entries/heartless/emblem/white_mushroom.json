@@ -1,0 +1,17 @@
+{
+	"name": "White Mushroom",
+	"icon": "kingdomkeys:white_mushroom_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 220,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Nonattacking, friendly $(heartless)Heartless$(). They might give you an item if you help them.$(p)$(lissa)$(l)$(o)[KH1]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:white_mushroom"
+		}
+	]
+}

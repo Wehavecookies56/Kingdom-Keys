@@ -2,7 +2,7 @@
 	"name": "Zikzakzipfler",
 	"icon": "kingdomkeys:yellow_opera_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 105,
+	"sortnum": 205,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{

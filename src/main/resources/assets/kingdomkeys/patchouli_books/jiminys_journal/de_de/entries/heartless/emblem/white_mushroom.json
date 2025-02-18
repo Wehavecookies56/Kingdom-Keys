@@ -1,0 +1,17 @@
+{
+	"name": "Puffungi",
+	"icon": "kingdomkeys:white_mushroom_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 220,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein merkwürdiger $(heartless)Herzloser$(), der anhänglich zu sein scheint. Von friedlicher Natur, tut er niemandem etwas zu Leide. Verschenkt des öfteren Items, wenn man ihn von seinen Qualen befreit.$(p)$(lissa)$(l)$(o)[KH1]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:white_mushroom"
+		}
+	]
+}

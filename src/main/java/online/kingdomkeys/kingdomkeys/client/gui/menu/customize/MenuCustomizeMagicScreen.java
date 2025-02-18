@@ -189,8 +189,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
 
         updateMagicButtons(false);
         drawSeparately = true;
-        gui.drawCenteredString(Minecraft.getInstance().font, "Hidden", (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
-        gui.drawCenteredString(Minecraft.getInstance().font, "Command Menu", (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
+        gui.drawCenteredString(Minecraft.getInstance().font, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic_Hidden), (int) (boxLeftPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
+        gui.drawCenteredString(Minecraft.getInstance().font, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic_Active), (int) (boxRightPosX + (boxWidth / 2)), (int) topBarHeight + 3, 0xFFFFFF);
         gui.enableScissor((int) boxLeftPosX, (int) topBarHeight + 3 + font.lineHeight, (int) boxLeft.getWidth()*4, (int) (topBarHeight + middleHeight));
         for(Renderable renderable : this.renderables) {
             if (renderable instanceof Button button) {

@@ -1,0 +1,17 @@
+{
+	"name": "Giftfungi",
+	"icon": "kingdomkeys:black_fungus_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 221,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Anders als $(l:kingdomkeys:heartless/emblem/white_mushroom)Puffungi$() ein angriffslustiger $(heartless)Herzloser$(). $(thing)Vergiftet$() seine Gegner und erfreut sich an deren Leid. Ist nicht leicht zu besiegen, aber vielleicht wird man mit einer unerwarteten Siegesprämie belohnt.$(p)$(lissa)$(l)$(o)[KH1]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:black_fungus"
+		}
+	]
+}

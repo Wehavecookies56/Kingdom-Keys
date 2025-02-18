@@ -171,11 +171,11 @@
   "advancements.kingdomkeys.choice": "Habe ich geschlafen?",
   "advancements.kingdomkeys.choice.desc": "Triff eine Entscheidung",
   "advancements.kingdomkeys.levelup1": "Ich fühle die Energie!",
-  "advancements.kingdomkeys.levelup1.desc": "Steige in deiner Stufe auf",
+  "advancements.kingdomkeys.levelup1.desc": "Steige in deinem Level auf",
   "advancements.kingdomkeys.levelup100": "Spitzenreiter!",
-  "advancements.kingdomkeys.levelup100.desc": "Erreiche Stufe 100",
+  "advancements.kingdomkeys.levelup100.desc": "Erreiche Level 100",
   "advancements.kingdomkeys.levelup50": "Halbzeit",
-  "advancements.kingdomkeys.levelup50.desc": "Erreiche Stufe 50",
+  "advancements.kingdomkeys.levelup50.desc": "Erreiche Level 50",
   "advancements.kingdomkeys.obtain_drive": "Das ist noch nicht Mal meine wahre Form",
   "advancements.kingdomkeys.obtain_drive.desc": "Erhalte deine erste Drive Form",
   "advancements.kingdomkeys.obtain_keychain": "So ein Mogry kennt sich gut aus",
@@ -306,7 +306,7 @@
 
   "block.kingdomkeys.castle_oblivion_pillar": "Säule des Entfallens",
   "block.kingdomkeys.castle_oblivion_stairs": "Treppe des Entfallens",
-  "block.kingdomkeys.castle_oblivion_slab": "Halbstufe des Entfallens",
+  "block.kingdomkeys.castle_oblivion_slab": "Stufe des Entfallens",
   "block.kingdomkeys.castle_oblivion_wall": "Block des Entfallens",
   "block.kingdomkeys.castle_oblivion_wall2": "Muster des Entfallens",
   "block.kingdomkeys.castle_oblivion_wall3": "Zierde des Entfallens",
@@ -330,6 +330,7 @@
   // --ENEMIES
 
   "entity.kingdomkeys.assassin": "Meuchler",
+  "entity.kingdomkeys.black_fungus": "Giftfungi",
   "entity.kingdomkeys.blue_rhapsody": "Arktizipfler",
   "entity.kingdomkeys.darkball": "Schattenquasar",
   "entity.kingdomkeys.detonator": "Bombe",
@@ -350,6 +351,7 @@
   "entity.kingdomkeys.soldier": "Klappersoldat",
   "entity.kingdomkeys.spawning_orb": "Schattenkugel-Spawner",
   "entity.kingdomkeys.storm_bomb": "Sturmbombe",
+  "entity.kingdomkeys.white_mushroom": "Puffungi",
   "entity.kingdomkeys.yellow_opera": "Zikzakzipfler",
 
   // --BOSSES
@@ -511,6 +513,8 @@
 
   "gui.menu.customize": "Einstellungen",
   "gui.menu.customize.magic": "Magie",
+  "gui.menu.customize.magic.hidden": "Versteckt",
+  "gui.menu.customize.magic.active": "Aktive Kommandos",
   "gui.menu.customize.shortcut": "Kurzbefehl",
   "gui.menu.customize.shortcuts": "Kurzbefehle",
   "gui.menu.customize.unequip": "Abwählen",
@@ -574,24 +578,26 @@
   "gui.menu.status.abilities": "Abilitys",
   "gui.menu.status.ability": "Ability",
   "gui.menu.status.ap": "AP",
-  "gui.menu.status.blizzardres": "Eisresistenz",
-  "gui.menu.status.blizzardresshort": "Eisres.",
-  "gui.menu.status.darkres": "Dunkelresistenz",
-  "gui.menu.status.darkresshort": "Dunkelres.",
+  "gui.menu.status.blizzardres": "Eis-Resistenz",
+  "gui.menu.status.blizzardresshort": "Eis Res.",
+  "gui.menu.status.darkres": "Dunkel-Resistenz",
+  "gui.menu.status.darkresshort": "Dunkel Res.",
   "gui.menu.status.defense": "Abwehr", //Abwehrkraft
   "gui.menu.status.drivegauge": "Drive-Leiste",
-  "gui.menu.status.fireres": "Feuerresistenz",
-  "gui.menu.status.fireresshort": "Feuerres.",
+  "gui.menu.status.fireres": "Feuer-Resistenz",
+  "gui.menu.status.fireresshort": "Feuer Res.",
   "gui.menu.status.formgauge": "Form-Leiste",
   "gui.menu.status.formlevel": "Form-Level",
   "gui.menu.status.hp": "HP",
   "gui.menu.status.level": "Level",
+  "gui.menu.status.lightres": "Licht-Resistenz",
+  "gui.menu.status.lightresshort": "Licht Res.",
   "gui.menu.status.magic": "Magie", //Magiekraft
   "gui.menu.status.mp": "MP",
   "gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
   "gui.menu.status.strength": "Angriff", //Angriffskraft
-  "gui.menu.status.thunderres": "Blitzresistenz",
-  "gui.menu.status.thunderresshort": "Blitzres.",
+  "gui.menu.status.thunderres": "Blitz-Resistenz",
+  "gui.menu.status.thunderresshort": "Blitz-Res.",
   "gui.menu.status.totalexp": "Erfahrung",
 
   "gui.menu.style": "Kampfstil",
@@ -692,6 +698,7 @@
   // -SPAWN EGGS
 
   "item.kingdomkeys.assassin_spawn_egg": "Meuchler-Spawn-Ei",
+  "item.kingdomkeys.black_fungus_spawn_egg": "Giftfungi-Spawn-Ei",
   "item.kingdomkeys.blue_rhapsody_spawn_egg": "Arktizipfler-Spawn-Ei",
   "item.kingdomkeys.nobody_creeper_spawn_egg": "Kriecher-Spawn-Ei", //under C as creeper
   "item.kingdomkeys.darkball_spawn_egg": "Schattenquasar-Spawn-Ei",
@@ -712,6 +719,7 @@
   "item.kingdomkeys.skater_bomb_spawn_egg": "Eisbombe-Spawn-Ei",
   "item.kingdomkeys.soldier_spawn_egg": "Klappersoldat-Spawn-Ei",
   "item.kingdomkeys.storm_bomb_spawn_egg": "Sturmbombe-Spawn-Ei",
+  "item.kingdomkeys.white_mushroom_spawn_egg": "Puffungi-Spawn-Ei",
   "item.kingdomkeys.yellow_opera_spawn_egg": "Zikzakzipfler-Spawn-Ei",
 
   //boss
@@ -1065,6 +1073,9 @@
   "item.kingdomkeys.k111": "K111",
   "item.kingdomkeys.k111c": "K111a",
   "item.kingdomkeys.k111.desc": "Ein Schlüsselschwert aus einer lang vergessenen Zeit, es sieht ziemlich vertraut aus...",
+  "item.kingdomkeys.retribution": "Vergeltung",
+  "item.kingdomkeys.retributionChain": "Vergeltung.Anhänger",
+  "item.kingdomkeys.retribution.desc": "Ein vorsichtig geschmiedetes Schlüsselschwert, mit der Intention, Kämpfe zu verbessern.\nEingereicht von TopazTK & Televo.",
 
   // ---KH1
 
@@ -2066,7 +2077,7 @@
   "jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
   "jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
   "jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
-  "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 5 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
+  "jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 4 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
   "jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
   "jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
 

@@ -413,6 +413,8 @@ public class Strings {
 
 			Gui_Menu_Customize_Shortcuts = Gui_Menu_Customize + ".shortcuts",
 			Gui_Menu_Customize_Magic = Gui_Menu_Customize + ".magic",
+			Gui_Menu_Customize_Magic_Hidden = Gui_Menu_Customize_Magic + ".hidden",
+			Gui_Menu_Customize_Magic_Active = Gui_Menu_Customize_Magic + ".active",
 
             Gui_Menu_Party = Gui_Menu + ".party",
             Gui_Menu_Party_Create = Gui_Menu_Party + ".create",
