@@ -60,7 +60,7 @@ public class Strings {
        public static final String
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
-       		SonicBlade = "sonic_blade",
+       		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
 			UltimaCannon = "ultima_cannon";
     
