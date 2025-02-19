@@ -1,5 +1,6 @@
 Changed:
-* Synthesis submenus are only accessible if necessary, so the keyblade forge is only accessible if you have a keychain, materials are only accessible if you have a material, synthesis only if you have a recipe (normally you should always have some)
-* [EFM] All Organization weapons now have movesets @Xephiro
-* Updated german translation @ZeitHeld 
-* Added journal entries for mushroom Heartless @ZeitHeld
+- **Pauldrons functionality changed completely:**
+  * All armour can now be summoned via pauldron
+  * Pauldrons now have an inventory with the 4 armour slots accessible by right clicking while holding it
+  * Armour that takes damage while summoned will also take damage within the pauldron and therefore can break
+  * Armour can be summoned without filling all 4 slots

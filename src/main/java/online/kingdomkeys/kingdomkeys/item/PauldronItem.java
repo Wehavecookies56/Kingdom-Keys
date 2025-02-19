@@ -6,9 +6,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,9 +20,19 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.network.NetworkHooks;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.container.PauldronContainer;
+import online.kingdomkeys.kingdomkeys.container.PauldronInventory;
+import online.kingdomkeys.kingdomkeys.container.SynthesisBagContainer;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
@@ -66,7 +79,18 @@ public class PauldronItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level levelIn, Player playerIn, InteractionHand handIn) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
+
+		if (!level.isClientSide) {
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer)player);
+			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new PauldronContainer(w, p, stack), stack.getHoverName());
+			NetworkHooks.openScreen((ServerPlayer) player, container, buf -> {
+				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
+			});
+		}
+
+		/**
 		boolean shouldSuck = false;
 		for (int i = 0; i < 4; i++) {
 			ItemStack armorPieceStack = playerIn.getInventory().getItem(36 + i);
@@ -78,8 +102,9 @@ public class PauldronItem extends Item implements IItemCategory {
 		}
 		if(shouldSuck)
 			playerIn.startUsingItem(handIn);
+		 **/
 		
-		return super.use(levelIn, playerIn, handIn);
+		return InteractionResultHolder.success(stack);
 	}
 	
 	@Override
@@ -140,16 +165,25 @@ public class PauldronItem extends Item implements IItemCategory {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		if (stack.getTag() != null) {
-			appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", tooltip, stack.getTag().getCompound("helmet"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", tooltip, stack.getTag().getCompound("chestplate"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString() + ":", tooltip, stack.getTag().getCompound("leggings"));
-			appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString() + ":", tooltip, stack.getTag().getCompound("boots"));
-			if (flagIn.isAdvanced()) {
-				if (stack.getTag().hasUUID("armorID")) {
-					tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
-					tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("armorID").toString()));
-				}
+		stack.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+			if (!iItemHandler.getStackInSlot(0).isEmpty()) {
+				tooltip.add(Component.literal(Component.translatable("kingdomkeys.helmet").getString() + ": " + iItemHandler.getStackInSlot(0).getHoverName().getString()));
+			}
+			if (!iItemHandler.getStackInSlot(1).isEmpty()) {
+				tooltip.add(Component.literal(Component.translatable("kingdomkeys.chestplate").getString() + ": " + iItemHandler.getStackInSlot(1).getHoverName().getString()));
+			}
+			if (!iItemHandler.getStackInSlot(2).isEmpty()) {
+				tooltip.add(Component.literal(Component.translatable("kingdomkeys.leggings").getString() + ": " + iItemHandler.getStackInSlot(2).getHoverName().getString()));
+			}
+			if (!iItemHandler.getStackInSlot(3).isEmpty()) {
+				tooltip.add(Component.literal(Component.translatable("kingdomkeys.boots").getString() + ": " + iItemHandler.getStackInSlot(3).getHoverName().getString()));
+			}
+		});
+
+		if (flagIn.isAdvanced()) {
+			if (stack.getTag().hasUUID("armorID")) {
+				tooltip.add(Component.translatable(ChatFormatting.RED + "DEBUG:"));
+				tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.getTag().getUUID("armorID").toString()));
 			}
 		}
 	}
@@ -163,18 +197,8 @@ public class PauldronItem extends Item implements IItemCategory {
 		return isFoil(stack);
 	}
 
-	public void appendEnchantmentNames(String text, List<Component> pTooltipComponents, CompoundTag pStoredTags) {
-		//Get only the enchantments list
-		ListTag enchantments = pStoredTags.getList(ItemStack.TAG_ENCH, Tag.TAG_COMPOUND);
-
-		if (enchantments != null) {
-			pTooltipComponents.add(Component.translatable(text));
-			for (int i = 0; i < enchantments.size(); ++i) {
-				CompoundTag compoundtag = enchantments.getCompound(i);
-				BuiltInRegistries.ENCHANTMENT.getOptional(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent((enchantment) -> {
-					pTooltipComponents.add(Component.literal(ChatFormatting.GRAY + "- " + enchantment.getFullname(EnchantmentHelper.getEnchantmentLevel(compoundtag)).getString()));
-				});
-			}
-		}
+	@Override
+	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+		return new PauldronInventory();
 	}
 }

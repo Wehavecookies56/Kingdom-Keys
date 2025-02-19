@@ -140,7 +140,7 @@ public class CastleOblivionHandler {
                 SCSyncCastleOblivionInteriorCapability.syncClients(event.getEntity().level());
                 event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
                 event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
-                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Toby"));
+                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Estelle"));
                 ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
                 if (cap.getFloors().isEmpty()) {

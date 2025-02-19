@@ -7,6 +7,7 @@
   "mixins": [
     "LivingEntityMixin",
     "TellMeTheErrorMixin",
+    "ItemStackMixin",
     "apotheosis.SalvagingMenuMixin",
     "jer.ForgePlatformHelperMixin",
     "jer.RegistrySetBuilderMixin"

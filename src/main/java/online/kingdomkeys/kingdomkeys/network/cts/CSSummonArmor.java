@@ -10,10 +10,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
@@ -49,6 +51,14 @@ public class CSSummonArmor {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			
 			ItemStack kbArmorItem = playerData.getEquippedKBArmor(0);
+			IItemHandler iItemHandler = kbArmorItem.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
+			int checkSlots = iItemHandler.getSlots();
+			for (int i = 0; i < iItemHandler.getSlots(); ++i) {
+				if (iItemHandler.getStackInSlot(i).isEmpty()) {
+					checkSlots--;
+				}
+			}
+
 			if(kbArmorItem.getItem() == Items.AIR) //if empty abort
 				return;
 			
@@ -71,19 +81,19 @@ public class CSSummonArmor {
 				
 				boolean hasRoom = true;
 				if(message.forceDesummon) {
-					checkAllArmorSlots(player,KBArmorUUID);
+					checkAllArmorSlots(player,KBArmorUUID, playerData);
 				} else {
-					if(correctArmor == 4) { //If it's wearing the full correct armor or has to remove it
+					if(correctArmor == checkSlots) { //If it's wearing the full correct armor or has to remove it
 						//Desummon
 						for(int i=36;i<40;i++) {
-							player.getInventory().setItem(i, ItemStack.EMPTY);
+							Utils.desummonArmour(playerData, player, player.getInventory().getItem(i), i, true, false);
 						}
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 					} else {
 						//If it's wearing any armor unequip it
 						if(!(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR)) {
 							
-							if(checkAllArmorSlots(player, KBArmorUUID)) {
+							if(checkAllArmorSlots(player, KBArmorUUID, playerData)) {
 								player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 							}
 							
@@ -118,37 +128,11 @@ public class CSSummonArmor {
 						}
 						
 						if(hasRoom) {
-							ItemStack newHelmet = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(3), KBArmorUUID);
-							ItemStack newChestplate = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
-							ItemStack newLeggings = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
-							ItemStack newBoots = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
-							
-							if(kbArmorItem.getTag() != null) {
-								CompoundTag bootsTag = kbArmorItem.getTag().getCompound("boots");
-								CompoundTag legginsTag = kbArmorItem.getTag().getCompound("leggings");
-								CompoundTag chestplateTag = kbArmorItem.getTag().getCompound("chestplate");
-								CompoundTag helmetTag = kbArmorItem.getTag().getCompound("helmet");
-								if(bootsTag != null) {
-									newBoots.setTag(bootsTag);
-									newBoots.getTag().putUUID("armorID", KBArmorUUID);
-								}
-								
-								if(legginsTag != null) {
-									newLeggings.setTag(legginsTag);
-									newLeggings.getTag().putUUID("armorID", KBArmorUUID);
-								}
-								
-								if(chestplateTag != null) {
-									newChestplate.setTag(chestplateTag);
-									newChestplate.getTag().putUUID("armorID", KBArmorUUID);
-								}
-								
-								if(helmetTag != null) {
-									newHelmet.setTag(helmetTag);
-									newHelmet.getTag().putUUID("armorID", KBArmorUUID);
-								}
-							}
-							
+							ItemStack newHelmet = getNewItemWithUUID(iItemHandler.getStackInSlot(0), KBArmorUUID);
+							ItemStack newChestplate = getNewItemWithUUID(iItemHandler.getStackInSlot(1), KBArmorUUID);
+							ItemStack newLeggings = getNewItemWithUUID(iItemHandler.getStackInSlot(2), KBArmorUUID);
+							ItemStack newBoots = getNewItemWithUUID(iItemHandler.getStackInSlot(3), KBArmorUUID);
+
 							player.getInventory().setItem(39, newHelmet);
 							player.getInventory().setItem(38, newChestplate);
 							player.getInventory().setItem(37, newLeggings);
@@ -172,27 +156,32 @@ public class CSSummonArmor {
 	 * @param KBArmorUUID
 	 * @return
 	 */
-	private static boolean checkAllArmorSlots(Player player, UUID KBArmorUUID) {
+	private static boolean checkAllArmorSlots(Player player, UUID KBArmorUUID, IPlayerCapabilities playerData) {
 		boolean unequipped = false;
-		unequipped = checkAndEmptyArmorSlot(36, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(37, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(38, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(39, player, KBArmorUUID) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(36, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(37, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(38, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(39, player, KBArmorUUID, playerData) || unequipped;
 		return unequipped;
 	}
 
-	private static boolean checkAndEmptyArmorSlot(int i, Player player, UUID KBArmorUUID) {
+	private static boolean checkAndEmptyArmorSlot(int i, Player player, UUID KBArmorUUID, IPlayerCapabilities playerData) {
 		if (Utils.hasArmorID(player.getInventory().getItem(i)) && Utils.getArmorID(player.getInventory().getItem(i)).equals(KBArmorUUID)) {
-			player.getInventory().setItem(i, ItemStack.EMPTY);
+			Utils.desummonArmour(playerData, player, player.getInventory().getItem(i), i, true, false);
 			return true;
 		}
 		return false;
 	}
 
-	private static ItemStack getNewItemWithUUID(Item item, UUID uuid) {
-		ItemStack newItem = new ItemStack(item);
-		newItem.setTag(new CompoundTag());
-		newItem.getTag().putUUID("armorID", uuid);
+	private static ItemStack getNewItemWithUUID(ItemStack item, UUID uuid) {
+		ItemStack newItem = item.copy();
+		newItem.setDamageValue(item.getDamageValue());
+		if (!item.isEmpty()) {
+			if (newItem.getTag() == null) {
+				newItem.setTag(new CompoundTag());
+			}
+			newItem.getTag().putUUID("armorID", uuid);
+		}
 		return newItem;
 	}
 	

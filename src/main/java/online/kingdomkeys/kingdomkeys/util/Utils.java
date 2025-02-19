@@ -13,6 +13,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,6 +37,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -61,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -71,9 +75,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-/**
- * Created by Toby on 19/07/2016.
- */
 public class Utils {
 
     public static ItemStack getItemInAnyHand(Player player, Item item) {
@@ -563,8 +564,46 @@ public class Utils {
 		return null;
 	}
 
+	public static void armourTick(ItemStack stack, Entity entity, Level level, int slot) {
+		if (entity instanceof Player player && !level.isClientSide) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
+			if(playerData != null) {
+				UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
+
+				if (Utils.hasArmorID(stack)) {
+					if (Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
+						//If the armor item is ticking outside an armor slot
+						if (!(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack)) {
+							Utils.desummonArmour(playerData, player, stack, slot, true, true);
+						}
+					} else {//If UUID is different remove
+						Utils.desummonArmour(playerData, player, stack, slot, false, true);
+					}
+				}
+			}
+		}
+	}
+
+	public static void desummonArmour(IPlayerCapabilities playerData, Player player, ItemStack stack, int slot, boolean sameUUID, boolean playSound) {
+		if (sameUUID) {
+			ItemStack pauldron = playerData.getEquippedKBArmor(0);
+			pauldron.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+				if (stack.getItem() instanceof ArmorItem armorItem) {
+					iItemHandler.extractItem(armorItem.getType().ordinal(), 1, false);
+					stack.getTag().remove("armorID");
+					iItemHandler.insertItem(armorItem.getType().ordinal(), stack, false);
+				}
+			});
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
+		}
+		player.getInventory().setItem(slot, ItemStack.EMPTY);
+		if (playSound) {
+			player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		}
+	}
+
 	public static boolean hasArmorID(ItemStack stack) {
-		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
+		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof ArmorItem) {
 			if (stack.getTag() != null) {
 				if (stack.getTag().hasUUID("armorID")) {
 					return true;

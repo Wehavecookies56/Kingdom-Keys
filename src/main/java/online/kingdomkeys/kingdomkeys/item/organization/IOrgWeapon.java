@@ -2,9 +2,6 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-/**
- * Created by Toby on 08/02/2017.
- */
 public interface IOrgWeapon {
     Utils.OrgMember getMember();
 

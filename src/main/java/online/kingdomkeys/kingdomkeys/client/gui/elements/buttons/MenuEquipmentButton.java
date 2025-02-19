@@ -17,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -390,22 +392,23 @@ public class MenuEquipmentButton extends Button {
                             ClientUtils.drawSplitString(gui, stack.getTooltipLines(mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof PauldronItem kbArmor){
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString()+":", stack.getTag().getCompound("helmet"))) {
-		                    gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+						IItemHandler iItemHandler = stack.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
+						if (!iItemHandler.getStackInSlot(0).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.helmet").getString() + ": " + iItemHandler.getStackInSlot(0).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
+							posY += 10;
+						}
+						if (!iItemHandler.getStackInSlot(1).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.chestplate").getString() + ": " + iItemHandler.getStackInSlot(1).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
-	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString()+":", stack.getTag().getCompound("chestplate"))) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+						}
+						if (!iItemHandler.getStackInSlot(2).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.leggings").getString() + ": " + iItemHandler.getStackInSlot(2).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
-	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString()+":", stack.getTag().getCompound("leggings"))) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
+						}
+						if (!iItemHandler.getStackInSlot(3).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.boots").getString() + ": " + iItemHandler.getStackInSlot(3).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
 							posY+=10;
-	                    }
-	                    for(String s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString()+":", stack.getTag().getCompound("boots"))) {
-							gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-							posY+=10;
-	                    }
+						}
                     }
                 } 
                 

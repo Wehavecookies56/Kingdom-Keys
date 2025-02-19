@@ -13,10 +13,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.container.GummiEditorScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.MagicalChestScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.container.*;
 
 //NOTE: they call containers menus in mojang mappings
 
@@ -27,7 +24,8 @@ public class ModContainers {
         SYNTHESIS_BAG = createContainer("synthesis_bag", SynthesisBagContainer::fromNetwork),
         PEDESTAL = createContainer("pedestal_container", PedestalContainer::new),
         MAGICAL_CHEST = createContainer("magical_chest", MagicalChestContainer::new),
-        GUMMI_EDITOR = createContainer("gummi_editor_container", GummiEditorContainer::new)
+        GUMMI_EDITOR = createContainer("gummi_editor_container", GummiEditorContainer::new),
+        PAULDRON = createContainer("pauldron", PauldronContainer::fromNetwork)
     ;
 
     public static <M extends AbstractContainerMenu> RegistryObject<MenuType<?>> createContainer(String name, IContainerFactory<M> container) {
@@ -46,6 +44,7 @@ public class ModContainers {
         registerGUIFactory((MenuType<PedestalContainer>) (ModContainers.PEDESTAL.get()), PedestalScreen::new);
         registerGUIFactory((MenuType<MagicalChestContainer>) (ModContainers.MAGICAL_CHEST.get()), MagicalChestScreen::new);
         registerGUIFactory((MenuType<GummiEditorContainer>) (ModContainers.GUMMI_EDITOR.get()), GummiEditorScreen::new);
+        registerGUIFactory((MenuType<PauldronContainer>) (ModContainers.PAULDRON.get()), PauldronScreen::new);
     }
 
 }

@@ -582,13 +582,15 @@ public class CommandMenuGui extends OverlayBase {
 		super.render(gui, guiGraphics, partialTick, width, height);
 		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
-		drawReactionCommands(guiGraphics, width, height);
+		if (minecraft.player != null && ModCapabilities.getPlayer(minecraft.player) != null) {
+			drawReactionCommands(guiGraphics, width, height);
 
-		List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
-		submenus.forEach(submenu -> {
-			submenu.render(guiGraphics, width, height, partialTick);
-			submenu.onUpdate(guiGraphics);
-		});
+			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
+			submenus.forEach(submenu -> {
+				submenu.render(guiGraphics, width, height, partialTick);
+				submenu.onUpdate(guiGraphics);
+			});
+		}
 
 	}
 

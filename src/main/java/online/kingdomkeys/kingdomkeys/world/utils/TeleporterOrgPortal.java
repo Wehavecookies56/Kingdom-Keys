@@ -13,9 +13,6 @@ import net.minecraft.world.level.portal.PortalForcer;
 
 import java.util.Optional;
 
-/**
- * Created by Toby on 01/08/2016.
- */
 public class TeleporterOrgPortal extends PortalForcer {
 
     public TeleporterOrgPortal(ServerLevel worldIn) {

@@ -94,26 +94,7 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn instanceof Player player && !worldIn.isClientSide) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			if(playerData != null) {
-				UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
-
-				if (Utils.hasArmorID(stack)) {		
-					if(Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
-						//If the armor item is ticking outside an armor slot
-						if(!(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack)) {
-							player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
-							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-						}
-					} else {//If UUID is different remove
-						player.getInventory().setItem(itemSlot, ItemStack.EMPTY);
-						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					}
-					
-				}
-			}
-		}
+		Utils.armourTick(stack, entityIn, worldIn, itemSlot);
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
