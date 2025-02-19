@@ -215,7 +215,7 @@
 
   "block.kingdomkeys.card_door": "Kartentür",
   "block.kingdomkeys.data_portal": "Daten-Portal",
-  "block.kingdomkeys.structure_wall": "Struktur Wand",
+  "block.kingdomkeys.structure_wall": "Strukturwand",
 
 
   // -ORES
@@ -293,9 +293,9 @@
   "block.kingdomkeys.org_portal": "Organisations-Portal",
   "block.kingdomkeys.pedestal": "Podest",
   
-  "block.kingdomkeys.rod_cracked_stone": "Rissiger Dunkel-Stein",
-  "block.kingdomkeys.rod_sand": "Dunkel-Sand",
-  "block.kingdomkeys.rod_stone": "Dunkel-Stein",
+  "block.kingdomkeys.rod_cracked_stone": "Rissiger Dunkelstein",
+  "block.kingdomkeys.rod_sand": "Dunkelsand",
+  "block.kingdomkeys.rod_stone": "Dunkelstein",
 
   "block.kingdomkeys.soa_door": "Mysteriöse Tür",
   "block.kingdomkeys.sor_core": "Ort der Trauer-Kern",
@@ -1074,7 +1074,7 @@
   "item.kingdomkeys.k111c": "K111a",
   "item.kingdomkeys.k111.desc": "Ein Schlüsselschwert aus einer lang vergessenen Zeit, es sieht ziemlich vertraut aus...",
   "item.kingdomkeys.retribution": "Vergeltung",
-  "item.kingdomkeys.retributionChain": "Vergeltung.Anhänger",
+  "item.kingdomkeys.retribution_chain": "Vergeltung-Anhänger",
   "item.kingdomkeys.retribution.desc": "Ein vorsichtig geschmiedetes Schlüsselschwert, mit der Intention, Kämpfe zu verbessern.\nEingereicht von TopazTK & Televo.",
 
   // ---KH1
@@ -2214,6 +2214,8 @@
   "shotlock.circular_shotlock.name": "Ragnarök",
   "shotlock.dark_volley.name": "Düsterhagel",
   "shotlock.prism_rain.name": "Prismaregen",
+  "shotlock.sonic_shadow.name": "Schallschatten", //Terra BBS First
+  "shotlock.ultima_cannon.name": "Ultimakanone", //ArmoredTerra BBS Final
 
   // STATION OF AWAKENING
 

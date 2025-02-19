@@ -4,7 +4,6 @@ import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 import net.minecraft.data.DataGenerator;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
@@ -465,6 +464,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
         addShotlock(ModShotlocks.DARK_VOLLEY, "Dark Volley");
         addShotlock(ModShotlocks.PRISM_RAIN, "Prism Rain");
+        addShotlock(ModShotlocks.SONIC_SHADOW, "Sonic Shadow");
+        addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
 
         //Magic
         addMagic(ModMagic.FIRE, "Fire", "Fira", "Firaga", "Firaza");

@@ -20,7 +20,7 @@ public class ModShotlocks {
 	public static final RegistryObject<Shotlock>
 		DARK_VOLLEY = SHOTLOCKS.register(Strings.DarkVolley, () -> new ShotlockDarkVolley(KingdomKeys.MODID + ":" + Strings.DarkVolley, order++, 2, 18)),
 		RAGNAROK = SHOTLOCKS.register(Strings.Ragnarok, () -> new ShotlockRagnarok(KingdomKeys.MODID + ":" + Strings.Ragnarok, order++, 3, 16)),
-		SONIC_BLADE = SHOTLOCKS.register(Strings.SonicBlade, () -> new ShotlockSonicBlade(KingdomKeys.MODID + ":" + Strings.SonicBlade, order++, 4, 10)),
+		SONIC_SHADOW = SHOTLOCKS.register(Strings.SonicShadow, () -> new ShotlockSonicBlade(KingdomKeys.MODID + ":" + Strings.SonicShadow, order++, 4, 10)),
 		PRISM_RAIN = SHOTLOCKS.register(Strings.PrismRain, () -> new ShotlockPrismRain(KingdomKeys.MODID + ":" + Strings.PrismRain, order++, 3, 16)),
 		ULTIMA_CANNON = SHOTLOCKS.register(Strings.UltimaCannon, () -> new ShotlockUltimaCannon(KingdomKeys.MODID + ":" + Strings.UltimaCannon, order++, 2*20, 1))
 	;
