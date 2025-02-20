@@ -29,4 +29,6 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WAYFINDER_COLOR = COMPONENTS.registerComponentType("wayfinder_color", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WayfinderItem.WayfinderOwner>> WAYFINDER_OWNER = COMPONENTS.registerComponentType("wayfinder_owner", builder -> builder.persistent(WayfinderItem.WayfinderOwner.CODEC).networkSynchronized(WayfinderItem.WayfinderOwner.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SAVE_POINT_TIER = COMPONENTS.registerComponentType("save_point_tier", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PAULDRON_CREATED = COMPONENTS.registerComponentType("pauldron_created", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding());
+
 }
