@@ -566,15 +566,15 @@ public class CommandMenuGui extends OverlayBase {
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
 		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
+		if (minecraft.player != null) {
+			drawReactionCommands(guiGraphics, deltaTracker);
 
-		drawReactionCommands(guiGraphics, deltaTracker);
-
-		List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
-		submenus.forEach(submenu -> {
-			submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
-			submenu.onUpdate(guiGraphics);
-		});
-
+			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
+			submenus.forEach(submenu -> {
+				submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
+				submenu.onUpdate(guiGraphics);
+			});
+		}
 	}
 
 	public static void down() {

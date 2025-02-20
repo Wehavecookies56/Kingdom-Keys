@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -38,10 +39,7 @@ import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.GrindstoneEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -75,6 +73,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
@@ -1479,13 +1478,28 @@ public class EntityEvents {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void grindstoneEvent(GrindstoneEvent.OnPlaceItem event) {
-		if(!event.getTopItem().isEmpty() && event.getTopItem().getItem() instanceof PauldronItem pauldron) {
-			event.setOutput(new ItemStack(pauldron));
-			int xp = 5 * event.getTopItem().get(ModComponents.PAULDRON_ENCHANTMENTS).size();
-			event.setXp(xp);
+	public void armourHurt(ArmorHurtEvent event) {
+		if (!event.getEntity().level().isClientSide()) {
+			if (event.getEntity() instanceof Player player) {
+				for (int i = 5; i > 2; i--) {
+					ItemStack stack = event.getArmorItemStack(EquipmentSlot.values()[i]);
+					float damage = event.getNewDamage(EquipmentSlot.values()[i]);
+					if (!stack.isEmpty()) {
+						if (stack.getDamageValue() + damage >= stack.getMaxDamage()) {
+							if (Utils.hasArmorID(stack)) {
+								ItemStack pauldron = PlayerData.get(player).getEquippedKBArmor(0);
+								PauldronInventory pauldronInventory = (PauldronInventory) pauldron.getCapability(Capabilities.ItemHandler.ITEM);
+								if (pauldronInventory != null) {
+									pauldronInventory.setStackInSlot(-(i - 5), ItemStack.EMPTY);
+									player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

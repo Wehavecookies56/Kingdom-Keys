@@ -18,12 +18,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
+import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -47,25 +49,26 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 	 * @param KBArmorUUID
 	 * @return
 	 */
-	private static boolean checkAllArmorSlots(Player player, UUID KBArmorUUID) {
+	private static boolean checkAllArmorSlots(Player player, UUID KBArmorUUID, PlayerData playerData) {
 		boolean unequipped = false;
-		unequipped = checkAndEmptyArmorSlot(36, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(37, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(38, player, KBArmorUUID) || unequipped;
-		unequipped = checkAndEmptyArmorSlot(39, player, KBArmorUUID) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(36, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(37, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(38, player, KBArmorUUID, playerData) || unequipped;
+		unequipped = checkAndEmptyArmorSlot(39, player, KBArmorUUID, playerData) || unequipped;
 		return unequipped;
 	}
 
-	private static boolean checkAndEmptyArmorSlot(int i, Player player, UUID KBArmorUUID) {
+	private static boolean checkAndEmptyArmorSlot(int i, Player player, UUID KBArmorUUID, PlayerData playerData) {
 		if (Utils.hasArmorID(player.getInventory().getItem(i)) && Utils.getArmorID(player.getInventory().getItem(i)).equals(KBArmorUUID)) {
-			player.getInventory().setItem(i, ItemStack.EMPTY);
+			Utils.desummonArmour(playerData, player, player.getInventory().getItem(i), i, true, false);
 			return true;
 		}
 		return false;
 	}
 
-	private static ItemStack getNewItemWithUUID(Item item, UUID uuid) {
-		ItemStack newItem = new ItemStack(item);
+	private static ItemStack getNewItemWithUUID(ItemStack item, UUID uuid) {
+		ItemStack newItem = item.copy();
+		newItem.setDamageValue(item.getDamageValue());
 		newItem.set(ModComponents.ARMOR_ID, uuid);
 		return newItem;
 	}
@@ -81,6 +84,16 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 		PlayerData playerData = PlayerData.get(player);
 
 		ItemStack kbArmorItem = playerData.getEquippedKBArmor(0);
+
+		PauldronInventory pauldronInventory = (PauldronInventory) kbArmorItem.getCapability(Capabilities.ItemHandler.ITEM);
+
+		int checkSlots = pauldronInventory.getSlots();
+		for (int i = 0; i < pauldronInventory.getSlots(); ++i) {
+			if (pauldronInventory.getStackInSlot(i).isEmpty()) {
+				checkSlots--;
+			}
+		}
+
 		if(kbArmorItem.getItem() == Items.AIR) //if empty abort
 			return;
 
@@ -103,19 +116,19 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 
 			boolean hasRoom = true;
 			if(forceDesummon) {
-				checkAllArmorSlots(player,KBArmorUUID);
+				checkAllArmorSlots(player,KBArmorUUID, playerData);
 			} else {
-				if(correctArmor == 4) { //If it's wearing the full correct armor or has to remove it
+				if(correctArmor == checkSlots) { //If it's wearing the full correct armor or has to remove it
 					//Desummon
 					for(int i=36;i<40;i++) {
-						player.getInventory().setItem(i, ItemStack.EMPTY);
+						Utils.desummonArmour(playerData, player, player.getInventory().getItem(i), i, true, false);
 					}
 					player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 				} else {
 					//If it's wearing any armor unequip it
 					if(!(armor[0].getItem() == Items.AIR && armor[1].getItem() == Items.AIR && armor[2].getItem() == Items.AIR && armor[3].getItem() == Items.AIR)) {
 
-						if(checkAllArmorSlots(player, KBArmorUUID)) {
+						if(checkAllArmorSlots(player, KBArmorUUID, playerData)) {
 							player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 0.4f, 1.0f);
 						}
 
@@ -150,37 +163,10 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 					}
 
 					if(hasRoom) {
-						ItemStack newHelmet = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(3), KBArmorUUID);
-						ItemStack newChestplate = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(2), KBArmorUUID);
-						ItemStack newLeggings = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(1), KBArmorUUID);
-						ItemStack newBoots = getNewItemWithUUID(((PauldronItem)kbArmorItem.getItem()).getArmor(0), KBArmorUUID);
-
-						if(kbArmorItem.has(ModComponents.PAULDRON_ENCHANTMENTS)) {
-							PauldronItem.PauldronEnchantments enchantments = kbArmorItem.get(ModComponents.PAULDRON_ENCHANTMENTS);
-							ItemEnchantments bootsTag = enchantments.boots();
-							ItemEnchantments legginsTag = enchantments.leggings();
-							ItemEnchantments chestplateTag = enchantments.chestplate();
-							ItemEnchantments helmetTag = enchantments.helmet();
-							if(!bootsTag.isEmpty()) {
-								newBoots.set(DataComponents.ENCHANTMENTS, bootsTag);
-								newBoots.set(ModComponents.ARMOR_ID, KBArmorUUID);
-							}
-
-							if(!legginsTag.isEmpty()) {
-								newLeggings.set(DataComponents.ENCHANTMENTS, legginsTag);
-								newLeggings.set(ModComponents.ARMOR_ID, KBArmorUUID);
-							}
-
-							if(!chestplateTag.isEmpty()) {
-								newChestplate.set(DataComponents.ENCHANTMENTS, chestplateTag);
-								newChestplate.set(ModComponents.ARMOR_ID, KBArmorUUID);
-							}
-
-							if(!helmetTag.isEmpty()) {
-								newHelmet.set(DataComponents.ENCHANTMENTS, helmetTag);
-								newHelmet.set(ModComponents.ARMOR_ID, KBArmorUUID);
-							}
-						}
+						ItemStack newHelmet = getNewItemWithUUID(pauldronInventory.getStackInSlot(0), KBArmorUUID);
+						ItemStack newChestplate = getNewItemWithUUID(pauldronInventory.getStackInSlot(1), KBArmorUUID);
+						ItemStack newLeggings = getNewItemWithUUID(pauldronInventory.getStackInSlot(2), KBArmorUUID);
+						ItemStack newBoots = getNewItemWithUUID(pauldronInventory.getStackInSlot(3), KBArmorUUID);
 
 						player.getInventory().setItem(39, newHelmet);
 						player.getInventory().setItem(38, newChestplate);

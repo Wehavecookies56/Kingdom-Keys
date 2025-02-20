@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +18,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -31,6 +33,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,6 +44,8 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -64,7 +69,9 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
@@ -582,8 +589,42 @@ public class Utils {
 		return null;
 	}
 
+	public static void armourTick(ItemStack stack, Entity entity, Level level, int slot) {
+		if (entity instanceof Player player && !level.isClientSide) {
+			PlayerData playerData = PlayerData.get(player);
+			if(playerData != null) {
+				UUID armorUUID = playerData.getEquippedKBArmor(0).getItem() != null ? Utils.getArmorID(playerData.getEquippedKBArmor(0)) : null;
+
+				if (Utils.hasArmorID(stack)) {
+					if (Utils.getArmorID(stack).equals(armorUUID)) { //If UUID is the same check slots
+						//If the armor item is ticking outside an armor slot
+						if (!(player.getInventory().getItem(36) == stack || player.getInventory().getItem(37) == stack || player.getInventory().getItem(38) == stack || player.getInventory().getItem(39) == stack)) {
+							Utils.desummonArmour(playerData, player, stack, slot, true, true);
+						}
+					} else {//If UUID is different remove
+						Utils.desummonArmour(playerData, player, stack, slot, false, true);
+					}
+				}
+			}
+		}
+	}
+
+	public static void desummonArmour(PlayerData playerData, Player player, ItemStack stack, int slot, boolean sameUUID, boolean playSound) {
+		if (sameUUID) {
+			PauldronInventory pauldronInventory = (PauldronInventory) playerData.getEquippedKBArmor(0).getCapability(Capabilities.ItemHandler.ITEM);
+			if (stack.getItem() instanceof ArmorItem armorItem) {
+				stack.remove(ModComponents.ARMOR_ID);
+				pauldronInventory.setStackInSlot(armorItem.getType().ordinal(), stack);
+			}
+		}
+		player.getInventory().setItem(slot, ItemStack.EMPTY);
+		if (playSound) {
+			player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		}
+	}
+
 	public static boolean hasArmorID(ItemStack stack) {
-		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof BaseArmorItem) {
+		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof ArmorItem) {
             return stack.has(ModComponents.ARMOR_ID);
 		}
 		return false;

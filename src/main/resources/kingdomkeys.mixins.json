@@ -5,6 +5,7 @@
   "refmap": "kingdomkeys.refmap.json",
   "plugin": "online.kingdomkeys.kingdomkeys.mixin.KKMixinPlugin",
   "mixins": [
+    "ItemStackMixin",
     "LivingEntityMixin",
     "TellMeTheErrorMixin"
     //"apotheosis.SalvagingMenuMixin",

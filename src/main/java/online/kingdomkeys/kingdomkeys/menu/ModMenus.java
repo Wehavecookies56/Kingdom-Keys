@@ -12,10 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.container.GummiEditorScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.MagicalChestScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.PedestalScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.container.SynthesisBagScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.container.*;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
@@ -30,6 +27,7 @@ public class ModMenus {
     public static final Supplier<MenuType<PedestalMenu>> PEDESTAL = createMenu("pedestal_container", PedestalMenu::new);
     public static final Supplier<MenuType<MagicalChestMenu>> MAGICAL_CHEST = createMenu("magical_chest", MagicalChestMenu::new);
     public static final Supplier<MenuType<GummiEditorMenu>> GUMMI_EDITOR = createMenu("gummi_editor_container", GummiEditorMenu::new);
+    public static final Supplier<MenuType<PauldronMenu>> PAULDRON = createMenu("pauldron", PauldronMenu::fromNetwork);
 
     public static <M extends AbstractContainerMenu> Supplier<MenuType<M>> createMenu(String name, IContainerFactory<M> container) {
         return MENUS.register(name, () -> new MenuType<>(container, FeatureFlags.DEFAULT_FLAGS));
@@ -41,6 +39,7 @@ public class ModMenus {
         event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
         event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
         event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
+        event.register(ModMenus.PAULDRON.get(), PauldronScreen::new);
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -48,6 +47,7 @@ public class ModMenus {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_EDITOR.get(), (object, context) -> object.inventory.get());
+        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new PauldronInventory(object), ModItems.terra_Shoulder.get(), ModItems.aqua_Shoulder.get(), ModItems.ventus_Shoulder.get(), ModItems.eraqus_Shoulder.get(), ModItems.xehanort_Shoulder.get(), ModItems.nightmareVentus_Shoulder.get(), ModItems.ux_Shoulder.get());
     }
 
 }

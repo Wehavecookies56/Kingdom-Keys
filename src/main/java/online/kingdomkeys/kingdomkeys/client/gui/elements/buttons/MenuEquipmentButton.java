@@ -19,6 +19,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -408,26 +410,22 @@ public class MenuEquipmentButton extends Button {
                             ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(mc.level), mc.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int)(parent.width * 0.46875F), 0x43B5E9);
 						}
                     } else if(stack.getItem() instanceof PauldronItem kbArmor){
-						stack.get(DataComponents.ENCHANTMENTS).keySet().forEach(enchantmentHolder -> {
-
-						});
-						if (stack.get(ModComponents.PAULDRON_ENCHANTMENTS) != null) {
-							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.helmet").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).helmet())) {
-								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-								posY += 10;
-							}
-							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.chestplate").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).chestplate())) {
-								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-								posY += 10;
-							}
-							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.leggings").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).leggings())) {
-								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-								posY += 10;
-							}
-							for (Component s : Utils.appendEnchantmentNames(Component.translatable("kingdomkeys.boots").getString() + ":", stack.get(ModComponents.PAULDRON_ENCHANTMENTS).boots())) {
-								gui.drawString(fr, s, (int) strPosX, (int) posY, 0xFFFFFF);
-								posY += 10;
-							}
+						IItemHandler iItemHandler = stack.getCapability(Capabilities.ItemHandler.ITEM);
+						if (!iItemHandler.getStackInSlot(0).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.helmet").getString() + ": " + iItemHandler.getStackInSlot(0).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
+							posY += 10;
+						}
+						if (!iItemHandler.getStackInSlot(1).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.chestplate").getString() + ": " + iItemHandler.getStackInSlot(1).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+						}
+						if (!iItemHandler.getStackInSlot(2).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.leggings").getString() + ": " + iItemHandler.getStackInSlot(2).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
+						}
+						if (!iItemHandler.getStackInSlot(3).isEmpty()) {
+							gui.drawString(fr, Component.translatable("kingdomkeys.boots").getString() + ": " + iItemHandler.getStackInSlot(3).getHoverName().getString(), (int) strPosX, (int) posY, 0xFFFFFF);
+							posY+=10;
 						}
                     }
                 } 
