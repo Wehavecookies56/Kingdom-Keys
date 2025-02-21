@@ -24,9 +24,7 @@ public class StreamCodecs {
         public LinkedHashMap<String, int[]> decode(FriendlyByteBuf buffer) {
             LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
             CompoundTag tag = buffer.readNbt();
-            Iterator<String> iterator = tag.getAllKeys().iterator();
-            while (iterator.hasNext()) {
-                String magicName = iterator.next();
+            for (String magicName : tag.getAllKeys()) {
                 map.put(magicName, tag.getIntArray(magicName));
             }
             return map;
@@ -35,9 +33,7 @@ public class StreamCodecs {
         @Override
         public void encode(FriendlyByteBuf buffer, LinkedHashMap<String, int[]> value) {
             CompoundTag magic = new CompoundTag();
-            Iterator<Map.Entry<String, int[]>> magicsIt = value.entrySet().iterator();
-            while (magicsIt.hasNext()) {
-                Map.Entry<String, int[]> pair = magicsIt.next();
+            for (Map.Entry<String, int[]> pair : value.entrySet()) {
                 magic.putIntArray(pair.getKey(), pair.getValue());
             }
             buffer.writeNbt(magic);
