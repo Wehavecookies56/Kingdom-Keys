@@ -1207,11 +1207,9 @@ public class Utils {
 			useOrg = true;
 		}
 		ItemStack extraChain = null;
-		if (formToSummonFrom != null) {
-			if (!formToSummonFrom.equals(DriveForm.NONE)) {
-				if (playerData.getEquippedKeychains().containsKey(formToSummonFrom)) {
-					extraChain = playerData.getEquippedKeychain(formToSummonFrom);
-				}
+		if (!formToSummonFrom.equals(DriveForm.NONE)) {
+			if (playerData.getEquippedKeychains().containsKey(formToSummonFrom)) {
+				extraChain = playerData.getEquippedKeychain(formToSummonFrom);
 			}
 		} else {
 			if(playerData.isAbilityEquipped(Strings.synchBlade)) {
