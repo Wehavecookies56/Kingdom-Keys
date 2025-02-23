@@ -119,7 +119,7 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(1, 1, 0);
-				
+
 				heightOffsetText = 0;
 				heightOffsetNum = minecraft.font.lineHeight;
 			}
