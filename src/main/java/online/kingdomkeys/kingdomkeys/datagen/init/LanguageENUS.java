@@ -283,15 +283,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_KO_Quit, "Exit");
 
         //Level up messages
-        add("stats.levelUpStr", "Strength increased!");
-        add("stats.levelUpDef", "Defense increased!");
-        add("stats.levelUpMag", "Magic increased!");
-        add("stats.levelUpHP", "Maximum HP increased!");
-        add("stats.levelUpMP", "Maximum MP increased!");
-        add("stats.levelUpAP", "Maximum AP increased!");
-        add("stats.levelUpFG", "Form Gauge Powered Up!");
-        add("stats.levelUpMaxAccessories", "Gained accessory slot!");
-        add("stats.levelUpMaxArmors","Gained armor slot!");
+        add(Stats_LevelUp_Str, "Strength increased!");
+        add(Stats_LevelUp_Def, "Defense increased!");
+        add(Stats_LevelUp_Magic, "Magic increased!");
+        add(Stats_LevelUp_HP, "Maximum HP increased!");
+        add(Stats_LevelUp_MP, "Maximum MP increased!");
+        add(Stats_LevelUp_AP, "Maximum AP increased!");
+        add(Stats_LevelUp_FormGauge, "Form Gauge Powered Up!");
+        add(Stats_LevelUp_MaxAccessories, "Gained accessory slot!");
+        add(Stats_LevelUp_MaxArmors,"Gained armor slot!");
+        add(Stats_LevelNext, "Next LV");
+        add(Stats_MunnyGet, "Munny Get!");
 
         /**Blocks**/
         //Blox
@@ -373,7 +375,7 @@ public class LanguageENUS extends KKLanguageProvider {
         // addBlock(ModBlocks.castleOblivionWallChisled, "Chisled Oblivion Block");
         // addBlock(ModBlocks.castleOblivionWall2, "Dark Oblivion Block");
         // addBlock(ModBlocks.castleOblivionWall3, "Darker Oblivion Block");
-        // addBlock(ModBlocks.castleOblivionPillar, "Oblvion Pillar");
+        // addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
         // addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
         // addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
         

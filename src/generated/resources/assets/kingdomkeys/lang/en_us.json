@@ -1729,6 +1729,7 @@
   "soa.warrior.1": "The power of the warrior.",
   "soa.warrior.2": "Invincible courage.",
   "soa.warrior.3": "A sword of terrible destruction.",
+  "stats.levelNext": "Next LV",
   "stats.levelUpAP": "Maximum AP increased!",
   "stats.levelUpDef": "Defense increased!",
   "stats.levelUpFG": "Form Gauge Powered Up!",
@@ -1737,5 +1738,6 @@
   "stats.levelUpMag": "Magic increased!",
   "stats.levelUpMaxAccessories": "Gained accessory slot!",
   "stats.levelUpMaxArmors": "Gained armor slot!",
-  "stats.levelUpStr": "Strength increased!"
+  "stats.levelUpStr": "Strength increased!",
+  "stats.munnyGet": "Munny Get!"
 }

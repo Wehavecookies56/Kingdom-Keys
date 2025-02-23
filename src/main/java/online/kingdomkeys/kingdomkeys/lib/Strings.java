@@ -351,7 +351,9 @@ public class Strings {
 		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
 			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
 			Stats_LevelUp_MaxAccessories = "stats.levelUpMaxAccessories",
-			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors";
+			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors",
+			Stats_LevelNext = "stats.levelNext",
+			Stats_MunnyGet = "stats.munnyGet";
 
     // Gui
     public static final String
