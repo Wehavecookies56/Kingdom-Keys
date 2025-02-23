@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
@@ -103,7 +104,7 @@ public class GuiOverlay extends OverlayBase {
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
-			drawString(gui, minecraft.font, "Next LV", 5, 5, 0xFFFFFF);
+			drawString(gui, minecraft.font, Utils.translateToLocal(Strings.Stats_LevelNext), 5, 5, 0xFFFFFF);
 			drawString(gui, minecraft.font, reqExp, 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
@@ -113,18 +114,26 @@ public class GuiOverlay extends OverlayBase {
 
 	private void showMunny(GuiGraphics gui) {
 		PoseStack matrixStack = gui.pose();
+		int heightOffsetText = 0;
+		int heightOffsetNum = 0;
+
 		if (!showExp) { // If no exp is being display print it at the top
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(1, 1, 0);
-				drawString(guiGraphics, minecraft.font, "Munny Get!", 5, 5, 0xFFFFFF);
-				drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+
+				heightOffsetText = 0;
+				heightOffsetNum = minecraft.font.lineHeight;
 			}
 			matrixStack.popPose();
 		} else { // If exp is being displayed print it below it
-			drawString(guiGraphics, minecraft.font, "Munny Get!", 5, 5 + minecraft.font.lineHeight + 10, 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + (minecraft.font.lineHeight * 2) + 10, 0xFFFFFF);
+			heightOffsetText = minecraft.font.lineHeight + 10;
+			heightOffsetNum = (minecraft.font.lineHeight * 2) + 10;
 		}
+
+		drawString(guiGraphics, minecraft.font, Utils.translateToLocal(Strings.Stats_MunnyGet), 5, 5 + heightOffsetText, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + heightOffsetNum, 0xFFFFFF);
+
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
 	}

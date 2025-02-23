@@ -2267,6 +2267,8 @@
   "stats.levelUpMaxAccessories": "Accesoireplatz erhalten!",
   "stats.levelUpMaxArmors": "Ausrüstungsplatz erhalten!",
   "stats.levelUpStr": "Angriffskraft erhöht!",
+  "stats.levelNext": "Nächstes Level",
+  "stats.munnyGet": "Taler erhalten!",
 
   "patchouli.kingdomkeys.journal.desc": "Naminé danken.",
   "patchouli.kingdomkeys.journal.hello": "Willkommen, Schlüsselschwertträger zur $(thing)Kingdom Keys$() Mod.$(p)In diesem Buch wirst du alles Nötige finden um anzufangen, sowie einige hilfreiche Tipps.",
