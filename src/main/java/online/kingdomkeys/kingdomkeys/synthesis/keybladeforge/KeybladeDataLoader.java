@@ -60,9 +60,8 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
         names.clear();
         dataList.clear();
         
-        System.out.print("Loading Keyblades: ");
         for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-        	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
+            KingdomKeys.LOGGER.debug("Keyblade file: {}", file.toString());
             ResourceLocation keybladeDataID = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
             try {
                 KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(keybladeDataID);
@@ -88,11 +87,10 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
                 IOUtils.closeQuietly(br);
                 IOUtils.closeQuietly(br2);
             } catch (IOException e) {
-                e.printStackTrace();
+                KingdomKeys.LOGGER.error("Could not open {}", file.toString());
             } catch (ClassCastException e) {
                 KingdomKeys.LOGGER.warn("Found Keyblade data: {} for item that does not exist, ignoring.");
             }
         }
-        System.out.println();
     }
 }
