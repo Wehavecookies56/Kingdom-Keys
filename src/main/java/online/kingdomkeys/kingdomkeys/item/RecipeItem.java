@@ -101,11 +101,11 @@ public class RecipeItem extends Item implements IItemCategory {
 					String message = "ERROR: Recipe for " + Utils.translateToLocal(rl.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
 					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
 				} else if (playerData.hasKnownRecipe(rl)) { // If recipe already known
-					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.already_learnt"),ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
+					player.sendSystemMessage(Component.translatable("message.recipe.already_learnt",ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
 				} else { // If recipe is not known, learn it
 					playerData.addKnownRecipe(rl);
 					consume = true;
-					player.sendSystemMessage(Component.translatable(Utils.translateToLocal("message.recipe.learnt"), ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
+					player.sendSystemMessage(Component.translatable("message.recipe.learnt", ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}
 			}

@@ -92,9 +92,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			}
 			
 			if(actualLevel < magicInstance.getMaxLevel()) {
-				tooltip.add(Component.translatable(Utils.translateToLocal("gui.magicspell.unlock",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1)))));
+				tooltip.add(Component.translatable("gui.magicspell.unlock",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
 			} else {
-				tooltip.add(Component.translatable(Utils.translateToLocal("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)))));
+				tooltip.add(Component.translatable("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))));
 			}
 		}
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
