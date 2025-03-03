@@ -7,6 +7,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomEnemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties.RoomSize;
 
@@ -22,7 +23,7 @@ public class ModRoomTypes {
     //TODO create modifiers
     public static final RegistryObject<RoomType>
         //Special
-        LOBBY = createRoomType("lobby", new RoomProperties.Builder(RoomSize.SPECIAL, RoomProperties.RoomCategory.SPECIAL, new Size2i(33, 69)).isLobby()),
+        LOBBY = createRoomType("lobby", new RoomProperties.Builder(RoomSize.SPECIAL, RoomProperties.RoomCategory.SPECIAL, new Size2i(33, 69)).music(ModSounds.Music_Castle_Oblivion).isLobby()),
 
         //Enemy
         TRANQUIL_DARKNESS = createRoomType("tranquil_darkness", RoomProperties.enemy(RoomSize.M).enemies(RoomEnemies.S)),

@@ -110,6 +110,7 @@ public class Sounds extends SoundDefinitionsProvider {
         //BGM
         add(Music_Dive_Into_The_Heart_Destati, true);
         add(Music_Lord_Of_The_Castle, true);
+        add(Music_Castle_Oblivion, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

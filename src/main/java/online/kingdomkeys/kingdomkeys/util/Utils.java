@@ -1381,4 +1381,14 @@ public class Utils {
 
 	}
 
+	public record BlockPosBounds(BlockPos min, BlockPos max) {
+		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
+		}
+	}
+
+	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
+		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+	}
+
 }

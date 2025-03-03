@@ -119,7 +119,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
         entrance.setParent(this);
         RoomData currentRoom = entrance;
         rooms.put(entrance.pos, entrance);
-        for (int i = 0; i < type.critPathLength+20; i++) {
+        for (int i = 0; i < type.critPathLength; i++) {
             Map<RoomData, RoomUtils.Direction> adjRooms = getAdjacentRooms(currentRoom);
             List<RoomUtils.Direction> directions = new ArrayList<>(List.of(RoomUtils.Direction.values()));
             //prevent rooms going further south
@@ -131,7 +131,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
                 directions.remove(direction);
             }
             //No more possible directions to continue so exit is created
-            if (directions.size() == 0) {
+            if (directions.isEmpty()) {
                 boolean exitCreated = false;
                 for (RoomUtils.Direction dir : Arrays.stream(RoomUtils.Direction.values()).toList()) {
                     if (!exitCreated) {
@@ -194,7 +194,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     public boolean shouldTick() {
-        return players.size() > 0;
+        return !players.isEmpty();
     }
 
     public boolean shouldRoomTick(Room room) {

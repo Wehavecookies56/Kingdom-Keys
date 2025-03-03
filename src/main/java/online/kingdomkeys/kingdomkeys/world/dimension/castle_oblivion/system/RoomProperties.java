@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.util.Size2i;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class RoomProperties {
 
@@ -18,6 +20,7 @@ public class RoomProperties {
     private List<FloorType> compatibleFloors;
     private RoomStructure fixedRoom;
     private List<RoomUtils.Direction> doorDirections;
+    private Supplier<SoundEvent> music;
 
     private RoomProperties(Builder builder) {
         this.lobby = builder.lobby;
@@ -29,6 +32,7 @@ public class RoomProperties {
         this.enemies = builder.enemies;
         this.fixedRoom = builder.fixedRoom;
         this.category = builder.category;
+        this.music = builder.music;
     }
 
     public boolean isLobby() {
@@ -61,6 +65,10 @@ public class RoomProperties {
 
     public RoomStructure getFixedRoom() {
         return fixedRoom;
+    }
+
+    public Supplier<SoundEvent> getMusic() {
+        return music;
     }
 
     public boolean isFloorCompatible(FloorType floor) {
@@ -105,6 +113,7 @@ public class RoomProperties {
         private Color colour = null;
         private RoomEnemies enemies = RoomEnemies.NONE;
         private RoomStructure fixedRoom;
+        private Supplier<SoundEvent> music;
         public Builder(RoomSize size, RoomCategory category, Size2i dimensions) {
             this.size = size;
             this.dimensions = dimensions;
@@ -165,6 +174,12 @@ public class RoomProperties {
             this.fixedRoom = structure;
             return this;
         }
+
+        public Builder music(Supplier<SoundEvent> music) {
+            this.music = music;
+            return this;
+        }
+
         public RoomProperties build() {
             return new RoomProperties(this);
         }

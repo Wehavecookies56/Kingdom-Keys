@@ -21,7 +21,6 @@ public class RoomType {
         return this;
     }
 
-    @Nullable
     public ResourceLocation getRegistryName() {
         return registryName;
     }

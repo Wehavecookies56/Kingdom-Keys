@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
@@ -129,6 +130,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
+										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorCapability(ModCapabilities.getCastleOblivionInterior(player.level())), (ServerPlayer) player);
 									}
 								}
 							}

@@ -13,6 +13,7 @@
     "jer.RegistrySetBuilderMixin"
   ],
   "client": [
+    "BiomeMixin",
     "LivingEntityRendererMixin",
     "PlayerRendererMixin",
     "epicfight.PHumanoidRendererMixin",

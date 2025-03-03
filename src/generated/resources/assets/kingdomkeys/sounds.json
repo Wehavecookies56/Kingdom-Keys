@@ -205,6 +205,14 @@
       "kingdomkeys:munny"
     ]
   },
+  "music/castle_oblivion": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/castle_oblivion",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
