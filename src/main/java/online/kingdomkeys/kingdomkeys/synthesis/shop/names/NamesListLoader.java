@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop.names;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
@@ -33,16 +34,18 @@ public class NamesListLoader {
 
         @Override
         protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
-            KingdomKeys.LOGGER.info("Loading Moogle names");
             NamesListRegistry.getInstance().clearRegistry();
+            AtomicInteger count = new AtomicInteger();
             pObject.forEach((resourceLocation, element) -> {
                 try {
                     List<String> result = GSON_BUILDER.fromJson(element, stringList);
                     NamesListRegistry.getInstance().register(resourceLocation, result);
+                    count.incrementAndGet();
                 } catch (JsonParseException e) {
                     KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
                 }
             });
+            KingdomKeys.LOGGER.info("Loaded {} shop/names data", count.get());
             if (ServerLifecycleHooks.getCurrentServer() != null) {
                 for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                     PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);

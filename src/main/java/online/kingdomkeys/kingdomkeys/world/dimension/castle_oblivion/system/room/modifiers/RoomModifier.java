@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
 public abstract class RoomModifier {
 

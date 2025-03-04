@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 
@@ -35,52 +36,29 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading magics data");
-        loadData(resourceManagerIn);
+        names.clear();
+        dataList.clear();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            try {
+                if (ModMagic.registry.get().containsKey(resourceLocation)) {
+                    Magic magic = ModMagic.registry.get().getValue(resourceLocation);
+                    dataList.add(element.toString());
+                    MagicData result = GSON_BUILDER.fromJson(element, MagicData.class);
+                    names.add(resourceLocation.toString());;
+                    magic.setMagicData(result);
+                    count.incrementAndGet();
+                } else {
+                    KingdomKeys.LOGGER.warn("Found magic data {} for magic that doesn't exist", resourceLocation);
+                }
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", resourceLocation, e);
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} magics data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncMagicData(names,dataList), player);
-            }
-        }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "magics";
-        String extension = ".json";
-        
-        names.clear();
-        dataList.clear();
-
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation magicName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-			Magic magic = ModMagic.registry.get().getValue(magicName);
-            try {
-            	BufferedReader br = manager.getResource(file).get().openAsReader();
-            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
-            	String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);
-            	MagicData result;
-                try {
-                    result = GSON_BUILDER.fromJson(br2, MagicData.class);
-                    names.add(magicName.toString());
-                   
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
-                    continue;
-                }
-                magic.setMagicData(result);
-                IOUtils.closeQuietly(br);
-                IOUtils.closeQuietly(br2);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

@@ -10,7 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

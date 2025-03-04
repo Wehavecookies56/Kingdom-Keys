@@ -11,9 +11,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 public class CastleOblivionCapabilities {
 

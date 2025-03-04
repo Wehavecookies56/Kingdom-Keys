@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,10 @@ import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
 
 public class CSGenerateRoom {
 	

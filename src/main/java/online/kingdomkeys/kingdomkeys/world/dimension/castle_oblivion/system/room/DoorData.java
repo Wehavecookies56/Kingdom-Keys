@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -11,9 +11,9 @@ public class DoorData implements INBTSerializable<CompoundTag> {
 
     RoomData parent;
     Type type;
-    RoomUtils.Direction direction;
+    RoomDirection direction;
 
-    public DoorData(RoomData parent, Type type, RoomUtils.Direction direction) {
+    public DoorData(RoomData parent, Type type, RoomDirection direction) {
         this.type = type;
         this.parent = parent;
         this.direction = direction;
@@ -40,7 +40,7 @@ public class DoorData implements INBTSerializable<CompoundTag> {
     @Override
     public void deserializeNBT(CompoundTag tag) {
         this.type = Type.values()[tag.getInt("type")];
-        this.direction = RoomUtils.Direction.values()[tag.getInt("direction")];
+        this.direction = RoomDirection.values()[tag.getInt("direction")];
     }
 
     public enum Type {

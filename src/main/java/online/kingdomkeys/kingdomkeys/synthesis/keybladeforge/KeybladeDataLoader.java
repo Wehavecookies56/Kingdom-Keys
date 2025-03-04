@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,19 +36,24 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading keyblade data");
         names.clear();
         dataList.clear();
+        AtomicInteger count = new AtomicInteger();
         objectIn.forEach((resourceLocation, element) -> {
                 try {
                     if (ForgeRegistries.ITEMS.containsKey(resourceLocation)) {
-                        KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(resourceLocation);
-                        KeybladeData result = GSON_BUILDER.fromJson(element, KeybladeData.class);
-                        dataList.add(element.toString());
-                        names.add(resourceLocation.toString());
-                        keyblade.setKeybladeData(result);
-                        if (result.keychain != null) {
-                            result.keychain.setKeyblade(keyblade);
+                        try {
+                            KeybladeItem keyblade = (KeybladeItem) ForgeRegistries.ITEMS.getValue(resourceLocation);
+                            KeybladeData result = GSON_BUILDER.fromJson(element, KeybladeData.class);
+                            dataList.add(element.toString());
+                            names.add(resourceLocation.toString());
+                            keyblade.setKeybladeData(result);
+                            if (result.keychain != null) {
+                                result.keychain.setKeyblade(keyblade);
+                            }
+                            count.incrementAndGet();
+                        } catch (ClassCastException e) {
+                            KingdomKeys.LOGGER.warn("Keyblade data for non keyblade found {}", resourceLocation);
                         }
                     } else {
                         KingdomKeys.LOGGER.warn("Found keyblade data {} for keyblade that doesn't exist", resourceLocation);
@@ -56,6 +62,7 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
                     KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
                 }
         });
+        KingdomKeys.LOGGER.info("Loaded {} keyblades data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), player);

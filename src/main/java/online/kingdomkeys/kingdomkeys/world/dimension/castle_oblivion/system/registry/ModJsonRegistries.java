@@ -1,21 +1,15 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomStructure;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
-import java.lang.reflect.Type;
 import java.util.function.Supplier;
 
 public class ModJsonRegistries {

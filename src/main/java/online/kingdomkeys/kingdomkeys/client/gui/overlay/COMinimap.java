@@ -9,7 +9,7 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class COMinimap extends OverlayBase {
 
 
                 //Room render as red by default (blue if player is in it)
-                guiGraphics.fill(-roomData.pos.getX() * 2, -roomData.pos.getY() * 2, (-roomData.pos.getX() * 2) + 1, (-roomData.pos.getY() * 2) + 1, roomColor);
+                guiGraphics.fill(-roomData.pos.x() * 2, -roomData.pos.y() * 2, (-roomData.pos.x() * 2) + 1, (-roomData.pos.y() * 2) + 1, roomColor);
 
                 //Render player icon
                 if (roomData.getGenerated() != null) {
@@ -75,7 +75,7 @@ public class COMinimap extends OverlayBase {
                     }
 
                     int colour = open ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
-                    guiGraphics.fill(-roomData.pos.getX() * 2 - offsetX, -roomData.pos.getY() * 2 - offsetY, (-roomData.pos.getX() * 2) + 1 - offsetX, (-roomData.pos.getY() * 2) + 1 - offsetY, colour);
+                    guiGraphics.fill(-roomData.pos.x() * 2 - offsetX, -roomData.pos.y() * 2 - offsetY, (-roomData.pos.x() * 2) + 1 - offsetX, (-roomData.pos.y() * 2) + 1 - offsetY, colour);
                 });
             }
             guiGraphics.pose().popPose();

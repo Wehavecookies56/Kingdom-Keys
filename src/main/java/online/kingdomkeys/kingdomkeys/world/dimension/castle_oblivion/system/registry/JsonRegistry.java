@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
 import com.google.gson.*;
 import net.minecraft.nbt.CompoundTag;
@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -16,8 +15,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncJsonRegistry;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResourceReloadListener {
 
@@ -73,12 +72,15 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
-        KingdomKeys.LOGGER.info("Loading {} data", registryName);
         registry = new HashMap<>();
+        AtomicInteger count = new AtomicInteger();
         pObject.forEach((resourceLocation, jsonElement) -> {
             T result = new GsonBuilder().registerTypeAdapter(clazz, deserializer).setPrettyPrinting().create().fromJson(jsonElement, clazz);
+            result.registryName = resourceLocation;
             register(resourceLocation, result);
+            count.incrementAndGet();
         });
+        KingdomKeys.LOGGER.info("Loaded {} {} data", count.get(), registryName);
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncJsonRegistry<>(this), player);
@@ -100,6 +102,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
             ResourceLocation rl = new ResourceLocation(key);
             try {
                 T value = clazz.getDeclaredConstructor(CompoundTag.class).newInstance(tag.getCompound(key));
+                value.registryName = rl;
                 registry.put(rl, value);
             } catch (NoSuchMethodException e) {
                 KingdomKeys.LOGGER.error("Deserialization constructor is missing for type {}", clazz.toString());

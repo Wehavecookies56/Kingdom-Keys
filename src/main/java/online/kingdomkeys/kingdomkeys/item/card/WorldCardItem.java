@@ -9,8 +9,14 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
 
 import java.util.function.Supplier;
 
@@ -41,8 +47,8 @@ public class WorldCardItem extends Item {
 	                	//Clear the whole floor (typical mom quote)
 	                	//Clear the whole path
 	                	floor.setWorldCard(this);
-                        RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
-                        Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), pPlayer, currentRoom, RoomUtils.Direction.NORTH, false);
+                        RoomData data = floor.getRoom(new RoomPos(0, 1));
+                        Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), pPlayer, currentRoom, RoomDirection.NORTH, false);
 	                }
 	            }
 	        }

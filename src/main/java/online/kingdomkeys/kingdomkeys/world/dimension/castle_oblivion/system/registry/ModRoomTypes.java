@@ -1,12 +1,14 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import java.util.function.Supplier;
 
 public class ModRoomTypes {
+
+    public static Supplier<JsonRegistry<RoomType>> registry = ModJsonRegistries.ROOM_TYPE;
 
     //TODO create modifiers
     public static final Supplier<RoomType>

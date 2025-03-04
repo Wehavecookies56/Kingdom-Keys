@@ -30,8 +30,8 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 import javax.annotation.Nullable;
 
@@ -118,7 +118,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 					CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
 					if (cap != null) {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-						if (te != null) {
+						if (te != null && te.getDestinationRoom() != null) {
 							System.out.println((level.isClientSide ? "Client" : "Server") + ": Num:" + te.getDestinationRoom().getCardCost() + " Open? " + te.isOpen());
 							if (te.isOpen()) { // If it's closed always open gui
 								// TELEPORT PLAYER

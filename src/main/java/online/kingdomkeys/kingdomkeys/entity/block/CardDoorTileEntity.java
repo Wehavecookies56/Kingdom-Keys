@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.DoorData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 public class CardDoorTileEntity extends BlockEntity {
 
@@ -25,7 +25,7 @@ public class CardDoorTileEntity extends BlockEntity {
     BlockPos destination;
     RoomData parent;
     RoomData destinationRoom;
-    RoomUtils.Direction direction;
+    RoomDirection direction;
     DoorData data;
 
     public void openDoor(boolean setBlock) {
@@ -55,11 +55,11 @@ public class CardDoorTileEntity extends BlockEntity {
         this.destinationRoom = destinationRoom;
     }
 
-    public void setDirection(RoomUtils.Direction direction) {
+    public void setDirection(RoomDirection direction) {
         this.direction = direction;
     }
 
-    public RoomUtils.Direction getDirection() {
+    public RoomDirection getDirection() {
         return direction;
     }
 
@@ -77,7 +77,7 @@ public class CardDoorTileEntity extends BlockEntity {
         if (pTag.contains("parent")) {
             parent = new RoomData(pTag.getCompound("parent"));
         }
-        direction = RoomUtils.Direction.values()[pTag.getInt("direction")];
+        direction = RoomDirection.values()[pTag.getInt("direction")];
         if (pTag.contains("destination_room")) {
             destinationRoom = new RoomData(pTag.getCompound("destination_room"));
         }

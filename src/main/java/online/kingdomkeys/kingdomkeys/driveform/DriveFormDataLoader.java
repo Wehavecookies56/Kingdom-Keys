@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 
@@ -25,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncDriveFormData;
 
 public class DriveFormDataLoader extends SimpleJsonResourceReloadListener {
 
-    //GSON builder with custom deserializer for keyblade data
+    //GSON builder with custom deserializer for driveform data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(DriveFormData.class, new DriveFormDataDeserializer()).setPrettyPrinting().create();
 
     
@@ -38,51 +39,29 @@ public class DriveFormDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading driveforms data");
-        loadData(resourceManagerIn);
+        names.clear();
+        dataList.clear();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            try {
+                if (ModDriveForms.registry.get().containsKey(resourceLocation)) {
+                    DriveForm driveform = ModDriveForms.registry.get().getValue(resourceLocation);
+                    dataList.add(element.toString());
+                    DriveFormData result = GSON_BUILDER.fromJson(element, DriveFormData.class);
+                    driveform.setDriveFormData(result);
+                    names.add(resourceLocation.toString());
+                    count.incrementAndGet();
+                } else {
+                    KingdomKeys.LOGGER.warn("Found drive form data {} for drive form that doesn't exist", resourceLocation);
+                }
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing driveform json file {}: {}", resourceLocation, e);
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} driveforms data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncDriveFormData(names,dataList), player);
-            }
-        }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "driveforms";
-        String extension = ".json";
-
-        names.clear();
-        dataList.clear();
-
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation driveFormName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-			DriveForm driveform = ModDriveForms.registry.get().getValue(driveFormName);
-            try {
-            	BufferedReader br = manager.getResource(file).get().openAsReader();
-            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
-            	String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);
-            	DriveFormData result;
-                try {
-                    result = GSON_BUILDER.fromJson(br2, DriveFormData.class);
-                    names.add(driveFormName.toString());
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing driveform json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
-                    continue;
-                }
-                driveform.setDriveFormData(result);
-                IOUtils.closeQuietly(br);
-                IOUtils.closeQuietly(br2);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

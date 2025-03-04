@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,8 +6,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,12 +42,12 @@ public class RoomStructure extends JsonRegistryObject {
     }
 
     public List<RoomType> getRoomWhitelist() {
-        return roomWhitelist.stream().map(resourceLocation -> ModJsonRegistries.ROOM_TYPE.get().getValue(resourceLocation)).toList();
+        return roomWhitelist.stream().map(resourceLocation -> ModRoomTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
     public FloorType getFloor() {
         if (floor != null) {
-            return ModJsonRegistries.FLOOR_TYPE.get().getValue(floor);
+            return ModFloorTypes.registry.get().getValue(floor);
         } else {
             return null;
         }
@@ -72,7 +75,7 @@ public class RoomStructure extends JsonRegistryObject {
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag tag = super.serializeNBT();
+        CompoundTag tag = new CompoundTag();
 
         tag.putString("structure", path);
         tag.putInt("size", size.ordinal());
@@ -97,7 +100,6 @@ public class RoomStructure extends JsonRegistryObject {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        super.deserializeNBT(tag);
         path = tag.getString("structure");
         size = RoomSize.values()[tag.getInt("size")];
         width = tag.getInt("width");
@@ -114,7 +116,6 @@ public class RoomStructure extends JsonRegistryObject {
 
     @Override
     public void deserializeJson(JsonElement element) throws JsonParseException {
-        super.deserializeJson(element);
         JsonObject root = getJsonObject(element);
         root.entrySet().forEach(entry -> {
             JsonElement entryElement = entry.getValue();

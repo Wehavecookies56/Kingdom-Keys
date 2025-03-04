@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -8,8 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -78,12 +82,12 @@ public class RoomType extends JsonRegistryObject {
     }
 
     public List<FloorType> getCompatibleFloors() {
-        return compatibleFloors.stream().map(resourceLocation -> ModJsonRegistries.FLOOR_TYPE.get().getValue(resourceLocation)).toList();
+        return compatibleFloors.stream().map(resourceLocation -> ModFloorTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
     public RoomStructure getFixedRoom() {
         if (fixedRoom != null) {
-            return ModJsonRegistries.ROOM_STRUCTURE.get().getValue(fixedRoom);
+            return ModRoomStructures.registry.get().getValue(fixedRoom);
         } else {
             return null;
         }
@@ -99,7 +103,7 @@ public class RoomType extends JsonRegistryObject {
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag tag = super.serializeNBT();
+        CompoundTag tag = new CompoundTag();
 
         tag.putBoolean("lobby", lobby);
         tag.putInt("size", size.ordinal());
@@ -133,8 +137,6 @@ public class RoomType extends JsonRegistryObject {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        super.deserializeNBT(tag);
-
         lobby = tag.getBoolean("lobby");
         size = RoomSize.values()[tag.getInt("size")];
         category = RoomCategory.values()[tag.getInt("category")];
@@ -166,7 +168,6 @@ public class RoomType extends JsonRegistryObject {
 
     @Override
     public void deserializeJson(JsonElement element) throws JsonParseException {
-        super.deserializeJson(element);
         JsonObject root = getJsonObject(element);
         root.entrySet().forEach(entry -> {
             JsonElement entryElement = entry.getValue();

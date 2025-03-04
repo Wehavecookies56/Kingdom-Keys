@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -8,8 +8,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ import java.util.List;
 public class FloorType extends JsonRegistryObject {
 
     private int critPathLength, bonusRoomsCount, bonusRoomsChance, branchCount, branchChance;
-    private Color floorColour = Color.BLACK;
+    private Color floorColour;
     @Nullable private ResourceLocation music;
     private List<ResourceLocation> roomBlacklist;
     @Nullable private ResourceLocation startingRoom;
@@ -58,13 +59,13 @@ public class FloorType extends JsonRegistryObject {
     }
 
     public List<RoomType> getRoomBlacklist() {
-        return roomBlacklist.stream().map(resourceLocation -> ModJsonRegistries.ROOM_TYPE.get().getValue(resourceLocation)).toList();
+        return roomBlacklist.stream().map(resourceLocation -> ModRoomTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
     @Nullable
     public RoomType getStartingRoom() {
         if (startingRoom != null) {
-            return ModJsonRegistries.ROOM_TYPE.get().getValue(startingRoom);
+            return ModRoomTypes.registry.get().getValue(startingRoom);
         } else {
             return null;
         }
@@ -86,9 +87,8 @@ public class FloorType extends JsonRegistryObject {
 
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag tag = super.serializeNBT();
+        CompoundTag tag = new CompoundTag();
 
-        tag.putString("name", registryName.toString());
         tag.putInt("crit_path", critPathLength);
         tag.putInt("bonus_count", bonusRoomsCount);
         tag.putInt("bonus_chance", bonusRoomsChance);
@@ -114,8 +114,6 @@ public class FloorType extends JsonRegistryObject {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        super.deserializeNBT(tag);
-        registryName = new ResourceLocation(tag.getString("name"));
         critPathLength = tag.getInt("crit_path");
         bonusRoomsCount = tag.getInt("bonus_count");
         bonusRoomsChance = tag.getInt("bonus_chance");
@@ -137,7 +135,6 @@ public class FloorType extends JsonRegistryObject {
 
     @Override
     public void deserializeJson(JsonElement element) throws JsonParseException {
-        super.deserializeJson(element);
         JsonObject root = element.getAsJsonObject();
         if (!root.has("crit_path_length")) {
             throw new JsonParseException("Missing required element \"crit_path_length\"");
@@ -213,6 +210,12 @@ public class FloorType extends JsonRegistryObject {
                 }
             }
         });
+        if (roomBlacklist == null) {
+            roomBlacklist = new ArrayList<>();
+        }
+        if (floorColour == null) {
+            floorColour = Color.black;
+        }
     }
 
 }

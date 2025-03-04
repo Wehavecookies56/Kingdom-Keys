@@ -1,6 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.modifiers;
-
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomModifier;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
 public class WeaknessRoomModifier extends RoomModifier {
 

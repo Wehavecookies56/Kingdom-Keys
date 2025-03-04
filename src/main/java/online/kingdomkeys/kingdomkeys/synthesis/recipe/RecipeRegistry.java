@@ -58,7 +58,7 @@ public class RecipeRegistry {
 
     public void clearRegistry() {
         registry.clear();
-        KingdomKeys.LOGGER.info("Synthesis Recipe registry cleared");
+        KingdomKeys.LOGGER.debug("Synthesis Recipe registry cleared");
     }
 
     public Map<ResourceLocation, Recipe> getRegistry() {

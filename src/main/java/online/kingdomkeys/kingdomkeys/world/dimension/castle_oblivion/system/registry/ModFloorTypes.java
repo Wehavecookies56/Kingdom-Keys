@@ -1,13 +1,15 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.FloorType;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import java.util.function.Supplier;
 
 public class ModFloorTypes {
+
+    public static Supplier<JsonRegistry<FloorType>> registry = ModJsonRegistries.FLOOR_TYPE;
 
     public static Supplier<FloorType>
         NONE = () -> ModJsonRegistries.FLOOR_TYPE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "none")),

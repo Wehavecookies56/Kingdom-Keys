@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LimitDataLoader extends SimpleJsonResourceReloadListener {
 
@@ -35,52 +36,29 @@ public class LimitDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading limits data");
-        loadData(resourceManagerIn);
+        names.clear();
+        dataList.clear();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            try {
+                if (ModLimits.registry.get().containsKey(resourceLocation)) {
+                    Limit limit = ModLimits.registry.get().getValue(resourceLocation);
+                    dataList.add(element.toString());
+                    LimitData result = GSON_BUILDER.fromJson(element, LimitData.class);
+                    names.add(resourceLocation.toString());
+                    limit.setLimitData(result);
+                    count.incrementAndGet();
+                } else {
+                    KingdomKeys.LOGGER.warn("Found limit data {} for limit that doesn't exist", resourceLocation);
+                }
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", resourceLocation, e);
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} limits data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncLimitData(names,dataList), player);
-            }
-        }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "limits";
-        String extension = ".json";
-      
-        names.clear();
-        dataList.clear();
-
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation limitName = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-			Limit limit = ModLimits.registry.get().getValue(limitName);
-            try {
-            	BufferedReader br = manager.getResource(file).get().openAsReader();
-            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
-            	String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);
-            	LimitData result;
-                try {
-                    result = GSON_BUILDER.fromJson(br2, LimitData.class);
-                    names.add(limitName.toString());
-                   
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing limit json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
-                    continue;
-                }
-                limit.setLimitData(result);
-                IOUtils.closeQuietly(br);
-                IOUtils.closeQuietly(br2);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

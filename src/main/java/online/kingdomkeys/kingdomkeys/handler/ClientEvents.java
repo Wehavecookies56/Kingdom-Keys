@@ -3,9 +3,6 @@ package online.kingdomkeys.kingdomkeys.handler;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -66,8 +63,8 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 public class ClientEvents {
 

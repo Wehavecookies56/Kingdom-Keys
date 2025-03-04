@@ -1,10 +1,11 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,21 +13,21 @@ import java.util.UUID;
 
 public class RoomData implements INBTSerializable<CompoundTag> {
 
-    Map<RoomUtils.Direction, DoorData> doors;
-    public final RoomUtils.RoomPos pos;
+    Map<RoomDirection, DoorData> doors;
+    public final RoomPos pos;
     UUID parent;
     Room generatedRoom;
 
     int cardCost;
 
-    public RoomData(RoomUtils.RoomPos pos) {
+    public RoomData(RoomPos pos) {
         this.pos = pos;
         doors = new HashMap<>();
         this.cardCost = Utils.randomWithRange(0, 9);
     }
 
     public RoomData(CompoundTag tag) {
-        this(new RoomUtils.RoomPos(tag.getCompound("roompos")));
+        this(new RoomPos(tag.getCompound("roompos")));
         deserializeNBT(tag);
     }
 
@@ -38,15 +39,15 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         this.parent = parent.getFloorID();
     }
 
-    public void setDoor(DoorData.Type doorType, RoomUtils.Direction direction) {
+    public void setDoor(DoorData.Type doorType, RoomDirection direction) {
         doors.put(direction, new DoorData(this, doorType, direction));
     }
 
-    public DoorData getDoor(RoomUtils.Direction direction) {
+    public DoorData getDoor(RoomDirection direction) {
         return doors.get(direction);
     }
 
-    public Map<RoomUtils.Direction, DoorData> getDoors() {
+    public Map<RoomDirection, DoorData> getDoors() {
         return doors;
     }
 
@@ -69,7 +70,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         tag.putInt("door_count", doors.size());
         CompoundTag doorDataTag = new CompoundTag();
         int i = 0;
-        for (Map.Entry<RoomUtils.Direction, DoorData> doorPair : doors.entrySet()) {
+        for (Map.Entry<RoomDirection, DoorData> doorPair : doors.entrySet()) {
             doorDataTag.putInt("door_direction_" + i, doorPair.getKey().ordinal());
             doorDataTag.put("door_data_" + i, doorPair.getValue().serializeNBT());
             i++;
@@ -93,7 +94,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         
         for (int i = 0; i < doorCount; i++) {
             int dir = doorDataTag.getInt("door_direction_" + i);
-            doors.put(RoomUtils.Direction.values()[dir], new DoorData(doorDataTag.getCompound("door_data_" + i)));
+            doors.put(RoomDirection.values()[dir], new DoorData(doorDataTag.getCompound("door_data_" + i)));
         }
         if (tag.getBoolean("generated")) {
             generatedRoom = new Room(tag.getCompound("generated_room"));

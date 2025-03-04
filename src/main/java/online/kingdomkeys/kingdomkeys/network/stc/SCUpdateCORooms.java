@@ -5,13 +5,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public record SCUpdateCORooms(List<RoomData> rooms) {

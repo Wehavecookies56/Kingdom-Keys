@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
+package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,9 +10,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,22 +24,22 @@ public class Room implements INBTSerializable<CompoundTag> {
     RoomStructure structure;
     public BlockPos position;
     int mobsRemaining;
-    public Map<RoomUtils.Direction, BlockPos> doorPositions;
+    public Map<RoomDirection, BlockPos> doorPositions;
     public UUID parentFloor;
 
-    RoomUtils.RoomPos roomPos;
+    RoomPos roomPos;
 
     //If the structure has been generated in the world
     boolean generated;
 
-    public Room(UUID parentFloor, RoomUtils.RoomPos roomPos) {
+    public Room(UUID parentFloor, RoomPos roomPos) {
         this.parentFloor = parentFloor;
         this.doorPositions = new HashMap<>();
         this.roomPos = roomPos;
     }
 
     public Room(CompoundTag tag) {
-        this(tag.getUUID("parent"), new RoomUtils.RoomPos(tag.getCompound("room_pos")));
+        this(tag.getUUID("parent"), new RoomPos(tag.getCompound("room_pos")));
         deserializeNBT(tag);
     }
 
@@ -51,7 +52,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     //Clear room if needed, set type and position
-    public void createRoomFromCard(RoomType type, Level level, Room currentRoom, RoomUtils.Direction doorDirection) {
+    public void createRoomFromCard(RoomType type, Level level, Room currentRoom, RoomDirection doorDirection) {
         this.type = type;
         if (generated) {
             clearRoom(level);
@@ -64,11 +65,11 @@ public class Room implements INBTSerializable<CompoundTag> {
     public static void createDefaultLobby(Room room) {
         room.type = ModRoomTypes.LOBBY.get();
         room.position = new BlockPos(0, 59, 0);
-        room.doorPositions.put(RoomUtils.Direction.SOUTH, new BlockPos(16, 63, 65));
-        room.doorPositions.put(RoomUtils.Direction.NORTH, new BlockPos(16, 60, 1));
+        room.doorPositions.put(RoomDirection.SOUTH, new BlockPos(16, 63, 65));
+        room.doorPositions.put(RoomDirection.NORTH, new BlockPos(16, 60, 1));
     }
 
-    public CardDoorTileEntity getDoorTE(Level level, RoomUtils.Direction direction) {
+    public CardDoorTileEntity getDoorTE(Level level, RoomDirection direction) {
         BlockPos pos = doorPositions.get(direction);
         if (pos != null) {
             return (CardDoorTileEntity) level.getBlockEntity(pos);
@@ -80,7 +81,7 @@ public class Room implements INBTSerializable<CompoundTag> {
         return type;
     }
 
-    public RoomUtils.RoomPos getRoomPos() {
+    public RoomPos getRoomPos() {
         return roomPos;
     }
 
@@ -133,7 +134,7 @@ public class Room implements INBTSerializable<CompoundTag> {
         tag.putInt("door_positions_size", doorPositions.size());
         CompoundTag doorPosTag = new CompoundTag();
         int i = 0;
-        for (Map.Entry<RoomUtils.Direction, BlockPos> doorPos : doorPositions.entrySet()) {
+        for (Map.Entry<RoomDirection, BlockPos> doorPos : doorPositions.entrySet()) {
             doorPosTag.putInt("direction_" + i, doorPos.getKey().ordinal());
             doorPosTag.put("position_" + i, NbtUtils.writeBlockPos(doorPos.getValue()));
             i++;
@@ -146,7 +147,7 @@ public class Room implements INBTSerializable<CompoundTag> {
     @Override
     public void deserializeNBT(CompoundTag tag) {
         parentFloor = tag.getUUID("parent");
-        roomPos = new RoomUtils.RoomPos(tag.getCompound("room_pos"));
+        roomPos = new RoomPos(tag.getCompound("room_pos"));
         type = ModJsonRegistries.ROOM_TYPE.get().getValue(new ResourceLocation(tag.getString("type")));
         position = NbtUtils.readBlockPos(tag.getCompound("position"));
         mobsRemaining = tag.getInt("mobs");
@@ -154,7 +155,7 @@ public class Room implements INBTSerializable<CompoundTag> {
         int doorPosSize = tag.getInt("door_positions_size");
         CompoundTag doorPosTag = tag.getCompound("door_positions");
         for (int i = 0; i < doorPosSize; i++) {
-            doorPositions.put(RoomUtils.Direction.values()[doorPosTag.getInt("direction_" + i)], NbtUtils.readBlockPos(doorPosTag.getCompound("position_" + i)));
+            doorPositions.put(RoomDirection.values()[doorPosTag.getInt("direction_" + i)], NbtUtils.readBlockPos(doorPosTag.getCompound("position_" + i)));
         }
         structure = ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(tag.getString("structure")));
     }

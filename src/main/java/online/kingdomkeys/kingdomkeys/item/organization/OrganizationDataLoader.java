@@ -21,17 +21,12 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
 
-    //GSON builder with custom deserializer for keyblade data
+    //GSON builder with custom deserializer for organization data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(OrganizationData.class, new OrganizationDataDeserializer()).setPrettyPrinting().create();
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
     
     public static List<String> names = new LinkedList<>();
     public static List<String> dataList = new LinkedList<>();
@@ -42,54 +37,35 @@ public class OrganizationDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading organization data");
-        loadData(resourceManagerIn);
+        names.clear();
+        dataList.clear();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            try {
+                if (ForgeRegistries.ITEMS.containsKey(resourceLocation)) {
+                    try {
+                        IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(resourceLocation);
+                        dataList.add(element.toString());
+                        OrganizationData result = GSON_BUILDER.fromJson(element, OrganizationData.class);
+                        names.add(resourceLocation.toString());
+                        weapon.setOrganizationData(result);
+                        count.incrementAndGet();
+                    } catch (ClassCastException e) {
+                        KingdomKeys.LOGGER.warn("Organization weapon data for non organization weapon found {}", resourceLocation);
+                    }
+                } else {
+                    KingdomKeys.LOGGER.warn("Found organization weapon data {} for organization weapon that doesn't exist", resourceLocation);
+                }
+
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing organization json file {}: {}", resourceLocation, e);
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} organization data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), player);
             }
         }
-    }
-
-    public void loadData(ResourceManager manager) {
-        String folder = "organization";
-        String extension = ".json";
-        
-        names.clear();
-        dataList.clear();
-        
-        System.out.print("Loading Organization weapons: ");
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-        	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
-            ResourceLocation organizationDataID = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            try {
-                IOrgWeapon weapon = (IOrgWeapon) ForgeRegistries.ITEMS.getValue(organizationDataID);
-                BufferedReader br = manager.getResource(file).get().openAsReader();
-            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
-            	String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);
-            	OrganizationData result;
-                try {
-                    result = GSON_BUILDER.fromJson(br2, OrganizationData.class);
-                    names.add(organizationDataID.toString());
-                   
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
-                    continue;
-                }
-                weapon.setOrganizationData(result);
-                IOUtils.closeQuietly(br);
-                IOUtils.closeQuietly(br2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                KingdomKeys.LOGGER.warn("Found Organization weapon data: {} for item that does not exist, ignoring.");
-            }
-        }
-        System.out.println("");
-
     }
 }

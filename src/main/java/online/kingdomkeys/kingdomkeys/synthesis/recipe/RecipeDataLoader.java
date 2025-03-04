@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.recipe;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 
@@ -33,17 +34,19 @@ public class RecipeDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading recipe data");
         RecipeRegistry.getInstance().clearRegistry();
+        AtomicInteger count = new AtomicInteger();
         objectIn.forEach((resourceLocation, element) -> {
-                    try {
-                        Recipe result = GSON_BUILDER.fromJson(element, Recipe.class);
-                        result.setRegistryName(resourceLocation);
-                        RecipeRegistry.getInstance().register(result);
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
-                    }
+                try {
+                    Recipe result = GSON_BUILDER.fromJson(element, Recipe.class);
+                    result.setRegistryName(resourceLocation);
+                    RecipeRegistry.getInstance().register(result);
+                    count.incrementAndGet();
+                } catch (JsonParseException e) {
+                    KingdomKeys.LOGGER.error("Error parsing recipe json file {}: {}", resourceLocation, e);
+                }
         });
+        KingdomKeys.LOGGER.info("Loaded {} synthesis data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);

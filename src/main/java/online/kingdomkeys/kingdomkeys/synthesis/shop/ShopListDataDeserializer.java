@@ -44,7 +44,6 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 					shopItem.setTier(jsonObj.get("tier").getAsInt());
 					shopItem.setCost(jsonObj.get("cost").getAsInt());
 					out.addToList(shopItem);
-					KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
 				}
 			}
         }
