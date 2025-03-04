@@ -348,10 +348,9 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.FLOOR_TYPE.get()), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.ROOM_TYPE.get()), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.ROOM_STRUCTURE.get()), (ServerPlayer) player);
-
+				ModJsonRegistries.registry.get().forEach(jsonRegistry -> {
+					PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), (ServerPlayer) player);
+				});
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {

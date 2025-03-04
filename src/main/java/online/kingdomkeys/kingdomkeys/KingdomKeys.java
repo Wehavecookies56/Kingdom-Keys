@@ -290,8 +290,6 @@ public class KingdomKeys {
 		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());
 		event.addListener(new LimitDataLoader());
-		event.addListener(ModJsonRegistries.FLOOR_TYPE.get());
-		event.addListener(ModJsonRegistries.ROOM_STRUCTURE.get());
-		event.addListener(ModJsonRegistries.ROOM_TYPE.get());
+		ModJsonRegistries.registry.get().forEach(event::addListener);
 	}
 }
