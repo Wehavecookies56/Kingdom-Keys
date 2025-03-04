@@ -9,6 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +20,7 @@ import java.util.UUID;
 
 public class Room implements INBTSerializable<CompoundTag> {
     RoomType type;
+    RoomStructure structure;
     public BlockPos position;
     int mobsRemaining;
     public Map<RoomUtils.Direction, BlockPos> doorPositions;
@@ -30,6 +35,19 @@ public class Room implements INBTSerializable<CompoundTag> {
         this.parentFloor = parentFloor;
         this.doorPositions = new HashMap<>();
         this.roomPos = roomPos;
+    }
+
+    public Room(CompoundTag tag) {
+        this(tag.getUUID("parent"), new RoomUtils.RoomPos(tag.getCompound("room_pos")));
+        deserializeNBT(tag);
+    }
+
+    public RoomStructure getStructure() {
+        return structure;
+    }
+
+    public void setStructure(RoomStructure structure) {
+        this.structure = structure;
     }
 
     //Clear room if needed, set type and position
@@ -50,6 +68,14 @@ public class Room implements INBTSerializable<CompoundTag> {
         room.doorPositions.put(RoomUtils.Direction.NORTH, new BlockPos(16, 60, 1));
     }
 
+    public CardDoorTileEntity getDoorTE(Level level, RoomUtils.Direction direction) {
+        BlockPos pos = doorPositions.get(direction);
+        if (pos != null) {
+            return (CardDoorTileEntity) level.getBlockEntity(pos);
+        }
+        return null;
+    }
+
     public RoomType getType() {
         return type;
     }
@@ -67,11 +93,11 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     public void tick() {
-        type.getProperties().getModifiers().forEach(RoomModifier::tick);
+        type.getModifiers().forEach(RoomModifier::tick);
     }
 
     public boolean inRoom(BlockPos pos) {
-        return pos.getX() >= position.getX() && pos.getX() <= position.getX() + type.getProperties().getDimensions().width && pos.getZ() >= position.getZ() && pos.getZ() <= position.getZ() + type.getProperties().getDimensions().height;
+        return pos.getX() >= position.getX() && pos.getX() <= position.getX() + structure.getWidth() && pos.getZ() >= position.getZ() && pos.getZ() <= position.getZ() + structure.getDepth();
     }
 
     public boolean clearRoom(Level level) {
@@ -79,9 +105,9 @@ public class Room implements INBTSerializable<CompoundTag> {
         if (parent != null) {
             if (!parent.shouldRoomTick(this)) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
-                for (int z = 0; z < type.getProperties().getDimensions().height; z++) {
+                for (int z = 0; z < structure.getDepth(); z++) {
                     for (int y = 0; y < 128; y++) {
-                        for (int x = 0; x < type.getProperties().getDimensions().width; x++) {
+                        for (int x = 0; x < structure.getWidth(); x++) {
                             pos.set(x, y, z);
                             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                         }
@@ -99,8 +125,8 @@ public class Room implements INBTSerializable<CompoundTag> {
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("parent", parentFloor);
-        tag.put("room_pos", RoomUtils.RoomPos.serialize(roomPos));
-        tag.putString("type", type.registryName.toString());
+        tag.put("room_pos", roomPos.serializeNBT());
+        tag.putString("type", type.getRegistryName().toString());
         tag.put("position", NbtUtils.writeBlockPos(position));
         tag.putInt("mobs", mobsRemaining);
         tag.putBoolean("generated", generated);
@@ -113,14 +139,15 @@ public class Room implements INBTSerializable<CompoundTag> {
             i++;
         }
         tag.put("door_positions", doorPosTag);
+        tag.putString("structure", structure.getRegistryName().toString());
         return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
         parentFloor = tag.getUUID("parent");
-        roomPos = RoomUtils.RoomPos.deserialize(tag.getCompound("room_pos"));
-        type = ModRoomTypes.registry.get().getValue(new ResourceLocation(tag.getString("type")));
+        roomPos = new RoomUtils.RoomPos(tag.getCompound("room_pos"));
+        type = ModJsonRegistries.ROOM_TYPE.get().getValue(new ResourceLocation(tag.getString("type")));
         position = NbtUtils.readBlockPos(tag.getCompound("position"));
         mobsRemaining = tag.getInt("mobs");
         generated = tag.getBoolean("generated");
@@ -129,11 +156,6 @@ public class Room implements INBTSerializable<CompoundTag> {
         for (int i = 0; i < doorPosSize; i++) {
             doorPositions.put(RoomUtils.Direction.values()[doorPosTag.getInt("direction_" + i)], NbtUtils.readBlockPos(doorPosTag.getCompound("position_" + i)));
         }
-    }
-
-    public static Room deserialize(CompoundTag tag) {
-        Room room = new Room(tag.getUUID("parent"), RoomUtils.RoomPos.deserialize(tag.getCompound("room_pos")));
-        room.deserializeNBT(tag);
-        return room;
+        structure = ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(tag.getString("structure")));
     }
 }

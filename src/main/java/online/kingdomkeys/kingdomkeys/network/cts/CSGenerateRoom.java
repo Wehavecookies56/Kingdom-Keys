@@ -55,27 +55,12 @@ public class CSGenerateRoom {
 			Room currentRoom = cap.getRoomAtPos(player.level(), message.pos);
 			RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
 			Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
-			for (Map.Entry<RoomUtils.Direction, BlockPos> doors : newRoom.doorPositions.entrySet()) {
-				CardDoorTileEntity doorTE = (CardDoorTileEntity) level.getBlockEntity(doors.getValue());
-				if (doorTE != null) {
-					if (doorTE.getParentRoom() != null) {
-						if (doorTE.getParentRoom().getDoor(doors.getKey().opposite()) != null) {
-							if (doorTE.getParentRoom().getDoor(doors.getKey().opposite()).isOpen()) {
-								doorTE.openDoor(null);
-							}
-						}
-					}
-				}
-			}
 			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
-            te.openDoor(te.getDirection());
-			te.getParentRoom().getDoor(te.getDirection().opposite()).open();
-           // System.out.println(te.getNumber());
-            destTe.openDoor(te.getDirection().opposite());
+            te.openDoor(true);
+            destTe.openDoor(true);
 			destTe.setDestinationRoom(te.getParentRoom());
-           // System.out.println(destTe.getNumber());
-            
+
             player.getInventory().getItem(message.slot).shrink(1);
 
 		//	player.teleportTo(destination.getX(), destination.getY(), destination.getZ());

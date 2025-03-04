@@ -88,9 +88,9 @@ public class CardSelectButton extends MenuButtonBase {
 
                 matrixStack.translate(-10, 9.5, 150);
                 matrixStack.scale(0.3F,0.3F, 1);
-                guiGraphics.drawString(minecraft.font,"Category: "+card.getRoomType().getProperties().getCategory(), 0, 0, 0xFFFFFF);
-                guiGraphics.drawString(minecraft.font,"Room size: "+card.getRoomType().getProperties().getSize(), 0, 10, 0xFFFFFF);
-                guiGraphics.drawString(minecraft.font,"Enemies: "+card.getRoomType().getProperties().getEnemies(), 0, 20, 0xFFFFFF);
+                guiGraphics.drawString(minecraft.font,"Category: "+card.getRoomType().getCategory(), 0, 0, 0xFFFFFF);
+                guiGraphics.drawString(minecraft.font,"Room size: "+card.getRoomType().getSize(), 0, 10, 0xFFFFFF);
+                guiGraphics.drawString(minecraft.font,"Enemies: "+card.getRoomType().getEnemies(), 0, 20, 0xFFFFFF);
             }
         }
         matrixStack.popPose();

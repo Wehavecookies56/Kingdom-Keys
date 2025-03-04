@@ -24,7 +24,7 @@ public record SCUpdateCORooms(List<RoomData> rooms) {
         List<RoomData> rooms = new ArrayList<>();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
-            rooms.add(RoomData.deserialize(buf.readNbt()));
+            rooms.add(new RoomData(buf.readNbt()));
         }
         return rooms;
     }

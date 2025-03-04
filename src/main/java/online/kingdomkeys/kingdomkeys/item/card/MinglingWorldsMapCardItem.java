@@ -5,8 +5,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomProperties;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomCategory;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomType;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +20,7 @@ public class MinglingWorldsMapCardItem extends MapCardItem {
 
     @Override
     public RoomType getRoomType() {
-        List<RoomType> types = ModRoomTypes.registry.get().getValues().stream().filter(roomType -> roomType.getProperties().getCategory() != RoomProperties.RoomCategory.SPECIAL).toList();
+        List<RoomType> types = ModJsonRegistries.ROOM_TYPE.get().getValues().stream().filter(roomType -> roomType.getCategory() != RoomCategory.SPECIAL).toList();
         return types.get(Utils.randomWithRange(0, types.size()-1));
     }
 

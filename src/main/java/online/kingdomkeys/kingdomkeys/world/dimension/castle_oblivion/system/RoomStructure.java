@@ -1,57 +1,216 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.util.Size2i;
+import net.minecraftforge.registries.ForgeRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
 //metadata for each nbt file for rooms
-public class RoomStructure {
+public class RoomStructure extends JsonRegistryObject {
 
     //structure path
-    String path;
-
+    private String path;
     //the size
-    RoomProperties.RoomSize size;
-
+    private RoomSize size;
     //categories compatible with
-    List<RoomProperties.RoomCategory> categories;
-
+    private List<RoomCategory> categories;
     //floor compatible with, null if any
-    FloorType floor;
-
+    @Nullable private ResourceLocation floor;
     //structure x and z dimensions ignoring y
-    Size2i physicalSize;
-
+    private int width, depth;
     //whitelist specific rooms if empty no whitelist
-    List<Supplier<RoomType>> roomWhitelist;
+    private List<ResourceLocation> roomWhitelist;
 
-    ResourceLocation registryName;
+    public RoomStructure(CompoundTag tag) {
+        super(tag);
+    }
 
-    public RoomStructure(String path, FloorType floor, RoomProperties.RoomSize size, List<RoomProperties.RoomCategory> categories, Size2i physicalSize, Supplier<RoomType>... roomWhitelist) {
-        this.path = path;
-        this.size = size;
-        this.categories = categories;
-        this.floor = floor;
-        this.physicalSize = physicalSize;
-        this.roomWhitelist = Arrays.stream(roomWhitelist).toList();
+    public RoomStructure(JsonElement element) {
+        super(element);
     }
 
     public List<RoomType> getRoomWhitelist() {
-        return roomWhitelist.stream().map(Supplier::get).toList();
+        return roomWhitelist.stream().map(resourceLocation -> ModJsonRegistries.ROOM_TYPE.get().getValue(resourceLocation)).toList();
     }
 
-    public RoomStructure setRegistryName(ResourceLocation name) {
-        this.registryName = name;
-        return this;
+    public FloorType getFloor() {
+        if (floor != null) {
+            return ModJsonRegistries.FLOOR_TYPE.get().getValue(floor);
+        } else {
+            return null;
+        }
     }
 
-    @Nullable
-    public ResourceLocation getRegistryName() {
-        return registryName;
+    public String getPath() {
+        return path;
     }
 
+    public RoomSize getSize() {
+        return size;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public List<RoomCategory> getCategories() {
+        return categories;
+    }
+
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = super.serializeNBT();
+
+        tag.putString("structure", path);
+        tag.putInt("size", size.ordinal());
+        tag.putInt("width", width);
+        tag.putInt("depth", depth);
+        CompoundTag categories = new CompoundTag();
+        this.categories.forEach(roomCategory -> {
+            categories.putInt(roomCategory.name(), roomCategory.ordinal());
+        });
+        tag.put("categories", categories);
+        if (floor != null) {
+            tag.putString("floor", floor.toString());
+        }
+        CompoundTag whiteList = new CompoundTag();
+        this.roomWhitelist.forEach(resourceLocation -> whiteList.putString(resourceLocation.toString(), resourceLocation.toString()));
+        tag.put("white_list", whiteList);
+
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag tag) {
+        super.deserializeNBT(tag);
+        path = tag.getString("structure");
+        size = RoomSize.values()[tag.getInt("size")];
+        width = tag.getInt("width");
+        depth = tag.getInt("depth");
+        categories = new ArrayList<>();
+        CompoundTag cats = tag.getCompound("categories");
+        cats.getAllKeys().forEach(s -> categories.add(RoomCategory.values()[cats.getInt(s)]));
+        if (tag.contains("floor")) {
+            floor = new ResourceLocation(tag.getString("floor"));
+        }
+        roomWhitelist = new ArrayList<>();
+        CompoundTag whiteList = tag.getCompound("white_list");
+        whiteList.getAllKeys().forEach(s -> roomWhitelist.add(new ResourceLocation(s)));
+    }
+
+    @Override
+    public void deserializeJson(JsonElement element) throws JsonParseException {
+        super.deserializeJson(element);
+        JsonObject root = getJsonObject(element);
+        root.entrySet().forEach(entry -> {
+            JsonElement entryElement = entry.getValue();
+            switch (entry.getKey()) {
+                case "structure" -> {
+                    String s = entryElement.getAsString();
+                    if (!s.isEmpty()) {
+                        path = s;
+                    } else {
+                        throw new JsonParseException("Structure should not be empty");
+                    }
+                }
+                case "size" -> {
+                    String s = entryElement.getAsString();
+                    if (!s.isEmpty()) {
+                        try {
+                            size = RoomSize.valueOf(s.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            throw new JsonParseException("Invalid size, valid values are: S, M, L, SPECIAL");
+                        }
+                    } else {
+                        throw new JsonParseException("Size should not be empty");
+                    }
+                }
+                case "dimensions" -> {
+                    JsonArray dimensions = entryElement.getAsJsonArray();
+                    if (dimensions.size() >= 2) { //ignore values after 2nd
+                        width = dimensions.get(0).getAsInt();
+                        depth = dimensions.get(1).getAsInt();
+                    } else {
+                        throw new JsonParseException("Dimensions should have 2 values");
+                    }
+                }
+                case "categories" -> {
+                    JsonArray categories = entryElement.getAsJsonArray();
+                    if (!categories.isEmpty()) {
+                        this.categories = new ArrayList<>();
+                        categories.forEach(cat -> {
+                            String s = cat.getAsString();
+                            if (!s.isEmpty()) {
+                                try {
+                                    this.categories.add(RoomCategory.valueOf(s.toUpperCase()));
+                                } catch (IllegalArgumentException e) {
+                                    throw new JsonParseException("Invalid category, valid values are: ENEMY, STATUS, BOUNTY, SPECIAL, ANY");
+                                }
+                            } else {
+                                throw new JsonParseException("Category should not be empty");
+                            }
+                        });
+                    } else {
+                        throw new JsonParseException("Categories should not be empty");
+                    }
+                }
+                case "floor" -> {
+                    String s = entryElement.getAsString();
+                    if (!s.isEmpty()) {
+                        floor = new ResourceLocation(s);
+                    }
+                }
+                case "white_list" -> {
+                    JsonArray whitelist = entryElement.getAsJsonArray();
+                    if (!whitelist.isEmpty()) {
+                        roomWhitelist = new ArrayList<>();
+                        whitelist.forEach(wlentry -> {
+                            String roomtype = wlentry.getAsString();
+                            roomWhitelist.add(new ResourceLocation(roomtype));
+                        });
+                    }
+                }
+            }
+            if (roomWhitelist == null) {
+                roomWhitelist = new ArrayList<>();
+            }
+        });
+    }
+
+    private static @NotNull JsonObject getJsonObject(JsonElement element) {
+        JsonObject root = element.getAsJsonObject();
+        if (!root.has("structure")) {
+            throw new JsonParseException("Missing required element \"structure\"");
+        }
+        if (!root.has("size")) {
+            throw new JsonParseException("Missing required element \"size\"");
+        }
+        if (!root.has("dimensions")) {
+            throw new JsonParseException("Missing required element \"dimensions\"");
+        }
+        if (!root.has("categories")) {
+            throw new JsonParseException("Missing required element \"categories\"");
+        }
+        return root;
+    }
 }

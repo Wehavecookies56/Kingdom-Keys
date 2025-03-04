@@ -1,0 +1,12 @@
+{
+  "name": "kingdomkeys:lobby",
+  "structure": "lobby",
+  "size": "SPECIAL",
+  "dimensions": [ 33, 69 ],
+  "categories": [
+    "SPECIAL"
+  ],
+  "white_list": [
+    "kingdomkeys:lobby"
+  ]
+}

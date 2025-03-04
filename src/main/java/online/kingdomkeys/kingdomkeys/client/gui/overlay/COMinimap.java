@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 
@@ -63,7 +64,17 @@ public class COMinimap extends OverlayBase {
                         case WEST -> offsetX = 1;
                     }
                     //Offset color and fill
-                    int colour = doorData.isOpen() ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
+
+                    boolean open = false;
+
+                    if (roomData.getGenerated() != null) {
+                        CardDoorTileEntity te = roomData.getGenerated().getDoorTE(minecraft.level, direction);
+                        if (te != null) {
+                            open = te.isOpen();
+                        }
+                    }
+
+                    int colour = open ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
                     guiGraphics.fill(-roomData.pos.getX() * 2 - offsetX, -roomData.pos.getY() * 2 - offsetY, (-roomData.pos.getX() * 2) + 1 - offsetX, (-roomData.pos.getY() * 2) + 1 - offsetY, colour);
                 });
             }

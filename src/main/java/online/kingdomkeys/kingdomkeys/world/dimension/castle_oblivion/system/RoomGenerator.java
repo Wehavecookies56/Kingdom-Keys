@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorCapability;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class RoomGenerator {
 
     public Room generateRoom(RoomData data, RoomType type, Player player, Room currentRoom, RoomUtils.Direction doorDirection, boolean newFloor) {
         if (!type.equals(ModRoomTypes.LOBBY.get()) && data.pos.equals(new RoomUtils.RoomPos(0, 0))) {
-            KingdomKeys.LOGGER.warn("Tried to generate room type {} at lobby position", type.registryName.toString());
+            KingdomKeys.LOGGER.warn("Tried to generate room type {} at lobby position", type.getRegistryName().toString());
             return null;
         }
         try {
@@ -46,12 +47,13 @@ public class RoomGenerator {
             Level level = player.level();
             List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(type);
             if (possibleRooms.isEmpty()) {
-                throw new IOException(String.format("No compatible room structure files found for %s", type.registryName));
+                throw new IOException(String.format("No compatible room structure files found for %s", type.getRegistryName()));
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
-            String floorFolder = structureToGenerate.floor == null ? "all" : structureToGenerate.floor.name;
-            Resource resource = level.getServer().getResourceManager().getResource(new ResourceLocation(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.path + ".nbt")).get();
+            String floorFolder = structureToGenerate.getFloor() == null ? "all" : structureToGenerate.getFloor().getRegistryName().getPath();
+            Resource resource = level.getServer().getResourceManager().getResource(new ResourceLocation(KingdomKeys.MODID, "structures/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt")).get();
             CompoundTag main = NbtIo.readCompressed(resource.open());
+            room.setStructure(structureToGenerate);
 
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
 
@@ -88,20 +90,26 @@ public class RoomGenerator {
                             default -> null;
                         };
                         if (facing != null) {
-                            if (data.getDoor(facing) != null && data.getDoor(facing).open) {
-                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
-                            }
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection());
                             room.doorPositions.put(facing, blockpos.immutable());
 
                             Pair<RoomData, RoomUtils.Direction> adjacentRoom = ModCapabilities.getCastleOblivionInterior(player.level()).getFloorByID(currentRoom.parentFloor).getAdjacentRoom(data, facing.opposite());
                             if (adjacentRoom != null) {
+                                if (adjacentRoom.getFirst().getGenerated() != null) {
+                                    BlockPos adjacentDoorPos = adjacentRoom.getFirst().getGenerated().doorPositions.get(facing.opposite());
+                                    CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
+                                    if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
+                                        cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                                    }
+                                }
                                 if (adjacentRoom.getFirst().doors.get(adjacentRoom.getSecond().opposite()) != null){
                                     level.setBlock(blockpos, cardDoorState, 2);
                                     CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
                                     cardDoorTileEntity.setParent(data);
                                     cardDoorTileEntity.setDirection(facing);
                                     cardDoorTileEntity.setDestinationRoom(adjacentRoom.getFirst());
+                                    cardDoorTileEntity.setData(data.getDoor(facing));
+                                    cardDoorTileEntity.openDoor(false);
                                     level.setBlockEntity(cardDoorTileEntity);
                                 }
                             }
@@ -113,7 +121,7 @@ public class RoomGenerator {
             }
             data.setGenerated(room);
             SCSyncCastleOblivionInteriorCapability.syncClients(level);
-            KingdomKeys.LOGGER.info("Generated room:{} at {}", type.registryName.toString(), pos);
+            KingdomKeys.LOGGER.info("Generated room:{} at {}", type.getRegistryName().toString(), pos);
             MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(player, data, currentRoom));
             return room;
         } catch (IOException e){

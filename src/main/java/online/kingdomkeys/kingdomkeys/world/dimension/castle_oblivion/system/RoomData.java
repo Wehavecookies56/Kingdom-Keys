@@ -25,6 +25,11 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         this.cardCost = Utils.randomWithRange(0, 9);
     }
 
+    public RoomData(CompoundTag tag) {
+        this(new RoomUtils.RoomPos(tag.getCompound("roompos")));
+        deserializeNBT(tag);
+    }
+
     public Floor getParentFloor(Level level) {
         return ModCapabilities.getCastleOblivionInterior(level).getFloorByID(parent);
     }
@@ -33,8 +38,8 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         this.parent = parent.getFloorID();
     }
 
-    public void setDoor(DoorData door, RoomUtils.Direction direction) {
-        doors.put(direction, door);
+    public void setDoor(DoorData.Type doorType, RoomUtils.Direction direction) {
+        doors.put(direction, new DoorData(this, doorType, direction));
     }
 
     public DoorData getDoor(RoomUtils.Direction direction) {
@@ -47,12 +52,6 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     public int getCardCost() {
         return cardCost;
-    }
-
-    public static RoomData inDirection(RoomData prevRoom, RoomUtils.Direction direction) {
-        RoomData newRoom = new RoomData(RoomUtils.RoomPos.inDirection(prevRoom.pos, direction));
-        newRoom.setDoor(new DoorData(DoorData.Type.NORMAL), direction.opposite());
-        return newRoom;
     }
 
     public void setGenerated(Room room) {
@@ -76,7 +75,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
             i++;
         }
         tag.put("doors", doorDataTag);
-        tag.put("roompos", RoomUtils.RoomPos.serialize(pos));
+        tag.put("roompos", pos.serializeNBT());
         tag.putBoolean("generated", generatedRoom != null);
         if (generatedRoom != null) {
             tag.put("generated_room", generatedRoom.serializeNBT());
@@ -94,18 +93,12 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         
         for (int i = 0; i < doorCount; i++) {
             int dir = doorDataTag.getInt("door_direction_" + i);
-            doors.put(RoomUtils.Direction.values()[dir], DoorData.deserialize(doorDataTag.getCompound("door_data_" + i)));
+            doors.put(RoomUtils.Direction.values()[dir], new DoorData(doorDataTag.getCompound("door_data_" + i)));
         }
         if (tag.getBoolean("generated")) {
-            generatedRoom = Room.deserialize(tag.getCompound("generated_room"));
+            generatedRoom = new Room(tag.getCompound("generated_room"));
         }
         cardCost = tag.getInt("card_cost");
-    }
-
-    public static RoomData deserialize(CompoundTag tag) {
-        RoomData room = new RoomData(RoomUtils.RoomPos.deserialize(tag.getCompound("roompos")));
-        room.deserializeNBT(tag);
-        return room;
     }
 
 }

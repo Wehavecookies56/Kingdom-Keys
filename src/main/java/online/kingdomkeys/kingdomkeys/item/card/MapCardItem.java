@@ -59,8 +59,9 @@ public class MapCardItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (type != null) {
-            pTooltipComponents.add(Component.translatable("Size: " + type.get().getProperties().getSize().ordinal()));
-            pTooltipComponents.add(Component.translatable("Enemies: " + type.get().getProperties().getEnemies().ordinal()));
+            RoomType inst = type.get();
+            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().ordinal()));
+            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().ordinal()));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

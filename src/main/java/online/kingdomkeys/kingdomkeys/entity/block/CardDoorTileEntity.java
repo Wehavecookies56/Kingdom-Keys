@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomUtils;
 
@@ -25,12 +26,13 @@ public class CardDoorTileEntity extends BlockEntity {
     RoomData parent;
     RoomData destinationRoom;
     RoomUtils.Direction direction;
-    public void openDoor(RoomUtils.Direction directionFrom) {
+    DoorData data;
+
+    public void openDoor(boolean setBlock) {
         open = true;
-        if (directionFrom != null) {
-            parent.getDoor(directionFrom.opposite()).open();
+        if (setBlock) {
+            level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, true), 2);
         }
-        level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, true), 2);
     }
 
     public boolean isOpen() {
@@ -61,21 +63,32 @@ public class CardDoorTileEntity extends BlockEntity {
         return direction;
     }
 
+    public DoorData getData() {
+        return data;
+    }
+
+    public void setData(DoorData data) {
+        this.data = data;
+    }
+
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
         if (pTag.contains("parent")) {
-            parent = RoomData.deserialize(pTag.getCompound("parent"));
+            parent = new RoomData(pTag.getCompound("parent"));
         }
         direction = RoomUtils.Direction.values()[pTag.getInt("direction")];
         if (pTag.contains("destination_room")) {
-            destinationRoom = RoomData.deserialize(pTag.getCompound("destination_room"));
+            destinationRoom = new RoomData(pTag.getCompound("destination_room"));
         }
         open = pTag.getBoolean("open");
         if (open && pTag.getCompound("destination") != null) {
             destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
         } else {
             destination = null;
+        }
+        if (pTag.contains("door_data")) {
+            data = new DoorData(pTag.getCompound("door_data"));
         }
     }
 
@@ -90,6 +103,9 @@ public class CardDoorTileEntity extends BlockEntity {
         pTag.putBoolean("open", open);
         if (open && destination != null) {
             pTag.put("destination", NbtUtils.writeBlockPos(destination));
+        }
+        if (data != null) {
+            pTag.put("door_data", data.serializeNBT());
         }
     }
 

@@ -7,16 +7,16 @@ public class DoorData implements INBTSerializable<CompoundTag> {
 
     public static final DoorData NONE = null;
 
-    RoomType roomType;
-
     String exitDestination;
 
+    RoomData parent;
     Type type;
+    RoomUtils.Direction direction;
 
-    boolean open;
-
-    public DoorData(Type type) {
+    public DoorData(RoomData parent, Type type, RoomUtils.Direction direction) {
         this.type = type;
+        this.parent = parent;
+        this.direction = direction;
     }
 
     public DoorData(CompoundTag tag) {
@@ -29,33 +29,21 @@ public class DoorData implements INBTSerializable<CompoundTag> {
         }
     }
 
-    public void open() {
-        this.open = true;
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putInt("type", this.type.ordinal());
-        tag.putBoolean("open", this.open);
+        tag.putInt("direction", this.direction.ordinal());
         return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
         this.type = Type.values()[tag.getInt("type")];
-        this.open = tag.getBoolean("open");
-    }
-
-    public static DoorData deserialize(CompoundTag tag) {
-        return new DoorData(tag);
+        this.direction = RoomUtils.Direction.values()[tag.getInt("direction")];
     }
 
     public enum Type {
-        NORMAL, EXIT
+        NORMAL, EXIT, FIXED
     }
 }

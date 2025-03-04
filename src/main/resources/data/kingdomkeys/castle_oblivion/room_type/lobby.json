@@ -1,0 +1,8 @@
+{
+  "name": "kingdomkeys:lobby",
+  "lobby": true,
+  "size": "SPECIAL",
+  "category": "SPECIAL",
+  "fixed_room": "kingdomkeys:lobby",
+  "music": "kingdomkeys:music/castle_oblivion"
+}

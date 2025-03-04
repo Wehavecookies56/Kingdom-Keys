@@ -435,12 +435,12 @@ public class ClientEvents {
 				if (!cap.getFloors().isEmpty()) {
 					Room room = cap.getRoomAtPos(Minecraft.getInstance().level, pos);
 					if (room != null) {
-						if (room.getType().getProperties().getColour() != null) {
-							colour = room.getType().getProperties().getColour();
+						if (room.getType().getColour() != null) {
+							colour = room.getType().getColour();
 						} else {
 							Floor floor = room.getParent(Minecraft.getInstance().level);
 							if (floor != null) {
-								colour = floor.getType().floorColour;
+								colour = floor.getType().getFloorColour();
 							}
 						}
 					}

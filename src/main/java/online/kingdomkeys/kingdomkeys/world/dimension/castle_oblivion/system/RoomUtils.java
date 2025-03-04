@@ -55,6 +55,10 @@ public class RoomUtils {
             this.y = pos.y;
         }
 
+        public RoomPos(CompoundTag tag) {
+            this(tag.getInt("roompos_x"), tag.getInt("roompos_y"));
+        }
+
         public int getX() {
             return x;
         }
@@ -71,15 +75,11 @@ public class RoomUtils {
             return new RoomPos(this.x + direction.xDir, this.y + direction.yDir);
         }
 
-        public static CompoundTag serialize(RoomPos pos) {
+        public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
-            tag.putInt("roompos_x", pos.x);
-            tag.putInt("roompos_y", pos.y);
+            tag.putInt("roompos_x", x);
+            tag.putInt("roompos_y", y);
             return tag;
-        }
-
-        public static RoomPos deserialize(CompoundTag tag) {
-            return new RoomPos(tag.getInt("roompos_x"), tag.getInt("roompos_y"));
         }
 
         @Override

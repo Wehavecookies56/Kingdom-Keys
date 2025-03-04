@@ -35,6 +35,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 import java.util.List;
@@ -118,7 +120,7 @@ public class CastleOblivionHandler {
                             PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                         }
                         RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
-                        //TODO generate random room type maybe? or possibly
+                        //TODO generate random room type maybe? or possibly defined by the floor type
                         Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), player, currentRoom, RoomUtils.Direction.NORTH, false);
                     }
                     Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
@@ -127,7 +129,7 @@ public class CastleOblivionHandler {
                     if (te != null) { //null check in case door is destroyed
                         if (!MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, player))) {
                             newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
-                            te.openDoor(RoomUtils.Direction.NORTH);
+                            te.openDoor(true);
                             player.teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
                             PacketHandler.sendTo(new SCSyncCastleOblivionInteriorCapability(ModCapabilities.getCastleOblivionInterior(player.level())), (ServerPlayer) player);
                         }
@@ -191,6 +193,7 @@ public class CastleOblivionHandler {
                     Floor startFloor = new Floor();
                     //as the first lobby room generates with the dimension we create the lobby room without generating it
                     Room lobby = new Room(startFloor.getFloorID(), new RoomUtils.RoomPos(0, 0));
+                    lobby.setStructure(ModRoomStructures.LOBBY.get());
                     Room.createDefaultLobby(lobby);
                     startFloor.getRoom(new RoomUtils.RoomPos(0, 0)).setGenerated(lobby);
                     startFloor.createLobby(lobby.position);

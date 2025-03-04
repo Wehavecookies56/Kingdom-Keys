@@ -1,0 +1,10 @@
+{
+  "name": "kingdomkeys:nether_s_1",
+  "structure": "nether_s_1",
+  "size": "S",
+  "dimensions": [ 32, 32 ],
+  "categories": [
+    "ENEMY", "STATUS", "BOUNTY"
+  ],
+  "floor": "kingdomkeys:nether"
+}

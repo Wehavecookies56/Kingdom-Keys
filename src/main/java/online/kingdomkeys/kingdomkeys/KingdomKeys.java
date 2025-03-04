@@ -5,12 +5,11 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.BlockItem;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
-import online.kingdomkeys.kingdomkeys.util.APITests;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -86,9 +85,9 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModFloorTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomStructures;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 
@@ -200,9 +199,7 @@ public class KingdomKeys {
 		ModDimensions.CHUNK_GENERATORS.register(modEventBus);
 		ModStructures.STRUCTURES.register(modEventBus);
 
-		ModRoomStructures.ROOM_STRUCTURES.register(modEventBus);
-		ModRoomTypes.ROOM_TYPES.register(modEventBus);
-		ModFloorTypes.FLOOR_TYPES.register(modEventBus);
+		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
 
 		modEventBus.addListener(this::setup);
 		modEventBus.addListener(this::modLoaded);
@@ -293,5 +290,8 @@ public class KingdomKeys {
 		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());
 		event.addListener(new LimitDataLoader());
+		event.addListener(ModJsonRegistries.FLOOR_TYPE.get());
+		event.addListener(ModJsonRegistries.ROOM_STRUCTURE.get());
+		event.addListener(ModJsonRegistries.ROOM_TYPE.get());
 	}
 }

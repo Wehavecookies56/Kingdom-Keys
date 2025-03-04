@@ -4,16 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
-import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,15 +32,15 @@ public class BiomeMixin {
                 Floor floor = interiorData.getFloorAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
                 Room room = interiorData.getRoomAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
                 if (floor != null) {
-                    Supplier<SoundEvent> music = null;
+                    SoundEvent music = null;
                     if (floor.getType().getMusic() != null) {
                         music = floor.getType().getMusic();
                     }
-                    if (room != null && room.getType().getProperties().getMusic() != null) {
-                        music = room.getType().getProperties().getMusic();
+                    if (room != null && room.getType().getMusic() != null) {
+                        music = room.getType().getMusic();
                     }
                     if (music != null) {
-                        cir.setReturnValue(Optional.of(new Music(Holder.direct(music.get()), 0, 0, true)));
+                        cir.setReturnValue(Optional.of(new Music(Holder.direct(music), 0, 0, true)));
                     } else {
                         cir.setReturnValue(Optional.of(new Music(Holder.direct(SoundEvents.MUSIC_GAME.get()), 12000, 24000, true)));
                     }

@@ -75,7 +75,7 @@ public class CardSelectionScreen extends MenuBackground {
 			Level level = minecraft.level;
             CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(level);
 			Room currentRoom = cap.getRoomAtPos(level, te.getBlockPos());
-            te.openDoor(null);
+            te.openDoor(true);
             minecraft.setScreen(null);
 		}));
 		createBtn.visible = false;

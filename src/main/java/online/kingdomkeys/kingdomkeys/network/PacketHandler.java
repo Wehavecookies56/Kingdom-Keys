@@ -57,6 +57,7 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, SCUpdateSavePoints.class, SCUpdateSavePoints::encode, SCUpdateSavePoints::new, SCUpdateSavePoints::handle);
 		HANDLER.registerMessage(packetID++, SCDeleteSavePointScreenshot.class, SCDeleteSavePointScreenshot::encode, SCDeleteSavePointScreenshot::new, SCDeleteSavePointScreenshot::handle);
 		HANDLER.registerMessage(packetID++, SCUpdateCORooms.class, SCUpdateCORooms::encode, SCUpdateCORooms::new, SCUpdateCORooms::handle);
+		HANDLER.registerMessage(packetID++, SCSyncJsonRegistry.class, SCSyncJsonRegistry::encode, SCSyncJsonRegistry::new, SCSyncJsonRegistry::handle);
 
 		//ClientToServer
 		HANDLER.registerMessage(packetID++, CSSyncAllClientDataPacket.class, CSSyncAllClientDataPacket::encode, CSSyncAllClientDataPacket::decode, CSSyncAllClientDataPacket::handle);
