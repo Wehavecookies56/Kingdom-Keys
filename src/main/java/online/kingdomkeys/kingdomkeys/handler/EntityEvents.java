@@ -86,6 +86,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 public class EntityEvents {
@@ -347,6 +348,10 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.FLOOR_TYPE.get()), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.ROOM_TYPE.get()), (ServerPlayer) player);
+				PacketHandler.sendTo(new SCSyncJsonRegistry<>(ModJsonRegistries.ROOM_STRUCTURE.get()), (ServerPlayer) player);
+
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {

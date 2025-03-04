@@ -6,20 +6,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Size2i;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomStructures;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 //metadata for each nbt file for rooms
 public class RoomStructure extends JsonRegistryObject {
@@ -94,7 +87,9 @@ public class RoomStructure extends JsonRegistryObject {
             tag.putString("floor", floor.toString());
         }
         CompoundTag whiteList = new CompoundTag();
-        this.roomWhitelist.forEach(resourceLocation -> whiteList.putString(resourceLocation.toString(), resourceLocation.toString()));
+        if (roomWhitelist != null) {
+            this.roomWhitelist.forEach(resourceLocation -> whiteList.putString(resourceLocation.toString(), resourceLocation.toString()));
+        }
         tag.put("white_list", whiteList);
 
         return tag;
@@ -114,8 +109,7 @@ public class RoomStructure extends JsonRegistryObject {
             floor = new ResourceLocation(tag.getString("floor"));
         }
         roomWhitelist = new ArrayList<>();
-        CompoundTag whiteList = tag.getCompound("white_list");
-        whiteList.getAllKeys().forEach(s -> roomWhitelist.add(new ResourceLocation(s)));
+        tag.getCompound("white_list").getAllKeys().forEach(s -> roomWhitelist.add(new ResourceLocation(s)));
     }
 
     @Override

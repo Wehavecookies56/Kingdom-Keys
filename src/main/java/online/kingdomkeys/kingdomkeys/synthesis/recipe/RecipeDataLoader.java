@@ -34,42 +34,20 @@ public class RecipeDataLoader extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
         KingdomKeys.LOGGER.info("Loading recipe data");
-        loadData(resourceManagerIn);
+        RecipeRegistry.getInstance().clearRegistry();
+        objectIn.forEach((resourceLocation, element) -> {
+                    try {
+                        Recipe result = GSON_BUILDER.fromJson(element, Recipe.class);
+                        result.setRegistryName(resourceLocation);
+                        RecipeRegistry.getInstance().register(result);
+                    } catch (JsonParseException e) {
+                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
+                    }
+        });
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
             }
-        }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "synthesis";
-        String extension = ".json";
-
-        RecipeRegistry.getInstance().clearRegistry();
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            ResourceLocation recipe = new ResourceLocation(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            try {
-            	Recipe result;
-                try {
-                    result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), Recipe.class);
-                    result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId().toString(), e);
-                    continue;
-                }
-                RecipeRegistry.getInstance().register(result);
-                
-                IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
     }
 }

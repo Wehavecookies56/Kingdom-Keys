@@ -7,11 +7,9 @@ import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModRoomTypes;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -98,7 +96,9 @@ public class FloorType extends JsonRegistryObject {
         tag.putInt("branch_chance", branchCount);
         tag.putInt("colour", floorColour.getRGB());
         CompoundTag blacklist = new CompoundTag();
-        roomBlacklist.forEach(roomType -> blacklist.putString(roomType.toString(), roomType.toString()));
+        if (roomBlacklist != null) {
+            roomBlacklist.forEach(roomType -> blacklist.putString(roomType.toString(), roomType.toString()));
+        }
         tag.put("blacklist", blacklist);
         if (music != null) {
             tag.putString("music", music.toString());

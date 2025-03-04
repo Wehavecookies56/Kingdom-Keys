@@ -7,9 +7,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.common.util.Size2i;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class RoomType extends JsonRegistryObject {
 
@@ -109,10 +106,14 @@ public class RoomType extends JsonRegistryObject {
         tag.putInt("category", category.ordinal());
 
         CompoundTag compatibleFloors = new CompoundTag();
-        this.compatibleFloors.forEach(resourceLocation -> compatibleFloors.putString(resourceLocation.toString(), resourceLocation.toString()));
+        if (this.compatibleFloors != null) {
+            this.compatibleFloors.forEach(resourceLocation -> compatibleFloors.putString(resourceLocation.toString(), resourceLocation.toString()));
+        }
         tag.put("compatible_floors", compatibleFloors);
         CompoundTag modifiers = new CompoundTag();
-        this.modifiers.forEach(resourceLocation -> modifiers.putString(resourceLocation.toString(), resourceLocation.toString()));
+        if (this.modifiers != null) {
+            this.modifiers.forEach(resourceLocation -> modifiers.putString(resourceLocation.toString(), resourceLocation.toString()));
+        }
         tag.put("modifiers", modifiers);
 
         if (fixedRoom != null) {

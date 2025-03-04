@@ -2,11 +2,8 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistry;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.data.ModJsonRegistries;
@@ -24,13 +21,16 @@ public class SCSyncJsonRegistry<T extends JsonRegistryObject> {
     }
 
     public SCSyncJsonRegistry(FriendlyByteBuf buffer) {
+        ResourceLocation rl = buffer.readResourceLocation();
         CompoundTag tag = buffer.readNbt();
+        JsonRegistry<T> registry = (JsonRegistry<T>) ModJsonRegistries.registry.get().getValue(rl);
         if (tag != null) {
-            ModJsonRegistries.FLOOR_TYPE.get().deserializeNBT(tag);
+           registry.deserializeNBT(tag);
         }
     }
 
     public void encode(FriendlyByteBuf buffer) {
+        buffer.writeResourceLocation(registry.getRegistryName());
         buffer.writeNbt(registry.serializeNBT());
     }
 
