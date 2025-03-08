@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.mixin;
+package online.kingdomkeys.kingdomkeys.mixin.client;
 
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;

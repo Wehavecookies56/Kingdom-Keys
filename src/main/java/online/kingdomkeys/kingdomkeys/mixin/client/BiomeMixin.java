@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.mixin;
+package online.kingdomkeys.kingdomkeys.mixin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;

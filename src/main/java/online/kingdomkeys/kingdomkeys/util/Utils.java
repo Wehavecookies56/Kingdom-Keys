@@ -1391,4 +1391,10 @@ public class Utils {
 		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
 	}
 
+	//TODO config option for people who hate fun
+	public static boolean isAprilFools() {
+		Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
+	}
+
 }

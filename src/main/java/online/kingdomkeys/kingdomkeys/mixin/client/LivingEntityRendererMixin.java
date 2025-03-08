@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.mixin;
+package online.kingdomkeys.kingdomkeys.mixin.client;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
