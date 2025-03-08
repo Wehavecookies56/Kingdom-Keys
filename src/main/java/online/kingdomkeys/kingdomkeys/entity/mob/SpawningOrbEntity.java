@@ -152,7 +152,7 @@ public class SpawningOrbEntity extends Monster {
 			}
 			
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
-			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			nPlayer.changeDimension(nPlayer.getServer().getLevel(dimension), new BaseTeleporter(coords));
 			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location().toString()));
 		}
 		super.playerTouch(nPlayer);

@@ -1,7 +1,7 @@
 {
-  "type": "kingdomkeys:castle_oblivion_lobby",
+  "type": "kingdomkeys:castle_oblivion_entrance_hall",
   "step": "surface_structures",
-  "start_pool": "kingdomkeys:castle_oblivion/lobby",
+  "start_pool": "kingdomkeys:castle_oblivion/entrance_hall",
   "size": 1,
   "biomes": "#kingdomkeys:has_structure/castle_oblivion_interior_biomes",
   "spawn_overrides": {}

@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
@@ -27,6 +28,7 @@ public class CardDoorTileEntity extends BlockEntity {
     RoomData destinationRoom;
     RoomDirection direction;
     DoorData data;
+
 
     public void openDoor(boolean setBlock) {
         open = true;
@@ -76,13 +78,13 @@ public class CardDoorTileEntity extends BlockEntity {
         super.load(pTag);
         if (pTag.contains("parent")) {
             parent = new RoomData(pTag.getCompound("parent"));
+            direction = RoomDirection.values()[pTag.getInt("direction")];
         }
-        direction = RoomDirection.values()[pTag.getInt("direction")];
         if (pTag.contains("destination_room")) {
             destinationRoom = new RoomData(pTag.getCompound("destination_room"));
         }
         open = pTag.getBoolean("open");
-        if (open && pTag.getCompound("destination") != null) {
+        if (open && pTag.contains("destination")) {
             destination = NbtUtils.readBlockPos(pTag.getCompound("destination"));
         } else {
             destination = null;
@@ -98,6 +100,8 @@ public class CardDoorTileEntity extends BlockEntity {
         if (parent != null) {
             pTag.put("parent", parent.serializeNBT());
             pTag.putInt("direction", direction.ordinal());
+        }
+        if (destinationRoom != null) {
             pTag.put("destination_room", destinationRoom.serializeNBT());
         }
         pTag.putBoolean("open", open);

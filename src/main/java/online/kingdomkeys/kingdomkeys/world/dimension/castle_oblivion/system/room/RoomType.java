@@ -22,7 +22,7 @@ import java.util.List;
 
 public class RoomType extends JsonRegistryObject {
 
-    private boolean lobby = false;
+    private boolean entranceHall = false;
     private RoomSize size;
     private RoomCategory category;
     private RoomEnemies enemies;
@@ -48,8 +48,8 @@ public class RoomType extends JsonRegistryObject {
         return "room." + registryName.getPath();
     }
 
-    public boolean isLobby() {
-        return lobby;
+    public boolean isEntranceHall() {
+        return entranceHall;
     }
 
     public RoomSize getSize() {
@@ -105,7 +105,7 @@ public class RoomType extends JsonRegistryObject {
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
 
-        tag.putBoolean("lobby", lobby);
+        tag.putBoolean("entrance_hall", entranceHall);
         tag.putInt("size", size.ordinal());
         tag.putInt("category", category.ordinal());
 
@@ -137,7 +137,7 @@ public class RoomType extends JsonRegistryObject {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        lobby = tag.getBoolean("lobby");
+        entranceHall = tag.getBoolean("entrance_hall");
         size = RoomSize.values()[tag.getInt("size")];
         category = RoomCategory.values()[tag.getInt("category")];
 
@@ -196,8 +196,8 @@ public class RoomType extends JsonRegistryObject {
                         throw new JsonParseException("Category should not be empty");
                     }
                 }
-                case "lobby" -> {
-                    lobby = entryElement.getAsBoolean();
+                case "entrance_hall" -> {
+                    entranceHall = entryElement.getAsBoolean();
                 }
                 case "colour" -> {
                     JsonArray colourArray = entryElement.getAsJsonArray();

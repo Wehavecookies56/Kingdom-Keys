@@ -15,15 +15,20 @@ public class ModRoomStructures {
     public static Supplier<JsonRegistry<RoomStructure>> registry = ModJsonRegistries.ROOM_STRUCTURE;
 
     public static final Supplier<RoomStructure>
-        LOBBY = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "lobby")),
-        TEST_ROOM = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "test_room")),
-        PLAINS_S_1 = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains_s_1")),
-        PLAINS_S_2 = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains_s_2")),
-        BOTTOMLESS_DARKNESS = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "bottomless_darkness")),
-        NETHER_S_1 = () -> ModJsonRegistries.ROOM_STRUCTURE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "nether_s_1"));
+        ENTRANCE_HALL_1F = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "entrance_hall_1f")),
+        ENTRANCE_HALL = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "entrance_hall")),
+        TEST_ROOM = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "test_room")),
+        PLAINS_S_1 = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains_s_1")),
+        PLAINS_S_2 = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains_s_2")),
+        BOTTOMLESS_DARKNESS = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "bottomless_darkness")),
+        NETHER_S_1 = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "nether_s_1"));
 
     public static List<RoomStructure> getCompatibleStructures(FloorType floor, RoomType room) {
-        return ModJsonRegistries.ROOM_STRUCTURE.get().getValues().stream().filter(s -> isStructureCompatible(floor, s, room)).toList();
+        if (room.getFixedRoom() != null) {
+            return List.of(room.getFixedRoom());
+        } else {
+            return registry.get().getValues().stream().filter(s -> isStructureCompatible(floor, s, room)).toList();
+        }
     }
 
     public static boolean isStructureCompatible(FloorType floor, RoomStructure structure, RoomType type) {

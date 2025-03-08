@@ -32,27 +32,4 @@ public class WorldCardItem extends Item {
     public FloorType getFloorType() {
         return floorType.get();
     }
-    
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-    	if(!pLevel.isClientSide) {
-	        CastleOblivionCapabilities.ICastleOblivionInteriorCapability cap = ModCapabilities.getCastleOblivionInterior(pLevel);
-	        if (cap != null) {
-	            Room currentRoom = cap.getRoomAtPos(pLevel, pPlayer.blockPosition());
-	            if (currentRoom == null) {
-	                KingdomKeys.LOGGER.info("something is wrong player should be in the lobby room");
-	            } else {
-	                Floor floor = cap.getFloors().get(0);
-	                if (floor != null) {
-	                	//Clear the whole floor (typical mom quote)
-	                	//Clear the whole path
-	                	floor.setWorldCard(this);
-                        RoomData data = floor.getRoom(new RoomPos(0, 1));
-                        Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), pPlayer, currentRoom, RoomDirection.NORTH, false);
-	                }
-	            }
-	        }
-    	}
-    	return super.use(pLevel, pPlayer, pUsedHand);
-    }
 }

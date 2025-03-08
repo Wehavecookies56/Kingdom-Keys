@@ -16,18 +16,18 @@ import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 
 import java.util.Optional;
 
-public class CastleOblivionLobbyStructure extends Structure {
+public class CastleOblivionEntranceHallStructure extends Structure {
 
-    public static final Codec<CastleOblivionLobbyStructure> CODEC = RecordCodecBuilder.<CastleOblivionLobbyStructure>mapCodec(instance ->
-            instance.group(CastleOblivionLobbyStructure.settingsCodec(instance),
+    public static final Codec<CastleOblivionEntranceHallStructure> CODEC = RecordCodecBuilder.<CastleOblivionEntranceHallStructure>mapCodec(instance ->
+            instance.group(CastleOblivionEntranceHallStructure.settingsCodec(instance),
                     StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size)
-            ).apply(instance, CastleOblivionLobbyStructure::new)).codec();
+            ).apply(instance, CastleOblivionEntranceHallStructure::new)).codec();
 
     private final Holder<StructureTemplatePool> startPool;
     private final int size;
 
-    public CastleOblivionLobbyStructure(StructureSettings config, Holder<StructureTemplatePool> startPool, int size) {
+    public CastleOblivionEntranceHallStructure(StructureSettings config, Holder<StructureTemplatePool> startPool, int size) {
         super(config);
         this.startPool = startPool;
         this.size = size;
@@ -44,14 +44,14 @@ public class CastleOblivionLobbyStructure extends Structure {
 
         Optional<GenerationStub> structurePiecesGenerator = JigsawPlacementRotation.addPieces(context, this.startPool, Optional.empty(), this.size, pos, rotation, false, Optional.empty(), 128);
         if (structurePiecesGenerator.isPresent()) {
-            KingdomKeys.LOGGER.debug("Castle Oblivion Lobby generated at {}", pos);
+            KingdomKeys.LOGGER.debug("Castle Oblivion Entrance Hall generated at {}", pos);
         }
         return structurePiecesGenerator;
     }
 
     @Override
     public StructureType<?> type() {
-        return ModStructures.CASTLE_OBLIVION_LOBBY.get();
+        return ModStructures.CASTLE_OBLIVION_ENTRANCE_HALL.get();
     }
 
     //Only generate at 1 chunk so 1 structure generates

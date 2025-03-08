@@ -1,11 +1,11 @@
 {
-  "name": "kingdomkeys:castle_oblivion/lobby",
+  "name": "kingdomkeys:castle_oblivion/entrance_hall",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "kingdomkeys:castle_oblivion/lobby",
+        "location": "kingdomkeys:castle_oblivion/rooms/all/entrance_hall_1f",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"

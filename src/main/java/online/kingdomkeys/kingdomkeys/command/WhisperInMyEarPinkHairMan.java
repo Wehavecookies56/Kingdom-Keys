@@ -35,12 +35,12 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 		if(player.level().dimension() == ModDimensions.STATION_OF_SORROW) {
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("overworld"));
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords));
 			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 		} else {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords.getX(), coords.getY(), coords.getZ()));
+			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords));
 			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
 			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null, null);

@@ -1,7 +1,7 @@
 {
-  "lobby": true,
+  "entrance_hall": true,
   "size": "SPECIAL",
   "category": "SPECIAL",
-  "fixed_room": "kingdomkeys:lobby",
+  "fixed_room": "kingdomkeys:entrance_hall",
   "music": "kingdomkeys:music/castle_oblivion"
 }

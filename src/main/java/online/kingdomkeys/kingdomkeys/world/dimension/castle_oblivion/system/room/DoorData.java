@@ -5,10 +5,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class DoorData implements INBTSerializable<CompoundTag> {
 
-    public static final DoorData NONE = null;
-
-    String exitDestination;
-
     RoomData parent;
     Type type;
     RoomDirection direction;
@@ -23,10 +19,8 @@ public class DoorData implements INBTSerializable<CompoundTag> {
         this.deserializeNBT(tag);
     }
 
-    public void setExitDestination(String destination) {
-        if (type == Type.EXIT) {
-            exitDestination = destination;
-        }
+    public Type getType() {
+        return type;
     }
 
     @Override
@@ -43,7 +37,14 @@ public class DoorData implements INBTSerializable<CompoundTag> {
         this.direction = RoomDirection.values()[tag.getInt("direction")];
     }
 
+    /**
+     * NORMAL: door within a generated room that can be used to set the card for the room
+     * ENTRANCE: door to go to previous floor or exit dimension on floor 1
+     * EXIT: door to go to the next floor
+     * FIXED: like NORMAL but cards cannot be used to generate a room
+     * HALL: the door used to select a world card
+     */
     public enum Type {
-        NORMAL, EXIT, FIXED
+        NORMAL, ENTRANCE, EXIT, FIXED, HALL
     }
 }

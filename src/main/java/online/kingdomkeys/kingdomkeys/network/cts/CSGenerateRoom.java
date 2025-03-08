@@ -56,8 +56,8 @@ public class CSGenerateRoom {
 			RoomType type = ((MapCardItem)message.stack.getItem()).getRoomType();
 			Room currentRoom = cap.getRoomAtPos(player.level(), message.pos);
 			RoomData data = te.getParentRoom().getParentFloor(level).getAdjacentRoom(te.getParentRoom(), te.getDirection().opposite()).getFirst();
-			Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, type, player, currentRoom, te.getDirection().opposite(), false);
-			BlockPos destination = newRoom.doorPositions.get(te.getDirection().opposite());
+			Room newRoom = RoomGenerator.INSTANCE.generateRoom(level, data, type, currentRoom, te.getDirection().opposite());
+			BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
             CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
             te.openDoor(true);
             destTe.openDoor(true);

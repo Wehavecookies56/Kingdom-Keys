@@ -44,7 +44,7 @@ public class COMinimap extends OverlayBase {
                 //Render player icon
                 if (roomData.getGenerated() != null) {
                    // System.out.println(i+": "+roomData.getGenerated().position);
-                    if (minecraft.player.getX() >= roomData.getGenerated().position.getX() && minecraft.player.getX() < roomData.getGenerated().position.getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().position.getZ() && minecraft.player.getZ() < roomData.getGenerated().position.getZ() +64) {
+                    if (minecraft.player.getX() >= roomData.getGenerated().getPosition().getX() && minecraft.player.getX() < roomData.getGenerated().getPosition().getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().getPosition().getZ() && minecraft.player.getZ() < roomData.getGenerated().getPosition().getZ() +64) {
                         guiGraphics.pose().pushPose();
                         float rotationDegrees = Mth.wrapDegrees(minecraft.player.getYRot());
                         //System.out.println(rotationDegrees);

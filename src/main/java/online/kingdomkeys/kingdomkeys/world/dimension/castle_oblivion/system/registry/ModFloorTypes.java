@@ -12,9 +12,9 @@ public class ModFloorTypes {
     public static Supplier<JsonRegistry<FloorType>> registry = ModJsonRegistries.FLOOR_TYPE;
 
     public static Supplier<FloorType>
-        NONE = () -> ModJsonRegistries.FLOOR_TYPE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "none")),
-        PLAINS = () -> ModJsonRegistries.FLOOR_TYPE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains")),
-        NETHER = () -> ModJsonRegistries.FLOOR_TYPE.get().getValue(new ResourceLocation(KingdomKeys.MODID, "nether"));
+        NONE = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "none")),
+        PLAINS = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "plains")),
+        NETHER = () -> registry.get().getValue(new ResourceLocation(KingdomKeys.MODID, "nether"));
 
     public static boolean isFloorCompatible(FloorType floor, RoomType room) {
         return !floor.getRoomBlacklist().contains(room) && room.isFloorCompatible(floor);

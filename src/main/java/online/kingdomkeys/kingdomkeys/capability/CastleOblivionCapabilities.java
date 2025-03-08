@@ -22,7 +22,7 @@ public class CastleOblivionCapabilities {
         void addFloor(Floor floor);
         Room getRoomAtPos(Level level, BlockPos pos);
         Floor getFloorAtPos(Level level, BlockPos pos);
-        Floor getFloorByID(UUID id);
+        Floor getFloorByID(int id);
         boolean isInRoom(BlockPos pos);
     }
 
@@ -48,10 +48,9 @@ public class CastleOblivionCapabilities {
             floors.clear();
             int size = tag.getInt("floors_size");
             for (int i = 0; i < size; i++) {
-                floors.add(Floor.deserialize((CompoundTag) tag.get("floors_" + i)));
+                floors.add(new Floor((CompoundTag) tag.get("floors_" + i)));
             }
         }
-
 
         @Override
         public List<Floor> getFloors() {
@@ -77,28 +76,28 @@ public class CastleOblivionCapabilities {
             return null;
         }
 
-        //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
+        //get floor from the closest entrance hall, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
         @Override
         public Floor getFloorAtPos(Level level, BlockPos pos) {
-            Room closestLobby = floors.get(0).getLobbyRoom();
-            if (closestLobby != null) {
-                double closestDistance = closestLobby.position.distSqr(pos);
+            Room closestEntrance = floors.get(0).getEntranceHall().getGenerated();
+            if (closestEntrance != null) {
+                double closestDistance = closestEntrance.getPosition().distSqr(pos);
                 for (Floor floor : getFloors()) {
-                    if (floor.getLobbyPosition().distSqr(pos) < closestDistance) {
-                        closestLobby = floor.getLobbyRoom();
-                        closestDistance = floor.getLobbyPosition().distSqr(pos);
+                    if (floor.getEntranceHallPosition().distSqr(pos) < closestDistance) {
+                        closestEntrance = floor.getEntranceHall().getGenerated();
+                        closestDistance = floor.getEntranceHallPosition().distSqr(pos);
                     }
                 }
-                return closestLobby.getParent(level);
+                return closestEntrance.getParent(level);
             }
             //if there is no room in the first floor nothing has generated yet
             return null;
         }
 
         @Override
-        public Floor getFloorByID(UUID id) {
-            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID().equals(id)).toList();
-            return f.size() > 0 ? f.get(0) : null;
+        public Floor getFloorByID(int id) {
+            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID() == id).toList();
+            return !f.isEmpty() ? f.get(0) : null;
         }
 
         @Override

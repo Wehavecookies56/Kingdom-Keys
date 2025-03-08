@@ -15,7 +15,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     Map<RoomDirection, DoorData> doors;
     public final RoomPos pos;
-    UUID parent;
+    int parent;
     Room generatedRoom;
 
     int cardCost;
@@ -29,6 +29,10 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     public RoomData(CompoundTag tag) {
         this(new RoomPos(tag.getCompound("roompos")));
         deserializeNBT(tag);
+    }
+
+    public int getParentID() {
+        return parent;
     }
 
     public Floor getParentFloor(Level level) {
@@ -66,7 +70,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.putUUID("parent", parent);
+        tag.putInt("parent", parent);
         tag.putInt("door_count", doors.size());
         CompoundTag doorDataTag = new CompoundTag();
         int i = 0;
@@ -87,7 +91,7 @@ public class RoomData implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        parent = tag.getUUID("parent");
+        parent = tag.getInt("parent");
         int doorCount = tag.getInt("door_count");
         doors.clear();
         CompoundTag doorDataTag = tag.getCompound("doors");

@@ -102,7 +102,7 @@ public class WayfinderItem extends Item {
 	public void teleport(Player player, Entity owner, int color) {
 		if (player.level().dimension() != owner.level().dimension()) {
 			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
-			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.getX(), owner.getY(), owner.getZ()));
+			player.changeDimension(destiinationWorld, new BaseTeleporter(owner.position()));
 		}
 
 		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());

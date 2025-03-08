@@ -19,7 +19,7 @@ import java.util.Optional;
 public class CastleOblivionStructure extends Structure {
 
     public static final Codec<CastleOblivionStructure> CODEC = RecordCodecBuilder.<CastleOblivionStructure>create((instance) -> instance.group(
-            CastleOblivionLobbyStructure.settingsCodec(instance),
+            CastleOblivionEntranceHallStructure.settingsCodec(instance),
             StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
             Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
             Codec.intRange(0, 6).fieldOf("piece_index").forGetter(structure -> structure.pieceIndex)

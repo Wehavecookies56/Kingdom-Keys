@@ -60,7 +60,7 @@ public class CSSetChoice {
                     //travel back
                     playerData.setSoAState(SoAState.COMPLETE);
                     ServerLevel dimension = player.level().getServer().getLevel(playerData.getReturnDimension());
-                    player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
+                    player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation()));
                     SoAState.applyStatsForChoices(player, playerData, false);
                     MinecraftForge.EVENT_BUS.post(new ChoiceEvent(player, playerData.getChosen(), playerData.getSacrificed()));
                 } else {

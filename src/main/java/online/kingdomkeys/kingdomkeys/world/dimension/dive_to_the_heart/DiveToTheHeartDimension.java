@@ -66,7 +66,7 @@ public class DiveToTheHeartDimension{
                         if (!event.player.level().isClientSide()) {
                             event.player.resetFallDistance();
                             ServerLevel dimension = event.player.level().getServer().getLevel(playerData.getReturnDimension());
-                            event.player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z));
+                            event.player.changeDimension(dimension, new BaseTeleporter(playerData.getReturnLocation()));
                         }
                     } else {
                         event.player.teleportTo(0, 25, 0);

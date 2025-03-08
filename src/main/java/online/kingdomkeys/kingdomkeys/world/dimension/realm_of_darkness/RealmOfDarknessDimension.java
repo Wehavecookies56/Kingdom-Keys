@@ -31,7 +31,7 @@ public class RealmOfDarknessDimension {
 					if (serverlevel != null) {
 						ServerPlayer sPlayer = (ServerPlayer) event.player;
 						BlockPos pos = sPlayer.getRespawnPosition() != null ? sPlayer.getRespawnPosition() : serverlevel.getSharedSpawnPos();
-						event.player.changeDimension(serverlevel, new BaseTeleporter(pos.getX(), pos.getY(), pos.getZ()));
+						event.player.changeDimension(serverlevel, new BaseTeleporter(pos));
 					}
 				}
 			}

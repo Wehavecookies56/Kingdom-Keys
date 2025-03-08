@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.Event;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import org.jetbrains.annotations.Nullable;
 
 public class CastleOblivionEvent extends Event {
 
@@ -23,11 +24,9 @@ public class CastleOblivionEvent extends Event {
     public static class RoomGeneratedEvent extends CastleOblivionEvent {
         RoomData generatedRoomData;
         Room currentRoom;
-        Player player;
 
-        public RoomGeneratedEvent(Player player, RoomData generatedRoomData, Room currentRoom) {
-            super(player.level());
-            this.player = player;
+        public RoomGeneratedEvent(Level level, RoomData generatedRoomData, Room currentRoom) {
+            super(level);
             this.generatedRoomData = generatedRoomData;
             this.currentRoom = currentRoom;
         }
@@ -39,30 +38,28 @@ public class CastleOblivionEvent extends Event {
         public Room getCurrentRoom() {
             return currentRoom;
         }
-
-        public Player getPlayer() {
-            return player;
-        }
     }
 
     @Cancelable
     public static class PlayerChangeRoomEvent extends CastleOblivionEvent {
+        @Nullable
         Room currentRoom;
+        @Nullable
         Room newRoom;
         Player player;
 
-        public PlayerChangeRoomEvent(Room currentRoom, Room newRoom, Player player) {
+        public PlayerChangeRoomEvent(@Nullable Room currentRoom, @Nullable Room newRoom, Player player) {
             super(player.level());
             this.currentRoom = currentRoom;
             this.newRoom = newRoom;
             this.player = player;
         }
 
-        public Room getCurrentRoom() {
+        public @Nullable Room getCurrentRoom() {
             return currentRoom;
         }
 
-        public Room getNewRoom() {
+        public @Nullable Room getNewRoom() {
             return newRoom;
         }
 
@@ -73,14 +70,17 @@ public class CastleOblivionEvent extends Event {
 
     @Cancelable
     public static class PlayerChangeFloorEvent extends CastleOblivionEvent {
+        @Nullable
         Floor currentFloor;
+        @Nullable
         Floor newFloor;
 
-        public Floor getCurrentFloor() {
+        //Will be null if entering the first floor
+        public @Nullable Floor getCurrentFloor() {
             return currentFloor;
         }
 
-        public Floor getNewFloor() {
+        public @Nullable Floor getNewFloor() {
             return newFloor;
         }
 
@@ -89,7 +89,7 @@ public class CastleOblivionEvent extends Event {
         }
 
         Player player;
-        public PlayerChangeFloorEvent(Floor currentFloor, Floor newFloor, Player player) {
+        public PlayerChangeFloorEvent(@Nullable Floor currentFloor, @Nullable Floor newFloor, Player player) {
             super(player.level());
             this.currentFloor = currentFloor;
             this.newFloor = newFloor;
