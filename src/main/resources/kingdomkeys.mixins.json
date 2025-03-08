@@ -17,7 +17,8 @@
     "LivingEntityRendererMixin",
     "PlayerRendererMixin",
     "epicfight.PHumanoidRendererMixin",
-    "epicfight.RenderEngineEventsMixin"
+    "epicfight.RenderEngineEventsMixin",
+    "MinecraftMixin"
   ],
   "minVersion": "0.8"
 }

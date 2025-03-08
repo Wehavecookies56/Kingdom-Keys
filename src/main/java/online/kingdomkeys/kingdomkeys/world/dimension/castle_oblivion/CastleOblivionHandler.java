@@ -162,19 +162,19 @@ public class CastleOblivionHandler {
         }
     }
 
-    public boolean isExterior(ResourceKey<Level> level) {
+    public static boolean isExterior(ResourceKey<Level> level) {
         return level.equals(CASTLE_OBLIVION);
     }
 
-    public boolean isInterior(ResourceKey<Level> level) {
+    public static boolean isInterior(ResourceKey<Level> level) {
         return level.location().toString().contains("castle_oblivion_interior_");
     }
 
-    public boolean inExterior(Player player) {
+    public static boolean inExterior(Player player) {
         return isExterior(player.level().dimension());
     }
 
-    public boolean inInterior(Player player) {
+    public static boolean inInterior(Player player) {
         return isInterior(player.level().dimension());
     }
 
