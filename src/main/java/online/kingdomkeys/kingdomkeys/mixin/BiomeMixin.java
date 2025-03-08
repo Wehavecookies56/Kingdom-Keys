@@ -28,20 +28,22 @@ public class BiomeMixin {
         if (currentBiome.isBound()) {
             if (currentBiome.is(new ResourceLocation(KingdomKeys.MODID, "castle_oblivion_interior"))) {
                 CastleOblivionCapabilities.ICastleOblivionInteriorCapability interiorData = ModCapabilities.getCastleOblivionInterior(Minecraft.getInstance().level);
-                Floor floor = interiorData.getFloorAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
-                Room room = interiorData.getRoomAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
-                if (floor != null) {
-                    SoundEvent music = null;
-                    if (floor.getType().getMusic() != null) {
-                        music = floor.getType().getMusic();
-                    }
-                    if (room != null && room.getType().getMusic() != null) {
-                        music = room.getType().getMusic();
-                    }
-                    if (music != null) {
-                        cir.setReturnValue(Optional.of(new Music(Holder.direct(music), 0, 0, true)));
-                    } else {
-                        cir.setReturnValue(Optional.of(new Music(Holder.direct(SoundEvents.MUSIC_GAME.get()), 12000, 24000, true)));
+                if (interiorData != null && !interiorData.getFloors().isEmpty()) {
+                    Floor floor = interiorData.getFloorAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
+                    Room room = interiorData.getRoomAtPos(Minecraft.getInstance().level, Minecraft.getInstance().player.blockPosition());
+                    if (floor != null) {
+                        SoundEvent music = null;
+                        if (floor.getType().getMusic() != null) {
+                            music = floor.getType().getMusic();
+                        }
+                        if (room != null && room.getType().getMusic() != null) {
+                            music = room.getType().getMusic();
+                        }
+                        if (music != null) {
+                            cir.setReturnValue(Optional.of(new Music(Holder.direct(music), 0, 0, true)));
+                        } else {
+                            cir.setReturnValue(Optional.of(new Music(Holder.direct(SoundEvents.MUSIC_GAME.get()), 12000, 24000, true)));
+                        }
                     }
                 }
             }
