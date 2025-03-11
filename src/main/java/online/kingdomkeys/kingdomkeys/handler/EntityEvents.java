@@ -141,13 +141,16 @@ public class EntityEvents {
 			if (mobData.getLevel() > 0) {
 				if (!mob.hasCustomName()) {
 					int lvl = mobData.getLevel();
-					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl+ ChatFormatting.RESET));
+					if (ModConfigs.mobLevelName) {
+						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
+					}
 					if(mob.getAttribute(Attributes.ATTACK_DAMAGE) != null)
 						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					if(mob.getAttribute(Attributes.MAX_HEALTH) != null)
 						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
 					mob.heal(mob.getMaxHealth());
 				}
+				PacketHandler.sendTo(new SCSyncGlobalCapabilityToAllPacket(mob.getId(), mobData), (ServerPlayer) player);
 			}
 		}
 	}
@@ -157,6 +160,7 @@ public class EntityEvents {
 		Player player = e.getEntity();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());
+		ModCapabilities.mobDataClientCache = new HashMap<>();
 		if (playerData != null) {
 			// Heartless Spawn reset
 			if (worldData != null) {

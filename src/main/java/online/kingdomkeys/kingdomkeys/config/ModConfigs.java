@@ -294,7 +294,7 @@ public class ModConfigs {
         showGuiToggle = CLIENT.showGuiToggle.get();
     }
 
-    public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless;
+    public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -343,6 +343,7 @@ public class ModConfigs {
         linkedSavePointRecovers = COMMON.linkedSavePointRecovers.get();
         savePointRecovers = COMMON.savePointRecovers.get();
         warpPointRecovers = COMMON.warpPointRecovers.get();
+        mobLevelName = COMMON.mobLevelName.get();
     }
 
     public static int recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;

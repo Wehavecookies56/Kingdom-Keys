@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.NetworkEvent;
+import online.kingdomkeys.kingdomkeys.capability.GlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
@@ -64,7 +65,20 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	public static void handle(final SCSyncGlobalCapabilityToAllPacket message, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			LivingEntity entity = (LivingEntity) Minecraft.getInstance().level.getEntity(message.id);
-			
+
+			IGlobalCapabilities cache = new GlobalCapabilities();
+			cache.setStoppedTicks(message.stopTicks);
+			cache.setStopDamage(message.stopDmg);
+			cache.setFlatTicks(message.flatTicks);
+			cache.setCastleOblivionMarker(message.castleOblivionMarker);
+			cache.setLevel(message.level);
+			cache.setStopModelTicks(message.stopModelTicks);
+			cache.setKO(message.isKO);
+
+			if (message.id != Minecraft.getInstance().player.getId()) {
+				ModCapabilities.mobDataClientCache.put(message.id, cache);
+			}
+
 			if (entity != null) {
 				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 				globalData.ifPresent(cap -> {

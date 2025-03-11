@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
@@ -26,6 +27,10 @@ public abstract class OverlayBase implements IGuiOverlay {
     }
 
     public void drawString(GuiGraphics gui, Font font, String text, int x, int y, int colour) {
+        gui.drawString(font, text, x, y, colour);
+    }
+
+    public void drawString(GuiGraphics gui, Font font, Component text, int x, int y, int colour) {
         gui.drawString(font, text, x, y, colour);
     }
 

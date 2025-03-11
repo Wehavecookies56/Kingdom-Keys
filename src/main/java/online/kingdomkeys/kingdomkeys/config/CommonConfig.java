@@ -20,6 +20,7 @@ public class CommonConfig {
     public ForgeConfigSpec.IntValue rodHeartlessMaxLevel;
     public ForgeConfigSpec.BooleanValue respawnROD;
     public ForgeConfigSpec.BooleanValue mobLevelingUp;
+    public ForgeConfigSpec.BooleanValue mobLevelName;
 
     public ForgeConfigSpec.BooleanValue debugConsoleOutput;
     public ForgeConfigSpec.BooleanValue bombExplodeWithFire;
@@ -135,6 +136,11 @@ public class CommonConfig {
                 .comment("Allow heartless and nobodies to spawn with levels according to players")
                 .translation(KingdomKeys.MODID + ".config.player_mob_leveling_up")
                 .define("mobLevelingUp", true);
+
+        mobLevelName = builder
+                .comment("Add the level to the name of mobs")
+                .translation(KingdomKeys.MODID + ".config.mob_level_name")
+                .define("mobLevelName", true);
         
         rodHeartlessLevelScale = builder
                 .comment("Heartless spawning in the ROD will increase 1 level every X blocks")

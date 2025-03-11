@@ -17,6 +17,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModCapabilities {
 
@@ -26,6 +29,8 @@ public class ModCapabilities {
 	public static final Capability<CastleOblivionCapabilities.ICastleOblivionInteriorCapability> CASTLE_OBLIVION_INTERIOR_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 	public static final Capability<CastleOblivionCapabilities.ICastleOblivionExteriorCapability> CASTLE_OBLIVION_EXTERIOR_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
+	public static Map<Integer, IGlobalCapabilities> mobDataClientCache = new HashMap<>();
+
 	public static IPlayerCapabilities getPlayer(Player player) {
 		LazyOptional<IPlayerCapabilities> playerData = player.getCapability(ModCapabilities.PLAYER_CAPABILITIES, null);
 		return playerData.orElse(null);
@@ -34,6 +39,10 @@ public class ModCapabilities {
 	public static IGlobalCapabilities getGlobal(LivingEntity e) {
 		LazyOptional<IGlobalCapabilities> globalData = e.getCapability(ModCapabilities.GLOBAL_CAPABILITIES, null);
 		return globalData.orElse(null);
+	}
+
+	public static IGlobalCapabilities getCachedGlobal(LivingEntity e) {
+		return mobDataClientCache.get(e.getId());
 	}
 	
 	public static IWorldCapabilities getWorld(Level w) {
@@ -87,5 +96,7 @@ public class ModCapabilities {
 			event.addCapability(new ResourceLocation(KingdomKeys.MODID, "castle_oblivion_exterior_capability"), new CastleOblivionCapabilities.ExteriorProvider());
 		}
 	}
+
+
 
 }

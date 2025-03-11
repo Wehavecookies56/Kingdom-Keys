@@ -3,9 +3,12 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,11 +19,13 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LockOnGui extends OverlayBase {
@@ -107,7 +112,14 @@ public class LockOnGui extends OverlayBase {
 					{
 						RenderSystem.enableBlend();
 						poseStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
-						drawString(guiGraphics, minecraft.font, target.getName().getString(), screenWidth - minecraft.font.width(target.getName().getString()), (int) (26*hpBarScale), 0xFFFFFF);
+						Component targetName = target.getName();
+						if (!ModConfigs.mobLevelName) {
+							IGlobalCapabilities targetData = ModCapabilities.getCachedGlobal((LivingEntity) target);
+							if (targetData != null && targetData.getLevel() > 0) {
+								targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
+							}
+						}
+						drawString(guiGraphics, minecraft.font, targetName, screenWidth - minecraft.font.width(targetName), (int) (26*hpBarScale), 0xFFFFFF);
 						drawHPBar(guiGraphics, (LivingEntity) target);
 						RenderSystem.disableBlend();
 					}
