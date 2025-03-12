@@ -147,7 +147,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								if (newRoom != null) {
 									if (!MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(cap.getRoomAtPos(level, te.getBlockPos()), newRoom, player))) {
 										BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
-										destination = destination.offset(te.getDirection().opposite().toMCDirection().getNormal().multiply(2));
+										destination = destination.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
 										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorCapability(ModCapabilities.getCastleOblivionInterior(player.level())), (ServerPlayer) player);

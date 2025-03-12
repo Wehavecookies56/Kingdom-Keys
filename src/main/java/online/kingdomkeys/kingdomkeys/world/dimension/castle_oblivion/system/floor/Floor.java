@@ -231,10 +231,10 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     @Nullable
-    public Pair<RoomData, RoomDirection> getAdjacentRoom(RoomData room, RoomDirection direction) {
+    public RoomData getAdjacentRoom(RoomData room, RoomDirection direction) {
         RoomPos adjPos = room.pos.add(direction);
         if (rooms.containsKey(adjPos)) {
-            return Pair.of(rooms.get(adjPos), direction);
+            return rooms.get(adjPos);
         }
         return null;
     }
@@ -242,9 +242,9 @@ public class Floor implements INBTSerializable<CompoundTag> {
     public Map<RoomData, RoomDirection> getAdjacentRooms(RoomData room) {
         Map<RoomData, RoomDirection> rooms = new HashMap<>();
         for (int i = 0; i < RoomDirection.values().length; i++) {
-            Pair<RoomData, RoomDirection> roomDirectionPair = getAdjacentRoom(room, RoomDirection.values()[i]);
-            if (roomDirectionPair != null) {
-                rooms.put(roomDirectionPair.getFirst(), roomDirectionPair.getSecond());
+            RoomData roomData = getAdjacentRoom(room, RoomDirection.values()[i]);
+            if (roomData != null) {
+                rooms.put(roomData, RoomDirection.values()[i]);
             }
         }
         return rooms;

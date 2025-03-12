@@ -104,15 +104,15 @@ public class RoomGenerator {
 
                         BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true);
                         RoomDirection facing = switch (be.getMetaData()) {
-                            case "north" -> RoomDirection.NORTH;
-                            case "west" -> RoomDirection.WEST;
-                            case "east" -> RoomDirection.EAST;
-                            case "south" -> RoomDirection.SOUTH;
+                            case "north" -> RoomDirection.SOUTH;
+                            case "west" -> RoomDirection.EAST;
+                            case "east" -> RoomDirection.WEST;
+                            case "south" -> RoomDirection.NORTH;
                             default -> null;
                         };
                         if (facing != null) {
-                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection());
-                            DoorData doorData = data.getDoor(facing.opposite());
+                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection().getOpposite());
+                            DoorData doorData = data.getDoor(facing);
                             if (doorData != null) {
                                 newRoom.doors.put(facing, new Room.Door(doorData, blockpos.immutable()));
                                 //exit and entrance doors don't have adjacent rooms so no need to check
@@ -126,21 +126,21 @@ public class RoomGenerator {
                                     level.setBlockEntity(cardDoorTileEntity);
                                 } else {
                                     //check for adjacent rooms for non EXIT or ENTRANCE doors
-                                    Pair<RoomData, RoomDirection> adjacentRoom = currentFloor.getAdjacentRoom(data, facing.opposite());
+                                    RoomData adjacentRoom = currentFloor.getAdjacentRoom(data, facing);
                                     if (adjacentRoom != null) {
-                                        if (adjacentRoom.getFirst().getGenerated() != null) {
-                                            BlockPos adjacentDoorPos = adjacentRoom.getFirst().getGenerated().doors.get(facing.opposite()).pos();
+                                        if (adjacentRoom.getGenerated() != null) {
+                                            BlockPos adjacentDoorPos = adjacentRoom.getGenerated().doors.get(facing.opposite()).pos();
                                             CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
                                             if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
                                                 cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
                                             }
                                         }
-                                        if (adjacentRoom.getFirst().getDoors().get(adjacentRoom.getSecond().opposite()) != null) {
+                                        if (adjacentRoom.getDoors().get(facing.opposite()) != null) {
                                             level.setBlock(blockpos, cardDoorState, 2);
                                             CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
                                             cardDoorTileEntity.setParent(data);
                                             cardDoorTileEntity.setDirection(facing);
-                                            cardDoorTileEntity.setDestinationRoom(adjacentRoom.getFirst());
+                                            cardDoorTileEntity.setDestinationRoom(adjacentRoom);
                                             cardDoorTileEntity.setData(doorData);
                                             cardDoorTileEntity.openDoor(false);
                                             level.setBlockEntity(cardDoorTileEntity);
