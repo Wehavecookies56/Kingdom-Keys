@@ -2,19 +2,19 @@
   "cost": 6000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_illusory_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_pulsing_shard",
+      "material": "kingdomkeys:pulsing_shard",
       "quantity": "6"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:illusory_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "3"
     }
   ],

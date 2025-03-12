@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_soothing_gem",
+      "material": "kingdomkeys:soothing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_crystal",
+      "material": "kingdomkeys:soothing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_writhing_stone",
+      "material": "kingdomkeys:writhing_stone",
       "quantity": "4"
     }
   ],

@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_soothing_gem",
+      "material": "kingdomkeys:pulsing_stone",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_stone",
+      "material": "kingdomkeys:soothing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "2"
     }
   ],

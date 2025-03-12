@@ -9,11 +9,12 @@ import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
+public class KeybladeBuilder extends ModelFile {
 
     private ResourceLocation keychain;
     private int baseStr, baseMag;
@@ -26,11 +27,11 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         super((ResourceLocation) o);
     }
 
-    private T self() {
-        return (T) this;
+    private KeybladeBuilder self() {
+        return (KeybladeBuilder) this;
     }
 
-    public T keychain(String keyChain) {
+    public KeybladeBuilder keychain(String keyChain) {
         Preconditions.checkNotNull(keyChain, "Texture must not be null");
         ResourceLocation asLoc;
         if (keyChain.contains(":")) {
@@ -41,24 +42,24 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return keychain(asLoc);
     }
 
-    public T keychain(ResourceLocation keychain) {
+    public KeybladeBuilder keychain(ResourceLocation keychain) {
         Preconditions.checkNotNull(keychain, "Keychain must not be null");
         this.keychain = keychain;
         return self();
     }
 
-    public T baseStats(int baseStr, int baseMag) {
+    public KeybladeBuilder baseStats(int baseStr, int baseMag) {
         this.baseMag = baseMag;
         this.baseStr = baseStr;
         return self();
     }
 
-    public T level(KeybladeLevel keybladeLevel) {
+    public KeybladeBuilder level(KeybladeLevel keybladeLevel) {
         keybladeLevels.add(keybladeLevel);
         return self();
     }
 
-    public T levels(KeybladeStats.Recipe[] recipes) {
+    public KeybladeBuilder levels(KeybladeStats.Recipe[] recipes) {
         int baseMag = this.baseMag;
         int baseStr = this.baseStr;
         for (int i = 0; i < recipes.length; i++) {
@@ -72,17 +73,17 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
         return self();
     }
 
-    public T desc(String desc) {
+    public KeybladeBuilder desc(String desc) {
         this.desc = desc;
         return self();
     }
 
-    public T ability(String ability) {
+    public KeybladeBuilder ability(String ability) {
         this.baseAbility = ability;
         return self();
     }
 
-    public T reach(float reach) {
+    public KeybladeBuilder reach(float reach) {
     	this.reach = reach;
     	return self();
     }
@@ -118,7 +119,7 @@ public class KeybladeBuilder<T extends KeybladeBuilder<T>> extends ModelFile {
             if (k.getMaterialList() != null)
                k.getMaterialList().forEach((key, value) -> {
                    JsonObject matObj = new JsonObject();
-                   matObj.addProperty("material", key.getRegistryName().toString());
+                   matObj.addProperty("material", ForgeRegistries.ITEMS.getKey(key).toString());
                    matObj.addProperty("quantity", value);
                    recipe.add(matObj); });
             obj1.add("recipe", recipe);

@@ -25,7 +25,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -61,13 +60,13 @@ public class CSSynthesiseRecipe {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(message.name);
 				int stacksToGive = Utils.stacksForItemAmount(new ItemStack(recipe.getResult()), recipe.getAmount());
 				if (stacksToGive <= Utils.getFreeSlotsForPlayer(player)) {
-					Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
+					Iterator<Entry<Item, Integer>> it = recipe.getMaterials().entrySet().iterator();
 					boolean hasMaterials = true;
 					boolean enoughMunny = playerData.getMunny() >= recipe.getCost();
 					boolean enoughTier = !ModConfigs.requireSynthTier || playerData.getSynthLevel() >= recipe.getTier();
 
 					while (it.hasNext()) { //Check if the player has the materials (checked serverside just in case)
-						Entry<Material, Integer> m = it.next();
+						Entry<Item, Integer> m = it.next();
 						if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 							hasMaterials = false;
 						}
@@ -79,9 +78,9 @@ public class CSSynthesiseRecipe {
 						//playerData.setSynthLevel(1);
 						playerData.addSynthExperience(10 + recipe.getTier() * 2);
 
-						Iterator<Entry<Material, Integer>> ite = recipe.getMaterials().entrySet().iterator();
+						Iterator<Entry<Item, Integer>> ite = recipe.getMaterials().entrySet().iterator();
 						while (ite.hasNext()) {
-							Entry<Material, Integer> m = ite.next();
+							Entry<Item, Integer> m = ite.next();
 							playerData.removeMaterial(m.getKey(), m.getValue());
 						}
 

@@ -2,19 +2,19 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_frost_shard",
+      "material": "kingdomkeys:pulsing_stone",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_crystal",
+      "material": "kingdomkeys:frost_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:soothing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_betwixt_shard",
+      "material": "kingdomkeys:betwixt_shard",
       "quantity": "1"
     }
   ],

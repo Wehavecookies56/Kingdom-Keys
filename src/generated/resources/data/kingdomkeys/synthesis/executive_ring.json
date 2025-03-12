@@ -2,15 +2,15 @@
   "cost": 1200,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_lightning_stone",
+      "material": "kingdomkeys:lightning_stone",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "2"
     }
   ],

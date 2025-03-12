@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
@@ -50,8 +49,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -184,10 +181,10 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		storage.put("parties", parties);
 
 		CompoundTag mats = new CompoundTag();
-		for (Entry<String, Integer> pair : this.getMaterialMap().entrySet()) {
-			mats.putInt(pair.getKey(), pair.getValue());
-			if (mats.getInt(pair.getKey()) == 0 && pair.getKey() != null)
-				mats.remove(pair.getKey());
+		for (Entry<ResourceLocation, Integer> pair : this.getMaterialMap().entrySet()) {
+			mats.putInt(pair.getKey().toString(), pair.getValue());
+			if (mats.getInt(pair.getKey().toString()) == 0 && pair.getKey() != null)
+				mats.remove(pair.getKey().toString());
 		}
 		storage.put("materials", mats);
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
@@ -355,10 +352,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
-			ResourceLocation loc = new ResourceLocation(mat);
-			if (ModMaterials.registry.get().containsKey(new ResourceLocation(loc.getNamespace(), Strings.SM_Prefix + loc.getPath()))) {
-				this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
-			}
+			this.getMaterialMap().put(new ResourceLocation(mat), nbt.getCompound("materials").getInt(mat));
 		}
 
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
@@ -408,7 +402,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
-    private TreeMap<String, Integer> materials = new TreeMap<>();
+    private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
     List<String> reactionList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
@@ -1947,66 +1941,69 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	}
 	
 	 @Override
-     public TreeMap<String, Integer> getMaterialMap() {
+     public TreeMap<ResourceLocation, Integer> getMaterialMap() {
          return materials;
      }
 
 	 @Override
-	 public void setMaterialMap(TreeMap<String, Integer> materialMap) {
+	 public void setMaterialMap(TreeMap<ResourceLocation, Integer> materialMap) {
 		 this.materials = materialMap;
 	 }
 	 
      @Override
-     public int getMaterialAmount(Material material) {
-         if (materials.containsKey(material.getMaterialName())) {
-             int currAmount = materials.get(material.getMaterialName());
+     public int getMaterialAmount(Item material) {
+		 ResourceLocation regName = ForgeRegistries.ITEMS.getKey(material);
+         if (materials.containsKey(regName)) {
+             int currAmount = materials.get(regName);
              return currAmount;
          }
          return 0;
      }
 
      @Override
-     public void addMaterial(Material material, int amount) {
-         if (materials.containsKey(material.getMaterialName())) {
-             int currAmount = materials.get(material.getMaterialName());
+     public void addMaterial(Item material, int amount) {
+		 ResourceLocation regName = ForgeRegistries.ITEMS.getKey(material);
+		 if (materials.containsKey(regName)) {
+             int currAmount = materials.get(regName);
              if (amount <= 0) {
-                 materials.remove(material.getMaterialName());
+                 materials.remove(regName);
              } else {
-                 materials.replace(material.getMaterialName(), currAmount + amount);
+                 materials.replace(regName, currAmount + amount);
              }
          } else {
              if (amount <= 0) {
-                 materials.remove(material.getMaterialName());
+                 materials.remove(regName);
              } else {
-                 materials.put(material.getMaterialName(), amount);
+                 materials.put(regName, amount);
              }
          }
      }
 
      @Override
-     public void setMaterial(Material material, int amount) {
-         if (materials.containsKey(material.getMaterialName())) {
+     public void setMaterial(Item material, int amount) {
+		 ResourceLocation regName = ForgeRegistries.ITEMS.getKey(material);
+		 if (materials.containsKey(regName)) {
              if (amount <= 0)
-                 materials.remove(material.getMaterialName());
+                 materials.remove(regName);
              else
-             materials.replace(material.getMaterialName(), amount);
+             materials.replace(regName, amount);
          } else {
              if (amount <= 0)
-                 materials.remove(material.getMaterialName());
+                 materials.remove(regName);
              else
-                 materials.put(material.getMaterialName(), amount);
+                 materials.put(regName, amount);
          }
      }
 
      @Override
-     public void removeMaterial(Material material, int amount) {
-         if (materials.containsKey(material.getMaterialName())) {
-             int currAmount = materials.get(material.getMaterialName());
+     public void removeMaterial(Item material, int amount) {
+		 ResourceLocation regName = ForgeRegistries.ITEMS.getKey(material);
+		 if (materials.containsKey(regName)) {
+             int currAmount = materials.get(regName);
              if (amount > currAmount) 
              	amount = currAmount;
-             materials.replace(material.getMaterialName(), currAmount - amount);
-         } else
-             return;
+             materials.replace(regName, currAmount - amount);
+         }
      }
 
 	@Override

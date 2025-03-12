@@ -2,20 +2,20 @@
   "cost": 500,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_stone",
+      "material": "kingdomkeys:lightning_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_lucid_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_gem",
+      "material": "kingdomkeys:hungry_gem",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:lucid_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:blazing_stone",
+      "quantity": "3"
     }
   ],
   "output": {

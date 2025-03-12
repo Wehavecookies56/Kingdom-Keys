@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -30,7 +31,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -176,7 +176,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				enoughTier = !ModConfigs.requireSynthTier || playerData.getSynthLevel() >= recipe.getTier();
 				create.visible = true;
                 // item.getRecipe().getMaterials().entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
-                for (Entry<Material, Integer> m : recipe.getMaterials().entrySet()) {
+                for (Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
                     if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
                         enoughMats = false;
                     }
@@ -307,7 +307,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			}
 			matrixStack.popPose();
 			
-			if(!desc.equals("")) {
+			if(!desc.isEmpty()) {
 				matrixStack.pushPose();
 				{
 					String text = Utils.translateToLocal(selectedItemStack.getDescriptionId());
@@ -326,11 +326,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
-				Iterator<Entry<Material, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+				Iterator<Entry<Item, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
 				int i = 0;
 				while(materials.hasNext()) {
-					Entry<Material, Integer> m = materials.next();
-					ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+					Entry<Item, Integer> m = materials.next();
+					ItemStack stack = new ItemStack(m.getKey());
 					String n = Utils.translateToLocal(stack.getDescriptionId());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 					gui.drawString(minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);

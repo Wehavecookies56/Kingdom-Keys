@@ -2,20 +2,20 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_crystal",
+      "material": "kingdomkeys:writhing_gem",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_lightning_shard",
-      "quantity": "2"
+      "material": "kingdomkeys:lightning_crystal",
+      "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_remembrance_stone",
+      "material": "kingdomkeys:remembrance_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_writhing_gem",
-      "quantity": "1"
+      "material": "kingdomkeys:lightning_shard",
+      "quantity": "2"
     }
   ],
   "output": {

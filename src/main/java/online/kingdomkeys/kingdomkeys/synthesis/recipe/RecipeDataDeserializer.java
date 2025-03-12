@@ -8,9 +8,10 @@ import com.google.gson.*;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Tags;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
@@ -31,15 +32,15 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
             JsonElement element = entry.getValue();
             switch (entry.getKey()) {//Check for the first level key
                 case "ingredients":
-                    Map<Material, Integer> recipe = new HashMap<>();//Create the recipe
+                    Map<Item, Integer> recipe = new HashMap<>();//Create the recipe
                     JsonArray recipeArray = element.getAsJsonArray(); //Get the array
                     recipeArray.forEach(ingredient -> {//Iterate through all the ingredients
                         JsonObject ingredientObject = ingredient.getAsJsonObject();
-                        Material m = null;
+                        Item m = null;
                         int quantity = 0;
                         boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 						if (valid) {
-                            m = ModMaterials.registry.get().getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+                            m = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
                             if (m == null) {
                                 throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
                             } else {

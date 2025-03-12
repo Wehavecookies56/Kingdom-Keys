@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import java.util.concurrent.CompletableFuture;
 
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup;

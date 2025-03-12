@@ -2,19 +2,19 @@
   "cost": 1600,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_remembrance_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_twilight_stone",
+      "material": "kingdomkeys:twilight_stone",
       "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_mythril_stone",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:mythril_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:remembrance_shard",
       "quantity": "2"
     }
   ],

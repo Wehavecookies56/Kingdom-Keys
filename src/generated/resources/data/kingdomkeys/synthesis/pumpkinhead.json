@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lucid_shard",
+      "material": "kingdomkeys:writhing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:lucid_shard",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_crystal",
-      "quantity": "2"
     }
   ],
   "output": {

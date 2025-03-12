@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.capability;
 import java.time.Instant;
 import java.util.*;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -19,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
@@ -264,12 +262,12 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void removeKnownRecipe(ResourceLocation recipe);
 	void clearRecipes(String type);
 	
-	TreeMap<String, Integer> getMaterialMap();
-	void setMaterialMap(TreeMap<String, Integer> materialsMap);
-	int getMaterialAmount(Material material);
-	void addMaterial(Material material, int amount);
-	void setMaterial(Material material, int amount);
-	void removeMaterial(Material material, int amount);
+	TreeMap<ResourceLocation, Integer> getMaterialMap();
+	void setMaterialMap(TreeMap<ResourceLocation, Integer> materialsMap);
+	int getMaterialAmount(Item material);
+	void addMaterial(Item material, int amount);
+	void setMaterial(Item material, int amount);
+	void removeMaterial(Item material, int amount);
 	void clearMaterials();
 
 	//SoA choices

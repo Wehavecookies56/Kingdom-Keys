@@ -79,7 +79,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
@@ -180,7 +179,6 @@ public class KingdomKeys {
 		ModLimits.LIMITS.register(modEventBus);
 		ModShotlocks.SHOTLOCKS.register(modEventBus);
 		ModReactionCommands.REACTION_COMMANDS.register(modEventBus);
-		ModMaterials.MATERIALS.register(modEventBus);
 		ModBlocks.BLOCKS.register(modEventBus);
 		ModItems.ITEMS.register(modEventBus);
 		ModSounds.SOUNDS.register(modEventBus);

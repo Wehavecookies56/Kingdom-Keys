@@ -5,15 +5,19 @@ import java.util.Map;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends ModelFile {
+public class SynthesisRecipeBuilder extends ModelFile {
 
     private ResourceLocation output;
     private String type;
@@ -26,11 +30,11 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         super((ResourceLocation) o);
     }
 
-    private T self() {
-        return (T) this;
+    private SynthesisRecipeBuilder self() {
+        return (SynthesisRecipeBuilder) this;
     }
 
-    public T output(String output, int quantity) {
+    public SynthesisRecipeBuilder output(String output, int quantity) {
         Preconditions.checkNotNull(output, "Texture must not be null");
         ResourceLocation asLoc;
         if (output.contains(":")) {
@@ -41,30 +45,34 @@ public class SynthesisRecipeBuilder<T extends SynthesisRecipeBuilder<T>> extends
         return output(asLoc, quantity);
     }
 
-    public T output(ResourceLocation output, int quantity) {
+    public SynthesisRecipeBuilder output(ResourceLocation output, int quantity) {
         Preconditions.checkNotNull(output, "Keychain must not be null");
         this.output = output;
         this.quantity = quantity;
         return self();
     }
     
-    public T addType(String type) {
+    public SynthesisRecipeBuilder addType(String type) {
         this.type = type;
         return self();
     }
     
-    public T addCost(int cost) {
+    public SynthesisRecipeBuilder addCost(int cost) {
         this.cost = cost;
         return self();
     }
     
-    public T addTier(int tier) {
+    public SynthesisRecipeBuilder addTier(int tier) {
         this.tier = tier;
         return self();
     }
+
+    public SynthesisRecipeBuilder addMaterial(RegistryObject<Item> mat, int quantity) {
+        return addMaterial(mat.get(), quantity);
+    }
     
-    public T addMaterial(String mat, int quantity) {
-        recipe.put(KingdomKeys.MODID + ":" + Strings.SM_Prefix + mat, quantity);
+    public SynthesisRecipeBuilder addMaterial(Item mat, int quantity) {
+        recipe.put(ForgeRegistries.ITEMS.getKey(mat).toString(), quantity);
         return self();
     }
 

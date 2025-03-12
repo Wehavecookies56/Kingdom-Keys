@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -28,7 +29,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLevelUpKeybladePacket;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,10 +65,10 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
 			KeybladeItem item = kcItem.getKeyblade();
 
-			Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
+			Iterator<Entry<Item, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 			boolean hasMaterials = true;
 			while(itMats.hasNext()) { //Check if the player has the materials
-				Entry<Material, Integer> m = itMats.next();
+				Entry<Item, Integer> m = itMats.next();
 				
 				if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 					hasMaterials = false;
@@ -76,7 +76,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			}
 			
 			if(hasMaterials) { //If the player has the materials substract them and give the item
-                for (Entry<Material, Integer> m : item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet()) {
+                for (Entry<Item, Integer> m : item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet()) {
                     playerData.removeMaterial(m.getKey(), m.getValue());
                 }
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
@@ -204,7 +204,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				KeychainItem kChain = (KeychainItem) selectedItemStack.getItem();
 				KeybladeItem kBlade = kChain.getKeyblade();
 				upgrade.visible = true;
-                for (Entry<Material, Integer> m : kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet()) {
+                for (Entry<Item, Integer> m : kBlade.data.getLevelData(kBlade.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet()) {
                     if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
                         enoughMats = false;
                     }
@@ -299,11 +299,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			{
 				matrixStack.translate(iconPosX + 20, height*0.2, 1);
 				if(kb.getKeybladeLevel(selectedItemStack) < kb.getMaxLevel()) {
-					Iterator<Entry<Material, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
+					Iterator<Entry<Item, Integer>> itMats = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
 					int i = 0;
 					while(itMats.hasNext()) {
-						Entry<Material, Integer> m = itMats.next();
-						ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(m.getKey().getMaterialName())),m.getValue());
+						Entry<Item, Integer> m = itMats.next();
+						ItemStack stack = new ItemStack(m.getKey());
 						String n = Utils.translateToLocal(stack.getDescriptionId());
 						//playerData.setMaterial(m.getKey(), 1);
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;

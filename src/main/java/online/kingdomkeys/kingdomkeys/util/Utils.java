@@ -69,7 +69,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.*;
@@ -312,13 +311,13 @@ public class Utils {
 		return map.get(driveForm)[0];
 	}
 
-	public static LinkedHashMap<Material, Integer> getSortedMaterials(Map<Material, Integer> materials) {
+	public static LinkedHashMap<Item, Integer> getSortedMaterials(Map<Item, Integer> materials) {
 
-		ArrayList<Material> list = new ArrayList<>(materials.keySet());
-		list.sort(Comparator.comparing(Material::getMaterialName));
+		ArrayList<Item> list = new ArrayList<>(materials.keySet());
+		list.sort(Comparator.comparing(ForgeRegistries.ITEMS::getKey));
 
-		LinkedHashMap<Material, Integer> map = new LinkedHashMap<>();
-		for (Material k : list) {
+		LinkedHashMap<Item, Integer> map = new LinkedHashMap<>();
+		for (Item k : list) {
 			map.put(k, materials.get(k));
 		}
 		return map;

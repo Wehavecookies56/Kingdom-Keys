@@ -22,30 +22,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 
-public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T>> implements DataProvider {
+public abstract class SynthesisRecipeProvider implements DataProvider {
 
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
     protected final String modid;
-    protected final Function<ResourceLocation, T> factory;
+    protected final Function<ResourceLocation, SynthesisRecipeBuilder> factory;
     @VisibleForTesting
-    public final Map<ResourceLocation, T> generatedModels = new HashMap<>();
+    public final Map<ResourceLocation, SynthesisRecipeBuilder> generatedModels = new HashMap<>();
     @VisibleForTesting
     public final ExistingFileHelper existingFileHelper;
 
-    public SynthesisRecipeProvider(DataGenerator generator, String modid, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+    public SynthesisRecipeProvider(DataGenerator generator, String modid, Function<ResourceLocation, SynthesisRecipeBuilder> factory, ExistingFileHelper existingFileHelper) {
         this.generator = generator;
         this.modid = modid;
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public SynthesisRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
+    public SynthesisRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, SynthesisRecipeBuilder> builderFromModId, ExistingFileHelper existingFileHelper) {
         this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
     }
     protected abstract void registerRecipe();
 
-    public T getBuilder(String path) {
+    public SynthesisRecipeBuilder getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
         ResourceLocation outputLoc = path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path);
         return generatedModels.computeIfAbsent(outputLoc, factory);
@@ -69,14 +69,14 @@ public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T
 
     protected CompletableFuture<?> generateAll(CachedOutput cache) {
         List<CompletableFuture<?>> list = new ArrayList<>();
-        for (T model : generatedModels.values()) {
+        for (SynthesisRecipeBuilder model : generatedModels.values()) {
             Path target = getPath(model);
             list.add(DataProvider.saveStable(cache, model.toJson(), target));
         }
         return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
 
-    private Path getPath(T model) {
+    private Path getPath(SynthesisRecipeBuilder model) {
         ResourceLocation loc = model.getLocation();
         return generator.getPackOutput().createPathProvider(PackOutput.Target.DATA_PACK, "synthesis").json(loc);
     }

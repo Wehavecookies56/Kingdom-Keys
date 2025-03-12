@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_stone",
+      "material": "kingdomkeys:lightning_stone",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_gem",
+      "material": "kingdomkeys:soothing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_lucid_gem",
+      "material": "kingdomkeys:lucid_gem",
       "quantity": "2"
     }
   ],

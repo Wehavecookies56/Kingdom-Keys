@@ -2,11 +2,11 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_nightmares_end_chain",
+      "material": "kingdomkeys:nightmares_end_chain",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_mirage_split_chain",
+      "material": "kingdomkeys:mirage_split_chain",
       "quantity": "1"
     }
   ],

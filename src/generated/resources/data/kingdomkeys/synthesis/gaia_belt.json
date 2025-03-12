@@ -2,24 +2,24 @@
   "cost": 6000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_illusory_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_lightning_stone",
+      "material": "kingdomkeys:lightning_stone",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_writhing_stone",
+      "material": "kingdomkeys:writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:writhing_stone",
       "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_writhing_gem",
-      "quantity": "3"
+      "material": "kingdomkeys:illusory_crystal",
+      "quantity": "1"
     }
   ],
   "output": {

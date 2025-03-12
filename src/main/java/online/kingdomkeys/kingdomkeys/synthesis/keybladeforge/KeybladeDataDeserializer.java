@@ -10,12 +10,12 @@ import com.google.gson.*;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
+import online.kingdomkeys.kingdomkeys.lib.Tags;
 
 /**
  * Custom deserializer for Keyblade Data json files located in
@@ -79,7 +79,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 					JsonArray levelsArray = element.getAsJsonArray();
 					levelsArray.forEach(e -> {
 						KeybladeLevel level = new KeybladeLevel();
-						Map<Material, Integer> recipe = new LinkedHashMap<>();
+						Map<Item, Integer> recipe = new LinkedHashMap<>();
 						JsonObject levelObject = e.getAsJsonObject();
 						levelObject.entrySet().forEach(levelEntry -> {
 							JsonElement levelElement = levelEntry.getValue();
@@ -94,11 +94,11 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 								JsonArray recipeArray = levelElement.getAsJsonArray();
 								recipeArray.forEach(ingredient -> {
 									JsonObject ingredientObject = ingredient.getAsJsonObject();
-									Material m = null;
+									Item m = null;
 									int quantity = 0;
 									boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 									if (valid) {
-										m = ModMaterials.registry.get().getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
+										m = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ingredientObject.get("material").getAsString()));
 										if (m == null) {
 											throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
 										} else {

@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_sinister_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_sinister_shard",
+      "material": "kingdomkeys:sinister_shard",
       "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:sinister_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:wellspring_crystal",
+      "quantity": "2"
     }
   ],
   "output": {

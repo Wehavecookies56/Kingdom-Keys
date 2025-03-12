@@ -2,19 +2,19 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_crystal",
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_orichalcumplus",
+      "material": "kingdomkeys:wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:orichalcumplus",
       "quantity": "7"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_lucid_crystal",
+      "material": "kingdomkeys:lucid_crystal",
       "quantity": "2"
     }
   ],

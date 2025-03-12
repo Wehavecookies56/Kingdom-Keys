@@ -2,23 +2,23 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_crystal",
+      "material": "kingdomkeys:stormy_stone",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:writhing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_stormy_crystal",
+      "material": "kingdomkeys:stormy_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_stormy_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_soothing_stone",
+      "material": "kingdomkeys:soothing_stone",
       "quantity": "3"
     }
   ],

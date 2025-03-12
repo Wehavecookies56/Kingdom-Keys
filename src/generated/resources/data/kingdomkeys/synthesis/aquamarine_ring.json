@@ -2,15 +2,15 @@
   "cost": 700,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_writhing_stone",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_shard",
+      "material": "kingdomkeys:blazing_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_shard",
+      "material": "kingdomkeys:writhing_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:soothing_shard",
       "quantity": "5"
     }
   ],

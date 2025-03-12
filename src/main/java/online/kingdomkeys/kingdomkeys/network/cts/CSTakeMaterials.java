@@ -15,8 +15,6 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class CSTakeMaterials {
@@ -56,12 +54,11 @@ public class CSTakeMaterials {
 			Player player = ctx.get().getSender();
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			if(!ItemStack.isSameItem(message.stack, ItemStack.EMPTY)) {
-				Material mat = ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(message.stack.getItem()).getPath()));
-				
-				if(playerData.getMaterialAmount(mat)<message.stack.getCount()) {
+
+				if(playerData.getMaterialAmount(message.stack.getItem())<message.stack.getCount()) {
 					
 				} else {
-					playerData.removeMaterial(mat, message.stack.getCount());
+					playerData.removeMaterial(message.stack.getItem(), message.stack.getCount());
 					player.getInventory().add(message.stack);
 				}
 			}

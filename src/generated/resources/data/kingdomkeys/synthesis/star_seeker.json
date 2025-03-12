@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_twilight_stone",
+      "material": "kingdomkeys:twilight_stone",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_shard",
+      "material": "kingdomkeys:pulsing_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_shard",
+      "material": "kingdomkeys:betwixt_shard",
       "quantity": "3"
     }
   ],

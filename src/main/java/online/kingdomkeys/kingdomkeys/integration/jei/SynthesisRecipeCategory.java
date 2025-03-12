@@ -18,13 +18,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -91,11 +91,11 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
         int startY = 4;
         int currentX = startX;
         int currentY = startY;
-        for (Map.Entry<Material, Integer> ingredient : recipe.getMaterials().entrySet()) {
+        for (Map.Entry<Item, Integer> ingredient : recipe.getMaterials().entrySet()) {
             TextDrawable quantityOverlay = new TextDrawable(Component.translatable(ingredient.getValue().toString()));
             builder.addSlot(RecipeIngredientRole.INPUT, currentX, currentY)
-                    .addItemStack(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(ingredient.getKey().getMaterialName()))))
-                    .setSlotName(ingredient.getKey().getMaterialName())
+                    .addItemStack(new ItemStack(ingredient.getKey()))
+                    .setSlotName(ForgeRegistries.ITEMS.getKey(ingredient.getKey()).toString())
                     .setOverlay(quantityOverlay, 16 - quantityOverlay.getWidth(), 16 - quantityOverlay.getHeight());
             currentX += 16;
             if (currentX > 164) {

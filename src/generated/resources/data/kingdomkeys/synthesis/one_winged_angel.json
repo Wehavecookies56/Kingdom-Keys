@@ -2,19 +2,19 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_crystal",
-      "quantity": "5"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_stone",
+      "material": "kingdomkeys:orichalcum",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_orichalcum",
+      "material": "kingdomkeys:blazing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:blazing_crystal",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:blazing_stone",
       "quantity": "1"
     }
   ],

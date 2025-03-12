@@ -2,24 +2,24 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lucid_stone",
+      "material": "kingdomkeys:lucid_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_lucid_shard",
+      "material": "kingdomkeys:lucid_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_lucid_crystal",
+      "material": "kingdomkeys:lucid_crystal",
       "quantity": "6"
     },
     {
-      "material": "kingdomkeys:mat_lucid_gem",
-      "quantity": "4"
+      "material": "kingdomkeys:lost_illusion",
+      "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_lost_illusion",
-      "quantity": "1"
+      "material": "kingdomkeys:lucid_gem",
+      "quantity": "4"
     }
   ],
   "output": {

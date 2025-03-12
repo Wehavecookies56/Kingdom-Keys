@@ -2,24 +2,24 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_crystal",
+      "material": "kingdomkeys:frost_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_lucid_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_frost_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_crystal",
+      "material": "kingdomkeys:writhing_crystal",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:soothing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:blazing_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:lucid_crystal",
+      "quantity": "2"
     }
   ],
   "output": {

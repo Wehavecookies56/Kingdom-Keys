@@ -52,7 +52,7 @@ public class SCSyncCapabilityPacket {
 	public LinkedHashSet<String> visibleDriveForms = new LinkedHashSet<String>();
 	public LinkedHashMap<String,int[]> abilityMap = new LinkedHashMap<>();
 	public List<String> partyList = new ArrayList<>(10);
-	public TreeMap<String, Integer> materialMap = new TreeMap<>();
+	public TreeMap<ResourceLocation, Integer> materialMap = new TreeMap<>();
 	public Map<ResourceLocation, ItemStack> keychains = new HashMap<>();
 	public Map<Integer, ItemStack> items = new HashMap<>();
 	public Map<Integer, ItemStack> accessories = new HashMap<>();
@@ -242,36 +242,34 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(maxArmors);
 		
 		buffer.writeInt(partyList.size());
-		for(int i=0;i<partyList.size();i++) {
-			buffer.writeInt(this.partyList.get(i).length());
-			buffer.writeUtf(this.partyList.get(i));
-		}
+        for (String string : partyList) {
+            buffer.writeInt(string.length());
+            buffer.writeUtf(string);
+        }
 		
 		CompoundTag materials = new CompoundTag();
-		Iterator<Map.Entry<String, Integer>> materialsIt = materialMap.entrySet().iterator();
-		while (materialsIt.hasNext()) {
-			Map.Entry<String, Integer> pair = materialsIt.next();
-			materials.putInt(pair.getKey().toString(), pair.getValue());
-			if (materials.getInt(pair.getKey()) == 0 && pair.getKey().toString() != null)
-				materials.remove(pair.getKey().toString());
-		}
+        for (Map.Entry<ResourceLocation, Integer> pair : materialMap.entrySet()) {
+            materials.putInt(pair.getKey().toString(), pair.getValue());
+            if (materials.getInt(pair.getKey().toString()) == 0)
+                materials.remove(pair.getKey().toString());
+        }
 		buffer.writeNbt(materials);
 		
 		buffer.writeInt(messages.size());
 		buffer.writeInt(bfMessages.size());
 		buffer.writeInt(dfMessages.size());
 
-		for (int i = 0; i < this.messages.size(); i++) {
-			buffer.writeUtf(this.messages.get(i));
-		}
-		
-		for (int i = 0; i < this.bfMessages.size(); i++) {
-			buffer.writeUtf(this.bfMessages.get(i));
-		}
-		
-		for (int i = 0; i < this.dfMessages.size(); i++) {
-			buffer.writeUtf(this.dfMessages.get(i));
-		}
+        for (String message : this.messages) {
+            buffer.writeUtf(message);
+        }
+
+        for (String bfMessage : this.bfMessages) {
+            buffer.writeUtf(bfMessage);
+        }
+
+        for (String dfMessage : this.dfMessages) {
+            buffer.writeUtf(dfMessage);
+        }
 		
 		buffer.writeInt(this.driveForm.length());
 		buffer.writeUtf(this.driveForm);
@@ -297,17 +295,15 @@ public class SCSyncCapabilityPacket {
 		buffer.writeInt(this.magicCooldownTicks);
 		
 		buffer.writeInt(reactionList.size());
-		for(int i = 0; i < reactionList.size();i++) {
-			buffer.writeUtf(reactionList.get(i), 100);
-		}
+        for (String s : reactionList) {
+            buffer.writeUtf(s, 100);
+        }
 		
 		CompoundTag shortcuts = new CompoundTag();
-         
-		Iterator<Map.Entry<Integer,String>> shortcutsIt = shortcutsMap.entrySet().iterator();
-		while (shortcutsIt.hasNext()) {
-			Map.Entry<Integer,String> pair = (Map.Entry<Integer,String>) shortcutsIt.next();
-			shortcuts.putString(pair.getKey().toString(), pair.getValue());
-		}
+
+        for (Map.Entry<Integer, String> pair : shortcutsMap.entrySet()) {
+            shortcuts.putString(pair.getKey().toString(), pair.getValue());
+        }
 		buffer.writeNbt(shortcuts);
 		
 		buffer.writeInt(this.synthLevel);
@@ -343,49 +339,33 @@ public class SCSyncCapabilityPacket {
 		msg.maxFocus = buffer.readDouble();
 
 		CompoundTag recipesTag = buffer.readNbt();
-		Iterator<String> recipesIt = recipesTag.getAllKeys().iterator();
-		while (recipesIt.hasNext()) {
-			String key = (String) recipesIt.next();
-			msg.recipeList.add(new ResourceLocation(key));
-		}
+        for (String key : recipesTag.getAllKeys()) {
+            msg.recipeList.add(new ResourceLocation(key));
+        }
 		
 		CompoundTag magicsTag = buffer.readNbt();
-		Iterator<String> magicsIt = magicsTag.getAllKeys().iterator();
-		while (magicsIt.hasNext()) {
-			String magicName = (String) magicsIt.next();
-			msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
-		}
+        for (String magicName : magicsTag.getAllKeys()) {
+            msg.magicsMap.put(magicName, magicsTag.getIntArray(magicName));
+        }
 		
 		CompoundTag shotlocksTag = buffer.readNbt();
-		Iterator<String> shotlocksIt = shotlocksTag.getAllKeys().iterator();
-		while (shotlocksIt.hasNext()) {
-			String key = (String) shotlocksIt.next();
-			msg.shotlockList.add(key);
-		}
+        msg.shotlockList.addAll(shotlocksTag.getAllKeys());
 		
 		msg.equippedShotlock = buffer.readUtf(100);
 		
 		CompoundTag driveFormsTag = buffer.readNbt();
-		Iterator<String> driveFormsIt = driveFormsTag.getAllKeys().iterator();
-		while (driveFormsIt.hasNext()) {
-			String driveFormName = (String) driveFormsIt.next();
-			msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
-		}
+        for (String driveFormName : driveFormsTag.getAllKeys()) {
+            msg.driveFormMap.put(driveFormName, driveFormsTag.getIntArray(driveFormName));
+        }
 		
 		//TODO here
 		CompoundTag visibleDriveForms = buffer.readNbt();
-		Iterator<String> visibleDriveFormsIt = visibleDriveForms.getAllKeys().iterator();
-		while (visibleDriveFormsIt.hasNext()) {
-			String driveFormName = visibleDriveFormsIt.next();
-			msg.visibleDriveForms.add(driveFormName);
-		}
+        msg.visibleDriveForms.addAll(visibleDriveForms.getAllKeys());
 		
 		CompoundTag abilitiesTag = buffer.readNbt();
-		Iterator<String> abilitiesIt = abilitiesTag.getAllKeys().iterator();
-		while (abilitiesIt.hasNext()) {
-			String abilityName = (String) abilitiesIt.next();
-			msg.abilityMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
-		}
+        for (String abilityName : abilitiesTag.getAllKeys()) {
+            msg.abilityMap.put(abilityName, abilitiesTag.getIntArray(abilityName));
+        }
 
 		CompoundTag keychainsNBT = buffer.readNbt();
 		keychainsNBT.getAllKeys().forEach(key -> msg.keychains.put(new ResourceLocation(key), ItemStack.of((CompoundTag) keychainsNBT.get(key))));
@@ -414,27 +394,25 @@ public class SCSyncCapabilityPacket {
 		}
 		
 		CompoundTag materialsTag = buffer.readNbt();
-		Iterator<String> materialsIt = materialsTag.getAllKeys().iterator();
-		while (materialsIt.hasNext()) {
-			String matName = (String) materialsIt.next();
-			msg.materialMap.put(matName, materialsTag.getInt(matName));
-		}
+        for (String matName : materialsTag.getAllKeys()) {
+            msg.materialMap.put(new ResourceLocation(matName), materialsTag.getInt(matName));
+        }
 		
 		int msgSize = buffer.readInt();
 		int bfMsgSize = buffer.readInt();
 		int dfMsgSize = buffer.readInt();
 		
-		msg.messages = new ArrayList<String>();
+		msg.messages = new ArrayList<>();
 		for(int i = 0;i<msgSize;i++) {
 			msg.messages.add(buffer.readUtf(100));
 		}
 		
-		msg.bfMessages = new ArrayList<String>();
+		msg.bfMessages = new ArrayList<>();
 		for(int i = 0;i<bfMsgSize;i++) {
 			msg.bfMessages.add(buffer.readUtf(100));
 		}
 		
-		msg.dfMessages = new ArrayList<String>();
+		msg.dfMessages = new ArrayList<>();
 		for(int i = 0;i<dfMsgSize;i++) {
 			msg.dfMessages.add(buffer.readUtf(100));
 		}
@@ -469,11 +447,10 @@ public class SCSyncCapabilityPacket {
 		}
 		
 		CompoundTag shortcutsTag = buffer.readNbt();
-		Iterator<String> shortcutsIt = shortcutsTag.getAllKeys().iterator();
-		while (shortcutsIt.hasNext()) {
-            int shortcutPos = Integer.parseInt(shortcutsIt.next());
-            msg.shortcutsMap.put(shortcutPos, shortcutsTag.getString(shortcutPos+""));
-		}
+        for (String s : shortcutsTag.getAllKeys()) {
+            int shortcutPos = Integer.parseInt(s);
+            msg.shortcutsMap.put(shortcutPos, shortcutsTag.getString(shortcutPos + ""));
+        }
 		
 		msg.synthLevel = buffer.readInt();
 		msg.synthExp = buffer.readInt();

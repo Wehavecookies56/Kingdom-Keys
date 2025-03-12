@@ -65,11 +65,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -155,8 +152,28 @@ public class EntityEvents {
 		}
 	}
 
+	public void checkRecipeMaterials(Player player) {
+		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
+            if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+                player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe", recipe.getRegistryName().toString()));
+            }
+        }));
+		ForgeRegistries.ITEMS.getEntries().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
+			if (keybladeItem.data != null) {
+				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
+					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
+						if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade", ForgeRegistries.ITEMS.getKey(keybladeItem)));
+						}
+					});
+				}
+			}
+		});
+    }
+
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
+		checkRecipeMaterials(e.getEntity());
 		Player player = e.getEntity();
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		IWorldCapabilities worldData = ModCapabilities.getWorld(player.level());

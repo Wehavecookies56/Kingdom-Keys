@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_writhing_stone",
+      "material": "kingdomkeys:writhing_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_tranquility_shard",
+      "material": "kingdomkeys:tranquility_shard",
       "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_writhing_shard",
+      "material": "kingdomkeys:writhing_shard",
       "quantity": "5"
     }
   ],

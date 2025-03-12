@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_crystal",
+      "material": "kingdomkeys:blazing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:blazing_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_blazing_stone",
+      "material": "kingdomkeys:blazing_stone",
       "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_shard",
-      "quantity": "2"
     }
   ],
   "output": {

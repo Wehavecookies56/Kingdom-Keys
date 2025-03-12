@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_shard",
+      "material": "kingdomkeys:blazing_shard",
       "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_stone",
+      "material": "kingdomkeys:pulsing_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "4"
     }
   ],

@@ -51,7 +51,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -313,11 +312,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		if (data != null) {
 			tooltip = ClientUtils.getTooltip(tooltip,stack);
 			if(recipe != null) {
-				Iterator<Entry<Material, Integer>> it = recipe.getMaterials().entrySet().iterator();
-				while(it.hasNext()) {
-					Entry<Material, Integer> mat = it.next();
-					tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ mat.getKey().getMaterialName()+" x"+mat.getValue()));
-				}
+                for (Entry<Item, Integer> mat : recipe.getMaterials().entrySet()) {
+                    tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + new ItemStack(mat.getKey()).getHoverName() + " x" + mat.getValue()));
+                }
 			}
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));

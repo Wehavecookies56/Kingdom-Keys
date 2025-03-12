@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_crystal",
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_stone",
+      "material": "kingdomkeys:wellspring_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_lucid_gem",
+      "material": "kingdomkeys:lucid_gem",
       "quantity": "3"
     }
   ],

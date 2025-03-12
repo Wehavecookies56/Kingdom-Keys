@@ -5,7 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.data.DataGenerator;
@@ -16,8 +17,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 
@@ -172,16 +171,16 @@ public class KeybladeStats extends KeybladeProvider {
 	}
 
 	static Recipe[] recipes = {
-			new Recipe().addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 2),
-			new Recipe().addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 3),
-			new Recipe().addMaterial(Strings.SM_Fluorite, 1).addMaterial(Strings.SM_WellspringShard, 4),
-			new Recipe().addMaterial(Strings.SM_Damascus, 1).addMaterial(Strings.SM_WellspringStone, 1),
-			new Recipe().addMaterial(Strings.SM_Damascus, 1).addMaterial(Strings.SM_WellspringStone, 2).addMaterial(Strings.SM_WrithingStone, 2),
-			new Recipe().addMaterial(Strings.SM_Damascus, 1).addMaterial(Strings.SM_WellspringStone, 3).addMaterial(Strings.SM_WrithingStone, 2),
-			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 1).addMaterial(Strings.SM_WrithingGem, 1),
-			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 2).addMaterial(Strings.SM_WrithingGem, 2),
-			new Recipe().addMaterial(Strings.SM_Adamantite, 1).addMaterial(Strings.SM_WellspringGem, 3).addMaterial(Strings.SM_WrithingGem, 2),
-			new Recipe().addMaterial(Strings.SM_Electrum, 1).addMaterial(Strings.SM_WellspringCrystal, 1).addMaterial(Strings.SM_WrithingCrystal, 1),
+			new Recipe().addMaterial(ModItems.fluorite.get(), 1).addMaterial(ModItems.wellspring_shard.get(), 2),
+			new Recipe().addMaterial(ModItems.fluorite.get(), 1).addMaterial(ModItems.wellspring_shard.get(), 3),
+			new Recipe().addMaterial(ModItems.fluorite.get(), 1).addMaterial(ModItems.wellspring_shard.get(), 4),
+			new Recipe().addMaterial(ModItems.damascus.get(), 1).addMaterial(ModItems.wellspring_stone.get(), 1),
+			new Recipe().addMaterial(ModItems.damascus.get(), 1).addMaterial(ModItems.wellspring_stone.get(), 2).addMaterial(ModItems.writhing_stone.get(), 2),
+			new Recipe().addMaterial(ModItems.damascus.get(), 1).addMaterial(ModItems.wellspring_stone.get(), 3).addMaterial(ModItems.writhing_stone.get(), 2),
+			new Recipe().addMaterial(ModItems.adamantite.get(), 1).addMaterial(ModItems.wellspring_gem.get(), 1).addMaterial(ModItems.writhing_gem.get(), 1),
+			new Recipe().addMaterial(ModItems.adamantite.get(), 1).addMaterial(ModItems.wellspring_gem.get(), 2).addMaterial(ModItems.writhing_gem.get(), 2),
+			new Recipe().addMaterial(ModItems.adamantite.get(), 1).addMaterial(ModItems.wellspring_gem.get(), 3).addMaterial(ModItems.writhing_gem.get(), 2),
+			new Recipe().addMaterial(ModItems.electrum.get(), 1).addMaterial(ModItems.wellspring_crystal.get(), 1).addMaterial(ModItems.writhing_crystal.get(), 1),
 	};
 
 	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, String ability, float reach, String description) {
@@ -189,18 +188,18 @@ public class KeybladeStats extends KeybladeProvider {
 	}
 
 	public static class Recipe {
-        private List<Map.Entry<String, Integer>> recipe = new ArrayList<>();
+        private List<Map.Entry<Item, Integer>> recipe = new ArrayList<>();
 
         public Recipe() { }
 
-        public Recipe addMaterial(String mat, int quantity) {
+        public Recipe addMaterial(Item mat, int quantity) {
             recipe.add(Pair.of(mat, quantity));
             return this;
         }
 
-        public Map<Material, Integer> asMap() {
-            Map<Material, Integer> matMap = new LinkedHashMap<>();
-            recipe.forEach(p -> matMap.put(ModMaterials.registry.get().getValue(new ResourceLocation(KingdomKeys.MODID + ":" + Strings.SM_Prefix + p.getKey())), p.getValue()));
+        public Map<Item, Integer> asMap() {
+            Map<Item, Integer> matMap = new LinkedHashMap<>();
+            recipe.forEach(p -> matMap.put(p.getKey(), p.getValue()));
             return matMap;
         }
     }
