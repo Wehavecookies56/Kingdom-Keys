@@ -138,7 +138,7 @@ public class CommonConfig {
                 .define("mobLevelingUp", true);
 
         mobLevelName = builder
-                .comment("Add the level to the name of mobs")
+                .comment("Add the level to the name of mobs, when this is enabled the name will not be removed from mobs that have already spawned in your world")
                 .translation(KingdomKeys.MODID + ".config.mob_level_name")
                 .define("mobLevelName", true);
         
