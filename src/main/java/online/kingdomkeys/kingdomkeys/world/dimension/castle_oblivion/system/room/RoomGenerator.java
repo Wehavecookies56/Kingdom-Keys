@@ -117,12 +117,20 @@ public class RoomGenerator {
                                 newRoom.doors.put(facing, new Room.Door(doorData, blockpos.immutable()));
                                 //exit and entrance doors don't have adjacent rooms so no need to check
                                 if (doorData.getType() == DoorData.Type.EXIT || doorData.getType() == DoorData.Type.ENTRANCE) {
+                                    cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
                                     level.setBlock(blockpos, cardDoorState, 2);
                                     CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
                                     cardDoorTileEntity.setParent(data);
                                     cardDoorTileEntity.setDirection(facing);
                                     cardDoorTileEntity.setData(doorData);
                                     cardDoorTileEntity.openDoor(false);
+                                    level.setBlockEntity(cardDoorTileEntity);
+                                } else if (doorData.getType() == DoorData.Type.HALL) {
+                                    level.setBlock(blockpos, cardDoorState, 2);
+                                    CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
+                                    cardDoorTileEntity.setParent(data);
+                                    cardDoorTileEntity.setDirection(facing);
+                                    cardDoorTileEntity.setData(doorData);
                                     level.setBlockEntity(cardDoorTileEntity);
                                 } else {
                                     //check for adjacent rooms for non EXIT or ENTRANCE doors
@@ -133,6 +141,7 @@ public class RoomGenerator {
                                             CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
                                             if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
                                                 cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                                                adjacentDoorTE.setDestinationRoom(data);
                                             }
                                         }
                                         if (adjacentRoom.getDoors().get(facing.opposite()) != null) {
@@ -147,6 +156,8 @@ public class RoomGenerator {
                                         }
                                     }
                                 }
+                            } else {
+                                level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 2);
                             }
                         }
                     }

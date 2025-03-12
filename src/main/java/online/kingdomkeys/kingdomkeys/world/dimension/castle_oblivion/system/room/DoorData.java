@@ -43,8 +43,9 @@ public class DoorData implements INBTSerializable<CompoundTag> {
      * EXIT: door to go to the next floor
      * FIXED: like NORMAL but cards cannot be used to generate a room
      * HALL: the door used to select a world card
+     * NONE: not a door but rather to stop adjacent rooms connecting on the side of this "door"
      */
     public enum Type {
-        NORMAL, ENTRANCE, EXIT, FIXED, HALL
+        NORMAL, ENTRANCE, EXIT, FIXED, HALL, NONE
     }
 }

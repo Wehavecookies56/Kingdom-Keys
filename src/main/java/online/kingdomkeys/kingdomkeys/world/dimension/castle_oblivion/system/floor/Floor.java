@@ -73,7 +73,6 @@ public class Floor implements INBTSerializable<CompoundTag> {
             northTE.setParent(data);
             northTE.setDirection(RoomDirection.NORTH);
             northTE.setData(data.getDoor(RoomDirection.NORTH));
-            northTE.setDestinationRoom(floor.getRoom(RoomPos.inDirection(data.pos, RoomDirection.NORTH)));
             CardDoorTileEntity southTE = new CardDoorTileEntity(southDoor, southState);
             southTE.setParent(data);
             southTE.setDirection(RoomDirection.SOUTH);
@@ -206,6 +205,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
             currentRoom.setParent(this);
             rooms.put(currentRoom.pos, currentRoom);
         }
+
         //todo bonus rooms
         for (int i = 0; i < type.getBonusRoomCount(); i++) {
 

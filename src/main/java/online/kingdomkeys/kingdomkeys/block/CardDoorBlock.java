@@ -35,7 +35,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleObli
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
-import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
 import javax.annotation.Nullable;
 
