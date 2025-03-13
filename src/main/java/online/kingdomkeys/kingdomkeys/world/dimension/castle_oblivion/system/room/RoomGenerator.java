@@ -44,7 +44,7 @@ public class RoomGenerator {
         Floor currentFloor = new Floor(level);
         Room room = new Room(ModRoomTypes.ENTRANCE_HALL.get(), currentFloor.getFloorID(), RoomPos.ZERO);
         Floor prevFloor = cap.getFloorByID(currentFloor.getFloorID()-1);
-        room.setPosition(prevFloor.getNorthernMostRoomPosition().relative(Direction.SOUTH, 1024));
+        room.setPosition(prevFloor.getNorthernMostRoomPosition().relative(Direction.SOUTH, 512));
         return generateRoom(level, currentFloor.getRoom(RoomPos.ZERO), room, null);
     }
 
@@ -113,7 +113,7 @@ public class RoomGenerator {
                         if (facing != null) {
                             cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection().getOpposite());
                             DoorData doorData = data.getDoor(facing);
-                            if (doorData != null) {
+                            if (doorData != null && doorData.getType() != DoorData.Type.NONE) {
                                 newRoom.doors.put(facing, new Room.Door(doorData, blockpos.immutable()));
                                 //exit and entrance doors don't have adjacent rooms so no need to check
                                 if (doorData.getType() == DoorData.Type.EXIT || doorData.getType() == DoorData.Type.ENTRANCE) {

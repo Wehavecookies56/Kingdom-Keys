@@ -17,8 +17,14 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     public final RoomPos pos;
     int parent;
     Room generatedRoom;
+    Type type;
 
     int cardCost;
+
+    public RoomData(RoomPos pos, Type type) {
+        this(pos);
+        this.type = type;
+    }
 
     public RoomData(RoomPos pos) {
         this.pos = pos;
@@ -29,6 +35,17 @@ public class RoomData implements INBTSerializable<CompoundTag> {
     public RoomData(CompoundTag tag) {
         this(new RoomPos(tag.getCompound("roompos")));
         deserializeNBT(tag);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    //set type only if it hasn't been set yet intended to be used in floor generation
+    public void finalizeType(Type type) {
+        if (this.type == null) {
+            this.type = type;
+        }
     }
 
     public int getParentID() {
@@ -43,9 +60,24 @@ public class RoomData implements INBTSerializable<CompoundTag> {
         this.parent = parent.getFloorID();
     }
 
+    public void addDoor(DoorData.Type doorType, RoomDirection direction) {
+        if (!doors.containsKey(direction)) {
+            setDoor(doorType, direction);
+        }
+    }
+
     public void setDoor(DoorData.Type doorType, RoomDirection direction) {
         doors.put(direction, new DoorData(this, doorType, direction));
     }
+
+    public void setRemainingDoors(DoorData.Type doorType) {
+        for (RoomDirection dir : RoomDirection.values()) {
+            if (!doors.containsKey(dir)) {
+                doors.put(dir, new DoorData(this, doorType, dir));
+            }
+        }
+    }
+
 
     public DoorData getDoor(RoomDirection direction) {
         return doors.get(direction);
@@ -86,6 +118,9 @@ public class RoomData implements INBTSerializable<CompoundTag> {
             tag.put("generated_room", generatedRoom.serializeNBT());
         }
         tag.putInt("card_cost", cardCost);
+        if (type != null) {
+            tag.putInt("type", type.ordinal());
+        }
         return tag;
     }
 
@@ -104,6 +139,13 @@ public class RoomData implements INBTSerializable<CompoundTag> {
             generatedRoom = new Room(tag.getCompound("generated_room"));
         }
         cardCost = tag.getInt("card_cost");
+        if (tag.contains("type")) {
+            type = Type.values()[tag.getInt("type")];
+        }
+    }
+
+    public enum Type {
+        ENTRANCE, EXIT, BOSS, NORMAL
     }
 
 }

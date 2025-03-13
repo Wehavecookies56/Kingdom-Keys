@@ -41,4 +41,8 @@ public record RoomPos(int x, int y) {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public String toString() {
+        return "[" + x + " " + y + "]";
+    }
 }

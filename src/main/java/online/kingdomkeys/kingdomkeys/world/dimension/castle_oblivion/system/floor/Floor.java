@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.CastleOblivionCapabilities;
@@ -42,9 +43,10 @@ public class Floor implements INBTSerializable<CompoundTag> {
         CastleOblivionCapabilities.ICastleOblivionInteriorCapability capability = ModCapabilities.getCastleOblivionInterior(level);
         floorID = capability.getFloors().size();
         capability.addFloor(this);
-        RoomData entranceHall = new RoomData(RoomPos.ZERO);
+        RoomData entranceHall = new RoomData(RoomPos.ZERO, RoomData.Type.ENTRANCE);
         entranceHall.setDoor(DoorData.Type.ENTRANCE, RoomDirection.SOUTH);
         entranceHall.setDoor(DoorData.Type.HALL, RoomDirection.NORTH);
+        entranceHall.setRemainingDoors(DoorData.Type.NONE);
         entranceHall.setParent(this);
         rooms.put(entranceHall.pos, entranceHall);
     }
@@ -161,15 +163,16 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     public void generateLayout() {
-        RoomData entrance = new RoomData(new RoomPos(0, 1));
+        RoomData entrance = new RoomData(new RoomPos(0, 1), RoomData.Type.NORMAL);
         entrance.setDoor(DoorData.Type.FIXED, RoomDirection.SOUTH);
         entrance.setParent(this);
         RoomData currentRoom = entrance;
         rooms.put(entrance.pos, entrance);
+        RoomDirection prevDir = RoomDirection.SOUTH;
         for (int i = 0; i < type.getCritPathLength(); i++) {
             Map<RoomData, RoomDirection> adjRooms = getAdjacentRooms(currentRoom);
             List<RoomDirection> directions = new ArrayList<>(List.of(RoomDirection.values()));
-            //prevent rooms going further south
+            //prevent rooms going into the hall
             if (currentRoom.pos.y() == 1) {
                 directions.remove(RoomDirection.SOUTH);
             }
@@ -177,29 +180,98 @@ public class Floor implements INBTSerializable<CompoundTag> {
             for (RoomDirection direction : adjRooms.values()) {
                 directions.remove(direction);
             }
-            //No more possible directions to continue so exit is created
+            //No more possible directions to continue so should intersect
             if (directions.isEmpty()) {
-                boolean exitCreated = false;
+                boolean deadEnd = true;
+                RoomDirection nextDir = null;
+                int intersections = 0;
+                boolean foundNextSpace = false;
                 for (RoomDirection dir : Arrays.stream(RoomDirection.values()).toList()) {
-                    if (!exitCreated) {
-                        if (!currentRoom.getDoors().containsKey(dir)) {
-                            currentRoom.setDoor(DoorData.Type.EXIT, dir);
-                            exitCreated = true;
-                            exitRoom = currentRoom.pos;
+                    if (!foundNextSpace) {
+                        boolean noPossible = false;
+                        RoomPos searchPos = currentRoom.pos.add(dir);
+                        intersections = 0;
+                        while (!foundNextSpace && !noPossible) {
+                            if (rooms.containsKey(searchPos)) {
+                                RoomData searchRoom = rooms.get(searchPos);
+                                if (searchRoom.getType() == RoomData.Type.NORMAL) {
+                                    searchPos = searchPos.add(dir);
+                                    intersections++;
+                                } else {
+                                    nextDir = dir;
+                                    noPossible = true;
+                                }
+                            } else {
+                                nextDir = dir;
+                                deadEnd = false;
+                                foundNextSpace = true;
+                            }
                         }
+                    } else {
+                        break;
+                    }
+                }
+                //No possible directions to go so make this the exit room
+                if (deadEnd) {
+                    if (!currentRoom.getDoors().containsKey(nextDir)) {
+                        currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
+                        currentRoom.setRemainingDoors(DoorData.Type.NONE);
+                        currentRoom.finalizeType(RoomData.Type.EXIT);
+                        exitRoom = currentRoom.pos;
+                    }
+                //Otherwise go through intersecting rooms and add needed doors
+                } else {
+                    RoomPos pos = currentRoom.pos.add(nextDir);
+                    for (int j = 0; j < intersections; j++) {
+                        RoomData intersectedRoom = rooms.get(pos);
+                        if (intersectedRoom != null) {
+                            intersectedRoom.addDoor(DoorData.Type.NORMAL, nextDir);
+                            intersectedRoom.addDoor(DoorData.Type.NORMAL, nextDir.opposite());
+                        }
+                        pos = pos.add(nextDir);
+                    }
+                    if (!rooms.containsKey(pos)) {
+                        //create room after intersection
+                        //create door for next room
+                        currentRoom.setDoor(DoorData.Type.NORMAL, nextDir);
+                        //create next room in direction with door at opposite direction
+                        if (i == type.getCritPathLength() - 1) {
+                            RoomData newRoom = new RoomData(pos);
+                            newRoom.setDoor(DoorData.Type.NORMAL, nextDir.opposite());
+                            currentRoom.finalizeType(RoomData.Type.NORMAL);
+                            currentRoom = newRoom;
+                            //final room needs extra door
+                            currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
+                            currentRoom.setRemainingDoors(DoorData.Type.NONE);
+                            currentRoom.finalizeType(RoomData.Type.EXIT);
+                            exitRoom = currentRoom.pos;
+                        } else {
+                            RoomData newRoom = new RoomData(pos);
+                            newRoom.setDoor(DoorData.Type.NORMAL, nextDir.opposite());
+                            currentRoom.finalizeType(RoomData.Type.NORMAL);
+                            currentRoom = newRoom;
+                        }
+                    } else {
+                        KingdomKeys.LOGGER.error("Room pos after intersection at pos {} already contains a room this should not happen", pos.toString());
                     }
                 }
             } else {
                 int rand = Utils.randomWithRange(0, directions.size() - 1);
                 RoomDirection nextDir = directions.get(rand);
+                prevDir = nextDir.opposite();
                 //create door for next room
                 currentRoom.setDoor(DoorData.Type.NORMAL, nextDir);
                 //create next room in direction with door at opposite direction
-                currentRoom = createRoomInDirection(currentRoom, nextDir);
                 if (i == type.getCritPathLength() - 1) {
+                    currentRoom = createRoomInDirection(currentRoom, nextDir);
                     //final room needs extra door
                     currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
+                    currentRoom.setRemainingDoors(DoorData.Type.NONE);
+                    currentRoom.finalizeType(RoomData.Type.EXIT);
                     exitRoom = currentRoom.pos;
+                } else {
+                    currentRoom.finalizeType(RoomData.Type.NORMAL);
+                    currentRoom = createRoomInDirection(currentRoom, nextDir);
                 }
             }
             currentRoom.setParent(this);

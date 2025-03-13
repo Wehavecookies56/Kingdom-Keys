@@ -83,9 +83,11 @@ public class Room implements INBTSerializable<CompoundTag> {
     }
 
     public CardDoorTileEntity getDoorTE(Level level, RoomDirection direction) {
-        BlockPos pos = doors.get(direction).pos();
-        if (pos != null) {
-            return (CardDoorTileEntity) level.getBlockEntity(pos);
+        if (doors.containsKey(direction)) {
+            BlockPos pos = doors.get(direction).pos();
+            if (pos != null) {
+                return (CardDoorTileEntity) level.getBlockEntity(pos);
+            }
         }
         return null;
     }

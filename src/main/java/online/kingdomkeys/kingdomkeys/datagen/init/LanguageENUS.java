@@ -1243,7 +1243,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.inferno, "Inferno");
         addItem(ModItems.sizzlingEdge, "Sizzling Edge");
         addItem(ModItems.corona, "Corona");
-        addItem(ModItems.ferrisWheel, "Ferris Wheel");
+        addItem(ModItems.ferrisWheel, "Ferris Wheels");
         addItem(ModItems.burnout, "Burnout");
         addItem(ModItems.omegaTrinity, "Omega Trinity");
         addItem(ModItems.outbreak, "Outbreak");
@@ -1310,7 +1310,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.madSafflower, "Mad Safflower");
         addItem(ModItems.poorMelissa, "Poor Melissa");
         addItem(ModItems.tragicAllium, "Tragic Allium");
-        addItem(ModItems.mournfulCineria, "Mournful Cineria");
+        addItem(ModItems.mournfulCineria, "Mournful Cineraria");
         addItem(ModItems.pseudoSilene, "Pseudo Silene");
         addItem(ModItems.faithlessDigitalis, "Faithless Digitalis");
         addItem(ModItems.grimMuscari, "Grim Muscari");

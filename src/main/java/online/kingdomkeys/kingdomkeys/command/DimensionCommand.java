@@ -16,17 +16,21 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.utils.BaseTeleporter;
 
@@ -50,11 +54,11 @@ public class DimensionCommand extends BaseCommand {
 		String dim = StringArgumentType.getString(context, "dim");
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(dim));
 
-		if (dimension == null) {
-			context.getSource().sendSuccess(() -> Component.translatable("Invalid dimension " + dim), true);
-			return 1;
-		}
 		for (ServerPlayer player : players) {
+			if (player.getServer().getLevel(dimension) == null) {
+				context.getSource().sendSuccess(() -> Component.translatable("Invalid dimension " + dim), true);
+				return 1;
+			}
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(player.getServer().getLevel(dimension), new BaseTeleporter(coords));
 			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location().toString()), true);
@@ -80,7 +84,19 @@ public class DimensionCommand extends BaseCommand {
 			player.sendSystemMessage(Component.translatable("CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
 			player.sendSystemMessage(Component.translatable("IN CASE IT WASN'T OBVIOUS BY THE NEED TO USE THIS COMMAND TO GET HERE"));
 			player.sendSystemMessage(Component.translatable("THANK YOU - Estelle"));
-			return new BlockPos(-2, 90, -167);
+			if (!FMLEnvironment.production) {
+				player.getInventory().add(new ItemStack(ModItems.plainsCard.get()));
+				player.getInventory().add(new ItemStack(ModItems.netherCard.get()));
+				ItemStack nineCard = new ItemStack(ModItems.tranquilDarkness.get());
+				CompoundTag tag = new CompoundTag();
+				tag.putInt("value", 9);
+				nineCard.setTag(tag);
+				nineCard.setCount(64);
+				player.getInventory().add(nineCard);
+				return new BlockPos(-6, 90, 8);
+			} else {
+				return new BlockPos(-2, 90, -167);
+			}
 		}
 		if(dimension.location().toString().contains("realm_of_darkness")) {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();
