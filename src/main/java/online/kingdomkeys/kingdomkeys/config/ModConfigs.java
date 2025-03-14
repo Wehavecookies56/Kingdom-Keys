@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.config;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -8,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = KingdomKeys.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -307,6 +309,8 @@ public class ModConfigs {
     public static List<String> playerSpawnHeartlessData;
     public static String linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
+    public static List<ResourceLocation> startingRecipes;
+
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
@@ -344,6 +348,8 @@ public class ModConfigs {
         savePointRecovers = COMMON.savePointRecovers.get();
         warpPointRecovers = COMMON.warpPointRecovers.get();
         mobLevelName = COMMON.mobLevelName.get();
+
+        startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::new).toList();
     }
 
     public static int recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;

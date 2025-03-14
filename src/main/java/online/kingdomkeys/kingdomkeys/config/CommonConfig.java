@@ -1,11 +1,17 @@
 package online.kingdomkeys.kingdomkeys.config;
 
 import com.google.common.collect.Lists;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 
 /**
@@ -49,6 +55,8 @@ public class CommonConfig {
     public ForgeConfigSpec.BooleanValue bossDespawnIfNoTarget;
     public ForgeConfigSpec.BooleanValue needKeybladeForHeartless;
     public ForgeConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
+
+    public ForgeConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
     
     CommonConfig(final ForgeConfigSpec.Builder builder) {
 		builder.push("general");
@@ -210,6 +218,41 @@ public class CommonConfig {
                 .defineInRange("shotlockMult",0.4,0,100);
 
         builder.pop();
+
+        builder.push("synthesis");
+
+        startingRecipes = builder
+                .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
+                .translation(KingdomKeys.MODID + ".config.starting_recipes")
+                .defineList("startingRecipes", List.of(
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilShard,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilStone,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilGem,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilCrystal,
+                        KingdomKeys.MODID + ":" + Strings.potion,
+                        KingdomKeys.MODID + ":" + Strings.hiPotion,
+                        KingdomKeys.MODID + ":" + Strings.megaPotion,
+                        KingdomKeys.MODID + ":" + Strings.ether,
+                        KingdomKeys.MODID + ":" + Strings.hiEther,
+                        KingdomKeys.MODID + ":" + Strings.megaEther,
+                        KingdomKeys.MODID + ":" + Strings.elixir,
+                        KingdomKeys.MODID + ":" + Strings.megaLixir,
+                        KingdomKeys.MODID + ":" + Strings.driveRecovery,
+                        KingdomKeys.MODID + ":" + Strings.hiDriveRecovery,
+                        KingdomKeys.MODID + ":" + Strings.refocuser,
+                        KingdomKeys.MODID + ":" + Strings.hiRefocuser,
+                        KingdomKeys.MODID + ":" + Strings.powerBoost,
+                        KingdomKeys.MODID + ":" + Strings.magicBoost,
+                        KingdomKeys.MODID + ":" + Strings.defenseBoost,
+                        KingdomKeys.MODID + ":" + Strings.apBoost
+                ), o -> {
+                    if (o instanceof String s) {
+                        return ResourceLocation.tryParse(s) != null;
+                    }
+                    return false;
+                });
+
+        builder.pop();
     }
-  
+
 }

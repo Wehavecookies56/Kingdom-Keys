@@ -200,29 +200,15 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 					playerData.addVisibleDriveForm(Strings.Form_Anti);
 
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_shard.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_stone.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_gem.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.mythril_crystal.get()));
+					ModConfigs.startingRecipes.forEach(resourceLocation -> {
+						if (RecipeRegistry.getInstance().containsKey(resourceLocation)) {
+							playerData.addKnownRecipe(resourceLocation);
+						} else {
+							KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", resourceLocation);
+						}
+					});
 
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.potion.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiPotion.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaPotion.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.ether.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiEther.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaEther.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.elixir.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.megaLixir.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.driveRecovery.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiDriveRecovery.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.refocuser.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.hiRefocuser.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.powerBoost.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.magicBoost.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.defenseBoost.get()));
-					playerData.addKnownRecipe(ForgeRegistries.ITEMS.getKey(ModItems.apBoost.get()));
-
-					if (playerData.getEquippedItems().size() == 0) {
+					if (playerData.getEquippedItems().isEmpty()) {
 						HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
 						for (int i = 0; i < 4; i++) {
 							map.put(i, ItemStack.EMPTY);
