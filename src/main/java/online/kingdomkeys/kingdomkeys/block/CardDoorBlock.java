@@ -160,6 +160,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									if (te.getParentRoom().getParentID() == 0) {
 										//on first floor so exit
 										CastleOblivionHandler.exitCastleOblivion(currFloor, te.getParentRoom().getGenerated(), player);
+										currFloor.floorExited(player);
 									} else {
 										//not on first floor so go to previous floor
 										Floor prevFloor = cap.getFloorByID(te.getParentRoom().getParentID()-1);
@@ -169,6 +170,8 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 										MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated(), destRoom, player));
 										MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, prevFloor, player));
+										currFloor.floorExited(player);
+										prevFloor.floorEntered(player);
 									}
 								} else if (te.getData().getType() == DoorData.Type.EXIT) {
 									Room destRoom;
@@ -186,6 +189,8 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									player.teleportTo(entranceDoor.getX(), entranceDoor.getY(), entranceDoor.getZ());
 									MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated(), destRoom, player));
 									MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, nextFloor, player));
+									currFloor.floorExited(player);
+									nextFloor.floorEntered(player);
 								}
 							}
 						}

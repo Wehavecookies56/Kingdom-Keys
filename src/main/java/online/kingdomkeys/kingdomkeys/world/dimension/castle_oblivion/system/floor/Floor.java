@@ -104,20 +104,11 @@ public class Floor implements INBTSerializable<CompoundTag> {
     }
 
     public void floorEntered(Player player) {
-
+        players.put(player.getGameProfile().getId(), getEntranceHall().getGenerated());
     }
 
     public void floorExited(Player player) {
         players.remove(player.getGameProfile().getId());
-    }
-
-    //calculate the length of the room based on the furthest room from the entrance
-    public int calculateFloorLength() {
-        int furthestRoomPos = 0;
-        for (RoomPos pos : rooms.keySet()) {
-            furthestRoomPos = Math.max(furthestRoomPos, pos.y());
-        }
-        return (furthestRoomPos + 1) * 128;
     }
 
     public boolean inFloor(BlockPos pos) {
@@ -278,6 +269,7 @@ public class Floor implements INBTSerializable<CompoundTag> {
             rooms.put(currentRoom.pos, currentRoom);
         }
 
+        currentRoom = entrance;
         //todo bonus rooms
         for (int i = 0; i < type.getBonusRoomCount(); i++) {
 

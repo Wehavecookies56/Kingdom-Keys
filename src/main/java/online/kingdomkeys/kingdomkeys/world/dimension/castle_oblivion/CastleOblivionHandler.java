@@ -203,6 +203,7 @@ public class CastleOblivionHandler {
                 Floor startFloor = Floor.getOrCreateFirstFloor(level);
                 MinecraftForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, event.getEntity()));
                 PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
+                startFloor.floorEntered(event.getEntity());
             }
         } else {
             PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) event.getEntity());
