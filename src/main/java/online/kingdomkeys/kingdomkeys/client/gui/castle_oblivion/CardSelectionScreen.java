@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CardSelectButton;
@@ -18,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGenerateRoom;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -48,7 +47,6 @@ public class CardSelectionScreen extends MenuBackground {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
 			if (!stack.isEmpty() && stack.getItem() instanceof MapCardItem card) {
 				CardSelectButton c = new CardSelectButton((int)(width * 0.25F+(x++ * 42)), (int)(height * 0.5F + y * 50), 42, 50, stack, this, (e) -> {
-					System.out.println(card.getCardValue(stack));
 					selectedCardStack = stack;
 				});
 				cards.add(c);
@@ -76,8 +74,8 @@ public class CardSelectionScreen extends MenuBackground {
 			
 			Level level = minecraft.level;
             CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient((ClientLevel) level);
-			Room currentRoom = cap.getRoomAtPos(level, te.getBlockPos());
-            te.openDoor(null);
+			Room currentRoom = cap.getRoomAtPos(te.getBlockPos());
+            te.openDoor(true);
             minecraft.setScreen(null);
 		}));
 		createBtn.visible = false;

@@ -2,20 +2,20 @@
   "cost": 5000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_illusory_crystal",
-      "quantity": "1"
+      "material": "kingdomkeys:hungry_gem",
+      "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_soothing_crystal",
+      "material": "kingdomkeys:soothing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_stone",
-      "quantity": "5"
+      "material": "kingdomkeys:illusory_crystal",
+      "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_hungry_gem",
-      "quantity": "4"
+      "material": "kingdomkeys:mythril_stone",
+      "quantity": "5"
     }
   ],
   "output": {

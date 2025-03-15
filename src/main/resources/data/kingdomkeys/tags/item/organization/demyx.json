@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:basic_model",
+    "kingdomkeys:tune_up",
+    "kingdomkeys:quartet",
+    "kingdomkeys:quintet",
+    "kingdomkeys:overture",
+    "kingdomkeys:old_hand",
+    "kingdomkeys:da_capo",
+    "kingdomkeys:power_chord",
+    "kingdomkeys:fermata",
+    "kingdomkeys:interlude",
+    "kingdomkeys:serenade",
+    "kingdomkeys:songbird",
+    "kingdomkeys:rise_to_fame",
+    "kingdomkeys:rock_star",
+    "kingdomkeys:eight_finger",
+    "kingdomkeys:concerto",
+    "kingdomkeys:harmonics",
+    "kingdomkeys:million_bucks",
+    "kingdomkeys:fortissimo",
+    "kingdomkeys:up_to_eleven",
+    "kingdomkeys:sanctuary",
+    "kingdomkeys:arpeggio",
+    "kingdomkeys:prince_of_awesome",
+    "kingdomkeys:after_school"
+  ],
+  "replace": false
+}

@@ -14,8 +14,6 @@ import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -94,7 +92,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 		JsonArray levelsArray = element.getAsJsonArray();
 		levelsArray.forEach(e -> {
 			KeybladeLevel level = new KeybladeLevel();
-			Map<Material, Integer> recipe = new LinkedHashMap<>();
+			Map<Item, Integer> recipe = new LinkedHashMap<>();
 			JsonObject levelObject = e.getAsJsonObject();
 			levelObject.entrySet().forEach(levelEntry -> {
 				JsonElement levelElement = levelEntry.getValue();
@@ -109,11 +107,11 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 					JsonArray recipeArray = levelElement.getAsJsonArray();
 					recipeArray.forEach(ingredient -> {
 						JsonObject ingredientObject = ingredient.getAsJsonObject();
-						Material m = null;
+						Item m = null;
 						int quantity = 0;
 						boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 						if (valid) {
-							m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
+							m = BuiltInRegistries.ITEM.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
 							if (m == null) {
 								throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
 							} else {

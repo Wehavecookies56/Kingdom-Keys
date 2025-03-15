@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_frost_stone",
+      "material": "kingdomkeys:frost_stone",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_lucid_crystal",
+      "material": "kingdomkeys:lucid_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "2"
     }
   ],

@@ -83,11 +83,11 @@ public class WayfinderItem extends Item {
 			Party p = WorldData.get(world.getServer()).getPartyFromMember(player.getUUID());
 			
 			if(owner == player) {
-				player.displayClientMessage(Component.translatable("message.wayfinder.your_wayfinder").append(" ").append(ModConfigs.wayfinderOnlyParty ? Component.translatable("message.wayfinder.in_your_party").getString(): ""), true);
+				player.displayClientMessage(Component.translatable("message.wayfinder.your_wayfinder").append(" ").append(ModConfigs.SERVER.wayfinderParty.get() ? Component.translatable("message.wayfinder.in_your_party").getString(): ""), true);
 				return super.use(world, player, hand);
 			}
 
-			if(ModConfigs.wayfinderOnlyParty) {
+			if(ModConfigs.SERVER.wayfinderParty.get()) {
 				if(p == null) {
 					player.displayClientMessage(Component.translatable("message.wayfinder.not_in_party"), true);
 					return super.use(world, player, hand);

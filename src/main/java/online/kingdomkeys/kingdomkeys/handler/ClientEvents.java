@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -57,8 +58,8 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 public class ClientEvents {
 
@@ -282,7 +283,7 @@ public class ClientEvents {
 				if(focusGaugeTemp > 0)
 					focusGaugeTemp-=0.8;
 
-				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.shotlockMaxDist);
+				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
 				if (rt == null)
 					return;
 
@@ -419,18 +420,18 @@ public class ClientEvents {
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
 			Color colour = Color.BLACK;
-			if (Minecraft.getInstance().level.dimension().location().getPath().contains("castle_oblivion_")) {
+			if (CastleOblivionHandler.inInterior(Minecraft.getInstance().player)) {
 				CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient(Minecraft.getInstance().level);
 				if (cap != null) {
 					if (!cap.getFloors().isEmpty()) {
-						Room room = cap.getRoomAtPos(Minecraft.getInstance().level, pos);
+						Room room = cap.getRoomAtPos(pos);
 						if (room != null) {
-							if (room.getType().getProperties().getColour() != null) {
-								colour = room.getType().getProperties().getColour();
+							if (room.getType().getColour() != null) {
+								colour = room.getType().getColour();
 							} else {
-								Floor floor = room.getParent(Minecraft.getInstance().level);
+								Floor floor = room.getParent(cap);
 								if (floor != null) {
-									colour = floor.getType().floorColour;
+									colour = floor.getType().getFloorColour();
 								}
 							}
 						}

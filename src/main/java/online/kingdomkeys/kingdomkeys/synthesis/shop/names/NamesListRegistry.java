@@ -49,7 +49,7 @@ public class NamesListRegistry {
 
     public void clearRegistry() {
         registry.clear();
-        KingdomKeys.LOGGER.info("Moogle names registry cleared");
+        KingdomKeys.LOGGER.debug("Moogle names registry cleared");
     }
 
     public Map<ResourceLocation, List<String>> getRegistry() {

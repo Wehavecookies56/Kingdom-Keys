@@ -14,16 +14,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.common.util.INBTSerializable;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
-import org.jetbrains.annotations.UnknownNullability;
 
 /**
  * Stores the data loaded from the keyblades datapack
  */
 public class Recipe {
-    @Nullable Map<Material, Integer> materials;
+    @Nullable Map<Item, Integer> materials;
     @Nullable Item result;
     @Nullable int amount;
     @Nullable String type;
@@ -36,7 +32,7 @@ public class Recipe {
 
     }
 
-    public Recipe(Map<Material, Integer> materials, int cost, Item result, int amount, String type) {
+    public Recipe(Map<Item, Integer> materials, int cost, Item result, int amount, String type) {
 		this.materials = materials;
 		this.result = result;
 		this.amount = amount;
@@ -56,11 +52,11 @@ public class Recipe {
     	this.type = type;
     }
     
-    public Map<Material, Integer> getMaterials() {
+    public Map<Item, Integer> getMaterials() {
         return materials;
     }
 
-    public void setMaterials(Map<Material, Integer> materials) {
+    public void setMaterials(Map<Item, Integer> materials) {
         this.materials = materials;
     }
 
@@ -109,7 +105,7 @@ public class Recipe {
 		nbt.putInt("ingredients_size", materials.entrySet().size());
 		AtomicInteger i = new AtomicInteger();
 		materials.entrySet().forEach((entry)-> {
-			nbt.putString("ingredient_material_" + i, entry.getKey().getRegistryName().toString());
+			nbt.putString("ingredient_material_" + i, BuiltInRegistries.ITEM.getKey(entry.getKey()).toString());
 			nbt.putInt("ingredient_amount_" + i, entry.getValue());
 			i.getAndIncrement();
 		});
@@ -121,9 +117,9 @@ public class Recipe {
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
-		Map<Material, Integer> ingredients = new HashMap<>();
+		Map<Item, Integer> ingredients = new HashMap<>();
 		for (int i = 0; i < nbt.getInt("ingredients_size"); i++) {
-			ingredients.put(ModMaterials.registry.get(ResourceLocation.parse(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));
+			ingredients.put(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));
 		}
 		this.setMaterials(ingredients);
 		this.setRegistryName(nbt.getString("regname"));

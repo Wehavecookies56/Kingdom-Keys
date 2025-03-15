@@ -2,11 +2,11 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_betwixt_crystal",
+      "material": "kingdomkeys:betwixt_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "2"
     }
   ],

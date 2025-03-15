@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_stormy_shard",
+      "material": "kingdomkeys:stormy_shard",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:pulsing_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:writhing_shard",
+      "quantity": "2"
     }
   ],
   "output": {

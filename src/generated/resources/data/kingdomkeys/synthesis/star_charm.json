@@ -2,19 +2,19 @@
   "cost": 2000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_adamantite",
+      "material": "kingdomkeys:adamantite",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_sinister_crystal",
+      "material": "kingdomkeys:sinister_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
+      "material": "kingdomkeys:wellspring_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "1"
     }
   ],

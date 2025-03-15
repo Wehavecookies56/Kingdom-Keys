@@ -2,19 +2,19 @@
   "cost": 2200,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_remembrance_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_stone",
+      "material": "kingdomkeys:hungry_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_lost_illusion",
+      "material": "kingdomkeys:manifest_illusion",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_manifest_illusion",
+      "material": "kingdomkeys:remembrance_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:lost_illusion",
       "quantity": "1"
     }
   ],

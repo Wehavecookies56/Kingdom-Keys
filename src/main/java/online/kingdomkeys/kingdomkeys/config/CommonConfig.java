@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 
 /**
@@ -21,6 +23,7 @@ public class CommonConfig {
     public ModConfigSpec.IntValue rodHeartlessMaxLevel;
     public ModConfigSpec.BooleanValue respawnROD;
     public ModConfigSpec.BooleanValue mobLevelingUp;
+    public ModConfigSpec.BooleanValue mobLevelName;
 
     public ModConfigSpec.BooleanValue debugConsoleOutput;
     public ModConfigSpec.BooleanValue bombExplodeWithFire;
@@ -49,6 +52,8 @@ public class CommonConfig {
     public ModConfigSpec.BooleanValue bossDespawnIfNoTarget;
     public ModConfigSpec.BooleanValue needKeybladeForHeartless;
     public ModConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
+
+    public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
@@ -136,6 +141,11 @@ public class CommonConfig {
                 .comment("Allow heartless and nobodies to spawn with levels according to players")
                 .translation(KingdomKeys.MODID + ".config.player_mob_leveling_up")
                 .define("mobLevelingUp", true);
+
+        mobLevelName = builder
+                .comment("Add the level to the name of mobs, when this is enabled the name will not be removed from mobs that have already spawned in your world")
+                .translation(KingdomKeys.MODID + ".config.mob_level_name")
+                .define("mobLevelName", true);
         
         rodHeartlessLevelScale = builder
                 .comment("Heartless spawning in the ROD will increase 1 level every X blocks")
@@ -203,6 +213,41 @@ public class CommonConfig {
                 .comment("Shotlock Damage Multiplier (magic * multiplier)")
                 .translation(KingdomKeys.MODID + ".config.shotlock_mult")
                 .defineInRange("shotlockMult",0.4,0,100);
+
+        builder.pop();
+
+        builder.push("synthesis");
+
+        startingRecipes = builder
+                .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
+                .translation(KingdomKeys.MODID + ".config.starting_recipes")
+                .defineList("startingRecipes", List.of(
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilShard,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilStone,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilGem,
+                        KingdomKeys.MODID + ":" + Strings.SM_MythrilCrystal,
+                        KingdomKeys.MODID + ":" + Strings.potion,
+                        KingdomKeys.MODID + ":" + Strings.hiPotion,
+                        KingdomKeys.MODID + ":" + Strings.megaPotion,
+                        KingdomKeys.MODID + ":" + Strings.ether,
+                        KingdomKeys.MODID + ":" + Strings.hiEther,
+                        KingdomKeys.MODID + ":" + Strings.megaEther,
+                        KingdomKeys.MODID + ":" + Strings.elixir,
+                        KingdomKeys.MODID + ":" + Strings.megaLixir,
+                        KingdomKeys.MODID + ":" + Strings.driveRecovery,
+                        KingdomKeys.MODID + ":" + Strings.hiDriveRecovery,
+                        KingdomKeys.MODID + ":" + Strings.refocuser,
+                        KingdomKeys.MODID + ":" + Strings.hiRefocuser,
+                        KingdomKeys.MODID + ":" + Strings.powerBoost,
+                        KingdomKeys.MODID + ":" + Strings.magicBoost,
+                        KingdomKeys.MODID + ":" + Strings.defenseBoost,
+                        KingdomKeys.MODID + ":" + Strings.apBoost
+                ), o -> {
+                    if (o instanceof String s) {
+                        return ResourceLocation.tryParse(s) != null;
+                    }
+                    return false;
+                });
 
         builder.pop();
     }

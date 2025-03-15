@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public abstract class OverlayBase implements LayeredDraw.Layer {
@@ -22,6 +23,10 @@ public abstract class OverlayBase implements LayeredDraw.Layer {
 
     public void blit(GuiGraphics gui, ResourceLocation texture, int x, int y, int u, int v, int uwidth, int vheight) {
         gui.blit(texture, x, y, u ,v, uwidth, vheight);
+    }
+
+    public void drawString(GuiGraphics gui, Font font, Component text, int x, int y, int colour) {
+        gui.drawString(font, text, x, y, colour);
     }
 
     public void drawString(GuiGraphics gui, Font font, String text, int x, int y, int colour) {

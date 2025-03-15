@@ -65,11 +65,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -87,6 +84,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
 
 public class EntityEvents {
 
@@ -135,29 +133,54 @@ public class EntityEvents {
 				}
 			}
 			
-			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
+			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) { //TODO config
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}	
 
 			if (mobData.getLevel() > 0) {
 				if (!mob.hasCustomName()) {
 					int lvl = mobData.getLevel();
-					mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv."+ Utils.getLevelColor(player,lvl) + lvl+ ChatFormatting.RESET));
+					if (ModConfigs.mobLevelName) {
+						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
+					}
 					if(mob.getAttribute(Attributes.ATTACK_DAMAGE) != null)
 						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 					if(mob.getAttribute(Attributes.MAX_HEALTH) != null)
 						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
 					mob.heal(mob.getMaxHealth());
+					PacketHandler.sendTo(new SCSyncGlobalData(mob), (ServerPlayer) player);
 				}
 			}
 		}
 	}
 
+	public void checkRecipeMaterials(Player player) {
+		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
+			if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
+			}
+		}));
+		BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
+			if (keybladeItem.data != null) {
+				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
+					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
+						if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
+						}
+					});
+				}
+			}
+		});
+	}
+
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent e) {
+		checkRecipeMaterials(e.getEntity());
 		Player player = e.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 		WorldData worldData = WorldData.get(e.getEntity().getServer());
+		GlobalData.clearClientCache();
+		CastleOblivionData.InteriorData.clearClientCache();
 		if (playerData != null) {
 			// Heartless Spawn reset
 			if (worldData != null) {
@@ -176,28 +199,6 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 					playerData.addVisibleDriveForm(Strings.Form_Anti);
 
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.mythril_shard.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.mythril_stone.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.mythril_gem.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.mythril_crystal.get()));
-
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.potion.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.hiPotion.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.megaPotion.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.ether.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.hiEther.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.megaEther.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.elixir.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.megaLixir.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.driveRecovery.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.hiDriveRecovery.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.refocuser.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.hiRefocuser.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.powerBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.magicBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.defenseBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.apBoost.get()));
-
 					if (playerData.getEquippedItems().isEmpty()) {
 						HashMap<Integer, ItemStack> map = new HashMap<>();
 						for (int i = 0; i < 4; i++) {
@@ -207,15 +208,16 @@ public class EntityEvents {
 					}
 				}
 
+				ModConfigs.startingRecipes.forEach(resourceLocation -> {
+					if (RecipeRegistry.getInstance().containsKey(resourceLocation)) {
+						playerData.addKnownRecipe(resourceLocation);
+					} else {
+						KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", resourceLocation);
+					}
+				});
+
 				if(!playerData.getVisibleDriveForms().contains(Strings.Form_Anti)) {
 					playerData.addVisibleDriveForm(Strings.Form_Anti);
-				}
-
-				if (!playerData.getKnownRecipeList().contains(BuiltInRegistries.ITEM.getKey(ModItems.powerBoost.get()))) {
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.powerBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.magicBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.defenseBoost.get()));
-					playerData.addKnownRecipe(BuiltInRegistries.ITEM.getKey(ModItems.apBoost.get()));
 				}
 
 				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
@@ -349,6 +351,9 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), (ServerPlayer) player);
+				ModJsonRegistries.registry.forEach(jsonRegistry -> {
+					PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), (ServerPlayer) player);
+				});
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
@@ -875,7 +880,6 @@ public class EntityEvents {
 					dmg += dmg * PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
 				float newDMG = (event.getOriginalDamage() - 1) + dmg * player.getAttackStrengthScale(0);
-				System.out.println(newDMG);
 				event.setNewDamage(newDMG);
 			}
 
@@ -1028,7 +1032,7 @@ public class EntityEvents {
 					if (!player.level().isClientSide()) {
 						Party p = worldData.getPartyFromMember(player.getUUID());
 						if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
-							if (ModConfigs.allowPartyKO) {
+							if (ModConfigs.SERVER.allowPartyKO.get()) {
 								if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
 									event.setCanceled(true);
 									player.removeAllEffects();
@@ -1134,16 +1138,16 @@ public class EntityEvents {
 					int multiplier = getMultiplier(event, player, playerData);
 					if (event.getEntity() instanceof IKHMob mob) {
                         if (mob.getKHMobType() == MobType.HEARTLESS_EMBLEM) {
-							playerData.addHearts((int) ((20 * multiplier) * ModConfigs.heartMultiplier));
+							playerData.addHearts((int) ((20 * multiplier) * ModConfigs.SERVER.heartMultiplier.get()));
 						}
 					} else if (event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
-						playerData.addHearts((int) ((1000 * multiplier) * ModConfigs.heartMultiplier));
+						playerData.addHearts((int) ((1000 * multiplier) * ModConfigs.SERVER.heartMultiplier.get()));
 					} else if (event.getEntity() instanceof Villager) {
-						playerData.addHearts((int) ((5 * multiplier) * ModConfigs.heartMultiplier));
+						playerData.addHearts((int) ((5 * multiplier) * ModConfigs.SERVER.heartMultiplier.get()));
 					} else if (event.getEntity() instanceof Monster) {
-						playerData.addHearts((int) ((2 * multiplier) * ModConfigs.heartMultiplier));
+						playerData.addHearts((int) ((2 * multiplier) * ModConfigs.SERVER.heartMultiplier.get()));
 					} else {
-						playerData.addHearts((int) ((multiplier) * ModConfigs.heartMultiplier));
+						playerData.addHearts((int) ((multiplier) * ModConfigs.SERVER.heartMultiplier.get()));
 					}
 				}
 				if (event.getEntity() instanceof IKHMob heartless) {
@@ -1167,11 +1171,11 @@ public class EntityEvents {
 
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int) (exp * ModConfigs.xpMultiplier), true, true);
+						playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
 
 						if (event.getEntity() instanceof WitherBoss) {
 							exp += 1500;
-							playerData.addExperience(player, (int) (exp * ModConfigs.xpMultiplier), true, true);
+							playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
 						}
 
 						if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
@@ -1222,7 +1226,7 @@ public class EntityEvents {
 					}
 
 					int num = Utils.randomWithRange(0, 99);
-					if (num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
+					if (num < ModConfigs.SERVER.recipeDropChance.get() + Utils.getLootingLevel(player)) {
 						Item recipeTier = ModItems.recipeD.get();
 						GlobalData mobData = GlobalData.get(entity);
 						if (mobData != null) {

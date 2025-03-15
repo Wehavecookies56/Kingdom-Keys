@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -25,7 +26,7 @@ public class NamesListLoader {
 
     public static class Loader extends SimpleJsonResourceReloadListener {
 
-        private static final Type stringList = new TypeToken<List<String>>(){}.getType();
+        private static final Type stringList = new TypeToken<List<String>>() {}.getType();
 
         public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(stringList, (JsonDeserializer<List<String>>) (json, typeOfT, context) -> json.getAsJsonArray().asList().stream().map(JsonElement::getAsString).toList()).setPrettyPrinting().create();
 
@@ -35,41 +36,23 @@ public class NamesListLoader {
 
         @Override
         protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
-            KingdomKeys.LOGGER.info("Loading Moogle names");
-            loadData(pResourceManager);
+            NamesListRegistry.getInstance().clearRegistry();
+            AtomicInteger count = new AtomicInteger();
+            pObject.forEach((resourceLocation, element) -> {
+                try {
+                    List<String> result = GSON_BUILDER.fromJson(element, stringList);
+                    NamesListRegistry.getInstance().register(resourceLocation, result);
+                    count.incrementAndGet();
+                } catch (JsonParseException e) {
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
+                }
+            });
+            KingdomKeys.LOGGER.info("Loaded {} shop/names data", count.get());
             if (ServerLifecycleHooks.getCurrentServer() != null) {
                 for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                     PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);
                 }
             }
-        }
-
-        public void loadData(ResourceManager manager) {
-            String folder = "shop/names";
-            String extension = ".json";
-
-            NamesListRegistry.getInstance().clearRegistry();
-            for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-                ResourceLocation namesList = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                try {
-                    ResourceLocation registryName;
-                    List<String> result;
-                    try {
-                        result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), stringList);
-                        registryName = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                    } catch (JsonParseException e) {
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
-                        continue;
-                    }
-                    NamesListRegistry.getInstance().register(registryName, result);
-
-                    IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            KingdomKeys.LOGGER.info("Loaded Moogle names");
         }
     }
 }

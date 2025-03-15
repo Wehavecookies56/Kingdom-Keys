@@ -51,7 +51,7 @@ public class ShopListRegistry {
 
     public void clearRegistry() {
         registry.clear();
-        KingdomKeys.LOGGER.info("Shop list registry cleared");
+        KingdomKeys.LOGGER.debug("Shop list registry cleared");
     }
 
     public Map<ResourceLocation, ShopList> getRegistry() {

@@ -71,10 +71,8 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.*;
@@ -347,13 +345,13 @@ public class Utils {
 		return map.get(driveForm)[0];
 	}
 
-	public static LinkedHashMap<Material, Integer> getSortedMaterials(Map<Material, Integer> materials) {
+	public static LinkedHashMap<Item, Integer> getSortedMaterials(Map<Item, Integer> materials) {
 
-		ArrayList<Material> list = new ArrayList<>(materials.keySet());
-		list.sort(Comparator.comparing(Material::getMaterialName));
+		ArrayList<Item> list = new ArrayList<>(materials.keySet());
+		list.sort(Comparator.comparing(BuiltInRegistries.ITEM::getKey));
 
-		LinkedHashMap<Material, Integer> map = new LinkedHashMap<>();
-		for (Material k : list) {
+		LinkedHashMap<Item, Integer> map = new LinkedHashMap<>();
+		for (Item k : list) {
 			map.put(k, materials.get(k));
 		}
 		return map;
@@ -826,7 +824,7 @@ public class Utils {
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
-		if (!ModConfigs.orgEnabled)
+		if (!ModConfigs.SERVER.orgEnabled.get())
 			return false;
 
 		boolean wearingOrgCloak = true;
@@ -1387,6 +1385,22 @@ public class Utils {
 		}
 		((ServerLevel)summoner.level()).sendParticles(ParticleTypes.FIREWORK, v.x, summoner.getY() + 1, v.z, 80, 0,0,0, 0.2);
 
+	}
+
+	public record BlockPosBounds(BlockPos min, BlockPos max) {
+		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
+		}
+	}
+
+	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
+		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+	}
+
+	//TODO config option for people who hate fun
+	public static boolean isAprilFools() {
+		Calendar calendar = Calendar.getInstance();
+		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
 	}
 
 }

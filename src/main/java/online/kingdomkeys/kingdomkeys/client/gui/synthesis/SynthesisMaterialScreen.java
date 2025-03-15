@@ -13,7 +13,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -23,12 +22,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTakeMaterials;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,10 +63,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
     public void action(ResourceLocation stackRL, ItemStack stack) {
     	super.action(stackRL, stack);
-    	Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+stackRL.getPath()));
-    	if(mat == null)
-    		return;
-    	int amount = parent.playerData.getMaterialAmount(mat);
+		int amount = PlayerData.get(minecraft.player).getMaterialAmount(stack.getItem());
 		amountBox.setValue(""+Math.min(64, amount));
 	}
 
@@ -104,9 +99,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 					ItemStack stack = player.getInventory().getItem(i);
 
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
-						if (ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath())) != null) {
-							Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mat_" + Utils.getItemRegistryName(stack.getItem()).getPath()));
-							parent.playerData.addMaterial(mat, stack.getCount());
+						if (stack.is(Tags.MATERIALS)) {
+							parent.playerData.addMaterial(stack.getItem(), stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 					}
@@ -173,8 +167,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		List<ItemStack> items = new ArrayList<>();
 
-		for (Entry<String, Integer> mat : parent.playerData.getMaterialMap().entrySet()) {
-			Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(mat.getKey()));
+		for (Entry<ResourceLocation, Integer> mat : parent.playerData.getMaterialMap().entrySet()) {
+			Item item = BuiltInRegistries.ITEM.get(mat.getKey());
 			items.add(new ItemStack(item, mat.getValue()));
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(ItemStack::getDescriptionId));

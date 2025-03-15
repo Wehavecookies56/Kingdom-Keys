@@ -2,16 +2,16 @@
   "cost": 3500,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_remembrance_shard",
-      "quantity": "6"
+      "material": "kingdomkeys:mythril_gem",
+      "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
+      "material": "kingdomkeys:wellspring_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_gem",
-      "quantity": "2"
+      "material": "kingdomkeys:remembrance_shard",
+      "quantity": "6"
     }
   ],
   "output": {

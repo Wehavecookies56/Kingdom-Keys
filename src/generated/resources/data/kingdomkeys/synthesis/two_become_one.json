@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_twilight_crystal",
+      "material": "kingdomkeys:twilight_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_twilight_gem",
+      "material": "kingdomkeys:twilight_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_lost_illusion",
+      "material": "kingdomkeys:lost_illusion",
       "quantity": "1"
     }
   ],

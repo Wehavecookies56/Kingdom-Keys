@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:black_primer",
+    "kingdomkeys:white_tome",
+    "kingdomkeys:illicit_research",
+    "kingdomkeys:buried_secrets",
+    "kingdomkeys:arcane_compendium",
+    "kingdomkeys:dissenters_notes",
+    "kingdomkeys:nefarious_codex",
+    "kingdomkeys:mystic_album",
+    "kingdomkeys:cursed_manual",
+    "kingdomkeys:taboo_text",
+    "kingdomkeys:eldritch_esoterica",
+    "kingdomkeys:freakish_bestiary",
+    "kingdomkeys:madmans_vita",
+    "kingdomkeys:untitled_writings",
+    "kingdomkeys:abandoned_dogma",
+    "kingdomkeys:atlas_of_omens",
+    "kingdomkeys:revolting_scrapbook",
+    "kingdomkeys:lost_heterodoxy",
+    "kingdomkeys:otherworldly_tales",
+    "kingdomkeys:indescribable_lore",
+    "kingdomkeys:radical_treatise",
+    "kingdomkeys:book_of_retribution",
+    "kingdomkeys:midnight_snack",
+    "kingdomkeys:dear_diary"
+  ],
+  "replace": false
+}

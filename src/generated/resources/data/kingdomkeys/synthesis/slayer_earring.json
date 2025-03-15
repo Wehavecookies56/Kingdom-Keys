@@ -2,20 +2,20 @@
   "cost": 2000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_hungry_stone",
+      "material": "kingdomkeys:mythril_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:hungry_stone",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_evanescent_crystal",
+      "material": "kingdomkeys:evanescent_crystal",
       "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_mythril_gem",
-      "quantity": "3"
     }
   ],
   "output": {

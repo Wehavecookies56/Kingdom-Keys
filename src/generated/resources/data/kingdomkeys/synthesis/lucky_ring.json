@@ -2,28 +2,28 @@
   "cost": 2600,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_remembrance_shard",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_soothing_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_crystal",
+      "material": "kingdomkeys:hungry_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_soothing_stone",
-      "quantity": "5"
+      "material": "kingdomkeys:soothing_gem",
+      "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_manifest_illusion",
+      "material": "kingdomkeys:manifest_illusion",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_soothing_shard",
+      "material": "kingdomkeys:soothing_shard",
       "quantity": "9"
+    },
+    {
+      "material": "kingdomkeys:remembrance_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:soothing_stone",
+      "quantity": "5"
     }
   ],
   "output": {

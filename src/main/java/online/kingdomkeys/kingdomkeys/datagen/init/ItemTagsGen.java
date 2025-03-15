@@ -4,7 +4,6 @@ import java.util.concurrent.CompletableFuture;
 
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.HolderLookup;

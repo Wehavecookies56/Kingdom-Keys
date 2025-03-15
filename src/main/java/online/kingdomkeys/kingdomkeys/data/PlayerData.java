@@ -47,8 +47,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -206,10 +204,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.put("parties", parties);
 
 		CompoundTag mats = new CompoundTag();
-		for (Entry<String, Integer> pair : this.getMaterialMap().entrySet()) {
-			mats.putInt(pair.getKey(), pair.getValue());
-			if (mats.getInt(pair.getKey()) == 0 && pair.getKey() != null)
-				mats.remove(pair.getKey());
+		for (Entry<ResourceLocation, Integer> pair : this.getMaterialMap().entrySet()) {
+			mats.putInt(pair.getKey().toString(), pair.getValue());
+			if (mats.getInt(pair.getKey().toString()) == 0 && pair.getKey() != null)
+				mats.remove(pair.getKey().toString());
 		}
 		storage.put("materials", mats);
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
@@ -391,10 +389,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		materials.clear();
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
-			ResourceLocation loc = ResourceLocation.parse(mat);
-			if (ModMaterials.registry.containsKey(ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), Strings.SM_Prefix + loc.getPath()))) {
-				this.getMaterialMap().put(mat, nbt.getCompound("materials").getInt(mat));
-			}
+			this.getMaterialMap().put(ResourceLocation.parse(mat), nbt.getCompound("materials").getInt(mat));
 		}
 
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
@@ -446,7 +441,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
-    private TreeMap<String, Integer> materials = new TreeMap<>();
+    private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
     List<String> reactionList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
@@ -523,7 +518,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			if (this.level < 100) {
 				Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
-					double sharedXP = (exp * ((ModConfigs.partyXPShare / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
+					double sharedXP = (exp * ((ModConfigs.SERVER.partyXPShare.get() / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
 					//sharedXP /= party.getMembers().size(); //Divide by the total amount of party players
 
 					if(sharedXP > 0) {
@@ -572,7 +567,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getStrength(boolean combined) {
-		return (int) (combined ? ((ModConfigs.allowBoosts ? strength.getStat() : strength.get()) + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.statsMultiplier.get(0) / 100 : strength.get());
+		return (int) (combined ? ((ModConfigs.SERVER.allowBoosts.get() ? strength.getStat() : strength.get()) + Utils.getAccessoriesStat(this, "str") + (getRecharge()? getNumberOfAbilitiesEquipped(Strings.berserkCharge) * 2 : 0) ) * ModConfigs.SERVER.statsMultiplier.get().get(0) / 100 : strength.get());
 	}
 
 	public void setStrength(int level) {
@@ -580,7 +575,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getMagic(boolean combined) {
-		return (int) (combined ? ((ModConfigs.allowBoosts ? magic.getStat() : magic.get()) + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.statsMultiplier.get(1) / 100 : magic.get());
+		return (int) (combined ? ((ModConfigs.SERVER.allowBoosts.get() ? magic.getStat() : magic.get()) + Utils.getAccessoriesStat(this, "mag")) * ModConfigs.SERVER.statsMultiplier.get().get(1) / 100 : magic.get());
 	}
 
 	public void setMagic(int level) {
@@ -588,7 +583,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getDefense(boolean combined) {
-		return (int) (combined ? ((ModConfigs.allowBoosts ? defense.getStat() : defense.get()) + Utils.getArmorsStat(this, "def")) * ModConfigs.statsMultiplier.get(2) / 100 : defense.get());
+		return (int) (combined ? ((ModConfigs.SERVER.allowBoosts.get() ? defense.getStat() : defense.get()) + Utils.getArmorsStat(this, "def")) * ModConfigs.SERVER.statsMultiplier.get().get(2) / 100 : defense.get());
 	}
 
 	public void setDefense(int level) {
@@ -1779,61 +1774,64 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		
 	}
 
-	public TreeMap<String, Integer> getMaterialMap() {
+	public TreeMap<ResourceLocation, Integer> getMaterialMap() {
 		return materials;
 	}
 
-	public void setMaterialMap(TreeMap<String, Integer> materialMap) {
+	public void setMaterialMap(TreeMap<ResourceLocation, Integer> materialMap) {
 		this.materials = materialMap;
 	}
 	 
-	public int getMaterialAmount(Material material) {
-		if (materials.containsKey(material.getMaterialName())) {
-			int currAmount = materials.get(material.getMaterialName());
-			return currAmount;
+	public int getMaterialAmount(Item material) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (materials.containsKey(regName)) {
+            return materials.get(regName);
 		}
 		return 0;
 	}
 
-	public void addMaterial(Material material, int amount) {
-		if (materials.containsKey(material.getMaterialName())) {
-			int currAmount = materials.get(material.getMaterialName());
+	public void addMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (materials.containsKey(regName)) {
+			int currAmount = materials.get(regName);
 			if (amount <= 0) {
-	 			materials.remove(material.getMaterialName());
+	 			materials.remove(regName);
 			} else {
-	 			materials.replace(material.getMaterialName(), currAmount + amount);
+	 			materials.replace(regName, currAmount + amount);
 			}
 		} else {
 			if (amount <= 0) {
-	 			materials.remove(material.getMaterialName());
+	 			materials.remove(regName);
 			} else {
-	 			materials.put(material.getMaterialName(), amount);
+	 			materials.put(regName, amount);
 			}
 		}
 	}
 
-	public void setMaterial(Material material, int amount) {
-		if (materials.containsKey(material.getMaterialName())) {
+	public void setMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (materials.containsKey(regName)) {
 	 		if (amount <= 0)
-		 		materials.remove(material.getMaterialName());
+		 		materials.remove(regName);
 	 		else
-	 			materials.replace(material.getMaterialName(), amount);
+	 			materials.replace(regName, amount);
 		} else {
 	 		if (amount <= 0)
-		 		materials.remove(material.getMaterialName());
+		 		materials.remove(regName);
 	 		else
-		 		materials.put(material.getMaterialName(), amount);
+		 		materials.put(regName, amount);
 		}
 	}
 
-	public void removeMaterial(Material material, int amount) {
-		if (materials.containsKey(material.getMaterialName())) {
-			int currAmount = materials.get(material.getMaterialName());
+	public void removeMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (materials.containsKey(regName)) {
+			int currAmount = materials.get(regName);
 			if (amount > currAmount)
 				amount = currAmount;
-			materials.replace(material.getMaterialName(), currAmount - amount);
-			if (materials.get(material.getMaterialName()) <= 0) {
-				materials.remove(material.getMaterialName());
+			materials.replace(regName, currAmount - amount);
+			if (materials.get(regName) <= 0) {
+				materials.remove(regName);
 			}
 		}
 	}

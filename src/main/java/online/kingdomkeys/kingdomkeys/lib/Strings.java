@@ -145,8 +145,6 @@ public class Strings {
     
     // Synthesis Materials
     public static final String
-            SM_Prefix = "mat_",
-
             SM_Rank = "sm.rank",
             SM_Rank_C = SM_Rank + ".c",
             SM_Rank_B = SM_Rank + ".b",

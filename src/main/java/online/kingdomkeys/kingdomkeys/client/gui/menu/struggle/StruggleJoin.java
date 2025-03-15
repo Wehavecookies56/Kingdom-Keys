@@ -25,7 +25,7 @@ public class StruggleJoin extends MenuBackground {
 	BlockPos boardPos;
 
 	boolean priv = false;
-	int pSize = ModConfigs.partyMembersLimit;
+	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
 	
 	MenuButton back;
 		

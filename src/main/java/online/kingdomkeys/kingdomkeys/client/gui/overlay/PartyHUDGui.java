@@ -137,7 +137,7 @@ public class PartyHUDGui extends OverlayBase {
 				matrixStack.translate((screenWidth - hatWidth * scale) - scaledHatPosX, (screenHeight - hatHeight * scale) - scaledHatPosY, 0);
 				matrixStack.scale(scale, scale, scale);
 				String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
-				if (playerAlly != null && minecraft.player.distanceTo(playerAlly) >= ModConfigs.partyRangeLimit)
+				if (playerAlly != null && minecraft.player.distanceTo(playerAlly) >= ModConfigs.SERVER.partyRangeLimit.get())
 					drawCenteredString(gui, minecraft.font, "Out of range", 16, -20, 0xFFFFFF);
 				drawCenteredString(gui, minecraft.font, name, 16, -10, 0xFFFFFF);
 			}

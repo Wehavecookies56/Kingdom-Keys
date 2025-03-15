@@ -2,24 +2,24 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_betwixt_gem",
-      "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_betwixt_crystal",
+      "material": "kingdomkeys:betwixt_crystal",
       "quantity": "6"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_stone",
-      "quantity": "3"
+      "material": "kingdomkeys:betwixt_gem",
+      "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_lost_illusion",
+      "material": "kingdomkeys:betwixt_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:lost_illusion",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_shard",
-      "quantity": "2"
+      "material": "kingdomkeys:betwixt_stone",
+      "quantity": "3"
     }
   ],
   "output": {

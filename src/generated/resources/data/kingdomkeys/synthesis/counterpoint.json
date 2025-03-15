@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
+      "material": "kingdomkeys:hungry_stone",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_hungry_stone",
+      "material": "kingdomkeys:wellspring_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_soothing_shard",
+      "material": "kingdomkeys:soothing_shard",
       "quantity": "2"
     }
   ],

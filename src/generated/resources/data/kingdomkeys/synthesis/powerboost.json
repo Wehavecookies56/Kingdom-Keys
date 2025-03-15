@@ -2,23 +2,23 @@
   "cost": 6000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_crystal",
+      "material": "kingdomkeys:hungry_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_lucid_crystal",
+      "material": "kingdomkeys:blazing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:lightning_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:lucid_crystal",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "1"
     }
   ],

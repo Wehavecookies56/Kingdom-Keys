@@ -2,24 +2,24 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_soothing_gem",
-      "quantity": "6"
-    },
-    {
-      "material": "kingdomkeys:mat_soothing_crystal",
-      "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_soothing_stone",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_orichalcum",
+      "material": "kingdomkeys:orichalcum",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_soothing_shard",
+      "material": "kingdomkeys:soothing_gem",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:soothing_crystal",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:soothing_shard",
       "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:soothing_stone",
+      "quantity": "2"
     }
   ],
   "output": {

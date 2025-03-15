@@ -16,18 +16,23 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public class DimensionCommand extends BaseCommand {
@@ -49,7 +54,6 @@ public class DimensionCommand extends BaseCommand {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		String dim = StringArgumentType.getString(context, "dim");
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
-		System.out.println(dimension);
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
 			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
 			return 0;
@@ -80,7 +84,17 @@ public class DimensionCommand extends BaseCommand {
 			player.sendSystemMessage(Component.translatable("CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
 			player.sendSystemMessage(Component.translatable("IN CASE IT WASN'T OBVIOUS BY THE NEED TO USE THIS COMMAND TO GET HERE"));
 			player.sendSystemMessage(Component.translatable("THANK YOU - Estelle"));
-			return new BlockPos(-2, 90, -167);
+			if (!FMLEnvironment.production) {
+				player.getInventory().add(new ItemStack(ModItems.plainsCard.get()));
+				player.getInventory().add(new ItemStack(ModItems.netherCard.get()));
+				ItemStack nineCard = new ItemStack(ModItems.tranquilDarkness.get());
+				nineCard.set(ModComponents.CARD_VALUE, 9);
+				nineCard.setCount(64);
+				player.getInventory().add(nineCard);
+				return new BlockPos(-6, 90, 8);
+			} else {
+				return new BlockPos(-2, 90, -167);
+			}
 		}
 		if(dimension.location().toString().contains("realm_of_darkness")) {
 			return player.getServer().getLevel(dimension).getSharedSpawnPos();

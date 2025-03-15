@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_gem",
-      "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_soothing_crystal",
+      "material": "kingdomkeys:soothing_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:lightning_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "5"
     }
   ],

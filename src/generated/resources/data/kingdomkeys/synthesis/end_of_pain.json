@@ -2,19 +2,19 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_wellspring_crystal",
+      "material": "kingdomkeys:writhing_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:pulsing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:wellspring_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_writhing_shard",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_gem",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_pulsing_stone",
+      "material": "kingdomkeys:writhing_shard",
       "quantity": "3"
     }
   ],

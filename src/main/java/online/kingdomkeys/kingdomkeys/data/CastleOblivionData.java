@@ -10,9 +10,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 import java.util.*;
 
@@ -47,7 +47,11 @@ public class CastleOblivionData {
             clientCache.put(level.dimension(), data);
         }
 
-        private static final Map<ResourceKey<Level>, InteriorData> clientCache = new HashMap<>();
+        private static Map<ResourceKey<Level>, InteriorData> clientCache = new HashMap<>();
+
+        public static void clearClientCache() {
+            clientCache = new HashMap<>();
+        }
 
         @Override
         public CompoundTag save(CompoundTag pTag, HolderLookup.Provider pRegistries) {
@@ -67,7 +71,7 @@ public class CastleOblivionData {
             data.floors.clear();
             int size = tag.getInt("floors_size");
             for (int i = 0; i < size; i++) {
-                data.floors.add(Floor.deserialize((CompoundTag) tag.get("floors_" + i)));
+                data.floors.add(new Floor((CompoundTag) tag.get("floors_" + i)));
             }
             return data;
         }
@@ -81,8 +85,8 @@ public class CastleOblivionData {
             setDirty();
         }
 
-        public Room getRoomAtPos(Level level, BlockPos pos) {
-            Floor floor = getFloorAtPos(level, pos);
+        public Room getRoomAtPos(BlockPos pos) {
+            Floor floor = getFloorAtPos(pos);
             for (RoomData room : floor.getRooms()) {
                 Room r = room.getGenerated();
                 if (r != null) {
@@ -95,24 +99,24 @@ public class CastleOblivionData {
         }
 
         //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
-        public Floor getFloorAtPos(Level level, BlockPos pos) {
-            Room closestLobby = floors.get(0).getLobbyRoom();
-            if (closestLobby != null) {
-                double closestDistance = closestLobby.position.distSqr(pos);
+        public Floor getFloorAtPos(BlockPos pos) {
+            Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated();
+            if (closestEntrance != null) {
+                double closestDistance = closestEntrance.getPosition().distSqr(pos);
                 for (Floor floor : getFloors()) {
-                    if (floor.getLobbyPosition().distSqr(pos) < closestDistance) {
-                        closestLobby = floor.getLobbyRoom();
-                        closestDistance = floor.getLobbyPosition().distSqr(pos);
+                    if (floor.getEntranceHallPosition().distSqr(pos) < closestDistance) {
+                        closestEntrance = floor.getEntranceHall().getGenerated();
+                        closestDistance = floor.getEntranceHallPosition().distSqr(pos);
                     }
                 }
-                return closestLobby.getParent(level);
+                return closestEntrance.getParent(this);
             }
             //if there is no room in the first floor nothing has generated yet
             return null;
         }
 
-        public Floor getFloorByID(UUID id) {
-            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID().equals(id)).toList();
+        public Floor getFloorByID(int id) {
+            List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID() == id).toList();
             return !f.isEmpty() ? f.getFirst() : null;
         }
 

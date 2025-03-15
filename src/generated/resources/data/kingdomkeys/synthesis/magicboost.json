@@ -2,24 +2,24 @@
   "cost": 6000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_crystal",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_crystal",
+      "material": "kingdomkeys:mythril_gem",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_writhing_crystal",
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_frost_crystal",
+      "material": "kingdomkeys:frost_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_mythril_gem",
+      "material": "kingdomkeys:hungry_crystal",
       "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:writhing_crystal",
+      "quantity": "3"
     }
   ],
   "output": {

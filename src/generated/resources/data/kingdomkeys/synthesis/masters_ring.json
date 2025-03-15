@@ -2,16 +2,16 @@
   "cost": 2000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_writhing_crystal",
+      "material": "kingdomkeys:hungry_gem",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:writhing_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_gem",
-      "quantity": "1"
     }
   ],
   "output": {

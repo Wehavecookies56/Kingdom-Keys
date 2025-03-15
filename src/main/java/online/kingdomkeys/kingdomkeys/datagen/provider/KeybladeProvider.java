@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
-public abstract class KeybladeProvider<T extends KeybladeBuilder<T>> implements DataProvider {
+public abstract class KeybladeProvider<T extends KeybladeBuilder> implements DataProvider {
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
     protected final DataGenerator generator;
