@@ -155,9 +155,9 @@ public class EntityEvents {
 	public void checkRecipeMaterials(Player player) {
 		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
 			if (item == Items.AIR) {
-				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[%s] contains an invalid material", recipe.getRegistryName().toString()));
+				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains an invalid material"));
 			} else if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-                player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[%s] contains material[%s] that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe", recipe.getRegistryName().toString(), ForgeRegistries.ITEMS.getKey(item).toString()));
+                player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material[" + ForgeRegistries.ITEMS.getKey(item).toString() + "] that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
             }
         }));
 		ForgeRegistries.ITEMS.getEntries().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
@@ -165,9 +165,9 @@ public class EntityEvents {
 				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
 					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
 						if (item == Items.AIR) {
-							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[%s] contains an invalid material", ForgeRegistries.ITEMS.getKey(keybladeItem)));
+							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + ForgeRegistries.ITEMS.getKey(keybladeItem) + "] contains an invalid material"));
 						} else if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[%s] contains material[%s] that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade", ForgeRegistries.ITEMS.getKey(keybladeItem), ForgeRegistries.ITEMS.getKey(item)));
+							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + ForgeRegistries.ITEMS.getKey(keybladeItem) + "] contains material[" + ForgeRegistries.ITEMS.getKey(item) + "] that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
 						}
 					});
 				}
