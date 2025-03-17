@@ -14,11 +14,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -751,7 +755,16 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
-
+		AABB radius = new AABB(player.getX(), player.getY(), player.getZ(), player.getX() + 1, player.getY() + 1, player.getZ() + 1).inflate(10, 10, 10);
+		List<TamableAnimal> tamedAnimals = player.level().getNearbyEntities(TamableAnimal.class, TargetingConditions.forNonCombat(), player, radius);
+		if (!tamedAnimals.isEmpty()) {
+			tamedAnimals.forEach(tamableAnimal -> {
+				IGlobalCapabilities animalData = ModCapabilities.getGlobal(tamableAnimal);
+				animalData.setLevel(getLevel());
+				Utils.applyMobLevel(tamableAnimal, level);
+				tamableAnimal.heal(tamableAnimal.getMaxHealth());
+			});
+		}
 	}
 
 	@Override

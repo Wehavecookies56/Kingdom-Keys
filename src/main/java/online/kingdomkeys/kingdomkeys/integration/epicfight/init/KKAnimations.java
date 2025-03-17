@@ -244,7 +244,7 @@ public class KKAnimations {
 
         LUXORD_IDLE = new StaticAnimation(true, "biped/living/luxord_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
         LUXORD_WALK = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
-        LUXORD_RUN = new StaticAnimation(true, "biped/living/luxord_walk", Armatures.BIPED);
+        LUXORD_RUN = new StaticAnimation(true, "biped/living/luxord_run", Armatures.BIPED);
 
         MARLUXIA_IDLE = new StaticAnimation(true, "biped/living/marluxia_idle", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f);
         MARLUXIA_WALK = new StaticAnimation(true, "biped/living/marluxia_walk", Armatures.BIPED);

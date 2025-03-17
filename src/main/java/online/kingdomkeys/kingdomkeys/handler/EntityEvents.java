@@ -17,6 +17,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -133,19 +135,25 @@ public class EntityEvents {
 			
 			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.hostileMobsLevel) { //TODO config
 				mobData.setLevel(Utils.getRandomMobLevel(player));
-			}	
+			}
+
+			if (mob instanceof OwnableEntity ownableEntity) {
+				if (mobData.getLevel() == 0) {
+					if (ownableEntity.getOwner() instanceof Player owner) {
+						IPlayerCapabilities ownerData = ModCapabilities.getPlayer(owner);
+						mobData.setLevel(ownerData.getLevel());
+					}
+				}
+			}
 
 			if (mobData.getLevel() > 0) {
-				if (!mob.hasCustomName()) {
-					int lvl = mobData.getLevel();
+				int lvl = mobData.getLevel();
+				Utils.applyMobLevel(mob, lvl);
+				mob.heal(mob.getMaxHealth());
+				if (!mob.hasCustomName() || !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {
 						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
 					}
-					if(mob.getAttribute(Attributes.ATTACK_DAMAGE) != null)
-						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-					if(mob.getAttribute(Attributes.MAX_HEALTH) != null)
-						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
-					mob.heal(mob.getMaxHealth());
 				}
 				PacketHandler.sendTo(new SCSyncGlobalCapabilityToAllPacket(mob.getId(), mobData), (ServerPlayer) player);
 			}
@@ -174,6 +182,16 @@ public class EntityEvents {
 			}
 		});
     }
+
+	@SubscribeEvent
+	public void animalTame(AnimalTameEvent event) {
+		IGlobalCapabilities mobData = ModCapabilities.getGlobal(event.getAnimal());
+		IPlayerCapabilities ownerData = ModCapabilities.getPlayer(event.getTamer());
+		mobData.setLevel(ownerData.getLevel());
+		int lvl = mobData.getLevel();
+		Utils.applyMobLevel(event.getAnimal(), lvl);
+		event.getAnimal().heal(event.getAnimal().getMaxHealth());
+	}
 
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent e) {
@@ -292,7 +310,7 @@ public class EntityEvents {
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
 
-				if (playerData.getEquippedKBArmors().size() == 0) {
+				if (playerData.getEquippedKBArmors().isEmpty()) {
 					HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
 					for (int i = 0; i < 1; i++) {
 						map.put(i, ItemStack.EMPTY);
