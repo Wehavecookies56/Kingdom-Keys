@@ -229,6 +229,14 @@
       }
     ]
   },
+  "music/the_13th_floor": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/the_13th_floor",
+        "stream": true
+      }
+    ]
+  },
   "player_death": {
     "sounds": [
       "kingdomkeys:player_death"
