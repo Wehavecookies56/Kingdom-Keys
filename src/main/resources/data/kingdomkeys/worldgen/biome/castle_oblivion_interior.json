@@ -6,7 +6,7 @@
     "water_color": 4159204,
     "water_fog_color": 329011,
     "music": {
-    	"sound": "kingdomkeys:music/castle_oblivion",
+    	"sound": "kingdomkeys:music/the_13th_floor",
     	"min_delay": 0,
     	"max_delay": 0,
     	"replace_current_music": true
