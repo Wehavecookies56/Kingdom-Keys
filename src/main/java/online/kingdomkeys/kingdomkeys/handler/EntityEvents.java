@@ -135,19 +135,25 @@ public class EntityEvents {
 			
 			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) { //TODO config
 				mobData.setLevel(Utils.getRandomMobLevel(player));
-			}	
+			}
+
+			if (mob instanceof OwnableEntity ownableEntity) {
+				if (mobData.getLevel() == 0) {
+					if (ownableEntity.getOwner() instanceof Player owner) {
+						PlayerData ownerData = PlayerData.get(owner);
+						mobData.setLevel(ownerData.getLevel());
+					}
+				}
+			}
 
 			if (mobData.getLevel() > 0) {
-				if (!mob.hasCustomName()) {
-					int lvl = mobData.getLevel();
+				int lvl = mobData.getLevel();
+				Utils.applyMobLevel(mob, lvl);
+				mob.heal(mob.getMaxHealth());
+				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {
 						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
 					}
-					if(mob.getAttribute(Attributes.ATTACK_DAMAGE) != null)
-						mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue() * (lvl * ModConfigs.mobLevelStats / 100), mob.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-					if(mob.getAttribute(Attributes.MAX_HEALTH) != null)
-						mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(mob.getMaxHealth() * (lvl * ModConfigs.mobLevelStats / 100), mob.getMaxHealth()));
-					mob.heal(mob.getMaxHealth());
 					PacketHandler.sendTo(new SCSyncGlobalData(mob), (ServerPlayer) player);
 				}
 			}
@@ -171,6 +177,16 @@ public class EntityEvents {
 				}
 			}
 		});
+	}
+
+	@SubscribeEvent
+	public void animalTame(AnimalTameEvent event) {
+		GlobalData mobData = GlobalData.get(event.getAnimal());
+		PlayerData ownerData = PlayerData.get(event.getTamer());
+		mobData.setLevel(ownerData.getLevel());
+		int lvl = mobData.getLevel();
+		Utils.applyMobLevel(event.getAnimal(), lvl);
+		event.getAnimal().heal(event.getAnimal().getMaxHealth());
 	}
 
 	@SubscribeEvent

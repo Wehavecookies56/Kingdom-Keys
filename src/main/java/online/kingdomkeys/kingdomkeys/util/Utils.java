@@ -27,6 +27,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -94,6 +95,8 @@ public class Utils {
 		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
 	}
 
+	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
+	public static final ResourceLocation mobLevelAttackModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_attack");
 
 	public static class Title {
 		public String title, subtitle;
@@ -1401,6 +1404,27 @@ public class Utils {
 	public static boolean isAprilFools() {
 		Calendar calendar = Calendar.getInstance();
 		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
+	}
+
+	public static void applyMobLevel(LivingEntity mob, int level) {
+		if (level != 0) {
+			AttributeInstance attack = mob.getAttribute(Attributes.ATTACK_DAMAGE);
+			if (attack != null) {
+				AttributeModifier attackModifier = attack.getModifier(Utils.mobLevelAttackModifier);
+				if (attackModifier != null) {
+					attack.removeModifier(attackModifier);
+				}
+				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+			}
+			AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
+			if (hp != null) {
+				AttributeModifier hpModifier = hp.getModifier(Utils.mobLevelHPModifier);
+				if (hpModifier != null) {
+					hp.removeModifier(hpModifier);
+				}
+				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+			}
+		}
 	}
 
 }
