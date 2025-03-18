@@ -755,7 +755,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getMaxHP());
 		PacketHandler.sendTo(new SCSyncCapabilityPacket(ModCapabilities.getPlayer(player)), (ServerPlayer) player);
 		PacketHandler.syncToAllAround(player, this);
-		AABB radius = new AABB(player.getX(), player.getY(), player.getZ(), player.getX() + 1, player.getY() + 1, player.getZ() + 1).inflate(10, 10, 10);
+		AABB radius = new AABB(player.getX(), player.getY(), player.getZ(), player.getX() + 1, player.getY() + 1, player.getZ() + 1).inflate(50, 50, 50);
 		List<TamableAnimal> tamedAnimals = player.level().getNearbyEntities(TamableAnimal.class, TargetingConditions.forNonCombat(), player, radius);
 		if (!tamedAnimals.isEmpty()) {
 			tamedAnimals.forEach(tamableAnimal -> {
