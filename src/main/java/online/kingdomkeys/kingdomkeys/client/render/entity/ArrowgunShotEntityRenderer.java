@@ -34,10 +34,10 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 	public void render(ArrowgunShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		switch(entity.getShotType()) {
 		case 0:
-			color = new Color(1F * 255,0.2F * 255,0.2F * 255);
+			color = new Color(1F,0.2F,0.2F);
 			break;
 		case 1:
-			color = new Color(0.3F * 255,0.3F * 255,1F * 255);
+			color = new Color(0.3F,0.3F,1F);
 			break;
 		}
 		matrixStackIn.pushPose();
