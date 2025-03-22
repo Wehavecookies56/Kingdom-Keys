@@ -9,8 +9,6 @@ import com.google.gson.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -32,7 +30,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
             JsonElement element = entry.getValue();
             switch (entry.getKey()) {//Check for the first level key
                 case "ingredients":
-                    Map<Material, Integer> recipe = getMaterialIntegerMap(json, element);
+                    Map<Item, Integer> recipe = getMaterialIntegerMap(json, element);
                     out.setMaterials(recipe);
                     break;
 
@@ -59,16 +57,16 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
         return out;
     }
 
-    private static @NotNull Map<Material, Integer> getMaterialIntegerMap(JsonElement json, JsonElement element) {
-        Map<Material, Integer> recipe = new HashMap<>();//Create the recipe
+    private static @NotNull Map<Item, Integer> getMaterialIntegerMap(JsonElement json, JsonElement element) {
+        Map<Item, Integer> recipe = new HashMap<>();//Create the recipe
         JsonArray recipeArray = element.getAsJsonArray(); //Get the array
         recipeArray.forEach(ingredient -> {//Iterate through all the ingredients
             JsonObject ingredientObject = ingredient.getAsJsonObject();
-            Material m = null;
+            Item m = null;
             int quantity = 0;
             boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
             if (valid) {
-                m = ModMaterials.registry.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
+                m = BuiltInRegistries.ITEM.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
                 if (m == null) {
                     throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
                 } else {

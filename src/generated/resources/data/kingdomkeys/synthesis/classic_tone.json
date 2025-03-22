@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_soothing_gem",
+      "material": "kingdomkeys:wellspring_gem",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_sinister_stone",
+      "material": "kingdomkeys:soothing_gem",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_gem",
+      "material": "kingdomkeys:sinister_stone",
       "quantity": "3"
     }
   ],

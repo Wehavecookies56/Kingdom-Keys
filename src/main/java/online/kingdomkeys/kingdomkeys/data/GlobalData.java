@@ -5,15 +5,32 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	protected GlobalData() {}
+
+	private static Map<Integer, GlobalData> mobDataClientCache = new HashMap<>();
 
 	public static GlobalData get(LivingEntity entity) {
 		if (!entity.hasData(ModData.GLOBAL_DATA)) {
 			entity.setData(ModData.GLOBAL_DATA, new GlobalData());
 		}
 		return entity.getData(ModData.GLOBAL_DATA);
+	}
+
+	public static GlobalData getClient(LivingEntity entity) {
+		return mobDataClientCache.get(entity.getId());
+	}
+
+	public static void setClientCache(LivingEntity entity, GlobalData data) {
+		mobDataClientCache.put(entity.getId(), data);
+	}
+
+	public static void clearClientCache() {
+		mobDataClientCache = new HashMap<>();
 	}
 
 	@Override

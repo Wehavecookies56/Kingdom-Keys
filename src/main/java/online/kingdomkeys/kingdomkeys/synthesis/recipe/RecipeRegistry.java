@@ -8,7 +8,6 @@ import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
 
 public class RecipeRegistry {
 
@@ -30,17 +29,13 @@ public class RecipeRegistry {
             registry.put(recipe.getRegistryName(), recipe);
             if (ModConfigs.debugConsoleOutput)
                 KingdomKeys.LOGGER.info("Successfully registered synthesis recipe {}", recipe.getRegistryName());
-            switch(recipe.type) {
-            case "keyblade":
-            	Lists.keybladeRecipes.add(recipe.getRegistryName());
-            	break;
-            case "item":
-            	Lists.itemRecipes.add(recipe.getRegistryName());
-            	break;
-            }
         } else {
             KingdomKeys.LOGGER.error("Cannot register Synthesis Recipe with no registry name");
         }
+    }
+
+    public List<ResourceLocation> getRecipesOfType(String type) {
+        return registry.entrySet().stream().filter(resourceLocationRecipeEntry -> resourceLocationRecipeEntry.getValue().getType().equals(type)).map(Map.Entry::getKey).toList();
     }
 
     public Recipe getValue(ResourceLocation key) {
@@ -58,7 +53,7 @@ public class RecipeRegistry {
 
     public void clearRegistry() {
         registry.clear();
-        KingdomKeys.LOGGER.info("Synthesis Recipe registry cleared");
+        KingdomKeys.LOGGER.debug("Synthesis Recipe registry cleared");
     }
 
     public Map<ResourceLocation, Recipe> getRegistry() {

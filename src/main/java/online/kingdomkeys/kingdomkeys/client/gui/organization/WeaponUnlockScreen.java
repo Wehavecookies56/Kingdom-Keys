@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -13,11 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.Lists;
+import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
@@ -34,7 +35,11 @@ public class WeaponUnlockScreen extends Screen {
     public WeaponUnlockScreen(Utils.OrgMember member) {
         super(Component.literal(""));
         this.member = member;
-        this.weapons = Lists.getListForMember(member);
+        if (member != Utils.OrgMember.NONE) {
+            this.weapons = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.ITEM).getOrThrow(Tags.getTagForMember(member)).stream().map(Holder::value).toList();
+        } else {
+            throw new IllegalStateException("Tried to open Weapon Unlock screen with no Org Member");
+        }
         playerData = PlayerData.get(Minecraft.getInstance().player);
     }
 
@@ -175,35 +180,7 @@ public class WeaponUnlockScreen extends Screen {
     int startCost = 1000;
 
     public Item getStarterWeapon(Utils.OrgMember member) {
-        switch(member) {
-            case XEMNAS:
-                return ModItems.malice.get();
-            case XIGBAR:
-                return ModItems.standalone.get();
-            case XALDIN:
-                return ModItems.zephyr.get();
-            case VEXEN:
-                return ModItems.testerZero.get();
-            case LEXAEUS:
-                return ModItems.reticence.get();
-            case ZEXION:
-                return ModItems.blackPrimer.get();
-            case SAIX:
-                return ModItems.newMoon.get();
-            case AXEL:
-                return ModItems.ashes.get();
-            case DEMYX:
-                return ModItems.basicModel.get();
-            case LUXORD:
-                return ModItems.theFool.get();
-            case MARLUXIA:
-                return ModItems.fickleErica.get();
-            case LARXENE:
-                return ModItems.trancheuse.get();
-            case ROXAS:
-                return ModItems.kingdomKey.get();
-        }
-        return null;
+        return Tags.getFirstItemInTag(Minecraft.getInstance().level, Tags.getTagForMember(member));
     }
 
     public boolean canUnlock() {

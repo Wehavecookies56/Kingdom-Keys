@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_crystal",
+      "material": "kingdomkeys:lightning_gem",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:lightning_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_lightning_shard",
+      "material": "kingdomkeys:lightning_shard",
       "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_lightning_gem",
-      "quantity": "3"
     }
   ],
   "output": {

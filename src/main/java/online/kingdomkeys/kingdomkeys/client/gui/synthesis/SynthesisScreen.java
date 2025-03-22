@@ -18,9 +18,9 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 
 	PlayerData playerData;
 	
-	String invFile = ModConfigs.projectorHasShop ? "kingdomkeys:default" : "";
+	String invFile = ModConfigs.SERVER.projectorHasShop.get() ? "kingdomkeys:default" : "";
 	int moogle = -1;
 
 	String name;
@@ -113,9 +113,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			if (!hasKeychain && player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
 				hasKeychain = true;
 			}
-			ResourceLocation itemKey = BuiltInRegistries.ITEM.getKey(player.getInventory().getItem(i).getItem());
-			ResourceLocation materialKey = ResourceLocation.fromNamespaceAndPath(itemKey.getNamespace(), Strings.SM_Prefix + itemKey.getPath());
-			if (!hasMaterial && ModMaterials.registry.containsKey(materialKey)) {
+			if (!hasMaterial && player.getInventory().getItem(i).is(Tags.MATERIALS)) {
 				hasMaterial = true;
 			}
 		}

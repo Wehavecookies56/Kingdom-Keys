@@ -205,6 +205,14 @@
       "kingdomkeys:munny"
     ]
   },
+  "music/castle_oblivion": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/castle_oblivion",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
@@ -217,6 +225,14 @@
     "sounds": [
       {
         "name": "kingdomkeys:music/lord_of_the_castle",
+        "stream": true
+      }
+    ]
+  },
+  "music/the_13th_floor": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/the_13th_floor",
         "stream": true
       }
     ]

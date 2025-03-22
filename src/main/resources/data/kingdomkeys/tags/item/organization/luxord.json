@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:the_fool",
+    "kingdomkeys:the_magician",
+    "kingdomkeys:the_star",
+    "kingdomkeys:the_moon",
+    "kingdomkeys:justice",
+    "kingdomkeys:the_hierophant",
+    "kingdomkeys:the_world",
+    "kingdomkeys:temperance",
+    "kingdomkeys:the_high_priestess",
+    "kingdomkeys:the_tower",
+    "kingdomkeys:the_hanged_man",
+    "kingdomkeys:death",
+    "kingdomkeys:the_hermit",
+    "kingdomkeys:strength",
+    "kingdomkeys:the_lovers",
+    "kingdomkeys:the_chariot",
+    "kingdomkeys:the_sun",
+    "kingdomkeys:the_devil",
+    "kingdomkeys:the_empress",
+    "kingdomkeys:the_emperor",
+    "kingdomkeys:the_joker",
+    "kingdomkeys:fair_game",
+    "kingdomkeys:finest_fantasy_13",
+    "kingdomkeys:high_rollers_secret"
+  ],
+  "replace": false
+}

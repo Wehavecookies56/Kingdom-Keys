@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -19,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
@@ -40,17 +40,17 @@ public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 		ItemStack stack = stack().copy();
 		KeychainItem kcItem = (KeychainItem) stack.getItem();
 		KeybladeItem item = kcItem.getKeyblade();
-		Iterator<Entry<Material, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
+		Iterator<Entry<Item, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
 		boolean hasMaterials = true;
 		while(itMats.hasNext()) { //Check if the player has the materials (checked serverside just in case)
-			Entry<Material, Integer> m = itMats.next();
+			Entry<Item, Integer> m = itMats.next();
 			if(playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
 				hasMaterials = false;
 			}
 		}
 
 		if(hasMaterials) { //If the player has the materials substract them and give the item
-			for (Entry<Material, Integer> m : item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet()) {
+			for (Entry<Item, Integer> m : item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet()) {
 				playerData.removeMaterial(m.getKey(), m.getValue());
 			}
 			kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);

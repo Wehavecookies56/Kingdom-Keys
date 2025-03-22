@@ -30,7 +30,7 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 	WorldData worldData;
 	Party party;
 	
-	MenuButton[] players = new MenuButton[ModConfigs.partyMembersLimit];
+	MenuButton[] players = new MenuButton[ModConfigs.SERVER.partyMembersLimit.get()];
 	
 	public GuiMenu_Party_Promote() {
 		super(Strings.Gui_Menu_Party_Leader_Promote, new Color(0,0,255));

@@ -24,7 +24,7 @@ import java.awt.*;
 public class GuiMenu_Party_Create extends MenuBackground {
 
 	boolean priv = false;
-	int pSize = ModConfigs.partyMembersLimit;
+	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
 	
 	EditBox tfName;
 	Button togglePriv, accept, size;
@@ -61,7 +61,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			break;
 		case "size":
 			//System.out.println(ModConfigs.partyMembersLimit);
-			if(pSize == ModConfigs.partyMembersLimit) {
+			if(pSize == ModConfigs.SERVER.partyMembersLimit.get()) {
 				pSize = 2;
 			} else {
 				pSize++;
@@ -107,7 +107,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			action("accept");
 		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), 100, 20).build());
 		
-		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.partyMembersLimit+""), (e) -> {
+		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.SERVER.partyMembersLimit.get()+""), (e) -> {
 			action("size");
 		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), 20, 20).build());
 		

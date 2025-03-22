@@ -33,7 +33,7 @@ public class DriveFormValor extends DriveForm {
                 PlayerData playerData = PlayerData.get(player);
 				
 				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					double mult = Double.parseDouble(ModConfigs.driveFormXPMultiplier.get(0).split(",")[1]);
+					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(0).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 				}

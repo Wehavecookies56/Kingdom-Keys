@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:malice",
+    "kingdomkeys:sanction",
+    "kingdomkeys:overlord",
+    "kingdomkeys:veneration",
+    "kingdomkeys:autocracy",
+    "kingdomkeys:conquest",
+    "kingdomkeys:terminus",
+    "kingdomkeys:judgement",
+    "kingdomkeys:discipline",
+    "kingdomkeys:aristocracy",
+    "kingdomkeys:superiority",
+    "kingdomkeys:aggression",
+    "kingdomkeys:fury",
+    "kingdomkeys:despair",
+    "kingdomkeys:triumph",
+    "kingdomkeys:ruination",
+    "kingdomkeys:domination",
+    "kingdomkeys:annihilation",
+    "kingdomkeys:tyrant",
+    "kingdomkeys:magnificence",
+    "kingdomkeys:infinity",
+    "kingdomkeys:interdiction",
+    "kingdomkeys:round_fan",
+    "kingdomkeys:absolute"
+  ],
+  "replace": false
+}

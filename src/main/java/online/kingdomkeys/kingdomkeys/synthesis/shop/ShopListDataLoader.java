@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -23,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncShopData;
 
 public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
 
-    //GSON builder with custom deserializer for keyblade data
+    //GSON builder with custom deserializer for shop data
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(ShopList.class, new ShopListDataDeserializer()).setPrettyPrinting().create();
 
     public ShopListDataLoader() {
@@ -32,47 +33,25 @@ public class ShopListDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading shop data");
-        loadData(resourceManagerIn);
+        ShopListRegistry.getInstance().clearRegistry();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            if (!resourceLocation.getPath().contains("names/")) {
+                try {
+                    ShopList result = GSON_BUILDER.fromJson(element, ShopList.class);
+                    result.setRegistryName(resourceLocation);
+                    ShopListRegistry.getInstance().register(result);
+                    count.incrementAndGet();
+                } catch (JsonParseException e) {
+                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
+                }
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} shop data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), player);
             }
         }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "shop";
-        String extension = ".json";
-
-        ShopListRegistry.getInstance().clearRegistry();
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-            if (!file.getPath().contains("shop/names/")) {
-                ResourceLocation shopList = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                try {
-                    ShopList result;
-                    try {
-                        result = GSON_BUILDER.fromJson(manager.getResource(file).get().openAsReader(), ShopList.class);
-                        result.setRegistryName(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-                    } catch (JsonParseException e) {
-                        //System.out.println(file+" is having issues "+shopList);
-                        KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
-                        continue;
-                    }
-                    ShopListRegistry.getInstance().register(result);
-
-                    IOUtils.closeQuietly(manager.getResource(file).get().openAsReader());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        KingdomKeys.LOGGER.info("Loaded shop");
     }
 }

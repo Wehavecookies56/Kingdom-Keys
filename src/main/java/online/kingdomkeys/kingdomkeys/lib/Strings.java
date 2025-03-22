@@ -60,7 +60,7 @@ public class Strings {
        public static final String
        		DarkVolley = "dark_volley",
        		Ragnarok = "circular_shotlock",
-       		SonicBlade = "sonic_blade",
+       		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
 			UltimaCannon = "ultima_cannon";
     
@@ -145,8 +145,6 @@ public class Strings {
     
     // Synthesis Materials
     public static final String
-            SM_Prefix = "mat_",
-
             SM_Rank = "sm.rank",
             SM_Rank_C = SM_Rank + ".c",
             SM_Rank_B = SM_Rank + ".b",
@@ -351,7 +349,9 @@ public class Strings {
 		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
 			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
 			Stats_LevelUp_MaxAccessories = "stats.levelUpMaxAccessories",
-			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors";
+			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors",
+			Stats_LevelNext = "stats.levelNext",
+			Stats_MunnyGet = "stats.munnyGet";
 
     // Gui
     public static final String

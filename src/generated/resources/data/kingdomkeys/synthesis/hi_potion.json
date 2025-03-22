@@ -2,19 +2,19 @@
   "cost": 200,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lucid_stone",
+      "material": "kingdomkeys:pulsing_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_hungry_shard",
+      "material": "kingdomkeys:lucid_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:hungry_shard",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_soothing_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_pulsing_stone",
+      "material": "kingdomkeys:soothing_stone",
       "quantity": "3"
     }
   ],

@@ -2,16 +2,16 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_shard",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_writhing_stone",
-      "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_wellspring_crystal",
+      "material": "kingdomkeys:wellspring_crystal",
       "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:writhing_stone",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:lightning_shard",
+      "quantity": "3"
     }
   ],
   "output": {

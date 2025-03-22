@@ -2,27 +2,27 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_twilight_crystal",
+      "material": "kingdomkeys:orichalcum",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_crystal",
+      "material": "kingdomkeys:twilight_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_orichalcumplus",
-      "quantity": "13"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_crystal",
+      "material": "kingdomkeys:hungry_crystal",
       "quantity": "7"
     },
     {
-      "material": "kingdomkeys:mat_orichalcum",
+      "material": "kingdomkeys:betwixt_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:orichalcumplus",
+      "quantity": "13"
+    },
+    {
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "1"
     }
   ],

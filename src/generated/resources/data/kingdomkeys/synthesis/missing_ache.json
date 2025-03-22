@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_writhing_stone",
+      "material": "kingdomkeys:writhing_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_shard",
+      "material": "kingdomkeys:wellspring_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_soothing_stone",
+      "material": "kingdomkeys:soothing_stone",
       "quantity": "3"
     }
   ],

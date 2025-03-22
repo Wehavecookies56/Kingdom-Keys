@@ -14,8 +14,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
-import online.kingdomkeys.kingdomkeys.synthesis.material.ModMaterials;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSTakeMaterials(ItemStack stack, int amount, String inv, String name, int moogle) implements Packet {
@@ -41,15 +39,13 @@ public record CSTakeMaterials(ItemStack stack, int amount, String inv, String na
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 		if(!ItemStack.isSameItem(stack, ItemStack.EMPTY)) {
-			Material mat = ModMaterials.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"mat_"+ Utils.getItemRegistryName(stack.getItem()).getPath()));
-
 			int amountToTake = amount;
-			if(playerData.getMaterialAmount(mat)<amount) {
-				amountToTake = playerData.getMaterialAmount(mat);
+			if(playerData.getMaterialAmount(stack.getItem())<amount) {
+				amountToTake = playerData.getMaterialAmount(stack.getItem());
 			}
 			ItemStack toAdd = stack.copy();
 			toAdd.setCount(amountToTake);
-			playerData.removeMaterial(mat, amountToTake);
+			playerData.removeMaterial(stack.getItem(), amountToTake);
 			player.getInventory().add(toAdd);
 		}
 		PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);

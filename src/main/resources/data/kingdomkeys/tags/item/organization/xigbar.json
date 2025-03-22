@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:standalone",
+    "kingdomkeys:killerbee",
+    "kingdomkeys:stingray",
+    "kingdomkeys:counterweight",
+    "kingdomkeys:precision",
+    "kingdomkeys:dual_head",
+    "kingdomkeys:bahamut",
+    "kingdomkeys:gullwing",
+    "kingdomkeys:blue_frame",
+    "kingdomkeys:star_shell",
+    "kingdomkeys:sunrise",
+    "kingdomkeys:ignition",
+    "kingdomkeys:armstrong",
+    "kingdomkeys:hard_boiled_heat",
+    "kingdomkeys:diablo_eye",
+    "kingdomkeys:double_tap",
+    "kingdomkeys:stardust",
+    "kingdomkeys:energy_muzzle",
+    "kingdomkeys:crime_and_punishment",
+    "kingdomkeys:cupids_arrow",
+    "kingdomkeys:final_weapon",
+    "kingdomkeys:sharpshooter",
+    "kingdomkeys:dryer",
+    "kingdomkeys:trumpet"
+  ],
+  "replace": false
+}

@@ -2,12 +2,12 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_twilight_shard",
-      "quantity": "1"
+      "material": "kingdomkeys:mythril_shard",
+      "quantity": "10"
     },
     {
-      "material": "kingdomkeys:mat_mythril_shard",
-      "quantity": "10"
+      "material": "kingdomkeys:twilight_shard",
+      "quantity": "1"
     }
   ],
   "output": {

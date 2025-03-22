@@ -1,0 +1,29 @@
+{
+  "values": [
+    "kingdomkeys:trancheuse",
+    "kingdomkeys:orage",
+    "kingdomkeys:tourbillon",
+    "kingdomkeys:tempete",
+    "kingdomkeys:carmin",
+    "kingdomkeys:meteore",
+    "kingdomkeys:etoile",
+    "kingdomkeys:irregulier",
+    "kingdomkeys:dissonance",
+    "kingdomkeys:eruption",
+    "kingdomkeys:soleil_couchant",
+    "kingdomkeys:indigo",
+    "kingdomkeys:vague",
+    "kingdomkeys:deluge",
+    "kingdomkeys:rafale",
+    "kingdomkeys:typhon",
+    "kingdomkeys:extirpeur",
+    "kingdomkeys:croix_du_sud",
+    "kingdomkeys:lumineuse",
+    "kingdomkeys:clair_de_lune",
+    "kingdomkeys:vol_de_nuit",
+    "kingdomkeys:foudre",
+    "kingdomkeys:demoiselle",
+    "kingdomkeys:ampoule"
+  ],
+  "replace": false
+}

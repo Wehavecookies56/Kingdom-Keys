@@ -27,6 +27,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -71,10 +72,8 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.synthesis.material.Material;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.*;
@@ -96,6 +95,8 @@ public class Utils {
 		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
 	}
 
+	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
+	public static final ResourceLocation mobLevelAttackModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_attack");
 
 	public static class Title {
 		public String title, subtitle;
@@ -347,13 +348,13 @@ public class Utils {
 		return map.get(driveForm)[0];
 	}
 
-	public static LinkedHashMap<Material, Integer> getSortedMaterials(Map<Material, Integer> materials) {
+	public static LinkedHashMap<Item, Integer> getSortedMaterials(Map<Item, Integer> materials) {
 
-		ArrayList<Material> list = new ArrayList<>(materials.keySet());
-		list.sort(Comparator.comparing(Material::getMaterialName));
+		ArrayList<Item> list = new ArrayList<>(materials.keySet());
+		list.sort(Comparator.comparing(BuiltInRegistries.ITEM::getKey));
 
-		LinkedHashMap<Material, Integer> map = new LinkedHashMap<>();
-		for (Material k : list) {
+		LinkedHashMap<Item, Integer> map = new LinkedHashMap<>();
+		for (Item k : list) {
 			map.put(k, materials.get(k));
 		}
 		return map;
@@ -826,7 +827,7 @@ public class Utils {
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
-		if (!ModConfigs.orgEnabled)
+		if (!ModConfigs.SERVER.orgEnabled.get())
 			return false;
 
 		boolean wearingOrgCloak = true;
@@ -1387,6 +1388,43 @@ public class Utils {
 		}
 		((ServerLevel)summoner.level()).sendParticles(ParticleTypes.FIREWORK, v.x, summoner.getY() + 1, v.z, 80, 0,0,0, 0.2);
 
+	}
+
+	public record BlockPosBounds(BlockPos min, BlockPos max) {
+		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
+		}
+	}
+
+	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
+		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+	}
+
+	//TODO config option for people who hate fun
+	public static boolean isAprilFools() {
+		Calendar calendar = Calendar.getInstance();
+		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
+	}
+
+	public static void applyMobLevel(LivingEntity mob, int level) {
+		if (level != 0) {
+			AttributeInstance attack = mob.getAttribute(Attributes.ATTACK_DAMAGE);
+			if (attack != null) {
+				AttributeModifier attackModifier = attack.getModifier(Utils.mobLevelAttackModifier);
+				if (attackModifier != null) {
+					attack.removeModifier(attackModifier);
+				}
+				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+			}
+			AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
+			if (hp != null) {
+				AttributeModifier hpModifier = hp.getModifier(Utils.mobLevelHPModifier);
+				if (hpModifier != null) {
+					hp.removeModifier(hpModifier);
+				}
+				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+			}
+		}
 	}
 
 }

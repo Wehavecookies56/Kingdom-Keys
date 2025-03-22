@@ -2,23 +2,23 @@
   "cost": 3000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_pulsing_crystal",
+      "material": "kingdomkeys:sinister_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:hungry_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_sinister_stone",
+      "material": "kingdomkeys:frost_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_frost_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_sinister_shard",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_gem",
+      "material": "kingdomkeys:sinister_stone",
       "quantity": "2"
     }
   ],

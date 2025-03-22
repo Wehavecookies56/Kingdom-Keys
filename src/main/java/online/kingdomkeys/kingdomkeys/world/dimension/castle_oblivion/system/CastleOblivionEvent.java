@@ -1,30 +1,32 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 public class CastleOblivionEvent extends Event {
 
-    Level interiorLevel;
+    ServerLevel interiorLevel;
 
-    public CastleOblivionEvent(Level interiorLevel) {
+    public CastleOblivionEvent(ServerLevel interiorLevel) {
         this.interiorLevel = interiorLevel;
     }
 
-    public Level getInteriorLevel() {
+    public ServerLevel getInteriorLevel() {
         return interiorLevel;
     }
 
     public static class RoomGeneratedEvent extends CastleOblivionEvent {
         RoomData generatedRoomData;
         Room currentRoom;
-        Player player;
 
-        public RoomGeneratedEvent(Player player, RoomData generatedRoomData, Room currentRoom) {
-            super(player.level());
-            this.player = player;
+        public RoomGeneratedEvent(ServerLevel level, RoomData generatedRoomData, Room currentRoom) {
+            super(level);
             this.generatedRoomData = generatedRoomData;
             this.currentRoom = currentRoom;
         }
@@ -36,10 +38,6 @@ public class CastleOblivionEvent extends Event {
         public Room getCurrentRoom() {
             return currentRoom;
         }
-
-        public Player getPlayer() {
-            return player;
-        }
     }
 
     public static class PlayerChangeRoomEvent extends CastleOblivionEvent implements ICancellableEvent {
@@ -48,7 +46,7 @@ public class CastleOblivionEvent extends Event {
         Player player;
 
         public PlayerChangeRoomEvent(Room currentRoom, Room newRoom, Player player) {
-            super(player.level());
+            super((ServerLevel) player.level());
             this.currentRoom = currentRoom;
             this.newRoom = newRoom;
             this.player = player;
@@ -85,7 +83,7 @@ public class CastleOblivionEvent extends Event {
 
         Player player;
         public PlayerChangeFloorEvent(Floor currentFloor, Floor newFloor, Player player) {
-            super(player.level());
+            super((ServerLevel) player.level());
             this.currentFloor = currentFloor;
             this.newFloor = newFloor;
             this.player = player;

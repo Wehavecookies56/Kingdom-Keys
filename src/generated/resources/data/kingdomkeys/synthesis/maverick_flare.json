@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_wellspring_stone",
+      "material": "kingdomkeys:blazing_shard",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_blazing_gem",
+      "material": "kingdomkeys:blazing_gem",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_blazing_shard",
+      "material": "kingdomkeys:wellspring_stone",
       "quantity": "3"
     }
   ],

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -39,60 +40,38 @@ public class KeybladeDataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        KingdomKeys.LOGGER.info("Loading keyblade data");
-        loadData(resourceManagerIn);
+        names.clear();
+        dataList.clear();
+        AtomicInteger count = new AtomicInteger();
+        objectIn.forEach((resourceLocation, element) -> {
+            try {
+                if (BuiltInRegistries.ITEM.containsKey(resourceLocation)) {
+                    try {
+                        KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(resourceLocation);
+                        KeybladeData result = GSON_BUILDER.fromJson(element, KeybladeData.class);
+                        dataList.add(element.toString());
+                        names.add(resourceLocation.toString());
+                        keyblade.setKeybladeData(result);
+                        if (result.keychain != null) {
+                            result.keychain.setKeyblade(keyblade);
+                        }
+                        count.incrementAndGet();
+                    } catch (ClassCastException e) {
+                        KingdomKeys.LOGGER.warn("Keyblade data for non keyblade found {}", resourceLocation);
+                    }
+                } else {
+                    KingdomKeys.LOGGER.warn("Found keyblade data {} for keyblade that doesn't exist", resourceLocation);
+                }
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing json file {}: {}", resourceLocation, e);
+
+            }
+        });
+        KingdomKeys.LOGGER.info("Loaded {} keyblades data", count.get());
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
                 PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), player);
             }
         }
-    }
-
-    /**
-     * Method searches the keyblades folder in the datapack for all json files inside it.
-     * Loaded data is assigned to the keyblade with the same name as the json file
-     * @param manager Resource manager from the server
-     */
-    public void loadData(ResourceManager manager) {
-        String folder = "keyblades";
-        String extension = ".json";
-        
-        names.clear();
-        dataList.clear();
-        
-        System.out.print("Loading Keyblades: ");
-        for (ResourceLocation file : manager.listResources(folder, n -> n.toString().endsWith(extension)).keySet()) { //Get all .json files
-        	System.out.print(file.getNamespace()+":"+file.getPath()+" ");
-            ResourceLocation keybladeDataID = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), file.getPath().substring(folder.length() + 1, file.getPath().length() - extension.length()));
-            try {
-                KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(keybladeDataID);
-                BufferedReader br = manager.getResource(file).get().openAsReader();
-            	BufferedReader br2 = manager.getResource(file).get().openAsReader();
-            	String data = "";
-            	while(br.ready()) {
-            		data += br.readLine();
-            	}
-            	dataList.add(data);
-            	KeybladeData result;
-                try {
-                    result = GSON_BUILDER.fromJson(br2, KeybladeData.class);
-                    names.add(keybladeDataID.toString());
-                   
-                } catch (JsonParseException e) {
-                    KingdomKeys.LOGGER.error("Error parsing json file {}: {}", manager.getResource(file).get().sourcePackId(), e);
-                    continue;
-                }
-                keyblade.setKeybladeData(result);
-                if(result.keychain != null)
-                	result.keychain.setKeyblade(keyblade);
-                IOUtils.closeQuietly(br);
-                IOUtils.closeQuietly(br2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                KingdomKeys.LOGGER.warn("Found Keyblade data: {} for item that does not exist, ignoring.");
-            }
-        }
-        System.out.println();
     }
 }

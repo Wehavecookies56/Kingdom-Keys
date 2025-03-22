@@ -2,20 +2,20 @@
   "cost": 250,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_shard",
+      "material": "kingdomkeys:blazing_shard",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_lucid_shard",
+      "material": "kingdomkeys:lucid_shard",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_hungry_shard",
+      "material": "kingdomkeys:lightning_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:hungry_shard",
       "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_shard",
-      "quantity": "3"
     }
   ],
   "output": {

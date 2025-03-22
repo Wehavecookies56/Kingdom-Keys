@@ -2,15 +2,15 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_stormy_crystal",
+      "material": "kingdomkeys:stormy_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_writhing_shard",
+      "material": "kingdomkeys:pulsing_gem",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_pulsing_gem",
+      "material": "kingdomkeys:writhing_shard",
       "quantity": "2"
     }
   ],

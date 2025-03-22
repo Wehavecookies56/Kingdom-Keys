@@ -2,19 +2,19 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_betwixt_gem",
-      "quantity": "5"
-    },
-    {
-      "material": "kingdomkeys:mat_pulsing_crystal",
+      "material": "kingdomkeys:pulsing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_twilight_gem",
+      "material": "kingdomkeys:twilight_gem",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_mythril_crystal",
+      "material": "kingdomkeys:betwixt_gem",
+      "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:mythril_crystal",
       "quantity": "3"
     }
   ],

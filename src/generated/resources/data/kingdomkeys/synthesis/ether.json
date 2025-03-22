@@ -2,15 +2,15 @@
   "cost": 80,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lightning_shard",
+      "material": "kingdomkeys:wellspring_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_wellspring_shard",
+      "material": "kingdomkeys:lightning_shard",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_writhing_shard",
+      "material": "kingdomkeys:writhing_shard",
       "quantity": "2"
     }
   ],

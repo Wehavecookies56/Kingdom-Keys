@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 
-public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder<T>> implements DataProvider {
+public abstract class SynthesisRecipeProvider<T extends SynthesisRecipeBuilder> implements DataProvider {
 
 
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();

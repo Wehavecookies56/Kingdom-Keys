@@ -23,7 +23,7 @@ import java.util.UUID;
 public class GuiMenu_Party_Invite extends MenuBackground {
 
 	boolean priv = false;
-	int pSize = ModConfigs.partyMembersLimit;
+	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
 	
 	MenuButton back;
 		

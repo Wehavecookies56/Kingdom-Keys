@@ -2,11 +2,11 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_lucid_shard",
+      "material": "kingdomkeys:writhing_crystal",
       "quantity": "5"
     },
     {
-      "material": "kingdomkeys:mat_writhing_crystal",
+      "material": "kingdomkeys:lucid_shard",
       "quantity": "5"
     }
   ],

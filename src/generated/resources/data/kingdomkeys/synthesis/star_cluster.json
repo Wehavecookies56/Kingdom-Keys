@@ -2,11 +2,11 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_twilight_crystal",
+      "material": "kingdomkeys:twilight_crystal",
       "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_stone",
+      "material": "kingdomkeys:betwixt_stone",
       "quantity": "2"
     }
   ],

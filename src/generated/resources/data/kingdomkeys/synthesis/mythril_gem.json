@@ -2,24 +2,24 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_betwixt_gem",
+      "material": "kingdomkeys:hungry_stone",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:twilight_crystal",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:twilight_gem",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_twilight_crystal",
+      "material": "kingdomkeys:betwixt_crystal",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_betwixt_crystal",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_twilight_gem",
+      "material": "kingdomkeys:betwixt_gem",
       "quantity": "3"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_stone",
-      "quantity": "1"
     }
   ],
   "output": {

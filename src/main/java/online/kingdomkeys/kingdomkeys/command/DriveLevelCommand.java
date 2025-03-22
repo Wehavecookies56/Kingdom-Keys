@@ -65,8 +65,6 @@ public class DriveLevelCommand extends BaseCommand{
 		int level = IntegerArgumentType.getInteger(context, "level");
 		String form = StringArgumentType.getString(context, "form");
 
-		System.out.println(form);
-		System.out.println(ModDriveForms.registry.keySet().stream().toList());
 		if(!ModDriveForms.registry.keySet().stream().map(ResourceLocation::toString).toList().contains(form)) {
 			context.getSource().sendFailure(Component.literal("Form '"+form+ "' does not exist"));
 			return 0;

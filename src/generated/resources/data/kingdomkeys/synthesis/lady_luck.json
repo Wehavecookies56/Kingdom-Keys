@@ -2,20 +2,20 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_blazing_gem",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_shard",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_wellspring_crystal",
-      "quantity": "2"
-    },
-    {
-      "material": "kingdomkeys:mat_pulsing_stone",
+      "material": "kingdomkeys:pulsing_stone",
       "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:blazing_gem",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:wellspring_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:hungry_shard",
+      "quantity": "1"
     }
   ],
   "output": {

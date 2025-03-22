@@ -2,28 +2,28 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_hungry_shard",
-      "quantity": "2"
+      "material": "kingdomkeys:hungry_gem",
+      "quantity": "4"
     },
     {
-      "material": "kingdomkeys:mat_hungry_crystal",
-      "quantity": "6"
-    },
-    {
-      "material": "kingdomkeys:mat_lost_illusion",
-      "quantity": "1"
-    },
-    {
-      "material": "kingdomkeys:mat_hungry_stone",
+      "material": "kingdomkeys:hungry_stone",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_manifest_illusion",
+      "material": "kingdomkeys:hungry_crystal",
+      "quantity": "6"
+    },
+    {
+      "material": "kingdomkeys:manifest_illusion",
       "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_hungry_gem",
-      "quantity": "4"
+      "material": "kingdomkeys:hungry_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:lost_illusion",
+      "quantity": "1"
     }
   ],
   "output": {

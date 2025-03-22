@@ -24,7 +24,7 @@ import java.awt.*;
 public class GuiMenu_Party_Settings extends MenuBackground {
 
 	boolean priv = false, friendlyFire = false;
-	int pSize = ModConfigs.partyMembersLimit;
+	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
 	
 	Button togglePriv, toggleFF, accept, size;
 	MenuButton back;
@@ -63,7 +63,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			
 			break;
 		case "size":
-			if(pSize == ModConfigs.partyMembersLimit) {
+			if(pSize == ModConfigs.SERVER.partyMembersLimit.get()) {
 				pSize = 2;
 			} else {
 				pSize++;

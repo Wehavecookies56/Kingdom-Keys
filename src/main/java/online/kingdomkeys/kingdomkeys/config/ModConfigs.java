@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.config;
 
 import java.util.List;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -15,7 +16,7 @@ public class ModConfigs {
 
     private static final ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
     private static final CommonConfig COMMON; //Stuff in both sides
-    private static final ServerConfig SERVER; //Client stuff that needs to be synced from the server
+    public static final ServerConfig SERVER; //Client stuff that needs to be synced from the server
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec COMMON_SPEC;
     public static final ModConfigSpec SERVER_SPEC;
@@ -293,7 +294,7 @@ public class ModConfigs {
         showGuiToggle = CLIENT.showGuiToggle.get();
     }
 
-    public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless;
+    public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -306,6 +307,8 @@ public class ModConfigs {
     public static List<String> playerSpawnHeartlessData;
     public static String linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
+    public static List<ResourceLocation> startingRecipes;
+
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
 
@@ -314,6 +317,7 @@ public class ModConfigs {
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
+        mobLevelName = COMMON.mobLevelName.get();
 
         driveHeal = COMMON.driveHeal.get();
 
@@ -342,35 +346,9 @@ public class ModConfigs {
         linkedSavePointRecovers = COMMON.linkedSavePointRecovers.get();
         savePointRecovers = COMMON.savePointRecovers.get();
         warpPointRecovers = COMMON.warpPointRecovers.get();
+
+        startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::parse).toList();
     }
-
-    public static int recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
-    public static List<Integer> statsMultiplier;
-    public static List<String> driveFormXPMultiplier;
-    public static double xpMultiplier, heartMultiplier, partyXPShare;
-    public static boolean requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, hostileMobsLevel, wayfinderOnlyParty;
-    
-
-    public static void bakeServer() {
-        recipeDropChance = SERVER.recipeDropChance.get();
-        partyRangeLimit = SERVER.partyRangeLimit.get();
-        partyMembersLimit = SERVER.partyMembersLimit.get();
-        driveFormXPMultiplier = (List<String>) SERVER.driveFormXPMultiplier.get();
-        xpMultiplier = SERVER.xpMultiplier.get();
-        heartMultiplier = SERVER.heartMultiplier.get();
-        partyXPShare = SERVER.partyXPShare.get();
-        requireSynthTier = SERVER.requireSynthTier.get();
-        statsMultiplier = (List<Integer>) SERVER.statsMultiplier.get();
-        projectorHasShop = SERVER.projectorHasShop.get();
-        getExpFromShop = SERVER.getExpFromShop.get();
-        wayfinderOnlyParty = SERVER.wayfinderParty.get();
-        orgEnabled = SERVER.orgEnabled.get();
-        allowBoosts = SERVER.allowBoosts.get();
-        allowPartyKO = SERVER.allowPartyKO.get();
-        hostileMobsLevel = SERVER.hostileMobsLevel.get();
-        shotlockMaxDist = SERVER.shotlockMaxDist.get();
-    }
-
 
     @SubscribeEvent
     public static void configEvent(ModConfigEvent event) {
@@ -382,13 +360,4 @@ public class ModConfigs {
             bakeCommon();
         }
     }
-
-    @SubscribeEvent
-    public static void serverConfig(ModConfigEvent.Loading event) {
-        if (event.getConfig().getSpec() == SERVER_SPEC) {
-            KingdomKeys.LOGGER.info("LOAD SERVER CONFIG");
-            bakeServer();
-        }
-    }
-
 }

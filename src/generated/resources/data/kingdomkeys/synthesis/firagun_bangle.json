@@ -2,24 +2,24 @@
   "cost": 6000,
   "ingredients": [
     {
-      "material": "kingdomkeys:mat_illusory_crystal",
-      "quantity": "1"
+      "material": "kingdomkeys:blazing_shard",
+      "quantity": "2"
     },
     {
-      "material": "kingdomkeys:mat_blazing_crystal",
+      "material": "kingdomkeys:blazing_gem",
+      "quantity": "4"
+    },
+    {
+      "material": "kingdomkeys:blazing_crystal",
       "quantity": "3"
     },
     {
-      "material": "kingdomkeys:mat_blazing_gem",
-      "quantity": "4"
+      "material": "kingdomkeys:illusory_crystal",
+      "quantity": "1"
     },
     {
-      "material": "kingdomkeys:mat_blazing_stone",
+      "material": "kingdomkeys:blazing_stone",
       "quantity": "4"
-    },
-    {
-      "material": "kingdomkeys:mat_blazing_shard",
-      "quantity": "2"
     }
   ],
   "output": {

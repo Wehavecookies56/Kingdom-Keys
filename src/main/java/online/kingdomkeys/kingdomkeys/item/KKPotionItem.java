@@ -61,7 +61,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
+    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
 	    						target.heal(hpAmount);
@@ -87,7 +87,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						PlayerData targetData = PlayerData.get(target);
-    						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
+    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    			        	targetData.addMP(mpAmount);
 	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
@@ -116,7 +116,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						PlayerData targetData = PlayerData.get(target);
-    						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
+    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
@@ -144,7 +144,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						PlayerData targetData = PlayerData.get(target);
-    						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
+    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
 	    			        	targetData.addDP(dpAmount);
 	    			    		player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
@@ -168,7 +168,7 @@ public class KKPotionItem extends Item implements IItemCategory {
     					if(!m.getUUID().equals(player.getUUID())) {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						PlayerData targetData = PlayerData.get(target);
-    						if(target.distanceTo(player) < ModConfigs.partyRangeLimit) {
+    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
 	    			        	targetData.addFocus(focusAmount);
 	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);

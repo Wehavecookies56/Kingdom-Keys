@@ -34,8 +34,12 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
 import java.util.List;
 
@@ -50,7 +54,7 @@ public class CastleOblivionHandler {
                 if (interiorData != null) {
                     interiorData.getFloors().forEach(floor -> {
                         if (floor.shouldTick()) {
-                            floor.getPlayers().values().forEach(room -> room.getRoomData(event.getLevel()).getGenerated().tick());
+                            floor.getPlayers().values().forEach(room -> room.getRoomData(interiorData).getGenerated().tick());
                         }
                     });
                 }
@@ -68,67 +72,83 @@ public class CastleOblivionHandler {
         }
     }
 
-    @SubscribeEvent
-    public void playerTick(PlayerTickEvent.Pre event) {
-        if (!event.getEntity().level().isClientSide) {
-            if (event.getEntity().level().dimension().equals(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")))) {
-                BlockPos pos = event.getEntity().blockPosition();
-                //Enter interior
-                if (pos.getZ() == 11 && pos.getX() >= -10 && pos.getX() <= -1 && pos.getY() >= 87 && pos.getY() <= 100) {
-                    if (event.getEntity().level().getServer() != null) {
-                        ResourceLocation dimName = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_interior_" + event.getEntity().getStringUUID());
-                        CastleOblivionData.ExteriorData.get(event.getEntity().getServer()).addInterior(event.getEntity().getUUID(), dimName);
-                        RegistryAccess registryAccess = event.getEntity().level().registryAccess();
-                        ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
-                        Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")));
-                        Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.castleOblivionInterior)));
-                        ServerLevel level = DynamicDimensionManager.getOrCreateLevel(event.getEntity().level().getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
-                            ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));
-                            return new LevelStem(type, generator);
-                        }));
-                        event.getEntity().changeDimension(new DimensionTransition(level, new Vec3(16, 62, 2), Vec3.ZERO, event.getEntity().getYRot(), event.getEntity().getXRot(), entity -> {}));
-                    }
-                }
-            } else if (event.getEntity().level().dimension().location().toString().contains("castle_oblivion_interior_")) {
-                BlockPos pos = event.getEntity().blockPosition();
-                //Exit from first floor lobby
-                if (pos.getZ() == 1 && pos.getX() >= 13 && pos.getX() <= 19 && pos.getY() >= 60 && pos.getY() <= 70) {
-                    if (event.getEntity().level().getServer() != null) {
-                        event.getEntity().changeDimension(new DimensionTransition(event.getEntity().level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"))), new Vec3(-5, 90, 6), Vec3.ZERO, event.getEntity().getYRot(), event.getEntity().getXRot(), entity -> {}));
-                    }
-                }
-                //Set world card for first room and enter
-                if (pos.getZ() == 67 && pos.getX() >= 15 && pos.getX() <= 17 && pos.getY() >= 63 && pos.getY() <= 66) {
-                    //todo world card stuff, instead should open world card gui then generate room based on world and telport afterwards
-                    CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel)event.getEntity().level());
-                    if (interiorData != null) {
-                        Room currentRoom = interiorData.getRoomAtPos(event.getEntity().level(), pos);
-                        if (currentRoom == null) {
-                            KingdomKeys.LOGGER.info("something is wrong player should be in the lobby room");
-                        } else {
-                            Floor floor = interiorData.getFloors().get(0);
-                            if (floor != null) {
-                                //if size is 1 only the lobby room exists
-                                if (floor.getGeneratedRooms().size() == 1) {
-                                    floor.setWorldCard((WorldCardItem) ModItems.netherCard.get());
-                                    for (Player playerFromList : event.getEntity().level().players()) {
-                                        PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
-                                    }
-                                    RoomData data = floor.getRoom(new RoomUtils.RoomPos(0, 1));
-                                    Room newRoom = RoomGenerator.INSTANCE.generateRoom(data, ModRoomTypes.SLEEPING_DARKNESS.get(), event.getEntity(), currentRoom, RoomUtils.Direction.NORTH, false);
-                                }
-                                Room firstRoom = floor.getRoom(new RoomUtils.RoomPos(0, 1)).getGenerated();
-                                BlockPos newPos = firstRoom.doorPositions.get(RoomUtils.Direction.NORTH);
-                                CardDoorTileEntity te = (CardDoorTileEntity) event.getEntity().level().getBlockEntity(newPos);
-                                if (te != null) { //null check in case door is destroyed
-                                    if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, event.getEntity())).isCanceled()) {
-                                        newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
-                                        te.openDoor(RoomUtils.Direction.NORTH);
-                                        event.getEntity().teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
-                                    }
-                                }
+    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
 
-                            }
+    public static final Utils.BlockPosBounds entranceBounds = new Utils.BlockPosBounds(-10, 87, 11, -1, 100, 11);
+    public static final Utils.BlockPosBounds firstDoorBounds = new Utils.BlockPosBounds(15, 63, 67, 17, 66, 67);
+
+    public static final BlockPos entrancePos = new BlockPos(16, 62, 3);
+    public static final BlockPos exitPos = new BlockPos(-5, 90, 6);
+
+    //Creates the interior dimension and teleports the player to it
+    public static void enterCastleOblivion(Player player) {
+        if (player.level().getServer() != null) {
+            ResourceLocation dimName = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_interior_" + player.getStringUUID());
+            CastleOblivionData.ExteriorData.get(player.getServer()).addInterior(player.getUUID(), dimName);
+            RegistryAccess registryAccess = player.level().registryAccess();
+            ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
+            Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")));
+            Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.castleOblivionInterior)));
+            //Create new dimension if it doesn't exist
+            ServerLevel level = DynamicDimensionManager.getOrCreateLevel(player.level().getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
+                ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));
+                return new LevelStem(type, generator);
+            }));
+            player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+        }
+    }
+
+    //teleports the player outside the front of Castle Oblivion
+    public static void exitCastleOblivion(Floor currentFloor, Room currentRoom, Player player) {
+        if (player.level().getServer() != null) {
+            player.changeDimension(new DimensionTransition(player.level().getServer().getLevel(CASTLE_OBLIVION), new Vec3(exitPos.getX(), exitPos.getY(), exitPos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, null, player));
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currentFloor, null, player));
+        }
+    }
+
+    public static Room createFirstRoom(Player player, CardDoorTileEntity te) {
+        CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) player.level());
+        if (cap != null) {
+            Floor floor = cap.getFloorByID(te.getParentRoom().getParentID());
+            //check the room is actually the entrance hall
+            if (te.getParentRoom().equals(floor.getEntranceHall())) {
+                //if size is 1 only the entrance hall room exists
+                if (floor.getGeneratedRooms().size() == 1) {
+                    te.setDestinationRoom(floor.getRoom(new RoomPos(0, 1)));
+                    for (Player playerFromList : player.level().players()) {
+                        PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
+                    }
+                    //TODO possibly define room type by the floor type
+                    return RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.SLEEPING_DARKNESS.get(), te.getParentRoom().getGenerated(), RoomDirection.NORTH);
+                } else {
+                    return floor.getRoom(new RoomPos(0, 1)).getGenerated();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void enterFirstRoom(Player player) {
+        //todo world card stuff, instead should open world card gui then generate room based on world and teleport afterwards
+        CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) player.level());
+        if (cap != null) {
+            Room currentRoom = cap.getRoomAtPos(player.blockPosition());
+            Floor floor = cap.getFloorByID(currentRoom.parentFloor);
+            if (!currentRoom.getType().isEntranceHall()) {
+                KingdomKeys.LOGGER.info("something is wrong player should be in the entrance hall room");
+            } else {
+                //if size is 1 only the entrance hall room exists
+                if (floor.getGeneratedRooms().size() > 1) {
+                    Room firstRoom = floor.getRoom(new RoomPos(0, 1)).getGenerated();
+                    BlockPos newPos = firstRoom.doors.get(RoomDirection.NORTH).pos();
+                    CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(newPos);
+                    if (te != null) { //null check in case door is destroyed
+                        if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, player)).isCanceled()) {
+                            newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
+                            te.openDoor(true);
+                            player.teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
+                            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, player.level()), (ServerPlayer) player);
                         }
                     }
                 }
@@ -136,43 +156,76 @@ public class CastleOblivionHandler {
         }
     }
 
+    public static boolean isExterior(ResourceKey<Level> level) {
+        return level.equals(CASTLE_OBLIVION);
+    }
+
+    public static boolean isInterior(ResourceKey<Level> level) {
+        return level.location().toString().contains("castle_oblivion_interior_");
+    }
+
+    public static boolean inExterior(Player player) {
+        return isExterior(player.level().dimension());
+    }
+
+    public static boolean inInterior(Player player) {
+        return isInterior(player.level().dimension());
+    }
+
+    @SubscribeEvent
+    public void playerTick(PlayerTickEvent.Pre event) {
+        if (!event.getEntity().level().isClientSide) {
+            if (inExterior(event.getEntity())) {
+                //Enter interior
+                if (Utils.isPlayerWithin(event.getEntity(), entranceBounds)) {
+                    enterCastleOblivion(event.getEntity());
+                }
+            }
+        }
+    }
+
     @SubscribeEvent
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getFrom().equals(ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")))) {
-            if (event.getTo().location().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
+        //if player is entering the interior
+        if (isExterior(event.getFrom())) {
+            if (isInterior(event.getTo())) {
                 SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
                 event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
                 event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
                 event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Estelle"));
                 ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
-                CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
-                if (interiorData.getFloors().isEmpty()) {
-                    Floor startFloor = new Floor();
-                    Room lobby = new Room(startFloor.getFloorID(), new RoomUtils.RoomPos(0, 0));
-                    Room.createDefaultLobby(lobby);
-                    startFloor.getRoom(new RoomUtils.RoomPos(0, 0)).setGenerated(lobby);
-                    startFloor.createLobby(lobby.position);
-                    interiorData.addFloor(startFloor);
-                } else {
-                    PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
-                }
+                Floor startFloor = Floor.getOrCreateFirstFloor(level);
+                NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, event.getEntity()));
+                PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
+                startFloor.floorEntered(event.getEntity());
             }
         } else {
             PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) event.getEntity());
         }
     }
 
+    @SubscribeEvent
+    public void joinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+        if (inInterior(event.getEntity())) {
+            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()), event.getEntity().level()), (ServerPlayer) event.getEntity());
+        }
+    }
+
     public static Floor getCurrentFloor(Player player) {
-        return CastleOblivionData.InteriorData.get((ServerLevel) player.level()).getFloorAtPos(player.level(), player.blockPosition());
+        return CastleOblivionData.InteriorData.get((ServerLevel) player.level()).getFloorAtPos(player.blockPosition());
     }
 
     @SubscribeEvent
     public void changedRoom(CastleOblivionEvent.PlayerChangeRoomEvent event) {
-        System.out.println("Entered Room: " + event.getNewRoom().position);
+        if (event.getNewRoom() != null) {
+            KingdomKeys.LOGGER.debug("Entered Room: {}", event.getNewRoom().getPosition());
+        }
     }
 
     @SubscribeEvent
     public void generatedRoom(CastleOblivionEvent.RoomGeneratedEvent event) {
-        System.out.println("Generated a new room: " + event.getGeneratedRoomData().getGenerated());
+        if (event.getGeneratedRoomData() != null) {
+            KingdomKeys.LOGGER.debug("Generated a new room: {}", event.getGeneratedRoomData().getGenerated());
+        }
     }
 }

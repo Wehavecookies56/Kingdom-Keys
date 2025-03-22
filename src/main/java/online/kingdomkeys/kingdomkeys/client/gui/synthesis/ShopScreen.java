@@ -183,7 +183,7 @@ public class ShopScreen extends MenuFilterable {
 			}			
 			if(item != null) {
 				enoughMunny = parent.playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.requireSynthTier || parent.playerData.getSynthLevel() >= item.getTier();
+				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || parent.playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
 	
 				create.active = enoughMunny && enoughTier;

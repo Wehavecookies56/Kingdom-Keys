@@ -7,8 +7,10 @@ import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,12 +40,12 @@ public class COMinimap extends OverlayBase {
 
 
                 //Room render as red by default (blue if player is in it)
-                guiGraphics.fill(-roomData.pos.getX() * 2, -roomData.pos.getY() * 2, (-roomData.pos.getX() * 2) + 1, (-roomData.pos.getY() * 2) + 1, roomColor);
+                guiGraphics.fill(-roomData.pos.x() * 2, -roomData.pos.y() * 2, (-roomData.pos.x() * 2) + 1, (-roomData.pos.y() * 2) + 1, roomColor);
 
                 //Render player icon
                 if (roomData.getGenerated() != null) {
                    // System.out.println(i+": "+roomData.getGenerated().position);
-                    if (minecraft.player.getX() >= roomData.getGenerated().position.getX() && minecraft.player.getX() < roomData.getGenerated().position.getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().position.getZ() && minecraft.player.getZ() < roomData.getGenerated().position.getZ() +64) {
+                    if (minecraft.player.getX() >= roomData.getGenerated().getPosition().getX() && minecraft.player.getX() < roomData.getGenerated().getPosition().getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().getPosition().getZ() && minecraft.player.getZ() < roomData.getGenerated().getPosition().getZ() +64) {
                         guiGraphics.pose().pushPose();
                         float rotationDegrees = Mth.wrapDegrees(minecraft.player.getYRot());
                         //System.out.println(rotationDegrees);
@@ -54,17 +56,29 @@ public class COMinimap extends OverlayBase {
                     }
                 }
                 roomData.getDoors().forEach((direction, doorData) -> {
-                    int offsetY = 0;
-                    int offsetX = 0;
-                    switch (direction) {
-                        case NORTH -> offsetY = 1;
-                        case SOUTH -> offsetY = -1;
-                        case EAST -> offsetX = -1;
-                        case WEST -> offsetX = 1;
+                    if (doorData.getType() != DoorData.Type.NONE) {
+                        int offsetY = 0;
+                        int offsetX = 0;
+                        switch (direction) {
+                            case NORTH -> offsetY = 1;
+                            case SOUTH -> offsetY = -1;
+                            case EAST -> offsetX = -1;
+                            case WEST -> offsetX = 1;
+                        }
+                        //Offset color and fill
+
+                        boolean open = false;
+
+                        if (roomData.getGenerated() != null) {
+                            CardDoorTileEntity te = roomData.getGenerated().getDoorTE(minecraft.level, direction);
+                            if (te != null) {
+                                open = te.isOpen();
+                            }
+                        }
+
+                        int colour = open ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
+                        guiGraphics.fill(-roomData.pos.x() * 2 - offsetX, -roomData.pos.y() * 2 - offsetY, (-roomData.pos.x() * 2) + 1 - offsetX, (-roomData.pos.y() * 2) + 1 - offsetY, colour);
                     }
-                    //Offset color and fill
-                    int colour = doorData.isOpen() ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
-                    guiGraphics.fill(-roomData.pos.getX() * 2 - offsetX, -roomData.pos.getY() * 2 - offsetY, (-roomData.pos.getX() * 2) + 1 - offsetX, (-roomData.pos.getY() * 2) + 1 - offsetY, colour);
                 });
             }
             guiGraphics.pose().popPose();

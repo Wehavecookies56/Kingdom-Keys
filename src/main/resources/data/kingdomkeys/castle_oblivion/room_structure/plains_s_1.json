@@ -1,0 +1,9 @@
+{
+  "structure": "plains_s_1",
+  "size": "S",
+  "dimensions": [ 32, 32 ],
+  "categories": [
+    "ENEMY", "STATUS", "BOUNTY"
+  ],
+  "floor": "kingdomkeys:plains"
+}
