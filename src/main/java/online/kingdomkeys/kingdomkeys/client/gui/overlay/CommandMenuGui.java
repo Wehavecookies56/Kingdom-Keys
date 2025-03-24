@@ -366,8 +366,13 @@ public class CommandMenuGui extends OverlayBase {
 		subMenu.getChildren().clear();
 		WorldData worldData = WorldData.getClient();
 		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
+			subMenu.addChild(new CommandMenuItem.Builder(
+					ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
+					Component.translatable(minecraft.player.getDisplayName().getString()),
+					item -> subMenu.getParent().getSelected().onEnter()
+			).build(subMenu));
 			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
-			targets.forEach(member -> {
+			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).forEach(member -> {
 				subMenu.addChild(new CommandMenuItem.Builder(
 						ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, member.getUsername().toLowerCase()),
 						Component.translatable(member.getUsername()),
@@ -608,7 +613,7 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20, 0.5F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 0.5F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
