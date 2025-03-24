@@ -68,8 +68,8 @@ public class CommandMenuGui extends OverlayBase {
 			items = new ResourceLocation(KingdomKeys.MODID, "items"),
 			drive = new ResourceLocation(KingdomKeys.MODID, "drive"),
 			portals = new ResourceLocation(KingdomKeys.MODID, "portals"),
-			target = new ResourceLocation(KingdomKeys.MODID, "limit"),
-			limit = new ResourceLocation(KingdomKeys.MODID, "target"),
+			target = new ResourceLocation(KingdomKeys.MODID, "target"),
+			limit = new ResourceLocation(KingdomKeys.MODID, "limit"),
 			revert = new ResourceLocation(KingdomKeys.MODID, "revert");
 
 	public ResourceLocation currentSubmenu;
@@ -375,8 +375,14 @@ public class CommandMenuGui extends OverlayBase {
 		subMenu.getChildren().clear();
 		IWorldCapabilities worldData = ModCapabilities.getWorld(minecraft.level);
 		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
+			subMenu.addChild(new CommandMenuItem.Builder(
+					new ResourceLocation(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
+					Component.translatable(minecraft.player.getDisplayName().getString()),
+					item -> subMenu.getParent().getSelected().onEnter()
+			).build(subMenu));
+
 			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
-			targets.forEach(member -> {
+			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).forEach(member -> {
 				subMenu.addChild(new CommandMenuItem.Builder(
 						new ResourceLocation(KingdomKeys.MODID, member.getUsername().toLowerCase()),
 						Component.translatable(member.getUsername()),
@@ -622,7 +628,7 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20, 0.5F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 0.5F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{

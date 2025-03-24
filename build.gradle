@@ -38,6 +38,11 @@ minecraft {
             }
         }
 
+        client2 {
+            parent runs.client
+            args '--username', 'Dev2'
+        }
+
         server {
             taskName '[KingdomKeys]-Server'
         
