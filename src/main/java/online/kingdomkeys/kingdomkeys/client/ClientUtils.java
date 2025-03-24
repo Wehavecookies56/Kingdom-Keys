@@ -90,6 +90,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.Title;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -937,6 +938,10 @@ public class ClientUtils {
                 COMinimap.rooms = message.rooms();
             }
         };
+    }
+
+    public static boolean isPlayerSummoning(LivingEntityPatch<?> playerPatch) {
+        return Minecraft.getInstance().player.getId() == playerPatch.getOriginal().getId();
     }
 }
 

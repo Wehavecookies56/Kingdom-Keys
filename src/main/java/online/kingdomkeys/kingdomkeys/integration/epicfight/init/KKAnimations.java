@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -103,8 +104,11 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.1f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode()) {
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
+                        }
+                    }
                 }, AnimationEvent.Side.BOTH));
 
         VALOR_IDLE = new StaticAnimation(true, "biped/living/valor_idle", Armatures.BIPED);
@@ -195,8 +199,10 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
 
         SORA_AUTO1 = new BasicAttackAnimation(-0.85F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.toolR, "biped/combat/sora_auto1", Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.9f);
@@ -258,85 +264,109 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         XIGBAR_SUMMON = new ActionAnimation(0.05F, "biped/living/xigbar_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         XALDIN_SUMMON = new ActionAnimation(0.05F, "biped/living/xaldin_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         VEXEN_SUMMON = new ActionAnimation(0.05F, "biped/living/vexen_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         LEXAEUS_SUMMON = new ActionAnimation(0.05F, "biped/living/lexaeus_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         ZEXION_SUMMON = new ActionAnimation(0.05F, "biped/living/zexion_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         SAIX_SUMMON = new ActionAnimation(0.05F, "biped/living/saix_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         AXEL_SUMMON = new ActionAnimation(0.05F, "biped/living/axel_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         DEMYX_SUMMON = new ActionAnimation(0.05F, "biped/living/demyx_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         LUXORD_SUMMON = new ActionAnimation(0.05F, "biped/living/luxord_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         MARLUXIA_SUMMON = new ActionAnimation(0.05F, "biped/living/marluxia_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         LARXENE_SUMMON = new ActionAnimation(0.05F, "biped/living/larxene_summon", Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.TimeStampedEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch) ep).isBattleMode())
-                        PacketHandler.sendToServer(new CSSummonKeyblade());
+                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                        if (ClientUtils.isPlayerSummoning(ep)) {
+                            PacketHandler.sendToServer(new CSSummonKeyblade());
+                        }
                 }, AnimationEvent.Side.BOTH));
         initSummonMap();
     }
