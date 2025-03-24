@@ -267,16 +267,12 @@ public class CommandMenuGui extends OverlayBase {
 		List<CommandMenuItem.Builder> forms = new ArrayList<>();
 		ModDriveForms.registry.stream().filter(driveFormRegistryObject -> driveFormRegistryObject.displayInCommandMenu(minecraft.player)).forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getRegistryName(), Component.translatable(driveFormRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			if (driveFormRegistryObject.getDriveFormData() != null) {
-				if (playerData.getDP() >= driveFormRegistryObject.getDriveCost()) {
-					if (!antiFormCheck(playerData, driveFormRegistryObject)) {
-						PacketHandler.sendToServer(new CSUseDriveFormPacket(driveFormRegistryObject.getRegistryName().toString()));
-					}
-					changeSubmenu(root, true);
-					playInSound();
-				} else {
-					playErrorSound();
+			if (playerData.getDP() >= driveFormRegistryObject.getDriveCost()) {
+				if (!antiFormCheck(playerData, driveFormRegistryObject)) {
+					PacketHandler.sendToServer(new CSUseDriveFormPacket(driveFormRegistryObject.getRegistryName().toString()));
 				}
+				changeSubmenu(root, true);
+				playInSound();
 			} else {
 				playErrorSound();
 			}

@@ -37,6 +37,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.GrindstoneEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
@@ -187,6 +188,25 @@ public class EntityEvents {
 		int lvl = mobData.getLevel();
 		Utils.applyMobLevel(event.getAnimal(), lvl);
 		event.getAnimal().heal(event.getAnimal().getMaxHealth());
+	}
+
+	@SubscribeEvent
+	public void dataPackSync(OnDatapackSyncEvent event) {
+		ServerPlayer player = event.getPlayer();
+		if (player != null) {
+			// Sync all registries, important
+			PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
+			PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);
+			PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), player);
+			PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
+			ModJsonRegistries.registry.forEach(jsonRegistry -> {
+				PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), player);
+			});
+		}
 	}
 
 	@SubscribeEvent
@@ -357,19 +377,6 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 				PacketHandler.syncToAllAround(player, playerData);
-
-				// Sync all registries, important
-				PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), (ServerPlayer) player);
-				PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), (ServerPlayer) player);
-				ModJsonRegistries.registry.forEach(jsonRegistry -> {
-					PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), (ServerPlayer) player);
-				});
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
