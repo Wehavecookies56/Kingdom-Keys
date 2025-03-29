@@ -298,12 +298,12 @@ public class EpicKKWeapons {
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ETHEREAL_BLADE.toString().toLowerCase()), ETHEREAL_BLADE);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LANCE.toString().toLowerCase()), LANCE);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_AXE_SWORD.toString().toLowerCase()), AXE_SWORD);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LEXICON.toString().toLowerCase()), LEXICON);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SITAR.toString().toLowerCase()), SITAR);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CARD.toString().toLowerCase()), CARD);
         event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SCYTHE.toString().toLowerCase()), SCYTHE);
