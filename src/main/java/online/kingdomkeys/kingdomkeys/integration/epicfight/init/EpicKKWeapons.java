@@ -34,12 +34,12 @@ public class EpicKKWeapons {
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, KKAnimations.CHAKRAM_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.CHAKRAM_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.CHAKRAM_RUN)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
@@ -51,10 +51,10 @@ public class EpicKKWeapons {
                     .collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_ARROW_GUNS)
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.XIGBAR_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.XIGBAR_WALK)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
 
@@ -66,13 +66,13 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_CLAYMORE)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.TRIDENT_AUTO1, Animations.LONGSWORD_AUTO3, Animations.GREATSWORD_DASH, Animations.TSUNAMI, Animations.GREATSWORD_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.TRIDENT_AUTO1, Animations.LONGSWORD_AUTO3, Animations.GREATSWORD_DASH, Animations.TSUNAMI, Animations.GREATSWORD_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.SAIX_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.SAIX_RUN);
-  
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.SAIX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.SAIX_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.SAIX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.SAIX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.SAIX_RUN);
+
     public static final Function<Item, CapabilityItem.Builder> ETHEREAL_BLADE = item ->
             WeaponCapability.builder()
                     .category(EpicKKWeaponEnum.KK_ETHEREAL_BLADE)
@@ -81,16 +81,16 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_ETHEREAL_BLADE)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.SWORD_AUTO3)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.BIPED_MOB_SWORD_DUAL1, Animations.SWORD_DUAL_AUTO2, Animations.BIPED_MOB_SWORD_DUAL2, Animations.SWORD_DUAL_AIR_SLASH, Animations.SWORD_DUAL_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.XEMNAS_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XEMNAS_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.XEMNAS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.XEMNAS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.CREATIVE_IDLE, KKAnimations.XEMNAS_FLY)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.CREATIVE_FLY, KKAnimations.XEMNAS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.XEMNAS_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> LANCE = item ->
             WeaponCapability.builder()
@@ -100,16 +100,16 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_LANCE)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SPEAR_ONEHAND_AUTO, Animations.SPEAR_TWOHAND_AUTO1, Animations.SPEAR_TWOHAND_AUTO2, Animations.SPEAR_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.BIPED_MOB_SWORD_DUAL1, Animations.BIPED_MOB_SWORD_DUAL2, Animations.SWORD_DUAL_AUTO3, Animations.LONGSWORD_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.XALDIN_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.XALDIN_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.XALDIN_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.XALDIN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.XALDIN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.CREATIVE_IDLE, KKAnimations.XALDIN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.CREATIVE_FLY, KKAnimations.XALDIN_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.XALDIN_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> SITAR = item ->
             WeaponCapability.builder()
@@ -117,12 +117,12 @@ public class EpicKKWeapons {
                     .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_SITAR ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
                     .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_SITAR)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.DEMYX_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.DEMYX_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.DEMYX_WALK);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.DEMYX_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.DEMYX_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.DEMYX_WALK);
 
     public static final Function<Item, CapabilityItem.Builder> AXE_SWORD = item ->
             WeaponCapability.builder()
@@ -132,12 +132,12 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_AXE_SWORD)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.BIPED_MOB_GREATSWORD, Animations.GREATSWORD_AUTO1, Animations.GREATSWORD_AUTO2, Animations.GREATSWORD_DASH, Animations.GREATSWORD_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.BIPED_MOB_GREATSWORD, Animations.GREATSWORD_AUTO1, Animations.GREATSWORD_AUTO2, Animations.GREATSWORD_DASH, Animations.GREATSWORD_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.LEXAEUS_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.LEXAEUS_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.LEXAEUS_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.LEXAEUS_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.LEXAEUS_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.LEXAEUS_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.LEXAEUS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.LEXAEUS_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.LEXAEUS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.LEXAEUS_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.LEXAEUS_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.LEXAEUS_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> LEXICON = item ->
             WeaponCapability.builder()
@@ -145,12 +145,12 @@ public class EpicKKWeapons {
                     .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_LEXICON ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
                     .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_LEXICON)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.ZEXION_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.ZEXION_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.ZEXION_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.ZEXION_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.ZEXION_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.ZEXION_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.ZEXION_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.ZEXION_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.ZEXION_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.ZEXION_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.ZEXION_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.ZEXION_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> CARD = item ->
             WeaponCapability.builder()
@@ -158,12 +158,12 @@ public class EpicKKWeapons {
                     .styleProvider(playerpatch -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory() == EpicKKWeaponEnum.KK_CARD ? CapabilityItem.Styles.TWO_HAND : CapabilityItem.Styles.ONE_HAND)
                     .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_CARD)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.LUXORD_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.LUXORD_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.LUXORD_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.LUXORD_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.LUXORD_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.LUXORD_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.LUXORD_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.LUXORD_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.LUXORD_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.LUXORD_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.LUXORD_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.LUXORD_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> SCYTHE = item ->
             WeaponCapability.builder()
@@ -173,12 +173,12 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_SCYTHE)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.BIPED_MOB_SPEAR_TWOHAND2, Animations.BIPED_MOB_SPEAR_TWOHAND1, Animations.SPEAR_TWOHAND_AUTO1, Animations.SPEAR_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.BIPED_MOB_SPEAR_TWOHAND2, Animations.BIPED_MOB_SPEAR_TWOHAND1, Animations.SPEAR_TWOHAND_AUTO1, Animations.SPEAR_DASH, Animations.SPEAR_TWOHAND_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.MARLUXIA_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.MARLUXIA_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.MARLUXIA_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.MARLUXIA_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.MARLUXIA_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.MARLUXIA_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.MARLUXIA_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.MARLUXIA_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.MARLUXIA_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.MARLUXIA_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.MARLUXIA_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.MARLUXIA_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> KNIVES = item ->
             WeaponCapability.builder()
@@ -188,37 +188,38 @@ public class EpicKKWeapons {
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_KNIVES)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.DAGGER_AUTO1, Animations.DAGGER_AUTO2, Animations.DAGGER_AUTO3, Animations.DAGGER_DASH, Animations.DAGGER_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.TWO_HAND, Animations.BIPED_MOB_DAGGER_TWOHAND1, Animations.DAGGER_DUAL_AUTO4, Animations.BIPED_MOB_DAGGER_TWOHAND1, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.LARXENE_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.LARXENE_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.LARXENE_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.LARXENE_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.LARXENE_RUN)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.LARXENE_RUN);
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.LARXENE_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.LARXENE_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.LARXENE_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.LARXENE_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.LARXENE_RUN)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.LARXENE_RUN);
 
     public static final Function<Item, CapabilityItem.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
-                    .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
-                            switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                    .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(entityPatch ->
+                            entityPatch.getOriginal() instanceof Player player ? switch (ModCapabilities.getPlayer(player).getActiveDriveForm()) {
                                 case Strings.Form_Valor -> KKStyles.VALOR;
                                 case Strings.Form_Master -> KKStyles.MASTER;
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
                                 case Strings.Form_Final -> KKStyles.FINAL;
-                                default -> playerpatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
-                                        == CapabilityItem.WeaponCategories.SWORD ?
-                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getDualStyle()) {
-                                            case KH2_ROXAS_DUAL -> KKStyles.KH2_ROXAS_DUAL;
-                                            case DAYS_ROXAS_DUAL -> KKStyles.DAYS_ROXAS_DUAL;
-                                        }
-                                        :
-                                        switch (ModCapabilities.getPlayer((Player) playerpatch.getOriginal()).getSingleStyle()) {
-                                            case ROXAS -> KKStyles.ROXAS;
-                                            case SORA -> KKStyles.SORA;
-                                            case RIKU -> KKStyles.RIKU;
-                                            case TERRA -> KKStyles.TERRA;
-                                            case AQUA -> KKStyles.AQUA;
-                                            case VENTUS -> KKStyles.VENTUS;
-                                        };
-                            })
+                                default -> entityPatch.getHoldingItemCapability(InteractionHand.OFF_HAND).getWeaponCategory()
+                                    == CapabilityItem.WeaponCategories.SWORD ?
+                                    switch (ModCapabilities.getPlayer(player).getDualStyle()) {
+                                        case KH2_ROXAS_DUAL -> KKStyles.KH2_ROXAS_DUAL;
+                                        case DAYS_ROXAS_DUAL -> KKStyles.DAYS_ROXAS_DUAL;
+                                    }
+                                    :
+                                    switch (ModCapabilities.getPlayer(player).getSingleStyle()) {
+                                        case ROXAS -> KKStyles.ROXAS;
+                                        case SORA -> KKStyles.SORA;
+                                        case RIKU -> KKStyles.RIKU;
+                                        case TERRA -> KKStyles.TERRA;
+                                        case AQUA -> KKStyles.AQUA;
+                                        case VENTUS -> KKStyles.VENTUS;
+                                    };
+                            } : KKStyles.SORA //default for non-players
+                    )
                     .hitSound(EpicFightSounds.BLADE_HIT.get()).collider(KKCollider.KEYBLADE)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
 
@@ -228,7 +229,6 @@ public class EpicKKWeapons {
                     .livingMotionModifier(KKStyles.TERRA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(KKStyles.AQUA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
                     .livingMotionModifier(KKStyles.VENTUS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-
 
 
                     .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
@@ -282,34 +282,33 @@ public class EpicKKWeapons {
                     .hitSound(EpicFightSounds.BLADE_HIT.get())
                     .collider(ColliderPreset.SWORD)
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK_SHIELD, Animations.BIPED_BLOCK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.IDLE, KKAnimations.VEXEN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.IDLE, KKAnimations.VEXEN_IDLE)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.WALK, KKAnimations.VEXEN_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.WALK, KKAnimations.VEXEN_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND,LivingMotions.RUN, KKAnimations.VEXEN_WALK)
-                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,LivingMotions.RUN, KKAnimations.VEXEN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.IDLE, KKAnimations.VEXEN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.IDLE, KKAnimations.VEXEN_IDLE)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.WALK, KKAnimations.VEXEN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.WALK, KKAnimations.VEXEN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.RUN, KKAnimations.VEXEN_WALK)
+                    .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.RUN, KKAnimations.VEXEN_WALK)
                     .weaponCombinationPredicator(entityPatch ->
                             EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_SHIELD)
-                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_AUTO1, KKAnimations.KK_SHIELD_AUTO2, Animations.DAGGER_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH).constructor(ShieldCapabilities::new)
-            ;
+                    .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_AUTO1, KKAnimations.KK_SHIELD_AUTO2, Animations.DAGGER_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH).constructor(ShieldCapabilities::new);
 
     private EpicKKWeapons() {
     }
 
     public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ETHEREAL_BLADE.toString().toLowerCase()), ETHEREAL_BLADE);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LANCE.toString().toLowerCase()), LANCE);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_AXE_SWORD.toString().toLowerCase()), AXE_SWORD);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_LEXICON.toString().toLowerCase()), LEXICON);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SITAR.toString().toLowerCase()), SITAR);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CARD.toString().toLowerCase()), CARD);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SCYTHE.toString().toLowerCase()), SCYTHE);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KNIVES.toString().toLowerCase()), KNIVES);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
-        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_ETHEREAL_BLADE.toString().toLowerCase()), ETHEREAL_BLADE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_ARROW_GUNS.toString().toLowerCase()), ARROWGUN);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_LANCE.toString().toLowerCase()), LANCE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_AXE_SWORD.toString().toLowerCase()), AXE_SWORD);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_LEXICON.toString().toLowerCase()), LEXICON);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CLAYMORE.toString().toLowerCase()), CLAYMORE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SITAR.toString().toLowerCase()), SITAR);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CARD.toString().toLowerCase()), CARD);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SCYTHE.toString().toLowerCase()), SCYTHE);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KNIVES.toString().toLowerCase()), KNIVES);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
+        event.getTypeEntry().put(new ResourceLocation(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
     }
 
     public enum EpicKKWeaponEnum implements WeaponCategory {
