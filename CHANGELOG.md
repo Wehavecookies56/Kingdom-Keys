@@ -1,4 +1,6 @@
+Changed:
+* Colliders on Organization members attacks With EFM.
+
 Fixed:
-* Hopefully summoning weapons while in EFM will no longer remotely summon other players' weapons (Thanks to NolValue for the hint).
-* Target selector for magics like Cure and Aero will always show the caster as first option.
-* Reaction Commands stacking in the same position.
+* Random crash when a player died.
+* Crash when giving a keyblade to a non-player entity.
