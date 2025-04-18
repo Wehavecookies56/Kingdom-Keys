@@ -918,6 +918,8 @@ public class EntityEvents {
 
 		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
+			if(playerData == null)
+				return;
 
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 				if (playerData.isAbilityEquipped(Strings.mpRage)) {
