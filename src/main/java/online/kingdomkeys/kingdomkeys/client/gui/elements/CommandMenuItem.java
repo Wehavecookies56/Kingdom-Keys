@@ -223,18 +223,22 @@ public class CommandMenuItem {
         return parent.getChildY(this);
     }
 
+    public int getWidth(){
+        return width * ModConfigs.cmXScale/100;
+    }
     public void render(GuiGraphics guiGraphics, int x, int y, int screenWidth, int screenHeight, float partialTick) {
         guiGraphics.setColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset : x, y, 70, parent.getSelected().equals(this) ? 15 : 0, 4, 15);
-        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + 4 + ModConfigs.cmSelectedXOffset : x + 4, y, width - 9, height, 74, parent.getSelected().equals(this) ? 15 : 0, 1, 15, 256, 256);
-        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + width - 5 + ModConfigs.cmSelectedXOffset : x + width - 5, y, 70 + 70 - 5, parent.getSelected().equals(this) ? 15 : 0, 5, 15);
+        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + 4 + ModConfigs.cmSelectedXOffset : x + 4, y, getWidth() - 9, height, 74, parent.getSelected().equals(this) ? 15 : 0, 1, 15, 256, 256);
+        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + getWidth() - 5 + ModConfigs.cmSelectedXOffset : x + getWidth() - 5, y, 70 + 70 - 5, parent.getSelected().equals(this) ? 15 : 0, 5, 15);
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-        guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + 6 + ModConfigs.cmSelectedXOffset : x + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
+
+        guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + 6 + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmTextXOffset + 1, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
         if (this.hasIcon && this.getParent().getSelected().equals(this)) {
             Color iconColour = parent.isActive() ? Color.WHITE : Color.WHITE.darker().darker();
             guiGraphics.setColor(iconColour.getRed() / 255F, iconColour.getGreen() / 255F, iconColour.getBlue() / 255F, 1);
-            guiGraphics.blit(iconTexture.get(), x + ModConfigs.cmSelectedXOffset + width - 5 - 10, y + 2, iconU, iconV, 10, 10);
+            guiGraphics.blit(iconTexture.get(), x + ModConfigs.cmSelectedXOffset + getWidth() - 5 - 10, y + 2, iconU, iconV, 10, 10);
         }
     }
 

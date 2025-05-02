@@ -1,6 +1,4 @@
-Changed:
-* Colliders on Organization members attacks With EFM.
-
 Fixed:
-* Random crash when a player died.
-* Crash when giving a keyblade to a non-player entity.
+* Command Menu not changing based on its config screen.
+* Synthesis deposit materials being blocked if you only had materials in the synthesis bag but not in the inventory.
+* Blizzaza being fire type for the explosion radius.

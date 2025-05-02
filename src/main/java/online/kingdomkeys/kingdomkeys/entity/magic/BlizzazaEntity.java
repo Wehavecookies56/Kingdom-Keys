@@ -167,7 +167,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
                             if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
                                 float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
                                 float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-                                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, player), dmg);
+                                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, player), dmg);
                             }
                         }
                     }

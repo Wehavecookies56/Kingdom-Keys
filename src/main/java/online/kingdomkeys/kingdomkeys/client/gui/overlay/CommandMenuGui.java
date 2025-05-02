@@ -82,7 +82,9 @@ public class CommandMenuGui extends OverlayBase {
 				.openByDefault()
 				.changesColour()
 				.colour(new Color(10, 51, 255))
-				.onUpdate((subMenu, guiGraphics) -> subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight()))
+				.onUpdate((subMenu, guiGraphics) -> {
+					subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight());
+				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(170, 18),
 						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals, true)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(180, 18),
@@ -110,34 +112,42 @@ public class CommandMenuGui extends OverlayBase {
 				.build();
 		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
 				.colour(new Color(102, 0, 255))
-				.onUpdate(updateMagic())
+				.onUpdate((subMenu, guiGraphics) -> {
+					updateMagic();
+				})
 				.withChildren(createMagicFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title))
 				.colour(new Color(77, 255, 77))
 				.onOpen(this::createItems)
+
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target))
 				.colour(new Color(10, 51, 255))
 				.onOpen(this::createTargets)
 				.autoResizes()
+
 				.build();
 		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title))
 				.colour(new Color(204, 204, 204))
 				.onOpen(this::createPortals)
 				.autoResizes()
+
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title))
 				.colour(new Color(255, 255, 0))
 				.onUpdate(updateLimits())
 				.withChildren(createLimitsFromRegistry())
 				.autoResizes()
+
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title))
 				.colour(new Color(0, 255, 255))
-				.onUpdate(updateDriveForms())
+				.onUpdate((subMenu, guiGraphics) -> {
+					updateDriveForms();
+				})
 				.withChildren(createDriveFormsFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
