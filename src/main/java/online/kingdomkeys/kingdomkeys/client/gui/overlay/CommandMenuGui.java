@@ -86,7 +86,9 @@ public class CommandMenuGui extends OverlayBase {
 				.openByDefault()
 				.changesColour()
 				.colour(new Color(10, 51, 255))
-				.onUpdate((subMenu, guiGraphics) -> subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight()))
+				.onUpdate((subMenu, guiGraphics) -> {
+					subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight());
+				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(170, 18),
 						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(180, 18),

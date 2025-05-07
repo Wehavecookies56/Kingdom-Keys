@@ -401,7 +401,7 @@ public class CommandMenuSubMenu {
     }
 
     public int getWidth() {
-        return width;
+        return width * ModConfigs.cmXScale/100;
     }
 
     public int getHeight() {
@@ -485,10 +485,12 @@ public class CommandMenuSubMenu {
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, 4, getHeight());
             guiGraphics.blit(getTexture(), getX()+4, getY(), getWidth()-14, getHeight(), 4, 0, 1, getHeight(),256, 256);
-            guiGraphics.blit(getTexture(), getX()+width-10, getY(), 60, 0, 10, getHeight());
-            Color textColour = isActive() ? titleColour : titleColour.darker().darker();
-            guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-            guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 6, getY()+4, 0xFFFFFF);
+            guiGraphics.blit(getTexture(), getX()+getWidth()-10, getY(), 60, 0, 10, getHeight());
+            if(ModConfigs.cmHeaderTextVisible) {
+                Color textColour = isActive() ? titleColour : titleColour.darker().darker();
+                guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
+                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset, getY() + 4, 0xFFFFFF);
+            }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
         }
     }

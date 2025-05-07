@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -17,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -115,6 +118,17 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			}
 			if (!hasMaterial && player.getInventory().getItem(i).is(Tags.MATERIALS)) {
 				hasMaterial = true;
+			}
+
+			//Requires player to open it to sync with the client but it works
+			if(player.getInventory().getItem(i).getItem() instanceof SynthesisBagItem){
+				IItemHandler bagInv = player.getInventory().getItem(i).getCapability(Capabilities.ItemHandler.ITEM);
+				for (int j = 0; j < bagInv.getSlots(); j++) { //Check bag slots
+					ItemStack bagItem = bagInv.getStackInSlot(j);
+					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(Tags.MATERIALS)) { //If current bag slot is filled
+						hasMaterial = true;
+					}
+				}
 			}
 		}
 

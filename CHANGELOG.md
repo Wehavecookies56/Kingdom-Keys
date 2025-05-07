@@ -1,3 +1,3 @@
 Fixed:
-* Potentially fixed data null issues when joining a server without loading a client world first
-* Random crash when a player died.
+* Command Menu not changing based on its config screen.
+* Synthesis deposit materials being blocked if you only had materials in the synthesis bag but not in the inventory.
