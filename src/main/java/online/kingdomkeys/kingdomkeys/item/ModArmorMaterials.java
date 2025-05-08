@@ -60,10 +60,10 @@ public class ModArmorMaterials {
 	public static final Holder<ArmorMaterial> VANITY = ARMOR_MATERIALS.register("vanity", () -> new ArmorMaterial(
 			Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
 				map.put(ArmorItem.Type.BOOTS, 2);
-				map.put(ArmorItem.Type.LEGGINGS, 5);
-				map.put(ArmorItem.Type.CHESTPLATE, 7);
+				map.put(ArmorItem.Type.LEGGINGS, 4);
+				map.put(ArmorItem.Type.CHESTPLATE, 6);
 				map.put(ArmorItem.Type.HELMET, 3);
-				map.put(ArmorItem.Type.BODY, 7);
+				map.put(ArmorItem.Type.BODY, 6);
 			}),
 			25,
 			SoundEvents.ARMOR_EQUIP_LEATHER,

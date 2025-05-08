@@ -1,27 +1,27 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "gula_chestplate": {
-      "conditions": {
-        "items": [
-          {
-            "items": "kingdomkeys:gula_chestplate"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "kingdomkeys:invi_chestplate"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "leather_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:leather_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "gula_chestplate"
+      "leather_chestplate"
     ]
   ],
   "rewards": {

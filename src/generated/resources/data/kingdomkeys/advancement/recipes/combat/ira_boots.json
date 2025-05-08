@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "invi_boots": {
+    "leather_boots": {
       "conditions": {
         "items": [
           {
-            "items": "kingdomkeys:invi_boots"
+            "items": "minecraft:leather_boots"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "invi_boots"
+      "leather_boots"
     ]
   ],
   "rewards": {

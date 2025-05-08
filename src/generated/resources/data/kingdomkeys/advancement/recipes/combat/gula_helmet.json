@@ -1,27 +1,27 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "ava_helmet": {
-      "conditions": {
-        "items": [
-          {
-            "items": "kingdomkeys:ava_helmet"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "kingdomkeys:gula_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "leather_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:leather_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "ava_helmet"
+      "leather_helmet"
     ]
   ],
   "rewards": {

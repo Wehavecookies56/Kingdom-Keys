@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "invi_helmet": {
+    "leather_helmet": {
       "conditions": {
         "items": [
           {
-            "items": "kingdomkeys:invi_helmet"
+            "items": "minecraft:leather_helmet"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "invi_helmet"
+      "leather_helmet"
     ]
   ],
   "rewards": {
