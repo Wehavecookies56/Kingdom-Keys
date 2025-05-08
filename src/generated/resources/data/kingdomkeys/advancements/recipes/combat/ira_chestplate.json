@@ -7,12 +7,12 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "invi_chestplate": {
+    "leather_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "kingdomkeys:invi_chestplate"
+              "minecraft:leather_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "invi_chestplate",
+      "leather_chestplate",
       "has_the_recipe"
     ]
   ],

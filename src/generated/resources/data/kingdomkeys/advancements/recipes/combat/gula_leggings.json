@@ -1,28 +1,28 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "ava_leggings": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "kingdomkeys:ava_leggings"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "kingdomkeys:gula_leggings"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "leather_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:leather_leggings"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "ava_leggings",
+      "leather_leggings",
       "has_the_recipe"
     ]
   ],

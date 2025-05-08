@@ -1,13 +1,25 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "kingdomkeys",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:aced_leggings"
+  "key": {
+    "D": {
+      "item": "minecraft:pink_dye"
+    },
+    "H": {
+      "item": "minecraft:leather_leggings"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
+  },
+  "pattern": [
+    "DLD",
+    "LHL",
+    "D D"
   ],
   "result": {
     "item": "kingdomkeys:ava_leggings"
-  }
+  },
+  "show_notification": true
 }

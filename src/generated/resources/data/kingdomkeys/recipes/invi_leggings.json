@@ -1,13 +1,25 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "kingdomkeys",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:gula_leggings"
+  "key": {
+    "D": {
+      "item": "minecraft:blue_dye"
+    },
+    "H": {
+      "item": "minecraft:leather_leggings"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
+  },
+  "pattern": [
+    "DLD",
+    "LHL",
+    "D D"
   ],
   "result": {
     "item": "kingdomkeys:invi_leggings"
-  }
+  },
+  "show_notification": true
 }
