@@ -92,7 +92,20 @@ repositories {
 		url 'https://maven.blamejared.com'
 	}
 
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
 
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
 
     maven {
         // location of the maven that hosts JEI files
