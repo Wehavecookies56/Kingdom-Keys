@@ -727,174 +727,224 @@ public class Recipes extends RecipeProvider {
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
 
-		
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
-                .pattern("LBL")
-                .pattern("EAE")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_HELMET)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
-                .pattern("LAL")
-                .pattern("EBE")
-                .pattern("LLL")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_CHESTPLATE)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
-                .pattern("LBL")
-                .pattern("EAE")
-                .pattern("L L")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_LEGGINGS)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
-                .pattern("EBE")
-                .pattern("LAL")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_BOOTS)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
-                .requires(ModItems.ira_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Helmet.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_helmet_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
-                .requires(ModItems.ira_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Chestplate.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_chestplate_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
-                .requires(ModItems.ira_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Leggings.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_leggings_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.BROWN_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
-                .requires(ModItems.ira_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Boots.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_boots_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Helmet.get())
-                .requires(ModItems.aced_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Chestplate.get())
-                .requires(ModItems.aced_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Leggings.get())
-                .requires(ModItems.aced_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Boots.get())
-                .requires(ModItems.aced_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.WHITE_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Helmet.get())
-                .requires(ModItems.ava_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Helmet.get()))
-                .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Chestplate.get())
-                .requires(ModItems.ava_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Leggings.get())
-                .requires(ModItems.ava_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
-                .requires(ModItems.ava_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Helmet.get())
-                .requires(ModItems.gula_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.PINK_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Chestplate.get())
-                .requires(ModItems.gula_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Chestplate.get()))
-                .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Leggings.get())
-                .requires(ModItems.gula_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Boots.get())
-                .requires(ModItems.gula_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Helmet.get())
-                .requires(ModItems.invi_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Chestplate.get())
-                .requires(ModItems.invi_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.PINK_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Leggings.get())
-                .requires(ModItems.invi_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Boots.get())
-                .requires(ModItems.invi_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        // util blocks
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.BLUE_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
+
+
+		// util blocks
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magicalChest.get())
                 .pattern("GNG")
                 .pattern("GCG")
