@@ -1479,22 +1479,6 @@ public class EntityEvents {
 		}
 	}
 
-	/* TODO event doesn't exist anymore
-	@SubscribeEvent
-	public void looting(LootingLevelEvent event) {
-		if (event.getDamageSource() != null) {
-			if (event.getDamageSource().getEntity() instanceof Player) {
-				Player player = (Player) event.getDamageSource().getEntity();
-				PlayerData playerData = PlayerData.get(player);
-				if (playerData != null) {
-					event.setLootingLevel(event.getLootingLevel() + playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky));
-				}
-			}
-		}
-	}
-
-	 */
-
 	//Prevent using Anvil with items that aren't enchanted books or empty for renaming. Mainly to stop infinite enchantments with Apotheosis
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void anvilUpdate(AnvilUpdateEvent event) {
