@@ -3,3 +3,4 @@
 
 **Fixed:**
 * Patchouli integration not working.
+* Shooting Star texture not being used.

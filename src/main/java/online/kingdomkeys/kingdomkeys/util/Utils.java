@@ -796,12 +796,10 @@ public class Utils {
 	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
-		Iterator<Entry<String, int[]>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, int[]> entry = it.next();
-			Ability a = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
-			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
-		}
+        for (Entry<String, int[]> entry : map.entrySet()) {
+            Ability a = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
+            ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
+        }
 		return ap;
 	}
 
