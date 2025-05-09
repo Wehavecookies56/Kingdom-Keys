@@ -343,6 +343,10 @@ public class Utils {
 	}
 
 	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {
+		if(map.get(driveForm) == null) {
+			KingdomKeys.LOGGER.error("The drive form map doesn't contain " + driveForm);
+			return 0;
+		}
 		if (driveForm.equals(Strings.Form_Anti))
 			return 7;
 		return map.get(driveForm)[0];
