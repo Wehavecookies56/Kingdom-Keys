@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -1512,7 +1513,7 @@ public class EntityEvents {
 				for (int i = 5; i > 2; i--) {
 					ItemStack stack = event.getArmorItemStack(EquipmentSlot.values()[i]);
 					float damage = event.getNewDamage(EquipmentSlot.values()[i]);
-					if (!stack.isEmpty()) {
+					if (!stack.isEmpty() && !stack.has(DataComponents.UNBREAKABLE) && stack.getMaxDamage() > 0) {
 						if (stack.getDamageValue() + damage >= stack.getMaxDamage()) {
 							if (Utils.hasArmorID(stack)) {
 								ItemStack pauldron = PlayerData.get(player).getEquippedKBArmor(0);
