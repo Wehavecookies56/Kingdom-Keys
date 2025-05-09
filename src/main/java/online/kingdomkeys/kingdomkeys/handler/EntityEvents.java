@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -49,6 +48,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
@@ -489,9 +489,6 @@ public class EntityEvents {
 						playerData.setMP(0);
 					playerData.addMP(playerData.getMaxMP() / 500 * ((Utils.getMPHasteValue(playerData) / 10) + 2));
 				}
-
-				// PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData),
-				// (ServerPlayerEntity) player);
 
 			} else { // Not on recharge
 				if (playerData.getMP() <= 0 && playerData.getMaxMP() > 0) {
@@ -1032,7 +1029,7 @@ public class EntityEvents {
 
 				if (mar.getState() == 1) { // If marly is armored
 					damage = event.getOriginalDamage() * 0.1F;
-					if (event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
+					if (event.getSource().is(KKDamageTypes.FIRE)) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
 				} else if (mar.getState() == 2) {

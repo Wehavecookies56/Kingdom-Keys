@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -11,11 +12,14 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
 public class ShadowEntity extends BaseKHEntity {
+
+    public ShadowGoal shadowGoal;
 
     public ShadowEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
@@ -31,7 +35,8 @@ public class ShadowEntity extends BaseKHEntity {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-		this.targetSelector.addGoal(4, new ShadowGoal(this));
+        shadowGoal = new ShadowGoal(this);
+        this.targetSelector.addGoal(4, shadowGoal);
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
@@ -40,10 +45,23 @@ public class ShadowEntity extends BaseKHEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
                 .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
-				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-                ;
-        
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D);
     }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(shadowGoal != null) {
+            if (source.is(KKDamageTypes.WATER) && this.shadowGoal.isInShadow()) {
+                setState(0);
+                setInvulnerable(false);
+                shadowGoal.canUseNextAttack = true;
+                getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(shadowGoal.originalAttackDamage);
+                source.getEntity().invulnerableTime = 10;
+            }
+        }
+        return super.hurt(source, amount);
+    }
+
 
     @Override
     public int getMaxSpawnClusterSize() {
@@ -54,5 +72,4 @@ public class ShadowEntity extends BaseKHEntity {
 	public MobType getKHMobType() {
 		return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
 	}
-
 }

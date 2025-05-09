@@ -11,8 +11,8 @@ public class ShadowGoal extends TargetGoal {
 
 	private final int MAX_DISTANCE_FOR_AI = 100, MAX_DISTANCE_FOR_LEAP = 10, MAX_DISTANCE_FOR_DASH = 25, TIME_BEFORE_NEXT_ATTACK = 70, TIME_OUTSIDE_THE_SHADOW = 70;
 	private int shadowTicks = 70, oldAi = -1, ticksUntilNextAttack;
-	private boolean canUseNextAttack = true;
-	private double originalAttackDamage;
+	public boolean canUseNextAttack = true;
+	public double originalAttackDamage;
 
 	public ShadowGoal(PathfinderMob creature) {
 		super(creature, true);
@@ -180,7 +180,7 @@ public class ShadowGoal extends TargetGoal {
 		this.mob.setInvulnerable(false);
 	}
 
-	private boolean isInShadow() {
+	public boolean isInShadow() {
 		return mob.getState() == 1;
 	}
 

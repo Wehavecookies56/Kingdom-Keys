@@ -14,7 +14,8 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
-public class MegaShadowEntity extends BaseKHEntity {
+public class MegaShadowEntity extends ShadowEntity {
+
 
     public MegaShadowEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
@@ -31,7 +32,8 @@ public class MegaShadowEntity extends BaseKHEntity {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
        // this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
-        this.targetSelector.addGoal(4, new ShadowGoal(this));
+        shadowGoal = new ShadowGoal(this);
+        this.targetSelector.addGoal(4, shadowGoal);
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
@@ -40,19 +42,6 @@ public class MegaShadowEntity extends BaseKHEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
                 .add(Attributes.MAX_HEALTH, 50.0D)
                 .add(Attributes.ATTACK_DAMAGE, 4.0D)
-				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-
-                ;
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D);
     }
-
-    @Override
-    public int getMaxSpawnClusterSize() {
-        return 4;
-    }
-
-    @Override
-    public EntityHelper.MobType getKHMobType() {
-        return EntityHelper.MobType.HEARTLESS_PUREBLOOD;
-    }
-
 }

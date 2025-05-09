@@ -1,5 +1,6 @@
 **Added:**
 * Crafting recipe for Jiminy's Journal book if using Patchouli.
+* Shadow, Mega Shadow and Gigas Shadow can be yeeted from the ground when water is casted uppon them, giving 10 ticks of iframes.
 
 **Fixed:**
 * Patchouli integration not working.
