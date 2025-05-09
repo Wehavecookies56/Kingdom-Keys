@@ -28,6 +28,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -110,12 +111,11 @@ public class WateraEntity extends ThrowableProjectile {
 	        if (!list.isEmpty() && list.get(0) != this) {
 				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F;
 				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-	            for (int i = 0; i < list.size(); i++) {
-	                Entity e = list.get(i);
-	                if (e instanceof LivingEntity) {
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-	                }
-	            }
+                for (Entity e : list) {
+                    if (e instanceof LivingEntity) {
+                        e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+                    }
+                }
 	        }
 
 		} else { //Projectile
@@ -168,7 +168,7 @@ public class WateraEntity extends ThrowableProjectile {
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 2;
-							target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+							target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
 							remove(RemovalReason.KILLED);
 						}
 					}
@@ -221,7 +221,7 @@ public class WateraEntity extends ThrowableProjectile {
 						} else {
 							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
 								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
-								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
 							}
 						}
 					}

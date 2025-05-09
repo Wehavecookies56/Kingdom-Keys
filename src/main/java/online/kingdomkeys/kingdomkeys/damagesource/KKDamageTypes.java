@@ -15,6 +15,7 @@ public class KKDamageTypes {
 	public static void bootstrap(BootstapContext<DamageType> context){
         context.register(KKDamageTypes.DARKNESS, new DamageType(KKResistanceType.darkness.toString(), 0.1F));
         context.register(KKDamageTypes.FIRE, new DamageType(KKResistanceType.fire.toString(), 0.1F));
+        context.register(KKDamageTypes.WATER, new DamageType(KKResistanceType.water.toString(), 0.1F));
         context.register(KKDamageTypes.LIGHTNING, new DamageType(KKResistanceType.lightning.toString(), 0.1F));
         context.register(KKDamageTypes.ICE, new DamageType(KKResistanceType.ice.toString(), 0.1F));
         context.register(KKDamageTypes.STOP, new DamageType("stop", 0.1F));
@@ -25,6 +26,7 @@ public class KKDamageTypes {
     public static final ResourceKey<DamageType> DARKNESS = register(KKResistanceType.darkness.toString());
     public static final ResourceKey<DamageType> FIRE = register(KKResistanceType.fire.toString());
     public static final ResourceKey<DamageType> LIGHTNING = register(KKResistanceType.lightning.toString());
+    public static final ResourceKey<DamageType> WATER = register(KKResistanceType.water.toString());
     public static final ResourceKey<DamageType> ICE = register(KKResistanceType.ice.toString());
     public static final ResourceKey<DamageType> STOP = register("stop");
     public static final ResourceKey<DamageType> OFFHAND = register("offhand");

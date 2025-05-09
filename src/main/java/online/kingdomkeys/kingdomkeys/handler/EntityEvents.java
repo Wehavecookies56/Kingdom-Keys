@@ -55,6 +55,7 @@ import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
@@ -1057,7 +1058,7 @@ public class EntityEvents {
 
 				if (EntityHelper.getState(event.getEntity()) == 1) { // If marly is armored
 					damage = event.getAmount() * 0.1F;
-					if (event.getSource().getMsgId().equals(KKResistanceType.fire.toString())) {
+					if (event.getSource().is(KKDamageTypes.FIRE)) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
 				} else if (EntityHelper.getState(event.getEntity()) == 2) {

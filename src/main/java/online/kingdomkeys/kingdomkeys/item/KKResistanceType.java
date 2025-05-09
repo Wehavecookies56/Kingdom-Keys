@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 public enum KKResistanceType {
-    light, darkness, fire, ice, lightning;
+    light, darkness, fire, ice, lightning, water;
     private int resPercent;
 
     public int getResPercent() {

@@ -112,9 +112,7 @@ public class CommandMenuGui extends OverlayBase {
 				.build();
 		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
 				.colour(new Color(102, 0, 255))
-				.onUpdate((subMenu, guiGraphics) -> {
-					updateMagic();
-				})
+				.onUpdate(updateMagic())
 				.withChildren(createMagicFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
@@ -145,9 +143,7 @@ public class CommandMenuGui extends OverlayBase {
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title))
 				.colour(new Color(0, 255, 255))
-				.onUpdate((subMenu, guiGraphics) -> {
-					updateDriveForms();
-				})
+				.onUpdate(updateDriveForms())
 				.withChildren(createDriveFormsFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
