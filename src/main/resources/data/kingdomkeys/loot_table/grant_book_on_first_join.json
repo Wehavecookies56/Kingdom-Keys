@@ -6,7 +6,15 @@
       "entries": [
         {
           "type": "item",
-          "name": "patchouli:guide_book"
+          "name": "patchouli:guide_book",
+          "functions": [
+            {
+              "function": "set_components",
+              "components": {
+				"patchouli:book": "kingdomkeys:jiminys_journal"
+			  }
+            }
+          ]
         }
       ]
     }

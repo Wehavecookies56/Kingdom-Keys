@@ -6,6 +6,7 @@
 	"open_sound": "kingdomkeys:journal/journal_open.ogg",
 	"flip_sound": "kingdomkeys:journal/journal_flip.ogg",
 	"version": "0",
+	"i18n": true,
 	"subtitle": "patchouli.kingdomkeys.journal.desc",
 	"show_progress": false,
 	"pause_game": true,
