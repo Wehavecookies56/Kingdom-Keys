@@ -1,8 +1,6 @@
-#### Changed:
-* Simplified and reduced foreteller armors crafting recipe cost
-* Slightly nerfed since they are easier to obtain now.
+**Added:**
+* Shadow, Mega Shadow and Gigas Shadow can be pulled from the ground when water is casted uppon them, giving 10 ticks of iframes.
 
-#### Fixed:
-* Command Menu not changing based on its config screen.
-* Synthesis deposit materials being blocked if you only had materials in the synthesis bag but not in the inventory.
-* Blizzaza being fire type for the explosion radius.
+**Fixed:**
+* Issue introduced in the last version with magics and forms being falsely unlocked.
+* Shooting Star texture not being used.
