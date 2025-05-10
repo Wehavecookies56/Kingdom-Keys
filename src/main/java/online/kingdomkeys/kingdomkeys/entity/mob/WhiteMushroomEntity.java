@@ -16,12 +16,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.WhiteMushroomGoal;
 import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import static com.ibm.icu.impl.ValidIdentifiers.Datatype.x;
 
@@ -40,12 +42,12 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!level().isClientSide()){
-            if(source.getMsgId().equals(KKResistanceType.fire.toString())){
+            if(source.is(KKDamageTypes.FIRE)){
                 extinguishFire();
                 checkSatisfy(1);
-            } else if(source.getMsgId().equals(KKResistanceType.ice.toString())) {
+            } else if(source.is(KKDamageTypes.ICE)) {
                 checkSatisfy(2);
-            } else if(source.getMsgId().equals(KKResistanceType.lightning.toString())) {
+            } else if(source.is(KKDamageTypes.LIGHTNING)) {
                 checkSatisfy(3);
             } else {
                 EntityHelper.setState(this, -2);
@@ -66,7 +68,7 @@ public class WhiteMushroomEntity extends BaseKHEntity {
                     //System.out.println("Drop smth");
                     EntityHelper.setState(this, -3); //Set to victory pose
 
-                    ItemEntity ie = new ItemEntity(level(), getX(), getY(), getZ(), new ItemStack(ModItems.orichalcum.get()));
+                    ItemEntity ie = new ItemEntity(level(), getX(), getY(), getZ(), Utils.getWhiteMushroomReward());
                     level().addFreshEntity(ie);
                 }
             } else { //If magic is wrong set to angry pose
@@ -79,14 +81,9 @@ public class WhiteMushroomEntity extends BaseKHEntity {
 
     @Override
     protected void registerGoals() {
-       // this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-       // this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-       // this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-		//this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-       // this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
         this.goalSelector.addGoal(4, new WhiteMushroomGoal(this));
     }
 

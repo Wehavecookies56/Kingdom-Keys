@@ -94,7 +94,19 @@ public class Utils {
 	public static final UUID mobLevelHPModifier = UUID.fromString("c86a76af-4615-4f6e-aaab-b1a349bdeb7b");
 	public static final UUID mobLevelAttackModifier = UUID.fromString("a8971ed5-c584-4579-82e7-5c823009dec0");
 
-	public static class Title {
+	public static ItemStack getWhiteMushroomReward() {
+		ArrayList<Item> list = new ArrayList<>();
+		list.add(ModItems.orichalcum.get());
+		list.add(ModItems.orichalcumplus.get());
+		list.add(ModItems.evanescent_crystal.get());
+		list.add(ModItems.illusory_crystal.get());
+
+		Random rand = new Random();
+		Item item = list.get(rand.nextInt(list.size()));
+		return new ItemStack(item,rand.nextInt(3)+1);
+	}
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
