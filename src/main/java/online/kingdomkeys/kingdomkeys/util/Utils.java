@@ -98,6 +98,18 @@ public class Utils {
 	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
 	public static final ResourceLocation mobLevelAttackModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_attack");
 
+	public static ItemStack getWhiteMushroomReward() {
+		ArrayList<Item> list = new ArrayList<>();
+		list.add(ModItems.orichalcum.get());
+		list.add(ModItems.orichalcumplus.get());
+		list.add(ModItems.evanescent_crystal.get());
+		list.add(ModItems.illusory_crystal.get());
+
+		Random rand = new Random();
+		Item item = list.get(rand.nextInt(list.size()));
+		return new ItemStack(item,rand.nextInt(3)+1);
+	}
+
 	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
