@@ -19,7 +19,7 @@ public class Struggle {
 	public static final byte PARTICIPANTS_LIMIT = 8;
 
 	private String name;
-	private final List<Participant> participants = new ArrayList<Participant>();
+	private final List<Participant> participants = new ArrayList<>();
 	//private boolean priv;
 	private byte size;
 	private int damageMult;

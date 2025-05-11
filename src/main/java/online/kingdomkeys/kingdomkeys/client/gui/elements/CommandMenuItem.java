@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -228,6 +229,7 @@ public class CommandMenuItem {
     }
 
     public void render(GuiGraphics guiGraphics, int x, int y, int screenWidth, int screenHeight, float partialTick) {
+
         guiGraphics.setColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset : x, y, 70, parent.getSelected().equals(this) ? 15 : 0, 4, 15);
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + 4 + ModConfigs.cmSelectedXOffset : x + 4, y, getWidth() - 9, height, 74, parent.getSelected().equals(this) ? 15 : 0, 1, 15, 256, 256);
@@ -238,8 +240,11 @@ public class CommandMenuItem {
         if (this.hasIcon && this.getParent().getSelected().equals(this)) {
             Color iconColour = parent.isActive() ? Color.WHITE : Color.WHITE.darker().darker();
             guiGraphics.setColor(iconColour.getRed() / 255F, iconColour.getGreen() / 255F, iconColour.getBlue() / 255F, 1);
+            RenderSystem.enableBlend();
             guiGraphics.blit(iconTexture.get(), x + ModConfigs.cmSelectedXOffset + getWidth() - 5 - 10, y + 2, iconU, iconV, 10, 10);
+            RenderSystem.disableBlend();
         }
+
     }
 
     public interface OnEnter {

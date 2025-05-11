@@ -619,12 +619,16 @@ public class CommandMenuGui extends OverlayBase {
 					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset, 4, 0xFFFFFF);
 
 					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);
+					RenderSystem.enableBlend();
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
+					RenderSystem.disableBlend();
+
 				}
 				gui.pose().popPose();
 
 			}
 			gui.pose().popPose();
 		}
+
 	}
 }

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -481,6 +482,7 @@ public class CommandMenuSubMenu {
             if (parent != null) {
                 updatePosition();
             }
+            RenderSystem.enableBlend();
             guiGraphics.pose().translate(0, 0, getZ());
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, 4, getHeight());
@@ -492,6 +494,8 @@ public class CommandMenuSubMenu {
                 guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset, getY() + 4, 0xFFFFFF);
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
+
+            RenderSystem.disableBlend();
         }
     }
 
