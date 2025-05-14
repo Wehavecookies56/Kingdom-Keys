@@ -910,10 +910,6 @@ public class EntityEvents {
 			}
 		}
 
-		/*if (event.getSource().getDirectEntity() instanceof VolleyShotEntity || event.getSource().getDirectEntity() instanceof RagnarokShotEntity || event.getSource().getDirectEntity() instanceof ThunderBoltEntity || event.getSource().getDirectEntity() instanceof ArrowgunShotEntity || event.getSource().getDirectEntity() instanceof BlizzardEntity || event.getSource().getDirectEntity() instanceof KKThrowableEntity) {
-			target.invulnerableTime = 0;
-		}*/
-
 		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			if(playerData == null)
@@ -932,8 +928,7 @@ public class EntityEvents {
 			}
 		}
 
-		// This is outside as it should apply the formula if you have been hit by non
-		// player too
+		// This is outside as it should apply the formula if you have been hit by non player too
 		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			GlobalData globalData = GlobalData.get(player);
@@ -980,8 +975,6 @@ public class EntityEvents {
 				//System.out.println(damage);
 			}
 
-
-
 			// Has to evaluate last
 			// Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more)
 			if (playerData.isAbilityEquipped(Strings.secondChance)) {
@@ -997,7 +990,8 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			PacketHandler.sendTo(new SCSyncGlobalData(player), (ServerPlayer) player);
 
-			event.setNewDamage(damage <= 0 ? 1 : damage);
+			if(!player.isDamageSourceBlocked(event.getSource()))
+				event.setNewDamage(damage <= 0 ? 1 : damage);
 		}
 
 		// Mobs defense formula
@@ -1042,6 +1036,7 @@ public class EntityEvents {
 			}
 			event.setNewDamage(damage < 1 ? 1 : damage);
 		}
+
 	}
 
 	// Prevent attack when stopped
