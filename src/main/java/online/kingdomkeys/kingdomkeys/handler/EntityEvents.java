@@ -1024,7 +1024,8 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 			PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) player);
 
-			event.setAmount(damage <= 0 ? 1 : damage);
+			if(!player.isDamageSourceBlocked(event.getSource()))
+				event.setAmount(damage <= 0 ? 1 : damage);
 		}
 
 		// Mobs defense formula
