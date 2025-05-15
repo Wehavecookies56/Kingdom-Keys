@@ -63,6 +63,10 @@ public class ShopScreen extends MenuFilterable {
 		this(playerData, parent);
 	}
 
+	public ShopList getShopList(){
+		return ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile));
+	}
+
 	protected void action(String string) {
 		switch (string) {
 		case "create":
@@ -105,7 +109,7 @@ public class ShopScreen extends MenuFilterable {
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
 		
-		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile));
+		ShopList shopList = getShopList();
 
 		List<ResourceLocation> items = new ArrayList<>();
 		for (int i = 0; i < shopList.getList().size(); i++) {
