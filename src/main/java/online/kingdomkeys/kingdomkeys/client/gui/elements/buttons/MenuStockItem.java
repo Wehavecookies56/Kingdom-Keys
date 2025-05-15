@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -10,12 +11,20 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Map;
 
 public class MenuStockItem extends Button {
 
@@ -99,7 +108,27 @@ public class MenuStockItem extends Button {
                 gui.blit(texture, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
-            gui.drawString(mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+
+            ChatFormatting color = ChatFormatting.WHITE;
+
+            if(parent instanceof SynthesisCreateScreen){
+                color = ChatFormatting.GRAY;
+                if(RecipeRegistry.getInstance().containsKey(rl)){
+                    Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
+                    PlayerData playerData = PlayerData.get(mc.player);
+                    if(recipe.getTier() <= playerData.getSynthLevel() && playerData.getMunny() >= recipe.getCost()) {
+                        color = ChatFormatting.WHITE;
+
+                        for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
+                            if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                                color = ChatFormatting.GRAY;
+                            }
+                        }
+                    }
+
+                }
+            }
+            gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();

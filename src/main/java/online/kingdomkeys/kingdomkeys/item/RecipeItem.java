@@ -67,7 +67,7 @@ public class RecipeItem extends Item implements IItemCategory {
 							int num = world.random.nextInt(types.size());
 							type = types.get(num);
 						} else if (types.size() == 1) {
-							type = types.get(0);
+							type = types.getFirst();
 						} else {
 							player.displayClientMessage(Component.translatable("message.recipe.no_more_to_learn"), true);
 							return super.use(world, player, hand);
@@ -128,9 +128,9 @@ public class RecipeItem extends Item implements IItemCategory {
 		PlayerData playerData = PlayerData.get(player);
 		List<ResourceLocation> list;
 		List<ResourceLocation> newRecipes = new ArrayList<>();
+		list = getMissingRecipes(playerData, type, tier);
 		switch(type) {
 		case "keyblade":
-			list = getMissingRecipes(playerData, "keyblade", tier);
 			int size = Math.min(list.size(), 3);
 			for (int i = 0; i < size; i++) {
 				int index = Utils.randomWithRange(0, list.size() - 1);
@@ -139,7 +139,6 @@ public class RecipeItem extends Item implements IItemCategory {
 			}
 			break;
 		case "item":
-			list = getMissingRecipes(playerData, "item", tier);
 			if(!list.isEmpty()) {
 				newRecipes.add(list.get(Utils.randomWithRange(0, list.size() - 1)));
 			}
