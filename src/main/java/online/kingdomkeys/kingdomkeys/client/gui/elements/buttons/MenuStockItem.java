@@ -16,12 +16,16 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Map;
@@ -110,12 +114,13 @@ public class MenuStockItem extends Button {
             matrixStack.popPose();
 
             ChatFormatting color = ChatFormatting.WHITE;
+            PlayerData playerData = PlayerData.get(mc.player);
 
             if(parent instanceof SynthesisCreateScreen){
                 color = ChatFormatting.GRAY;
+
                 if(RecipeRegistry.getInstance().containsKey(rl)){
                     Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
-                    PlayerData playerData = PlayerData.get(mc.player);
                     if(recipe.getTier() <= playerData.getSynthLevel() && playerData.getMunny() >= recipe.getCost()) {
                         color = ChatFormatting.WHITE;
 
@@ -127,6 +132,20 @@ public class MenuStockItem extends Button {
                     }
 
                 }
+            }
+            if(parent instanceof ShopScreen shop){
+                ShopList shopList = shop.getShopList();
+                for(ShopItem item : shopList.getList()){
+                    if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
+                        if(item.getCost() > playerData.getMunny()) {
+                            color = ChatFormatting.GRAY;
+                        } else {
+                            color = ChatFormatting.WHITE;
+                        }
+                        break;
+                    }
+                }
+               // System.out.println(shopList.getList().;
             }
             gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
