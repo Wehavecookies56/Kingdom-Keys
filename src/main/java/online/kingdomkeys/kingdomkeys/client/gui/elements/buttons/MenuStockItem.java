@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -29,6 +30,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Map;
+import java.util.Set;
 
 public class MenuStockItem extends Button {
 
@@ -116,12 +118,14 @@ public class MenuStockItem extends Button {
             ChatFormatting color = ChatFormatting.WHITE;
             PlayerData playerData = PlayerData.get(mc.player);
 
+            boolean displayTick = false;
             if(parent instanceof SynthesisCreateScreen){
+                displayTick = true;
                 color = ChatFormatting.DARK_GRAY;
 
                 if(RecipeRegistry.getInstance().containsKey(rl)){
                     Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
-                    if(recipe.getTier() <= playerData.getSynthLevel() && playerData.getMunny() >= recipe.getCost()) {
+                    if((recipe.getTier() <= playerData.getSynthLevel() || !ModConfigs.SERVER.requireSynthTier.get()) && playerData.getMunny() >= recipe.getCost()) {
                         color = ChatFormatting.WHITE;
 
                         for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
@@ -134,6 +138,7 @@ public class MenuStockItem extends Button {
                 }
             }
             if(parent instanceof ShopScreen shop){
+                displayTick = true;
                 ShopList shopList = shop.getShopList();
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
@@ -148,6 +153,13 @@ public class MenuStockItem extends Button {
                // System.out.println(shopList.getList().;
             }
             gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+
+            if(displayTick) {
+                Set<String> recipeList = PlayerData.get(mc.player).getSynthesisedRecipes();
+                if(recipeList.contains(rl.toString())) {
+                    gui.drawString(mc.font, "✔", (int)(getWidth() * 1.5), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
+                }
+            }
 
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();

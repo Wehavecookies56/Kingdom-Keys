@@ -248,6 +248,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			savePoints.put(uuid.toString(), timeTag);
 		});
 		storage.put("save_points", savePoints);
+
+		CompoundTag synthedRecipes = new CompoundTag();
+		for (String rec : this.getSynthesisedRecipes()) {
+			synthedRecipes.putInt(rec, 0);
+		}
+		storage.put("synthesised_recipes",synthedRecipes);
 		return storage;
 	}
 
@@ -426,6 +432,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			CompoundTag time = savePoints.getCompound(key);
 			addDiscoveredSavePoint(uuid, Instant.ofEpochSecond(time.getLong("second"), time.getInt("nano")));
 		}
+
+		synthesisedRecipes.clear();
+		for (String key : nbt.getCompound("synthesised_recipes").getAllKeys()) {
+			if (RecipeRegistry.getInstance().getRegistry().containsKey(ResourceLocation.parse(key))) {
+				this.getSynthesisedRecipes().add(key);
+			}
+		}
+
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -498,6 +512,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	//private String armorName = "";
 
 	Utils.castMagic castMagic = null;
+
+	private Set<String> synthesisedRecipes = new HashSet<>();
 
 	//region Main stats, level, exp, str, mag, ap
 	public int getLevel() {
@@ -2130,5 +2146,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public castMagic getCastedMagic() {
 		return castMagic;
+	}
+
+	public void setSynthesisedRecipes(Set<String> synthesisedRecipes) {
+		this.synthesisedRecipes = synthesisedRecipes;
+	}
+	public void addSynthesisedRecipe(String recipe){
+		if(RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe)))
+			this.synthesisedRecipes.add(recipe);
+		else
+			System.out.println("Recipe does not exist");
+	}
+
+	public Set<String> getSynthesisedRecipes(){
+		return this.synthesisedRecipes;
 	}
 }
