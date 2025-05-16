@@ -154,7 +154,6 @@ public class ShopScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -189,7 +188,7 @@ public class ShopScreen extends MenuFilterable {
 				enoughMunny = parent.playerData.getMunny() >= item.getCost();
 				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || parent.playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
-	
+
 				create.active = enoughMunny && enoughTier;
 				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 					create.active = false;
@@ -250,9 +249,12 @@ public class ShopScreen extends MenuFilterable {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
 				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(item.getTier())+" - "+(10 + item.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+
+				if(ModConfigs.SERVER.requireSynthTier.get()) {
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
+					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
+					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				}
 				
 				matrixStack.pushPose();
 				{

@@ -117,7 +117,7 @@ public class MenuStockItem extends Button {
             PlayerData playerData = PlayerData.get(mc.player);
 
             if(parent instanceof SynthesisCreateScreen){
-                color = ChatFormatting.GRAY;
+                color = ChatFormatting.DARK_GRAY;
 
                 if(RecipeRegistry.getInstance().containsKey(rl)){
                     Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
@@ -126,7 +126,7 @@ public class MenuStockItem extends Button {
 
                         for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
                             if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-                                color = ChatFormatting.GRAY;
+                                color = ChatFormatting.DARK_GRAY;
                             }
                         }
                     }
@@ -138,7 +138,7 @@ public class MenuStockItem extends Button {
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
                         if(item.getCost() > playerData.getMunny()) {
-                            color = ChatFormatting.GRAY;
+                            color = ChatFormatting.DARK_GRAY;
                         } else {
                             color = ChatFormatting.WHITE;
                         }
