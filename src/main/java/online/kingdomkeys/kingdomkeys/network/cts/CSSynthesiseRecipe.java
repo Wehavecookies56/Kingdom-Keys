@@ -97,8 +97,9 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 						}
 						worldData.setHeartlessSpawnLevel(1);
 						PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
-						playerData.addSynthesisedRecipe(name.toString());
 					}
+
+					playerData.addSynthesisedRecipe(name.toString());
 				}
 
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

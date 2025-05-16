@@ -85,9 +85,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.init();
 		initItems();
 
-
-
-
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
 		// addButton(scrollBar = new MenuScrollBar());
@@ -99,7 +96,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public void initItems() {
-		Player player = minecraft.player;
 		float invPosX = (float) width * 0.1494F;
 		float invPosY = (float) height * 0.1851F;
 		inventory.clear();

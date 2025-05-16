@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -18,7 +17,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -46,7 +44,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -108,6 +105,17 @@ public class Utils {
 		Random rand = new Random();
 		Item item = list.get(rand.nextInt(list.size()));
 		return new ItemStack(item,rand.nextInt(3)+1);
+	}
+
+	public static int getCheapestDriveCost(LinkedHashSet<String> driveFormMap) {
+		int min = 1000;
+		for(String entry : driveFormMap){
+			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry));
+			if(form != null && form.getDriveFormData() != null && !entry.equals(Strings.Form_Anti)) {
+				min = Math.min(form.getDriveCost(), min);
+			}
+		}
+		return min;
 	}
 
 	public static class Title {
