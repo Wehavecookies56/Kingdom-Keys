@@ -63,6 +63,9 @@ public class ShopScreen extends MenuFilterable {
 		this(parent);
 	}
 
+	public ShopList getShopList(){
+		return ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
+	}
 	protected void action(String string) {
 		switch (string) {
 		case "create":
@@ -104,8 +107,8 @@ public class ShopScreen extends MenuFilterable {
 		children().clear();
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
-		
-		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
+
+		ShopList shopList = getShopList();
 
 		List<ResourceLocation> items = new ArrayList<>();
 		for (int i = 0; i < shopList.getList().size(); i++) {
@@ -150,7 +153,6 @@ public class ShopScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -247,10 +249,11 @@ public class ShopScreen extends MenuFilterable {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
 				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(item.getTier())+" - "+(10 + item.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				
+				if(ModConfigs.requireSynthTier) {
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
+					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
+					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				}
 				matrixStack.pushPose();
 				{
 					float size = 80;

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -9,13 +10,25 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Map;
 
 public class MenuStockItem extends Button {
 
@@ -99,7 +112,45 @@ public class MenuStockItem extends Button {
                 gui.blit(texture, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
-            gui.drawString(mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+
+            ChatFormatting color = ChatFormatting.WHITE;
+            IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+
+            boolean displayTick = false;
+            if(parent instanceof SynthesisCreateScreen){
+                displayTick = true;
+                color = ChatFormatting.DARK_GRAY;
+
+                if(RecipeRegistry.getInstance().containsKey(rl)){
+                    Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
+                    if((recipe.getTier() <= playerData.getSynthLevel() || !ModConfigs.requireSynthTier) && playerData.getMunny() >= recipe.getCost()) {
+                        color = ChatFormatting.WHITE;
+
+                        for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
+                            if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                                color = ChatFormatting.DARK_GRAY;
+                            }
+                        }
+                    }
+
+                }
+            }
+            if(parent instanceof ShopScreen shop){
+                displayTick = true;
+                ShopList shopList = shop.getShopList();
+                for(ShopItem item : shopList.getList()){
+                    if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
+                        if(item.getCost() > playerData.getMunny()) {
+                            color = ChatFormatting.DARK_GRAY;
+                        } else {
+                            color = ChatFormatting.WHITE;
+                        }
+                        break;
+                    }
+                }
+                // System.out.println(shopList.getList().;
+            }
+            gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();

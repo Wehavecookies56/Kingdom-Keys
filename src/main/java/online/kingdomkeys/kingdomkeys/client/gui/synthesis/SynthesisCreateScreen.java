@@ -233,7 +233,12 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
 				line = Utils.getTierFromInt(recipe.getTier())+" - "+(10 + recipe.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, recipe.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+
+				Color color = Color.GREEN; // If you have enough tier it will be green, otherwise will be white or red based on the config.
+				if(recipe.getTier() > playerData.getSynthLevel()) {
+					color = ModConfigs.requireSynthTier ? Color.RED : Color.WHITE;
+				}
+				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10,  color.getRGB());
 			}
 			float size = 80;
 			matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()/2 - size / 2,0);
