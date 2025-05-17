@@ -259,8 +259,26 @@ public class CommandMenuGui extends OverlayBase {
 					if (playerData.getMP() > 0 && !playerData.getRecharge()) {
 						item.setActive(true);
 						item.setTextColour(Color.WHITE);
-						if (playerData.getMP() <= magicInst.getCost(playerData.getMagicLevel(item.getId()), Minecraft.getInstance().player)) {
-							item.setTextColour(Color.ORANGE);
+						double magCost = magicInst.getCost(playerData.getMagicLevel(item.getId()), Minecraft.getInstance().player);
+						if (playerData.getMP() <= magCost) {
+							if(playerData.getMaxMP() < magCost && magCost < 300){ //Cure case using all
+								item.setTextColour(Color.GRAY);
+							} else {
+								//Extra Cast
+								if(playerData.isAbilityEquipped(Strings.extraCast)){
+									if(magCost >= playerData.getMaxMP()){
+										item.setTextColour(Color.ORANGE);
+									} else {// if it's a normal magic
+										if(playerData.getMP() > 1 && playerData.getMP() - magCost < 1) { // If the player has more than 1MP and the magic would consume it all
+											item.setTextColour(Color.WHITE);
+										} else { //If the player has 1MP already orange
+											item.setTextColour(Color.ORANGE);
+										}
+									}
+								} else {
+									item.setTextColour(Color.ORANGE);
+								}
+							}
 						}
 					} else {
 						item.setTextColour(Color.WHITE);
@@ -355,6 +373,12 @@ public class CommandMenuGui extends OverlayBase {
 		}
 
 		if(item.getId().equals(magic)) {
+			Color color = Color.WHITE;
+
+			if(playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)){
+				color = Color.GRAY;
+			}
+			item.setTextColour(color);
 			if(playerData.getMagicsMap().isEmpty()){
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.util;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,6 +66,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
@@ -112,6 +114,19 @@ public class Utils {
 			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry));
 			if(form != null && form.getDriveFormData() != null && !entry.equals(Strings.Form_Anti)) {
 				min = Math.min(form.getDriveCost(), min);
+			}
+		}
+		return min;
+	}
+
+	public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+		double min = 1000;
+
+		for (Entry<String,int[]> magic : magicsMap.entrySet()){
+			Magic m = ModMagic.registry.get().getValue(new ResourceLocation(magic.getKey()));
+			if(m != null){
+				int lvl = magic.getValue()[0];
+				min = Math.min(m.getCost(lvl,player),min);
 			}
 		}
 		return min;
