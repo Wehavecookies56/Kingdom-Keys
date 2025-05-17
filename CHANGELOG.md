@@ -4,6 +4,7 @@
 
 **Changed:**
 * Greyed out synthesis recipes, keyblade forge and shop items that can't be afforded.
+* Made Fire, Blizzard and Thunder slightly cheaper, making Fire viable at lvl 4 (by default).
 
 **Fixed:**
 * Aerial dodge infinite jump.
