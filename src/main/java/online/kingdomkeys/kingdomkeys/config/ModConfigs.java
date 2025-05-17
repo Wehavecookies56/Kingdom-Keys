@@ -41,7 +41,7 @@ public class ModConfigs {
 
     public static List<String> magicDisplayedInCommandMenu;
     public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether;
-    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale;
+    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public enum ShowType {
         SHOW, HIDE, WEAPON
@@ -244,6 +244,36 @@ public class ModConfigs {
         bakeClient();
     }
 
+    public static void setCmEndLWidth(int value) {
+        CLIENT.cmEndLWidth.set(value);
+        bakeClient();
+    }
+
+    public static void setCmEndRWidth(int value) {
+        CLIENT.cmEndRWidth.set(value);
+        bakeClient();
+    }
+
+    public static void setCmHeaderEndLWidth(int value) {
+        CLIENT.cmHeaderEndLWidth.set(value);
+        bakeClient();
+    }
+
+    public static void setCmHeaderEndRWidth(int value) {
+        CLIENT.cmHeaderEndRWidth.set(value);
+        bakeClient();
+    }
+
+    public static void setCmReactionEndLWidth(int value) {
+        CLIENT.cmReactionEndLWidth.set(value);
+        bakeClient();
+    }
+
+    public static void setCmReactionEndRWidth(int value) {
+        CLIENT.cmReactionEndRWidth.set(value);
+        bakeClient();
+    }
+
     public static void bakeClient() {
         magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
@@ -292,6 +322,13 @@ public class ModConfigs {
         summonTogether = CLIENT.summonTogether.get();
 
         showGuiToggle = CLIENT.showGuiToggle.get();
+
+        cmHeaderEndLWidth = CLIENT.cmHeaderEndLWidth.get();
+        cmHeaderEndRWidth = CLIENT.cmHeaderEndRWidth.get();
+        cmEndLWidth = CLIENT.cmEndLWidth.get();
+        cmEndRWidth = CLIENT.cmEndRWidth.get();
+        cmReactionEndLWidth = CLIENT.cmReactionEndLWidth.get();
+        cmReactionEndRWidth = CLIENT.cmReactionEndRWidth.get();
     }
 
     public static boolean debugConsoleOutput, bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName;

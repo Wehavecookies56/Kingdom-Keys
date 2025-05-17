@@ -85,16 +85,17 @@ public class CommandMenuGui extends OverlayBase {
 				.position(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight())
 				.openByDefault()
 				.changesColour()
+				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
 					subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight());
 				})
 				.withChildren(
-						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(170, 18),
-						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(180, 18),
-						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(160, 18),
-						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(150, 18),
-						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(140, 18),
+						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
+						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60),
+						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(20, 60),
+						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(10, 60),
+						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(0, 60),
 						new CommandMenuItem.Builder(revert, Component.translatable(Strings.Gui_CommandMenu_Drive_Revert), item -> {
 							PlayerData playerData = PlayerData.get(minecraft.player);
 							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
@@ -110,8 +111,8 @@ public class CommandMenuGui extends OverlayBase {
 									item.getParent().getChild(drive).setVisible(true);
 								}
 							}
-						}).iconUV(140, 18),
-						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(140, 18)
+						}).iconUV(0, 60),
+						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60)
 				)
 				.build();
 		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
@@ -279,7 +280,7 @@ public class CommandMenuGui extends OverlayBase {
 					item.setTextColour(Color.WHITE);
 					item.setActive(false);
 				}
-			}).iconUV(160, 18)));
+			}).iconUV(160, 60)));
 		return magic.toArray(new CommandMenuItem.Builder[0]);
 	}
 
@@ -300,7 +301,7 @@ public class CommandMenuGui extends OverlayBase {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			DriveForm form = ModDriveForms.registry.get(item.getId());
             item.setActive(playerData.getDP() >= form.getDriveCost());
-		}).iconUV(140, 18)));
+		}).iconUV(0, 60)));
 		return forms.toArray(new CommandMenuItem.Builder[0]);
 	}
 
@@ -326,7 +327,7 @@ public class CommandMenuGui extends OverlayBase {
 			if (item.getParent().isVisible()) {
 				drawString(guiGraphics, font, String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100), item.getX() + font.width(item.getMessage().getString()), item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
 			}
-		}).iconUV(140, 18)));
+		}).iconUV(0, 60)));
 		return limits.toArray(new CommandMenuItem.Builder[0]);
 	}
 
@@ -355,11 +356,17 @@ public class CommandMenuGui extends OverlayBase {
 			return;
 		}
 		if(item.getId().equals(magic)) {
-			Color color = Color.WHITE;
-			if(playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)){
-				 color = Color.GRAY;
+			item.setTextColour(Color.WHITE);
+
+			if((playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
-			item.setTextColour(color);
+
+			if(playerData.getMagicCooldownTicks() > 0){
+				item.setActive(false); //Doesn't allow opening submenu while a magic is being casted and on CD
+				return;
+			}
+
 			if(playerData.getMagicsMap().isEmpty()){
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
@@ -440,7 +447,7 @@ public class CommandMenuGui extends OverlayBase {
 				}
 				changeSubmenu(root, true);
 				playInSound();
-			}).iconUV(180, 18).build(subMenu));
+			}).iconUV(40, 60).build(subMenu));
 		});
 	}
 
@@ -502,7 +509,7 @@ public class CommandMenuGui extends OverlayBase {
 								} else {
 									playErrorSound();
 								}
-							}).iconUV(150, 18)
+							}).iconUV(10, 60)
 							.build(subMenu));
 		}});
 	}
@@ -665,7 +672,9 @@ public class CommandMenuGui extends OverlayBase {
 
 					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);
 					RenderSystem.enableBlend();
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 15, TOP_WIDTH, TOP_HEIGHT);
+					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth, TOP_HEIGHT);
+					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth), TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 					RenderSystem.disableBlend();
 
 				}

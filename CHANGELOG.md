@@ -10,3 +10,4 @@
 * Command Menu Text offset being too close to the left by default.
 * Material command not working when specifying a material.
 * Command Menu Magic and Drive back to ??? if none have been learned yet.
+* Casttime not being used in the Command Menu.
