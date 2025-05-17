@@ -67,6 +67,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -118,7 +119,20 @@ public class Utils {
 		return min;
 	}
 
-	public static class Title {
+    public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+		double min = 1000;
+
+    	for (Entry<String,int[]> magic : magicsMap.entrySet()){
+			Magic m = ModMagic.registry.get(ResourceLocation.parse(magic.getKey()));
+			if(m != null){
+				int lvl = magic.getValue()[0];
+				min = Math.min(m.getCost(lvl,player),min);
+			}
+		}
+        return min;
+    }
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
