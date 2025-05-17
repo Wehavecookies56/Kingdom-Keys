@@ -12,3 +12,4 @@
 * Material command not working when specifying a material.
 * Command Menu Magic and Drive back to ??? if none have been learned yet.
 * Command Menu Magic showing orange if the cost was bigger than the max MP (should've been gray)
+* Casttime not being used in the Command Menu.

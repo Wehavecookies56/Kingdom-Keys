@@ -256,6 +256,7 @@ public class CommandMenuGui extends OverlayBase {
 				.onUpdate((item, guiGraphics) -> {
 					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 					Magic magicInst = ModMagic.registry.get().getValue(item.getId());
+
 					if (playerData.getMP() > 0 && !playerData.getRecharge()) {
 						item.setActive(true);
 						item.setTextColour(Color.WHITE);
@@ -373,12 +374,17 @@ public class CommandMenuGui extends OverlayBase {
 		}
 
 		if(item.getId().equals(magic)) {
-			Color color = Color.WHITE;
+			item.setTextColour(Color.WHITE);
 
-			if(playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)){
-				color = Color.GRAY;
+			if((playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && playerData.getMagicCooldownTicks() <= 0){ //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
-			item.setTextColour(color);
+
+			if(playerData.getMagicCooldownTicks() > 0){
+				item.setActive(false); //Doesn't allow opening submenu while a magic is being casted and on CD
+				return;
+			}
+
 			if(playerData.getMagicsMap().isEmpty()){
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
@@ -386,6 +392,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setActive(true);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
 			}
+
 		}
 
 		if (item.getId().equals(drive)) {
