@@ -13,15 +13,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisForgeScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
@@ -29,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -137,6 +142,30 @@ public class MenuStockItem extends Button {
 
                 }
             }
+
+            if(parent instanceof SynthesisForgeScreen){
+                displayTick = true;
+                color = ChatFormatting.DARK_GRAY;
+                if(stack.getItem() instanceof KeychainItem kcItem) {
+                    KeybladeItem item = kcItem.getKeyblade();
+                    if(item.getKeybladeLevel(stack) >= item.getMaxLevel()){
+                        color = ChatFormatting.GOLD;
+                    } else {
+                        Iterator<Map.Entry<Item, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
+                        color = ChatFormatting.WHITE;
+                        while (itMats.hasNext()) { //Check if the player has the materials
+                            Map.Entry<Item, Integer> m = itMats.next();
+
+                            if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                                color = ChatFormatting.DARK_GRAY;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
             if(parent instanceof ShopScreen shop){
                 displayTick = true;
                 ShopList shopList = shop.getShopList();
@@ -150,7 +179,6 @@ public class MenuStockItem extends Button {
                         break;
                     }
                 }
-               // System.out.println(shopList.getList().;
             }
             gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
