@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Map;
+import java.util.Set;
 
 public class MenuStockItem extends Button {
 
@@ -152,6 +153,12 @@ public class MenuStockItem extends Button {
             }
             gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
+            if(displayTick) {
+                Set<String> recipeList = playerData.getSynthesisedRecipes();
+                if(recipeList.contains(rl.toString())) {
+                    gui.drawString(mc.font, "✔", (int)(getWidth() * 1.5), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
+                }
+            }
             if(showAmount) {
 	            String count = Component.translatable("x%s ", stack.getCount()).getString();
 	            gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);

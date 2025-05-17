@@ -346,4 +346,8 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	Map<UUID, Instant> discoveredSavePoints();
 	void addDiscoveredSavePoint(UUID id, Instant time);
 	void setDiscoveredSavePoints(Map<UUID, Instant> list);
+
+	void setSynthesisedRecipes(Set<String> synthesisedRecipes);
+	void addSynthesisedRecipe(String recipe);
+	Set<String> getSynthesisedRecipes();
 }

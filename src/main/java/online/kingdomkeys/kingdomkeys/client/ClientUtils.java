@@ -283,7 +283,8 @@ public class ClientUtils {
 
                 playerData.setSingleStyle(message.singleStyle);
                 playerData.setDualStyle(message.dualStyle);
-                
+
+                playerData.setSynthesisedRecipes(message.synthesisedRecipes);
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }
         };

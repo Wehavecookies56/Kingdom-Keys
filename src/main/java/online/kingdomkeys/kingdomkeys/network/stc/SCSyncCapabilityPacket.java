@@ -78,6 +78,7 @@ public class SCSyncCapabilityPacket {
 	private boolean armorGlint = true;
 	public boolean respawnROD;
 
+	public Set<String> synthesisedRecipes = new HashSet<>();
 	
 	public SCSyncCapabilityPacket() {
 	}
@@ -152,6 +153,8 @@ public class SCSyncCapabilityPacket {
 
 		this.singleStyle = capability.getSingleStyle();
 		this.dualStyle = capability.getDualStyle();
+
+		this.synthesisedRecipes = capability.getSynthesisedRecipes();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -313,6 +316,11 @@ public class SCSyncCapabilityPacket {
 
 		buffer.writeUtf(singleStyle.toString(), 20);
 		buffer.writeUtf(dualStyle.toString(), 20);
+
+		buffer.writeInt(synthesisedRecipes.size());
+		for (String s : synthesisedRecipes) {
+			buffer.writeUtf(s, 100);
+		}
 	}
 
 	public static SCSyncCapabilityPacket decode(FriendlyByteBuf buffer) {
@@ -459,6 +467,11 @@ public class SCSyncCapabilityPacket {
 
 		msg.singleStyle = SingleChoices.valueOf(buffer.readUtf(20));
 		msg.dualStyle = DualChoices.valueOf(buffer.readUtf(20));
+
+		int recipeSize = buffer.readInt();
+		for(int i = 0; i < recipeSize;i++) {
+			msg.synthesisedRecipes.add(buffer.readUtf(100));
+		}
 		return msg;
 	}
 

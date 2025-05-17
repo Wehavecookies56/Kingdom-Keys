@@ -78,11 +78,9 @@ public class CSSynthesiseRecipe {
 						//playerData.setSynthLevel(1);
 						playerData.addSynthExperience(10 + recipe.getTier() * 2);
 
-						Iterator<Entry<Item, Integer>> ite = recipe.getMaterials().entrySet().iterator();
-						while (ite.hasNext()) {
-							Entry<Item, Integer> m = ite.next();
-							playerData.removeMaterial(m.getKey(), m.getValue());
-						}
+                        for (Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
+                            playerData.removeMaterial(m.getKey(), m.getValue());
+                        }
 
 						Item i = recipe.getResult();
 						ItemStack stack = new ItemStack(i);
@@ -109,6 +107,7 @@ public class CSSynthesiseRecipe {
 							worldData.setHeartlessSpawnLevel(1);
 							PacketHandler.sendToAllPlayers(new SCSyncWorldCapability(worldData));
 						}
+						playerData.addSynthesisedRecipe(message.name.toString());
 					}
 					PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayer) player);
 				}

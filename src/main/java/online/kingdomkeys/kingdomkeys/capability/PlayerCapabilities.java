@@ -226,6 +226,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			savePoints.put(uuid.toString(), timeTag);
 		});
 		storage.put("save_points", savePoints);
+
+
+		CompoundTag synthedRecipes = new CompoundTag();
+		for (String rec : this.getSynthesisedRecipes()) {
+			synthedRecipes.putInt(rec, 0);
+		}
+
+		storage.put("synthesised_recipes",synthedRecipes);
 		return storage;
 	}
 
@@ -388,6 +396,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			CompoundTag time = savePoints.getCompound(key);
 			addDiscoveredSavePoint(uuid, Instant.ofEpochSecond(time.getLong("second"), time.getInt("nano")));
 		}
+
+
+		synthesisedRecipes.clear();
+
+		for (String key : nbt.getCompound("synthesised_recipes").getAllKeys()) {
+			if (RecipeRegistry.getInstance().getRegistry().containsKey(new ResourceLocation(key))) {
+				this.getSynthesisedRecipes().add(key);
+			}
+		}
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
@@ -456,6 +473,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int notifColor = 16777215;
 
 	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
+
+	private Set<String> synthesisedRecipes = new HashSet<>();
 
 	//private String armorName = "";
 	
@@ -2364,6 +2383,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		return castMagic;
 	}
 
-	
+	public void setSynthesisedRecipes(Set<String> synthesisedRecipes) {
+		this.synthesisedRecipes = synthesisedRecipes;
+	}
+
+	public void addSynthesisedRecipe(String recipe){
+		if(RecipeRegistry.getInstance().containsKey(new ResourceLocation(recipe)))
+			this.synthesisedRecipes.add(recipe);
+		else
+			System.out.println("Recipe does not exist");
+	}
+
+	public Set<String> getSynthesisedRecipes(){
+		return this.synthesisedRecipes;
+	}
 
 }

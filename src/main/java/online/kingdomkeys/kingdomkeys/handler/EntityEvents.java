@@ -1460,6 +1460,7 @@ public class EntityEvents {
 		Utils.RefreshAbilityAttributes(nPlayer, newPlayerData);
 
 		newPlayerData.setDiscoveredSavePoints(oldPlayerData.discoveredSavePoints());
+		newPlayerData.setSynthesisedRecipes(oldPlayerData.getSynthesisedRecipes());
 
 		PacketHandler.sendTo(new SCSyncWorldCapability(ModCapabilities.getWorld(nPlayer.level())), (ServerPlayer) nPlayer);
 		oPlayer.invalidateCaps();
