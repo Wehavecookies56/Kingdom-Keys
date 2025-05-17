@@ -16,6 +16,8 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -66,9 +68,10 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been set to "+value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
 	
@@ -85,9 +88,10 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.addHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been increased by "+value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
 	
@@ -105,9 +109,10 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.removeHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your hearts have been decreased by "+value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
 }

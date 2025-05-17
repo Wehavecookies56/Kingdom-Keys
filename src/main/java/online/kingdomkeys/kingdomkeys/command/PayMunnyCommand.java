@@ -17,6 +17,8 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <value>
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -43,7 +45,9 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 				targetData.setMunny(targetData.getMunny() + value);
 				user.sendSystemMessage(Component.translatable("You paid " + value + " munny to " + target.getDisplayName().getString()));
 				target.sendSystemMessage(Component.translatable("You got " + value + " munny from " + user.getDisplayName().getString()));
+				PacketHandler.sendTo(new SCSyncCapabilityPacket(targetData), target);
 			}
+			PacketHandler.sendTo(new SCSyncCapabilityPacket(userData), user);
 		} else {
 			user.sendSystemMessage(Component.translatable("You don't have enough munny (" + value + ") to pay " + getPlayersString(players)));	
 		}
