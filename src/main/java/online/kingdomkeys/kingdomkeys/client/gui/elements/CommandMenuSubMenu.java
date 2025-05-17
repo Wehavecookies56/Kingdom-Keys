@@ -40,7 +40,7 @@ public class CommandMenuSubMenu {
     private final OnOpen onOpen;
     private final OnUpdate onUpdate;
     private Color colour, titleColour;
-    private boolean useOrgColour, useBossColour, useHostileColour, autoResize;
+    private boolean useOrgColour, useBossColour, useHostileColour, autoResize, useFixedHeader;
 
     public static final Color ORG_COLOUR = new Color(204, 204, 204);
     public static final Color BOSS_COLOUR = new Color(255, 0, 0);
@@ -62,7 +62,7 @@ public class CommandMenuSubMenu {
         private int width = 70;
         private int height = 15;
         private final List<CommandMenuItem.Builder> children;
-        private boolean useOrgColour, useBossColour, useHostileColour, autoResize;
+        private boolean useOrgColour, useBossColour, useHostileColour, autoResize, useFixedHeader;
         private CommandMenuSubMenu parent;
         public Builder(ResourceLocation id, Component title) {
             this.id = id;
@@ -126,6 +126,11 @@ public class CommandMenuSubMenu {
             return this;
         }
 
+        public Builder fixedHeader() {
+            this.useFixedHeader = true;
+            return this;
+        }
+
         public CommandMenuSubMenu build() {
             return buildWithParent(null);
         }
@@ -170,6 +175,7 @@ public class CommandMenuSubMenu {
         this.useHostileColour = builder.useHostileColour;
         this.useBossColour = builder.useBossColour;
         this.autoResize = builder.autoResize;
+        this.useFixedHeader = builder.useFixedHeader;
     }
 
     public int getMaxY() {
@@ -481,9 +487,13 @@ public class CommandMenuSubMenu {
 
             guiGraphics.pose().translate(0, 0, getZ());
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
-            guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, 4, getHeight());
-            guiGraphics.blit(getTexture(), getX()+4, getY(), getWidth()-14, getHeight(), 4, 0, 1, getHeight(),256, 256);
-            guiGraphics.blit(getTexture(), getX()+getWidth()-10, getY(), 60, 0, 10, getHeight());
+            if (useFixedHeader) {
+                guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);
+            } else {
+                guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
+                guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
+                guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
+            }
             if(ModConfigs.cmHeaderTextVisible) {
                 Color textColour = isActive() ? titleColour : titleColour.darker().darker();
                 guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);

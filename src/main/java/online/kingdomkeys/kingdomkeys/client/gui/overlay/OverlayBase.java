@@ -22,6 +22,10 @@ public abstract class OverlayBase implements IGuiOverlay {
         }
     }
 
+    public void blit(GuiGraphics gui, ResourceLocation texture, int x, int y, int width, int height, int u, int v, int uwidth, int vheight, int texwidth, int texheight) {
+        gui.blit(texture, x, y, width, height, u ,v, uwidth, vheight, texwidth, texheight);
+    }
+
     public void blit(GuiGraphics gui, ResourceLocation texture, int x, int y, int u, int v, int uwidth, int vheight) {
         gui.blit(texture, x, y, u ,v, uwidth, vheight);
     }
