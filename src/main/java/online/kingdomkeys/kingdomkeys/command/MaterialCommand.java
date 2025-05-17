@@ -68,7 +68,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 	private static int addMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = context.getArgument("material", ResourceLocation.class);
+		ResourceLocation materialName = new ResourceLocation(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = ForgeRegistries.ITEMS.getValue(materialName);
 

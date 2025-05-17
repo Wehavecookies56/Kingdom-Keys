@@ -156,7 +156,7 @@ public class MenuStockItem extends Button {
             if(displayTick) {
                 Set<String> recipeList = playerData.getSynthesisedRecipes();
                 if(recipeList.contains(rl.toString())) {
-                    gui.drawString(mc.font, "✔", (int)(getWidth() * 1.5), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
+                    gui.drawString(mc.font, "✔", (int)(getWidth() * 1.49), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
                 }
             }
             if(showAmount) {

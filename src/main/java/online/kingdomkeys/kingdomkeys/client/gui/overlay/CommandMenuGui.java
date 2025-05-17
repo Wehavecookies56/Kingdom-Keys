@@ -353,10 +353,34 @@ public class CommandMenuGui extends OverlayBase {
 			item.setActive(true);
 			return;
 		}
-		if (item.getId().equals(drive) && !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-			item.setVisible(false);
-			item.getParent().getChild(revert).setVisible(true);
+
+		if(item.getId().equals(magic)) {
+			if(playerData.getMagicsMap().isEmpty()){
+				item.setActive(false);
+				item.setMessage(Component.literal("???"));
+			} else {
+				item.setActive(true);
+				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
+			}
 		}
+
+		if (item.getId().equals(drive)) {
+			if (playerData.getDriveFormMap().size() < 4) {
+				item.setActive(false);
+				item.setMessage(Component.literal("???"));
+			} else {
+				item.setActive(true);
+				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData.getVisibleDriveForms()) ? Color.WHITE : Color.GRAY;
+				item.setTextColour(color);
+				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
+			}
+
+			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+				item.setVisible(false);
+				item.getParent().getChild(revert).setVisible(true);
+			}
+		}
+
 		if (commandMenuElements.containsKey(submenu)) {
 			if (submenu.equals(items)) {
 				item.setActive(false);

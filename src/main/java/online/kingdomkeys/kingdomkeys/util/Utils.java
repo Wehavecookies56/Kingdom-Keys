@@ -106,7 +106,18 @@ public class Utils {
 		return new ItemStack(item,rand.nextInt(3)+1);
 	}
 
-    public static class Title {
+	public static int getCheapestDriveCost(LinkedHashSet<String> driveFormMap) {
+		int min = 1000;
+		for(String entry : driveFormMap){
+			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry));
+			if(form != null && form.getDriveFormData() != null && !entry.equals(Strings.Form_Anti)) {
+				min = Math.min(form.getDriveCost(), min);
+			}
+		}
+		return min;
+	}
+
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
@@ -356,13 +367,11 @@ public class Utils {
 	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, LinkedHashSet<String> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
-		Iterator<String> it = driveFormsMap.keySet().iterator();
-		while (it.hasNext()) {
-			String entry = it.next();
-			if (visibleForms.contains(entry)) { // Should only add the form if it is visible
-				list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
-			}
-		}
+        for (String entry : driveFormsMap.keySet()) {
+            if (visibleForms.contains(entry)) { // Should only add the form if it is visible
+                list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
+            }
+        }
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
