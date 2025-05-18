@@ -1,6 +1,7 @@
 **Added:**
 * Green checkmark to keep track of synthesis recipes that have been obtained.
 * Gold text for level 10 weapons in keyblade forge.
+* _**/kingdomkeys convert_old_forge_data**_ command added to bring forward KK data from worlds created in 1.20.1
 
 **Changed:**
 * Greyed out synthesis recipes, keyblade forge and shop items that can't be afforded.
