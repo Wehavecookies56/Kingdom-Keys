@@ -25,6 +25,7 @@ public class ModCommands {
                 .then(PayMunnyCommand.register())
                 .then(RecipeCommand.register())
                 .then(WhisperInMyEarPinkHairMan.register())
+                .then(ConvertOldForgeDataCommand.register())
         );
     }
 

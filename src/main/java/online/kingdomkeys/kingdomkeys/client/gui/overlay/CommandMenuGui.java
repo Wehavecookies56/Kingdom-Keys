@@ -363,7 +363,6 @@ public class CommandMenuGui extends OverlayBase {
 			}
 
 			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-			System.out.println(form.canUseMagic());
 			if(playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()){
 				item.setActive(false); //Doesn't allow opening submenu while a magic is being casted and on CD
 				return;

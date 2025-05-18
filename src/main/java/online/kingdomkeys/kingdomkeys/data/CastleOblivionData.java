@@ -159,7 +159,7 @@ public class CastleOblivionData {
             return tag;
         }
 
-        private static ExteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
+        public static ExteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
             ExteriorData data = ExteriorData.create();
             if (data.interiors == null) {
                 data.interiors = new HashMap<>();
