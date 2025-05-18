@@ -66,7 +66,7 @@ public class ClientConfig {
 	        cmTextXOffset = builder
 	                .comment("Command Menu Text X Offset")
 	                .translation(KingdomKeys.MODID + ".config.cm_text_x_offset")
-	                .defineInRange("cmTextXOffset", 5, -1000, 1000);
+	                .defineInRange("cmTextXOffset", 0, -1000, 1000);
 	        
 	        cmHeaderTextVisible = builder
 	                .comment("Command Menu Header Text Visibility")
