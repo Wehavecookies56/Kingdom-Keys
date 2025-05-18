@@ -1,9 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,16 +27,17 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
+import online.kingdomkeys.kingdomkeys.entity.drops.XPEntity;
 
-public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWithComplexSpawn {
+import java.util.Optional;
 
-    public int ticksToExplode;
+public abstract class BaseBombEntity extends BaseKHEntity {
 
     protected BaseBombEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        this.ticksToExplode = 100;
+        this.setTicks(100);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -69,19 +71,34 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
     }
 
     @Override
-    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
-        buffer.writeInt(ticksToExplode);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(TICKS, 0);
+    }
+    private static final EntityDataAccessor<Integer> TICKS = SynchedEntityData.defineId(BaseBombEntity.class, EntityDataSerializers.INT);
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        compound.putInt("ticks", this.entityData.get(TICKS));
     }
 
     @Override
-    public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
-        ticksToExplode = additionalData.readInt();
+    public void readAdditionalSaveData(CompoundTag compound) {
+        this.entityData.set(TICKS, compound.getInt("ticks"));
+    }
+
+    public int getTicks() {
+        return this.getEntityData().get(TICKS);
+    }
+
+    public void setTicks(int ticks) {
+        this.entityData.set(TICKS, ticks);
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!this.level().isClientSide) {
-            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getMsgId().equals(KKResistanceType.fire.toString()))) {
+            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.is(KKDamageTypes.FIRE))) {
                 explode();
             }
         }
@@ -90,8 +107,6 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
 
     @Override
     public void tick() {
-        if (getState() == 1)
-        	ticksToExplode--;
         super.tick();
     }
 
@@ -130,7 +145,10 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityWith
             if (canUse()) {
                 bomb.setState(1);
                 bomb.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.8D);
-                if (bomb.ticksToExplode <= 0) {
+
+                bomb.setTicks(bomb.getTicks()-2);
+
+                if (bomb.getTicks() <= 0) {
                     bomb.explode();
                 }
             }
