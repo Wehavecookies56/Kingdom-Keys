@@ -13,3 +13,4 @@
 * Material command not working when specifying a material.
 * Command Menu Magic and Drive back to ??? if none have been learned yet.
 * Casttime not being used in the Command Menu.
+* Rendering of obtained EXP and bomb heartless timer.

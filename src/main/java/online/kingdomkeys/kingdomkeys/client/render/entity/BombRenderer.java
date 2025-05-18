@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -40,6 +41,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
             matrixStackIn.pushPose();
             matrixStackIn.translate(0, entityIn.getBbHeight() + 0.75D, 0);
             matrixStackIn.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
             matrixStackIn.scale(-0.05F, -0.05F, -0.05F);
             Matrix4f matrix4f = matrixStackIn.last().pose();
             mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0xFFFFFF, false, matrix4f, bufferIn, Font.DisplayMode.NORMAL, 0, packedLightIn);

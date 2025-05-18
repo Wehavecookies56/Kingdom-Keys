@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import com.mojang.math.Axis;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import org.joml.Matrix4f;
 
@@ -26,6 +27,7 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
         return null;
     }
 
+    int frame=0;
     @Override
     public void render(XPEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         Minecraft mc = Minecraft.getInstance();
@@ -39,12 +41,14 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
             int xp = Math.max(entityIn.getExp(), 0);
             String text = "+"+xp+"xp";
             matrixStackIn.pushPose();
-            matrixStackIn.translate(0, entityIn.getBbHeight() + 0.75D, 0);
+            matrixStackIn.translate(0, entityIn.getBbHeight() + 0.75D + (entityIn.tickCount/100F), 0);
             matrixStackIn.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
+
             matrixStackIn.scale(-0.05F, -0.05F, -0.05F);
             
             if(entityIn.tickCount >= 10)
-            	matrixStackIn.scale((30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F);
+            matrixStackIn.scale((30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F);
 
             Matrix4f matrix4f = matrixStackIn.last().pose();
             mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0x00FFFF, false, matrix4f, bufferIn, Font.DisplayMode.NORMAL, 0, packedLightIn);
