@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -20,21 +23,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 
-public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAdditionalSpawnData {
-
-    public int ticksToExplode;
+public abstract class BaseBombEntity extends BaseKHEntity {
 
     protected BaseBombEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        this.ticksToExplode = 100;
+        this.setTicks(100);
     }
 
     public BaseBombEntity(EntityType<? extends Monster> type, PlayMessages.SpawnEntity spawnEntity, Level world) {
@@ -72,16 +72,6 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     }
 
     @Override
-    public void writeSpawnData(FriendlyByteBuf buffer) {
-        buffer.writeInt(ticksToExplode);
-    }
-
-    @Override
-    public void readSpawnData(FriendlyByteBuf additionalData) {
-        ticksToExplode = additionalData.readInt();
-    }
-
-    @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -89,20 +79,33 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!this.level().isClientSide) {
-            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.getMsgId().equals(KKResistanceType.fire.toString()))) {
+            if (ModConfigs.bombExplodeWithfire && (isOnFire() || source.is(KKDamageTypes.FIRE))) {
                 explode();
             }
         }
         return super.hurt(source, amount);
     }
 
+
+    private static final EntityDataAccessor<Integer> TICKS = SynchedEntityData.defineId(BaseBombEntity.class, EntityDataSerializers.INT);
+
     @Override
-    public void tick() {
-        if (EntityHelper.getState(this) == 1) 
-        	ticksToExplode--;
-        super.tick();
+    public void addAdditionalSaveData(CompoundTag compound) {
+        compound.putInt("ticks", this.entityData.get(TICKS));
     }
 
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        this.entityData.set(TICKS, compound.getInt("ticks"));
+    }
+
+    public int getTicks() {
+        return this.getEntityData().get(TICKS);
+    }
+
+    public void setTicks(int ticks) {
+        this.entityData.set(TICKS, ticks);
+    }
     boolean hasExploded = false;
 
     public void explode() {
@@ -125,6 +128,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(EntityHelper.STATE, 0);
+        this.entityData.define(TICKS, 0);
     }
 
     class BombGoal extends Goal {
@@ -136,7 +140,7 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
 
         @Override
         public boolean canUse() {
-            return bomb.getTarget() != null && bomb.distanceToSqr(bomb.getTarget()) < 64 && bomb.getHealth() < bomb.getMaxHealth();
+            return EntityHelper.getState(bomb) == 1 || bomb.getTarget() != null && bomb.distanceToSqr(bomb.getTarget()) < 64 && bomb.getHealth() < bomb.getMaxHealth();
         }
 
         @Override
@@ -144,7 +148,10 @@ public abstract class BaseBombEntity extends BaseKHEntity implements IEntityAddi
             if (canUse()) {
                 EntityHelper.setState(bomb, 1);
                 bomb.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.8D);
-                if (bomb.ticksToExplode <= 0) {
+
+                bomb.setTicks(bomb.getTicks()-2);
+
+                if (bomb.getTicks() <= 0) {
                     bomb.explode();
                 }
             }

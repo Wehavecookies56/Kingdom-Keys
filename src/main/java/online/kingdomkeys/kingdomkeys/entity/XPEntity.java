@@ -33,7 +33,7 @@ public class XPEntity extends Entity {
 	}
 
 	public XPEntity(Level world) {
-		super(ModEntities.TYPE_HEART.get(), world);
+		super(ModEntities.TYPE_XP.get(), world);
 		this.blocksBuilding = true;
 	}
 
