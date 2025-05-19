@@ -134,12 +134,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			forms.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("drive_forms", forms);
-		
-		CompoundTag visibleDriveForms = new CompoundTag();
-		for (String visibleForm : this.getVisibleDriveForms()) {
-			visibleDriveForms.putString(visibleForm, "");
-		}
-		storage.put("visible_drive_forms", visibleDriveForms);
 
 		CompoundTag abilities = new CompoundTag();
 		for (Entry<String, int[]> pair : this.getAbilityMap().entrySet()) {
@@ -320,12 +314,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
 			if (ModDriveForms.registry.get().containsKey(new ResourceLocation(driveFormName))) {
 				this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
-			}
-		}
-		
-		for (String driveFormName : nbt.getCompound("visible_drive_forms").getAllKeys()) {
-			if (ModDriveForms.registry.get().containsKey(new ResourceLocation(driveFormName))) { //If form exists
-				this.getVisibleDriveForms().add(driveFormName);
 			}
 		}
 
@@ -897,31 +885,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setDriveFormMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
-	}
-	
-	@Override
-	public LinkedHashSet<String> getVisibleDriveForms() {
-		return visibleDriveforms;
-	}
-
-	@Override
-	public void setVisibleDriveForms(LinkedHashSet<String> forms) {
-		this.visibleDriveforms = forms;
-	}
-
-	@Override
-	public void addVisibleDriveForm(String form) {
-		if(!visibleDriveforms.contains(form)) {
-			this.visibleDriveforms.add(form);
-		}
-	}
-
-	@Override
-	public void remVisibleDriveForm(String form) {
-		if(visibleDriveforms.contains(form)) {
-			visibleDriveforms.remove(form);
-		}
-		
 	}
 
 	@Override

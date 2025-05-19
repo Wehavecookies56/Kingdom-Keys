@@ -108,11 +108,10 @@ public class Utils {
 		return new ItemStack(item,rand.nextInt(3)+1);
 	}
 
-	public static int getCheapestDriveCost(LinkedHashSet<String> driveFormMap) {
+	public static int getCheapestDriveCost(List<DriveForm> driveFormMap) {
 		int min = 1000;
-		for(String entry : driveFormMap){
-			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry));
-			if(form != null && form.getDriveFormData() != null && !entry.equals(Strings.Form_Anti)) {
+		for(DriveForm form : driveFormMap){
+			if(form != null && form.getDriveFormData() != null && form != ModDriveForms.ANTI.get()) {
 				min = Math.min(form.getDriveCost(), min);
 			}
 		}
@@ -379,12 +378,13 @@ public class Utils {
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, LinkedHashSet<String> visibleForms) {
+	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, List<DriveForm> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
         for (String entry : driveFormsMap.keySet()) {
-            if (visibleForms.contains(entry)) { // Should only add the form if it is visible
-                list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
+			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry));
+            if (visibleForms.contains(form)) { // Should only add the form if it is visible
+                list.add(form);
             }
         }
 
@@ -1090,27 +1090,6 @@ public class Utils {
 		return lvl;
 	}
 
-	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
-		int minCost = 1000;
-		if (playerData.getDriveFormMap().size() > 2) {
-			for (String e : playerData.getVisibleDriveForms()) {
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
-				minCost = Math.min(minCost, form.getDriveCost());
-			}
-		}
-		return minCost;
-	}
-
-	public static double getMinimumDPForLimit(Player player) {
-		int minCost = 1000;
-		if (Utils.getPlayerLimitAttacks(player).size() > 0) {
-			for (Limit limit : Utils.getPlayerLimitAttacks(player)) {
-				minCost = Math.min(minCost, limit.getCost());
-			}
-		}
-		return minCost;
-	}
-
 	public static List<String> appendEnchantmentNames(String text, CompoundTag pStoredEnchantments) {
 		List<String> arrayList = new ArrayList<String>();
 		if (pStoredEnchantments != null) {
@@ -1456,6 +1435,10 @@ public class Utils {
 				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, "kk_mob_level_hp", level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.MULTIPLY_BASE));
 			}
 		}
+	}
+
+	public static List<DriveForm> getVisibleDriveForms(Player player) {
+		return ModDriveForms.registry.get().getValues().stream().filter(driveForm -> driveForm.displayInCommandMenu(player)).toList();
 	}
 
 }

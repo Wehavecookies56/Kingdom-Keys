@@ -259,7 +259,7 @@ public class ClientSetup {
 				return;
 			}
 			if(o == DRIVE_BAR) {
-				event.setCanceled(playerData.getVisibleDriveForms().size() <= 1);
+				event.setCanceled(Utils.getVisibleDriveForms(player).size() <= 1);
 				return;
 			}
 		}

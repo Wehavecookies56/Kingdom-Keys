@@ -336,7 +336,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		itemsPerPage = (int) (middleHeight / 19);
 		
 		addRenderableWidget(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
-		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms()).keySet());
+		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), Utils.getVisibleDriveForms(minecraft.player)).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
 		forms.remove(Strings.Form_Anti);

@@ -50,6 +50,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -224,7 +226,6 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
-					playerData.addVisibleDriveForm(Strings.Form_Anti);
 
 					if (playerData.getEquippedItems().isEmpty()) {
 						HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
@@ -233,10 +234,6 @@ public class EntityEvents {
 						}
 						playerData.equipAllItems(map, true);
 					}
-				}
-
-				if(!playerData.getVisibleDriveForms().contains(Strings.Form_Anti)) {
-					playerData.addVisibleDriveForm(Strings.Form_Anti);
 				}
 
 				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
@@ -1410,7 +1407,6 @@ public class EntityEvents {
 		newPlayerData.setAbilityMap(oldPlayerData.getAbilityMap());
 
 		newPlayerData.setDriveFormMap(oldPlayerData.getDriveFormMap());
-		newPlayerData.setVisibleDriveForms(oldPlayerData.getVisibleDriveForms());
 		newPlayerData.setAntiPoints(oldPlayerData.getAntiPoints());
 		newPlayerData.setActiveDriveForm(oldPlayerData.getActiveDriveForm());
 

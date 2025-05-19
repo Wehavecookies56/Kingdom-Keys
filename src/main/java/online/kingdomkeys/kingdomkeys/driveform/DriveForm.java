@@ -38,7 +38,7 @@ public abstract class DriveForm {
 
 	boolean hasKeychain = false;
 
-	private DriveFormData data;	
+	private DriveFormData data = new DriveFormData();
 
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this.name = registryName;

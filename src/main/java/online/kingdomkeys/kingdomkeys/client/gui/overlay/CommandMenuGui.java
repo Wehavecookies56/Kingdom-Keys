@@ -215,7 +215,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setSorting(0);
 				if (formList.containsKey(item.getId().toString())) {
 					item.setSorting(formList.get(item.getId().toString()));
-					item.setVisible(true);
+					item.setVisible(ModDriveForms.registry.get().getValue(item.getId()).displayInCommandMenu(minecraft.player));
 				} else {
 					item.setVisible(false);
 				}
@@ -292,7 +292,7 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuItem.Builder[] createDriveFormsFromRegistry() {
 		List<CommandMenuItem.Builder> forms = new ArrayList<>();
-		ModDriveForms.registry.get().getEntries().stream().filter(driveFormRegistryObject -> driveFormRegistryObject.getValue().displayInCommandMenu(minecraft.player)).forEach(driveFormEntry -> {
+		ModDriveForms.registry.get().getEntries().forEach(driveFormEntry -> {
 			DriveForm driveFormRegistryObject = driveFormEntry.getValue();
 			forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getRegistryName(), Component.translatable(driveFormRegistryObject.getTranslationKey()), item -> {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
@@ -395,7 +395,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setMessage(Component.literal("???"));
 			} else {
 				item.setActive(true);
-				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData.getVisibleDriveForms()) ? Color.WHITE : Color.GRAY;
+				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(ModDriveForms.registry.get().getValues().stream().filter(driveForm -> driveForm.displayInCommandMenu(minecraft.player)).toList()) ? Color.WHITE : Color.GRAY;
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}

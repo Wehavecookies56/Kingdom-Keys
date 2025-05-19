@@ -16,3 +16,4 @@
 * Casttime not being used in the Command Menu.
 * Once a Bomb heartless starts a countdown it won't need a target in order to explode.
 * Valor form (and forms that shouldn't) able to cast magic.
+* Fixed Dark Domination

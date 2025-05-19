@@ -109,7 +109,6 @@ public class SCSyncCapabilityPacket {
 		this.shotlockList = new ArrayList<>(capability.getShotlockList());
 		this.equippedShotlock = capability.getEquippedShotlock();
 		this.driveFormMap = new LinkedHashMap<>(capability.getDriveFormMap());
-		this.visibleDriveForms = new LinkedHashSet<>(capability.getVisibleDriveForms());
 		this.abilityMap = new LinkedHashMap<>(capability.getAbilityMap());
 		this.partyList = new ArrayList<>(capability.getPartiesInvited());
 		this.materialMap = new TreeMap<>(capability.getMaterialMap());

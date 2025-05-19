@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class DriveFormAnti extends DriveForm {
 
@@ -23,6 +25,6 @@ public class DriveFormAnti extends DriveForm {
 
 	@Override
 	public boolean displayInCommandMenu(Player player) {
-		return false;
+		return ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.darkDomination);
 	}
 }

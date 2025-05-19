@@ -61,7 +61,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 public class InputHandler {
 
     @Nullable public List<UUID> portalCommands;
-    @Nullable public Map<String, int[]> driveFormsMap;
     @Nullable public List<Member> targetsList;
     @Nullable public List<Limit> limitsList;
     @Nullable public List<String> magicList;
@@ -401,12 +400,6 @@ public class InputHandler {
 
     public void loadLists() {
         if(playerData != null && worldData != null) {
-            this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
-            if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
-            	this.driveFormsMap.remove(Strings.Form_Anti);
-            }
-            this.driveFormsMap.remove(DriveForm.NONE.toString());
-            this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
             //this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
             this.portalCommands = worldData.getAllPortalsFromOwnerID(player.getUUID());
             this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsMap().containsKey(magic)).toList();
