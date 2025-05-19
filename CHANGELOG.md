@@ -17,3 +17,4 @@
 * Casttime not being used in the Command Menu.
 * Rendering of obtained EXP and bomb heartless timer.
 * Valor form (and forms that shouldn't) able to cast magic.
+* Fixed Dark Domination
