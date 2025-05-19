@@ -48,6 +48,8 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.*;
@@ -211,6 +213,20 @@ public class EntityEvents {
 	}
 
 	@SubscribeEvent
+	public void abilityEquip(AbilityEvent.Equip event) {
+		if (event.getAbility() == ModAbilities.DARK_DOMINATION.get()) {
+			PlayerData.get(event.getPlayer()).addVisibleDriveForm(Strings.Form_Anti);
+		}
+	}
+
+	@SubscribeEvent
+	public void abilityUnequip(AbilityEvent.Unequip event) {
+		if (event.getAbility() == ModAbilities.DARK_DOMINATION.get()) {
+			PlayerData.get(event.getPlayer()).remVisibleDriveForm(Strings.Form_Anti);
+		}
+	}
+
+	@SubscribeEvent
 	public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent e) {
 		checkRecipeMaterials(e.getEntity());
 		Player player = e.getEntity();
@@ -234,7 +250,6 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
-					playerData.addVisibleDriveForm(Strings.Form_Anti);
 
 					if (playerData.getEquippedItems().isEmpty()) {
 						HashMap<Integer, ItemStack> map = new HashMap<>();
@@ -252,10 +267,6 @@ public class EntityEvents {
 						KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", resourceLocation);
 					}
 				});
-
-				if(!playerData.getVisibleDriveForms().contains(Strings.Form_Anti)) {
-					playerData.addVisibleDriveForm(Strings.Form_Anti);
-				}
 
 				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);

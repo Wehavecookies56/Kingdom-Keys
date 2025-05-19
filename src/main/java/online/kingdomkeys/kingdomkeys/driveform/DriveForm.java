@@ -38,7 +38,7 @@ public abstract class DriveForm {
 
 	boolean hasKeychain = false;
 
-	private DriveFormData data;	
+	private DriveFormData data = new DriveFormData();
 
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this.name = registryName;
@@ -227,10 +227,6 @@ public abstract class DriveForm {
 	 */
 	public boolean isSlotVisible(Player player) {
 		return hasKeychain();
-	}
-
-	public boolean displayInCommandMenu(Player player) {
-		return true;
 	}
 
 }

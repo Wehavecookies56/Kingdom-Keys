@@ -210,7 +210,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setSorting(0);
 				if (formList.containsKey(item.getId().toString())) {
 					item.setSorting(formList.get(item.getId().toString()));
-					item.setVisible(true);
+                    item.setVisible(playerData.isDriveFormVisible(item.getId()));
 				} else {
 					item.setVisible(false);
 				}
@@ -286,7 +286,7 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuItem.Builder[] createDriveFormsFromRegistry() {
 		List<CommandMenuItem.Builder> forms = new ArrayList<>();
-		ModDriveForms.registry.stream().filter(driveFormRegistryObject -> driveFormRegistryObject.displayInCommandMenu(minecraft.player)).forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getRegistryName(), Component.translatable(driveFormRegistryObject.getTranslationKey()), item -> {
+		ModDriveForms.registry.stream().forEach(driveFormRegistryObject -> forms.add(new CommandMenuItem.Builder(driveFormRegistryObject.getRegistryName(), Component.translatable(driveFormRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			if (playerData.getDP() >= driveFormRegistryObject.getDriveCost()) {
 				if (!antiFormCheck(playerData, driveFormRegistryObject)) {

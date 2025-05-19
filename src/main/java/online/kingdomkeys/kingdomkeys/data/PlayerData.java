@@ -894,6 +894,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return visibleDriveforms;
 	}
 
+	public boolean isDriveFormVisible(ResourceLocation form) {
+		return visibleDriveforms.contains(form.toString());
+	}
+
 	public void setVisibleDriveForms(LinkedHashSet<String> forms) {
 		this.visibleDriveforms = forms;
 	}

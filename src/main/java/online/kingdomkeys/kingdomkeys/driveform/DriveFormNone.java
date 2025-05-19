@@ -25,8 +25,4 @@ public class DriveFormNone extends DriveForm {
     	return true;
     }
 
-    @Override
-    public boolean displayInCommandMenu(Player player) {
-        return false;
-    }
 }
