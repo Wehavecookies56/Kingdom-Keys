@@ -84,6 +84,8 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 		PlayerData playerData = PlayerData.get(player);
 
 		ItemStack kbArmorItem = playerData.getEquippedKBArmor(0);
+		if(ItemStack.isSameItem(kbArmorItem, ItemStack.EMPTY))
+			return;
 
 		PauldronInventory pauldronInventory = (PauldronInventory) kbArmorItem.getCapability(Capabilities.ItemHandler.ITEM);
 
