@@ -156,12 +156,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			forms.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("drive_forms", forms);
-		
-		CompoundTag visibleDriveForms = new CompoundTag();
-		for (String visibleForm : this.getVisibleDriveForms()) {
-			visibleDriveForms.putString(visibleForm, "");
-		}
-		storage.put("visible_drive_forms", visibleDriveForms);
 
 		CompoundTag abilities = new CompoundTag();
 		for (Entry<String, int[]> pair : this.getAbilityMap().entrySet()) {
@@ -353,13 +347,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
-		visibleDriveforms.clear();
-		for (String driveFormName : nbt.getCompound("visible_drive_forms").getAllKeys()) {
-			if (ModDriveForms.registry.containsKey(ResourceLocation.parse(driveFormName))) { //If form exists
-				this.getVisibleDriveForms().add(driveFormName);
-			}
-		}
-
 		abilityMap.clear();
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
 			if (ModAbilities.registry.containsKey(ResourceLocation.parse(abilityName))) {
@@ -462,7 +449,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
-	LinkedHashSet<String> visibleDriveforms = new LinkedHashSet<>();
 	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
 	List<Utils.ShotlockPosition> shotlockEnemies = new ArrayList<>();
@@ -888,29 +874,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setDriveFormMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
-	}
-	
-	public LinkedHashSet<String> getVisibleDriveForms() {
-		return visibleDriveforms;
-	}
-
-	public boolean isDriveFormVisible(ResourceLocation form) {
-		return visibleDriveforms.contains(form.toString());
-	}
-
-	public void setVisibleDriveForms(LinkedHashSet<String> forms) {
-		this.visibleDriveforms = forms;
-	}
-
-	public void addVisibleDriveForm(String form) {
-		if(!visibleDriveforms.contains(form)) {
-			this.visibleDriveforms.add(form);
-		}
-	}
-
-	public void remVisibleDriveForm(String form) {
-        visibleDriveforms.remove(form);
-		
 	}
 
 	public int getDriveFormLevel(String name) {

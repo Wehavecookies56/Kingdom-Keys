@@ -33,7 +33,6 @@ public class DriveFormOrbItem extends Item {
 			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null && playerData.getDriveFormMap() != null) {
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
-				playerData.addVisibleDriveForm(formName);
 
 				if (playerData.getDriveFormMap().containsKey(formName)) { // If you have the form add some exp
 					int level = playerData.getDriveFormMap().containsKey(formName) ? playerData.getDriveFormMap().get(formName)[0] + 1 : 1;

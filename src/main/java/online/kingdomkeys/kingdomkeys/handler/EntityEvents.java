@@ -213,20 +213,6 @@ public class EntityEvents {
 	}
 
 	@SubscribeEvent
-	public void abilityEquip(AbilityEvent.Equip event) {
-		if (event.getAbility() == ModAbilities.DARK_DOMINATION.get()) {
-			PlayerData.get(event.getPlayer()).addVisibleDriveForm(Strings.Form_Anti);
-		}
-	}
-
-	@SubscribeEvent
-	public void abilityUnequip(AbilityEvent.Unequip event) {
-		if (event.getAbility() == ModAbilities.DARK_DOMINATION.get()) {
-			PlayerData.get(event.getPlayer()).remVisibleDriveForm(Strings.Form_Anti);
-		}
-	}
-
-	@SubscribeEvent
 	public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent e) {
 		checkRecipeMaterials(e.getEntity());
 		Player player = e.getEntity();

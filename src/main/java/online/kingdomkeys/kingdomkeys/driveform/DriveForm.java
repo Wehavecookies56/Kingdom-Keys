@@ -229,4 +229,8 @@ public abstract class DriveForm {
 		return hasKeychain();
 	}
 
+	public boolean displayInCommandMenu(Player player) {
+		return true;
+	}
+
 }

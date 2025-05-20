@@ -210,7 +210,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setSorting(0);
 				if (formList.containsKey(item.getId().toString())) {
 					item.setSorting(formList.get(item.getId().toString()));
-                    item.setVisible(playerData.isDriveFormVisible(item.getId()));
+                    item.setVisible(ModDriveForms.registry.get(item.getId()).displayInCommandMenu(minecraft.player));
 				} else {
 					item.setVisible(false);
 				}
@@ -384,7 +384,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setMessage(Component.literal("???"));
 			} else {
 				item.setActive(true);
-				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData.getVisibleDriveForms()) ? Color.WHITE : Color.GRAY;
+				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(Utils.getVisibleDriveForms(minecraft.player)) ? Color.WHITE : Color.GRAY;
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}

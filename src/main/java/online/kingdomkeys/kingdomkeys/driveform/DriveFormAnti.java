@@ -22,4 +22,9 @@ public class DriveFormAnti extends DriveForm {
 	public String getDFAbilityForLevel(int driveFormLevel) {
 		return null;
 	}
+
+	@Override
+	public boolean displayInCommandMenu(Player player) {
+		return PlayerData.get(player).isAbilityEquipped(Strings.darkDomination);
+	}
 }
