@@ -51,7 +51,7 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			float height, rotation;
 			if (!tileEntity.isPaused()) {
-				float lerpedTicks = PedestalTileEntity.previousTicks + (tileEntity.ticksExisted() - PedestalTileEntity.previousTicks) * partialTicks;
+				float lerpedTicks = tileEntity.previousTicks + (tileEntity.ticksExisted() - tileEntity.previousTicks) * partialTicks;
 				height = tileEntity.getBaseHeight() + (0.1F * (float) Math.sin(tileEntity.getBobSpeed() * lerpedTicks));
 				rotation = lerpedTicks * tileEntity.getRotationSpeed() % 360F;
 				tileEntity.setCurrentTransforms(rotation, height);
