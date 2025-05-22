@@ -233,7 +233,7 @@ public class CommandMenuItem {
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 3, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndRWidth, 15);Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
 
-        guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 1, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
+        guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + 11 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
         if (this.hasIcon && this.getParent().getSelected().equals(this)) {
             Color iconColour = parent.isActive() ? Color.WHITE : Color.WHITE.darker().darker();
             guiGraphics.setColor(iconColour.getRed() / 255F, iconColour.getGreen() / 255F, iconColour.getBlue() / 255F, 1);

@@ -497,7 +497,7 @@ public class CommandMenuSubMenu {
             if(ModConfigs.cmHeaderTextVisible) {
                 Color textColour = isActive() ? titleColour : titleColour.darker().darker();
                 guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset, getY() + 4, 0xFFFFFF);
+                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
         }

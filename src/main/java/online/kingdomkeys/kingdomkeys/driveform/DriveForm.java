@@ -146,16 +146,10 @@ public abstract class DriveForm {
 		if (!getRegistryName().equals(NONE)) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setActiveDriveForm(getName());
-
-			if(!playerData.isAbilityEquipped(Strings.darkDomination))
-				playerData.setDP(0);
-			else {
-				int cost = ModDriveForms.registry.get().getValue(new ResourceLocation(Strings.Form_Anti)).getDriveCost();
-				playerData.remDP(cost);
-			}
-			playerData.setFP(1000);
-			playerData.setAntiPoints(playerData.getAntiPoints() -4);
-			PacketHandler.syncToAllAround(player, playerData);
+			int cost = ModDriveForms.registry.get().getValue(new ResourceLocation(getName())).getDriveCost();
+			playerData.remDP(cost);
+			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
+			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
