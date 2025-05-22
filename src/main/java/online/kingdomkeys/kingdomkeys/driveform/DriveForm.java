@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -152,13 +153,22 @@ public abstract class DriveForm {
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
 			// Summon Keyblades
-			player.level().playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			if(getDriveSound() != null)
+				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
-	private void pushEntities(Player player) {
+	public SoundEvent getDriveSound() {
+		return ModSounds.drive.get();
+	}
+
+	public SoundEvent getRevertSound() {
+		return ModSounds.unsummon.get();
+	}
+
+	public void pushEntities(Player player) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -191,7 +201,8 @@ public abstract class DriveForm {
 	public void endDrive(Player player) {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
-		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		if(getDriveSound() != null)
+			player.level().playSound(player, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}

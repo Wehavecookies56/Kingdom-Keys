@@ -35,16 +35,8 @@ public record CSUseDriveFormPacket(String form) implements Packet {
 		PlayerData playerData = PlayerData.get(player);
 
 		if (form.equals(Strings.Form_Anti)) { //If target is antiform
-			playerData.setActiveDriveForm(Strings.Form_Anti);
-			if(!playerData.isAbilityEquipped(Strings.darkDomination))
-				playerData.setDP(0);
-			else {
-				int cost = ModDriveForms.registry.get(ResourceLocation.parse(Strings.Form_Anti)).getDriveCost();
-				playerData.remDP(cost);
-			}
-			playerData.setFP(1000);
-			playerData.setAntiPoints(playerData.getAntiPoints() -4);
-			PacketHandler.syncToAllAround(player, playerData);
+			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(Strings.Form_Anti));
+			form.initDrive(player);
 		} else { //if target is a normal form or revert
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));

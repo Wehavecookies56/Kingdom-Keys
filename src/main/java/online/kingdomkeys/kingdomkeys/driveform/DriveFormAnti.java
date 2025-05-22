@@ -1,9 +1,13 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class DriveFormAnti extends DriveForm {
 
@@ -26,5 +30,31 @@ public class DriveFormAnti extends DriveForm {
 	@Override
 	public boolean displayInCommandMenu(Player player) {
 		return PlayerData.get(player).isAbilityEquipped(Strings.darkDomination);
+	}
+
+	@Override
+	public void initDrive(Player player) {
+		if (!getRegistryName().equals(NONE)) {
+			PlayerData playerData = PlayerData.get(player);
+			playerData.setActiveDriveForm(getName());
+			int cost = 1000;
+			if(playerData.isAbilityEquipped(Strings.darkDomination)){
+				cost = ModDriveForms.registry.get(ResourceLocation.parse(getName())).getDriveCost();
+			}
+			playerData.remDP(cost);
+			playerData.setFP(1000);
+			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
+			player.heal(player.getMaxHealth());
+
+			if(getDriveSound() != null)
+				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
+			pushEntities(player);
+			PacketHandler.syncToAllAround(player, playerData);
+		}
+	}
+
+	@Override
+	public SoundEvent getDriveSound() {
+		return ModSounds.antidrive.get();
 	}
 }
