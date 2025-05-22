@@ -641,7 +641,6 @@ public class CommandMenuGui extends OverlayBase {
 	@Override
 	public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
 		super.render(gui, guiGraphics, partialTick, width, height);
-		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 
 		if (minecraft.player != null && ModCapabilities.getPlayer(minecraft.player) != null) {
 			drawReactionCommands(guiGraphics, width, height);
