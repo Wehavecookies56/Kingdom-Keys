@@ -435,6 +435,7 @@ public class ClientUtils {
 
             //Random Circles
             if(shotlockEnemy.id() == entityIn.getId()) {
+                mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
                 ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(shotlock.getMaxLocks() == 1 ? ULTIMATE_SHOTLOCK_INDICATOR : SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
             }
         }
