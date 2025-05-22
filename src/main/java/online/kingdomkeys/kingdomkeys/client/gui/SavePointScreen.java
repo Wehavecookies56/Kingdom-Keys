@@ -239,7 +239,17 @@ public class SavePointScreen extends MenuBackground {
                     int uuidIndex = fileName.lastIndexOf("_")+1;
                     String uuidString = fileName.substring(uuidIndex, fileName.length()-4);
                     return UUID.fromString(uuidString);
-                }, file -> file));
+                }, file -> file, (file, file2) -> {
+                    String[] fileNameSplit = file.getName().split("_");
+                    UUID uuid = UUID.fromString(fileNameSplit[1].substring(0, fileNameSplit[1].length()-4)); //duplicate was found so uuid will be the same for both files
+                    String savePointName = savePoints.get(uuid).getFirst().name();
+                    //only need to check the name for one of them
+                    File toDelete = savePointName.equals(fileNameSplit[0]) ? file2 : file;
+                    if (toDelete.delete()) {
+                        KingdomKeys.LOGGER.info("Deleted old save point screenshot under previous name {}", toDelete.getName());
+                    }
+                    return !savePointName.equals(fileNameSplit[0]) ? file2 : file;
+                }));
                 if (!files.isEmpty()) {
                     files.forEach((uuid, file) -> {
                         if (savePoints.containsKey(uuid)) {
