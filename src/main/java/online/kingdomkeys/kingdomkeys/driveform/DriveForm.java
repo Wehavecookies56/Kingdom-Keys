@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -145,20 +146,36 @@ public abstract class DriveForm {
 		if (!getRegistryName().equals(NONE)) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 			playerData.setActiveDriveForm(getName());
-			int cost = ModDriveForms.registry.get().getValue(new ResourceLocation(getName())).getDriveCost();
-			playerData.remDP(cost);
-			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
-			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
+
+			if(!playerData.isAbilityEquipped(Strings.darkDomination))
+				playerData.setDP(0);
+			else {
+				int cost = ModDriveForms.registry.get().getValue(new ResourceLocation(Strings.Form_Anti)).getDriveCost();
+				playerData.remDP(cost);
+			}
+			playerData.setFP(1000);
+			playerData.setAntiPoints(playerData.getAntiPoints() -4);
+			PacketHandler.syncToAllAround(player, playerData);
+
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
 			
-			// Summon Keyblades
-			player.level().playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			if(getDriveSound() != null)
+				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
-	private void pushEntities(Player player) {
+	public SoundEvent getDriveSound() {
+		return ModSounds.drive.get();
+	}
+
+	public SoundEvent getRevertSound() {
+		return ModSounds.unsummon.get();
+	}
+
+
+	public void pushEntities(Player player) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -191,7 +208,8 @@ public abstract class DriveForm {
 	public void endDrive(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
-		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		if(getRevertSound() != null)
+			player.level().playSound(player, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}

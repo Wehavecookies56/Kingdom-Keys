@@ -108,8 +108,8 @@ public class Utils {
 		return new ItemStack(item,rand.nextInt(3)+1);
 	}
 
-	public static int getCheapestDriveCost(List<DriveForm> driveFormMap) {
-		int min = 1000;
+	public static int getCheapestDriveCost(IPlayerCapabilities playerData, List<DriveForm> driveFormMap) {
+		int min = playerData.isAbilityEquipped(Strings.darkDomination) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
 		for(DriveForm form : driveFormMap){
 			if(form != null && form.getDriveFormData() != null && form != ModDriveForms.ANTI.get()) {
 				min = Math.min(form.getDriveCost(), min);

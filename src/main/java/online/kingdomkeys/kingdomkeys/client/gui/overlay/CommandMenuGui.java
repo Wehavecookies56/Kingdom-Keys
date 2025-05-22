@@ -395,7 +395,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setMessage(Component.literal("???"));
 			} else {
 				item.setActive(true);
-				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(ModDriveForms.registry.get().getValues().stream().filter(driveForm -> driveForm.displayInCommandMenu(minecraft.player)).toList()) ? Color.WHITE : Color.GRAY;
+				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData, ModDriveForms.registry.get().getValues().stream().filter(driveForm -> driveForm.displayInCommandMenu(minecraft.player)).toList()) ? Color.WHITE : Color.GRAY;
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}
