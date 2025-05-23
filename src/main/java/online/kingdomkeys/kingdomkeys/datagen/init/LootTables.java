@@ -57,39 +57,39 @@ public class LootTables extends BaseLootTables {
         standardBlockLoot(ModBlocks.rodCrackedStone.get());
 
 		standardBlockLoot(ModBlocks.airstepTarget.get());
-        
+
         lootTables.put(ModBlocks.prizeBlox.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
 				.add(AlternativesEntry.alternatives(
 					LootItem.lootTableItem(ModBlocks.prizeBlox.get().asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),
 					EntryGroup.list(
-						LootItem.lootTableItem(ModItems.fireSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.blizzardSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.waterSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.thunderSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.cureSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.aeroSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.magnetSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.gravitySpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.reflectSpell.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.stopSpell.get()).setWeight(1),
+							LootItem.lootTableItem(ModItems.fireSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.blizzardSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.waterSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.thunderSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.cureSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.aeroSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.magnetSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.gravitySpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.reflectSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.stopSpell.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.betwixt_shard.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.sinister_shard.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.stormy_shard.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.writhing_shard.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.pulsing_shard.get()).setWeight(1),
+							LootItem.lootTableItem(ModItems.betwixt_shard.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.sinister_shard.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.stormy_shard.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.writhing_shard.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.pulsing_shard.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.betwixt_stone.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.sinister_stone.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.stormy_stone.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.writhing_stone.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.pulsing_stone.get()).setWeight(1),
+							LootItem.lootTableItem(ModItems.betwixt_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.sinister_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.stormy_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.writhing_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.pulsing_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.fluorite.get()).setWeight(4),
-						LootItem.lootTableItem(ModItems.damascus.get()).setWeight(3),
-						LootItem.lootTableItem(ModItems.adamantite.get()).setWeight(2),
-						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(1)
+							LootItem.lootTableItem(ModItems.fluorite.get()).setWeight(4).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.damascus.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.adamantite.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.electrum.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+							LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
 					)
 				))));
         
@@ -97,35 +97,35 @@ public class LootTables extends BaseLootTables {
 				.add(AlternativesEntry.alternatives(
 					LootItem.lootTableItem(ModBlocks.rarePrizeBlox.get().asItem()).when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))))),
 					EntryGroup.list(
-						LootItem.lootTableItem(ModItems.valorOrb.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.wisdomOrb.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.masterOrb.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.finalOrb.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.limitOrb.get()).setWeight(1),
+						LootItem.lootTableItem(ModItems.valorOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.wisdomOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.masterOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.finalOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.limitOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.betwixt_gem.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.sinister_gem.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.stormy_gem.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.writhing_gem.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.pulsing_gem.get()).setWeight(1),
+						LootItem.lootTableItem(ModItems.betwixt_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.sinister_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.stormy_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.writhing_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.pulsing_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.betwixt_crystal.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.sinister_crystal.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.stormy_crystal.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.writhing_crystal.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.pulsing_crystal.get()).setWeight(1),
+						LootItem.lootTableItem(ModItems.betwixt_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.sinister_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.stormy_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.writhing_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.pulsing_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(3),
-						LootItem.lootTableItem(ModItems.orichalcumplus.get()).setWeight(2),
-						LootItem.lootTableItem(ModItems.manifest_illusion.get()).setWeight(3),
-						LootItem.lootTableItem(ModItems.lost_illusion.get()).setWeight(2),
-						
-						LootItem.lootTableItem(ModItems.illusory_crystal.get()).setWeight(1),
-						LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1),
+						LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.orichalcumplus.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.manifest_illusion.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.lost_illusion.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
 
-						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(2))
+						LootItem.lootTableItem(ModItems.illusory_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+						LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE)),
+
+						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
 					)
-				)));
+				))));
         
     }
 

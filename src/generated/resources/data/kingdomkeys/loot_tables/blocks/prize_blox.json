@@ -31,105 +31,280 @@
               "children": [
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellfire"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellblizzard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellwater"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellthunder"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellcure"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellaero"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellmagnet"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellgravity"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellreflect"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:spellstop"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:betwixt_shard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:sinister_shard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:stormy_shard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:writhing_shard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:pulsing_shard"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:betwixt_stone"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:sinister_stone"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:stormy_stone"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:writhing_stone"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:pulsing_stone"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:fluorite",
                   "weight": 4
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:damascus",
                   "weight": 3
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:adamantite",
                   "weight": 2
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:electrum"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:orichalcum"
                 }
               ]

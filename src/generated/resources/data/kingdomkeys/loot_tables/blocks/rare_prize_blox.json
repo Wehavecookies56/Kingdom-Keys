@@ -31,94 +31,248 @@
               "children": [
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:levelupdrivevalor"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:levelupdrivewisdom"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:levelupdrivemaster"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:levelupdrivefinal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:levelupdrivelimit"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:betwixt_gem"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:sinister_gem"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:stormy_gem"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:writhing_gem"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:pulsing_gem"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:betwixt_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:sinister_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:stormy_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:writhing_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:pulsing_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:orichalcum",
                   "weight": 3
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:orichalcumplus",
                   "weight": 2
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:manifest_illusion",
                   "weight": 3
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:lost_illusion",
                   "weight": 2
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:illusory_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:evanescent_crystal"
                 },
                 {
                   "type": "minecraft:item",
+                  "functions": [
+                    {
+                      "enchantment": "minecraft:fortune",
+                      "formula": "minecraft:ore_drops",
+                      "function": "minecraft:apply_bonus"
+                    }
+                  ],
                   "name": "kingdomkeys:electrum",
                   "weight": 2
                 }
