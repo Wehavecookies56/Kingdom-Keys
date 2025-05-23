@@ -36,20 +36,18 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
-import net.neoforged.neoforge.event.GrindstoneEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.*;
@@ -101,19 +99,25 @@ public class EntityEvents {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
 			boolean kbArmor = false;
 			byte index = 0;
-			Iterator<ItemStack> it = player.getArmorSlots().iterator();
-			while (it.hasNext()) {
-				ItemStack a = it.next();
-				if (a.getItem() instanceof ArmorItem armor) {
-					if (index < 3 && armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
-						kbArmor = true;
-					}
-				}
-				index++;
-			}
+            for (ItemStack a : player.getArmorSlots()) {
+                if (a.getItem() instanceof ArmorItem armor) {
+                    if (index < 3 && armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
+                        kbArmor = true;
+                    }
+                }
+                index++;
+            }
 			if (kbArmor) {
 				event.getEntity().playSound(ModSounds.keyblade_armor.get());
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onXPPickup(PlayerXpEvent.XpChange e) {
+		if(e.getEntity() instanceof Player player && player.getHealth() <= player.getMaxHealth() / 2) {
+			PlayerData playerData = PlayerData.get(player);
+			e.setAmount(e.getAmount() * (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost)+1));
 		}
 	}
 

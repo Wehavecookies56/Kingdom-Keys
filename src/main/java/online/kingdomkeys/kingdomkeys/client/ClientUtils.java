@@ -400,7 +400,6 @@ public class ClientUtils {
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        PlayerData localPlayerData = PlayerData.get(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
@@ -409,6 +408,7 @@ public class ClientUtils {
             float z = (float) (localPlayer.getZ() - entityIn.getZ()) * 0.3F;
             Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x, y + entityIn.getBbHeight() / 2, z, true, partialTicks);
             float renderSize = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
             ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
         }
     }
@@ -447,6 +447,7 @@ public class ClientUtils {
         float y = (float) (localPlayer.getY() - pos.getY())*0.8F;
         float z = (float) (localPlayer.getZ() - pos.getZ())*0.8F;
         Matrix4f mvMatrix = getMVMatrix(matStackIn, x,y,z, 0.5F, 0.5F, 0.5F, true, partialTicks);
+        mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
         ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.6f,-0.6f,0.6f,0.6f, 0, 0, 256, 256);
     }
 

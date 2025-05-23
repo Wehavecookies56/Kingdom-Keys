@@ -1,7 +1,7 @@
+**Added:**
+* Experience boost will now boost the amount of vanilla EXP obtained when HP is 50% or below.
+
 **Fixed:**
-* Duplicate save point screenshots no longer crash the game and will be deleted (this should only realistically happen on a server).
-* Shotlock indicator not rendering over locked entities.
-* Pedestals no longer speed up with more placed at a time.
-* KH3 keyblades display the same way as the rest of the keyblades in pedestals.
-* Drive being gray when you could activate Antiform through Dark Domination.
-* Antiform sound missing.
+* Airstep not working.
+* Fortune will now work on Prize Blox and Rare Prize Blox.
+* Single shotlock selector and airstep icon not rendering properly.
