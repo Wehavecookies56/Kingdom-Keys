@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,10 +30,11 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import yesman.epicfight.api.client.model.AnimatedMesh;
+import yesman.epicfight.api.client.forgeevent.PrepareModelEvent;
+import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
-import yesman.epicfight.api.client.model.transformer.CustomModelBakery;
-import yesman.epicfight.api.forgeevent.ModelBuildEvent;
+import yesman.epicfight.api.client.model.SkinnedMesh;
+import yesman.epicfight.api.client.model.transformer.HumanoidModelBaker;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.mesh.HumanoidMesh;
@@ -41,16 +43,16 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>, AM extends  AnimatedMesh> extends PatchedLayer<E, T, M, KeybladeArmorRenderer<E, M>> {
+public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>> extends PatchedLayer<E, T, M, KeybladeArmorRenderer<E, M>> {
 	
     boolean hideHelmet;
     
     // Cache to store generated epic fight model
-    public static final Map<Item, AnimatedMesh> epicfight_armorModels = new HashMap<>();
+    public static final Map<Item, SkinnedMesh> epicfight_armorModels = new HashMap<>();
     
     @SubscribeEvent
-    public static void clearModels(ModelBuildEvent.MeshBuild meshBuildEvent) {
-    	epicfight_armorModels.values().forEach(AnimatedMesh::destroy);
+    public static void clearModels(PrepareModelEvent meshBuildEvent) {
+    	epicfight_armorModels.values().forEach(SkinnedMesh::destroy);
     	epicfight_armorModels.clear();
 	}
     
@@ -84,16 +86,17 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                     if (!epicfight_armorModels.containsKey(item) || ClientEngine.getInstance().isVanillaModelDebuggingMode()) {
         				HumanoidModel<LivingEntity> humanoidModel = new HumanoidModel<>(model.root);
         				setPartVisibility(humanoidModel, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i));
-                    	epicfight_armorModels.put(item, CustomModelBakery.bakeArmor(player, itemStack, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), emRenderLayer.getParentModel(), humanoidModel, emRenderLayer.getParentModel(), Meshes.BIPED));
+                    	epicfight_armorModels.put(item, HumanoidModelBaker.bakeArmor(player, itemStack, item, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, i), emRenderLayer.getParentModel(), humanoidModel, emRenderLayer.getParentModel(), Meshes.BIPED.get()));
                     	humanoidModel.setAllVisible(true);
                     }
                     
-                    AnimatedMesh modelAnimated = epicfight_armorModels.get(item);
+                    SkinnedMesh modelAnimated = epicfight_armorModels.get(item);
                     String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
                     String textureIndex = i == 1 ? "2" : "1";
                     texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");
                     //VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
-                    modelAnimated.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(texture), packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, poses);
+                    VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.armorCutoutNoCull(texture));
+                    modelAnimated.drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
                 }
             }
         }
@@ -126,9 +129,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
     public HumanoidMesh getModel(E e) {
         boolean defaultSkin = ((AbstractClientPlayer)e).getModelName().equals("default");
         if (defaultSkin) {
-            return Meshes.BIPED;
+            return Meshes.BIPED.get();
         } else {
-            return Meshes.ALEX;
+            return Meshes.ALEX.get();
         }
     }
 }

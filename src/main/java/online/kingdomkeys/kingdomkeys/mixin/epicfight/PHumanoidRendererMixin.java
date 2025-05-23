@@ -12,14 +12,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yesman.epicfight.api.client.model.MeshProvider;
+import yesman.epicfight.api.asset.AssetAccessor;
+import yesman.epicfight.client.mesh.HumanoidMesh;
 import yesman.epicfight.client.renderer.patched.entity.PHumanoidRenderer;
 
 @Mixin(PHumanoidRenderer.class)
 public class PHumanoidRendererMixin {
 
+    @SuppressWarnings("all")
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(MeshProvider mesh, EntityRendererProvider.Context context, EntityType entityType, CallbackInfo ci) {
+    public void init(AssetAccessor<? extends HumanoidMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType, CallbackInfo ci) {
         PHumanoidRenderer thisOne = ((PHumanoidRenderer)(Object)this);
         thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(false));
