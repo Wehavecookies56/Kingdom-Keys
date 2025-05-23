@@ -207,9 +207,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag airstepCompound = new CompoundTag();
 		Vec3 airstepVec = this.getAirStep().getCenter();
-		returnCompound.putDouble("x", airstepVec.x);
-		returnCompound.putDouble("y", airstepVec.y);
-		returnCompound.putDouble("z", airstepVec.z);
+		airstepCompound.putDouble("x", airstepVec.x);
+		airstepCompound.putDouble("y", airstepVec.y);
+		airstepCompound.putDouble("z", airstepVec.z);
 		storage.put("airstep_pos_compound", airstepCompound);
 
 		CompoundTag savePoints = new CompoundTag();
