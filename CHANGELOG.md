@@ -1,7 +1,7 @@
 **Added:**
 * Experience boost will now boost the amount of vanilla EXP obtained when HP is 50% or below.
 * Going into a Drive Form will refill the MP indicator as well.
-* Moogle exp viewer section (WIP, needs scrollbar on materials)
+* Revamped Synthesis GUI.
 
 **Fixed:**
 * Airstep not working.

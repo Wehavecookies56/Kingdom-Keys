@@ -77,7 +77,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar2 = new MenuScrollBar(boxRB.getX() + boxRB.getWidth() - 17, boxRB.getY(), boxRB.getY()+boxRB.getHeight(), (int) middleHeight, 0);
 		addRenderableWidget(scrollBar);
+		addRenderableWidget(scrollBar2);
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
@@ -338,16 +340,21 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
 				Iterator<Entry<Item, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();
-				int i = 0;
+				int i = 0;														//MAX Y
+				int listHeight = (boxRB.getPosY()+10 + (recipe.getMaterials().size()+1)*16)+10 - boxRB.getPosY()+10;
+				scrollBar2.setContentHeight(listHeight);
+
+				gui.enableScissor(boxRB.getX()+2,scrollBar2.getY()+2,boxRB.getX()+boxRB.getWidth(),scrollBar2.getHeight()-5); //Arbitrary number to hide the cut one
 				while(materials.hasNext()) {
 					Entry<Item, Integer> m = materials.next();
 					ItemStack stack = new ItemStack(m.getKey());
 					String n = Utils.translateToLocal(stack.getDescriptionId());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-					gui.drawString(minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (i*16), color);
-					ClientUtils.drawItemAsIcon(stack, matrixStack, -17, (i*16)-4, 16);
+					gui.drawString(minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (int) ((i*16)-scrollBar2.scrollOffset), color);
+					ClientUtils.drawItemAsIcon(stack, matrixStack, -17, (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;
-				}				
+				}
+				gui.disableScissor();
 			}
 		}
 		matrixStack.popPose();
@@ -369,6 +376,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		scrollBar2.mouseClicked(mouseX, mouseY, mouseButton);
 		if (mouseButton == 1) {
 			PacketHandler.sendToServer(new CSOpenMenu());
 		}
@@ -378,12 +386,14 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
 		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		scrollBar2.mouseReleased(pMouseX, pMouseY, pButton);
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		scrollBar2.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
@@ -398,6 +408,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
 		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
 			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+		if(mouseX >= boxRB.getX() && mouseX <= scrollBar2.getX()+ scrollBar2.getWidth())
+			scrollBar2.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
 	}
