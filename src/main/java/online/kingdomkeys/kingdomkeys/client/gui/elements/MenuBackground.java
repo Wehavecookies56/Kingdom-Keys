@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class MenuBackground extends Screen {
 
@@ -114,9 +115,15 @@ public class MenuBackground extends Screen {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(gui, mouseX, mouseY, partialTicks);
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
-		super.render(gui, mouseX, mouseY, partialTicks);
+		Iterator var5 = this.renderables.iterator();
+
+		while(var5.hasNext()) {
+			Renderable renderable = (Renderable)var5.next();
+			renderable.render(gui, mouseX, mouseY, partialTicks);
+		}
 	}
 
 	private void clearButtons() {
@@ -134,16 +141,8 @@ public class MenuBackground extends Screen {
 
 		float r = color.getRed() / 255F, g = color.getGreen() / 255F, b = color.getBlue() / 255F;
 		RenderSystem.setShaderColor(r,g,b, 1.0F);
-		// RenderSystem.enableAlpha();
 		RenderSystem.enableBlend();
-		PoseStack matrixStack = gui.pose();
-		for (int i = 0; i < sh; i += 3) {
-			matrixStack.pushPose();
-			matrixStack.translate(0, i, 0);
-			matrixStack.scale(sw, 1, 1);
-			gui.blit(menu, 0, 0, 77, 92, 1, 1);
-			matrixStack.popPose();
-		}
+		gui.blit(menubg, 0, 0, width, height, 0, 0, width, height, 4, 4);
 		RenderSystem.disableBlend();
 		topLeftBar.draw(gui);
 		topRightBar.draw(gui);
@@ -225,6 +224,8 @@ public class MenuBackground extends Screen {
 	}
 
 	public static final ResourceLocation menu = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	public static final ResourceLocation menubg = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_background.png");
+
 
 	public static String getWorldMinutes(Level world) {
 		int time = (int) Math.abs((world.getGameTime() + 6000) % 24000);

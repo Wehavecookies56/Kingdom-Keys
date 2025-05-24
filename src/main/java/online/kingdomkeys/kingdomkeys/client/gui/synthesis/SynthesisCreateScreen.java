@@ -333,9 +333,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		}
 
 		//Materials
-		matrixStack.pushPose();
 		{
-			matrixStack.translate(iconPosX + 20, boxRB.getPosY()+10, 1);
+			//matrixStack.translate(iconPosX + 20, boxRB.getPosY()+10, 1);
 			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
@@ -343,21 +342,22 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				int i = 0;														//MAX Y
 				int listHeight = (boxRB.getPosY()+10 + (recipe.getMaterials().size()+1)*16)+10 - boxRB.getPosY()+10;
 				scrollBar2.setContentHeight(listHeight);
-
+				int startX = (int) iconPosX + 20;
+				int startY = boxRB.getPosY()+10;
 				gui.enableScissor(boxRB.getX()+2,scrollBar2.getY()+2,boxRB.getX()+boxRB.getWidth(),scrollBar2.getHeight()-5); //Arbitrary number to hide the cut one
 				while(materials.hasNext()) {
 					Entry<Item, Integer> m = materials.next();
 					ItemStack stack = new ItemStack(m.getKey());
 					String n = Utils.translateToLocal(stack.getDescriptionId());
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-					gui.drawString(minecraft.font, n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")", 0, (int) ((i*16)-scrollBar2.scrollOffset), color);
-					ClientUtils.drawItemAsIcon(stack, matrixStack, -17, (int)((i*16)-4-scrollBar2.scrollOffset), 16);
+
+					gui.drawScrollingString(minecraft.font, Component.literal(n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")"), startX, (int) (iconPosX + 20 + boxRB.getWidth()-24), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxRB.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;
 				}
 				gui.disableScissor();
 			}
 		}
-		matrixStack.popPose();
 	}
 
 	@Override
