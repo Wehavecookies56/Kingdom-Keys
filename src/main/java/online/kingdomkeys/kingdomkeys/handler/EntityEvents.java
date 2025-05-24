@@ -457,7 +457,6 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-			//System.out.println(playerData.getMagicCasttimeTicks());
 
 			// Magic Casttime
 			if (playerData.getMagicCasttimeTicks() > 0 && !player.level().isClientSide)
@@ -951,7 +950,6 @@ public class EntityEvents {
 			} else if (event.getSource().getMsgId().equals(KKResistanceType.darkness.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;
 			}
-			 //System.out.println(damage);
 
 			// Damage Control
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
@@ -963,17 +961,14 @@ public class EntityEvents {
 			if (playerData.isAbilityEquipped(Strings.protect)){
 				protectReduction = damage * 0.1F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectra)){
 				protectReduction = damage *  0.2F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectga)){
 				protectReduction = damage *  0.4F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 
 			// Has to evaluate last
@@ -1401,8 +1396,6 @@ public class EntityEvents {
 
 			if (!event.isEndConquered() && !nPlayer.level().isClientSide()) {
 				if (playerData.getRespawnROD() && ModConfigs.respawnROD) {
-					// System.out.println(nPlayer.getName().getString()+ " died in ROD, back to it
-					// you go");
 					ServerPlayer sPlayer = (ServerPlayer) nPlayer;
 					ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"));
 					ServerLevel serverlevel = ((ServerLevel) sPlayer.level()).getServer().getLevel(dimension);
@@ -1443,8 +1436,6 @@ public class EntityEvents {
 			return;
 
 		if (e.getTarget() instanceof Player targetPlayer) {
-			System.out.println("localPlayer "+localPlayer);
-			System.out.println("targetPlayer "+targetPlayer);
 			PacketHandler.syncToAllAround(localPlayer, playerData);
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);

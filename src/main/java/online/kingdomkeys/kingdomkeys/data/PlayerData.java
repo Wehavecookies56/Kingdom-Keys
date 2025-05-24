@@ -1684,7 +1684,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void addEquippedAbilityLevel(String ability, int level) {
-		//System.out.println(ability+": "+abilityMap.get(ability)[0]+" : "+(abilityMap.get(ability)[1]+level));
 		abilityMap.put(ability, new int[] {abilityMap.get(ability)[0], abilityMap.get(ability)[1]+level});
 	}
 
@@ -2108,7 +2107,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setAirStep(BlockPos pos) {
 		this.airStepPos = pos;
-		System.out.println("POS "+getAirStep());
 	}
 
 	public Map<UUID, Instant> discoveredSavePoints() {
@@ -2134,7 +2132,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if(RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe)))
 			this.synthesisedRecipes.add(recipe);
 		else
-			System.out.println("Recipe does not exist");
+			KingdomKeys.LOGGER.warn("Recipe does not exist");
 	}
 
 	public Set<String> getSynthesisedRecipes(){

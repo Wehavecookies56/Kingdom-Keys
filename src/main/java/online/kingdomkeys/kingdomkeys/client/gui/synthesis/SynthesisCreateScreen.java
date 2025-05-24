@@ -4,11 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -43,7 +41,7 @@ import java.util.Map.Entry;
 public class SynthesisCreateScreen extends MenuFilterable {
 
 	// MenuFilterBar filterBar;
-	MenuBox boxL, boxM, boxR;
+	MenuBox boxL, boxM, boxRT, boxRB;
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 	Button create;
 	int itemsPerPage;
@@ -72,9 +70,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(40, 4, 255));
 		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxRT = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) (middleHeight*0.2F), new Color(4, 4, 68));
+		boxRB = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight + boxRT.getHeight(), (int) (boxWidth*1.17F), (int) (middleHeight - boxRT.getHeight()), new Color(4, 68, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
@@ -145,11 +144,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
-		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxRB.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxRT.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())
@@ -201,6 +200,21 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			}
 		}
 
+		//Render synth level
+		PlayerData playerData = PlayerData.get(minecraft.player);
+		gui.drawString(minecraft.font, Utils.translateToLocal("Moogle Level")+": "+playerData.getSynthLevel(), boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
+
+		String line = Utils.translateToLocal("Tier")+": "+Utils.getTierFromInt(playerData.getSynthLevel());
+		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+6, 0xFFFFFF);
+
+		line = Utils.translateToLocal("Next Level")+": ";
+		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+16, 0xFFFF00);
+
+		line = playerData.getSynthLevel() >= 7 ? "0 EXP.": playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" EXP.";
+		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+16, 0xFFFFFF);
+
+
+
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 	}
@@ -211,8 +225,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
-		float iconPosX = boxR.getX();
-		float iconPosY = boxR.getY() + 25;
+		float iconPosX = boxRT.getX();
+		float iconPosY = boxRT.getY() + 25;
 
 		PlayerData playerData = PlayerData.get(minecraft.player);
 
@@ -250,7 +264,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				ability = kb.data.getLevelAbility(0);
 				str= kb.getStrength(0);
 				mag = kb.getMagic(0);
-				
+
 			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
                 ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().getFirst() : null;
 				str = accessory.getStr();
@@ -319,11 +333,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		//Materials
 		matrixStack.pushPose();
 		{
-			matrixStack.translate(iconPosX + 20, height*0.2, 1);
+			matrixStack.translate(iconPosX + 20, boxRB.getPosY()+10, 1);
 			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
-				Iterator<Entry<Item, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();//item.data.getLevelData(item.getKeybladeLevel()).getMaterialList().entrySet().iterator();
+				Iterator<Entry<Item, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();
 				int i = 0;
 				while(materials.hasNext()) {
 					Entry<Item, Integer> m = materials.next();
@@ -382,7 +396,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-		scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
 	}

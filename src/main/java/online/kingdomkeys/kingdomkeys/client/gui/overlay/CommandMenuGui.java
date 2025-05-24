@@ -358,7 +358,8 @@ public class CommandMenuGui extends OverlayBase {
 		if(item.getId().equals(magic)) {
 			item.setTextColour(Color.WHITE);
 
-			if((playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+			//This first part of the condition is to avoid the code below from making it even darker
+			if(!playerData.getMagicsMap().isEmpty() && (playerData.getRecharge() || playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 
