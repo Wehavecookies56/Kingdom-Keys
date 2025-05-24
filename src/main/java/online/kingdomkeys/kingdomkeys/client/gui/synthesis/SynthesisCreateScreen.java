@@ -127,7 +127,9 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
 				itemStack = new ItemStack(((KeychainItem) RecipeRegistry.getInstance().getValue(items.get(i)).getResult()).getKeyblade());
 			}
-			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false));
+			MenuStockItem item = new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false);
+			item.setBackgroundColor(new Color(30,30,100));
+			inventory.add(item);
 		}
 		
 		inventory.forEach(this::addWidget);
@@ -212,8 +214,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		line = playerData.getSynthLevel() >= 7 ? "0 EXP.": playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" EXP.";
 		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+16, 0xFFFFFF);
-
-
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);

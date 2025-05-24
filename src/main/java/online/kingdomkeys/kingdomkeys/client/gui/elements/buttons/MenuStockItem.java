@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +46,7 @@ public class MenuStockItem extends Button {
     boolean selected, showAmount;
     String customName = null;
     public int offsetY;
+    public Color backgroundColor;
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -80,6 +82,14 @@ public class MenuStockItem extends Button {
         this.customName = customName;
     }
 
+    public void setBackgroundColor(Color color){
+        this.backgroundColor = color;
+    }
+
+    public Color getBackgroundColor(){
+        return backgroundColor;
+    }
+
     @Override
     public int getY() {
         return super.getY() - offsetY;
@@ -105,7 +115,22 @@ public class MenuStockItem extends Button {
                     matrixStack.scale(scale, scale, 1);
                     gui.blit(texture, 0, 0, 27, 0, 18, 28);
                     gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 47, 0, 2, 28, 256, 256);
-                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
+                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 49, 0, 17, 28);
+                }
+                matrixStack.popPose();
+            } else if(getBackgroundColor() != null) {
+                matrixStack.pushPose();
+                {
+                    RenderSystem.enableBlend();
+
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
+                    float scale = 0.5F;
+                    matrixStack.scale(scale, scale, 1);
+                    RenderSystem.setShaderColor(getBackgroundColor().getRed()/255F,getBackgroundColor().getGreen()/255F,getBackgroundColor().getBlue()/255F,1);
+                    gui.blit(texture, 0, 0, 219, 0, 18, 28);
+                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 239, 0, 2, 28, 256, 256);
+                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 239, 0, 17, 28);
+                    RenderSystem.setShaderColor(1,1,1,1);
                 }
                 matrixStack.popPose();
             }
