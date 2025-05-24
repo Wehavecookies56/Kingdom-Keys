@@ -10,6 +10,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.ModData;
@@ -58,6 +60,13 @@ public class SynthesisBagScreen extends AbstractContainerScreen<SynthesisBagMenu
 				onClose();
 			}
 		}
+	}
+
+	@Override
+	protected void slotClicked(Slot slot, int slotId, int mouseButton, ClickType type) {
+		if(slot != null && slot.hasItem() && slot.getItem().getItem() == ModItems.synthesisBag.get())
+			return; //Disable synth bag clicking in its own screen
+		super.slotClicked(slot, slotId, mouseButton, type);
 	}
 
 	@Override

@@ -151,6 +151,7 @@ public abstract class DriveForm {
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
+			playerData.setMP(playerData.getMaxMP());
 			
 			// Summon Keyblades
 			if(getDriveSound() != null)
