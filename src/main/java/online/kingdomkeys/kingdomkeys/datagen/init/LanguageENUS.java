@@ -190,6 +190,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Exp, "Exp");
+        add(Gui_Synthesis_Exp_MoogleLevel, "Moogle level");
+        add(Gui_Synthesis_Exp_NextLevel, "Next level");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
         add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
@@ -199,7 +201,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Materials, "Material List");
         add(Gui_Synthesis_Materials_Deposit, "Deposit");
         add(Gui_Synthesis_Materials_Take, "Take");
+
         add(Gui_Shop, "Shop");
+        add(Gui_Shop_Buy, "Buy");
         add(Gui_Shop_Page, "Page:");
         add(Gui_Shop_NoSpace, "Not enough space");
         add(Gui_Shop_Tier, "Tier:");

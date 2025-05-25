@@ -81,8 +81,6 @@ public class MenuBox extends AbstractWidget{
         }
         matrixStack.popPose();
         RenderSystem.setShaderColor(1,1,1,1);
-        //drawModalRectWithCustomSizedTexture(posX + borderSize, posY + borderSize, gradientU, gradientV, centerWidth, centerHeight, gradientW, gradientH);
-        //drawScaledCustomSizeModalRect(posX + borderSize, posY + borderSize, gradientU, gradientV, gradientW, gradientH, centerWidth, centerHeight, centerWidth, centerHeight);
     }
 
     public int getPosX() {

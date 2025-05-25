@@ -44,10 +44,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	MenuBox boxL, boxM, boxR;
 	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 
-	Button upgrade;
+	MenuButton upgrade;
 	private MenuButton back;
 	SynthesisScreen parent;
-
 
 	public SynthesisForgeScreen(PlayerData playerData, SynthesisScreen parent) {
 		super(Strings.Gui_Synthesis_Forge_Title, new Color(0, 255, 0));
@@ -174,12 +173,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		inventory.forEach(this::addWidget);
 		
 		super.init();
-		
-		float buttonPosX = (float) width * 0.03F;
-
-        addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
+		upgrade = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Synthesis_Forge_Upgrade, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("upgrade");
-		}).bounds(boxM.getX()+boxM.getWidth()/2-35, (int) (height * 0.67), 70, 20).build());
+		});
+		upgrade.setCenterText(true);
+		addRenderableWidget(upgrade);
 	}
 
 	@Override

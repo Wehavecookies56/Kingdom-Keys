@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 public class SynthesisMaterialScreen extends MenuFilterable {
 		
 	MenuButton deposit,back;
-	Button take;
+	MenuButton take;
 	MenuBox boxL, boxR;
 	EditBox amountBox;
 	
@@ -166,8 +166,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.getX()+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
-			@Override
+		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.getX()+30, (int) (topBarHeight + middleHeight - 30), minecraft.font.width("#####"), 16, Component.translatable("test")) {			@Override
 			public boolean charTyped(char c, int i) {
 				if (Utils.isNumber(c)) {
 					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
@@ -180,9 +179,12 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 				return super.charTyped(c, i);
 			}
 		});
-		addRenderableWidget(take = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> {
+
+		take = new MenuButton(amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 32),58, Strings.Gui_Synthesis_Materials_Take, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("take");
-		}).bounds(amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
+		});
+		take.setCenterText(true);
+		addRenderableWidget(take);
 		
 		take.visible = false;
 	}
