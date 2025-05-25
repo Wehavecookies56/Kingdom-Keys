@@ -102,17 +102,13 @@ import java.util.Objects;
 
 public class ClientUtils {
     public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color) {
-        if(font.width(text) > maxX - minX)
-            y-=1;// For some reason if the text is too long it shifts to one pixel lower
-
         int maxWidth = maxX - minX;
         int textWidth = font.width(text.getVisualOrderText());
         if (textWidth <= maxWidth) {
             return gui.drawString(font, text, minX, y, color);
         } else {
-            GuiGraphics var10000 = gui;
-            Objects.requireNonNull(font);
-            renderScrollingString(var10000, font, text, minX, y, maxX, y + 9, color);
+            y-=1;
+            renderScrollingString(gui, font, text, minX, y, maxX, y + 9, color);
             return maxWidth;
         }
     }

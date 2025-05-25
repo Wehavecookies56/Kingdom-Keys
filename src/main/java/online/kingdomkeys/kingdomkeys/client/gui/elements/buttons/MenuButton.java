@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -84,6 +85,7 @@ public class MenuButton extends MenuButtonBase {
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
+		Font font = Minecraft.getInstance().font;
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
@@ -92,30 +94,26 @@ public class MenuButton extends MenuButtonBase {
 
 				RenderSystem.enableBlend();
 				RenderSystem.setShaderTexture(0, texture);
-				int btnMargin = 8;
-				int textX = centerText ? getX() + getWidth() / 2 - Minecraft.getInstance().font.width(getMessage()) / 2 : getX() + btnMargin;
 
-				if (isHovered && active) { // Hovered button
-					setX(getX() + offset);
-					drawButton(gui, true);
-					ClientUtils.drawScrollingString(gui,Minecraft.getInstance().font,getMessage(),textX+offset,textX+offset+getWidth()-btnMargin*2,getY()+6,new Color(255,255,255).hashCode());
-					setX(getX() - offset);
-				} else {
-					if (active) {// Not hovered but fully visible
-						drawButton(gui, false);
-						ClientUtils.drawScrollingString(gui,Minecraft.getInstance().font,getMessage(),textX,textX+getWidth()-btnMargin*2,getY()+6,new Color(255,255,255).hashCode());
-					} else {// Not hovered and selected (not fully visible)
-						if (selected) {
-							setX(getX() + offset);
-							drawButton(gui, false);
-							ClientUtils.drawScrollingString(gui,Minecraft.getInstance().font,getMessage(),textX+offset,textX+offset+getWidth()-btnMargin*2,getY()+6,new Color(100,100,100).hashCode());
-							setX(getX() - offset);
-						} else {
-							drawButton(gui, false);
-							ClientUtils.drawScrollingString(gui,Minecraft.getInstance().font,getMessage(),textX,textX+getWidth()-btnMargin*2,getY()+6,new Color(100,100,100).hashCode());
-						}
-					}
-				}
+				int btnMargin = 8;
+				int textX = centerText ? getX() + (getWidth() / 2) - (font.width(getMessage()) / 2) + btnMargin : getX() + btnMargin;
+				int activeColor = new Color(255,255,255).hashCode();
+				int disabledColor = new Color(100,100,100).hashCode();
+
+				boolean shouldOffset = (isHovered && active) || (!active && selected);
+				int drawColor = (active ? activeColor : disabledColor);
+				int x = getX();
+
+				if (shouldOffset)
+					setX(x + offset);
+
+				drawButton(gui, isHovered && active);
+
+				int drawX = textX + (shouldOffset ? offset : 0);
+				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - btnMargin , getY() + 6, drawColor);
+
+				if (shouldOffset)
+					setX(x);
 
 				RenderSystem.disableBlend();
 				RenderSystem.setShaderColor(1, 1, 1, 1);
