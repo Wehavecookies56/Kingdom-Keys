@@ -8,8 +8,8 @@
 
 **Fixed:**
 * Airstep not working.
-* Fortune will now work on Prize Blox and Rare Prize Blox.
 * Single shotlock selector and airstep icon not rendering properly.
+* Fortune will now work on Prize Blox and Rare Prize Blox.
 * Synthesis bags will no longer be clickable from a synthesis bag inventory screen. 
 * Magic Command Menu being too dark.
 * Shortcuts not being displayed in the top left corner.

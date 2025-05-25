@@ -46,8 +46,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	MenuButton take;
 	MenuBox boxL, boxR;
 	EditBox amountBox;
-	
-	int page = 0;
 
 	SynthesisScreen parent;
 
@@ -71,14 +69,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 	protected void action(String string) {
 		switch(string) {
-		case "prev":
-			page--;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
-		case "next":
-			page++;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
 		case "deposit":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			
@@ -208,14 +198,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			take.active = false;
 			take.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 		}
-		
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page)+" " + (page + 1), 0, 10, 0xFF9900);
-		}
-		matrixStack.popPose();
 
         for (MenuStockItem stockItem : inventory) {
             stockItem.active = false;
