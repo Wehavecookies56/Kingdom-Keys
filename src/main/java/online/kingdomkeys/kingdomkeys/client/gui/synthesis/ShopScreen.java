@@ -46,7 +46,7 @@ import java.util.List;
 public class ShopScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
 
-	Button create;
+	MenuButton create;
 	int itemsPerPage;
 	private MenuButton back;
 	
@@ -142,9 +142,11 @@ public class ShopScreen extends MenuFilterable {
 		
 		super.init();
 
-        addRenderableWidget(create = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Buy, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("create");
-		}).bounds((boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+		});
+		create.setCenterText(true);
+		addRenderableWidget(create);
 		
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
 	}
@@ -154,7 +156,6 @@ public class ShopScreen extends MenuFilterable {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
-		//boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())

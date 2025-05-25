@@ -489,7 +489,10 @@ public class Strings {
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
 			Gui_Synthesis_Exp = Gui_Synthesis + ".exp",
-            Gui_Synthesis_Main = Gui_Synthesis + ".main",
+			Gui_Synthesis_Exp_MoogleLevel = Gui_Synthesis_Exp + ".mooglelevel",
+			Gui_Synthesis_Exp_NextLevel = Gui_Synthesis_Exp + ".nextlevel",
+
+			Gui_Synthesis_Main = Gui_Synthesis + ".main",
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",

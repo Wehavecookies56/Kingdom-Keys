@@ -7,17 +7,14 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.GuiHelper;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -41,11 +38,13 @@ import java.util.List;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
+
 public class SynthesisCreateScreen extends MenuFilterable {
 
 	// MenuFilterBar filterBar;
 	MenuBox boxL, boxM, boxRT, boxRB;
-	Button create;
+	MenuButton create;
 	private MenuButton back;
 	SynthesisScreen parent;
 
@@ -136,10 +135,11 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		inventory.forEach(this::addWidget);
 
 		super.init();
-
-		addRenderableWidget(create = Button.builder(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create), (e) -> {
+		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Synthesis_Synthesise_Create, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("create");
-		}).bounds(boxM.getX()+3, (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+		});
+		create.setCenterText(true);
+		addRenderableWidget(create);
 
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
 
@@ -205,16 +205,16 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		//Render synth level
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		gui.drawString(minecraft.font, Utils.translateToLocal("Moogle Level")+": "+playerData.getSynthLevel(), boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Gui_Synthesis_Exp_MoogleLevel)+": "+playerData.getSynthLevel(), boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
 
-		String line = Utils.translateToLocal("Tier")+": "+Utils.getTierFromInt(playerData.getSynthLevel());
+		String line = Utils.translateToLocal(Gui_Menu_Main_Synthesis_Tier)+": "+Utils.getTierFromInt(playerData.getSynthLevel());
 		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+6, 0xFFFFFF);
 
-		line = Utils.translateToLocal("Next Level")+": ";
-		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+16, 0xFFFF00);
+		line = Utils.translateToLocal(Gui_Synthesis_Exp_NextLevel)+": ";
+		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+18, 0xFFFF00);
 
 		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+16, 0xFFFFFF);
+		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+18, 0xFFFFFF);
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);

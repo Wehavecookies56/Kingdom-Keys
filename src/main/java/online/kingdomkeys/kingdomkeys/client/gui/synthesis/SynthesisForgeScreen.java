@@ -43,7 +43,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	int ticks=0;
 	MenuBox boxL, boxM, boxR;
 
-	Button upgrade;
+	MenuButton upgrade;
 	private MenuButton back;
 	SynthesisScreen parent;
 
@@ -174,9 +174,14 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		float buttonPosX = (float) width * 0.03F;
 
-		addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
+		/*addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
 			action("upgrade");
-		}).bounds(boxM.getX()+boxM.getWidth()/2-35, (int) (height * 0.67), 70, 20).build());
+		}).bounds(boxM.getX()+boxM.getWidth()/2-35, (int) (height * 0.67), 70, 20).build());*/
+		upgrade = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Synthesis_Forge_Upgrade, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
+			action("upgrade");
+		});
+		upgrade.setCenterText(true);
+		addRenderableWidget(upgrade);
 	}
 
 	@Override

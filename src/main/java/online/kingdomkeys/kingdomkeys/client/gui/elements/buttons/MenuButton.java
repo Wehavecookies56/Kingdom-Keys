@@ -29,18 +29,25 @@ public class MenuButton extends MenuButtonBase {
 	private int sbVPos = 118;
 	private int sbSelectedVPos = 138;
 
+	private int rbLeftU = 22, rbMiddleU = 34, rbRightU = 36;
+	private int rbVPos = 158;
+	private int rbSelectedVPos = 178;
+
 	private int middleWidth;
 
 	private String data, tip;
-	
-	public enum ButtonType {
-		BUTTON, SUBBUTTON
+
+	public void setCenterText(boolean b) {
+		this.centerText = b;
 	}
 
-	AbilityType abilityType;
+	public enum ButtonType {
+		BUTTON, SUBBUTTON, ROUNDBUTTON
+	}
 
 	ButtonType type;
 	private boolean selected;
+	private boolean centerText;
 
 	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, Button.OnPress onPress) {
 		super(x, y, 22 + widthIn, 20, Utils.translateToLocal(buttonText), onPress);
@@ -53,6 +60,7 @@ public class MenuButton extends MenuButtonBase {
 		if(hasTooltip)
 			this.tip = buttonText+".desc";
 	}
+
 	public String getData() {
 		return data;
 	}
@@ -73,37 +81,57 @@ public class MenuButton extends MenuButtonBase {
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
-
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
-			RenderSystem.setShaderColor(1, 1, 1, 1);
+			{
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			// RenderSystem.enableAlpha();
-			RenderSystem.enableBlend();
-			RenderSystem.setShaderTexture(0, texture);
-			if (isHovered && active) { // Hovered button
-				setX(getX() + 10);
-				drawButton(gui, true);
-				gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
-				setX(getX() - 10);
-			} else {
-				if (active) {// Not hovered but fully visible
-					drawButton(gui, false);
-					gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(255, 255, 255).hashCode());
-				} else {// Not hovered and selected (not fully visible)
-					if (selected) {
-						setX(getX() + 10);
-						drawButton(gui, false);
-						gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
-						setX(getX() - 10);
-					} else {
-						drawButton(gui, false);
-						gui.drawString(Minecraft.getInstance().font, getMessage(), getX() + 12, getY() + 6, new Color(100, 100, 100).hashCode());
-					}
+				RenderSystem.enableBlend();
+				RenderSystem.setShaderTexture(0, texture);
+				int textX = centerText ? getX() + getWidth() / 2 - Minecraft.getInstance().font.width(getMessage()) / 2 : getX() + 12;
+				switch (type) {
+					case BUTTON, SUBBUTTON:
+						if (isHovered && active) { // Hovered button
+							setX(getX() + 10);
+							drawButton(gui, true);
+							gui.drawString(Minecraft.getInstance().font, getMessage(), textX + 10, getY() + 6, new Color(255, 255, 255).hashCode());
+							setX(getX() - 10);
+						} else {
+							if (active) {// Not hovered but fully visible
+								drawButton(gui, false);
+								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
+							} else {// Not hovered and selected (not fully visible)
+								if (selected) {
+									setX(getX() + 10);
+									drawButton(gui, false);
+									gui.drawString(Minecraft.getInstance().font, getMessage(), textX + 10, getY() + 6, new Color(100, 100, 100).hashCode());
+									setX(getX() - 10);
+								} else {
+									drawButton(gui, false);
+									gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(100, 100, 100).hashCode());
+								}
+							}
+						}
+						break;
+					case ROUNDBUTTON:
+						if (isHovered && active) { // Hovered button
+							drawButton(gui, true);
+							gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
+						} else {
+							if (active) {// Not hovered but fully visible
+								drawButton(gui, false);
+								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
+							} else {// Not hovered and selected (not fully visible)
+								drawButton(gui, false);
+								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(100, 100, 100).hashCode());
+							}
+						}
+						break;
 				}
+
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 			}
-			RenderSystem.setShaderColor(1, 1, 1, 1);
 			matrixStack.popPose();
 		}
 	}
@@ -125,6 +153,13 @@ public class MenuButton extends MenuButtonBase {
 			rightU = sbRightU;
 			vPos = sbVPos;
 			selVPos = sbSelectedVPos;
+			break;
+		case ROUNDBUTTON:
+			leftU = rbLeftU;
+			middleU = rbMiddleU;
+			rightU = rbRightU;
+			vPos = rbVPos;
+			selVPos = rbSelectedVPos;
 			break;
 		}
 
