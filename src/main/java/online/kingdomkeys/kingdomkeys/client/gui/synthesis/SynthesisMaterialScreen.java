@@ -5,7 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -20,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -39,15 +42,14 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class SynthesisMaterialScreen extends MenuFilterable {
-		
+
 	MenuButton deposit,back;
-	Button prev,next, take;
+	Button take;
 	MenuBox boxL, boxR;
 	EditBox amountBox;
-	
+
 	int page = 0;
-	int itemsPerPage = 14;
-		
+
 	SynthesisScreen parent;
 
 	public SynthesisMaterialScreen(SynthesisScreen parent) {
@@ -55,103 +57,84 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		drawPlayerInfo = true;
 		this.parent = parent;
 	}
-	
+
 	public SynthesisMaterialScreen(String inv, String name, int moogle) {
 		this(new SynthesisScreen(inv, name, moogle));
 	}
 
 	@Override
-    public void action(ResourceLocation stackRL, ItemStack stack) {
-    	super.action(stackRL, stack);
-    	int amount = ModCapabilities.getPlayer(minecraft.player).getMaterialAmount(stack.getItem());
+	public void action(ResourceLocation stackRL, ItemStack stack) {
+		super.action(stackRL, stack);
+		int amount = ModCapabilities.getPlayer(minecraft.player).getMaterialAmount(stack.getItem());
 		amountBox.setValue(""+Math.min(64, amount));
 	}
 
-	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (delta > 0 && prev.visible) {
-			action("prev");
-			return true;
-		} else if (delta < 0 && next.visible) {
-			action("next");
-			return true;
-		}
-
-		return false;
-	}
-
 	protected void action(String string) {
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		switch(string) {
-		case "prev":
-			page--;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
-		case "next":
-			page++;
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
-		case "deposit":
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			
-			LocalPlayer player = minecraft.player;
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			try {
-				for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-					ItemStack stack = player.getInventory().getItem(i);
+			case "prev":
+				page--;
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				break;
+			case "next":
+				page++;
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				break;
+			case "deposit":
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
-					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
+				LocalPlayer player = minecraft.player;
+				try {
+					for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+						ItemStack stack = player.getInventory().getItem(i);
 
-						if (stack.is(Tags.MATERIALS)) {
-							playerData.addMaterial(stack.getItem(), stack.getCount());
-							player.getInventory().setItem(i, ItemStack.EMPTY);
+						if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
+							if (stack.is(Tags.MATERIALS)) {
+								playerData.addMaterial(stack.getItem(), stack.getCount());
+								player.getInventory().setItem(i, ItemStack.EMPTY);
+							}
 						}
 					}
+				} catch (ConcurrentModificationException e) {
+					e.printStackTrace();
 				}
-			} catch (ConcurrentModificationException e) {
-				e.printStackTrace();
-			}
-			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
-			break;
-		case "back":
-			minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle));
-			break;
-		case "take":
-			ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
+				PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
+				break;
+			case "back":
+				minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle));
+				break;
+			case "take":
+				ItemStack selectedItemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 
-			if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
-				try { 
-					Integer.parseInt(amountBox.getValue());
-					PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
-				} catch (NumberFormatException e) {
-					KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
+				if(!ItemStack.isSameItem(selectedItemstack, ItemStack.EMPTY) && minecraft.player.getInventory().getFreeSlot() > -1) {
+					try {
+						Integer.parseInt(amountBox.getValue());
+						PacketHandler.sendToServer(new CSTakeMaterials(selectedItemstack.getItem(), Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
+					} catch (NumberFormatException e) {
+						KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
+					}
 				}
-			}
-			break;
+				break;
 		}
-		
-		updateButtons();
-	}
-
-	private void updateButtons() {
 
 	}
 
-	
 	@Override
 	public void init() {
 		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.33F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1, new Color(4, 4, 68));
-		boxR = new MenuBox(boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight,1, new Color(4, 4, 68));
-		
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F,  new Color(40, 4, 255));
+		boxR = new MenuBox(boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, 1F,new Color(69, 69, 69));
+
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), boxL.getY(), boxL.getPosY()+boxL.getHeight(), (int) middleHeight, 0);
+		addRenderableWidget(scrollBar);
+
 		super.init();
 		initItems();
-
-		itemsPerPage = (int) (middleHeight / 14);
 	}
-	
+
 
 	@Override
 	public void initItems() {
@@ -161,39 +144,30 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		float invPosX = boxL.getX();
 		float invPosY = (float) height * 0.1851F;
-		
+
 		inventory.clear();
 		children().clear();
 		renderables.clear();
 		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
-		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
+		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		for (Entry<ResourceLocation, Integer> mat : playerData.getMaterialMap().entrySet()) {
-			Item item = ForgeRegistries.ITEMS.getValue(mat.getKey());
+			Item item = BuiltInRegistries.ITEM.get(mat.getKey());
 			items.add(new ItemStack(item, mat.getValue()));
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(ItemStack::getDescriptionId));
 
 		for (int i = 0; i < items.size(); i++) {
-			inventory.add(new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), (int)(width * 0.3255F), true));
+			MenuStockItem item = new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-4, true);
+			item.setBackgroundColor(new Color(30,30,100));
+			inventory.add(item);
 		}
-		
 		inventory.forEach(this::addWidget);
 
-		addRenderableWidget(prev = Button.builder(Component.translatable("<--"), (e) -> {
-			action("prev");
-		}).bounds((int) buttonPosX + 10, (int)(height * 0.1F), 30, 20).build());
-
-		addRenderableWidget(next = Button.builder(Component.translatable("-->"), (e) -> {
-			action("next");
-		}).bounds((int) buttonPosX + 10 + 76, (int)(height * 0.1F), 30, 20).build());
-		
-		prev.visible = false;
-		next.visible = false;
-		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY + (0 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxR.getX()+50, (int) (topBarHeight + middleHeight - 20), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -210,13 +184,12 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		});
 		addRenderableWidget(take = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Take)), (e) -> {
 			action("take");
-		}).bounds((int) amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
-		
+		}).bounds(amountBox.getX() + amountBox.getWidth()+5, (int) (topBarHeight + middleHeight - 22), 80, 20).build());
+
 		take.visible = false;
-		updateButtons();
 	}
 
-	
+
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
@@ -227,14 +200,15 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		gui.setColor(1, 1, 1, 1);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
-		prev.visible = page > 0;
-		next.visible = page < inventory.size() / itemsPerPage;
-		
+		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
+		scrollBar.setContentHeight(listHeight);
+
+
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
 			take.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 		}
-		
+
 		matrixStack.pushPose();
 		{
 			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
@@ -242,24 +216,22 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page)+" " + (page + 1), 0, 10, 0xFF9900);
 		}
 		matrixStack.popPose();
-		
-		for (int i = 0; i < inventory.size(); i++) {
-			inventory.get(i).active = false;
+
+		for (MenuStockItem stockItem : inventory) {
+			stockItem.active = false;
 		}
 
-		for (int i = page * itemsPerPage; i < page * itemsPerPage + itemsPerPage; i++) {
-			if (i < inventory.size() && i >= 0) {
-				if (inventory.get(i) != null) {
-					inventory.get(i).visible = true;
-					inventory.get(i).setY((int) (topBarHeight) + (i % itemsPerPage) * 14 + 5); // 6 = offset
-					inventory.get(i).render(gui, mouseX, mouseY, partialTicks);
-					inventory.get(i).active = true;
-				}
+		for(Renderable renderable : this.inventory){
+			if(renderable instanceof MenuStockItem menuStockItem){
+				menuStockItem.active = true;
+				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+				renderable.render(gui,mouseX,mouseY,partialTicks);
+				gui.disableScissor();
+			} else {
+				renderable.render(gui,mouseX,mouseY,partialTicks);
 			}
 		}
-		
-		prev.render(gui, mouseX,  mouseY,  partialTicks);
-		next.render(gui, mouseX,  mouseY,  partialTicks);
+
 		deposit.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX,  mouseY,  partialTicks);
 	}
@@ -269,9 +241,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		PoseStack matrixStack = gui.pose();
 		amountBox.render(gui, mouseX,  mouseY,  partialTicks);
 		take.render(gui, mouseX, mouseY, partialTicks);
-		
-		//amountBox.setWidth(minecraft.fontRenderer.getStringWidth(amountBox.getText()));
-		
+
 		take.visible = true;
 
 		float iconPosX = boxR.getX();
@@ -296,7 +266,42 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		matrixStack.popPose();
 
 	}
-	
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+
+		updateScroll();
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	public void updateScroll() {
+		inventory.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaY) {
+		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaY);
+
+		updateScroll();
+		return false;
+	}
+
 	@Override
 	public boolean isPauseScreen() {
 		return false;

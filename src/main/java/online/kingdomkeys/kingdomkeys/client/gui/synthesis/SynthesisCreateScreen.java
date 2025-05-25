@@ -213,7 +213,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		line = Utils.translateToLocal("Next Level")+": ";
 		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+16, 0xFFFF00);
 
-		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
+		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+16, 0xFFFFFF);
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
@@ -349,8 +349,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
 
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-					gui.drawString(minecraft.font, name, startX, startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
-					gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					gui.drawString(minecraft.font, name, startX, startY + (int) ((i*16)-scrollBar2.scrollOffset)+1, color);
+					gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset)+1, color);
 					ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxRB.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;
 				}

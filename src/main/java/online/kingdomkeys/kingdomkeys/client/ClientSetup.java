@@ -216,6 +216,7 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "shortcuts", ShortcutsGui.INSTANCE);
 		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "command_menu", CommandMenuGui.INSTANCE);
 		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "player_portrait", PlayerPortraitGui.INSTANCE);
 		event.registerBelow(VanillaGuiOverlay.CHAT_PANEL.id(), "hp_bar", HPGui.INSTANCE);

@@ -116,6 +116,21 @@ public class MenuStockItem extends Button {
                     gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
                 }
                 matrixStack.popPose();
+            } else if(getBackgroundColor() != null) {
+                matrixStack.pushPose();
+                {
+                    RenderSystem.enableBlend();
+
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
+                    float scale = 0.5F;
+                    matrixStack.scale(scale, scale, 1);
+                    RenderSystem.setShaderColor(getBackgroundColor().getRed()/255F,getBackgroundColor().getGreen()/255F,getBackgroundColor().getBlue()/255F,1);
+                    gui.blit(texture, 0, 0, 219, 0, 18, 28);
+                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 239, 0, 2, 28, 256, 256);
+                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 239, 0, 17, 28);
+                    RenderSystem.setShaderColor(1,1,1,1);
+                }
+                matrixStack.popPose();
             }
             ItemCategory category = Utils.getCategoryForStack(stack);
             matrixStack.pushPose();
