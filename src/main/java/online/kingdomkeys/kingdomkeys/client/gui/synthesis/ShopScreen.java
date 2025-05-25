@@ -44,8 +44,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ShopScreen extends MenuFilterable {
-	MenuBox boxL, boxM, boxR;
-	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
+	MenuBox boxL, boxM;
 
 	Button create;
 	int itemsPerPage;
@@ -77,13 +76,12 @@ public class ShopScreen extends MenuFilterable {
 	
 	@Override
 	public void init() {
-		float boxPosX = (float) width * 0.1437F;
+		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight,1, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight,1, new Color(4, 4, 68));
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F, new Color(100, 4, 4));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, 1F,new Color(100, 4, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		float filterPosX = width * 0.3F;
@@ -101,7 +99,7 @@ public class ShopScreen extends MenuFilterable {
 
 	@Override
 	public void initItems() {
-		float invPosX = (float) width * 0.1494F;
+		float invPosX = (float) boxL.getX()+4;
 		float invPosY = (float) height * 0.1851F;
 		inventory.clear();
 		children().clear();
@@ -135,14 +133,14 @@ public class ShopScreen extends MenuFilterable {
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
 				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
 			}
-			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false));
+			MenuStockItem item = new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false);
+			item.setBackgroundColor(new Color(80,10,10));
+			inventory.add(item);
 		}
 		
 		inventory.forEach(this::addWidget);
 		
 		super.init();
-		
-		float buttonPosX = (float) width * 0.03F;
 
         addRenderableWidget(create = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
 			action("create");
@@ -156,7 +154,7 @@ public class ShopScreen extends MenuFilterable {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
-		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		//boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())
@@ -220,8 +218,7 @@ public class ShopScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
-		float iconPosX = boxR.getX();
-		float iconPosY = boxR.getY() + 25;
+		float iconPosY = boxM.getPosY() + 25;
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
@@ -335,9 +332,6 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
-		if (mouseButton == 1) {
-			GuiHelper.openMenu();
-		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
