@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -13,20 +14,26 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuEquipmentSelectorScreen extends MenuBackground {
-
+	MenuScrollBar scrollBar;
 	MenuBox keyblades, details;
     Button back;
+
+	List<MenuSelectEquipmentButton> widgets = new ArrayList<>();
 
 	public ResourceLocation form;
 
@@ -55,6 +62,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float listX = width * 0.1546F;
 		float listY = height * 0.2546F;
 
+		widgets.clear();
         addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
@@ -76,23 +84,35 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		}
 
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
+
+
 		if(form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 				if (minecraft.player.getInventory().getFreeSlot() > -1)
-					addRenderableWidget(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					widgets.add(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 			}
+
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
 					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem keychainItem) {
 						if (keychainItem.getKeyblade() != null) {
-							addRenderableWidget(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							widgets.add(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 						}
 					}
 				}
 			}
+
 		}
+		widgets.forEach(this::addWidget);
+
 		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.6F, colour);
 		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.6F, colour);
+
+		int scrollYPos = (int)listY;
+		int scrollHeight = keyblades.getHeight() - scrollYPos;
+
+		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos+keyblades.getHeight(), scrollHeight,0);
+		addRenderableWidget(scrollBar);
 	}
 
 	@Override
@@ -100,6 +120,58 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
+		scrollBar.render(gui, mouseX, mouseY, partialTicks);
+
+		int listHeight = (widgets.get(widgets.size()-1).getY()+14) - widgets.get(0).getY() + 3;
+		scrollBar.setContentHeight(listHeight);
+
+		for(Renderable renderable : widgets){
+			if(renderable instanceof MenuSelectEquipmentButton){
+				gui.enableScissor(keyblades.getX()+2,scrollBar.getY()+2,keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+				renderable.render(gui,mouseX,mouseY,partialTicks);
+				gui.disableScissor();
+			} else {
+				renderable.render(gui,mouseX,mouseY,partialTicks);
+			}
+		}
+
 		super.render(gui, mouseX, mouseY, partialTicks);
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+
+		updateScroll();
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	public void updateScroll() {
+		widgets.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if(mouseX >= keyblades.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+
+		updateScroll();
+		return false;
 	}
 }

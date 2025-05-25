@@ -28,9 +28,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MenuStockScreen extends MenuFilterable {
-
-
-    MenuScrollBar scrollBar;
     MenuBox box;
 	MenuButton back;
 
@@ -47,7 +44,6 @@ public class MenuStockScreen extends MenuFilterable {
 
         int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
         scrollBar.setContentHeight(listHeight);
-        scrollBar.render(gui,mouseX,mouseY,partialTicks);
 
         for(Renderable renderable : this.inventory){
             if(renderable instanceof MenuStockItem menuStockItem){
