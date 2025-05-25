@@ -192,6 +192,7 @@
 	"gui.shop.page": "Página",
 	"gui.shop.cost": "Coste",
 	"gui.shop.tier": "Clase",
+	"gui.shop.no_empty_slot": "No tienes espacio",
 	"gui.summonarmor.notenoughspace": "No tienes suficiente espacio en el inventario",
 
 	"gui.commandmenu.command": "COMANDOS",
