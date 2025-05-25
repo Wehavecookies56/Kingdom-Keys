@@ -171,12 +171,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		inventory.forEach(this::addWidget);
 
 		super.init();
-
-		float buttonPosX = (float) width * 0.03F;
-
-		/*addRenderableWidget(upgrade = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Forge_Upgrade)), (e) -> {
-			action("upgrade");
-		}).bounds(boxM.getX()+boxM.getWidth()/2-35, (int) (height * 0.67), 70, 20).build());*/
 		upgrade = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Synthesis_Forge_Upgrade, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("upgrade");
 		});
@@ -186,7 +180,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -318,8 +311,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 						String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
 
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-						gui.drawString(minecraft.font, n, startX, startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
-						gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+						ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(n), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);						gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
 						ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxR.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 						i++;
 					}

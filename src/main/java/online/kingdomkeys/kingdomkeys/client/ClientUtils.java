@@ -10,7 +10,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -96,8 +98,48 @@ import javax.annotation.Nullable;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ClientUtils {
+    public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color) {
+        if(font.width(text) > maxX - minX)
+            y-=1;// For some reason if the text is too long it shifts to one pixel lower
+
+        int maxWidth = maxX - minX;
+        int textWidth = font.width(text.getVisualOrderText());
+        if (textWidth <= maxWidth) {
+            return gui.drawString(font, text, minX, y, color);
+        } else {
+            GuiGraphics var10000 = gui;
+            Objects.requireNonNull(font);
+            renderScrollingString(var10000, font, text, minX, y, maxX, y + 9, color);
+            return maxWidth;
+        }
+    }
+
+    public static void renderScrollingString(GuiGraphics guiGraphics, Font font, Component text, int minX, int minY, int maxX, int maxY, int color) {
+        renderScrollingString(guiGraphics, font, text, (minX + maxX) / 2, minX, minY, maxX, maxY, color);
+    }
+
+    public static void renderScrollingString(GuiGraphics guiGraphics, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
+        int i = font.width(text);
+        int j = (minY + maxY - 9) / 2 + 1;
+        int k = maxX - minX;
+        if (i > k) {
+            int l = i - k;
+            double d0 = (double) Util.getMillis() / (double)1000.0F;
+            double d1 = Math.max((double)l * (double)0.5F, (double)3.0F);
+            double d2 = Math.sin((Math.PI / 2D) * Math.cos((Math.PI * 2D) * d0 / d1)) / (double)2.0F + (double)0.5F;
+            double d3 = Mth.lerp(d2, (double)0.0F, (double)l);
+            guiGraphics.enableScissor(minX, minY, maxX, maxY);
+            guiGraphics.drawString(font, text, minX - (int)d3, j, color);
+            guiGraphics.disableScissor();
+        } else {
+            int i1 = Mth.clamp(centerX, minX + i / 2, maxX - i / 2);
+            guiGraphics.drawCenteredString(font, text, i1, j, color);
+        }
+
+    }
 
     public static boolean getResourceExists(String path){
         try {
