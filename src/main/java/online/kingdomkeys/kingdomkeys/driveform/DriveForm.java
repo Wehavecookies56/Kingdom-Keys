@@ -152,7 +152,8 @@ public abstract class DriveForm {
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
-			
+			playerData.setMP(playerData.getMaxMP());
+
 			if(getDriveSound() != null)
 				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);

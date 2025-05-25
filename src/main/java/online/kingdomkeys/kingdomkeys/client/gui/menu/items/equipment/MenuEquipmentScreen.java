@@ -62,8 +62,8 @@ public class MenuEquipmentScreen extends MenuBackground {
         float boxHeight = height * 0.5972F;
         float detailsWidth = width * 0.2588F;
         float detailsX = listBoxX + listBoxWidth;
-        listBox = new MenuBox((int) listBoxX, (int) boxY, (int) listBoxWidth, (int) boxHeight, new Color(76, 76, 76));
-        detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight, new Color(76, 76, 76));
+        listBox = new MenuBox((int) listBoxX, (int) boxY, (int) listBoxWidth, (int) boxHeight,0.6F, new Color(76, 76, 76));
+        detailsBox = new MenuBox((int) detailsX, (int) boxY, (int) detailsWidth, (int) boxHeight,0.6F, new Color(76, 76, 76));
         
         int itemHeight = 14;
         

@@ -116,9 +116,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1, new Color(4, 4, 68));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight,1, new Color(4, 4, 68));
+		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight,1, new Color(4, 4, 68));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 

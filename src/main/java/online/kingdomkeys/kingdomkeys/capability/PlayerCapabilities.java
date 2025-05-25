@@ -2225,6 +2225,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
+	@Override
 	public int getSynthExpNeeded(int level, int currentExp) {
 		if (level > 7)
 			return 0;

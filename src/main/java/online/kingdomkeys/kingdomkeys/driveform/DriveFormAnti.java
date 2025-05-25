@@ -46,6 +46,7 @@ public class DriveFormAnti extends DriveForm {
 			playerData.setFP(1000);
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
 			player.heal(player.getMaxHealth());
+			playerData.setMP(playerData.getMaxMP());
 
 			if(getDriveSound() != null)
 				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);

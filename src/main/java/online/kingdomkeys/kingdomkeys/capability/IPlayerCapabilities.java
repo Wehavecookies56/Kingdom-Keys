@@ -324,6 +324,8 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
 
+	int getSynthExpNeeded(int level, int currentExp);
+
 	SingleChoices getSingleStyle();
 	void setSingleStyle(SingleChoices singleStyle) ;
 	DualChoices getDualStyle();

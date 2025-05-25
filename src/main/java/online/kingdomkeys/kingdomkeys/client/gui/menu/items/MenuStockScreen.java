@@ -98,7 +98,7 @@ public class MenuStockScreen extends MenuFilterable {
         float topBarHeight = (float) height * 0.17F;
         float boxWidth = (float) width * 0.7135F;
         float middleHeight = (float) height * 0.6F;
-        box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+        box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 1F,new Color(4, 4, 68));
         float filterPosX = width * 0.3F;
         float filterPosY = height * 0.023F;
 

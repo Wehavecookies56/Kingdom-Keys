@@ -75,7 +75,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 
 		buttonPosY = (int) topBarHeight + 5;
 		
-		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F,new Color(4, 4, 68));
 		buttonsX = box.getX() + 10;
 
 		this.renderables.clear();

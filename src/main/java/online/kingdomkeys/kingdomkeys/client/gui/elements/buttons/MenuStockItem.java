@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -40,9 +41,10 @@ public class MenuStockItem extends Button {
 	MenuFilterable parent;
     ResourceLocation rl;
     ItemStack stack;
-    boolean selected, showAmount;
+    boolean showAmount;
     String customName = null;
     public int offsetY;
+    public Color backgroundColor;
 
     final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -76,6 +78,14 @@ public class MenuStockItem extends Button {
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount, String customName) {
         this(parent,stack,x,y,width,showAmount);
         this.customName = customName;
+    }
+
+    public void setBackgroundColor(Color color){
+        this.backgroundColor = color;
+    }
+
+    public Color getBackgroundColor(){
+        return backgroundColor;
     }
 
     @Override
@@ -167,16 +177,18 @@ public class MenuStockItem extends Button {
                 ShopList shopList = shop.getShopList();
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
-                        if(item.getCost() > playerData.getMunny()) {
-                            color = ChatFormatting.DARK_GRAY;
-                        } else {
-                            color = ChatFormatting.WHITE;
-                        }
+                        color = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
                         break;
                     }
                 }
                 // System.out.println(shopList.getList().;
             }
+
+            if(showAmount) {
+                String count = Component.translatable("x%s ", stack.getCount()).getString();
+                gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
+            }
+
             gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(displayTick) {
@@ -185,10 +197,7 @@ public class MenuStockItem extends Button {
                     gui.drawString(mc.font, "✔", (int)(getWidth() * 1.49), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
                 }
             }
-            if(showAmount) {
-	            String count = Component.translatable("x%s ", stack.getCount()).getString();
-	            gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
-            }
+
         }
     }
 
