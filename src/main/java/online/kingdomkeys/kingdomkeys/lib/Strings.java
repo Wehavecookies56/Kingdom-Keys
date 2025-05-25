@@ -478,7 +478,7 @@ public class Strings {
             Gui_Shop_Page = Gui_Shop + ".page",
 	    	Gui_Shop_Tier = Gui_Shop + ".tier",
             Gui_Shop_Main = Gui_Shop + ".main",
-            Gui_Shop_NoSpace = Gui_Shop + "no_empty_slot",
+            Gui_Shop_NoSpace = Gui_Shop + ".no_empty_slot",
             Gui_Shop_Main_Title = Gui_Shop_Main + ".title",
             Gui_Shop_Main_Buy = Gui_Shop_Main + ".buy",
             Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
