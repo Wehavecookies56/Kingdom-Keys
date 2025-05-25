@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -10,6 +11,7 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -22,14 +24,14 @@ public class MenuButton extends MenuButtonBase {
 	private final int endWidth = 11;
 
 	private final int bLeftU = 0;
-    private final int bMiddleU = 12;
-    private final int bRightU = 14;
+	private final int bMiddleU = 12;
+	private final int bRightU = 14;
 	private final int bVPos = 0;
 	private final int bSelectedVPos = 20;
 
 	private final int sbLeftU = 22;
-    private final int sbMiddleU = 34;
-    private final int sbRightU = 36;
+	private final int sbMiddleU = 34;
+	private final int sbRightU = 36;
 	private final int sbVPos = 118;
 	private final int sbSelectedVPos = 138;
 
@@ -38,6 +40,8 @@ public class MenuButton extends MenuButtonBase {
 	private int rbSelectedVPos = 178;
 
 	private int middleWidth;
+
+	private int offset;
 
 	private String data, tip;
 
@@ -61,22 +65,22 @@ public class MenuButton extends MenuButtonBase {
 
 	public MenuButton(int x, int y, int widthIn, String buttonText, ButtonType type, boolean hasTooltip, Button.OnPress onPress) {
 		this(x, y, widthIn, buttonText, type, onPress);
-		if(hasTooltip)
-			this.tip = buttonText+".desc";
+		if (hasTooltip)
+			this.tip = buttonText + ".desc";
 	}
 
 	public String getData() {
 		return data;
 	}
-	
+
 	public void setData(String data) {
 		this.data = data;
 	}
-	
+
 	public String getTip() {
 		return tip;
 	}
-	
+
 	public void setTip(String tip) {
 		this.tip = tip;
 	}
@@ -85,6 +89,7 @@ public class MenuButton extends MenuButtonBase {
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
+		Font font = Minecraft.getInstance().font;
 		PoseStack matrixStack = gui.pose();
 		if (visible) {
 			matrixStack.pushPose();
@@ -93,47 +98,28 @@ public class MenuButton extends MenuButtonBase {
 
 				RenderSystem.enableBlend();
 				RenderSystem.setShaderTexture(0, texture);
-				int textX = centerText ? getX() + getWidth() / 2 - Minecraft.getInstance().font.width(getMessage()) / 2 : getX() + 12;
-				switch (type) {
-					case BUTTON, SUBBUTTON:
-						if (isHovered && active) { // Hovered button
-							setX(getX() + 10);
-							drawButton(gui, true);
-							gui.drawString(Minecraft.getInstance().font, getMessage(), textX + 10, getY() + 6, new Color(255, 255, 255).hashCode());
-							setX(getX() - 10);
-						} else {
-							if (active) {// Not hovered but fully visible
-								drawButton(gui, false);
-								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
-							} else {// Not hovered and selected (not fully visible)
-								if (selected) {
-									setX(getX() + 10);
-									drawButton(gui, false);
-									gui.drawString(Minecraft.getInstance().font, getMessage(), textX + 10, getY() + 6, new Color(100, 100, 100).hashCode());
-									setX(getX() - 10);
-								} else {
-									drawButton(gui, false);
-									gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(100, 100, 100).hashCode());
-								}
-							}
-						}
-						break;
-					case ROUNDBUTTON:
-						if (isHovered && active) { // Hovered button
-							drawButton(gui, true);
-							gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
-						} else {
-							if (active) {// Not hovered but fully visible
-								drawButton(gui, false);
-								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(255, 255, 255).hashCode());
-							} else {// Not hovered and selected (not fully visible)
-								drawButton(gui, false);
-								gui.drawString(Minecraft.getInstance().font, getMessage(), textX, getY() + 6, new Color(100, 100, 100).hashCode());
-							}
-						}
-						break;
-				}
 
+				int btnMargin = 8;
+				int textX = getX() + btnMargin;
+				int activeColor = new Color(255, 255, 255).hashCode();
+				int disabledColor = new Color(100, 100, 100).hashCode();
+
+				boolean shouldOffset = (isHovered && active) || (!active && selected);
+				int drawColor = (active ? activeColor : disabledColor);
+				int x = getX();
+
+				if (shouldOffset)
+					setX(x + offset);
+
+				drawButton(gui, isHovered && active);
+
+				int drawX = textX + (shouldOffset ? offset : 0);
+				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - (btnMargin*2), getY() + 6, drawColor, centerText);
+
+				if (shouldOffset)
+					setX(x);
+
+				RenderSystem.disableBlend();
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 			}
 			matrixStack.popPose();
@@ -144,27 +130,30 @@ public class MenuButton extends MenuButtonBase {
 		int leftU = 0, middleU = 0, rightU = 0;
 		int vPos = 0, selVPos = 0;
 		switch (type) { // Set the local values to the corresponding fields
-		case BUTTON:
-			leftU = bLeftU;
-			middleU = bMiddleU;
-			rightU = bRightU;
-			vPos = bVPos;
-			selVPos = bSelectedVPos;
-			break;
-		case SUBBUTTON:
-			leftU = sbLeftU;
-			middleU = sbMiddleU;
-			rightU = sbRightU;
-			vPos = sbVPos;
-			selVPos = sbSelectedVPos;
-			break;
-		case ROUNDBUTTON:
-			leftU = rbLeftU;
-			middleU = rbMiddleU;
-			rightU = rbRightU;
-			vPos = rbVPos;
-			selVPos = rbSelectedVPos;
-			break;
+			case BUTTON:
+				leftU = bLeftU;
+				middleU = bMiddleU;
+				rightU = bRightU;
+				vPos = bVPos;
+				selVPos = bSelectedVPos;
+				offset = 10;
+				break;
+			case SUBBUTTON:
+				leftU = sbLeftU;
+				middleU = sbMiddleU;
+				rightU = sbRightU;
+				vPos = sbVPos;
+				selVPos = sbSelectedVPos;
+				offset = 10;
+				break;
+			case ROUNDBUTTON:
+				leftU = rbLeftU;
+				middleU = rbMiddleU;
+				rightU = rbRightU;
+				vPos = rbVPos;
+				selVPos = rbSelectedVPos;
+				offset = 0;
+				break;
 		}
 
 		vPos = hovered || selected ? selVPos : vPos;

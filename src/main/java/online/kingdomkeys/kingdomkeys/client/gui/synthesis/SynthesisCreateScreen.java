@@ -39,12 +39,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class SynthesisCreateScreen extends MenuFilterable {
-
-	// MenuFilterBar filterBar;
 	MenuBox boxL, boxM, boxRT, boxRB;
-	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 	MenuButton create;
-	int itemsPerPage;
 	private MenuButton back;
 	SynthesisScreen parent;
 
@@ -90,9 +86,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		buttonWidth = ((float)width * 0.07F);
 		// addButton(scrollBar = new MenuScrollBar());
 		super.init();
-		
-		itemsPerPage = (int) (middleHeight / 14);
-		
 	}
 
 	@Override
@@ -350,7 +343,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
 
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-					ClientUtils.drawScrollingText(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color, false);
 					gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
 					ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxRB.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;

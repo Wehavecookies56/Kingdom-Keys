@@ -59,12 +59,23 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientUtils {
 
-    public static void drawScrollingText(GuiGraphics gui, Font font, MutableComponent text, int startX, int endX, int startY, int color){
-        if(font.width(text) > endX - startX)
-        	startY-=1;// For some reason if the text is too long it shifts to one pixel lower
-
-        gui.drawScrollingString(font, text, startX, endX, startY, color);
-
+    public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color, boolean centered){
+        int maxWidth = maxX - minX;
+        int textWidth = font.width(text.getVisualOrderText());
+        if (textWidth <= maxWidth) {
+            if (centered) {
+                int i = font.width(text);
+                int i1 = Mth.clamp((minX + maxX) / 2, minX + i / 2, maxX - i / 2);
+                gui.drawCenteredString(font, text, i1+1, y, color);
+                return maxWidth;
+            } else {
+                return gui.drawString(font, text, minX, y, color);
+            }
+        } else {
+            y-=1;
+            gui.drawScrollingString(font, text, minX, maxX, y, color);
+            return maxWidth;
+        }
     }
 
     public static boolean getResourceExists(String path){
