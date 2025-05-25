@@ -44,14 +44,13 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.capability.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -113,6 +112,14 @@ public class EntityEvents {
 			if (kbArmor) {
 				event.getEntity().playSound(ModSounds.keyblade_armor.get());
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onXPPickup(PlayerXpEvent.XpChange e) {
+		if (e.getEntity().getHealth() <= e.getEntity().getMaxHealth() / 2) {
+			IPlayerCapabilities playerData = ModCapabilities.getPlayer(e.getEntity());
+			e.setAmount(e.getAmount() * (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) + 1));
 		}
 	}
 
