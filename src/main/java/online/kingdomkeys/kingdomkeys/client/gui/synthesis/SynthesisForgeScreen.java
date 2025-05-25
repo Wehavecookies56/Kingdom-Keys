@@ -298,22 +298,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 			matrixStack.pushPose();
 			{
 				if(kb.getKeybladeLevel(selectedItemStack) < kb.getMaxLevel()) {
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.blazing_crystal.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.blazing_stone.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.blazing_shard.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.blazing_gem.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.betwixt_crystal.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.betwixt_stone.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.betwixt_shard.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.betwixt_gem.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.orichalcum.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.orichalcumplus.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.lucid_shard.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.adamantite.get(),2);
-					kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().put(ModItems.electrum.get(),2);
 					Iterator<Entry<Item, Integer>> materials = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
 					int i = 0;
-					int listHeight = (boxR.getPosY()+10 + (kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().size()+1)*16)+10 - boxR.getPosY()+10;
+					int listHeight = (kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().size()*16)+font.lineHeight;
 					scrollBar2.setContentHeight(listHeight);
 
 					int startX = (int) iconPosX + 20;
