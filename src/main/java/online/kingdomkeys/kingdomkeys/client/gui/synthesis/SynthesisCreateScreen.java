@@ -349,7 +349,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
 
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
-					ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color, false);
 					gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset)+1, color);
 					ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxRB.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;

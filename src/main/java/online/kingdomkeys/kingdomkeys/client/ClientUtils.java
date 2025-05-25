@@ -101,11 +101,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClientUtils {
-    public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color) {
+    public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color, boolean centered) {
         int maxWidth = maxX - minX;
         int textWidth = font.width(text.getVisualOrderText());
         if (textWidth <= maxWidth) {
-            return gui.drawString(font, text, minX, y, color);
+            if (centered) {
+                int i = font.width(text);
+                int i1 = Mth.clamp((minX + maxX) / 2, minX + i / 2, maxX - i / 2);
+                gui.drawCenteredString(font, text, i1+1, y, color);
+                return maxWidth;
+            } else {
+                return gui.drawString(font, text, minX, y, color);
+            }
         } else {
             y-=1;
             renderScrollingString(gui, font, text, minX, y, maxX, y + 9, color);

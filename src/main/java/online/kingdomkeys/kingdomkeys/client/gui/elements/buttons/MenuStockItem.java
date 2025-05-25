@@ -206,7 +206,7 @@ public class MenuStockItem extends Button {
                 rightMargin += mc.font.width(count);
             }
 
-            ClientUtils.drawScrollingString(gui,mc.font,Component.literal(color+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+            ClientUtils.drawScrollingString(gui,mc.font,Component.literal(color+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF, false); //If it's a keychain it will show the keyblade name
             if(displayTick) {
                 Set<String> recipeList = playerData.getSynthesisedRecipes();
                 if(recipeList.contains(rl.toString())) {

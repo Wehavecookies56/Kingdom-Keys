@@ -96,7 +96,7 @@ public class MenuButton extends MenuButtonBase {
 				RenderSystem.setShaderTexture(0, texture);
 
 				int btnMargin = 8;
-				int textX = centerText ? getX() + (getWidth() / 2) - (font.width(getMessage()) / 2) + btnMargin : getX() + btnMargin;
+				int textX = getX() + btnMargin;
 				int activeColor = new Color(255,255,255).hashCode();
 				int disabledColor = new Color(100,100,100).hashCode();
 
@@ -110,7 +110,7 @@ public class MenuButton extends MenuButtonBase {
 				drawButton(gui, isHovered && active);
 
 				int drawX = textX + (shouldOffset ? offset : 0);
-				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - btnMargin , getY() + 6, drawColor);
+				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - (btnMargin*2), getY() + 6, drawColor, centerText);
 
 				if (shouldOffset)
 					setX(x);
