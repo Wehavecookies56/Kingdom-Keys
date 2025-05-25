@@ -46,7 +46,6 @@ public class ShopScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
 
 	MenuButton create;
-	int itemsPerPage;
 	private MenuButton back;
 	
 	SynthesisScreen parent;
@@ -94,7 +93,6 @@ public class ShopScreen extends MenuFilterable {
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
 		super.init();
-		itemsPerPage = (int) (middleHeight / 14);
 	}
 
 	@Override
