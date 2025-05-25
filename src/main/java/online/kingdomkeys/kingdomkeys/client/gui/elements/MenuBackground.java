@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -15,7 +14,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;

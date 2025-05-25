@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.List;
-
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -23,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
+
+import java.util.List;
 
 public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Packet {
 

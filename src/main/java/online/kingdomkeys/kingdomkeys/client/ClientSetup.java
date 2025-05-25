@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -16,39 +11,33 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.render.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetup {

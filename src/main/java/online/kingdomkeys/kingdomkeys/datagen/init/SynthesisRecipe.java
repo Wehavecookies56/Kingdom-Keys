@@ -6,6 +6,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.SynthesisRecipeProvider;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
 import static online.kingdomkeys.kingdomkeys.item.ModItems.*;
 
 public class SynthesisRecipe extends SynthesisRecipeProvider {

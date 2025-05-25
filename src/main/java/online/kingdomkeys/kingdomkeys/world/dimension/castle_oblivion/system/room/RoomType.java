@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -14,12 +13,11 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 public class RoomType extends JsonRegistryObject {
 

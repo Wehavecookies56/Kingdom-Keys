@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.LinkedHashMap;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -12,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
+
+import java.util.LinkedHashMap;
 
 public record SCOpenShortcutsCustomize(LinkedHashMap<String, int[]> knownMagic) implements Packet {
 

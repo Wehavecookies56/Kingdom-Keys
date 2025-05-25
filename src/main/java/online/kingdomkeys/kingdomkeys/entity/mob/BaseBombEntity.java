@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,14 +22,10 @@ import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.drops.XPEntity;
-
-import java.util.Optional;
 
 public abstract class BaseBombEntity extends BaseKHEntity {
 

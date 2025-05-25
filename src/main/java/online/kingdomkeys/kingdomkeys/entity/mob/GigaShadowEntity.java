@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -12,9 +10,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
 public class GigaShadowEntity extends ShadowEntity {

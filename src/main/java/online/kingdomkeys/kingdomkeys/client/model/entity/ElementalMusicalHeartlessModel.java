@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -10,9 +9,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 

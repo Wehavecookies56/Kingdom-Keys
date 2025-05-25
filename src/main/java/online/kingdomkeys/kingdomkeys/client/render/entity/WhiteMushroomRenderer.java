@@ -17,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.WhiteMushroomModel;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
 //TODO should be able to make this a a generic human renderer for the rest of the members

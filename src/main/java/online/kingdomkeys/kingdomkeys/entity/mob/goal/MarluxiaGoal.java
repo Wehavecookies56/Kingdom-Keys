@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import java.util.List;
-
-import net.minecraft.world.entity.animal.TropicalFish;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
-import org.joml.Vector3f;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -23,8 +17,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
+import org.joml.Vector3f;
+
+import java.util.List;
 
 public class MarluxiaGoal extends TargetGoal {
 	// 0-Normal, 1-Armor (weak to fire), 2-Teleporting, 3-Chasing (finish)

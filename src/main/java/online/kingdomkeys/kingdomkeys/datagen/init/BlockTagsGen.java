@@ -1,23 +1,22 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class BlockTagsGen extends BlockTagsProvider {
 	

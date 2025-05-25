@@ -1,61 +1,61 @@
 package online.kingdomkeys.kingdomkeys.client;
 
-import java.io.*;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Axis;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import org.joml.Matrix4f;
-import org.joml.Matrix4fStack;
-import org.joml.Quaternionf;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
+import org.joml.Quaternionf;
+
+import javax.annotation.Nullable;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 public class ClientUtils {
 

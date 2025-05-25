@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,7 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.NobodyCreeperModel;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.NobodyCreeperEntity;
 
 public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, NobodyCreeperModel<NobodyCreeperEntity>> {

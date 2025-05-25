@@ -1,26 +1,24 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class EntityTagsGen extends EntityTypeTagsProvider {
 

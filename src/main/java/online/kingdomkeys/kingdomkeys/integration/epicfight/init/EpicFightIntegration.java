@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 
 public class EpicFightIntegration {
 

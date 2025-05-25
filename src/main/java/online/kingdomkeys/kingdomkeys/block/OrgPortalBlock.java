@@ -31,9 +31,9 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowOrgPortalGUI;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
 public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen {
 

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import java.util.function.Supplier;
-
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -13,6 +11,8 @@ import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+
+import java.util.function.Supplier;
 
 public abstract class KKLanguageProvider extends LanguageProvider {
 

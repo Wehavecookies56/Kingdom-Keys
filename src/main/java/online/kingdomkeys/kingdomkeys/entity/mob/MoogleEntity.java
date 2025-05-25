@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -38,6 +32,10 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Objects;
 
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpawn {

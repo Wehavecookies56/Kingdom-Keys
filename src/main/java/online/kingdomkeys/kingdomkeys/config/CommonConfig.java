@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.List;
 
 
 /**

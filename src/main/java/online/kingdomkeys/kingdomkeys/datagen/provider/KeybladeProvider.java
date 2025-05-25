@@ -1,5 +1,17 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,19 +20,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 
 public abstract class KeybladeProvider<T extends KeybladeBuilder> implements DataProvider {
 

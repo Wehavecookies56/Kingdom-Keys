@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
 public class WhiteMushroomGoal extends Goal {

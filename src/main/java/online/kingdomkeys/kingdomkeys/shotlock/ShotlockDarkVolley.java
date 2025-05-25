@@ -1,15 +1,13 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.fml.common.EventBusSubscriber;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+
+import java.util.List;
 
 public class ShotlockDarkVolley extends Shotlock {
 

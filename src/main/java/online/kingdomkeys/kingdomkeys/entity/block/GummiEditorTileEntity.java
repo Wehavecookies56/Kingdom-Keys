@@ -1,17 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.minecraft.core.HolderLookup;
-import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import org.joml.Vector3f;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -22,12 +13,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
-import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
+import org.joml.Vector3f;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;

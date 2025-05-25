@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -31,6 +27,10 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.Title;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 

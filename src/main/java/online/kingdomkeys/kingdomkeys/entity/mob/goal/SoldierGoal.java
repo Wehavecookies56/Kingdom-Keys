@@ -1,14 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
-import java.util.List;
-
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.phys.AABB;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+
+import java.util.List;
 
 public class SoldierGoal extends TargetGoal {
 	// 0-Normal, 1-spinning

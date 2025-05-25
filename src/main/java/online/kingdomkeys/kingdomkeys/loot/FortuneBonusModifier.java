@@ -30,8 +30,8 @@ import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 //Thank you Curios for the example!
 // modified to work with the LuckyLucky effect.

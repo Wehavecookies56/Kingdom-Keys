@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -17,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.entity.block.OrgPortalTileEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
+
+import java.util.UUID;
 
 public record CSSetOrgPortalName(BlockPos pos, String name) implements Packet {
 

@@ -40,9 +40,9 @@ import online.kingdomkeys.kingdomkeys.entity.block.MagicalChestTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
 public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;

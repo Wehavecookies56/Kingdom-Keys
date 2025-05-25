@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
-
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
+
+import java.util.UUID;
 
 public record CSPartyPromote(Party party, UUID playerUUID) implements Packet {
 	

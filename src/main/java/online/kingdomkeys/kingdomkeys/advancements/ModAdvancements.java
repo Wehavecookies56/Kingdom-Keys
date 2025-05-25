@@ -1,12 +1,13 @@
 package online.kingdomkeys.kingdomkeys.advancements;
 
-import java.util.function.BiConsumer;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.function.BiConsumer;
 
 public class ModAdvancements
     {

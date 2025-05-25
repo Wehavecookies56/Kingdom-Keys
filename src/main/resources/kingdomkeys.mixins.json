@@ -13,13 +13,11 @@
     //"jer.RegistrySetBuilderMixin"
   ],
   "client": [
-    "client.LivingEntityRendererMixin",
-    "client.PlayerRendererMixin",
     "client.BiomeMixin",
     "client.LevelRendererMixin",
-    "client.MinecraftMixin"
-    //"epicfight.PHumanoidRendererMixin",
-    //"epicfight.RenderEngineEventsMixin"
+    "client.LivingEntityRendererMixin",
+    "client.MinecraftMixin",
+    "client.PlayerRendererMixin"
   ],
   "minVersion": "0.8"
 }

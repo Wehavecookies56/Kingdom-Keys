@@ -1,23 +1,20 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 

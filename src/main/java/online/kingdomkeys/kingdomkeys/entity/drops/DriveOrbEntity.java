@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.drops;
 
-import java.util.List;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -16,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+
+import java.util.List;
 
 public class DriveOrbEntity extends ItemDropEntity {
 

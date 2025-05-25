@@ -12,7 +12,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.MagicDamageSource;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.EmeraldBluesGoal;
 
 public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {

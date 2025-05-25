@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -20,6 +17,9 @@ import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @JeiPlugin
 public class KKJEIPlugin implements IModPlugin {

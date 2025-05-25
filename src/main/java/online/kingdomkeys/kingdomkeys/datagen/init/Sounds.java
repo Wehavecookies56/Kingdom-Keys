@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
-
-import java.util.function.Supplier;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +8,10 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.function.Supplier;
+
+import static online.kingdomkeys.kingdomkeys.client.sound.ModSounds.*;
 
 public class Sounds extends SoundDefinitionsProvider {
 

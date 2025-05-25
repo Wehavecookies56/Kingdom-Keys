@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import java.util.Map;
-
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
+
+import java.util.Map;
 
 /**
  * Class to contain keyblade level information

@@ -11,8 +11,6 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-import java.util.function.Supplier;
-
 public record CSGiveUpKO() implements Packet {
 
     public static final Type<CSGiveUpKO> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_give_up_ko"));

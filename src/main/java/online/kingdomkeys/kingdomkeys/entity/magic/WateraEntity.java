@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
 
 public class WateraEntity extends ThrowableProjectile {
 

@@ -1,12 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
-import net.minecraft.network.syncher.SynchedEntityData;
-import org.joml.Vector3f;
-
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -16,6 +12,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import org.joml.Vector3f;
 
 public class SaixShockwave extends ThrowableProjectile {
 

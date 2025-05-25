@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
-
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -13,10 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -28,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.UUID;
 
 public record CSSummonArmor(boolean forceDesummon) implements Packet {
 

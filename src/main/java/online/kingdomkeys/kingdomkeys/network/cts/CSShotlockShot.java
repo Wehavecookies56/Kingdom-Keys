@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public record CSShotlockShot(List<Utils.ShotlockPosition> shotlockEnemies, double cost) implements Packet {
 	

@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
-import java.util.*;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -18,9 +16,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+
+import java.util.*;
 
 public class LaserCircleCoreEntity extends ThrowableProjectile {
 

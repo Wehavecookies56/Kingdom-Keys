@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;

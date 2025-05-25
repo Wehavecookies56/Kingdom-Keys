@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
-import java.util.Map;
-
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -24,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Map;
 
 public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 

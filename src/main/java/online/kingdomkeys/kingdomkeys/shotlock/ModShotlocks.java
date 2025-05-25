@@ -1,12 +1,12 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
-import java.util.function.Supplier;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.function.Supplier;
 
 public class ModShotlocks {
 

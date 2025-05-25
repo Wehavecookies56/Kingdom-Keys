@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;

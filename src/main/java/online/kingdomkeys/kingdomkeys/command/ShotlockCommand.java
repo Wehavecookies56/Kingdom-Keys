@@ -1,16 +1,11 @@
 package online.kingdomkeys.kingdomkeys.command;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -19,13 +14,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <give/take> <shotlock> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_SHOTLOCKS = (p_198296_0_, p_198296_1_) -> {

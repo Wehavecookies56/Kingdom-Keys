@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ShopList {
 	List<ShopItem> list = new LinkedList<ShopItem>();

@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +12,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class BlockStates extends BlockStateProvider {
 

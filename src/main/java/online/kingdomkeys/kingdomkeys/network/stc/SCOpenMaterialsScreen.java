@@ -11,7 +11,6 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
-import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 

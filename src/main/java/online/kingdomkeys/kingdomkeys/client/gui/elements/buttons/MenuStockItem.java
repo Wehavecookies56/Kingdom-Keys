@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -23,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisForgeScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -31,7 +29,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;

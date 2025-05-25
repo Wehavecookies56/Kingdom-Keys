@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.UUID;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+
+import java.util.UUID;
 
 public record CSPartyInvite(Party party, UUID playerUUID) implements Packet {
 

@@ -1,11 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataDeserializer;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public record SCSyncDriveFormData(List<String> names, List<String> data) implements Packet {
 

@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
-import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
-
 import net.minecraft.data.DataGenerator;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -16,6 +13,9 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+
+import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
+import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 public class LanguageENUS extends KKLanguageProvider {
 

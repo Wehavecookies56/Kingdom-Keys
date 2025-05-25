@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,6 +25,11 @@ import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.KnifeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class KKThrowableEntity extends ThrowableItemProjectile {
 	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);

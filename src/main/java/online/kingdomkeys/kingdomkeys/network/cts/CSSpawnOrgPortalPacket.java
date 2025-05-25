@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrgPortalPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSSpawnOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 

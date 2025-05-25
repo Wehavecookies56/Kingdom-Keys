@@ -1,12 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.org;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -28,6 +23,9 @@ import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
 import online.kingdomkeys.kingdomkeys.item.organization.LanceItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity> {

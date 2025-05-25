@@ -9,7 +9,6 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.DragoonEntity;
 
 public class DragoonGoal extends TargetGoal {
 	// 0-Normal, 1-spinning

@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -17,8 +14,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
+
+import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {

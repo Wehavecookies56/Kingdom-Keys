@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 

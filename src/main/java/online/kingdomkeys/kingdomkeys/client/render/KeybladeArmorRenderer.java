@@ -1,14 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.render;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,13 +21,15 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {

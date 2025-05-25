@@ -1,9 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.util.Size2i;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;

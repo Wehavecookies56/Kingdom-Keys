@@ -1,13 +1,12 @@
 package online.kingdomkeys.kingdomkeys.integration.jei;
 
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.util.FormattedCharSequence;
-import org.jetbrains.annotations.NotNull;
-
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;

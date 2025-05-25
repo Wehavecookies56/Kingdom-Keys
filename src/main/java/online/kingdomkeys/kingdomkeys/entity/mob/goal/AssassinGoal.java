@@ -5,7 +5,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.level.Level;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class AssassinGoal extends TargetGoal {

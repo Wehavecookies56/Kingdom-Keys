@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import net.minecraft.Util;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,6 +14,10 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.LevelUpData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) implements Packet {
 

@@ -1,13 +1,11 @@
 package online.kingdomkeys.kingdomkeys.shotlock;
 
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.fml.common.EventBusSubscriber;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
+
+import java.util.List;
 
 public class ShotlockRagnarok extends Shotlock {
 

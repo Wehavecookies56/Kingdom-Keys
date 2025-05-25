@@ -1,16 +1,13 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.Size2i;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -24,8 +21,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
-import java.util.*;
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class Floor {
 

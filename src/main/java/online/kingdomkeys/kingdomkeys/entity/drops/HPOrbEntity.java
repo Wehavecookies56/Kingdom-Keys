@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.drops;
 
-import java.util.List;
-
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +9,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.List;
 
 public class HPOrbEntity extends ItemDropEntity {
 

@@ -2,10 +2,8 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.re
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public abstract class JsonRegistryObject {
     protected ResourceLocation registryName;

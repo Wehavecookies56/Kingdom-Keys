@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.re
 
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import java.util.function.Supplier;
 

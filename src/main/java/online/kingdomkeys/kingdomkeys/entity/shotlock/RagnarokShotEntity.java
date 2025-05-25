@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import java.awt.Color;
-
-import org.joml.Vector3f;
-
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +9,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import org.joml.Vector3f;
+
+import java.awt.*;
 
 public class RagnarokShotEntity extends BaseShotlockShotEntity {
 	

@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -16,6 +13,8 @@ import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.util.concurrent.CompletableFuture;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;

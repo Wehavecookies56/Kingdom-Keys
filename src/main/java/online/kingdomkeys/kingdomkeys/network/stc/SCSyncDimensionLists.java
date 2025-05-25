@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -17,6 +14,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public record SCSyncDimensionLists(Set<ResourceKey<Level>> addedDims, Set<ResourceKey<Level>> removedDims) implements Packet {
 

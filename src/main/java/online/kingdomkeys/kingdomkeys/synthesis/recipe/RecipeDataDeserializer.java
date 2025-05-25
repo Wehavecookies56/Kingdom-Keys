@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.synthesis.recipe;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gson.*;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/

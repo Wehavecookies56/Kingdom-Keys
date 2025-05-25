@@ -1,14 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.entity.animal.TropicalFish;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.ModData;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;

@@ -1,15 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.sound;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.JukeboxSong;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
-import java.util.function.Supplier;
 
 public class ModSounds {
 

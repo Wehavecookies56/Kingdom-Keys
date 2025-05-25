@@ -17,7 +17,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.MagicDamageSource;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
 

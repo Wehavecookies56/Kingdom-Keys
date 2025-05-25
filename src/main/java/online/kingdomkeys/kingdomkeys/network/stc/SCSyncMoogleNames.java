@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,6 +11,9 @@ import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
+
+import java.util.List;
+import java.util.Map;
 
 public record SCSyncMoogleNames(Map<ResourceLocation, List<String>> names) implements Packet {
 

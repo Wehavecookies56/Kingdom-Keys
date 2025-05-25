@@ -1,11 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.concurrent.CompletableFuture;
-
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -15,9 +9,14 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ItemTagsGen extends ItemTagsProvider {
 	public static final TagKey<Item> KEYBLADES = bind(KingdomKeys.MODID+":keyblades");

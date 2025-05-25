@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -34,8 +33,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class SynthesisCreateScreen extends MenuFilterable {

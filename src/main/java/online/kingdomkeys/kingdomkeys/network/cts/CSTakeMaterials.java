@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSTakeMaterials(ItemStack stack, int amount, String inv, String name, int moogle) implements Packet {
 	

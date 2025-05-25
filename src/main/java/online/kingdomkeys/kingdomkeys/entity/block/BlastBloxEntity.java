@@ -20,8 +20,8 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import java.util.Optional;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Mostly a copy of {@link net.minecraft.world.entity.item.PrimedTnt} with some small changes

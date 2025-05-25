@@ -6,18 +6,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.util.Size2i;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Supplier;
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 //metadata for each nbt file for rooms
 public class RoomStructure extends JsonRegistryObject {

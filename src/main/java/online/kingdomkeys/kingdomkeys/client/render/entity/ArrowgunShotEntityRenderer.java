@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -16,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)

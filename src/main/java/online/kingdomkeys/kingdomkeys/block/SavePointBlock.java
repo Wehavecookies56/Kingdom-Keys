@@ -42,8 +42,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
-import java.util.List;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen {
 	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);

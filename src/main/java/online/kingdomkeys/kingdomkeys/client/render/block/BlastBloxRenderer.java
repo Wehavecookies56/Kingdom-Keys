@@ -1,10 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,6 +17,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.BlastBloxEntity;
+
+import javax.annotation.Nullable;
 
 /**
  * Mostly a copy of {@link net.minecraft.client.renderer.entity.TntRenderer} with some small changes

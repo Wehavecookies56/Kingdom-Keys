@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.organization;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,6 +13,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class ArrowRainCoreEntity extends ThrowableProjectile {
 

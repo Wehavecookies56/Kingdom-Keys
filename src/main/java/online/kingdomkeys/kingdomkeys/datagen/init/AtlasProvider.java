@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -10,6 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class AtlasProvider extends SpriteSourceProvider {
 

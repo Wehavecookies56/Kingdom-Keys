@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.UUID;
-
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -21,6 +17,10 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 

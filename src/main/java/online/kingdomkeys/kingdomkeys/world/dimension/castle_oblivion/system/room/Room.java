@@ -2,14 +2,12 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -19,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class Room {
     RoomType type;

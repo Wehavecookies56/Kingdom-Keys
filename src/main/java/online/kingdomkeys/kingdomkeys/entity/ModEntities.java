@@ -1,12 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
-
-import java.awt.Color;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.Supplier;
-
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -50,9 +43,16 @@ import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.*;
-import online.kingdomkeys.kingdomkeys.entity.mob.SeedBulletEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.*;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.function.Supplier;
+
+import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities {

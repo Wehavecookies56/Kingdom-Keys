@@ -18,8 +18,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SoAPlatformTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
-import java.util.List;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock, INoDataGen {
 

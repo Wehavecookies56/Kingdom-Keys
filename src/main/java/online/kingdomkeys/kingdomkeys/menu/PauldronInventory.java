@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.menu;
 
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;

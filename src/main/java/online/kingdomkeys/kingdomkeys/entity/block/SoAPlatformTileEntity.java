@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -13,9 +10,11 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SoAPlatformTileEntity extends BlockEntity {
 

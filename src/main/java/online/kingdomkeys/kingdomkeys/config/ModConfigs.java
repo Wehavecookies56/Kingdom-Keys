@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import java.util.List;
-
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -10,6 +8,8 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModConfigs {

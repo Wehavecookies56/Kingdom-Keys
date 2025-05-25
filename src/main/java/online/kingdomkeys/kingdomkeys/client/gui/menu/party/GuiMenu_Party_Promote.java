@@ -19,8 +19,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPromote;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import javax.annotation.Nullable;
+import java.awt.*;
 
 public class GuiMenu_Party_Promote extends MenuBackground {
 	

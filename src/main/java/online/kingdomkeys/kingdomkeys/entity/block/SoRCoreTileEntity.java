@@ -1,13 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +10,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class SoRCoreTileEntity extends BlockEntity {
 	UUID userUUID;

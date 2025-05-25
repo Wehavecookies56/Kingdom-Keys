@@ -13,10 +13,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
-import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

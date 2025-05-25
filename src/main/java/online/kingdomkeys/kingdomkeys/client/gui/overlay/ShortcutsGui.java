@@ -1,20 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;

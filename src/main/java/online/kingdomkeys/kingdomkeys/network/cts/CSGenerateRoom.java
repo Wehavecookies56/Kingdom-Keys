@@ -19,7 +19,10 @@ import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 public record CSGenerateRoom(ItemStack stack, int slot, BlockPos pos) implements Packet {
 

@@ -14,8 +14,8 @@ import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.*;
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class WorldData extends SavedData {
 

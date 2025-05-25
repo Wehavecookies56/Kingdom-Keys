@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -15,10 +14,11 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class CommandMenuSubMenu {
 

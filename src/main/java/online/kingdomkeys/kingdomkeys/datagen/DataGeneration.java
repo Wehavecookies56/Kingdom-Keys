@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.datagen;
 
-import java.util.Collections;
-import java.util.Set;
-
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -16,6 +13,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
+
+import java.util.Set;
 
 @EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD)
 public class DataGeneration {

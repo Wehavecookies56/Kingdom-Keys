@@ -1,12 +1,14 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
-import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 

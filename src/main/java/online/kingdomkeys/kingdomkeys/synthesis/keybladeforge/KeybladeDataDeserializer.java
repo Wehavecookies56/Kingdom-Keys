@@ -1,13 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gson.*;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -15,6 +8,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Custom deserializer for Keyblade Data json files located in

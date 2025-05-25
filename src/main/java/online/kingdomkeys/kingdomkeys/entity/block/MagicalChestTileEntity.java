@@ -1,15 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -24,8 +17,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.menu.MagicalChestMenu;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.menu.MagicalChestMenu;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class MagicalChestTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 36;

@@ -1,11 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -19,6 +15,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {

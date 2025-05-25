@@ -19,8 +19,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 

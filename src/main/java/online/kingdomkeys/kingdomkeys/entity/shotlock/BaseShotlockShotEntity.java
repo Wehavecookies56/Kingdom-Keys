@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,9 +11,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class BaseShotlockShotEntity extends ThrowableProjectile{
 	

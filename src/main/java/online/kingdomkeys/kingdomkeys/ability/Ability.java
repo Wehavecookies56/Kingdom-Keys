@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class Ability {
 

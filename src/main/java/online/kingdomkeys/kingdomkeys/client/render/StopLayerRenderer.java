@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -20,8 +19,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.client.model.entity.StopModel;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)

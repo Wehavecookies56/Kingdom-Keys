@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import java.util.Random;
-
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -15,6 +15,8 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+
+import java.util.Random;
 
 public class DarkballEntity extends BaseKHEntity {
 

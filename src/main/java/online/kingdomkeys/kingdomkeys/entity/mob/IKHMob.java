@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.level.LevelAccessor;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 
 public interface IKHMob {

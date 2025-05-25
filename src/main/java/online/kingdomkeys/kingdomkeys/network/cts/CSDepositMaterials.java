@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import java.util.ConcurrentModificationException;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -21,7 +19,8 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ConcurrentModificationException;
 
 public record CSDepositMaterials(String inv, String name, int moogle) implements Packet {
 
