@@ -352,7 +352,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			ItemStack droppedItem = event.getEntity().getItem();
 			UUID droppedID = Utils.getKeybladeID(droppedItem);
 			if (droppedID != null && droppedItem.getItem() instanceof KeybladeItem) {
-				Utils.summonKeyblade(event.getPlayer(), true, null);
+				event.setCanceled(true);
 			}
 		}
 

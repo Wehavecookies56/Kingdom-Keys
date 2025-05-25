@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +34,6 @@ public class MenuStockScreen extends MenuFilterable {
 
     MenuScrollBar scrollBar;
     MenuBox box;
-    int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
 	MenuButton back;
 
     public MenuStockScreen() {
@@ -45,9 +47,23 @@ public class MenuStockScreen extends MenuFilterable {
         drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		box.renderWidget(gui, mouseX, mouseY, partialTicks);
 
-        super.render(gui, mouseX, mouseY, partialTicks);
-        inventory.forEach(i -> i.render(gui, mouseX, mouseY, partialTicks));
+        int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
+        scrollBar.setContentHeight(listHeight);
+        scrollBar.render(gui,mouseX,mouseY,partialTicks);
+
+        for(Renderable renderable : this.inventory){
+            if(renderable instanceof MenuStockItem menuStockItem){
+                menuStockItem.active = true;
+                gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+                renderable.render(gui,mouseX,mouseY,partialTicks);
+                gui.disableScissor();
+            } else {
+                renderable.render(gui,mouseX,mouseY,partialTicks);
+            }
+        }
         back.render(gui, mouseX, mouseY, partialTicks);
+        super.render(gui, mouseX, mouseY, partialTicks);
+
     }
     
     @Override
@@ -99,7 +115,7 @@ public class MenuStockScreen extends MenuFilterable {
         float topBarHeight = (float) height * 0.17F;
         float boxWidth = (float) width * 0.7135F;
         float middleHeight = (float) height * 0.6F;
-        box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F, new Color(4, 4, 68));
+        box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 1F,  new Color(40, 4, 255));
         float filterPosX = width * 0.3F;
         float filterPosY = height * 0.023F;
 
@@ -108,9 +124,11 @@ public class MenuStockScreen extends MenuFilterable {
 
         filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
         filterBar.init();
-        initItems();
-        //addButton(scrollBar = new MenuScrollBar());
 
+        scrollBar = new MenuScrollBar(box.getX()+box.getWidth()-17,box.getY(),box.getY()+box.getHeight(), box.getHeight(), 0);
+        addRenderableWidget(scrollBar);
+
+        initItems();
         super.init();
     }
 
@@ -136,15 +154,57 @@ public class MenuStockScreen extends MenuFilterable {
             }
         }
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
+        int itemWidth = box.getWidth() / 2 - 10;
         for (int i = 0; i < items.size(); i += 2) {
         	//Left col
-            inventory.add(new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), (int)(width * 0.3255F), true));
+            MenuStockItem item = new MenuStockItem(this,items.get(i), (int) invPosX, (int) invPosY + (i * 7), itemWidth, true);
+            //item.setBackgroundColor(new Color(30,30,100));
+            inventory.add(item);
             if (i + 1 < items.size()) {
             	//Right col
-                inventory.add(new MenuStockItem(this, items.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),(int)(width * 0.3255F), true));
+                MenuStockItem item2 = new MenuStockItem(this, items.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),itemWidth, true);
+                //item2.setBackgroundColor(new Color(30,30,100));
+                inventory.add(item2);
             }
         }
         inventory.forEach(this::addWidget);
 
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+        scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+        scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+
+        return super.mouseReleased(pMouseX, pMouseY, pButton);
+    }
+
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+
+        updateScroll();
+        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+    }
+
+    public void updateScroll() {
+        inventory.forEach(button -> {
+            button.offsetY = (int) scrollBar.scrollOffset;
+        });
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        if(mouseX >= box.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+            scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+
+        updateScroll();
+        return false;
     }
 }
