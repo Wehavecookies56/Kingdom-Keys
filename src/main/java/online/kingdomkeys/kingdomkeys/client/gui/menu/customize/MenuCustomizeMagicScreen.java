@@ -133,8 +133,8 @@ public class MenuCustomizeMagicScreen extends MenuBackground {
         boxWidth = (float) width * 0.25F;
         float middleHeight = (float) height * 0.6F;
 
-        boxLeft = new MenuBox((int) boxLeftPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-        boxRight = new MenuBox((int) boxRightPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+        boxLeft = new MenuBox((int) boxLeftPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F,new Color(4, 4, 68));
+        boxRight = new MenuBox((int) boxRightPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,0.6F, new Color(4, 4, 68));
         buttonsX = boxLeft.getX() + 10;
 
         buttonPosY = (int) (topBarHeight + 5);

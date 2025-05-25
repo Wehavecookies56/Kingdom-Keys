@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
@@ -186,9 +187,7 @@ public class MenuStockItem extends Button {
                             }
                         }
                     }
-
                 }
-
             }
 
             if(parent instanceof ShopScreen shop){
@@ -196,16 +195,20 @@ public class MenuStockItem extends Button {
                 ShopList shopList = shop.getShopList();
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
-                        if(item.getCost() > playerData.getMunny()) {
-                            color = ChatFormatting.DARK_GRAY;
-                        } else {
-                            color = ChatFormatting.WHITE;
-                        }
+                        color = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
                         break;
                     }
                 }
             }
-            gui.drawString(mc.font,color+(customName == null ? stack.getHoverName().getString() : customName), getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
+
+            int rightMargin = 5;
+            if(showAmount) {
+                String count = Component.translatable("x%s ", stack.getCount()).getString();
+                gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
+                rightMargin += mc.font.width(count);
+            }
+
+            ClientUtils.drawScrollingText(gui,mc.font,Component.literal(color+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
             if(displayTick) {
                 Set<String> recipeList = PlayerData.get(mc.player).getSynthesisedRecipes();
@@ -214,10 +217,7 @@ public class MenuStockItem extends Button {
                 }
             }
 
-            if(showAmount) {
-	            String count = Component.translatable("x%s ", stack.getCount()).getString();
-	            gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
-            }
+
         }
     }
 

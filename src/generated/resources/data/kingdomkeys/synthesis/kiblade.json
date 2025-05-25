@@ -2,11 +2,23 @@
   "cost": 0,
   "ingredients": [
     {
+      "material": "kingdomkeys:tranquility_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:twilight_crystal",
+      "quantity": "2"
+    },
+    {
       "material": "kingdomkeys:frost_crystal",
       "quantity": "2"
     },
     {
       "material": "kingdomkeys:betwixt_crystal",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:stormy_crystal",
       "quantity": "2"
     },
     {
@@ -26,6 +38,10 @@
       "quantity": "2"
     },
     {
+      "material": "kingdomkeys:hungry_crystal",
+      "quantity": "2"
+    },
+    {
       "material": "kingdomkeys:wellspring_crystal",
       "quantity": "2"
     },
@@ -36,6 +52,10 @@
     {
       "material": "kingdomkeys:orichalcumplus",
       "quantity": "5"
+    },
+    {
+      "material": "kingdomkeys:remembrance_crystal",
+      "quantity": "2"
     },
     {
       "material": "kingdomkeys:lightning_crystal",

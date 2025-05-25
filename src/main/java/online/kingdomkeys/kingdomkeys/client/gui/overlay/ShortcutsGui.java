@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +35,7 @@ public class ShortcutsGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-		if(KeyboardHelper.isScrollActivatorDown() && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.root) {
+		if(KeyboardHelper.isScrollActivatorDown() && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.root && Minecraft.getInstance().screen == null) {
 			playerData = PlayerData.get(minecraft.player);
 			int i = 0;
 			for (Map.Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
@@ -58,6 +59,5 @@ public class ShortcutsGui extends OverlayBase {
 		}
 
 	}
-
 
 }

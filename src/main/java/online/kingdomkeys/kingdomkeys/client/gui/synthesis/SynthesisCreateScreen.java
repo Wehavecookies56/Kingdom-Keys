@@ -70,10 +70,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(40, 4, 255));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxRT = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) (middleHeight*0.2F), new Color(4, 4, 68));
-		boxRB = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight + boxRT.getHeight(), (int) (boxWidth*1.17F), (int) (middleHeight - boxRT.getHeight()), new Color(4, 68, 4));
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1, new Color(40, 4, 255));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight,1, new Color(108, 40, 40));
+		boxRT = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) (middleHeight*0.2F),1, new Color(0, 0, 0));
+		boxRB = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight + boxRT.getHeight(), (int) (boxWidth*1.17F), (int) (middleHeight - boxRT.getHeight()),1, new Color(4, 68, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
@@ -214,7 +214,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		line = Utils.translateToLocal("Next Level")+": ";
 		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+16, 0xFFFF00);
 
-		line = playerData.getSynthLevel() >= 7 ? "0 EXP.": playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" EXP.";
+		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+16, 0xFFFFFF);
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
@@ -334,8 +334,6 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		//Materials
 		{
-			//matrixStack.translate(iconPosX + 20, boxRB.getPosY()+10, 1);
-			
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
 				Iterator<Entry<Item, Integer>> materials = Utils.getSortedMaterials(recipe.getMaterials()).entrySet().iterator();
@@ -348,10 +346,12 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				while(materials.hasNext()) {
 					Entry<Item, Integer> m = materials.next();
 					ItemStack stack = new ItemStack(m.getKey());
-					String n = Utils.translateToLocal(stack.getDescriptionId());
-					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
+					String name = Utils.translateToLocal(stack.getDescriptionId());
+					String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
 
-					gui.drawScrollingString(minecraft.font, Component.literal(n+" x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")"), startX, (int) (iconPosX + 20 + boxRB.getWidth()-24), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
+					ClientUtils.drawScrollingText(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
+					gui.drawString(minecraft.font, mats, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color);
 					ClientUtils.drawItemAsIcon(stack, matrixStack, startX -17, boxRB.getPosY()+10 + (int)((i*16)-4-scrollBar2.scrollOffset), 16);
 					i++;
 				}

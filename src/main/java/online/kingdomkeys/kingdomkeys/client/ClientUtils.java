@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -57,6 +58,14 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ClientUtils {
+
+    public static void drawScrollingText(GuiGraphics gui, Font font, MutableComponent text, int startX, int endX, int startY, int color){
+        if(font.width(text) > endX - startX)
+        	startY-=1;// For some reason if the text is too long it shifts to one pixel lower
+
+        gui.drawScrollingString(font, text, startX, endX, startY, color);
+
+    }
 
     public static boolean getResourceExists(String path){
         try {
