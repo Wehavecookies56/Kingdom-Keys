@@ -302,7 +302,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				if(kb.getKeybladeLevel(selectedItemStack) < kb.getMaxLevel()) {
 					Iterator<Entry<Item, Integer>> materials = kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().entrySet().iterator();
 					int i = 0;
-					int listHeight = (boxR.getPosY()+10 + (kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().size()+1)*16)+10 - boxR.getPosY()+10;
+					int listHeight = (kb.data.getLevelData(kb.getKeybladeLevel(selectedItemStack)).getMaterialList().size()*16)+font.lineHeight;
 					scrollBar2.setContentHeight(listHeight);
 
 					int startX = (int) iconPosX + 20;
