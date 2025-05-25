@@ -48,8 +48,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	MenuBox boxL, boxR;
 	EditBox amountBox;
 
-	int page = 0;
-
 	SynthesisScreen parent;
 
 	public SynthesisMaterialScreen(SynthesisScreen parent) {
@@ -72,14 +70,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	protected void action(String string) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		switch(string) {
-			case "prev":
-				page--;
-				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-				break;
-			case "next":
-				page++;
-				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-				break;
 			case "deposit":
 				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
@@ -195,7 +185,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -205,19 +194,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
 		scrollBar.setContentHeight(listHeight);
 
-
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;
 			take.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 		}
-
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(width * 0.008F + 45, (height * 0.15) - 18, 1);
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Page)+" " + (page + 1), 0, 10, 0xFF9900);
-		}
-		matrixStack.popPose();
 
 		for (MenuStockItem stockItem : inventory) {
 			stockItem.active = false;

@@ -88,9 +88,6 @@ public class SynthesisScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 				
