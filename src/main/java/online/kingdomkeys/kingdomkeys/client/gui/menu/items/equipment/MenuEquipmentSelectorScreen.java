@@ -130,7 +130,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
 		for(MenuSelectEquipmentButton renderable : widgets){
-			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()); //Arbitrary number to hide the cut one
+			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getBottom()+2); //Arbitrary number to hide the cut one
 			renderable.render(gui,mouseX,mouseY,partialTicks);
 			gui.disableScissor();
 			renderable.renderData(gui,mouseX,mouseY,partialTicks);

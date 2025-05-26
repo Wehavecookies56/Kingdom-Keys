@@ -188,7 +188,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		for(Renderable renderable : this.inventory){
 			if(renderable instanceof MenuStockItem menuStockItem){
 				menuStockItem.active = true;
-				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 				gui.disableScissor();
 			} else {
@@ -334,7 +334,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				scrollBar2.setContentHeight(listHeight);
 				int startX = (int) iconPosX + 20;
 				int startY = boxRB.getPosY()+10;
-				gui.enableScissor(boxRB.getX()+2,scrollBar2.getY()+2,boxRB.getX()+boxRB.getWidth(),scrollBar2.getHeight()-5); //Arbitrary number to hide the cut one
+				gui.enableScissor(boxRB.getX()+2,scrollBar2.getY()+2,boxRB.getX()+boxRB.getWidth(),scrollBar2.getBottom()-5); //Arbitrary number to hide the cut one
 				while(materials.hasNext()) {
 					Entry<Item, Integer> m = materials.next();
 					ItemStack stack = new ItemStack(m.getKey());

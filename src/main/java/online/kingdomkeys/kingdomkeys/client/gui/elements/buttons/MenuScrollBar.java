@@ -16,7 +16,7 @@ import java.awt.*;
 public class MenuScrollBar extends Button {
 
 	double clickX, clickY;
-	public int startX, startY, handleY, handleYMax, localHandleY, localHandleYMax, visibleHeight;
+	public int startX, startY, handleY, handleYMax, localHandleY, localHandleYMax, visibleHeight, bottom;
 	float scrollPercent;
 	private int contentHeight, handleHeight;
 
@@ -29,15 +29,25 @@ public class MenuScrollBar extends Button {
 
 	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	public MenuScrollBar(int x, int y, int height, int visibleHeight, int contentHeight) {
-		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, height));
+	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight) {
+		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, bottom-y));
 		this.visibleHeight = visibleHeight;
 		//The highest point on the scroll bar for the handle
 		this.handleYMax = getY() + handleEndOffset + barTopBotDims.Y;
-		int handleBottom = height - handleEndOffset - barTopBotDims.Y;
+		this.bottom = bottom;
+		int handleBottom = bottom - handleEndOffset - barTopBotDims.Y;
 		handleY = handleYMax;
 		localHandleYMax = handleBottom - handleYMax + 1;
 		setContentHeight(contentHeight);
+	}
+
+	public int getBottom() {
+		return bottom;
+	}
+
+	@Override
+	public int getHeight() {
+		return super.getHeight();
 	}
 
 	public void setHandleY(int handleY) {
@@ -58,7 +68,7 @@ public class MenuScrollBar extends Button {
 	}
 
 	public int getHandleBottom() {
-		return height - handleEndOffset - barTopBotDims.Y - handleHeight;
+		return bottom - handleEndOffset - barTopBotDims.Y - handleHeight;
 	}
 
 	/**
@@ -95,7 +105,7 @@ public class MenuScrollBar extends Button {
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
 			//box that is transparent offset by 7 so it doesn't stick out the triangle parts of the top and bottom textures
 			final int backgroundOffset = 7;
-			gui.fill(getX(), getY() + backgroundOffset, getX() + width, height - backgroundOffset, new Color(0, 0, 0, 0.5F).hashCode());
+			gui.fill(getX(), getY() + backgroundOffset, getX() + width, bottom - backgroundOffset, new Color(0, 0, 0, 0.5F).hashCode());
 			RenderSystem.disableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
@@ -114,7 +124,7 @@ public class MenuScrollBar extends Button {
 			ClientUtils.blitScaled(texture, gui, getX(), handleY + handleHeight, handleBottomUV.X, handleBottomUV.Y, handleDims.X, handleDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(texture, gui, getX(), height - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(texture, gui, getX(), bottom - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 
@@ -166,7 +176,7 @@ public class MenuScrollBar extends Button {
 			clickY = mouseY;
 			startX = getX();
 			startY = handleY;
-			if (clickY >= getY() && clickY <= getY() + height && clickX >= getX() && clickX <= getX() + width && visible) {
+			if (clickY >= getY() && clickY <= getY() + bottom && clickX >= getX() && clickX <= getX() + width && visible) {
 				playDownSound(Minecraft.getInstance().getSoundManager());
 			}
 		}

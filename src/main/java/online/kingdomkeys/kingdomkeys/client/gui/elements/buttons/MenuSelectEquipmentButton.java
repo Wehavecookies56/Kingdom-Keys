@@ -150,7 +150,20 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(1,1,1,1);
 			gui.drawString(minecraft.font, ab, (int) (getX() + itemWidth + centerX + 3), getY() + 3, labelColour);
 
-			renderData(gui,mouseX,mouseY,partialTicks);
+			if (selected || isHovered) { //highlighted
+				matrixStack.pushPose();
+				{
+					RenderSystem.enableBlend();
+
+					matrixStack.translate(getX() + 0.6F, getY(), 0);
+					matrixStack.scale(0.5F, 0.5F, 1);
+					gui.blit(texture, 0, 0, 128, 34, 18, 28);
+					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)) + 1, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
+				}
+				matrixStack.popPose();
+			}
+
 		}
 	}
 
@@ -223,20 +236,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					}
 				}
 				ClientUtils.drawSplitString(gui, keyblade.getDesc(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
-
-				if (selected || isHovered) { //Render stuff on the right
-					matrixStack.pushPose();
-					{
-						RenderSystem.enableBlend();
-
-						matrixStack.translate(getX() + 0.6F, getY(), 0);
-						matrixStack.scale(0.5F, 0.5F, 1);
-						gui.blit(texture, 0, 0, 128, 34, 18, 28);
-						gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)) + 1, 28, 148, 34, 2, 28, 256, 256);
-						gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
-					}
-					matrixStack.popPose();
-				}
 			}
 		}
 		Lighting.setupForFlatItems();
@@ -244,10 +243,10 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		System.out.println("Scroll Y: "+parent.scrollBar.getY());
-		System.out.println("Scroll H: "+parent.scrollBar.visibleHeight);
-		System.out.println("Mouse Y: "+mouseY);
-		System.out.println("---");
+		//System.out.println("Scroll Y: "+parent.scrollBar.getY());
+		//System.out.println("Scroll H: "+parent.scrollBar.visibleHeight);
+		//System.out.println("Mouse Y: "+mouseY);
+		//System.out.println("---");
 
 		if(isButtonRendered(mouseY))
 			return super.mouseClicked(mouseX, mouseY, button);
@@ -256,7 +255,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	}
 
 	public boolean isButtonRendered(double mouseY){
-		return mouseY >= parent.scrollBar.getY() && mouseY <= parent.scrollBar.getY()+parent.scrollBar.visibleHeight;
+		return mouseY >= parent.scrollBar.getY() && mouseY <= parent.scrollBar.getBottom()+2;
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class MenuStockScreen extends MenuFilterable {
         for(Renderable renderable : this.inventory){
             if(renderable instanceof MenuStockItem menuStockItem){
                 menuStockItem.active = true;
-                gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+                gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
                 renderable.render(gui,mouseX,mouseY,partialTicks);
                 gui.disableScissor();
             } else {
