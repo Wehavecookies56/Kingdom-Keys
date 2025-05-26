@@ -83,20 +83,21 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 			}
 		}
 
-		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour));
+		MenuColourBox equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour);
+		addRenderableWidget(equipped);
 
 
 		if(form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 				if (minecraft.player.getInventory().getFreeSlot() > -1)
-					widgets.add(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					widgets.add(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 			}
 
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
 					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem keychainItem) {
 						if (keychainItem.getKeyblade() != null) {
-							widgets.add(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							widgets.add(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 						}
 					}
 				}
@@ -105,13 +106,19 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		}
 		widgets.forEach(this::addWidget);
 
-		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.6F, colour);
-		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.6F, colour);
+		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.9F, colour);
+		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.9F, colour);
 
 		int scrollYPos = (int)listY;
-		int scrollHeight = keyblades.getHeight() - scrollYPos;
+		int scrollHeight = keyblades.getHeight();
+		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY();
 
-		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos+keyblades.getHeight(), scrollHeight,0);
+		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 6, (int) keybladesHeight - 6,listHeight);
+		if (scrollBar.isVisible()) {
+			widgets.forEach(menuSelectEquipmentButton -> {
+				menuSelectEquipmentButton.setWidth((int) keybladesWidth-10-scrollBar.getWidth());
+			});
+		}
 		addRenderableWidget(scrollBar);
 	}
 
@@ -122,12 +129,9 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
-		int listHeight = (widgets.get(widgets.size()-1).getY()+14) - widgets.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
-
 		for(Renderable renderable : widgets){
 			if(renderable instanceof MenuSelectEquipmentButton){
-				gui.enableScissor(keyblades.getX()+2,scrollBar.getY()+2,keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+				gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()); //Arbitrary number to hide the cut one
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 				gui.disableScissor();
 			} else {

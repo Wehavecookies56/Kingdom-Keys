@@ -68,13 +68,18 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			}
 		});
 		this.stack = stack;
-		width = (int) (parent.width * 0.29F);
+		width = widthIn;//(int) (parent.width * 0.29F);
 		height = 14;
 		this.colour = colour;
 		this.labelColour = 0xFFEB1C;
 		this.parent = parent;
 		this.slot = slot;
 		minecraft = Minecraft.getInstance();
+	}
+
+	@Override
+	public void setWidth(int width) {
+		super.setWidth(width);
 	}
 
 	@Override
@@ -94,7 +99,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		}
 		if (visible) {
 			Lighting.setupForFlatItems();
-			float itemWidth = parent.width * 0.292F;
+			float itemWidth = width * 0.6F;
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
@@ -116,14 +121,14 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 			gui.drawString(minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
 			String ab = "N/A";
-			float labelWidth = parent.width * 0.215F;
+			float labelWidth = width * 0.4F;
 
 			matrixStack.pushPose();
 			{
 				RenderSystem.enableBlend();
 				//RenderSystem.enableAlpha();
 				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-				matrixStack.translate(getX() + width + 2.1F, getY(), 0);
+				matrixStack.translate(getX() + itemWidth + 2.1F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				gui.blit(texture, 0, 0, 219, 34, 15, 28);
 				gui.blit(texture, 14, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 186, 34, 2, 28, 256, 256);
@@ -144,7 +149,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 			float centerX = (labelWidth / 2) - (minecraft.font.width(ab) / 2);
 			RenderSystem.setShaderColor(1,1,1,1);
-			gui.drawString(minecraft.font, ab, (int) (getX() + width + centerX + 3), getY() + 3, labelColour);
+			gui.drawString(minecraft.font, ab, (int) (getX() + itemWidth + centerX + 3), getY() + 3, labelColour);
 		
 			if (selected || isHovered) { //Render stuff on the right
 				matrixStack.pushPose();
