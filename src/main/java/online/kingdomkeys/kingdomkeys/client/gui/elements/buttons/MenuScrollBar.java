@@ -202,4 +202,8 @@ public class MenuScrollBar extends Button {
 		return super.mouseScrolled(mouseX, mouseY, scrollDelta);
 	}
 
+	public boolean isVisible() {
+		return visible && contentHeight > visibleHeight;
+	}
+
 }
