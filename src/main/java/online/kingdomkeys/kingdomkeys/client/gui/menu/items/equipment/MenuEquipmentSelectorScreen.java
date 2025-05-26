@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -13,24 +12,20 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.*;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuEquipmentSelectorScreen extends MenuBackground {
 	public MenuScrollBar scrollBar;
-	MenuBox keyblades, details;
+	MenuBox boxL, boxR;
     Button back;
 	MenuColourBox equipped;
 
@@ -47,7 +42,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		this.form = form;
 		this.colour = colour;
 		this.buttonColour = buttonColour;
-	}	
+	}
 
 	@Override
 	public void init() {
@@ -72,7 +67,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		ItemStack equippedKeychain = playerData.getEquippedKeychain(form);
 		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
 		String equippedKeychainName = (equippedKeychain != null && equippedKeychain.getItem() instanceof KeychainItem) ?  ((KeychainItem) equippedKeychain.getItem()).getKeyblade().getDescriptionId() : "---";
-		
+
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		String ability = "N/A";
 		if(!ItemStack.matches(equippedKeychain, ItemStack.EMPTY)) {
@@ -104,13 +99,13 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		}
 		widgets.forEach(this::addWidget);
 
-		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.9F, colour);
-		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.9F, colour);
+		boxL = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.9F, colour);
+		boxR = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.9F, colour);
 
 		int scrollYPos = (int)listY;
 		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
 
-		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
+		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
 		if (scrollBar.isVisible()) {
 			widgets.forEach(menuSelectEquipmentButton -> {
 				menuSelectEquipmentButton.setWidth((int) keybladesWidth-10-scrollBar.getWidth());
@@ -122,13 +117,13 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
-		details.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		equipped.render(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
 		for(MenuSelectEquipmentButton renderable : widgets){
-			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getBottom()+1); //Arbitrary number to hide the cut one
+			gui.enableScissor(boxL.getX()+2,scrollBar.getY(), boxL.getX()+ boxL.getWidth(),scrollBar.getBottom()+1); //Arbitrary number to hide the cut one
 			renderable.render(gui,mouseX,mouseY,partialTicks);
 			gui.disableScissor();
 			renderable.renderData(gui,mouseX,mouseY,partialTicks);
@@ -162,7 +157,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-		if(mouseX >= keyblades.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
 			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 
 		updateScroll();

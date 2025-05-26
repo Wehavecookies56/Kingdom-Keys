@@ -30,7 +30,7 @@ public class MenuKeybladeArmorSelectorScreen extends MenuBackground {
 	public int slot = -1;
 
 	public Map<PauldronItem,Integer> addedShoulderArmorList = new HashMap<PauldronItem, Integer>();
-	
+
 	public MenuKeybladeArmorSelectorScreen(int slot, Color colour, int buttonColour) {
 		super(Strings.Gui_Menu_Items_Equipment_Armor, new Color(0,0,255));
 		drawSeparately = true;

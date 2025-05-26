@@ -111,15 +111,10 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
-			String itemName;
-			if (keyblade == null) { //Name to display
-				itemName = "---";
-			} else {
-				itemName = new ItemStack(keyblade).getHoverName().getString();
-			}
+			String itemName = keyblade == null ? "---" : new ItemStack(keyblade).getHoverName().getString();
 
 			gui.drawString(minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
-			float labelWidth = width * 0.4F;
+			float labelWidth = width * 0.39F;
 
 			matrixStack.pushPose();
 			{
@@ -128,7 +123,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.translate(getX() + itemWidth + 2.1F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
 				gui.blit(texture, 0, 0, 219, 34, 15, 28);
-				gui.blit(texture, 14, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 186, 34, 2, 28, 256, 256);
+				gui.blit(texture, 14, 0, (int) ((labelWidth * 2) - (17 + 14))+1, 28, 186, 34, 2, 28, 256, 256);
 				gui.blit(texture, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}
 			matrixStack.popPose();
@@ -154,12 +149,12 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
-
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					gui.blit(texture, 0, 0, 128, 34, 18, 28);
 					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)) + 1, 28, 148, 34, 2, 28, 256, 256);
 					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
+					RenderSystem.disableBlend();
 				}
 				matrixStack.popPose();
 			}
@@ -171,7 +166,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 		KeybladeItem keyblade = ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof IKeychain) ? null : ((IKeychain) stack.getItem()).toSummon();
 		PoseStack matrixStack = gui.pose();
 		Font fr = minecraft.font;
-		float itemWidth = width * 0.6F;
 
 		if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
 			if(keyblade != null) {
@@ -243,11 +237,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		//System.out.println("Scroll Y: "+parent.scrollBar.getY());
-		//System.out.println("Scroll H: "+parent.scrollBar.visibleHeight);
-		//System.out.println("Mouse Y: "+mouseY);
-		//System.out.println("---");
-
 		if(isButtonRendered(mouseY))
 			return super.mouseClicked(mouseX, mouseY, button);
 		else
