@@ -32,6 +32,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	public MenuScrollBar scrollBar;
 	MenuBox keyblades, details;
     Button back;
+	MenuColourBox equipped;
 
 	List<MenuSelectEquipmentButton> widgets = new ArrayList<>();
 
@@ -42,7 +43,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	public MenuEquipmentSelectorScreen(ResourceLocation form, Color colour, int buttonColour) {
 		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
-		drawSeparately = true;
+		//drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.form = form;
 		this.colour = colour;
@@ -83,8 +84,8 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 			}
 		}
 
-		MenuColourBox equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour);
-		addRenderableWidget(equipped);
+		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour);
+		//addRenderableWidget(equipped);
 
 
 		if(form != null) {
@@ -123,10 +124,12 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		super.render(gui, mouseX, mouseY, partialTicks);
 		//System.out.println(mouseY);
-		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		//drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
+		equipped.render(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
 		for(MenuSelectEquipmentButton renderable : widgets){
@@ -136,7 +139,6 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 			renderable.renderData(gui,mouseX,mouseY,partialTicks);
 		}
 
-		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 
 	@Override
