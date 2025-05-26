@@ -59,13 +59,18 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			}
 		});
 		this.stack = stack;
-		width = (int) (parent.width * 0.3F);
+		width = widthIn;
 		height = 14;
 		this.colour = colour;
 		this.labelColour = 0xFFEB1C;
 		this.parent = parent;
 		this.slot = slot;
 		minecraft = Minecraft.getInstance();
+	}
+
+	@Override
+	public void setWidth(int width) {
+		super.setWidth(width);
 	}
 
 	@Override
@@ -76,16 +81,11 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 		Color col = Color.decode(String.valueOf(colour));
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.CONSUMABLE;
-				
-		KKPotionItem potion;
-		if(ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) {
-			potion = null;
-		} else {
-			potion = (KKPotionItem) stack.getItem();
-		}
+
+		KKPotionItem potion = (ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) ? null : (KKPotionItem) stack.getItem();
+
 		if (visible) {
 			Lighting.setupForFlatItems();
-			float itemWidth = parent.width * 0.3F;
 			matrixStack.pushPose();
 			RenderSystem.enableBlend();
 			
@@ -93,8 +93,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
 			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+1, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
+			gui.blit(texture, 16, 0, ((width * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(texture, ((width * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
@@ -107,7 +107,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				gui.drawString(minecraft.font,ChatFormatting.YELLOW+ amount, getX() + width - minecraft.font.width(amount)-3, getY() + 3, 0xFFFFFF);
 			}
 			gui.drawString(minecraft.font, itemName, getX() + 15, getY() + 3, 0xFFFFFF);
-			if (selected || isHovered) { //Render stuff on the right
+
+			if (isButtonRendered(mouseY) && (selected || isHovered)) {
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
@@ -115,8 +116,8 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2))+1, 28, 148, 34, 2, 28, 256, 256);
-					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(texture, 16, 0, ((width * 2) - (17 * 2))+2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();
 				
@@ -127,54 +128,45 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					Lighting.setupForFlatItems();
 					matrixStack.pushPose();
                     {
-                        
                         matrixStack.translate(iconPosX, iconPosY, 0);
                         matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
-                       // minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
                         ClientUtils.drawItemAsIcon(stack, matrixStack, 0,0,16);
                     }
                     matrixStack.popPose();
-					float strPosX = parent.width * 0.685F;
-					float strPosY = parent.height * 0.5185F;
-					float strNumPosX = parent.width * 0.78F;
-					float magPosY = parent.height * 0.5657F;
-					
-					/*String strengthStr = String.valueOf(((int) potion.getStrength(stack)));
-					String magicStr = String.valueOf(((int) potion.getMagic(stack)));
-					IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-					int strength = playerData.getStrength() + ((int) potion.getStrength(stack));
-					int magic = playerData.getMagic() + ((int) potion.getMagic(stack));
-					String totalStrengthStr = String.valueOf(strength);
-                    String totalMagicStr = String.valueOf(magic);
-					String openBracketStr = " [ ";
-					String openBracketMag = " [ ";
-					String totalStr = String.valueOf(strength);
-					String totalMag = String.valueOf(magic);
-					if (totalStr.length() == 1) {
-						openBracketStr += " ";
-					}
-					if (totalMag.length() == 1) {
-						openBracketMag += " ";
-					}
-					
-					drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) strPosY, 0xEE8603);
-					drawString(matrixStack, fr, strengthStr, (int) strNumPosX, (int) strPosY, 0xFFFFFF);
-					drawString(matrixStack, fr, openBracketStr, (int) strNumPosX + fr.getStringWidth(strengthStr), (int) strPosY, 0xBF6004);
-					drawString(matrixStack, fr, totalStrengthStr, (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr), (int) strPosY, 0xFBEA21);
-					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(strengthStr) + fr.getStringWidth(openBracketStr) + fr.getStringWidth(totalStrengthStr), (int) strPosY, 0xBF6004);
 
-					drawString(matrixStack, fr, new TranslationTextComponent(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) magPosY, 0xEE8603);
-					drawString(matrixStack, fr, magicStr, (int) strNumPosX, (int) magPosY, 0xFFFFFF);
-					drawString(matrixStack, fr, openBracketMag, (int) strNumPosX + fr.getStringWidth(magicStr), (int) magPosY, 0xBF6004);
-					drawString(matrixStack, fr, totalMagicStr, (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag), (int) magPosY, 0xFBEA21);
-					drawString(matrixStack, fr, "]", (int) strNumPosX + fr.getStringWidth(magicStr) + fr.getStringWidth(openBracketMag) + fr.getStringWidth(totalMagicStr), (int) magPosY, 0xBF6004);
-*/
 					ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(minecraft.level), minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
 				}
 			}
 			Lighting.setupForFlatItems();
 		}
 		
+	}
+
+	public void renderData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		KKPotionItem potion = (ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof KKPotionItem)) ? null : (KKPotionItem) stack.getItem();
+		PoseStack matrixStack = gui.pose();
+		if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
+			if (potion != null) {
+				float iconPosX = parent.width * 0.565F;
+				float iconPosY = parent.height * 0.20F;
+				float iconHeight = parent.height * 0.3148F;
+				Lighting.setupForFlatItems();
+				matrixStack.pushPose();
+				{
+					matrixStack.translate(iconPosX, iconPosY, 0);
+					matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
+					// minecraft.getItemRenderer().renderAndDecorateItem(stack, 0, 0);
+					ClientUtils.drawItemAsIcon(stack, matrixStack, 0, 0, 16);
+				}
+				matrixStack.popPose();
+
+				ClientUtils.drawSplitString(gui, stack.getTooltipLines(Item.TooltipContext.of(minecraft.level), minecraft.player, Default.NORMAL).get(1).getString(), (int) MenuBackground.tooltipPosX, (int) MenuBackground.tooltipPosY, (int) (parent.width * 0.46875F), 0x43B5E9);
+			}
+		}
+	}
+
+	public boolean isButtonRendered(double mouseY){
+		return mouseY >= parent.scrollBar.getY() && mouseY <= parent.scrollBar.getBottom()+2;
 	}
 
 	@Override
