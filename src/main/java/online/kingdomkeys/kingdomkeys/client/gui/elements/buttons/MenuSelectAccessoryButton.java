@@ -133,6 +133,19 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 			}
 			gui.drawString(minecraft.font, accessoryName, getX() + 15, getY() + 3, 0xFFFFFF);
 
+			if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
+				matrixStack.pushPose();
+				{
+					RenderSystem.enableBlend();
+
+					matrixStack.translate(getX() + 0.6F, getY(), 0);
+					matrixStack.scale(0.5F, 0.5F, 1);
+					gui.blit(texture, 0, 0, 128, 34, 18, 28);
+					gui.blit(texture, 16, 0, ((width * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
+				}
+				matrixStack.popPose();
+			}
 			Lighting.setupForFlatItems();
 		}
 		
@@ -144,17 +157,6 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 		PoseStack matrixStack = gui.pose();
 
 		if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
-			matrixStack.pushPose();
-			{
-				RenderSystem.enableBlend();
-
-				matrixStack.translate(getX() + 0.6F, getY(), 0);
-				matrixStack.scale(0.5F, 0.5F, 1);
-				gui.blit(texture, 0, 0, 128, 34, 18, 28);
-				gui.blit(texture, 16, 0, ((width * 2) - (17 * 2))+1, 28, 148, 34, 2, 28, 256, 256);
-				gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
-			}
-			matrixStack.popPose();
 
 			if(accessory != null) {
 				float iconPosX = parent.width * 0.565F;
