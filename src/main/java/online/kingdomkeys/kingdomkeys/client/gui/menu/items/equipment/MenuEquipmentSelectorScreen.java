@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuEquipmentSelectorScreen extends MenuBackground {
-	MenuScrollBar scrollBar;
+	public MenuScrollBar scrollBar;
 	MenuBox keyblades, details;
     Button back;
 
@@ -110,10 +110,9 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.9F, colour);
 
 		int scrollYPos = (int)listY;
-		int scrollHeight = keyblades.getHeight();
 		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY();
 
-		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 6, (int) keybladesHeight - 6,listHeight);
+		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
 		if (scrollBar.isVisible()) {
 			widgets.forEach(menuSelectEquipmentButton -> {
 				menuSelectEquipmentButton.setWidth((int) keybladesWidth-10-scrollBar.getWidth());
@@ -124,19 +123,17 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		//System.out.println(mouseY);
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
-		for(Renderable renderable : widgets){
-			if(renderable instanceof MenuSelectEquipmentButton){
-				gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()); //Arbitrary number to hide the cut one
-				renderable.render(gui,mouseX,mouseY,partialTicks);
-				gui.disableScissor();
-			} else {
-				renderable.render(gui,mouseX,mouseY,partialTicks);
-			}
+		for(MenuSelectEquipmentButton renderable : widgets){
+			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getHeight()); //Arbitrary number to hide the cut one
+			renderable.render(gui,mouseX,mouseY,partialTicks);
+			gui.disableScissor();
+			renderable.renderData(gui,mouseX,mouseY,partialTicks);
 		}
 
 		super.render(gui, mouseX, mouseY, partialTicks);
