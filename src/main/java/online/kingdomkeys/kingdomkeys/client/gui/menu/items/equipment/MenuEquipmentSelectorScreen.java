@@ -110,7 +110,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.9F, colour);
 
 		int scrollYPos = (int)listY;
-		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY();
+		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
 
 		scrollBar = new MenuScrollBar(keyblades.getX() + keyblades.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
 		if (scrollBar.isVisible()) {
@@ -123,14 +123,13 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		//System.out.println(mouseY);
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
 		details.renderWidget(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
 		for(MenuSelectEquipmentButton renderable : widgets){
-			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getBottom()+2); //Arbitrary number to hide the cut one
+			gui.enableScissor(keyblades.getX()+2,scrollBar.getY(),keyblades.getX()+keyblades.getWidth(),scrollBar.getBottom()+1); //Arbitrary number to hide the cut one
 			renderable.render(gui,mouseX,mouseY,partialTicks);
 			gui.disableScissor();
 			renderable.renderData(gui,mouseX,mouseY,partialTicks);
@@ -142,21 +141,18 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
-
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
 		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
-
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-
 		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
