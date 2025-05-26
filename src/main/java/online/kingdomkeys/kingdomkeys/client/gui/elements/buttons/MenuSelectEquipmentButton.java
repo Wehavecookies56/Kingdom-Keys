@@ -150,7 +150,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(1,1,1,1);
 			gui.drawString(minecraft.font, ab, (int) (getX() + itemWidth + centerX + 3), getY() + 3, labelColour);
 
-			if (selected || isHovered) { //highlighted
+			if (isButtonRendered(mouseY) && (selected || isHovered)) { //highlighted
 				matrixStack.pushPose();
 				{
 					RenderSystem.enableBlend();
