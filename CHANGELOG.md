@@ -8,7 +8,7 @@
 * Kiblade recipe to be as long as it used to be a few years ago.
 
 **Fixed:**
-* Epic Fight integration updated for 20.10+
+* Epic Fight integration updated for 20.10+ (ATM armor won't render properly)
 * Fortune will now work on Prize Blox and Rare Prize Blox
 * Synthesis bags will no longer be clickable from a synthesis bag inventory screen.
 * Magic Command Menu being too dark.
