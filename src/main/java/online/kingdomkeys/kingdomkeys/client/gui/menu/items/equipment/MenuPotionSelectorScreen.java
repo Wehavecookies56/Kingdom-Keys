@@ -103,7 +103,11 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		boxR = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.6F, colour);
 
 		int scrollYPos = (int)listY;
-		int listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
+
+		int listHeight = 0;
+		if(!widgets.isEmpty())
+			listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
+
 		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
 		if (scrollBar.isVisible()) {
 			widgets.forEach(menuSelectEquipmentButton -> {
@@ -156,9 +160,9 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaY) {
 		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
-			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaY);
 		updateScroll();
 		return false;
 	}
