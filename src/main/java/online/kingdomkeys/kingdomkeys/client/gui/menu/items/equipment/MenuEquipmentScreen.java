@@ -244,7 +244,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 		detailsBox.renderWidget(gui, mouseX, mouseY, partialTicks);
         for(Renderable renderable : this.renderables) {
             if (renderable instanceof MenuEquipmentButton) {
-                gui.enableScissor(listBox.getX() + 2, scrollBar.getY() + 2, listBox.getX() + listBox.getWidth() + detailsBox.getWidth(), scrollBar.getHeight());
+                gui.enableScissor(listBox.getX() + 2, scrollBar.getY() + 1, listBox.getX() + listBox.getWidth() + detailsBox.getWidth(), scrollBar.getBottom()+2);
                 renderable.render(gui, mouseX, mouseY, partialTicks);
                 gui.disableScissor();
             } else {
