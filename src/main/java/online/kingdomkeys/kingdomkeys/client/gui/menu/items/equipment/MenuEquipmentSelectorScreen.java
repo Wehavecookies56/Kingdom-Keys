@@ -30,10 +30,10 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 	public MenuScrollBar scrollBar;
 	MenuBox boxL, boxR;
 	Button back;
-
 	MenuColourBox equipped;
 
 	List<MenuSelectEquipmentButton> widgets = new ArrayList<>();
+
 	public ResourceLocation form;
 
 	int buttonColour;
@@ -62,7 +62,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 		widgets.clear();
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+		addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
 
@@ -82,7 +82,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 			}
 		}
 
-		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos - 1)), (int) (keybladesWidth - (listX - keybladesX) * 2), Utils.translateToLocal(equippedKeychainName), ability, buttonColour);
+		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedKeychainName),ability, buttonColour);
 		if (form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 				if (minecraft.player.getInventory().getFreeSlot() > -1)
@@ -123,6 +123,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
 		equipped.render(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 
