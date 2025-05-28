@@ -3,3 +3,4 @@
 * Fixed crash when depositing materials
 * /kingdomkeys material command when setting or taking materials.
 * A couple of translations.
+* Fixed crash when epic fight is not installed

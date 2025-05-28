@@ -22,7 +22,7 @@ public class PacketHandler {
 
 	public static void register() {
 		int packetID = 0;
-		
+
 		//ServerToClient
 		HANDLER.registerMessage(packetID++, SCShowOverlayPacket.class, SCShowOverlayPacket::encode, SCShowOverlayPacket::decode, SCShowOverlayPacket::handle);
 		HANDLER.registerMessage(packetID++, SCSyncCapabilityPacket.class, SCSyncCapabilityPacket::encode, SCSyncCapabilityPacket::decode, SCSyncCapabilityPacket::handle);
@@ -108,7 +108,9 @@ public class PacketHandler {
 		HANDLER.registerMessage(packetID++, CSSyncArmorColor.class, CSSyncArmorColor::encode, CSSyncArmorColor::decode, CSSyncArmorColor::handle);
 		HANDLER.registerMessage(packetID++, CSOpenMagicCustomize.class, CSOpenMagicCustomize::encode, CSOpenMagicCustomize::decode, CSOpenMagicCustomize::handle);
 		HANDLER.registerMessage(packetID++, CSOpenShortcutsCustomize.class, CSOpenShortcutsCustomize::encode, CSOpenShortcutsCustomize::decode, CSOpenShortcutsCustomize::handle);
-		HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
+		if (KingdomKeys.efmLoaded) {
+			HANDLER.registerMessage(packetID++, CSPlayAnimation.class, CSPlayAnimation::encode, CSPlayAnimation::decode, CSPlayAnimation::handle);
+		}
 		HANDLER.registerMessage(packetID++, CSSetNotifColor.class, CSSetNotifColor::encode, CSSetNotifColor::decode, CSSetNotifColor::handle);
 		HANDLER.registerMessage(packetID++, CSGenerateRoom.class, CSGenerateRoom::encode, CSGenerateRoom::decode, CSGenerateRoom::handle);
 		HANDLER.registerMessage(packetID++, CSStruggleSettings.class, CSStruggleSettings::encode, CSStruggleSettings::decode, CSStruggleSettings::handle);
