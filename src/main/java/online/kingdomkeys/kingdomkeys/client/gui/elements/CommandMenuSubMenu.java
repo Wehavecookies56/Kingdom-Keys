@@ -371,9 +371,11 @@ public class CommandMenuSubMenu {
     public int getMaxChildWidth() {
         int width = minWidth;
         for (CommandMenuItem item : children) {
-            int messageWidth = Minecraft.getInstance().font.width(item.getMessage().getString()) + 22;
-            if (messageWidth > width) {
-                width = messageWidth;
+            if(item.isVisible()){
+                int messageWidth = Minecraft.getInstance().font.width(item.getMessage().getString()) + 22;
+                if (messageWidth > width) {
+                    width = messageWidth;
+                }
             }
         }
         return width;
