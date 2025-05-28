@@ -191,8 +191,10 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		gui.setColor(1, 1, 1, 1);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
-		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
+		if (!inventory.isEmpty()) {
+			int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
+			scrollBar.setContentHeight(listHeight);
+		}
 
 		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 			take.active = false;

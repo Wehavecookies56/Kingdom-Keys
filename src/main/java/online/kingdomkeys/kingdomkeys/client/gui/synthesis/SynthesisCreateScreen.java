@@ -154,11 +154,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		boxRT.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
-		if(inventory.isEmpty())
-			return;
-
-		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
+		if(!inventory.isEmpty()) {
+			int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
+			scrollBar.setContentHeight(listHeight);
+		}
 
 		if (selectedItemStack != ItemStack.EMPTY) {
 			IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
