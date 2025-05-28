@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
@@ -166,6 +167,7 @@ public class KingdomKeys {
 		ModEntities.TILE_ENTITIES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
+		ModMobEffects.MOB_EFFECTS.register(modEventBus);
 		TABS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);

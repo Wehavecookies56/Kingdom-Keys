@@ -4,7 +4,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,9 +19,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -30,14 +35,17 @@ public class BlizzazaEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
+	int freezeTime;
+
 	public BlizzazaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public BlizzazaEntity(Level world, LivingEntity player, float dmgMult) {
+	public BlizzazaEntity(Level world, LivingEntity player, float dmgMult, int freezeTime) {
 		super(ModEntities.TYPE_BLIZZAZA.get(), player, world);
 		this.dmgMult = dmgMult;
+		this.freezeTime = freezeTime;
 	}
 
 	@Override
@@ -101,6 +109,14 @@ public class BlizzazaEntity extends ThrowableProjectile {
                     if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
                         float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
                         target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
+
+						MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
+						int duration = freezeTime;
+						if (freeze != null) {
+							duration += freeze.getDuration();
+						}
+
+						target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
                     }
                 }
 			}
@@ -156,6 +172,14 @@ public class BlizzazaEntity extends ThrowableProjectile {
                                 float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
                                 float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
                                 e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, player), dmg);
+
+								MobEffectInstance freeze = e.getEffect(ModMobEffects.FREEZE);
+								int duration = freezeTime;
+								if (freeze != null) {
+									duration += freeze.getDuration();
+								}
+
+								e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
                             }
                         }
                     }
