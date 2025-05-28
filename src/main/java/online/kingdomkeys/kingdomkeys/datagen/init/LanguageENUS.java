@@ -80,7 +80,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Time_Spent, "Global Time");
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
-        add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables (not yet available).");
+        add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
