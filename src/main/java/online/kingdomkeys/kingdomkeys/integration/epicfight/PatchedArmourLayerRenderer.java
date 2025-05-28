@@ -95,7 +95,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                     String textureIndex = i == 1 ? "2" : "1";
                     texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");
                     //VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
-                    VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.armorCutoutNoCull(texture));
+                    VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(texture)));
                     modelAnimated.drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
                 }
             }

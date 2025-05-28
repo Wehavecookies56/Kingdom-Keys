@@ -60,7 +60,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
                 boolean steve = clientPlayer.getModelName().equals("default");
                 //Item doesn't matter
                 poseStack.pushPose();
-                VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.armorCutoutNoCull(texture));
+                VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(texture)));
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);
                 modelAnimated.drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), openMatrix4fs);
