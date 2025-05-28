@@ -320,11 +320,18 @@ public class CommandMenuGui extends OverlayBase {
 			}
 		}).onUpdate((item, guiGraphics) -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
+			if (playerData.getLimitCooldownTicks() > 0) {
+				item.setActive(false);
+				return;
+			} else {
+				item.setActive(true);
+			}
 			Limit limit = ModLimits.registry.get(item.getId());
-			item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + ":  "));
+			item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + "  "));
             item.setActive(playerData.getDP() >= limit.getCost());
 			if (item.getParent().isVisible()) {
-				drawString(guiGraphics, font, String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100), item.getX() + font.width(item.getMessage().getString()), item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
+				String cost = String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100);
+				drawString(guiGraphics, font, cost, item.getX() +item.getWidth()- font.width(cost)-16, item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
 			}
 		}).iconUV(0, 60)));
 		return limits.toArray(new CommandMenuItem.Builder[0]);
@@ -393,6 +400,14 @@ public class CommandMenuGui extends OverlayBase {
 				item.getParent().getChild(revert).setVisible(true);
 			}
 		}
+
+		if(item.getId().equals(limit)){
+			if (playerData.getLimitCooldownTicks() > 0) {
+				item.setActive(false);
+				return;
+			}
+		}
+
 		if (commandMenuElements.containsKey(submenu)) {
 			if (submenu.equals(items)) {
 				item.setActive(false);
