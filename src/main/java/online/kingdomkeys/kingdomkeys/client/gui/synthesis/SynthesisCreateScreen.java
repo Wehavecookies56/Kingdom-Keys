@@ -134,6 +134,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			action("create");
 		});
 		create.setCenterText(true);
+		addRenderableWidget(create);
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 
 	}
