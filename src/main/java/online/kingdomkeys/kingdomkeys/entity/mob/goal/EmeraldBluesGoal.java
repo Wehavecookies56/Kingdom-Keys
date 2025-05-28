@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -7,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
@@ -27,10 +29,8 @@ public class EmeraldBluesGoal extends TargetGoal {
 		@Override
 		public boolean canContinueToUse() {
 			if (this.mob.getTarget() != null) {
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
-				if(EntityHelper.getState(mob) == 1 && globalData.getAeroTicks() <= 0) {
+				if(EntityHelper.getState(mob) == 1 && mob.hasEffect(ModMobEffects.AERO.get())) {
 					EntityHelper.setState(mob, 0);
-					PacketHandler.syncToAllAround(mob, globalData);
 				}
 				
 				//Set AI to use
@@ -55,9 +55,9 @@ public class EmeraldBluesGoal extends TargetGoal {
 		}
 
 		private void aeroAI() {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
-   		
-			switch(globalData.getAeroLevel()) {
+			MobEffectInstance aero = mob.getEffect(ModMobEffects.AERO.get());
+
+			switch(aero.getAmplifier()) {
 			case 0:
 				
 				break;
@@ -76,7 +76,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 	
 		public void setAero(Mob mob) {
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(mob);
-			globalData.setAeroTicks(MAX_AERO_TICKS, 1);
+			mob.addEffect(new MobEffectInstance(ModMobEffects.AERO.get(), MAX_AERO_TICKS, 1, false, false, false));
 			PacketHandler.syncToAllAround(mob, globalData);
 			EntityHelper.setState(mob, 1);
 			PacketHandler.sendToAllPlayers(new SCAeroSoundPacket(this.mob));

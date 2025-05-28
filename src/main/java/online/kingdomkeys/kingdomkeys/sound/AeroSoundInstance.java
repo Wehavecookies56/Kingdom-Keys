@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 
 @OnlyIn(Dist.CLIENT)
 public class AeroSoundInstance extends AbstractTickableSoundInstance {
@@ -37,17 +38,15 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 	   if(ent.isRemoved()) {
 		   this.stop();
 	   } else {
-	      if (ModCapabilities.getGlobal(ent) != null) {
-	    	  if(ModCapabilities.getGlobal(ent).getAeroTicks() <= 0) {
-	    		  this.stop();
-		      } else {
-		         this.x = (double)((float)this.ent.getX());
-		         this.y = (double)((float)this.ent.getY());
-		         this.z = (double)((float)this.ent.getZ());
-		         this.pitch = 1F;
-		         this.volume = 1F;
-		      }
-	      }
+		  if(!ent.hasEffect(ModMobEffects.AERO.get())) {
+			  this.stop();
+		  } else {
+			 this.x = (double)((float)this.ent.getX());
+			 this.y = (double)((float)this.ent.getY());
+			 this.z = (double)((float)this.ent.getZ());
+			 this.pitch = 1F;
+			 this.volume = 1F;
+		  }
 	   } 
    }
 }

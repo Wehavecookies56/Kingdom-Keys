@@ -105,24 +105,24 @@ public class BlizzazaEntity extends ThrowableProjectile {
 	protected void onHit(HitResult rtRes) {
 		if (!level().isClientSide) {
 			if (rtRes instanceof EntityHitResult ertResult && ertResult.getEntity() instanceof LivingEntity target) {
-				if (target.isOnFire()) {
-					target.clearFire();
-				} else if (target != getOwner()) {
-                    Party p = null;
-                    if (getOwner() != null) {
-                        p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
-                    }
-                    if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-                        float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
-                        target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
-						MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE.get());
-						int duration = 500;
-						if (freeze != null) {
-							duration += freeze.getDuration();
+				if (target != getOwner()) {
+					Party p = null;
+					if (getOwner() != null) {
+						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+					}
+					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
+						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
+						if (!target.isOnFire()) {
+							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE.get());
+							int duration = 200;
+							if (freeze != null) {
+								duration += freeze.getDuration();
+							}
+							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE.get(), duration, 0, false, false));
 						}
-						target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE.get(), duration, 0, false, false));
-                    }
-                }
+					}
+				}
 			}
 
 			if (rtRes instanceof BlockHitResult brtResult) {

@@ -21,13 +21,6 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	int getFlatTicks();
 	void setFlatTicks(int time);
 	void subFlatTicks(int time);
-	
-	//Aero
-	int getAeroLevel();
-	void setAeroLevel(int level);
-	int getAeroTicks();
-	void setAeroTicks(int i, int level);
-	void remAeroTicks(int ticks);
 
 	//Castle Oblivion
 	boolean getCastleOblivionMarker();

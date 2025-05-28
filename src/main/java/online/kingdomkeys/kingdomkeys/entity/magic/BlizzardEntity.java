@@ -96,24 +96,22 @@ public class BlizzardEntity extends ThrowableProjectile {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target.isOnFire()) {
-					target.clearFire();
-				} else {
-					if (target != getOwner()) {
-						Party p = null;
-						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
-						}
-						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
-							target.invulnerableTime = 0;
-							target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
+				if (target != getOwner()) {
+					Party p = null;
+					if (getOwner() != null) {
+						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+					}
+					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+						float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
+						target.invulnerableTime = 0;
+						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
+						if (!target.isOnFire()) {
 							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE.get());
 							int duration = freezeTime;
 							if (freeze != null) {
 								duration += freeze.getDuration();
 							}
-							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE.get(), duration, 0, false, false));
+							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE.get(), duration, 0, false, false, false));
 						}
 					}
 				}

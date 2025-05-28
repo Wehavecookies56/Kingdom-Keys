@@ -23,6 +23,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -105,6 +106,9 @@ public class FiraEntity extends ThrowableProjectile {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
                 if (target != getOwner()) {
+					if (target.getEffect(ModMobEffects.FREEZE.get()) != null) {
+						target.removeEffect(ModMobEffects.FREEZE.get());
+					}
 					Party p = null;
 					if (getOwner() != null) {
 						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
