@@ -102,7 +102,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.maxTicks = maxTicks;
 	}
 
-	private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(LaserDomeShotEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(ArrowgunShotEntity.class, EntityDataSerializers.INT);
 	int type = 0;
 	
 	@Override

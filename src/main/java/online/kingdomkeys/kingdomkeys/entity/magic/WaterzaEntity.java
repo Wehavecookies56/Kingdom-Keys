@@ -248,7 +248,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 		this.setCaster(compound.getString("caster"));
 	}
 
-	private static final EntityDataAccessor<String> CASTER = SynchedEntityData.defineId(MagnetEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> CASTER = SynchedEntityData.defineId(WaterzaEntity.class, EntityDataSerializers.STRING);
 
 	public String getCaster() {
 		return caster;
