@@ -42,8 +42,10 @@ public class MenuStockScreen extends MenuFilterable {
         drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		box.renderWidget(gui, mouseX, mouseY, partialTicks);
 
-        int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
-        scrollBar.setContentHeight(listHeight);
+        if (!inventory.isEmpty()) {
+            int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
+            scrollBar.setContentHeight(listHeight);
+        }
 
         for(Renderable renderable : this.inventory){
             if(renderable instanceof MenuStockItem menuStockItem){

@@ -375,10 +375,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		if(abilities.isEmpty())
-			return;
-		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
+		if(!abilities.isEmpty()) {
+			int listHeight = (abilities.get(abilities.size() - 1).getY() + 20) - abilities.get(0).getY() + 3;
+			scrollBar.setContentHeight(listHeight);
+		}
 
 		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 
