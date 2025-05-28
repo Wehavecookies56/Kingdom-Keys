@@ -1,6 +1,2 @@
-**Fixed:**
-* Epic Fight Mod armor model.
-* Fixed crash when depositing materials
-* /kingdomkeys material command when setting or taking materials.
-* A couple of translations.
-* Fixed crash when epic fight is not installed
+**Added:**
+* Blizzard freeze effect, duration is longer for higher level magic and will stack duration for every hit
