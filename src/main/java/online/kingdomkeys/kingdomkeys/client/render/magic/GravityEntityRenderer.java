@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -13,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 import javax.annotation.Nullable;
@@ -39,13 +42,10 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 	@Mod.EventBusSubscriber(value = Dist.CLIENT)
 	public static class Events {
 		@SubscribeEvent
-		public static void RenderEntity(RenderLivingEvent.Pre event) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
-			if (globalData != null) {
-				if (globalData.getFlatTicks() > 0){// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
-					PoseStack mat = event.getPoseStack();
-					mat.scale(1.5F, 0.01F, 1.5F);
-				}
+		public static void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
+			if (event.getEntity().hasEffect(ModMobEffects.GRAVITY.get())){// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+				PoseStack mat = event.getPoseStack();
+				mat.scale(1.5F, 0.01F, 1.5F);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -117,16 +118,8 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
-		
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
-			if (globalData.getStoppedTicks() > 0 ) {
-				if(event.getEntity().level().isClientSide) {
-					if(Minecraft.getInstance().screen == null)
-						Minecraft.getInstance().setScreen(new StopGui());
-				}
-				event.setCanceled(true);
-			}
 
 			//globalData.setKO(true);
 			if(globalData.isKO()) {
@@ -139,6 +132,14 @@ public class ClientEvents {
 				}
 			}
 			if(event.getEntity() instanceof Player player) {
+				if (event.getEntity().hasEffect(ModMobEffects.STOP.get())) {
+					if(event.getEntity().level().isClientSide) {
+						if(Minecraft.getInstance().screen == null)
+							Minecraft.getInstance().setScreen(new StopGui());
+					}
+					event.setCanceled(true);
+				}
+
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if(playerData != null) {
 					if(playerData.getMagicCasttimeTicks() > 0) {

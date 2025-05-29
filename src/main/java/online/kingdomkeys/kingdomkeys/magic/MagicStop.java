@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -61,7 +63,7 @@ public class MagicStop extends Magic {
 					if (e instanceof Mob) {
 						((Mob) e).setNoAi(true);
 					}
-					globalData.setStoppedTicks((int) (100 + level * 20 * dmg)); // Stop
+					((LivingEntity) e).addEffect(new MobEffectInstance(ModMobEffects.STOP.get(), (int) (100 + level * 20 * dmg), level, false, false, false)); // Stop
 					globalData.setStopCaster(player.getDisplayName().getString());
 					if (e instanceof ServerPlayer)
 						PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) e);

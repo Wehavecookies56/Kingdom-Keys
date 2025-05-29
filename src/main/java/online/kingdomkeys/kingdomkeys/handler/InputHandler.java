@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.effect.MobEffects;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import org.lwjgl.glfw.GLFW;
@@ -382,7 +384,7 @@ public class InputHandler {
         DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
+            if (globalData != null && player.hasEffect(ModMobEffects.STOP.get())) {
                 if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                 }
@@ -390,7 +392,7 @@ public class InputHandler {
         }
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
+            if (globalData != null && player.hasEffect(ModMobEffects.STOP.get())) {
                 if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
                 }

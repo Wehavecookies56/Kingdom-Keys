@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, flatTicks, level, stopModelTicks;
+	private int level, stopModelTicks;
 	private float stopDmg;
 	private boolean castleOblivionMarker, isKO;
 
@@ -19,9 +19,7 @@ public class SCSyncGlobalCapabilityPacket {
 	}
 
 	public SCSyncGlobalCapabilityPacket(IGlobalCapabilities capability) {
-		this.stoppedTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getStopDamage();
-		this.flatTicks = capability.getFlatTicks();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
 		this.stopModelTicks = capability.getStopModelTicks();
@@ -29,9 +27,7 @@ public class SCSyncGlobalCapabilityPacket {
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.stoppedTicks);
 		buffer.writeFloat(this.stopDmg);
-		buffer.writeInt(this.flatTicks);
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
@@ -41,9 +37,7 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityPacket msg = new SCSyncGlobalCapabilityPacket();
-		msg.stoppedTicks = buffer.readInt();
 		msg.stopDmg = buffer.readFloat();
-		msg.flatTicks = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
@@ -55,9 +49,7 @@ public class SCSyncGlobalCapabilityPacket {
 		ctx.get().enqueueWork(() -> {
 			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 			globalData.ifPresent(cap -> {
-				cap.setStoppedTicks(message.stoppedTicks);
 				cap.setStopDamage(message.stopDmg);
-				cap.setFlatTicks(message.flatTicks);
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
 				cap.setLevel(message.level);
 				cap.setStopModelTicks(message.stopModelTicks);

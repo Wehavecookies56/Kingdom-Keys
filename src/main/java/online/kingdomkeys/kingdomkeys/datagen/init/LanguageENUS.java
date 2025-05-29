@@ -1823,6 +1823,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Effects
         add("effect.kingdomkeys.freeze", "Freeze");
+        add("effect.kingdomkeys.aero", "Aero");
+        add("effect.kingdomkeys.stop", "Stop");
+        add("effect.kingdomkeys.gravity", "Gravity");
 
     }
 }

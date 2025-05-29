@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
 	int id;
-	private int stopTicks, flatTicks, level, stopModelTicks;
+	private int level, stopModelTicks;
 	private float stopDmg;
 	private boolean castleOblivionMarker, isKO;
 
@@ -23,9 +23,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 
 	public SCSyncGlobalCapabilityToAllPacket(int id, IGlobalCapabilities capability) {
 		this.id = id;
-		this.stopTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getStopDamage();
-		this.flatTicks = capability.getFlatTicks();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
 		this.stopModelTicks = capability.getStopModelTicks();
@@ -34,9 +32,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(id);
-		buffer.writeInt(this.stopTicks);
 		buffer.writeFloat(this.stopDmg);
-		buffer.writeInt(this.flatTicks);
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
@@ -46,9 +42,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityToAllPacket msg = new SCSyncGlobalCapabilityToAllPacket();
 		msg.id = buffer.readInt();
-		msg.stopTicks = buffer.readInt();
 		msg.stopDmg = buffer.readFloat();
-		msg.flatTicks = buffer.readInt();
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
@@ -61,9 +55,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			LivingEntity entity = (LivingEntity) Minecraft.getInstance().level.getEntity(message.id);
 
 			IGlobalCapabilities cache = new GlobalCapabilities();
-			cache.setStoppedTicks(message.stopTicks);
 			cache.setStopDamage(message.stopDmg);
-			cache.setFlatTicks(message.flatTicks);
 			cache.setCastleOblivionMarker(message.castleOblivionMarker);
 			cache.setLevel(message.level);
 			cache.setStopModelTicks(message.stopModelTicks);
@@ -76,9 +68,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			if (entity != null) {
 				LazyOptional<IGlobalCapabilities> globalData = entity.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 				globalData.ifPresent(cap -> {
-					cap.setStoppedTicks(message.stopTicks);
 					cap.setStopDamage(message.stopDmg);
-					cap.setFlatTicks(message.flatTicks);
 					cap.setCastleOblivionMarker(message.castleOblivionMarker);
 					cap.setLevel(message.level);
 					cap.setStopModelTicks(message.stopModelTicks);
