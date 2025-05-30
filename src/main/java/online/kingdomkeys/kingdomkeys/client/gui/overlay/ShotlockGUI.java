@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -21,21 +22,15 @@ public class ShotlockGUI extends OverlayBase {
 
 	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;
-	int guiWidth = 100;
-	int guiHeight = 70;
-	int noborderguiwidth = 98;
-	int noborderguiheight = 68;
+	int guiWidth = 44;
+	int guiHeight = 122;
+	int noborderguiwidth = 42;
+	int noborderguiheight = 120;
 	PlayerData playerData;
 
+	public ResourceLocation focusBar = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png");
 	private ShotlockGUI() {
 		super();
-	}
-
-	@SubscribeEvent
-	public void renderOverlays(RenderGuiLayerEvent.Pre event) {
-		/*if (ClientEvents.focusing && event.getOverlay() == VanillaGuiOverlay.CROSSHAIR.type()) {
-			event.setCanceled(true);
-		}*/
 	}
 
 	@Override
@@ -69,11 +64,12 @@ public class ShotlockGUI extends OverlayBase {
 			{
 
 				RenderSystem.enableBlend();
-				poseStack.translate(ModConfigs.focusXPos + 17, ModConfigs.focusYPos - 25, 0);
+				poseStack.translate(ModConfigs.focusXPos + 38, ModConfigs.focusYPos -10, 0);
+				poseStack.translate((screenWidth - guiWidth * scaleX) - 20 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
+				poseStack.mulPose(Axis.ZP.rotationDegrees(50));
 
 				poseStack.pushPose();// Focus Background
 				{
-					poseStack.translate((screenWidth - guiWidth * scaleX) - 20 * scaleX, (screenHeight - guiHeight * scaleY) - 7 * scaleY, 0);
 					poseStack.scale(scaleX, scaleY, 1);
 					drawFocusBarBack(guiGraphics, 0, 0, guiWidth, 1);
 				}
@@ -81,15 +77,13 @@ public class ShotlockGUI extends OverlayBase {
 
 				poseStack.pushPose();// Focus Cost Bar
 				{
-					poseStack.translate((screenWidth - guiWidth * scaleX) - 19 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
 					poseStack.scale(scaleX, scaleY, 1);
-					drawFocusCostBarTop(guiGraphics, 0, 0, (float)(ClientEvents.focusGaugeTemp), playerData.getFocus(), 1);
+					drawFocusCostBarTop(guiGraphics, 0, 0, playerData.getFocus(), 1);
 				}
 				poseStack.popPose();
 
 				poseStack.pushPose();// Focus Bar
 				{
-					poseStack.translate((screenWidth - guiWidth * scaleX) - 19 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
 					poseStack.scale(scaleX, scaleY, 1);
 					drawFocusBarTop(guiGraphics, 0, 0, (float)(ClientEvents.focusGaugeTemp), 1);
 				}
@@ -152,20 +146,19 @@ public class ShotlockGUI extends OverlayBase {
 		{
 			matrixStack.translate((posX) * scale, posY * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+			blit(gui, focusBar, 0, 0, 0, 0, guiWidth, guiHeight);
 		}
 		matrixStack.popPose();
 	}
-	
-	public void drawFocusCostBarTop(GuiGraphics gui, float posX, float posY, float amount, double focus, float scale) {
+
+	public void drawFocusCostBarTop(GuiGraphics gui, float posX, float posY, double focus, float scale) {
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			//int w = (int) (amount * 100F / noborderguiwidth);
 			int h = (int) (focus * noborderguiheight / 100);
-			matrixStack.translate((posX) * scale, (posY + 2) * scale, 0);
+			matrixStack.translate((posX) * scale, posY * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 208 - h, noborderguiwidth, h);
+			blit(gui, focusBar, 0, noborderguiheight-h+1, 88, 120 - h, noborderguiwidth+1, h);
 		}
 		matrixStack.popPose();
 	}
@@ -174,11 +167,10 @@ public class ShotlockGUI extends OverlayBase {
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			//int w = (int) (amount * 100F / noborderguiwidth);
 			int h = (int) (amount * noborderguiheight / 100F);
-			matrixStack.translate(posX * scale, (posY + 2) * scale, 0);
+			matrixStack.translate((posX) * scale, posY * scale, 0);
 			matrixStack.scale(scale, scale, 0);
-			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png"), 0, noborderguiheight-h, 0, 139 - h, noborderguiwidth, h);
+			blit(gui, focusBar, 0, noborderguiheight-h+1, 44, 120 - h, noborderguiwidth+1, h);
 		}
 		matrixStack.popPose();
 	}

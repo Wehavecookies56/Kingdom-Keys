@@ -186,12 +186,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 			} else if(stack.getItem() == ModItems.orichalcumplus.get()){
 				if(state.getValue(TIER) != SavePointStorage.SavePointType.WARP){
 					stack.shrink(1);
-					BlockState newState;
-					if (state.getValue(TIER) == SavePointStorage.SavePointType.NORMAL) {
-						newState = state.setValue(TIER, SavePointStorage.SavePointType.LINKED);
-					} else {
-						newState = state.setValue(TIER, SavePointStorage.SavePointType.WARP);
-					}
+					BlockState newState = state.setValue(TIER, state.getValue(TIER) == SavePointStorage.SavePointType.NORMAL ? SavePointStorage.SavePointType.LINKED : SavePointStorage.SavePointType.WARP);
 					worldIn.setBlockAndUpdate(pos, newState);
 					player.displayClientMessage(Component.translatable("savepoint.upgrade_type", newState.getValue(TIER).getSerializedName()), true);
 				} else {

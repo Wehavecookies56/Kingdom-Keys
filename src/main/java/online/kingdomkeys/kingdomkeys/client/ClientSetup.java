@@ -281,7 +281,6 @@ public class ClientSetup {
 		NeoForge.EVENT_BUS.addListener(ClientSetup::renderOverlays);
 		NeoForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
 		NeoForge.EVENT_BUS.register(new ClientEvents());
-		NeoForge.EVENT_BUS.register(ShotlockGUI.INSTANCE);
 		NeoForge.EVENT_BUS.register(DriveGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(new InputHandler());
 		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
