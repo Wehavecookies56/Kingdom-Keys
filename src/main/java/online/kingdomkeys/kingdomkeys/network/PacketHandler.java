@@ -105,7 +105,7 @@ public class PacketHandler {
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
 		server(CSSummonArmor.TYPE, CSSummonArmor.STREAM_CODEC);
-		bidirectional(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
+		server(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
