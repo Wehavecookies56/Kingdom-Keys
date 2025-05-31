@@ -12,6 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -77,7 +78,15 @@ public record CSSetAlignment(Utils.OrgMember alignment) implements Packet {
         }
         if (weapon != null) {
             ItemStack stack = new ItemStack(weapon);
-            Utils.createKeybladeID(stack);
+            if (playerData.isWeaponUnlocked(weapon)) {
+                playerData.getWeaponsUnlocked().forEach(stack1 -> {
+                    if (stack1.is(stack.getItem())) {
+                        stack.set(ModComponents.KEYBLADE_ID, stack1.get(ModComponents.KEYBLADE_ID));
+                    }
+                });
+            } else {
+                Utils.createKeybladeID(stack);
+            }
             playerData.unlockWeapon(stack);
             playerData.equipWeapon(stack);
             playerData.setActiveDriveForm(DriveForm.NONE.toString());

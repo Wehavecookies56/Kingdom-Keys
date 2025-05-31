@@ -1,2 +1,2 @@
 **Fixed:**
-* Synthesis create button not working.
+* Fixed Proof of heart crashing the game
