@@ -62,7 +62,7 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		double d0 = this.getX() + vec3.x;
 		double d1 = this.getY() + vec3.y;
 		double d2 = this.getZ() + vec3.z;
-		//this.updateRotation();
+
 		float f;
 		if (this.isInWater()) {
 			for(int i = 0; i < 4; ++i) {
@@ -77,9 +77,6 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 		this.setDeltaMovement(vec3.scale(f));
 		this.applyGravity();
 		this.setPos(d0, d1, d2);
-
-
-
 	}
 
 	@Override

@@ -30,20 +30,18 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 
 	@Override
 	public void render(ArrowgunShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-		switch(entity.getShotType()) {
-		case 0:
-			color = new Color(1F,0.2F,0.2F);
-			break;
-		case 1:
-			color = new Color(0.3F,0.3F,1F);
-			break;
-		}
+		color = switch(entity.getShotType()) {
+			case 0 -> new Color(1F, 0.2F, 0.2F);
+			case 1 -> new Color(0.3F, 0.3F, 1F);
+			default -> new Color(1, 1, 1);
+		};
+
 		matrixStackIn.pushPose();
-    	{	
+    	{
     		matrixStackIn.translate(0, 0.05, 0);
     		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
     		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
-    		matrixStackIn.scale(0.1F, 0.1F, 0.8F);
+			matrixStackIn.scale(0.1F, 0.1F, 0.8F);
     		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRGB());
      	}
      	matrixStackIn.popPose();
