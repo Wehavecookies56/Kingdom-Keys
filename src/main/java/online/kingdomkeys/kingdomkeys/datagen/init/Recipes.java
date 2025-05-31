@@ -894,7 +894,7 @@ public class Recipes extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
 				.pattern("D D")
 				.pattern("LHL")
-				.define('D', Items.PINK_DYE)
+				.define('D', Items.YELLOW_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
 				.group("kingdomkeys")

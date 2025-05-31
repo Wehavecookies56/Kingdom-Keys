@@ -61,6 +61,7 @@ public class PacketHandler {
 		client(SCOpenMenu.TYPE, SCOpenMenu.STREAM_CODEC);
 		client(SCSyncJsonRegistry.TYPE, SCSyncJsonRegistry.STREAM_CODEC);
 
+
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
 		server(CSChangeStyle.TYPE, CSChangeStyle.STREAM_CODEC);
@@ -104,7 +105,7 @@ public class PacketHandler {
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
 		server(CSSummonArmor.TYPE, CSSummonArmor.STREAM_CODEC);
-		server(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
+		bidirectional(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
@@ -128,6 +129,10 @@ public class PacketHandler {
 
 	private static <T extends Packet> void server(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {
 		registrar.playToServer(type, reader, PacketHandler::handlePacket);
+	}
+
+	private static <T extends Packet> void bidirectional(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {
+		registrar.playBidirectional(type, reader, PacketHandler::handlePacket);
 	}
 
 	public static void sendTo (Packet packet, ServerPlayer player) {

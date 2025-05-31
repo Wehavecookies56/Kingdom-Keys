@@ -434,8 +434,7 @@ public class EntityEvents {
 				playerData.addReactionCommand(rc.getName(), player);
 			}
 
-			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but
-																						// now it seems to work fine without it
+			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 

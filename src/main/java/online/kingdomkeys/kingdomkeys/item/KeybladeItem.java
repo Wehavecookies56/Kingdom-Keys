@@ -259,7 +259,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
-						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
+						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1F, 0);
 						world.addFreshEntity(shot);
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 
