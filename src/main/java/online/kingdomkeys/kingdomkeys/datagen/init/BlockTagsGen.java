@@ -22,6 +22,23 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 public class BlockTagsGen extends BlockTagsProvider {
 	
 	public static final TagKey<Block> BLOX = create(KingdomKeys.MODID+":blox");
+	public static final TagKey<Block> BLAZING = create("c:ores/blazing");
+	public static final TagKey<Block> SOOTHING = create("c:ores/soothing");
+	public static final TagKey<Block> WRITHING = create("c:ores/writhing");
+	public static final TagKey<Block> BETWIXT = create("c:ores/betwixt");
+	public static final TagKey<Block> WELLSPRING = create("c:ores/wellspring");
+	public static final TagKey<Block> FROST = create("c:ores/frost");
+	public static final TagKey<Block> LUCID = create("c:ores/lucid");
+	public static final TagKey<Block> LIGHTNING = create("c:ores/lightning");
+	public static final TagKey<Block> PULSING = create("c:ores/pulsing");
+	public static final TagKey<Block> REMEMBRANCE = create("c:ores/remembrance");
+	public static final TagKey<Block> HUNGRY = create("c:ores/hungry");
+	public static final TagKey<Block> SINISTER = create("c:ores/sinister");
+	public static final TagKey<Block> STORMY = create("c:ores/stormy");
+	public static final TagKey<Block> TRANQUILITY = create("c:ores/tranquility");
+	public static final TagKey<Block> TWILIGHT = create("c:ores/twilight");
+
+
 
 	public BlockTagsGen(DataGenerator generator, CompletableFuture<Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
 		super(generator.getPackOutput(), lookupProvider, KingdomKeys.MODID, existingFileHelper);
@@ -40,6 +57,52 @@ public class BlockTagsGen extends BlockTagsProvider {
                 if(block == ModBlocks.rodSand.get()) {
             		add(BlockTags.MINEABLE_WITH_SHOVEL, block);
                 } else {
+					if (name.contains("blazing")) {
+						add(BLAZING, block);
+					}
+					if (name.contains("soothing")) {
+						add(SOOTHING, block);
+					}
+					if (name.contains("writhing")) {
+						add(WRITHING, block);
+					}
+					if (name.contains("betwixt")) {
+						add(BETWIXT, block);
+					}
+					if (name.contains("wellspring")) {
+						add(WELLSPRING, block);
+					}
+					if (name.contains("frost")) {
+						add(FROST, block);
+					}
+					if (name.contains("lucid")) {
+						add(LUCID, block);
+					}
+					if (name.contains("lightning")) {
+						add(LIGHTNING, block);
+					}
+					if (name.contains("pulsing")) {
+						add(PULSING, block);
+					}
+					if (name.contains("remembrance")) {
+						add(REMEMBRANCE, block);
+					}
+					if (name.contains("hungry")) {
+						add(HUNGRY, block);
+					}
+					if (name.contains("sinister")) {
+						add(SINISTER, block);
+					}
+					if (name.contains("stormy")) {
+						add(STORMY, block);
+					}
+					if (name.contains("tranquility")) {
+						add(TRANQUILITY, block);
+					}
+					if (name.contains("twilight")) {
+						add(TWILIGHT, block);
+					}
+
 	        		add(BlockTags.MINEABLE_WITH_PICKAXE, block);
 	
 	            	if(name.contains("writhing_ore") || name.contains("betwixt_ore") || name.contains("pulsing_ore") || name.contains("sinister_ore") || name.contains("stormy_ore") || name.contains("twilight_ore")) {
