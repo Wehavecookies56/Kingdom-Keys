@@ -69,10 +69,8 @@ public class DriveFormFinal extends DriveForm {
 				
 				//Check if the player has the ability to cancel the variable
 				if(playerData.getIsGliding()) {
-					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
+					if(!playerData.isAbilityEquipped(Strings.glide)) {
 						playerData.setIsGliding(false);
-						//if(player.world.isRemote)
-							//PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 					}
 				}
 			}
