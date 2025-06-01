@@ -121,8 +121,7 @@ public class ClientEvents {
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
 
-			//globalData.setKO(true);
-			if(globalData.isKO()) {
+			if(event.getEntity().hasEffect(ModMobEffects.KO.get())) {
 				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
@@ -133,7 +132,8 @@ public class ClientEvents {
 			}
 			if(event.getEntity() instanceof Player player) {
 				if (event.getEntity().hasEffect(ModMobEffects.STOP.get())) {
-					if(event.getEntity().level().isClientSide) {
+					//Now the stop capabilty is synced to all clients so we need to make sure only the local player should open the gui
+					if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
 						if(Minecraft.getInstance().screen == null)
 							Minecraft.getInstance().setScreen(new StopGui());
 					}
@@ -160,13 +160,11 @@ public class ClientEvents {
 	public void RenderEntity(RenderLivingEvent.Post event) { //Hide the player shadow when KO'd
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-				if(globalData != null) {
-					if(globalData.isKO()) {
-						event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
-						event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
-					}
+				if(player.hasEffect(ModMobEffects.KO.get())) {
+					event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
+					event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
 				}
+
 			}
 		}
 	}
@@ -188,24 +186,22 @@ public class ClientEvents {
 
 			if(event.getEntity() instanceof Player player) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-				if(globalData != null) {
-					if(globalData.isKO()) {
-						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
-						if (!((IDisabledAnimations) renderer).isDisabled()) {
-							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-							event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-							float MAX = 100;
-					        double pos = player.tickCount % MAX / (MAX /2D);
+				if(player.hasEffect(ModMobEffects.KO.get())) {
+					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+					if (!((IDisabledAnimations) renderer).isDisabled()) {
+						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
+						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
+						float MAX = 100;
+						double pos = player.tickCount % MAX / (MAX /2D);
 
-							if (player.tickCount % MAX < (MAX / 2)) {
-								event.getPoseStack().translate(0, 0, pos * 0.3);
-							} else {
-								event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-							}
-							event.getPoseStack().translate(0, -1, 0.8);
+						if (player.tickCount % MAX < (MAX / 2)) {
+							event.getPoseStack().translate(0, 0, pos * 0.3);
+						} else {
+							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
 						}
+						event.getPoseStack().translate(0, -1, 0.8);
 					}
+
 				}
 				
 				if(playerData != null) {

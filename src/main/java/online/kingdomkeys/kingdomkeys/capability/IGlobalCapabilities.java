@@ -22,7 +22,4 @@ public interface IGlobalCapabilities extends INBTSerializable<CompoundTag> {
 	//Ticks to display stop animation
 	int getStopModelTicks();
 	void setStopModelTicks(int ticks);
-	
-	boolean isKO();
-	void setKO(boolean ko);
 }

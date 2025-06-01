@@ -141,11 +141,14 @@ public class FirazaEntity extends ThrowableProjectile {
 				
 				if (!list.isEmpty()) {
 					for (int i = 0; i < list.size(); i++) {
-						Entity e = (Entity) list.get(i);
-						if (e instanceof LivingEntity) {
+						Entity e = list.get(i);
+						if (e instanceof LivingEntity livingEntity) {
 							e.setSecondsOnFire(25);
 							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
 							e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg * dmgMult);
+							if (livingEntity.getEffect(ModMobEffects.FREEZE.get()) != null) {
+								livingEntity.removeEffect(ModMobEffects.FREEZE.get());
+							}
 						}
 					}
 				}

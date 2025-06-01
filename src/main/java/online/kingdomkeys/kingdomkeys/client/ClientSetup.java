@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.render.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.container.ModContainers;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
@@ -248,7 +249,7 @@ public class ClientSetup {
 		if(!Utils.shouldRenderOverlay(player)) { //If it shouldn't render cause it's set to HIDE or WEAPON and not holding one
 			event.setCanceled(o == COMMAND_MENU || o == MP_BAR || o == DRIVE_BAR || o == SHOTLOCK); //Remove all these 4 bars
 			if(o == HP_BAR || o == PLAYER_PORTRAIT) { //Allow HP to be shown if KO'd
-				event.setCanceled(!globalData.isKO());
+				event.setCanceled(!player.hasEffect(ModMobEffects.KO.get()));
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
 			if(o == MP_BAR) { //Remove MP Bar is magics map is empty

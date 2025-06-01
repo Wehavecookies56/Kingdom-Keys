@@ -34,18 +34,7 @@ public class GravityEffect extends MobEffect {
     @Override
     public void removeAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
         super.removeAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
-        IGlobalCapabilities globalData = ModCapabilities.getGlobal(pLivingEntity);
-        PacketHandler.syncToAllAround(pLivingEntity, globalData);
 
-        if (pLivingEntity instanceof ServerPlayer player) {
-            PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
-        }
-
-        if (pLivingEntity instanceof Player pl) {
-            if (pl.getForcedPose() != null && !ModCapabilities.getPlayer(pl).getIsGliding()) {
-                pl.setForcedPose(null);
-            }
-        }
     }
 
     @Override

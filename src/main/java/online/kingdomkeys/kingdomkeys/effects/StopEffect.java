@@ -32,19 +32,7 @@ public class StopEffect extends MobEffect {
     @Override
     public void removeAttributeModifiers(LivingEntity pLivingEntity, AttributeMap pAttributeMap, int pAmplifier) {
         super.removeAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
-        IGlobalCapabilities globalData = ModCapabilities.getGlobal(pLivingEntity);
-        if (pLivingEntity instanceof Mob) {
-            ((Mob) pLivingEntity).setNoAi(false);
-        }
 
-        if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-            pLivingEntity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(pLivingEntity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
-        }
-
-        if (pLivingEntity instanceof ServerPlayer)
-            PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) pLivingEntity);
-        globalData.setStopDamage(0);
-        globalData.setStopCaster(null);
     }
 
     @Override

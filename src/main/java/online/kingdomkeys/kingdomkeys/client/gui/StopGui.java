@@ -19,7 +19,6 @@ public class StopGui extends Screen {
 	@Override
 	protected void init() {
 		GLFW.glfwSetInputMode(minecraft.getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
-
 		super.init();
 	}
 	@Override
@@ -34,13 +33,9 @@ public class StopGui extends Screen {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
 		if(minecraft.player != null) {
-
-			if(ModCapabilities.getGlobal(minecraft.player) != null) {
-	            //InputConstants.grabOrReleaseMouse(this.minecraft.getWindow().getWindow(), 212993, 0, 0);
-				if(minecraft.player.hasEffect(ModMobEffects.STOP.get())) {
-					onClose();
-				}
-				
+			//InputConstants.grabOrReleaseMouse(this.minecraft.getWindow().getWindow(), 212993, 0, 0);
+			if(!minecraft.player.hasEffect(ModMobEffects.STOP.get())) {
+				onClose();
 			}
 		}
 		//super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);

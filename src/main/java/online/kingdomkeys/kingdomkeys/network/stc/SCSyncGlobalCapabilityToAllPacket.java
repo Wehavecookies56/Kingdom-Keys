@@ -16,7 +16,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	int id;
 	private int level, stopModelTicks;
 	private float stopDmg;
-	private boolean castleOblivionMarker, isKO;
+	private boolean castleOblivionMarker;
 
 	public SCSyncGlobalCapabilityToAllPacket() {
 	}
@@ -27,7 +27,6 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
 		this.stopModelTicks = capability.getStopModelTicks();
-		this.isKO = capability.isKO();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
@@ -36,7 +35,6 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
-		buffer.writeBoolean(this.isKO);
 	}
 
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
@@ -46,7 +44,6 @@ public class SCSyncGlobalCapabilityToAllPacket {
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
-		msg.isKO = buffer.readBoolean();
 		return msg;
 	}
 
@@ -59,7 +56,6 @@ public class SCSyncGlobalCapabilityToAllPacket {
 			cache.setCastleOblivionMarker(message.castleOblivionMarker);
 			cache.setLevel(message.level);
 			cache.setStopModelTicks(message.stopModelTicks);
-			cache.setKO(message.isKO);
 
 			if (message.id != Minecraft.getInstance().player.getId()) {
 				ModCapabilities.mobDataClientCache.put(message.id, cache);
@@ -72,7 +68,6 @@ public class SCSyncGlobalCapabilityToAllPacket {
 					cap.setCastleOblivionMarker(message.castleOblivionMarker);
 					cap.setLevel(message.level);
 					cap.setStopModelTicks(message.stopModelTicks);
-					cap.setKO(message.isKO);
 				});
 			}
 		});

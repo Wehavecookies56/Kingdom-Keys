@@ -25,6 +25,7 @@ import net.minecraftforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
@@ -49,8 +50,7 @@ public class HeartLayerRenderer<T extends LivingEntity> extends RenderLayer<T, P
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (ModCapabilities.getGlobal(entitylivingbaseIn) != null) {
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(entitylivingbaseIn);
-			if (globalData.isKO()) {
+			if (entitylivingbaseIn.hasEffect(ModMobEffects.KO.get())) {
 				VertexConsumer buffer =
 						bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
 

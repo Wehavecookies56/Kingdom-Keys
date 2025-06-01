@@ -9,6 +9,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -646,20 +648,6 @@ public class EntityEvents {
 		if (globalData != null) {
 			//t's time for the challenge
 			// globalData.setKO(true);
-			if(globalData.isKO()) {
-				if(event.getEntity().tickCount % 20 == 0) {
-					if(event.getEntity().getHealth() - 1 <= 0) {
-						event.getEntity().kill();
-						globalData.setKO(false);
-						PacketHandler.syncToAllAround(event.getEntity(), globalData);
-					} else {
-						event.getEntity().setHealth(event.getEntity().getHealth() - 1);
-					}
-				}
-				event.getEntity().setYRot(0);
-				event.getEntity().setYBodyRot(0);
-				event.getEntity().setXRot(0);
-			}
 
 			if (globalData.getStopModelTicks() > 0) {
 				globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);
@@ -853,7 +841,7 @@ public class EntityEvents {
 					Party p = worldData.getPartyFromMember(player.getUUID());
 					if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
 						if (ModConfigs.allowPartyKO) {
-							if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
+							if (!player.hasEffect(ModMobEffects.KO.get()) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
 								event.setCanceled(true);
 								player.removeAllEffects();
 								player.setHealth(player.getMaxHealth());
@@ -861,12 +849,14 @@ public class EntityEvents {
 								player.getFoodData().setFoodLevel(10);
 								player.getFoodData().setExhaustion(0);
 								player.getFoodData().setSaturation(0);
-								globalData.setKO(true);
+								MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+								player.addEffect(koInstance);
 								player.level().playSound(null, player.blockPosition(),ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+
 							}
 							PacketHandler.syncToAllAround(player, globalData);
 						} else { //If config does not allow prevent KO from being applied
-							globalData.setKO(false);
+							player.removeEffect(ModMobEffects.KO.get());
 						}
 					}
 				}
@@ -1498,5 +1488,27 @@ public class EntityEvents {
 			int xp = 5 * event.getTopItem().getTag().size();
 			event.setXp(xp);
 		}
+	}
+
+
+	@SubscribeEvent
+	public void effectAdded(MobEffectEvent.Added event) {
+		if(event.getEntity().level().isClientSide)
+			return;
+
+		event.getEntity().level().getServer().getPlayerList().getPlayers().forEach(sPlayer -> {
+			sPlayer.connection.send(new ClientboundUpdateMobEffectPacket(event.getEntity().getId(), event.getEffectInstance()));
+		});
+
+	}
+
+	@SubscribeEvent
+	public void effectRemoved(MobEffectEvent.Remove event) {
+		Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
+	}
+
+	@SubscribeEvent
+	public void effectExpired(MobEffectEvent.Expired event) {
+		Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
 	}
 }

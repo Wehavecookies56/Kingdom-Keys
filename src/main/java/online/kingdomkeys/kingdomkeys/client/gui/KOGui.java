@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGiveUpKO;
@@ -29,7 +30,6 @@ public class KOGui extends ChatScreen {
 			case "giveup" -> {
 				PacketHandler.sendToServer(new CSGiveUpKO());
 				this.minecraft.setScreen(null);
-				ModCapabilities.getGlobal(minecraft.player).setKO(false);
 			}
 			case "exit" -> {
 				if (this.minecraft.level != null) {
@@ -65,12 +65,11 @@ public class KOGui extends ChatScreen {
 			if(minecraft.player.getHealth() <= 0) {
 				onClose();
 			}
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(minecraft.player);
-			if(globalData != null){
-				if(!globalData.isKO()){
-					onClose();
-				}
+
+			if(!minecraft.player.hasEffect(ModMobEffects.KO.get())){
+				onClose();
 			}
+
 		}
 		super.render(gui, p_render_1_, p_render_2_, p_render_3_);
 	}

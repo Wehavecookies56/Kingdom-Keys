@@ -238,6 +238,10 @@ public class ClientUtils {
             public void run() {
                 Player player = Minecraft.getInstance().player;
                 player.refreshDimensions();
+
+                if (player.getForcedPose() != null && !ModCapabilities.getPlayer(player).getIsGliding()) {
+                    player.setForcedPose(null);
+                }
             }
         };
     }

@@ -148,11 +148,14 @@ public class FiragaEntity extends ThrowableProjectile {
 			
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
-                    if (e instanceof LivingEntity) {
+                    if (e instanceof LivingEntity livingEntity) {
                         e.setSecondsOnFire(15);
                         float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
                         float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
                         e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg);
+						if (livingEntity.getEffect(ModMobEffects.FREEZE.get()) != null) {
+							livingEntity.removeEffect(ModMobEffects.FREEZE.get());
+						}
                     }
                 }
 			}
