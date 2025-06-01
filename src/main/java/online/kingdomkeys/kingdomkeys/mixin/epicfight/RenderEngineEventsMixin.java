@@ -15,6 +15,10 @@
 //
 //    @Inject(method = "renderLivingEvent", at = @At("HEAD"), cancellable = true, remap = false)
 //    private static void renderLivingDisable(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event, CallbackInfo ci) {
+//         if (event.getEntity().hasEffect(ModMobEffects.GRAVITY.get())){// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+//            PoseStack mat = event.getPoseStack();
+//            mat.scale(1.5F, 0.01F, 1.5F);
+//        }
 //        if (ClientUtils.disableEFMAnims) {
 //            ci.cancel();
 //        }

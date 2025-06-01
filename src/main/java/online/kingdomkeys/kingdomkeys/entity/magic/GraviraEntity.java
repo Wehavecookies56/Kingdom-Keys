@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -78,17 +80,13 @@ public class GraviraEntity extends ThrowableProjectile {
 				
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
-                        if (e instanceof LivingEntity) {
-                            GlobalData globalData = GlobalData.get((LivingEntity) e);
-                            globalData.setFlatTicks(100);
-
+                        if (e instanceof LivingEntity livingEntity) {
+							livingEntity.addEffect(new MobEffectInstance(ModMobEffects.GRAVITY, 100, 1, false, false, false));
                             if (Utils.isHostile(e)) {
-                                float dmg = this.getOwner() instanceof Player ? ((LivingEntity) e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
+                                float dmg = this.getOwner() instanceof Player ? livingEntity.getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
                                 dmg = Math.min(dmg, 99);
                                 e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
                             }
-                            if (e instanceof LivingEntity)
-                                PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
                             if (e instanceof ServerPlayer)
                                 PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);

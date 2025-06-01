@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 public class LargeBodyEntity extends BaseKHEntity {
@@ -125,7 +126,7 @@ public class LargeBodyEntity extends BaseKHEntity {
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
             float diff = Mth.wrapDegrees(attackYaw-getYRot());
 
-    		if(diff > 30 && diff < 150 && !(GlobalData.get(this).getFlatTicks() > 0)) {
+    		if(diff > 30 && diff < 150 && !this.hasEffect(ModMobEffects.GRAVITY)) {
     			if(attacker instanceof LivingEntity) {
 	                ((LivingEntity) attacker).knockback(0.8F, -d1, -d0);
 					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);

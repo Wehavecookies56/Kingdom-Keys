@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -39,12 +41,8 @@ public class MagicStop extends Magic {
 				list.remove(player.level().getPlayerByUUID(m.getUUID()));
 			}
 		}
-		
-		for(Entity e : list) {
-			if(e instanceof MarluxiaEntity) {
-				list.remove(e);
-			}
-		}
+
+        list.removeIf(e -> e instanceof MarluxiaEntity);
 		
 		//Cast stop model to player
 		GlobalData casterGlobalData = GlobalData.get(caster);
@@ -54,19 +52,18 @@ public class MagicStop extends Magic {
 		}
 
 		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				Entity e = list.get(i);
-				if (e instanceof LivingEntity livingEntity) {
-					GlobalData globalData = GlobalData.get((LivingEntity) e);
-					if (e instanceof Mob) {
-						((Mob) e).setNoAi(true);
-					}
-					globalData.setStoppedTicks((int) (100 + level * 20 * dmg)); // Stop
-					globalData.setStopCaster(player.getDisplayName().getString());
-					if (e instanceof ServerPlayer serverPlayer)
-						PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
-				}
-			}
+            for (Entity e : list) {
+                if (e instanceof LivingEntity livingEntity) {
+                    GlobalData globalData = GlobalData.get(livingEntity);
+                    if (livingEntity instanceof Mob) {
+                        ((Mob) e).setNoAi(true);
+                    }
+                    livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + level * 20 * dmg), level, false, false, false)); // Stop
+                    globalData.setStopCaster(player.getDisplayName().getString());
+                    if (e instanceof ServerPlayer serverPlayer)
+                        PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
+                }
+            }
 		}
 		player.swing(InteractionHand.MAIN_HAND);
 	}

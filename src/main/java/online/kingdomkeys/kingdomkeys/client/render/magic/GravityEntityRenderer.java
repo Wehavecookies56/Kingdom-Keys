@@ -14,9 +14,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 import javax.annotation.Nullable;
+import java.util.Base64;
 
 @OnlyIn(Dist.CLIENT)
 public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
@@ -41,12 +43,10 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 	public static class Events {
 		@SubscribeEvent
 		public static void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
-			GlobalData globalData = GlobalData.get(event.getEntity());
-			if (globalData != null) {
-				if (globalData.getFlatTicks() > 0){// || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
-					PoseStack mat = event.getPoseStack();
-					mat.scale(1.5F, 0.01F, 1.5F);
-				}
+			//System.out.println(event.getEntity().getActiveEffects());
+			if (event.getEntity().hasEffect(ModMobEffects.GRAVITY) || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+				PoseStack mat = event.getPoseStack();
+				mat.scale(1.5F, 0.01F, 1.5F);
 			}
 		}
 	}

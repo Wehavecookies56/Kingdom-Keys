@@ -1822,8 +1822,11 @@ public class LanguageENUS extends KKLanguageProvider {
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
 
+
         //Effects
         add("effect.kingdomkeys.freeze", "Freeze");
-
+        add("effect.kingdomkeys.aero", "Aero");
+        add("effect.kingdomkeys.stop", "Stop");
+        add("effect.kingdomkeys.gravity", "Gravity");
     }
 }

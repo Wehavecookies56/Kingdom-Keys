@@ -51,7 +51,6 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (GlobalData.get(entitylivingbaseIn) != null) {
-			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
 			if (entitylivingbaseIn.hasEffect(ModMobEffects.AERO)) {
 				MobEffectInstance aero = entitylivingbaseIn.getEffect(ModMobEffects.AERO);
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));

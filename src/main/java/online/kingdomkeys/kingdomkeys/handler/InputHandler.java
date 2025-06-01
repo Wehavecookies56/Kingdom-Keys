@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -370,7 +371,7 @@ public class InputHandler {
         DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
+            if (globalData != null && !player.hasEffect(ModMobEffects.STOP)) {
                 if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                 }
@@ -378,7 +379,7 @@ public class InputHandler {
         }
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
+            if (globalData != null && !player.hasEffect(ModMobEffects.STOP)) {
                 if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
                 }

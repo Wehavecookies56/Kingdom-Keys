@@ -40,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
@@ -116,13 +117,6 @@ public class ClientEvents {
 		if (event.getEntity() instanceof LivingEntity) {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
-				if (globalData.getStoppedTicks() > 0) {
-					if (event.getEntity().level().isClientSide) {
-						if (Minecraft.getInstance().screen == null)
-							Minecraft.getInstance().setScreen(new StopGui());
-					}
-					event.setCanceled(true);
-				}
 
 				//globalData.setKO(true);
 				if (globalData.isKO()) {
@@ -135,6 +129,13 @@ public class ClientEvents {
 					}
 				}
 				if (event.getEntity() instanceof Player player) {
+					if (player.hasEffect(ModMobEffects.STOP)) {
+						if(event.getEntity().level().isClientSide) {
+							if(Minecraft.getInstance().screen == null)
+								Minecraft.getInstance().setScreen(new StopGui());
+						}
+						event.setCanceled(true);
+					}
 					PlayerData playerData = PlayerData.get(player);
 					if (playerData != null) {
 						if (playerData.getMagicCasttimeTicks() > 0) {

@@ -667,65 +667,6 @@ public class EntityEvents {
 					}
 				}
 
-				if (globalData.getStoppedTicks() > 0) {
-					globalData.subStoppedTicks(1);
-
-					entity.setDeltaMovement(0, 0, 0);
-					entity.hurtMarked = true;
-
-					if (entity instanceof Mob) {
-						((Mob) entity).setTarget(null);
-					}
-
-					if (globalData.getStoppedTicks() <= 0) {
-						if (entity instanceof Mob) {
-							((Mob) entity).setNoAi(false);
-						}
-
-						globalData.setStoppedTicks(0); // Just in case it goes below (shouldn't happen)
-						if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-							entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
-						}
-
-						if (entity instanceof ServerPlayer) // Packet to unfreeze client
-							PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
-						globalData.setStopDamage(0);
-						globalData.setStopCaster(null);
-					}
-				}
-
-				// Gravity
-				if (globalData.getFlatTicks() > 0) {
-					globalData.subFlatTicks(1);
-
-					if (entity instanceof Player player) {
-						if (player.getForcedPose() != Pose.SWIMMING) {
-							player.setForcedPose(Pose.SWIMMING);
-						}
-
-					}
-
-					entity.setDeltaMovement(0, -4, 0);
-					entity.hurtMarked = true;
-
-					if (globalData.getFlatTicks() <= 0) {
-						globalData.setFlatTicks(0); // Just in case it goes below (shouldn't happen)
-						// This should sync the state of this entity (player or mob) to all the clients
-						// around to stop render it flat
-						PacketHandler.syncToAllAround(entity, globalData);
-
-						if (event.getEntity() instanceof ServerPlayer) {
-							PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) event.getEntity());
-						}
-					}
-				} else {
-					if (event.getEntity() instanceof Player pl) {
-						if (pl.getForcedPose() != null && !PlayerData.get(pl).getIsGliding()) {
-							pl.setForcedPose(null);
-						}
-					}
-				}
-
 			}
 
 			if (entity instanceof Player player && playerData != null) {
@@ -1064,7 +1005,7 @@ public class EntityEvents {
 
 				GlobalData globalData = GlobalData.get(target);
 				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
-                    if (globalData.getStoppedTicks() > 0) {
+					if (target.hasEffect(ModMobEffects.STOP)) {
 						float dmg = event.getAmount();
 						if (event.getSource().getEntity() instanceof Player) {
 							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
@@ -1474,5 +1415,36 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public void MobEffectExpire(MobEffectEvent.Expired event){
+		LivingEntity ent = event.getEntity();
+		if(event.getEffectInstance().getEffect() == ModMobEffects.GRAVITY){
+			if (ent instanceof ServerPlayer player) {
+				PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
+			}
+
+			if (ent instanceof Player pl) {
+				if (pl.getForcedPose() != null && !PlayerData.get(pl).getIsGliding()) {
+					pl.setForcedPose(null);
+				}
+			}
+        } else if(event.getEffectInstance().getEffect() == ModMobEffects.STOP) {
+			GlobalData globalData = GlobalData.get(ent);
+			if (ent instanceof Mob) {
+				((Mob) ent).setNoAi(false);
+			}
+			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
+				ent.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(ent.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
+			}
+
+			if (ent instanceof ServerPlayer)
+				PacketHandler.sendTo(new SCSyncGlobalData(ent), (ServerPlayer) ent);
+
+			globalData.setStopDamage(0);
+			globalData.setStopCaster(null);
+		}
+
 	}
 }
