@@ -39,8 +39,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 		storage.putInt("ticks_stopped", this.getStoppedTicks());
 		storage.putFloat("stop_dmg", this.getStopDamage());
 		storage.putInt("ticks_flat", this.getFlatTicks());
-		storage.putInt("aero_ticks", this.getAeroTicks());
-		storage.putInt("aero_level", this.getAeroLevel());
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
 		storage.putBoolean("is_ko", isKO);
@@ -52,7 +50,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
         this.setStoppedTicks(nbt.getInt("ticks_stopped"));
 		this.setStopDamage(nbt.getFloat("stop_dmg"));
 		this.setFlatTicks(nbt.getInt("ticks_flat"));
-		this.setAeroTicks(nbt.getInt("aero_ticks"), nbt.getInt("aero_level"));
 		this.setCastleOblivionMarker(nbt.getBoolean("castle_oblivion_marker"));
 		this.setLevel(nbt.getInt("level"));
 		this.setKO(nbt.getBoolean("is_ko"));
@@ -103,7 +100,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 
-
 	public void setStopCaster(String name) {
 		this.stopCaster = name;
 	}
@@ -126,32 +122,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	public void subFlatTicks(int time) {
 		this.flatTicks -= time;
-	}
-	
-
-	public int getAeroLevel() {
-		return aeroLevel;
-	}
-
-
-	public void setAeroLevel(int level) {
-		this.aeroLevel = level;
-	}
-	
-
-	public int getAeroTicks() {
-		return aeroTicks;
-	}
-
-
-	public void setAeroTicks(int i, int level) {
-		aeroTicks = i;
-		aeroLevel = level;
-	}
-	
-
-	public void remAeroTicks(int ticks) {
-		aeroTicks -= ticks;
 	}
 
 

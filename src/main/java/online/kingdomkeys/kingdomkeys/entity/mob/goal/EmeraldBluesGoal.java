@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
@@ -27,10 +29,8 @@ public class EmeraldBluesGoal extends TargetGoal {
 		@Override
 		public boolean canContinueToUse() {
 			if (this.mob.getTarget() != null) {
-				GlobalData globalData = GlobalData.get(mob);
-				if(mob.getState() == 1 && globalData.getAeroTicks() <= 0) {
+				if(mob.getState() == 1 && mob.hasEffect(ModMobEffects.AERO)) {
 					mob.setState(0);
-					PacketHandler.syncToAllAround(mob, globalData);
 				}
 				
 				//Set AI to use
@@ -55,9 +55,8 @@ public class EmeraldBluesGoal extends TargetGoal {
 		}
 
 		private void aeroAI() {
-			GlobalData globalData = GlobalData.get(mob);
-   		
-			switch(globalData.getAeroLevel()) {
+			MobEffectInstance aero = mob.getEffect(ModMobEffects.AERO);
+			switch(aero.getAmplifier()) {
 			case 0:
 				
 				break;
@@ -75,9 +74,7 @@ public class EmeraldBluesGoal extends TargetGoal {
 		}
 	
 		public void setAero(BaseKHEntity mob) {
-			GlobalData globalData = GlobalData.get(mob);
-			globalData.setAeroTicks(MAX_AERO_TICKS, 1);
-			PacketHandler.syncToAllAround(mob, globalData);
+			mob.addEffect(new MobEffectInstance(ModMobEffects.AERO, MAX_AERO_TICKS, 1, false, false, false));
 			mob.setState(1);
 			PacketHandler.sendToAll(new SCAeroSoundPacket(this.mob.getId()));
 		}

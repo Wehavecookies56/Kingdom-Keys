@@ -20,6 +20,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -82,6 +83,9 @@ public class FireEntity extends ThrowableProjectile {
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
                 if (target != getOwner()) {
+					if (target.getEffect(ModMobEffects.FREEZE) != null) {
+						target.removeEffect(ModMobEffects.FREEZE);
+					}
 					Party p = null;
 					if (getOwner() != null) {
 						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());

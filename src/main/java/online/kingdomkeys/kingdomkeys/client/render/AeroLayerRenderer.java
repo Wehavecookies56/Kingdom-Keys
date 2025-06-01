@@ -16,11 +16,13 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
@@ -50,17 +52,18 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (GlobalData.get(entitylivingbaseIn) != null) {
 			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
-			if (globalData.getAeroTicks() > 0) {
+			if (entitylivingbaseIn.hasEffect(ModMobEffects.AERO)) {
+				MobEffectInstance aero = entitylivingbaseIn.getEffect(ModMobEffects.AERO);
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
 
-				for (int i = 1; i <= globalData.getAeroLevel() + 1; ++i) {
+				for (int i = 1; i <= aero.getAmplifier() + 1; ++i) {
 					matrixStackIn.pushPose();
 					float f = ageInTicks * 20;
 					if (i % 2 == 0)
 						f *= -1;
 					matrixStackIn.mulPose(Axis.YP.rotationDegrees(f));
 					float scale = 1;
-					switch (globalData.getAeroLevel()) {
+					switch (aero.getAmplifier()) {
 					case 0:
 						if (entitylivingbaseIn instanceof Player) {
 							scale = 0.75F * i;

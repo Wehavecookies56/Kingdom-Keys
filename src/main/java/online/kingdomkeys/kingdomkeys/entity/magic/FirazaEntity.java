@@ -22,6 +22,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -92,6 +93,9 @@ public class FirazaEntity extends ThrowableProjectile {
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
                 if (target != getOwner()) {
+					if (target.getEffect(ModMobEffects.FREEZE) != null) {
+						target.removeEffect(ModMobEffects.FREEZE);
+					}
 					Party p = null;
 					if (getOwner() != null) {
 						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
@@ -131,14 +135,16 @@ public class FirazaEntity extends ThrowableProjectile {
 				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
 				
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						Entity e = list.get(i);
-						if (e instanceof LivingEntity) {
-							e.setRemainingFireTicks(25);
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
-							e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg * dmgMult);
-						}
-					}
+                    for (Entity e : list) {
+                        if (e instanceof LivingEntity ent) {
+                            e.setRemainingFireTicks(25);
+                            float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
+                            e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, this.getOwner()), dmg * dmgMult);
+                            if (ent.getEffect(ModMobEffects.FREEZE) != null) {
+                                ent.removeEffect(ModMobEffects.FREEZE);
+                            }
+                        }
+                    }
 				}
 			}
 			remove(RemovalReason.KILLED);

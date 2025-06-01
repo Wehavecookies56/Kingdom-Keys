@@ -12,8 +12,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 public class ModMobEffects {
 
     public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, KingdomKeys.MODID);
-  //  public static Registry<MobEffect> registry = MOB_EFFECTS.makeRegistry(builder -> builder.sync(true));
 
     public static final Holder<MobEffect>
-            FREEZE = MOB_EFFECTS.register("freeze", () -> new FreezeEffect(MobEffectCategory.HARMFUL, 0xFFFFFF));
+            FREEZE = MOB_EFFECTS.register("freeze", () -> new FreezeEffect(MobEffectCategory.HARMFUL, 0xFFFFFF)),
+            STOP = MOB_EFFECTS.register("stop", () -> new StopEffect(MobEffectCategory.HARMFUL, 0xB3408D)),
+            GRAVITY = MOB_EFFECTS.register("gravity", () -> new GravityEffect(MobEffectCategory.HARMFUL, 0x63337F)),
+            AERO = MOB_EFFECTS.register("aero", () -> new AeroEffect(MobEffectCategory.BENEFICIAL, 0x60B86E));
 }

@@ -8,6 +8,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 
 @OnlyIn(Dist.CLIENT)
 public class AeroSoundInstance extends AbstractTickableSoundInstance {
@@ -37,17 +38,15 @@ public class AeroSoundInstance extends AbstractTickableSoundInstance {
 	   if(ent.isRemoved()) {
 		   this.stop();
 	   } else {
-	      if (GlobalData.get(ent) != null) {
-	    	  if(GlobalData.get(ent).getAeroTicks() <= 0) {
-	    		  this.stop();
-		      } else {
-		         this.x = (float)this.ent.getX();
-		         this.y = (float)this.ent.getY();
-		         this.z = (float)this.ent.getZ();
-		         this.pitch = 1F;
-		         this.volume = 1F;
-		      }
-	      }
+		   if(!ent.hasEffect(ModMobEffects.AERO)) {
+			   this.stop();
+		   } else {
+			   this.x = (float)this.ent.getX();
+			   this.y = (float)this.ent.getY();
+			   this.z = (float)this.ent.getZ();
+			   this.pitch = 1F;
+			   this.volume = 1F;
+		   }
 	   } 
    }
 }

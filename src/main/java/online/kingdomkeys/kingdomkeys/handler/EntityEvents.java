@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -58,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
@@ -724,35 +726,6 @@ public class EntityEvents {
 					}
 				}
 
-				// Aero
-				if (globalData.getAeroTicks() > 0) {
-					globalData.remAeroTicks(1);
-
-					if (globalData.getAeroLevel() == 1) {
-						if (entity.tickCount % 20 == 0) {
-							float radius = 0.4F;
-							List<LivingEntity> list = Utils.getLivingEntitiesInRadius(entity, radius);
-							if (!list.isEmpty()) {
-								for (Entity e : list) {
-									if (entity instanceof Player player)
-										e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * 0.033F);
-								}
-							}
-						}
-					} else if (globalData.getAeroLevel() == 2) {
-						if (entity.tickCount % 10 == 0) {
-							float radius = 0.6F;
-							List<LivingEntity> list = Utils.getLivingEntitiesInRadius(entity, radius);
-							if (!list.isEmpty()) {
-								for (Entity e : list) {
-									if (entity instanceof Player player)
-										e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * 0.066F);
-								}
-							}
-						}
-					}
-
-				}
 			}
 
 			if (entity instanceof Player player && playerData != null) {
@@ -936,10 +909,10 @@ public class EntityEvents {
 			GlobalData globalData = GlobalData.get(player);
 
 			float damage = event.getOriginalDamage() * 100 / (100 + playerData.getDefense(true));
-			if (globalData.getAeroTicks() > 0) {
-				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
+			if (player.hasEffect(ModMobEffects.AERO)) {
+				MobEffectInstance aero = player.getEffect(ModMobEffects.AERO);
 
-				globalData.remAeroTicks((int) damage * 2);
+				float resistMultiplier = aero.getAmplifier() == 0 ? 0.3F : aero.getAmplifier() == 1 ? 0.35F : aero.getAmplifier() == 2 ? 0.4F : 0;
 				damage -= (damage * resistMultiplier);
 			}
 
@@ -999,10 +972,10 @@ public class EntityEvents {
 			if (defense > 0)
 				damage = (float) Math.round((damage * 100 / (300 + defense)));
 
-			GlobalData globalData = GlobalData.get(event.getEntity());
-			if (globalData.getAeroTicks() > 0) {
-				float resistMultiplier = globalData.getAeroLevel() == 0 ? 0.3F : globalData.getAeroLevel() == 1 ? 0.35F : globalData.getAeroLevel() == 2 ? 0.4F : 0;
-				globalData.remAeroTicks((int) damage * 2);
+			if (event.getEntity().hasEffect(ModMobEffects.AERO)) {
+				MobEffectInstance aero = event.getEntity().getEffect(ModMobEffects.AERO);
+
+				float resistMultiplier = aero.getAmplifier() == 0 ? 0.3F : aero.getAmplifier() == 1 ? 0.35F : aero.getAmplifier() == 2 ? 0.4F : 0;
 				damage -= (damage * resistMultiplier);
 			}
 
