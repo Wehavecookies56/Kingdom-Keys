@@ -34,11 +34,10 @@ public class ArrowgunItem extends OrgSwordItem implements IOrgWeapon {
 			if (player.getItemInHand(hand).has(ModComponents.ARROWGUN_AMMO) && player.getItemInHand(hand).get(ModComponents.ARROWGUN_AMMO) > 0) {
 				world.playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);
 				ArrowgunShotEntity bullet = new ArrowgunShotEntity(world, player, DamageCalculation.getOrgStrengthDamage(player, player.getMainHandItem()) / 3);
-				bullet.setPos(bullet.getX(),bullet.getY()+1,bullet.getZ());
-				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1F, 0);
+				bullet.setPos(bullet.getX(),bullet.getY(),bullet.getZ());
+				bullet.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
 				world.addFreshEntity(bullet);
 
-				//player.swingArm(Hand.MAIN_HAND);
 				tempAmmo = player.getItemInHand(hand).get(ModComponents.ARROWGUN_AMMO) - 1;
 
 				player.getItemInHand(hand).set(ModComponents.ARROWGUN_AMMO, tempAmmo);
