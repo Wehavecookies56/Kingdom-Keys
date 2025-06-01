@@ -7,6 +7,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -1417,8 +1419,7 @@ public class EntityEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public void MobEffectExpire(MobEffectEvent.Expired event){
+	public void removeEffect(MobEffectEvent event) {
 		LivingEntity ent = event.getEntity();
 		if(event.getEffectInstance().getEffect() == ModMobEffects.GRAVITY){
 			if (ent instanceof ServerPlayer player) {
@@ -1430,7 +1431,10 @@ public class EntityEvents {
 					pl.setForcedPose(null);
 				}
 			}
-        } else if(event.getEffectInstance().getEffect() == ModMobEffects.STOP) {
+			ent.level().getServer().getPlayerList().getPlayers().forEach(player -> {
+				player.connection.send(new ClientboundRemoveMobEffectPacket(ent.getId(), ModMobEffects.GRAVITY));
+			});
+		} else if(event.getEffectInstance().getEffect() == ModMobEffects.STOP) {
 			GlobalData globalData = GlobalData.get(ent);
 			if (ent instanceof Mob) {
 				((Mob) ent).setNoAi(false);
@@ -1446,5 +1450,15 @@ public class EntityEvents {
 			globalData.setStopCaster(null);
 		}
 
+	}
+
+	@SubscribeEvent
+	public void MobEffectRemove(MobEffectEvent.Remove event) {
+		removeEffect(event);
+	}
+
+	@SubscribeEvent
+	public void MobEffectExpire(MobEffectEvent.Expired event){
+		removeEffect(event);
 	}
 }

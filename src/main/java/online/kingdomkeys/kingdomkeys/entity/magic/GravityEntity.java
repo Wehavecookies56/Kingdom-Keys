@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.network.PacketDistributor;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -81,8 +84,12 @@ public class GravityEntity extends ThrowableProjectile {
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity livingEntity) {
-							livingEntity.addEffect(new MobEffectInstance(ModMobEffects.GRAVITY, 100, 0, false, false, false));
-                            if (Utils.isHostile(e)) {
+							MobEffectInstance instance = new MobEffectInstance(ModMobEffects.GRAVITY, 100, 0, false, false, false);
+							livingEntity.addEffect(instance);
+							e.level().getServer().getPlayerList().getPlayers().forEach(player -> {
+								player.connection.send(new ClientboundUpdateMobEffectPacket(livingEntity.getId(), instance, false));
+							});
+							if (Utils.isHostile(e)) {
                                 float dmg = this.getOwner() instanceof Player ? livingEntity.getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
                                 dmg = Math.min(dmg, 99);
                                 e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);

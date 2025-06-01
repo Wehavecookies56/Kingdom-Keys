@@ -326,9 +326,9 @@ public class ClientPacketHandler {
         GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()));
         globalData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.data());
 
-        if (message.entity() != Minecraft.getInstance().player.getId()) {
+        //if (message.entity() != Minecraft.getInstance().player.getId()) {
             GlobalData.setClientCache((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()), globalData);
-        }
+        //}
 
     }
 

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -81,8 +82,12 @@ public class GravigaEntity extends ThrowableProjectile {
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity le) {
-							le.addEffect(new MobEffectInstance(ModMobEffects.GRAVITY, 100, 2, false, false, false));
-                            if (Utils.isHostile(e)) {
+							MobEffectInstance instance = new MobEffectInstance(ModMobEffects.GRAVITY, 100, 2, false, false, false);
+							le.addEffect(instance);
+							e.level().getServer().getPlayerList().getPlayers().forEach(player -> {
+								player.connection.send(new ClientboundUpdateMobEffectPacket(le.getId(), instance, false));
+							});
+							if (Utils.isHostile(e)) {
                                 float dmg = this.getOwner() instanceof Player player ? le.getMaxHealth() * DamageCalculation.getMagicDamage(player) / 100 : 2;
                                 dmg = Math.min(dmg, 99);
                                 e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -43,8 +44,7 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 	public static class Events {
 		@SubscribeEvent
 		public static void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
-			//System.out.println(event.getEntity().getActiveEffects());
-			if (event.getEntity().hasEffect(ModMobEffects.GRAVITY) || event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
+			if (event.getEntity().hasEffect(ModMobEffects.GRAVITY)) { //|| event.getEntity().getDisplayName().getString().equals(new String(Base64.getDecoder().decode("c3RlbDEwMzQ=")))) {
 				PoseStack mat = event.getPoseStack();
 				mat.scale(1.5F, 0.01F, 1.5F);
 			}

@@ -4,6 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 	public static GlobalData getClient(LivingEntity entity) {
+		KingdomKeys.LOGGER.debug(mobDataClientCache.get(5));
 		return mobDataClientCache.get(entity.getId());
 	}
 

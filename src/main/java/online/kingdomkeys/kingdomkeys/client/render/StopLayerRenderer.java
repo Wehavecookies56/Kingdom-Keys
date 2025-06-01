@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
-public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public class StopLayerRenderer<T extends LivingEntity, M extends PlayerModel<T>> extends RenderLayer<T, M> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/stop.png");
 
 	ModelPart bb_main;
@@ -49,17 +49,18 @@ public class StopLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T
 	}
 
 	private void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(GlobalData.get(entitylivingbaseIn) != null) {
-			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
-			if(globalData.getStopModelTicks() > 0) {
+		GlobalData globalData = GlobalData.getClient(entitylivingbaseIn);
+		KingdomKeys.LOGGER.debug(entitylivingbaseIn.getId());
+		if (globalData != null) {
+			if (globalData.getStopModelTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-		    	matrixStackIn.pushPose();
-		    	matrixStackIn.translate(0, -1, 0);
-		    	float scale = (10F-globalData.getStopModelTicks())/5F;
-		    	matrixStackIn.scale(scale*1.2F, scale, scale*1.2F);
-		        this.stopModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
-		        matrixStackIn.popPose();
+				matrixStackIn.pushPose();
+				matrixStackIn.translate(0, -1, 0);
+				float scale = (10F - globalData.getStopModelTicks()) / 5F;
+				matrixStackIn.scale(scale * 1.2F, scale, scale * 1.2F);
+				this.stopModel.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
+				matrixStackIn.popPose();
 			}
-		}		
+		}
 	}
 }
