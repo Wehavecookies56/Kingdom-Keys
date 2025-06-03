@@ -37,6 +37,17 @@ repositories {
             includeGroup "dev.latvian.mods"
         }
     }
+
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 base {
@@ -107,6 +118,7 @@ dependencies {
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly("vazkii.patchouli:Patchouli:1.21-88-NEOFORGE:api")
     runtimeOnly("vazkii.patchouli:Patchouli:1.21-88-NEOFORGE")
+    //implementation "curse.maven:modern-ui-352491:6200236"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
