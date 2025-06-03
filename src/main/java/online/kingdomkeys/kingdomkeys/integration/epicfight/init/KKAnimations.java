@@ -124,7 +124,7 @@ public class KKAnimations {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
                         }
                     }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
 
         VALOR_IDLE = builder.nextAccessor("biped/living/valor_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
         VALOR_AUTO1 = builder.nextAccessor("biped/combat/valor_auto1", animationAccessor -> new BasicAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
@@ -157,11 +157,11 @@ public class KKAnimations {
         }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.0F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.2f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.3f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT)).addState(EntityState.MOVEMENT_LOCKED, false));
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
         WISDOM_FINISHER = builder.nextAccessor("biped/combat/wisdom_finisher", animationAccessor -> new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
 
             @Override
@@ -181,21 +181,21 @@ public class KKAnimations {
         }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.0F).addEvents(
                         AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.2f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.3f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.4f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.55f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.7f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.75f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT),
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.8f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.CLIENT)).addState(EntityState.MOVEMENT_LOCKED, false));
+                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
 
         MASTER_IDLE = builder.nextAccessor("biped/living/master_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
 
@@ -218,7 +218,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
 
         SORA_AUTO1 = builder.nextAccessor("biped/combat/sora_auto1", animationAccessor -> new BasicAttackAnimation(-0.85F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.9f));
         SORA_AUTO2 = builder.nextAccessor("biped/combat/sora_auto2", animationAccessor -> new BasicAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
@@ -283,7 +283,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         XIGBAR_SUMMON = builder.nextAccessor("biped/living/xigbar_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -292,7 +292,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         XALDIN_SUMMON = builder.nextAccessor("biped/living/xaldin_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -301,7 +301,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         VEXEN_SUMMON = builder.nextAccessor("biped/living/vexen_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -310,7 +310,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         LEXAEUS_SUMMON = builder.nextAccessor("biped/living/lexaeus_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -319,7 +319,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         ZEXION_SUMMON = builder.nextAccessor("biped/living/zexion_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -328,7 +328,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         SAIX_SUMMON = builder.nextAccessor("biped/living/saix_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -337,7 +337,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         AXEL_SUMMON = builder.nextAccessor("biped/living/axel_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -346,7 +346,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         DEMYX_SUMMON = builder.nextAccessor("biped/living/demyx_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -355,7 +355,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         LUXORD_SUMMON = builder.nextAccessor("biped/living/luxord_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -364,7 +364,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         MARLUXIA_SUMMON = builder.nextAccessor("biped/living/marluxia_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -373,7 +373,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         LARXENE_SUMMON = builder.nextAccessor("biped/living/larxene_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
@@ -382,7 +382,7 @@ public class KKAnimations {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
-                }, AnimationEvent.Side.CLIENT)));
+                }, AnimationEvent.Side.BOTH)));
         initSummonMap();
     }
 }
