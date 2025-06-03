@@ -5,6 +5,7 @@
 
 **Changed:**
 * KO system is now a mob effect, hopefully should be more stable than before.
+* KO effect will remove the lock on state.
 
 **Fixed:**
 * Gula boots crafting recipe
