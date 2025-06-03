@@ -886,7 +886,6 @@ public class EntityEvents {
 			} else if (event.getSource().getMsgId().equals(KKResistanceType.darkness.toString())) {
 				damage *= (100 - Utils.getArmorsStat(playerData, KKResistanceType.darkness.toString())) / 100F;
 			}
-			 //System.out.println(damage);
 
 			// Damage Control
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
@@ -898,17 +897,14 @@ public class EntityEvents {
 			if (playerData.isAbilityEquipped(Strings.protect)){
 				protectReduction = damage * 0.1F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectra)){
 				protectReduction = damage *  0.2F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 			if (playerData.isAbilityEquipped(Strings.protectga)){
 				protectReduction = damage *  0.4F;
 				damage -= protectReduction;
-				//System.out.println(damage);
 			}
 
 
@@ -939,7 +935,6 @@ public class EntityEvents {
 			if (defense > 0)
 				damage = (float) Math.round((damage * 100 / (300 + defense)));
 
-			IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 			if (event.getEntity().hasEffect(ModMobEffects.AERO.get())) {
 				MobEffectInstance aero = event.getEntity().getEffect(ModMobEffects.AERO.get());
 				float resistMultiplier = aero.getAmplifier() == 0 ? 0.3F : aero.getAmplifier() == 1 ? 0.35F : aero.getAmplifier() == 2 ? 0.4F : 0;
@@ -981,8 +976,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event) {
 		if (!event.getEntity().level().isClientSide) {
-			if (event.getSource().getEntity() instanceof LivingEntity) { // If attacker is a LivingEntity
-				LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
+			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
 				LivingEntity target = event.getEntity();
 
 				if (attacker instanceof Player && target instanceof Player) {

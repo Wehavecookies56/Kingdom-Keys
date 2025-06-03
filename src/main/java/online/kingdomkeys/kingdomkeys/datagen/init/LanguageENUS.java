@@ -8,6 +8,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -1822,10 +1823,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("keybladedamage.death", "%s was slain by %s");
 
         //Effects
-        add("effect.kingdomkeys.freeze", "Freeze");
-        add("effect.kingdomkeys.aero", "Aero");
-        add("effect.kingdomkeys.stop", "Stop");
-        add("effect.kingdomkeys.gravity", "Gravity");
 
+        addKKEffect(ModMobEffects.FREEZE, "Freeze", "Slows your movement down and eventually deals frostburn.");
+        addKKEffect(ModMobEffects.AERO, "Aero", "Casts a wind shield around you, higher versions also deal damage on contact.");
+        addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
+        addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
+        addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
     }
 }
