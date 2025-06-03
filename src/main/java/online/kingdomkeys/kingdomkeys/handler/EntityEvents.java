@@ -1007,24 +1007,26 @@ public class EntityEvents {
 				if (globalData != null && event.getSource().getEntity() instanceof Player) {
 					Player source = (Player) event.getSource().getEntity();
 					if (target.hasEffect(ModMobEffects.STOP.get())) {
-						float dmg = event.getAmount();
-						if (event.getSource().getEntity() instanceof Player) {
-							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
-							if (stack != null) {
-								if (stack.getItem() instanceof KeybladeItem) {
-									dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
-								} else if (stack.getItem() instanceof IOrgWeapon) {
-									dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
+						if (target.getEffect(ModMobEffects.STOP.get()).getDuration() > 0) {
+							float dmg = event.getAmount();
+							if (event.getSource().getEntity() instanceof Player) {
+								ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
+								if (stack != null) {
+									if (stack.getItem() instanceof KeybladeItem) {
+										dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
+									} else if (stack.getItem() instanceof IOrgWeapon) {
+										dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
+									}
+								}
+
+								if (dmg == 0) {
+									dmg = event.getAmount();
 								}
 							}
 
-							if (dmg == 0) {
-								dmg = event.getAmount();
-							}
+							globalData.addDamage(dmg);
+							event.setCanceled(true);
 						}
-
-						globalData.addDamage(dmg);
-						event.setCanceled(true);
 					}
 				}
 			}
