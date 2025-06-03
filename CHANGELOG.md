@@ -9,3 +9,6 @@
 **Fixed:**
 * Gula boots crafting recipe
 * Potential fix for players being stuck in glide pos if going into a drive form.
+* Command Menu target selector will now only show party members within range.
+* Wisdom form shots while in EFM.
+* Modern UI fix for level up message.

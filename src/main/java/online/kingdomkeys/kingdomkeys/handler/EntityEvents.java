@@ -1436,6 +1436,14 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
 			PacketHandler.syncToAllAround(targetPlayer, globalData2);
 		}
+
+		if(!localPlayer.level().isClientSide) {
+			localPlayer.level().getServer().getPlayerList().getPlayers().forEach(sPlayer -> {
+				localPlayer.getActiveEffects().forEach(mobEffectInstance -> {
+					sPlayer.connection.send(new ClientboundUpdateMobEffectPacket(localPlayer.getId(), mobEffectInstance));
+				});
+			});
+		}
 	}
 
 	@SubscribeEvent
@@ -1504,11 +1512,13 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void effectRemoved(MobEffectEvent.Remove event) {
-		Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
+		if(event.getEffectInstance() != null)
+			Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
 	}
 
 	@SubscribeEvent
 	public void effectExpired(MobEffectEvent.Expired event) {
-		Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
+		if(event.getEffectInstance() != null)
+			Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
 	}
 }
