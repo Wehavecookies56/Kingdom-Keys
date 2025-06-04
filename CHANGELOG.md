@@ -14,3 +14,4 @@
 * Potential fix for players being stuck in glide pos if going into a drive form.
 * Command Menu target selector will now only show party members within range.
 * Modern UI fix for level up message.
+* Possible StackOverflow crash regarding KO and Stop.
