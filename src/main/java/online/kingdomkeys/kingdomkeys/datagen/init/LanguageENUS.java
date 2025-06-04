@@ -1822,7 +1822,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
-
+        add("death.attack.stop", "%2$s stopped the life of %1$s");
+        add("death.attack.stop.item", "%2$s stopped the life of %1$s using %3$s");
 
         //Effects
         addKKEffect(ModMobEffects.FREEZE, "Freeze", "Slows your movement down and eventually deals frostburn.");
@@ -1830,5 +1831,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
+
     }
 }

@@ -232,6 +232,8 @@
   "block.kingdomkeys.writhing_ore_n": "Nether Writhing Ore",
   "container.magical_chest": "Magical Chest",
   "container.pedestal": "Pedestal",
+  "death.attack.stop": "%2$s stopped the life of %1$s",
+  "death.attack.stop.item": "%2$s stopped the life of %1$s using %3$s",
   "disc.duration.desc": "Duration",
   "disc.durationunits.desc": "(mins:secs)",
   "effect.kingdomkeys.aero": "Aero",

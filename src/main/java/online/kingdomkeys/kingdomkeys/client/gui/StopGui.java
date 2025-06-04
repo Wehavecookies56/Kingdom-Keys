@@ -40,4 +40,10 @@ public class StopGui extends Screen {
 
 		}
 	}
+
+	@Override
+	public void onClose() {
+		GLFW.glfwSetInputMode(minecraft.getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+		super.onClose();
+	}
 }

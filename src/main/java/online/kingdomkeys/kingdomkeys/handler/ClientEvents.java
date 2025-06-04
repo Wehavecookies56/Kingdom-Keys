@@ -59,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.flo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -444,6 +445,13 @@ public class ClientEvents {
 				colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
+		}
+	}
+
+	@SubscribeEvent
+	public void closeScreen(ScreenEvent.Closing event) {
+		if (event.getScreen() instanceof StopGui) {
+			GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
 		}
 	}
 
