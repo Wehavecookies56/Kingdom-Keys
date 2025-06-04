@@ -7,10 +7,10 @@
 * KO system is now a mob effect, hopefully should be more stable than before.
 * KO effect will remove the lock on state.
 * Black Fungus will now have more defense.
+* Wisdom form can no longer use quick run while airborne.
 
 **Fixed:**
 * Gula boots crafting recipe
 * Potential fix for players being stuck in glide pos if going into a drive form.
 * Command Menu target selector will now only show party members within range.
 * Modern UI fix for level up message.
-* Wisdom form can no longer use quick run while airborne.
