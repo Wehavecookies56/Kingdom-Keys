@@ -304,10 +304,6 @@ public class InputHandler {
         // Wisdom Form
         if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
             power = Constants.WISDOM_QR[wisdomLevel];
-            if (!player.onGround()) {
-                player.push(motionX * power / 2, 0, motionZ * power / 2);
-                qrCooldown = 20;
-            }
         } else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
             if (wisdomLevel > 2) {
                 power = Constants.WISDOM_QR[wisdomLevel - 2];

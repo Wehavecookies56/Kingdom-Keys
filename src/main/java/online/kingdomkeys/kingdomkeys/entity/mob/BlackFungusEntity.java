@@ -67,4 +67,8 @@ public class BlackFungusEntity extends BaseKHEntity {
         return EntityHelper.MobType.HEARTLESS_EMBLEM;
     }
 
+    @Override
+    public int getDefense() {
+        return 100;
+    }
 }
