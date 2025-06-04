@@ -50,7 +50,6 @@ public class MagicStop extends Magic {
 		GlobalData casterGlobalData = GlobalData.get(caster);
 		if(casterGlobalData != null) {
 			casterGlobalData.setStopModelTicks(10);
-			KingdomKeys.LOGGER.debug(caster.getId());
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
 
@@ -62,7 +61,7 @@ public class MagicStop extends Magic {
                         ((Mob) e).setNoAi(true);
                     }
                     livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + level * 20 * dmg), level, false, false, false)); // Stop
-                    globalData.setStopCaster(player.getDisplayName().getString());
+                    globalData.setStopCaster(caster.getDisplayName().getString());
                     if (e instanceof ServerPlayer serverPlayer)
                         PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
                 }

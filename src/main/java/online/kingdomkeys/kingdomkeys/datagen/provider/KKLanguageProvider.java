@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
+import net.minecraft.core.Holder;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -97,6 +99,11 @@ public abstract class KKLanguageProvider extends LanguageProvider {
     public void addAdvancement(String key, String name, String desc) {
         add("advancements.kingdomkeys."+key, name);
         add("advancements.kingdomkeys."+key+".desc", desc);
+    }
+
+    public void addKKEffect(Holder<MobEffect> key, String name, String desc) {
+        add(key.value(), name);
+        add(key.value().getDescriptionId()+".desc", desc);
     }
 
 }

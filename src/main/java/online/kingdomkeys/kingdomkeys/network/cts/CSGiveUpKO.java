@@ -24,13 +24,6 @@ public record CSGiveUpKO() implements Packet {
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        GlobalData globalData = GlobalData.get(player);
-
-        killPlayer(player);
-        if(globalData != null){
-            globalData.setKO(false);
-            PacketHandler.syncToAllAround(player,globalData);
-        }
         killPlayer(player);
     }
 

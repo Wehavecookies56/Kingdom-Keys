@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -73,7 +74,7 @@ public class LockOnGui extends OverlayBase {
 			if (target == null) {
 				missingHpBarWidth = 0;
             } else {
-				if(player.distanceTo(target) > 35){
+				if(player.distanceTo(target) > 35 || player.hasEffect(ModMobEffects.KO)){
 					InputHandler.lockOn = null;
 					return;
 				}

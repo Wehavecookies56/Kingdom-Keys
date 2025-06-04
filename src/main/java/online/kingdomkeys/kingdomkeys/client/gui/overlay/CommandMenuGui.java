@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -438,7 +439,13 @@ public class CommandMenuGui extends OverlayBase {
 					item -> subMenu.getParent().getSelected().onEnter()
 			).build(subMenu));
 			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
-			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).forEach(member -> {
+			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).filter(member -> {
+				if(minecraft.player.level().getPlayerByUUID(member.getUUID()) == null)
+					return false;
+
+				Player playerAlly = minecraft.player.level().getPlayerByUUID(member.getUUID());
+				return minecraft.player.distanceTo(playerAlly) <= ModConfigs.SERVER.partyRangeLimit.get();
+			}).forEach(member -> {
 				subMenu.addChild(new CommandMenuItem.Builder(
 						ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, member.getUsername().toLowerCase()),
 						Component.translatable(member.getUsername()),

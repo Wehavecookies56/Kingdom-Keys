@@ -27,8 +27,7 @@ public class ShopListRegistry {
     public void register(ShopList shopList) {
         if (shopList.getRegistryName() != null) {
             registry.put(shopList.getRegistryName(), shopList);
-            if (ModConfigs.debugConsoleOutput)
-                KingdomKeys.LOGGER.info("Successfully registered Shop list {}", shopList.getRegistryName());
+            KingdomKeys.LOGGER.debug("Successfully registered Shop list {}", shopList.getRegistryName());
         } else {
             KingdomKeys.LOGGER.error("Cannot register Shop list with no registry name");
         }

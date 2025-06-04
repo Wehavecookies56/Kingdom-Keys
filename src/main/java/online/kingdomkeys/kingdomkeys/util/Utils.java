@@ -14,16 +14,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -53,11 +57,13 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -70,6 +76,8 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -1135,8 +1143,7 @@ public class Utils {
 				return false;
 			}
 		}
-		GlobalData globalData = GlobalData.get(player);
-        return globalData == null || !globalData.isKO();
+        return !player.hasEffect(ModMobEffects.KO);
     }
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
@@ -1144,11 +1151,7 @@ public class Utils {
 	}
 
 	public static void reviveFromKO(LivingEntity entity) {
-		GlobalData globalData = GlobalData.get(entity);
-		globalData.setKO(false);
-		if (entity instanceof Player player)
-			PacketHandler.syncToAllAround(player, globalData);
-
+		entity.removeEffect(ModMobEffects.KO);
 	}
 
 	public static int getRandomMobLevel(Player player) {
@@ -1442,6 +1445,42 @@ public class Utils {
 
 	public static List<DriveForm> getVisibleDriveForms(Player player) {
 		return ModDriveForms.registry.stream().filter(driveForm -> driveForm.displayInCommandMenu(player)).toList();
+	}
+
+	public static void removeEffects(Holder<MobEffect> effect, LivingEntity entity) {
+		if(effect == ModMobEffects.GRAVITY) {
+			if (entity instanceof ServerPlayer player) {
+				PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
+				if (player.getForcedPose() != null && !PlayerData.get(player).getIsGliding()) {
+					player.setForcedPose(null);
+				}
+			}
+		}
+
+		if(effect == ModMobEffects.STOP){
+			GlobalData globalData = GlobalData.get(entity);
+			if (entity instanceof Mob) {
+				((Mob) entity).setNoAi(false);
+			}
+
+			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
+				entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
+			}
+
+			if (entity instanceof ServerPlayer)
+				PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
+			globalData.setStopDamage(0);
+			globalData.setStopCaster(null);
+		}
+
+		if(entity.level().isClientSide)
+			return;
+
+		if(effect != null) {
+			entity.level().getServer().getPlayerList().getPlayers().forEach(player -> {
+				player.connection.send(new ClientboundRemoveMobEffectPacket(entity.getId(), effect));
+			});
+		}
 	}
 
 }

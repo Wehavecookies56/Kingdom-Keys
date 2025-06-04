@@ -114,12 +114,12 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
-		if (event.getEntity() instanceof LivingEntity) {
+		if (event.getEntity() instanceof LivingEntity livingEntity) {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
 
 				//globalData.setKO(true);
-				if (globalData.isKO()) {
+				if(livingEntity.hasEffect(ModMobEffects.KO)) {
 					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 						if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
@@ -130,7 +130,7 @@ public class ClientEvents {
 				}
 				if (event.getEntity() instanceof Player player) {
 					if (player.hasEffect(ModMobEffects.STOP)) {
-						if(event.getEntity().level().isClientSide) {
+						if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
 							if(Minecraft.getInstance().screen == null)
 								Minecraft.getInstance().setScreen(new StopGui());
 						}
@@ -155,12 +155,9 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post<Player, ? extends PlayerModel<Player>> event) { //Hide the player shadow when KO'd
-		GlobalData globalData = GlobalData.get(event.getEntity());
-		if(globalData != null) {
-			if(globalData.isKO()) {
-				event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
-				event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
-			}
+		if(event.getEntity().hasEffect(ModMobEffects.KO)) {
+			event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
+			event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
 		}
 	}
 
@@ -181,23 +178,20 @@ public class ClientEvents {
 
 			if(event.getEntity() instanceof Player player) {
 				PlayerData playerData = PlayerData.get(player);
-				GlobalData globalData = GlobalData.get(player);
-				if(globalData != null) {
-					if(globalData.isKO()) {
-						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
-						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-							event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-							float MAX = 100;
-					        double pos = player.tickCount % MAX / (MAX /2D);
+				if(player.hasEffect(ModMobEffects.KO)) {
+					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
+						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
+						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
+						float MAX = 100;
+						double pos = player.tickCount % MAX / (MAX /2D);
 
-							if (player.tickCount % MAX < (MAX / 2)) {
-								event.getPoseStack().translate(0, 0, pos * 0.3);
-							} else {
-								event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-							}
-							event.getPoseStack().translate(0, -1, 0.8);
+						if (player.tickCount % MAX < (MAX / 2)) {
+							event.getPoseStack().translate(0, 0, pos * 0.3);
+						} else {
+							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
 						}
+						event.getPoseStack().translate(0, -1, 0.8);
 					}
 				}
 				

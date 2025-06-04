@@ -12,6 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -39,11 +40,10 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-		GlobalData globalData = GlobalData.get(player);
-		if(playerData == null || globalData == null)
+		if(playerData == null)
 			return;
 
-		if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !globalData.isKO()) {
+		if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !player.hasEffect(ModMobEffects.KO)) {
 			if (playerData.getShortcutsMap().containsKey(index)) {
 				String[] data = playerData.getShortcutsMap().get(index).split(",");
 				String magicName = data[0];

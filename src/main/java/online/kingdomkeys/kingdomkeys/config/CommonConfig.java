@@ -24,7 +24,6 @@ public class CommonConfig {
     public ModConfigSpec.BooleanValue mobLevelingUp;
     public ModConfigSpec.BooleanValue mobLevelName;
 
-    public ModConfigSpec.BooleanValue debugConsoleOutput;
     public ModConfigSpec.BooleanValue bombExplodeWithFire;
     public ModConfigSpec.BooleanValue keybladeOpenDoors;
 
@@ -56,11 +55,6 @@ public class CommonConfig {
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
-
-        debugConsoleOutput = builder
-                .comment("Enable debug console output")
-                .translation(KingdomKeys.MODID + ".config.debug")
-                .define("debugConsoleOutput", false);
 
         bombExplodeWithFire = builder
                 .comment("Allow Bomb heartless to explode when lit on fire")

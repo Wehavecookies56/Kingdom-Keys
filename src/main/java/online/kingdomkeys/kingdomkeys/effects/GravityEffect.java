@@ -26,12 +26,6 @@ public class GravityEffect extends MobEffect {
     }
 
     @Override
-    public void onEffectStarted(LivingEntity livingEntity, int amplifier) {
-        super.onEffectStarted(livingEntity, amplifier);
-    }
-
-
-    @Override
     public boolean shouldApplyEffectTickThisTick(int pDuration, int pAmplifier) {
         return true;
     }

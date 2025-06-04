@@ -50,7 +50,6 @@ public class StopLayerRenderer<T extends LivingEntity, M extends PlayerModel<T>>
 
 	private void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		GlobalData globalData = GlobalData.getClient(entitylivingbaseIn);
-		KingdomKeys.LOGGER.debug(entitylivingbaseIn.getId());
 		if (globalData != null) {
 			if (globalData.getStopModelTicks() > 0) {
 				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));

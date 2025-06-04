@@ -25,6 +25,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
@@ -48,25 +49,22 @@ public class HeartLayerRenderer<T extends LivingEntity> extends RenderLayer<T, P
 	}
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (GlobalData.get(entitylivingbaseIn) != null) {
-			GlobalData globalData = GlobalData.get(entitylivingbaseIn);
-			if (globalData.isKO()) {
-				VertexConsumer buffer =
-						bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+		if (entitylivingbaseIn.hasEffect(ModMobEffects.KO)) {
+			VertexConsumer buffer =
+					bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
 
-				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-				BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
-				matrixStackIn.scale(0.005F, 0.005F, 0.005F);
-				matrixStackIn.translate(0, 40, -150);
-				matrixStackIn.mulPose(Axis.XN.rotationDegrees(90));
-				matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
+			VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+			matrixStackIn.scale(0.005F, 0.005F, 0.005F);
+			matrixStackIn.translate(0, 40, -150);
+			matrixStackIn.mulPose(Axis.XN.rotationDegrees(90));
+			matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
 
 
-				for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) {
-					buffer.putBulkData(matrixStackIn.last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
-				}
-
+			for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) {
+				buffer.putBulkData(matrixStackIn.last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 			}
+
 		}
 	}
 }

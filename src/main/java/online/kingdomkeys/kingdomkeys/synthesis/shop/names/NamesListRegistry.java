@@ -27,8 +27,7 @@ public class NamesListRegistry {
     public void register(ResourceLocation registryName, List<String> names) {
         if (registryName != null) {
             registry.put(registryName, names);
-            if (ModConfigs.debugConsoleOutput)
-                KingdomKeys.LOGGER.info("Successfully registered Moogle names {}", registryName);
+            KingdomKeys.LOGGER.debug("Successfully registered Moogle names {}", registryName);
         } else {
             KingdomKeys.LOGGER.error("Cannot register Moogle names with no registry name");
         }

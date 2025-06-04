@@ -23,7 +23,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 	public static GlobalData getClient(LivingEntity entity) {
-		KingdomKeys.LOGGER.debug(mobDataClientCache.get(5));
 		return mobDataClientCache.get(entity.getId());
 	}
 
@@ -41,7 +40,10 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 		storage.putFloat("stop_dmg", this.getStopDamage());
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
-		storage.putBoolean("is_ko", isKO);
+		if (this.getStopCaster() != null) {
+			storage.putString("stop_caster", this.getStopCaster());
+		}
+		storage.putInt("stop_model_ticks", this.getStopModelTicks());
 		return storage;
 	}
 
@@ -50,13 +52,16 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 		this.setStopDamage(nbt.getFloat("stop_dmg"));
 		this.setCastleOblivionMarker(nbt.getBoolean("castle_oblivion_marker"));
 		this.setLevel(nbt.getInt("level"));
-		this.setKO(nbt.getBoolean("is_ko"));
+		if (nbt.contains("stop_caster")) {
+			this.setStopCaster(nbt.getString("stop_caster"));
+		}
+		this.setStopModelTicks(nbt.getInt("stop_model_ticks"));
 	}
 
 	private int level, stopModelTicks;
 	float stopDmg;
 	private String stopCaster;
-	private boolean castleOblivionMarker, isKO;
+	private boolean castleOblivionMarker;
 
 	public void setLevel(int lvl) {
 		this.level = lvl;
@@ -110,15 +115,5 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	public void setStopModelTicks(int ticks) {
 		this.stopModelTicks = ticks;		
-	}
-
-
-	public boolean isKO() {
-		return isKO;
-	}
-
-
-	public void setKO(boolean ko) {
-		this.isKO = ko;
 	}
 }

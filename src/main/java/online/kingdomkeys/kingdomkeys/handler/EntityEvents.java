@@ -645,23 +645,6 @@ public class EntityEvents {
 			}
 
 			if (globalData != null) {
-				//t's time for the challenge
-				// globalData.setKO(true);
-				if (globalData.isKO()) {
-					if (entity.tickCount % 20 == 0) {
-						if (entity.getHealth() - 1 <= 0) {
-							entity.kill();
-							globalData.setKO(false);
-							PacketHandler.syncToAllAround(entity, globalData);
-						} else {
-							entity.setHealth(entity.getHealth() - 1);
-						}
-					}
-					entity.setYRot(0);
-					entity.setYBodyRot(0);
-					entity.setXRot(0);
-				}
-
 				if (globalData.getStopModelTicks() > 0) {
 					globalData.setStopModelTicks(globalData.getStopModelTicks() - 1);
 					if (globalData.getStopModelTicks() <= 0) {
@@ -965,7 +948,7 @@ public class EntityEvents {
 						Party p = worldData.getPartyFromMember(player.getUUID());
 						if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
 							if (ModConfigs.SERVER.allowPartyKO.get()) {
-								if (!globalData.isKO() && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
+								if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
 									event.setCanceled(true);
 									player.removeAllEffects();
 									player.setHealth(player.getMaxHealth());
@@ -973,12 +956,13 @@ public class EntityEvents {
 									player.getFoodData().setFoodLevel(10);
 									player.getFoodData().setExhaustion(0);
 									player.getFoodData().setSaturation(0);
-									globalData.setKO(true);
+									MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+									player.addEffect(koInstance);
 									player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
 								}
 								PacketHandler.syncToAllAround(player, globalData);
 							} else { //If config does not allow prevent KO from being applied
-								globalData.setKO(false);
+								player.removeEffect(ModMobEffects.KO);
 							}
 						}
 					}
@@ -1008,24 +992,26 @@ public class EntityEvents {
 				GlobalData globalData = GlobalData.get(target);
 				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
 					if (target.hasEffect(ModMobEffects.STOP)) {
-						float dmg = event.getAmount();
-						if (event.getSource().getEntity() instanceof Player) {
-							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
-							if (stack != null) {
-								if (stack.getItem() instanceof KeybladeItem) {
-									dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
-								} else if (stack.getItem() instanceof IOrgWeapon) {
-									dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
+						if (target.getEffect(ModMobEffects.STOP).getDuration() > 0) {
+							float dmg = event.getAmount();
+							if (event.getSource().getEntity() instanceof Player) {
+								ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
+								if (stack != null) {
+									if (stack.getItem() instanceof KeybladeItem) {
+										dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
+									} else if (stack.getItem() instanceof IOrgWeapon) {
+										dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
+									}
+								}
+
+								if (dmg == 0) {
+									dmg = event.getAmount();
 								}
 							}
 
-							if (dmg == 0) {
-								dmg = event.getAmount();
-							}
+							globalData.addDamage(dmg);
+							event.setCanceled(true);
 						}
-
-						globalData.addDamage(dmg);
-						event.setCanceled(true);
 					}
 				}
 			}
@@ -1361,6 +1347,14 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
 			PacketHandler.syncToAllAround(targetPlayer, globalData2);
 		}
+
+		if(!localPlayer.level().isClientSide) {
+			localPlayer.level().getServer().getPlayerList().getPlayers().forEach(sPlayer -> {
+				localPlayer.getActiveEffects().forEach(mobEffectInstance -> {
+					sPlayer.connection.send(new ClientboundUpdateMobEffectPacket(localPlayer.getId(), mobEffectInstance, false));
+				});
+			});
+		}
 	}
 
 	@SubscribeEvent
@@ -1419,46 +1413,27 @@ public class EntityEvents {
 		}
 	}
 
-	public void removeEffect(MobEffectEvent event) {
-		LivingEntity ent = event.getEntity();
-		if(event.getEffectInstance().getEffect() == ModMobEffects.GRAVITY){
-			if (ent instanceof ServerPlayer player) {
-				PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
-			}
+	@SubscribeEvent
+	public void effectAdded(MobEffectEvent.Added event) {
+		if(event.getEntity().level().isClientSide)
+			return;
 
-			if (ent instanceof Player pl) {
-				if (pl.getForcedPose() != null && !PlayerData.get(pl).getIsGliding()) {
-					pl.setForcedPose(null);
-				}
-			}
-			ent.level().getServer().getPlayerList().getPlayers().forEach(player -> {
-				player.connection.send(new ClientboundRemoveMobEffectPacket(ent.getId(), ModMobEffects.GRAVITY));
-			});
-		} else if(event.getEffectInstance().getEffect() == ModMobEffects.STOP) {
-			GlobalData globalData = GlobalData.get(ent);
-			if (ent instanceof Mob) {
-				((Mob) ent).setNoAi(false);
-			}
-			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
-				ent.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(ent.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
-			}
-
-			if (ent instanceof ServerPlayer)
-				PacketHandler.sendTo(new SCSyncGlobalData(ent), (ServerPlayer) ent);
-
-			globalData.setStopDamage(0);
-			globalData.setStopCaster(null);
-		}
+		event.getEntity().level().getServer().getPlayerList().getPlayers().forEach(sPlayer -> {
+			sPlayer.connection.send(new ClientboundUpdateMobEffectPacket(event.getEntity().getId(), event.getEffectInstance(), false));
+		});
 
 	}
 
 	@SubscribeEvent
 	public void MobEffectRemove(MobEffectEvent.Remove event) {
-		removeEffect(event);
+		Utils.removeEffects(event.getEffect(), event.getEntity());
 	}
 
 	@SubscribeEvent
 	public void MobEffectExpire(MobEffectEvent.Expired event){
-		removeEffect(event);
+		if (event.getEffectInstance() != null) {
+			Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
+		}
+
 	}
 }

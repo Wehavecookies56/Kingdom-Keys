@@ -27,8 +27,7 @@ public class RecipeRegistry {
     public void register(Recipe recipe) {
         if (recipe.getRegistryName() != null) {
             registry.put(recipe.getRegistryName(), recipe);
-            if (ModConfigs.debugConsoleOutput)
-                KingdomKeys.LOGGER.info("Successfully registered synthesis recipe {}", recipe.getRegistryName());
+            KingdomKeys.LOGGER.debug("Successfully registered synthesis recipe {}", recipe.getRegistryName());
         } else {
             KingdomKeys.LOGGER.error("Cannot register Synthesis Recipe with no registry name");
         }
