@@ -118,7 +118,6 @@ public class ClientEvents {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
 
-				//globalData.setKO(true);
 				if(livingEntity.hasEffect(ModMobEffects.KO)) {
 					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 						if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)

@@ -127,8 +127,9 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 				minecraft.setScreen(new GuiMenu_Party_Member());
 				return;
 			}
-			
-			invite.active = party.getMembers().size() < party.getSize();
+
+			if(invite != null)
+				invite.active = party.getMembers().size() < party.getSize();
 			matrixStack.pushPose();
 			{
 				matrixStack.scale(1.5F,1.5F, 1);
