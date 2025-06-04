@@ -1426,7 +1426,9 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void MobEffectRemove(MobEffectEvent.Remove event) {
-		Utils.removeEffects(event.getEffect(), event.getEntity());
+		if (event.getEffectInstance() != null) {
+			Utils.removeEffects(event.getEffect(), event.getEntity());
+		}
 	}
 
 	@SubscribeEvent

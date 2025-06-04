@@ -108,6 +108,10 @@ public class ClientPacketHandler {
     public static void recalcEyeHeight() {
         Player player = Minecraft.getInstance().player;
         player.refreshDimensions();
+
+        if (player.getForcedPose() != null && !PlayerData.get(player).getIsGliding()) {
+            player.setForcedPose(null);
+        }
     }
 
     public static void aeroSoundInstance(int entID) {

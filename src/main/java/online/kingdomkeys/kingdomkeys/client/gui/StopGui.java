@@ -34,7 +34,7 @@ public class StopGui extends Screen {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
 		if(minecraft.player != null) {
-			if(minecraft.player.hasEffect(ModMobEffects.STOP)) {
+			if(!minecraft.player.hasEffect(ModMobEffects.STOP)) {
 				onClose();
 			}
 

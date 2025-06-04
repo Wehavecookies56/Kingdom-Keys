@@ -1448,7 +1448,7 @@ public class Utils {
 	}
 
 	public static void removeEffects(Holder<MobEffect> effect, LivingEntity entity) {
-		if(effect == ModMobEffects.GRAVITY) {
+		if(effect.is(ModMobEffects.GRAVITY)) {
 			if (entity instanceof ServerPlayer player) {
 				PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
 				if (player.getForcedPose() != null && !PlayerData.get(player).getIsGliding()) {
@@ -1457,7 +1457,7 @@ public class Utils {
 			}
 		}
 
-		if(effect == ModMobEffects.STOP){
+		if(effect.is(ModMobEffects.STOP)){
 			GlobalData globalData = GlobalData.get(entity);
 			if (entity instanceof Mob) {
 				((Mob) entity).setNoAi(false);
