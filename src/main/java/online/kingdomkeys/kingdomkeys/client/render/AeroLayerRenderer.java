@@ -25,6 +25,8 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
+import java.awt.*;
+
 @OnlyIn(Dist.CLIENT)
 public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, PlayerModel<T>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/trident_riptide.png");
@@ -97,7 +99,11 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 						break;
 
 					}
-					this.box.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY);
+					float[] color = new float[]{1F,1F,1F};
+					if(entitylivingbaseIn.hurtTime > 0)
+						color =  new float[]{0.4F,1F,1F};
+
+					this.box.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color[0],color[1],color[2],1F);
 					matrixStackIn.popPose();
 				}
 			}

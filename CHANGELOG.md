@@ -2,6 +2,8 @@
 * Tags for each ore: "c:ores/blazing" etc.
 * Blizzard freeze effect, duration is longer for higher level magic and will stack duration for every hit
 * Aero, Gravity and Stop now work with mob effects.
+* Aero visual indicator when getting hit.
+* Death messages when killing players using magic.
 
 **Changed:**
 * KO system is now a mob effect, hopefully should be more stable than before.
@@ -15,3 +17,4 @@
 * Wisdom form shots while in EFM.
 * Modern UI fix for level up message.
 * Possible StackOverflow crash regarding KO and Stop.
+* Aero damage being ridiculously high.
