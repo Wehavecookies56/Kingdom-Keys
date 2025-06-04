@@ -55,7 +55,8 @@
 	"itemGroup.kingdomkeys_org_weapons": "Kingdom Keys: Organización",
 
 	"_comment": "DeathMessages",
-	"keybladedamage.death": "%s ha sido víctima de %s",
+	"death.attack.stop": "%2$s detuvo la vida de %1$s",
+	"death.attack.stop.item": "%2$s detuvo la vida de %1$s usando %3$s",
 
 	"_comment": "Container",
 	"container.magical_chest": "Cofre Mágico", 

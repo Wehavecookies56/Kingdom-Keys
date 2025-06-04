@@ -2,6 +2,7 @@
 * Tags for each ore: "c:ores/blazing" etc.
 * Blizzard freeze effect, duration is longer for higher level magic and will stack duration for every hit
 * Aero, Gravity and Stop now work with mob effects.
+* Aero visual indicator when getting hit.
 
 **Changed:**
 * KO system is now a mob effect, hopefully should be more stable than before.
@@ -15,3 +16,5 @@
 * Command Menu target selector will now only show party members within range.
 * Modern UI fix for level up message.
 * Possible StackOverflow crash regarding KO and Stop.
+* Aero damage being ridiculously high.
+* Keyblade damage dealt to other players.

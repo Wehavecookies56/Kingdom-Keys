@@ -787,7 +787,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
 		if (event.getSource().getEntity() instanceof Player player) {
-			
+
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if (weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -801,7 +801,7 @@ public class EntityEvents {
 					dmg *= ModConfigs.critMult;
 					dmg += dmg * PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
 				}
-				float newDMG = (event.getOriginalDamage() - 1) + dmg * player.getAttackStrengthScale(0);
+				float newDMG = (event.getNewDamage() - 1) + dmg * player.getAttackStrengthScale(0);
 				event.setNewDamage(newDMG);
 			}
 
@@ -813,17 +813,18 @@ public class EntityEvents {
 
 		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
+
 			if(playerData == null)
 				return;
 
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
 				if (playerData.isAbilityEquipped(Strings.mpRage)) {
-					playerData.addMP((event.getOriginalDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
+					playerData.addMP((event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 
 				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-					playerData.addDP((event.getOriginalDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
+					playerData.addDP((event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
@@ -832,9 +833,8 @@ public class EntityEvents {
 		// This is outside as it should apply the formula if you have been hit by non player too
 		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
-			GlobalData globalData = GlobalData.get(player);
 
-			float damage = event.getOriginalDamage() * 100 / (100 + playerData.getDefense(true));
+			float damage = event.getNewDamage() * 100 / (100 + playerData.getDefense(true));
 			if (player.hasEffect(ModMobEffects.AERO)) {
 				MobEffectInstance aero = player.getEffect(ModMobEffects.AERO);
 
@@ -920,7 +920,7 @@ public class EntityEvents {
 				}
 
 				if (mar.getState() == 1) { // If marly is armored
-					damage = event.getOriginalDamage() * 0.1F;
+					damage = event.getNewDamage() * 0.1F;
 					if (event.getSource().is(KKDamageTypes.FIRE)) {
 						mar.marluxiaGoal.removeArmor(mar);
 					}
