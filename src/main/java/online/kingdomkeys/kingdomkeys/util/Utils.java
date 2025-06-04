@@ -1463,7 +1463,7 @@ public class Utils {
 				((Mob) entity).setNoAi(false);
 			}
 
-			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null) {
+			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO)) {
 				entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
 			}
 
