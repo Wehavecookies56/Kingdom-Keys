@@ -14,3 +14,4 @@
 * Command Menu target selector will now only show party members within range.
 * Wisdom form shots while in EFM.
 * Modern UI fix for level up message.
+* Possible StackOverflow crash regarding KO and Stop.
