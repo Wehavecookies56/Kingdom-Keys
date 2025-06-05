@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -131,7 +132,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
-					InventoryScreen.renderEntityInInventoryFollowsMouse(gui, (int) playerPosX, (int) playerPosY, 0, 0, (int) playerHeight / 2, 0, 0,0, this.minecraft.player);
+					ClientUtils.renderPlayerNoAnims(gui.pose(), (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}

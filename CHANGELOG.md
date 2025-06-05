@@ -19,3 +19,4 @@
 * Aero damage being ridiculously high.
 * Keyblade damage dealt to other players.
 * Magic Reaction Commands not working.
+* Players rendering in party menu
