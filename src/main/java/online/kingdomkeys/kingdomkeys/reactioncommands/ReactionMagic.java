@@ -39,7 +39,7 @@ public class ReactionMagic extends ReactionCommand {
 			level = mag.getMaxLevel()+1;
 		}
 		
-        return "magic." + magic.getPath() + level+".name";
+        return "magic." + magic.getNamespace() + "." + magic.getPath() + level+".name";
 	}
 
 	

@@ -22,7 +22,7 @@ public abstract class ReactionCommand {
 		this.name = registryName;
 		//this.max = max;
 		this.constantCheck = constantCheck;
-		translationKey = "reactioncommand." + registryName.getPath() + ".name";
+		translationKey = "reactioncommand." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
 	}
 
 	public ReactionCommand(String registryName, boolean constantCheck) {
