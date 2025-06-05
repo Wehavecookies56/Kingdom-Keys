@@ -1821,6 +1821,22 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
+        add("death.attack.offhand", "%1$s was slain by %2$s");
+        add("death.attack.offhand.item", "%1$s was slain by %2$s using %3$s");
+        add("death.attack.air", "%1$s was blown away %2$s");
+        add("death.attack.air.item", "%1$s was blown away %2$s using %3$s");
+        add("death.attack.darkness", "%2$s lead %1$s into everlasting darkness");
+        add("death.attack.darkness.item", "%2$s lead %1$s into everlasting darkness using %3$s");
+        add("death.attack.lightning", "%2$s struck down %1$s, shocking!");
+        add("death.attack.lightning.item", "%2$s struck down %1$s using %3$s, shocking!");
+        add("death.attack.light", "%2$s taught %1$s that Kingdom Hearts is light");
+        add("death.attack.light.item", "%2$s taught %1$s that Kingdom Hearts is light using %3$s");
+        add("death.attack.ice", "%1$s was frozen by %2$s");
+        add("death.attack.ice.item", "%1$s was frozen by %2$s using %3$s");
+        add("death.attack.fire", "%1$s felt the heat from %2$s");
+        add("death.attack.fire.item", "%1$s felt the heat from %2$s using %3$s");
+        add("death.attack.water", "%1$s tried to dance with water from %2$s");
+        add("death.attack.water.item", "%1$s tried to dance with water from %2$s using %3$s");
 
         //Effects
 
