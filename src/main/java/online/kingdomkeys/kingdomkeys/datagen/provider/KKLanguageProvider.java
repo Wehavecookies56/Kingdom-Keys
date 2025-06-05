@@ -102,7 +102,7 @@ public abstract class KKLanguageProvider extends LanguageProvider {
 
     public void addKKEffect(Supplier<? extends MobEffect> key, String name, String desc) {
         addEffect(key, name);
-        add(key.get()+".desc", desc);
+        add(key.get().getDescriptionId()+".desc", desc);
     }
 
 }

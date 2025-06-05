@@ -705,11 +705,13 @@ public class EntityEvents {
 						break;
 					}
 					List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-					Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
+					if (ModCapabilities.getWorld(player.level()) != null) {
+						Party casterParty = ModCapabilities.getWorld(player.level()).getPartyFromMember(player.getUUID());
 
-					if (casterParty != null && !casterParty.getFriendlyFire()) {
-						for (Member m : casterParty.getMembers()) {
-							list.remove(player.level().getPlayerByUUID(m.getUUID()));
+						if (casterParty != null && !casterParty.getFriendlyFire()) {
+							for (Member m : casterParty.getMembers()) {
+								list.remove(player.level().getPlayerByUUID(m.getUUID()));
+							}
 						}
 					}
 
