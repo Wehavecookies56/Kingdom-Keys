@@ -1,0 +1,13 @@
+{
+	"type": "forge:add_spawns",
+	"biomes": "#kingdomkeys:end_outer",
+	"spawners":
+	[
+		{
+			"type": "kingdomkeys:spawning_orb",
+			"weight": 200,
+			"minCount": 1,
+			"maxCount": 5
+		}
+	]
+}
