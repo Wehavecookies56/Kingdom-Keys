@@ -1314,6 +1314,7 @@ public class Utils {
 			if (Utils.hasKeybladeID(heldStack)) {
 				if (heldStack.has(ModComponents.KEYBLADE_ID) && heldStack.get(ModComponents.KEYBLADE_ID).equals(chain.get(ModComponents.KEYBLADE_ID))) { //Keyblade user
 					chain.set(ModComponents.KEYBLADE_ID, heldStack.get(ModComponents.KEYBLADE_ID));
+					chain.applyComponents(heldStack.getComponents()); //Set enchantments from keyblade to keychain
 					if (useOrg) {
 						Set<ItemStack> weapons = playerData.getWeaponsUnlocked();
 						for(ItemStack weapon : weapons) {

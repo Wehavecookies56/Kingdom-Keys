@@ -1,22 +1,10 @@
 **Added:**
-* Tags for each ore: "c:ores/blazing" etc.
-* Blizzard freeze effect, duration is longer for higher level magic and will stack duration for every hit
-* Aero, Gravity and Stop now work with mob effects.
-* Aero visual indicator when getting hit.
 
 **Changed:**
-* KO system is now a mob effect, hopefully should be more stable than before.
-* KO effect will remove the lock on state.
-* Black Fungus will now have more defense.
-* Wisdom form can no longer use quick run while airborne.
+* Glide is now responsive when turning (finally T.T).
+* Heartless and Nobody spawns in the end:
+  * They are less frequent in the main island while they keep being frequent in the outer islands.
 
 **Fixed:**
-* Gula boots crafting recipe
-* Potential fix for players being stuck in glide pos if going into a drive form.
-* Command Menu target selector will now only show party members within range.
-* Modern UI fix for level up message.
-* Possible StackOverflow crash regarding KO and Stop.
-* Aero damage being ridiculously high.
-* Keyblade damage dealt to other players.
-* Magic Reaction Commands not working.
-* Players rendering in party menu
+* Music discs not having the duration nor the track name in the tooltip.
+* Enchanting a keyblade not passing the enchantments onto the keychain (resulted in losing them).
