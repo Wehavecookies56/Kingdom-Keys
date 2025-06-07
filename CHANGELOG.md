@@ -1,5 +1,3 @@
-**Added:**
-
 **Changed:**
 * Glide is now responsive when turning (finally T.T).
 * Heartless and Nobody spawns in the end:
