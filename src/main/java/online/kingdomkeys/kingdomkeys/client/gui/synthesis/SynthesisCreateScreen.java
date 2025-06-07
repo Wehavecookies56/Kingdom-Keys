@@ -258,67 +258,38 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
 			String ability = "";
-			int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
 				desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
-				str= kb.getStrength(0);
-				mag = kb.getMagic(0);
-
 			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
 				ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().get(0) : null;
-				str = accessory.getStr();
-				mag = accessory.getMag();
-				ap = accessory.getAp();
-			} else if(selectedItemStack.getItem() instanceof KKArmorItem armor) {
-				def = armor.getDefense();
-				for (Map.Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
-					switch (resistanceType.getKey()) {
-						case fire -> fireRes = resistanceType.getValue();
-						case ice -> iceRes = resistanceType.getValue();
-						case lightning -> thunderRes = resistanceType.getValue();
-						case light -> lightRes = resistanceType.getValue();
-						case darkness -> darkRes = resistanceType.getValue();
-					}
-				}
 			}
-
 
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
+				List<Component> stats = Utils.getResistancesStats(selectedItemStack);
 
-				int offset = -15;
+				float scale = stats.size() > 4 ? 1F-(stats.size()-4)*0.25F: 1F;
+				matrixStack.scale(scale, scale, scale);
 
-				if(ap != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
-				if(str != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": +"+str, 0, offset+=10, 0xFF0000);
-				if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
-				if(def != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+def, 0, offset+=10, 0xFFFFFF);
-				if(fireRes != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_FireResShort)+": "+fireRes+"%", 0, offset+=10, 0xFF4444);
-				if(iceRes != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardResShort)+": "+iceRes+"%", 0, offset+=10, 0x55FFFF);
-				if(thunderRes != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%", 0, offset+=10, 0xFFFF44);
-				if(lightRes != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_LightResShort)+": "+lightRes+"%", 0, offset+=10, 0xCCCCCC);
-				if(darkRes != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%", 0, offset+=10, 0xAAAAAA);
+				int offset = -10;
+				for(int i=0;i<stats.size();i++){
+					Component c = stats.get(i);
+					gui.drawString(minecraft.font, c, 0, offset+(10*i), 0x4444FF);
+				}
+
 				if(ability != null) {
 					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
+						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
 					}
 				}
 			}
 			matrixStack.popPose();
 
-			if(!desc.isEmpty()) {
+			if(!desc.equals("")) {
 				matrixStack.pushPose();
 				{
 					String text = Utils.translateToLocal(selectedItemStack.getDescriptionId());
