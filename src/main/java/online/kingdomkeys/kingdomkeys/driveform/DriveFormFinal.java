@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -123,18 +124,43 @@ public class DriveFormFinal extends DriveForm {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);// TODO eventually replace it with the skill
+			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())
+					? playerData.getDriveFormLevel(Strings.Form_Final) - 2
+					: playerData.getDriveFormLevel(Strings.Form_Final);
+
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
-			
-			Vec3 motion = player.getDeltaMovement();
 
-			if (Math.abs(motion.x()) < limit && Math.abs(motion.z()) < limit)
-				player.setDeltaMovement(motion.x() * 1.1, glide, motion.z() * 1.1);
+			Vec3 angle = calculateViewVector(0, player.getYRot());
+			Vec3 look = angle.normalize();
+			Vec3 current = player.getDeltaMovement();
+			double xSpeed = current.x + (look.x * limit - current.x) * 0.2;
+			double ySpeed = current.y;
+			double zSpeed = current.z + (look.z * limit - current.z) * 0.2;
+
+			if (current.y < glide) {
+				ySpeed = glide;
+			}
+
+			player.setDeltaMovement(new Vec3(xSpeed, ySpeed, zSpeed));
 
 			if (player.getForcedPose() != Pose.SWIMMING) {
 				player.setForcedPose(Pose.SWIMMING);
 			}
+		} else {
+			if (player.getForcedPose() == Pose.SWIMMING) {
+				player.setForcedPose(null);
+			}
 		}
+	}
+
+	static Vec3 calculateViewVector(float pXRot, float pYRot) {
+		float f = pXRot * 0.017453292F;
+		float f1 = -pYRot * 0.017453292F;
+		float f2 = Mth.cos(f1);
+		float f3 = Mth.sin(f1);
+		float f4 = Mth.cos(f);
+		float f5 = Mth.sin(f);
+		return new Vec3((double)(f3 * f4), (double)(-f5), (double)(f2 * f4));
 	}
 }
