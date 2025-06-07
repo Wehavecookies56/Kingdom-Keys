@@ -139,7 +139,59 @@ public class Utils {
         return min;
     }
 
-    public static class Title {
+	public static List<Component> getResistancesStats(ItemStack selectedItemStack) {
+		List<Component> stats = new ArrayList<>();
+
+		int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
+        switch (selectedItemStack.getItem()) {
+            case KeybladeItem kb -> {
+                str = kb.getStrength(0);
+                mag = kb.getMagic(0);
+            }
+            case KKAccessoryItem accessory -> {
+                str = accessory.getStr();
+                mag = accessory.getMag();
+                ap = accessory.getAp();
+            }
+            case KKArmorItem armor -> {
+                def = armor.getDefense();
+                for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
+                    switch (resistanceType.getKey()) {
+                        case fire -> fireRes = resistanceType.getValue();
+                        case ice -> iceRes = resistanceType.getValue();
+                        case lightning -> thunderRes = resistanceType.getValue();
+                        case light -> lightRes = resistanceType.getValue();
+                        case darkness -> darkRes = resistanceType.getValue();
+                    }
+                }
+            }
+            default -> {
+            }
+        }
+
+		if(ap != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap).withStyle(ChatFormatting.YELLOW));
+		if(str != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str).withStyle(ChatFormatting.DARK_RED));
+		if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag).withStyle(ChatFormatting.BLUE));
+		if(def != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+def).withStyle(ChatFormatting.WHITE));
+		if(fireRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_FireResShort)+": "+fireRes+"%").withStyle(ChatFormatting.RED));
+		if(iceRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardResShort)+": "+iceRes+"%").withStyle(ChatFormatting.AQUA));
+		if(thunderRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%").withStyle(ChatFormatting.YELLOW));
+		if(lightRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_LightResShort)+": "+lightRes+"%").withStyle(ChatFormatting.GRAY));
+		if(darkRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%").withStyle(ChatFormatting.DARK_GRAY));
+
+		return stats;
+	}
+
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 

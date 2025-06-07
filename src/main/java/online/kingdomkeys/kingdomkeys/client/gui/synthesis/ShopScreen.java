@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,9 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
@@ -40,6 +39,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class ShopScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
@@ -261,44 +261,37 @@ public class ShopScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem) {
+		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
 			String ability = "";
-			int str=0, mag=0, ap = 0;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
-                desc = kb.getDesc();
+				desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
-				str= kb.getStrength(0);
-				mag = kb.getMagic(0);
-				
 			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
-                ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().get(0) : null;
-				str = accessory.getStr();
-				mag = accessory.getMag();
-				ap = accessory.getAp();
+				ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().getFirst() : null;
 			}
-			
-				
+
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
-				
-				int offset = -20;
-				
-				if(ap != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
-				if(str != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": +"+str, 0, offset+=10, 0xFF0000);
-				if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
+				List<Component> stats = Utils.getResistancesStats(selectedItemStack);
+
+				float scale = stats.size() > 4 ? 1F-(stats.size()-4)*0.25F: 1F;
+				matrixStack.scale(scale, scale, scale);
+
+				int offset = -15;
+				for(int i=0;i<stats.size();i++){
+					Component c = stats.get(i);
+					gui.drawString(minecraft.font, c, 0, offset+(10*i), 0x4444FF);
+				}
+
 				if(ability != null) {
 					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
+						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
 					}
 				}
-
 			}
 			matrixStack.popPose();
 			
