@@ -122,12 +122,10 @@ public class ClientPacketHandler {
     }
 
     public static void syncCapability(SCSyncPlayerData message) {
-        PlayerData playerData = PlayerData.get(message.data(), (Player) Minecraft.getInstance().level.getEntity(message.player()));
-        Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerData.getMaxHP());
+       PlayerData.get(message.data(), (Player) Minecraft.getInstance().level.getEntity(message.player()));
     }
 
     public static void syncDriveFormData(SCSyncDriveFormData message) {
-        Player player = Minecraft.getInstance().player;
         for (int i = 0; i < message.names().size(); i++) {
             DriveForm driveform = ModDriveForms.registry.get(ResourceLocation.parse(message.names().get(i)));
             String d = message.data().get(i);

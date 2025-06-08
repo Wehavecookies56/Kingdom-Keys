@@ -1107,20 +1107,18 @@ public class Utils {
 	 */
 	public static void restartLevel2(PlayerData playerData, Player player) { // calculates drive forms
 		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
-		Iterator<Entry<String, int[]>> it = driveForms.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, int[]> entry = it.next();
-			int dfLevel = entry.getValue()[0];
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-			if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
-				for (int i = 1; i <= dfLevel; i++) {
-					String baseAbility = form.getBaseAbilityForLevel(i);
-					if (baseAbility != null && !baseAbility.equals("")) {
-						playerData.addAbility(baseAbility, false);
-					}
-				}
-			}
-		}
+        for (Entry<String, int[]> entry : driveForms.entrySet()) {
+            int dfLevel = entry.getValue()[0];
+            DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
+            if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+                for (int i = 1; i <= dfLevel; i++) {
+                    String baseAbility = form.getBaseAbilityForLevel(i);
+                    if (baseAbility != null && !baseAbility.equals("")) {
+                        playerData.addAbility(baseAbility, false);
+                    }
+                }
+            }
+        }
 
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
