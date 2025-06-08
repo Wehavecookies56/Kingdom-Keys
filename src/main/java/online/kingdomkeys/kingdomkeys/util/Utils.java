@@ -81,6 +81,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -1481,7 +1482,7 @@ public class Utils {
 				if (attackModifier != null) {
 					attack.removeModifier(attackModifier);
 				}
-				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 			}
 			AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
 			if (hp != null) {
@@ -1489,7 +1490,7 @@ public class Utils {
 				if (hpModifier != null) {
 					hp.removeModifier(hpModifier);
 				}
-				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 			}
 		}
 	}
@@ -1514,14 +1515,19 @@ public class Utils {
 				((Mob) entity).setNoAi(false);
 			}
 
-			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO)) {
-				entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
+			//Damage portion is handled in online/kingdomkeys/kingdomkeys/handler/EntityEvents.java:658
+			//We iterate over the list and remove duplicates since for some reason the hit event fires twice
+			ArrayList<Float> realDamage = new ArrayList<>();
+			for(int i = 0; i < globalData.getStopDamage().size(); i++){
+				if(i % 2 == 0){
+					realDamage.add(globalData.getStopDamage().get(i));
+				}
 			}
+
+			globalData.setStopDamage(realDamage);
 
 			if (entity instanceof ServerPlayer)
 				PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
-			globalData.setStopDamage(0);
-			globalData.setStopCaster(null);
 		}
 
 		if(entity.level().isClientSide)

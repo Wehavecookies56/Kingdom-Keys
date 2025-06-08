@@ -19,6 +19,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -652,6 +653,17 @@ public class EntityEvents {
 					}
 				}
 
+				//Stop effect hitting the entities with the real damage every 5 ticks once it expires
+				if (!entity.hasEffect(ModMobEffects.STOP) && !globalData.getStopDamage().isEmpty()) {
+					if (globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO) && entity.tickCount % 4 == 0) {
+						entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage().getFirst() / 3F);
+						globalData.getStopDamage().removeFirst();
+						entity.invulnerableTime = 4;
+						if(globalData.getStopDamage().isEmpty()){
+							globalData.setStopCaster(null);
+						}
+					}
+				}
 			}
 
 			if (entity instanceof Player player && playerData != null) {
@@ -939,6 +951,7 @@ public class EntityEvents {
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
+		System.out.println(event);
 		if (!event.getEntity().level().isClientSide) {
 			if (event.getEntity() instanceof Player player) {
 				WorldData worldData = WorldData.get(player.getServer());
@@ -1008,7 +1021,6 @@ public class EntityEvents {
 									dmg = event.getAmount();
 								}
 							}
-
 							globalData.addDamage(dmg);
 							event.setCanceled(true);
 						}

@@ -2,10 +2,16 @@ package online.kingdomkeys.kingdomkeys.data;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +43,13 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	@Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 		CompoundTag storage = new CompoundTag();
-		storage.putFloat("stop_dmg", this.getStopDamage());
+
+		ListTag dmgList = new ListTag();
+		for (float unit : this.stopDmg) {
+			dmgList.add(FloatTag.valueOf(unit));
+		}
+		storage.put("stop_dmg", dmgList);
+
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
 		if (this.getStopCaster() != null) {
@@ -49,7 +61,12 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	@Override
 	public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-		this.setStopDamage(nbt.getFloat("stop_dmg"));
+		stopDmg.clear();
+		ListTag floatListTag = nbt.getList("stop_dmg", Tag.TAG_FLOAT);
+		for (int i = 0; i < floatListTag.size(); i++) {
+			stopDmg.add(floatListTag.getFloat(i));
+		}
+
 		this.setCastleOblivionMarker(nbt.getBoolean("castle_oblivion_marker"));
 		this.setLevel(nbt.getInt("level"));
 		if (nbt.contains("stop_caster")) {
@@ -59,7 +76,7 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 	private int level, stopModelTicks;
-	float stopDmg;
+	ArrayList<Float> stopDmg = new ArrayList<>();
 	private String stopCaster;
 	private boolean castleOblivionMarker;
 
@@ -73,18 +90,18 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 
-	public float getStopDamage() {
+	public ArrayList<Float> getStopDamage() {
 		return stopDmg;
 	}
 
 
-	public void setStopDamage(float dmg) {
+	public void setStopDamage(ArrayList<Float> dmg) {
 		this.stopDmg = dmg;
 	}
 
 
 	public void addDamage(float dmg) {
-		this.stopDmg+=dmg;
+		this.stopDmg.add(dmg);
 	}
 
 
