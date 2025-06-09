@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "kingdomkeys:records/13th_reflection"
+  },
+  "description": {
+    "translate": "item.kingdomkeys.disc_13.desc"
+  },
+  "length_in_seconds": 227,
+  "comparator_output": 0
+}

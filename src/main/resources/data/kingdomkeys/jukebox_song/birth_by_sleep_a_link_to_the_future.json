@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/birth_by_sleep_a_link_to_the_future"
   },
-  "description": "Composed by Yoko Shimomura and Kaoru Wada",
+  "description": {
+    "translate": "item.kingdomkeys.disc_0.desc"
+  },
   "length_in_seconds": 449,
   "comparator_output": 0
 }

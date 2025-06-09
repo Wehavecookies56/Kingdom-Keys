@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/destati"
   },
-  "description": "Composed by Yoko Shimomura",
+  "description": {
+    "translate": "item.kingdomkeys.disc_19.desc"
+  },
   "length_in_seconds": 173,
   "comparator_output": 0
 }

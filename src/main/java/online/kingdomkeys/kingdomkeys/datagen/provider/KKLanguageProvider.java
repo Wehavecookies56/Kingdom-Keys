@@ -91,9 +91,10 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         add(key.translationKey, value);
     }
 
-    public void addMusicDisc(Supplier<Item> key, String value) {
+    public void addMusicDisc(Supplier<Item> key, String value, String comp) {
         addItem(key, "Music Disc");
         add(key.get().getDescriptionId() + ".desc", value);
+        add(key.get().getDescriptionId() + ".comp", comp);
     }
     
     public void addAdvancement(String key, String name, String desc) {

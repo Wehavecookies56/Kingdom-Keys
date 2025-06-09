@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "kingdomkeys:records/13th_struggle_luxord"
+  },
+  "description": {
+    "translate": "item.kingdomkeys.disc_11.desc"
+  },
+  "length_in_seconds": 390,
+  "comparator_output": 0
+}

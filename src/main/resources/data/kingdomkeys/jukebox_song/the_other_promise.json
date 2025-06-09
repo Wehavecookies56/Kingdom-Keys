@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/the_other_promise"
   },
-  "description": "Composed by Yoko Shimomura",
+  "description": {
+    "translate": "item.kingdomkeys.disc_10.desc"
+  },
   "length_in_seconds": 276,
   "comparator_output": 0
 }

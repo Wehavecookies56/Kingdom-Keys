@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/passion_instrumental"
   },
-  "description": "Composed by Utada Hikaru and arranged by Kaoru Wada",
+  "description": {
+    "translate": "item.kingdomkeys.disc_2.desc"
+  },
   "length_in_seconds": 222,
   "comparator_output": 0
 }

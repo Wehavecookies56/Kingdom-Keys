@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "kingdomkeys:records/13th_dilemma_saix"
+  },
+  "description": {
+    "translate": "item.kingdomkeys.disc_12.desc"
+  },
+  "length_in_seconds": 381,
+  "comparator_output": 0
+}

@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/another_side_battle_ver"
   },
-  "description": "Composed by Yoko Shimomura",
+  "description": {
+    "translate": "item.kingdomkeys.disc_14.desc"
+  },
   "length_in_seconds": 182,
   "comparator_output": 0
 }

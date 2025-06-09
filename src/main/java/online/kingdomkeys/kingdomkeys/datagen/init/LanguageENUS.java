@@ -1566,26 +1566,27 @@ public class LanguageENUS extends KKLanguageProvider {
         //Discs
         add("disc.duration.desc", "Duration");
         add("disc.durationunits.desc", "(mins:secs)");
-        addMusicDisc(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future, "Birth by Sleep -A Link to the Future-");
-        addMusicDisc(ModItems.disc_Dream_Drop_Distance_The_Next_Awakening, "Dream Drop Distance -The Next Awakening-");
-        addMusicDisc(ModItems.disc_Hikari_KINGDOM_Instrumental_Version, "Hikari -KINGDOM Instrumental Version-");
-        addMusicDisc(ModItems.disc_L_Oscurita_Dell_Ignoto, "L'Oscurita Dell'Ignoto");
-        addMusicDisc(ModItems.disc_Musique_pour_la_tristesse_de_Xion, "Musique pour la tristesse de Xion");
-        addMusicDisc(ModItems.disc_No_More_Bugs_Bug_Version, "No More Bugs!! -Bug Version-");
-        addMusicDisc(ModItems.disc_Organization_XIII, "Organization XIII");
-        addMusicDisc(ModItems.disc_Dearly_Beloved_UX, "Dearly Beloved -Union \u03c7 Credits Version-");
-        addMusicDisc(ModItems.disc_Passion_Instrumental, "Passion -Kingdom Orchestra Instrumental Version-");
-        addMusicDisc(ModItems.disc_Rage_Awakened, "Rage Awakened");
-        addMusicDisc(ModItems.disc_The_Other_Promise, "The Other Promise");
-        addMusicDisc(ModItems.disc_13th_Struggle_Luxord, "13th Struggle -Luxord-");
-        addMusicDisc(ModItems.disc_13th_Dilemma_Saix, "13th Dilemma -Saix-");
-        addMusicDisc(ModItems.disc_13th_Reflection, "13th Reflection");
-        addMusicDisc(ModItems.disc_Another_Side_Battle_Ver, "Another Side -Battle Ver-");
-        addMusicDisc(ModItems.disc_Cavern_Of_Remembrance_Days, "Cavern of Remembrance -Days Version-");
-        addMusicDisc(ModItems.disc_Forgotten_Challenge_Recoded, "Forgotten Challenge -Re:Coded Version-");
-        addMusicDisc(ModItems.disc_Anger_Unchained, "Anger Unchained");
-        addMusicDisc(ModItems.disc_Hunter_Of_The_Dark, "Hunter of the Dark");
-        addMusicDisc(ModItems.disc_Destati, "Destati");
+        add("disc.composedby", "Composed by");
+        addMusicDisc(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future, "Birth by Sleep -A Link to the Future-", "Yoko Shimomura & Kaoru Wada");
+        addMusicDisc(ModItems.disc_Dream_Drop_Distance_The_Next_Awakening, "Dream Drop Distance -The Next Awakening-", "Yoko Shimomura & Kaoru Wada");
+        addMusicDisc(ModItems.disc_Hikari_KINGDOM_Instrumental_Version, "Hikari -KINGDOM Instrumental Version-", "Utada Hikaru & arranged by Kaoru Wada");
+        addMusicDisc(ModItems.disc_L_Oscurita_Dell_Ignoto, "L'Oscurita Dell'Ignoto", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Musique_pour_la_tristesse_de_Xion, "Musique pour la tristesse de Xion", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_No_More_Bugs_Bug_Version, "No More Bugs!! -Bug Version-", "Yoko Shimomura & Hirosato Noda");
+        addMusicDisc(ModItems.disc_Organization_XIII, "Organization XIII", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Dearly_Beloved_UX, "Dearly Beloved -Union \u03c7 Credits Version-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Passion_Instrumental, "Passion -Kingdom Orchestra Instrumental Version-", "Yoko Shimomura & arranged by Kaoru Wada");
+        addMusicDisc(ModItems.disc_Rage_Awakened, "Rage Awakened", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_The_Other_Promise, "The Other Promise", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_13th_Struggle_Luxord, "13th Struggle -Luxord-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_13th_Dilemma_Saix, "13th Dilemma -Saix-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_13th_Reflection, "13th Reflection", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Another_Side_Battle_Ver, "Another Side -Battle Ver-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Cavern_Of_Remembrance_Days, "Cavern of Remembrance -Days Version-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Forgotten_Challenge_Recoded, "Forgotten Challenge -Re:Coded Version-", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Anger_Unchained, "Anger Unchained", "Takeharu Ishimoto");
+        addMusicDisc(ModItems.disc_Hunter_Of_The_Dark, "Hunter of the Dark", "Yoko Shimomura");
+        addMusicDisc(ModItems.disc_Destati, "Destati", "Yoko Shimomura");
 
         //Command Menu Items
         addItem(ModItems.potion, "Potion");

@@ -2,7 +2,9 @@
   "sound_event": {
     "sound_id": "kingdomkeys:records/rage_awakened"
   },
-  "description": "Composed by Yoko Shimomura",
+  "description": {
+    "translate": "item.kingdomkeys.disc_9.desc"
+  },
   "length_in_seconds": 225,
   "comparator_output": 0
 }
