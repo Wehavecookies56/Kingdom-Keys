@@ -695,24 +695,25 @@ public class EntityEvents {
 					}
 
 				} else { // When it finishes
-					if (playerData.getReflectActive()) {// If has been hit
+					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
 						float dmgMult = 1;
 						float radius = 1;
-						switch (playerData.getReflectLevel()) {
-							case 0:
-								radius = 2.5F;
-								dmgMult = 0.3F;
-								break;
-							case 1:
-								radius = 3F;
-								dmgMult = 0.5F;
-								break;
-							case 2:
-								radius = 3.5F;
-								dmgMult = 0.7F;
-								break;
-						}
+                        dmgMult = switch (playerData.getReflectLevel()) {
+                            case 0 -> {
+                                radius = 2.5F;
+                                yield 0.3F;
+                            }
+                            case 1 -> {
+                                radius = 3F;
+                                yield 0.5F;
+                            }
+                            case 2 -> {
+                                radius = 3.5F;
+                                yield 0.7F;
+                            }
+                            default -> dmgMult;
+                        };
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());
 
@@ -733,12 +734,11 @@ public class EntityEvents {
 						}
 
 						if (!list.isEmpty()) {
-							for (int i = 0; i < list.size(); i++) {
-								Entity e = list.get(i);
-								if (e instanceof LivingEntity) {
-									e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
-								}
-							}
+                            for (Entity e : list) {
+                                if (e instanceof LivingEntity) {
+                                    e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
+                                }
+                            }
 							player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 						}
@@ -951,7 +951,6 @@ public class EntityEvents {
 	// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
-		System.out.println(event);
 		if (!event.getEntity().level().isClientSide) {
 			if (event.getEntity() instanceof Player player) {
 				WorldData worldData = WorldData.get(player.getServer());
