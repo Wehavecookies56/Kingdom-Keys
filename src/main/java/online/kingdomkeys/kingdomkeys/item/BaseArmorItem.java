@@ -61,10 +61,15 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	}
 
 	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.EQUIPMENT;
 	}
-	
+
 	@EventBusSubscriber
 	public static class BaseArmorItemEvents {
 

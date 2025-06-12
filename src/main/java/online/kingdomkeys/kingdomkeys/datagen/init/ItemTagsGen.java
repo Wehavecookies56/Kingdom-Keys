@@ -7,6 +7,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -43,6 +44,14 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof DriveFormOrbItem) {
 				add(DRIVES,item);
+			}
+			if(item instanceof BaseArmorItem armor) {
+				switch(armor.getEquipmentSlot()) {
+					case HEAD -> { add(ItemTags.HEAD_ARMOR, armor); }
+					case CHEST -> {  add(ItemTags.CHEST_ARMOR, armor); }
+					case LEGS -> { add(ItemTags.LEG_ARMOR, armor); }
+					case FEET -> { add(ItemTags.FOOT_ARMOR, armor); }
+				}
 			}
 			if(item instanceof KeychainItem) {
 				add(KEYCHAINS,item);
