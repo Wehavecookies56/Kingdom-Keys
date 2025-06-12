@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
 public class FreezeEffect extends MobEffect {
     public FreezeEffect(MobEffectCategory pCategory, int pColor) {
@@ -14,6 +15,8 @@ public class FreezeEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         super.applyEffectTick(pLivingEntity, pAmplifier);
+        if(pLivingEntity instanceof WhiteMushroomEntity)
+            return false;
         pLivingEntity.setIsInPowderSnow(true);
         if (pLivingEntity.getRandom().nextInt(10) < 2) {
             double d0 = pLivingEntity.getX() + 0.5D + pLivingEntity.getRandom().nextDouble() * 3.0D / 16.0D;

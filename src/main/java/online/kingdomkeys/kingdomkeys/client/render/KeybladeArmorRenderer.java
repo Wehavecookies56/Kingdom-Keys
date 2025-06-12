@@ -104,14 +104,13 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		NonNullList<ItemStack> armor = NonNullList.create();
-		int color = 0xFFFFFF;
+		int color = 0xFFFFFFFF;
 		boolean glint = true;
 
 		if (entitylivingbaseIn instanceof ArmorStand armorStand) {
-			Iterator<ItemStack> armorIT = armorStand.getArmorSlots().iterator();
-			while (armorIT.hasNext()) {
-				armor.add(armorIT.next());
-			}
+            for (ItemStack itemStack : armorStand.getArmorSlots()) {
+                armor.add(itemStack);
+            }
 			
 		}
 		if (entitylivingbaseIn instanceof Player player) {
@@ -126,7 +125,8 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				}
 
 				PlayerData playerData = PlayerData.get(player);
-				color = playerData.getArmorColor();
+				//This transforms the RGB color from the player to ARGB so the glint can show
+				color = (0xFF << 24) | (playerData.getArmorColor() & 0xFFFFFF);
 				glint = playerData.getArmorGlint();
 
 				armor = player.getInventory().armor;
@@ -146,7 +146,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
 				armorModelBoots.leftLeg.copyFrom(getParentModel().leftLeg);
@@ -158,9 +158,8 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
 				Item item = itemStack.getItem();
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
-
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "2.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
 				armorModelLeggings.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -176,7 +175,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelChestplate.body.copyFrom(getParentModel().body);
 				armorModelChestplate.rightArm.copyFrom(getParentModel().rightArm);
@@ -192,8 +191,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
 
 				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "1.png");
-				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), itemStack.hasFoil());
-
+				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 				armorModelHelmet.head.copyFrom(getParentModel().head);
 				armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 			}

@@ -47,10 +47,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 			if(item instanceof BaseArmorItem armor) {
 				switch(armor.getEquipmentSlot()) {
-					case HEAD -> { add(ItemTags.HEAD_ARMOR, armor); }
-					case CHEST -> {  add(ItemTags.CHEST_ARMOR, armor); }
-					case LEGS -> { add(ItemTags.LEG_ARMOR, armor); }
-					case FEET -> { add(ItemTags.FOOT_ARMOR, armor); }
+					case HEAD -> add(ItemTags.HEAD_ARMOR, armor);
+					case CHEST -> add(ItemTags.CHEST_ARMOR, armor);
+					case LEGS -> add(ItemTags.LEG_ARMOR, armor);
+					case FEET -> add(ItemTags.FOOT_ARMOR, armor);
 				}
 			}
 			if(item instanceof KeychainItem) {
