@@ -26,14 +26,17 @@ public class Recipes extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
-    	//Terra
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
-	        .requires(ModItems.terra_Helmet.get())
-	        .requires(ModItems.terra_Chestplate.get())
-	        .requires(ModItems.terra_Leggings.get())
-	        .requires(ModItems.terra_Boots.get())
-	        .unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-	        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.ORANGE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
     	SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
@@ -50,15 +53,19 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
-    	
+
     	//Aqua
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
-        .requires(ModItems.aqua_Helmet.get())
-        .requires(ModItems.aqua_Chestplate.get())
-        .requires(ModItems.aqua_Leggings.get())
-        .requires(ModItems.aqua_Boots.get())
-        .unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.BLUE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
@@ -75,15 +82,19 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
-    	
+
     	//Ventus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
-        .requires(ModItems.ventus_Helmet.get())
-        .requires(ModItems.ventus_Chestplate.get())
-        .requires(ModItems.ventus_Leggings.get())
-        .requires(ModItems.ventus_Boots.get())
-        .unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.LIME_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
@@ -100,15 +111,19 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
-    	
+
     	//Nightmare Ventus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
-        .requires(ModItems.nightmareVentus_Helmet.get())
-        .requires(ModItems.nightmareVentus_Chestplate.get())
-        .requires(ModItems.nightmareVentus_Leggings.get())
-        .requires(ModItems.nightmareVentus_Boots.get())
-        .unlockedBy("nightmareverntus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.BLACK_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("nightmareventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
@@ -125,15 +140,19 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
-    	
+
     	//Eraqus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
-        .requires(ModItems.eraqus_Helmet.get())
-        .requires(ModItems.eraqus_Chestplate.get())
-        .requires(ModItems.eraqus_Leggings.get())
-        .requires(ModItems.eraqus_Boots.get())
-        .unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.WHITE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
@@ -150,15 +169,19 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
-    	
+
     	//Xehanort
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
-        .requires(ModItems.xehanort_Helmet.get())
-        .requires(ModItems.xehanort_Chestplate.get())
-        .requires(ModItems.xehanort_Leggings.get())
-        .requires(ModItems.xehanort_Boots.get())
-        .unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.GRAY_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))

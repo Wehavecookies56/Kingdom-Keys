@@ -1,19 +1,25 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:ventus_helmet"
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "tag": "minecraft:buttons"
     },
-    {
-      "item": "kingdomkeys:ventus_chestplate"
+    "D": {
+      "item": "minecraft:lime_dye"
     },
-    {
-      "item": "kingdomkeys:ventus_leggings"
+    "G": {
+      "item": "minecraft:gold_ingot"
     },
-    {
-      "item": "kingdomkeys:ventus_boots"
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
+  },
+  "pattern": [
+    "DGD",
+    "IBI",
+    "DGD"
   ],
   "result": {
     "count": 1,

@@ -57,22 +57,6 @@ public class PauldronItem extends Item implements IItemCategory {
 		if (!stack.has(ModComponents.ARMOR_ID)) {
 			stack.set(ModComponents.ARMOR_ID, UUID.randomUUID());
 		}
-		if (!stack.has(ModComponents.PAULDRON_CREATED)) {
-			PauldronInventory pauldronInventory = (PauldronInventory) stack.getCapability(Capabilities.ItemHandler.ITEM);
-				boolean alreadyHasItem = false;
-				for (int i = 0; i < pauldronInventory.getSlots(); i++) {
-					if (!pauldronInventory.getStackInSlot(i).isEmpty()) {
-						alreadyHasItem = true;
-					}
-				}
-				if (!alreadyHasItem) {
-					pauldronInventory.setStackInSlot(0, new ItemStack(items[3]));
-					pauldronInventory.setStackInSlot(1, new ItemStack(items[2]));
-					pauldronInventory.setStackInSlot(2, new ItemStack(items[1]));
-					pauldronInventory.setStackInSlot(3, new ItemStack(items[0]));
-					stack.set(ModComponents.PAULDRON_CREATED, true);
-				}
-		}
 		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
