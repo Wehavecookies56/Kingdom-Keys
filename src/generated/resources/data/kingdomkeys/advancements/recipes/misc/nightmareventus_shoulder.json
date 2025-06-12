@@ -7,12 +7,12 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "nightmareverntus_shoulder": {
+    "nightmareventus_shoulder": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:netherite_ingot"
+              "minecraft:stone"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "nightmareverntus_shoulder",
+      "nightmareventus_shoulder",
       "has_the_recipe"
     ]
   ],
