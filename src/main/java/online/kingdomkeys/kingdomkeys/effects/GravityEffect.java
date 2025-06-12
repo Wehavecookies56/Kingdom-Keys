@@ -16,6 +16,8 @@ public class GravityEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         if (pLivingEntity instanceof Player player) {
+            if(player.isCreative())
+                return false;
             if (player.getForcedPose() != Pose.SWIMMING) {
                 player.setForcedPose(Pose.SWIMMING);
             }
