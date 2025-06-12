@@ -21,6 +21,8 @@ public class GravityEffect extends MobEffect {
     public void applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
         super.applyEffectTick(pLivingEntity, pAmplifier);
         if (pLivingEntity instanceof Player player) {
+            if(player.isCreative())
+                return;
             if (player.getForcedPose() != Pose.SWIMMING) {
                 player.setForcedPose(Pose.SWIMMING);
             }
