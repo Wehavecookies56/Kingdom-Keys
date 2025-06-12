@@ -14,6 +14,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -135,8 +137,23 @@ public class ThundaraEntity extends ThrowableProjectile {
 						x = (int) getCaster().getX();
 						z = (int) getCaster().getZ();
 					}
+					int y = getCaster().level().getHeight(Types.WORLD_SURFACE, x, z);
+
 					int posX = (int) (x + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+
+					for(int px=(int)(x-radius);px<x+radius;px++) {
+						for(int py=(int)(y-radius);py<y+radius;py++) {
+							for(int pz=(int)(z-radius);pz<z+radius;pz++) {
+								BlockPos blockpos = new BlockPos(px,py,pz);
+								BlockState blockstate = level().getBlockState(blockpos);
+								if(blockstate.getBlock() == Blocks.LIGHTNING_ROD) {
+									posX = px;
+									posZ = pz;
+								}
+							}
+						}
+					}
 
 					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.08F : 2;
 					dmg = Math.max(0.25F, dmg);

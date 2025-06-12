@@ -1,3 +1,6 @@
+**Added:**
+* Thunder is now attracted to lightning rods.
+
 **Changed:**
 * Stop will now deal the damage gradually rather than all at once.
 
