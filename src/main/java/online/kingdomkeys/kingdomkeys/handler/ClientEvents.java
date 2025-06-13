@@ -155,9 +155,22 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post<Player, ? extends PlayerModel<Player>> event) { //Hide the player shadow when KO'd
-		if(event.getEntity().hasEffect(ModMobEffects.KO)) {
-			event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
-			event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
+		if(event.getEntity() != null) {
+			if(event.getEntity().hasEffect(ModMobEffects.KO)) {
+				event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
+				event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
+			}
+
+			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
+			if (tempShotlockEntity != null && event.getEntity() == tempShotlockEntity) {
+				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+			}
+			if (localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+				LivingEntity e = event.getEntity();
+				if (localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())) {
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+				}
+			}
 		}
 	}
 
@@ -165,17 +178,6 @@ public class ClientEvents {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
-			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
-			if(tempShotlockEntity != null && event.getEntity() == tempShotlockEntity){
-				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-			}
-			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-				LivingEntity e = event.getEntity();
-				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-				}
-			}
-
 			if(event.getEntity() instanceof Player player) {
 				PlayerData playerData = PlayerData.get(player);
 				if(player.hasEffect(ModMobEffects.KO)) {

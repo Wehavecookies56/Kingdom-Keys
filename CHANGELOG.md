@@ -4,7 +4,7 @@
 **Changed:**
 * Stop will now deal the damage gradually rather than all at once.
 * Stop and Gravity will no longer work with players in creative.
-* Pauldron is now easier to craft with some iron, gold, corresponding dye and a button, in exchange it no longer will contain the keyblade armor inside upon crafting.
+* Pauldron is now easier to craft with some iron, gold, a button and the corresponding dye, in exchange it no longer will contain the keyblade armor inside upon crafting.
 
 **Fixed:**
 * Stop dealing twice the damage than it should.
