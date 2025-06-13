@@ -872,17 +872,18 @@ public class ClientUtils {
         return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
     }
 
-    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
-                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID + ":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID, "textures/gui/shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
       public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
-                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+                    false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {

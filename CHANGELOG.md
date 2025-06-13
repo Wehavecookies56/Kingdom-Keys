@@ -2,7 +2,11 @@
 * Thunder is now attracted to lightning rods.
 
 **Changed:**
-* Glide is now responsive when turning (finally T.T).
-* Heartless and Nobody spawns in the end:
-    * They are less frequent in the main island while they keep being frequent in the outer islands.
-* Armor items will now display their stats in the Shop screen.
+* Stop will now deal the damage gradually rather than all at once.
+* Stop and Gravity will no longer work with players in creative.
+* Pauldron is now easier to craft with some iron, gold, a button and the corresponding dye, in exchange it no longer will contain the keyblade armor inside upon crafting.
+
+**Fixed:**
+* Shotlock indicator not being always rendered on top.
+* Stop dealing twice the damage than it should.
+  * it was supposed to deal half the original damage but it was being registered twice, now it has been corrected and nerfed to a third instead of half.

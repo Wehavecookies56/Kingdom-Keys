@@ -30,15 +30,12 @@ public class GuiOverlay extends OverlayBase {
 	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
-	//public static boolean showLevelUp;
 	public static List<LevelUpData> levelUpList = new ArrayList<LevelUpData>();
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
 	public static String driveForm = "";
-	public static UUID playerWhoLevels = Util.NIL_UUID;
 	public static long timeExp;
 	public static long timeMunny;
-	public static long timeLevelUp;
 	public static long timeDriveLevelUp;
 	public static int munnyGet;
 	int levelSeconds = 6;
