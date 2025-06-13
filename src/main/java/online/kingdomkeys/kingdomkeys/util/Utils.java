@@ -154,14 +154,18 @@ public class Utils {
 				((Mob) entity).setNoAi(false);
 			}
 
-			if (globalData.getStopDamage() > 0 && globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO.get())) {
-				entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage() / 2);
+			//Damage portion is handled in online/kingdomkeys/kingdomkeys/handler/EntityEvents.java:658
+			//We iterate over the list and remove duplicates since for some reason the hit event fires twice
+			ArrayList<Float> realDamage = new ArrayList<>();
+			for(int i = 0; i < globalData.getStopDamage().size(); i++){
+				if(i % 2 == 0){
+					realDamage.add(globalData.getStopDamage().get(i));
+				}
 			}
 
+			globalData.setStopDamage(realDamage);
 			if (entity instanceof ServerPlayer)
 				PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) entity);
-			globalData.setStopDamage(0);
-			globalData.setStopCaster(null);
 		}
 
 		if(entity.level().isClientSide)
@@ -1510,7 +1514,7 @@ public class Utils {
 				if (attackModifier != null) {
 					attack.removeModifier(attackModifier);
 				}
-				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, "kk_mob_level_attack", level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.MULTIPLY_BASE));
+				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, "kk_mob_level_attack", level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.MULTIPLY_BASE));
 			}
 			AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
 			if (hp != null) {
@@ -1518,7 +1522,7 @@ public class Utils {
 				if (hpModifier != null) {
 					hp.removeModifier(hpModifier);
 				}
-				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, "kk_mob_level_hp", level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.MULTIPLY_BASE));
+				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, "kk_mob_level_hp", level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.MULTIPLY_BASE));
 			}
 		}
 	}

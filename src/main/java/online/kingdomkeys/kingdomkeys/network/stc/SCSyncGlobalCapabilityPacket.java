@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -12,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
 	private int level, stopModelTicks;
-	private float stopDmg;
+	private ArrayList<Float> stopDmg = new ArrayList<>();
 	private boolean castleOblivionMarker;
 
 	public SCSyncGlobalCapabilityPacket() {
@@ -26,7 +27,10 @@ public class SCSyncGlobalCapabilityPacket {
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeFloat(this.stopDmg);
+		buffer.writeInt(this.stopDmg.size());
+		for(Float unit : stopDmg) {
+			buffer.writeFloat(unit);
+		}
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
@@ -35,7 +39,10 @@ public class SCSyncGlobalCapabilityPacket {
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityPacket msg = new SCSyncGlobalCapabilityPacket();
-		msg.stopDmg = buffer.readFloat();
+		int len = buffer.readInt();
+		for(int i = 0; i < len; i++) {
+			msg.stopDmg.add(buffer.readFloat());
+		}
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -15,7 +16,7 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	//Send packet to everyone to render gravity flat for example
 	int id;
 	private int level, stopModelTicks;
-	private float stopDmg;
+	private ArrayList<Float> stopDmg = new ArrayList<>();
 	private boolean castleOblivionMarker;
 
 	public SCSyncGlobalCapabilityToAllPacket() {
@@ -31,8 +32,10 @@ public class SCSyncGlobalCapabilityToAllPacket {
 
 	public void encode(FriendlyByteBuf buffer) {
 		buffer.writeInt(id);
-		buffer.writeFloat(this.stopDmg);
-		buffer.writeBoolean(this.castleOblivionMarker);
+		buffer.writeInt(this.stopDmg.size());
+		for(Float unit : stopDmg) {
+			buffer.writeFloat(unit);
+		}		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
 	}
@@ -40,8 +43,10 @@ public class SCSyncGlobalCapabilityToAllPacket {
 	public static SCSyncGlobalCapabilityToAllPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityToAllPacket msg = new SCSyncGlobalCapabilityToAllPacket();
 		msg.id = buffer.readInt();
-		msg.stopDmg = buffer.readFloat();
-		msg.castleOblivionMarker = buffer.readBoolean();
+		int len = buffer.readInt();
+		for(int i = 0; i < len; i++) {
+			msg.stopDmg.add(buffer.readFloat());
+		}		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
 		return msg;

@@ -655,6 +655,17 @@ public class EntityEvents {
 					PacketHandler.syncToAllAround(event.getEntity(), globalData);
 				}
 			}
+
+			if (!event.getEntity().hasEffect(ModMobEffects.STOP.get()) && !globalData.getStopDamage().isEmpty()) {
+				if (globalData.getStopCaster() != null && !event.getEntity().hasEffect(ModMobEffects.KO.get()) && event.getEntity().tickCount % 4 == 0) {
+					event.getEntity().hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(event.getEntity().level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage().get(0) / 3F);
+					globalData.getStopDamage().remove(0);
+					event.getEntity().invulnerableTime = 4;
+					if(globalData.getStopDamage().isEmpty()){
+						globalData.setStopCaster(null);
+					}
+				}
+			}
 		}
 
 		if (playerData != null) {

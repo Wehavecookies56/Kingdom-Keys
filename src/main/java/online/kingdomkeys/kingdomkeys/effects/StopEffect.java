@@ -7,12 +7,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
-import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
-import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class StopEffect extends MobEffect {
     public StopEffect(MobEffectCategory pCategory, int pColor) {
