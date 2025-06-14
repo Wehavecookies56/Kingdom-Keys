@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
@@ -90,8 +91,12 @@ public class DriveFormFinal extends DriveForm {
 	private static void handleGlide(Player player, PlayerData playerData) {
 		if (player.isInWater() || player.isInLava())
 			return;
+
+		boolean sprint = false;
 		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection
 			Minecraft mc = Minecraft.getInstance();
+			sprint = mc.options.keyJump.isDown();
+
 			if (mc.player == player) { // Only the local player will send the packets
 				if (!player.onGround() && player.fallDistance > 0) { // Glide only when falling
 					if (mc.options.keyJump.isDown()) {
@@ -122,21 +127,35 @@ public class DriveFormFinal extends DriveForm {
 					? playerData.getDriveFormLevel(Strings.Form_Final) - 2
 					: playerData.getDriveFormLevel(Strings.Form_Final);
 
+
+
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
 
-			Vec3 angle = player.calculateViewVector(0, player.getYRot());
-			Vec3 look = angle.normalize();
-			Vec3 current = player.getDeltaMovement();
-			double xSpeed = current.x + (look.x * limit - current.x) * 0.2;
-			double ySpeed = current.y;
-			double zSpeed = current.z + (look.z * limit - current.z) * 0.2;
+			float forward = player.zza;
+			float strafe = player.xxa;
 
+			float yaw = player.getYRot();
+			float rad = (float) Math.toRadians(yaw);
+			double sin = Math.sin(rad);
+			double cos = Math.cos(rad);
+
+			double moveX = (strafe * cos - forward * sin);
+			double moveZ = (forward * cos + strafe * sin);
+
+			Vec3 current = player.getDeltaMovement();
+
+			double accelFactor = 0.1;
+			double xSpeed = current.x + (moveX * limit - current.x) * accelFactor;
+			double zSpeed = current.z + (moveZ * limit - current.z) * accelFactor;
+
+			double ySpeed = current.y;
 			if (current.y < glide) {
 				ySpeed = glide;
 			}
 
 			player.setDeltaMovement(new Vec3(xSpeed, ySpeed, zSpeed));
+
 
 			if (player.getForcedPose() != Pose.SWIMMING) {
 				player.setForcedPose(Pose.SWIMMING);
@@ -146,7 +165,6 @@ public class DriveFormFinal extends DriveForm {
 				player.setForcedPose(null);
 			}
 		}
-
 
 	}
 }
