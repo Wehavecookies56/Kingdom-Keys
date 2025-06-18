@@ -79,40 +79,47 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void onRenderTick(RenderFrameEvent.Pre event) { //Lock on
+	public void onRenderTick(RenderFrameEvent.Pre event) {
 		Player player = Minecraft.getInstance().player;
 
-		if(InputHandler.lockOn != null && player != null) {
-			if(InputHandler.lockOn.isRemoved()) {
-                InputHandler.lockOn = null;
-                return;	
+		if (InputHandler.lockOn != null && player != null) {
+			if (InputHandler.lockOn.isRemoved()) {
+				InputHandler.lockOn = null;
+				return;
 			}
-            LivingEntity target = InputHandler.lockOn;
 
-            double dx = player.getX() - target.getX();
-            double dz = player.getZ() - target.getZ();
-            double dy = player.getY() - (target.getY() + (target.getBbHeight() / 2.0F)-player.getBbHeight());
-            double angle = Math.atan2(dz, dx) * 180 / Math.PI;
-            double pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 180 / Math.PI;
-            double distance = player.distanceTo(target);
-            
-            float rYaw = (float) Mth.wrapDegrees(angle - player.getYRot()) + 90;
-            float rPitch = (float) pitch - (float) (10.0F / Math.sqrt(distance)) + (float) (distance * Math.PI / 90);
-            
-            float f = player.getXRot();
-            float f1 = player.getYRot();
+			LivingEntity target = InputHandler.lockOn;
 
-			player.setYRot(Mth.rotLerp(event.getPartialTick().getGameTimeDeltaPartialTick(true), player.getYRot(), (float)(player.getYRot() + rYaw * 0.15D)));
-            player.setXRot(Mth.rotLerp(event.getPartialTick().getGameTimeDeltaPartialTick(true), player.getXRot(), (float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D)));
-            player.xRotO = Mth.rotLerp(event.getPartialTick().getGameTimeDeltaPartialTick(true), player.getXRot(), player.getXRot() - f);
-            player.yRotO = Mth.rotLerp(event.getPartialTick().getGameTimeDeltaPartialTick(true), player.yRotO, player.yRotO + player.getYRot() - f1);
+			double dx = target.getX() - player.getX();
+			double dz = target.getZ() - player.getZ();
+			double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-            if (player.getVehicle() != null) {
-                player.getVehicle().onPassengerTurned(player);
-            }
+			double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
+			double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+
+			float currentYaw = player.getYRot();
+			float currentPitch = player.getXRot();
+
+			float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
+			float pitchDifference = (float) anglePitch - currentPitch;
+
+			float smoothFactor = 0.2F;
+
+			float newYaw = currentYaw + yawDifference * smoothFactor;
+			float newPitch = currentPitch + pitchDifference * smoothFactor;
+
+			player.setYRot(newYaw);
+			player.setXRot(newPitch);
+
+			player.yRotO = currentYaw;
+			player.xRotO = currentPitch;
+
+			if (player.getVehicle() != null) {
+				player.getVehicle().onPassengerTurned(player);
+			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
