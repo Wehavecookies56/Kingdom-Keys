@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -12,6 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -46,10 +48,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import javax.crypto.spec.PSource;
+import java.util.*;
 
 public class InputHandler {
 
@@ -85,10 +85,21 @@ public class InputHandler {
         }
     }
 
+    boolean canSwitchTarget = true;
 
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
+
+        if(InputHandler.lockOn != null) {
+            if(canSwitchTarget && event.getKey() == mc.options.keySprint.getKey().getValue()){
+                switchTarget(player.isCrouching());
+                canSwitchTarget = false;
+            } else {
+                canSwitchTarget = true;
+            }
+        }
+
         Keybinds key = getPressedKey();
         if (player != null) {
             if(playerData == null)
@@ -233,14 +244,15 @@ public class InputHandler {
         PacketHandler.sendToServer(new CSSummonArmor());
     }
 
+    public static int LOCK_ON_REACH = 35;
+
     public void lockOn() {
         if (lockOn == null) {
-            int reach = 35;
-            HitResult rtr = getMouseOverExtended(reach);
+            HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
             if (rtr instanceof EntityHitResult ertr) {
                 double distance = player.distanceTo(ertr.getEntity());
 
-                if (reach >= distance) {
+                if (LOCK_ON_REACH >= distance) {
                     if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
@@ -251,6 +263,60 @@ public class InputHandler {
             lockOn = null;
         }
     }
+
+    private void switchTarget(boolean toRight) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null || InputHandler.lockOn == null) return;
+
+        LivingEntity currentTarget = InputHandler.lockOn;
+        //Get all entities in a radius (25% of the lock on reach)
+        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(LOCK_ON_REACH / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive());
+
+        if (candidates.size() <= 1)
+            return;
+
+        Vec3 playerPos = player.position();
+        Vec3 lookVec = player.getLookAngle();
+
+        // Sort enemies by angle from the player POV
+        List<Pair<LivingEntity, Double>> sorted = candidates.stream()
+                .map(entity -> {
+                    Vec3 dirToEntity = entity.position().subtract(playerPos).normalize();
+                    double angle = Math.toDegrees(Math.atan2(
+                            lookVec.z * dirToEntity.x - lookVec.x * dirToEntity.z,
+                            lookVec.x * dirToEntity.x + lookVec.z * dirToEntity.z
+                    ));
+                    return Pair.of(entity, angle);
+                })
+                .sorted(Comparator.comparingDouble(Pair::getSecond))
+                .toList();
+
+        int index = -1;
+        for (int i = 0; i < sorted.size(); i++) {
+            if (sorted.get(i).getFirst().equals(currentTarget)) {
+                index = i;
+                break;
+            }
+        }
+
+        // Fallback to the first enemy
+        if (index == -1) {
+            index = 0;
+        }
+
+        int nextIndex = (index + (toRight ? 1 : -1) + sorted.size()) % sorted.size();
+        LivingEntity nextTarget = sorted.get(nextIndex).getFirst();
+
+        // Prevent switching if entity is the same
+        if (nextTarget.equals(currentTarget))
+            return;
+
+        InputHandler.lockOn = nextTarget;
+        playSound(ModSounds.lockon.get());
+    }
+
+
+
 
     public void commandUp() {
         CommandMenuGui.up();
