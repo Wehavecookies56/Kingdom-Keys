@@ -92,10 +92,8 @@ public class DriveFormFinal extends DriveForm {
 		if (player.isInWater() || player.isInLava())
 			return;
 
-		boolean sprint = false;
 		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection
 			Minecraft mc = Minecraft.getInstance();
-			sprint = mc.options.keyJump.isDown();
 
 			if (mc.player == player) { // Only the local player will send the packets
 				if (!player.onGround() && player.fallDistance > 0) { // Glide only when falling
