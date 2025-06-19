@@ -26,7 +26,7 @@ public abstract class DriveForm {
 	public static final float[] MASTER_AERIAL_DODGE_BOOST = { 0, 1, 1, 1.2F, 1.2F, 1.4F, 1.4F, 1.6F };
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.055F };
 	public static final float[] FINAL_GLIDE = { 0, -0.09F, -0.09F, -0.06F, -0.06F, -0.03F, -0.03F, -0.01F };
-	public static final float[] FINAL_GLIDE_SPEED = { 0, 1.5F, 1.5F, 2.5F, 2.5F, 3.3F, 3.3F, 4.5F };
+	public static final float[] FINAL_GLIDE_SPEED = { 0, 1.8F, 1.8F, 2.8F, 2.8F, 3.6F, 3.6F, 5F };
 	
 	ResourceLocation name;
 	int maxLevel;
