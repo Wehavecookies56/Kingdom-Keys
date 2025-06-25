@@ -258,6 +258,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("aerial_dodge_ticks",this.aerialDodgeTicks);
 		storage.putBoolean("aerial_dodge_jumped",this.hasJumpedAerialDodge());
 
+		storage.putBoolean("is_gliding",this.isGliding);
+
 		storage.putInt("cast_ticks", magicCasttime);
 		storage.putInt("cd_ticks", magicCooldown);
 		return storage;
@@ -448,6 +450,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setAerialDodgeTicks(nbt.getInt("aerial_dodge_ticks"));
 		this.setHasJumpedAerialDodge(nbt.getBoolean("aerial_dodge_jumped"));
+		this.setIsGliding(nbt.getBoolean("is_gliding"));
 
 		this.setMagicCasttimeTicks(nbt.getInt("cast_ticks"));
 		this.setMagicCooldownTicks(nbt.getInt("cd_ticks"));
