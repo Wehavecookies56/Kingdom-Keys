@@ -1,2 +1,2 @@
 **Fixed:**
-* Player drowning in one block of water height.
+* Reduced attack speed for Keyblades and Organization Weapons

@@ -18,7 +18,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
-        super(new OrganizationItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new OrganizationItemTier(0), 0, 1)).stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
+        super(new OrganizationItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new OrganizationItemTier(0), 0, -2.4F)).stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
     }
     @Override
 	public float getReach() {

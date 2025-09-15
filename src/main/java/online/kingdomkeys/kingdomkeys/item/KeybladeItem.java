@@ -71,7 +71,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
-		super(new KeybladeItemTier(0), properties.attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, -1F)).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
+		super(new KeybladeItemTier(0), properties.attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 0, -2.4F)).component(DataComponents.UNBREAKABLE, new Unbreakable(false)));
 		this.properties = properties;
 	}
 
