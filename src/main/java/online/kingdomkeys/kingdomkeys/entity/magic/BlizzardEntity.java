@@ -5,6 +5,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +20,11 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -29,6 +33,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
+	int freezeTime;
 
 	public BlizzardEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -39,9 +44,10 @@ public class BlizzardEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_BLIZZARD.get(), world);
 	}
 
-	public BlizzardEntity(Level world, LivingEntity player, float dmgMult) {
+	public BlizzardEntity(Level world, LivingEntity player, float dmgMult, int freezeTime) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 		this.dmgMult = dmgMult;
+		this.freezeTime = freezeTime;
 	}
 
 	@Override
@@ -90,18 +96,22 @@ public class BlizzardEntity extends ThrowableProjectile {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target.isOnFire()) {
-					target.clearFire();
-				} else {
-					if (target != getOwner()) {
-						Party p = null;
-						if (getOwner() != null) {
-							p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
-						}
-						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
-							target.invulnerableTime = 0;
-							target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
+				if (target != getOwner()) {
+					Party p = null;
+					if (getOwner() != null) {
+						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
+					}
+					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+						float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.3F : 2;
+						target.invulnerableTime = 0;
+						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, this.getOwner()), dmg * dmgMult);
+						if (!target.isOnFire()) {
+							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE.get());
+							int duration = freezeTime;
+							if (freeze != null) {
+								duration += freeze.getDuration();
+							}
+							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE.get(), duration, 0, false, false, false));
 						}
 					}
 				}

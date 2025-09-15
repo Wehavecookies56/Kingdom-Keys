@@ -1,13 +1,24 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "kingdomkeys",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:aced_boots"
+  "key": {
+    "D": {
+      "item": "minecraft:pink_dye"
+    },
+    "H": {
+      "item": "minecraft:leather_boots"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
+  },
+  "pattern": [
+    "D D",
+    "LHL"
   ],
   "result": {
     "item": "kingdomkeys:ava_boots"
-  }
+  },
+  "show_notification": true
 }

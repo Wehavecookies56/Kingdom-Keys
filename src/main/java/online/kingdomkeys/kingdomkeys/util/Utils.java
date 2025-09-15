@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.util;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -19,8 +21,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -54,8 +58,10 @@ import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -65,8 +71,11 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalCapabilityPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldCapability;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -93,6 +102,128 @@ public class Utils {
 
 	public static final UUID mobLevelHPModifier = UUID.fromString("c86a76af-4615-4f6e-aaab-b1a349bdeb7b");
 	public static final UUID mobLevelAttackModifier = UUID.fromString("a8971ed5-c584-4579-82e7-5c823009dec0");
+
+	public static ItemStack getWhiteMushroomReward() {
+		ArrayList<Item> list = new ArrayList<>();
+		list.add(ModItems.orichalcum.get());
+		list.add(ModItems.orichalcumplus.get());
+		list.add(ModItems.evanescent_crystal.get());
+		list.add(ModItems.illusory_crystal.get());
+
+		Random rand = new Random();
+		Item item = list.get(rand.nextInt(list.size()));
+		return new ItemStack(item,rand.nextInt(3)+1);
+	}
+
+	public static int getCheapestDriveCost(IPlayerCapabilities playerData, List<DriveForm> driveFormMap) {
+		int min = playerData.isAbilityEquipped(Strings.darkDomination) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
+		for(DriveForm form : driveFormMap){
+			if(form != null && form.getDriveFormData() != null && form != ModDriveForms.ANTI.get()) {
+				min = Math.min(form.getDriveCost(), min);
+			}
+		}
+		return min;
+	}
+
+	public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+		double min = 1000;
+
+		for (Entry<String,int[]> magic : magicsMap.entrySet()){
+			Magic m = ModMagic.registry.get().getValue(new ResourceLocation(magic.getKey()));
+			if(m != null){
+				int lvl = magic.getValue()[0];
+				min = Math.min(m.getCost(lvl,player),min);
+			}
+		}
+		return min;
+	}
+
+	public static void removeEffects(MobEffect effect, LivingEntity entity) {
+		if(effect == ModMobEffects.GRAVITY.get()) {
+			if (entity instanceof ServerPlayer player) {
+				PacketHandler.sendTo(new SCRecalculateEyeHeight(), player);
+				if (player.getForcedPose() != null && !ModCapabilities.getPlayer(player).getIsGliding()) {
+					player.setForcedPose(null);
+				}
+			}
+		}
+
+		if(effect == ModMobEffects.STOP.get()){
+			IGlobalCapabilities globalData = ModCapabilities.getGlobal(entity);
+			if (entity instanceof Mob) {
+				((Mob) entity).setNoAi(false);
+			}
+
+			//Damage portion is handled in online/kingdomkeys/kingdomkeys/handler/EntityEvents.java:658
+			//We iterate over the list and remove duplicates since for some reason the hit event fires twice
+			ArrayList<Float> realDamage = new ArrayList<>();
+			for(int i = 0; i < globalData.getStopDamage().size(); i++){
+				if(i % 2 == 0){
+					realDamage.add(globalData.getStopDamage().get(i));
+				}
+			}
+
+			globalData.setStopDamage(realDamage);
+			if (entity instanceof ServerPlayer)
+				PacketHandler.sendTo(new SCSyncGlobalCapabilityPacket(globalData), (ServerPlayer) entity);
+		}
+
+		if(entity.level().isClientSide)
+			return;
+
+		if(effect != null) {
+			entity.level().getServer().getPlayerList().getPlayers().forEach(player -> {
+				player.connection.send(new ClientboundRemoveMobEffectPacket(entity.getId(), effect));
+			});
+		}
+	}
+
+	public static List<Component> getResistancesStats(ItemStack selectedItemStack) {
+		List<Component> stats = new ArrayList<>();
+
+		int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
+		if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
+			str = kb.getStrength(0);
+			mag = kb.getMagic(0);
+		} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
+			str = accessory.getStr();
+			mag = accessory.getMag();
+			ap = accessory.getAp();
+		} else if(selectedItemStack.getItem() instanceof KKArmorItem armor) {
+			def = armor.getDefense();
+			for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
+				switch (resistanceType.getKey()) {
+					case fire -> fireRes = resistanceType.getValue();
+					case ice -> iceRes = resistanceType.getValue();
+					case lightning -> thunderRes = resistanceType.getValue();
+					case light -> lightRes = resistanceType.getValue();
+					case darkness -> darkRes = resistanceType.getValue();
+				}
+			}
+
+		}
+
+		if(ap != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap).withStyle(ChatFormatting.YELLOW));
+		if(str != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+str).withStyle(ChatFormatting.DARK_RED));
+		if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+mag).withStyle(ChatFormatting.BLUE));
+		if(def != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_Defense)+": "+def).withStyle(ChatFormatting.WHITE));
+		if(fireRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_FireResShort)+": "+fireRes+"%").withStyle(ChatFormatting.RED));
+		if(iceRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_BlizzardResShort)+": "+iceRes+"%").withStyle(ChatFormatting.AQUA));
+		if(thunderRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_ThunderResShort)+": "+thunderRes+"%").withStyle(ChatFormatting.YELLOW));
+		if(lightRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_LightResShort)+": "+lightRes+"%").withStyle(ChatFormatting.GRAY));
+		if(darkRes != 0)
+			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%").withStyle(ChatFormatting.DARK_GRAY));
+
+		return stats;
+	}
 
 	public static class Title {
 		public String title, subtitle;
@@ -304,11 +435,15 @@ public class Utils {
 
 	}
 
-	public static enum OrgMember {
+	public enum OrgMember {
 		NONE, XEMNAS, XIGBAR, XALDIN, VEXEN, LEXAEUS, ZEXION, SAIX, AXEL, DEMYX, LUXORD, MARLUXIA, LARXENE, ROXAS
 	}
 
 	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {
+		if(map.get(driveForm) == null) {
+			KingdomKeys.LOGGER.error("The drive form map doesn't contain " + driveForm);
+			return 0;
+		}
 		if (driveForm.equals(Strings.Form_Anti))
 			return 7;
 		return map.get(driveForm)[0];
@@ -337,16 +472,15 @@ public class Utils {
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, LinkedHashSet<String> visibleForms) {
+	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, List<DriveForm> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
-		Iterator<String> it = driveFormsMap.keySet().iterator();
-		while (it.hasNext()) {
-			String entry = it.next();
-			if (visibleForms.contains(entry)) { // Should only add the form if it is visible
-				list.add(ModDriveForms.registry.get().getValue(new ResourceLocation(entry)));
-			}
-		}
+        for (String entry : driveFormsMap.keySet()) {
+			DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(entry));
+            if (visibleForms.contains(form)) { // Should only add the form if it is visible
+                list.add(form);
+            }
+        }
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
@@ -774,12 +908,10 @@ public class Utils {
 	public static int getConsumedAP(IPlayerCapabilities playerData) {
 		int ap = 0;
 		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
-		Iterator<Entry<String, int[]>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, int[]> entry = it.next();
-			Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(entry.getKey()));
-			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
-		}
+        for (Entry<String, int[]> entry : map.entrySet()) {
+            Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(entry.getKey()));
+            ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
+        }
 		return ap;
 	}
 
@@ -1052,27 +1184,6 @@ public class Utils {
 		return lvl;
 	}
 
-	public static double getMinimumDPForDrive(IPlayerCapabilities playerData) {
-		int minCost = 1000;
-		if (playerData.getDriveFormMap().size() > 2) {
-			for (String e : playerData.getVisibleDriveForms()) {
-				DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(e));
-				minCost = Math.min(minCost, form.getDriveCost());
-			}
-		}
-		return minCost;
-	}
-
-	public static double getMinimumDPForLimit(Player player) {
-		int minCost = 1000;
-		if (Utils.getPlayerLimitAttacks(player).size() > 0) {
-			for (Limit limit : Utils.getPlayerLimitAttacks(player)) {
-				minCost = Math.min(minCost, limit.getCost());
-			}
-		}
-		return minCost;
-	}
-
 	public static List<String> appendEnchantmentNames(String text, CompoundTag pStoredEnchantments) {
 		List<String> arrayList = new ArrayList<String>();
 		if (pStoredEnchantments != null) {
@@ -1108,7 +1219,7 @@ public class Utils {
 			}
 		}
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-		if (globalData != null && globalData.isKO())
+		if (globalData != null && player.hasEffect(ModMobEffects.KO.get()))
 			return false;
 
 		return true;
@@ -1119,11 +1230,7 @@ public class Utils {
 	}
 
 	public static void reviveFromKO(LivingEntity entity) {
-		IGlobalCapabilities globalData = ModCapabilities.getGlobal(entity);
-		globalData.setKO(false);
-		if (entity instanceof Player player)
-			PacketHandler.syncToAllAround(player, globalData);
-
+		entity.removeEffect(ModMobEffects.KO.get());
 	}
 
 	public static int getRandomMobLevel(Player player) {
@@ -1407,7 +1514,7 @@ public class Utils {
 				if (attackModifier != null) {
 					attack.removeModifier(attackModifier);
 				}
-				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, "kk_mob_level_attack", level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.MULTIPLY_BASE));
+				attack.addPermanentModifier(new AttributeModifier(Utils.mobLevelAttackModifier, "kk_mob_level_attack", level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.MULTIPLY_BASE));
 			}
 			AttributeInstance hp = mob.getAttribute(Attributes.MAX_HEALTH);
 			if (hp != null) {
@@ -1415,9 +1522,13 @@ public class Utils {
 				if (hpModifier != null) {
 					hp.removeModifier(hpModifier);
 				}
-				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, "kk_mob_level_hp", level * ModConfigs.mobLevelStats / 500, AttributeModifier.Operation.MULTIPLY_BASE));
+				hp.addPermanentModifier(new AttributeModifier(Utils.mobLevelHPModifier, "kk_mob_level_hp", level * ModConfigs.mobLevelStats / 500F, AttributeModifier.Operation.MULTIPLY_BASE));
 			}
 		}
+	}
+
+	public static List<DriveForm> getVisibleDriveForms(Player player) {
+		return ModDriveForms.registry.get().getValues().stream().filter(driveForm -> driveForm.displayInCommandMenu(player)).toList();
 	}
 
 }

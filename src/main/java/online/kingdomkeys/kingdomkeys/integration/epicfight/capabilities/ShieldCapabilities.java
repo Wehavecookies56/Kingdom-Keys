@@ -4,9 +4,10 @@ import java.util.Map;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
-import yesman.epicfight.api.animation.AnimationProvider;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -29,7 +30,7 @@ public class ShieldCapabilities extends WeaponCapability {
     }
 
     @Override
-    public Map<LivingMotion, AnimationProvider<?>> getLivingMotionModifier(LivingEntityPatch<?> player, InteractionHand hand) {
+    public Map<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>> getLivingMotionModifier(LivingEntityPatch<?> player, InteractionHand hand) {
         if (this.livingMotionModifiers != null) {
             if (hand != InteractionHand.OFF_HAND)
                 return this.livingMotionModifiers.get(this.getStyle(player));

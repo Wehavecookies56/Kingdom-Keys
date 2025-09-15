@@ -8,6 +8,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -80,7 +81,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Time_Spent, "Global Time");
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
-        add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables (not yet available).");
+        add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
@@ -188,6 +189,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Exp, "Exp");
+        add(Gui_Synthesis_Exp_MoogleLevel, "Moogle level");
+        add(Gui_Synthesis_Exp_NextLevel, "Next level");
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
         add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
@@ -197,7 +200,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Materials, "Material List");
         add(Gui_Synthesis_Materials_Deposit, "Deposit");
         add(Gui_Synthesis_Materials_Take, "Take");
+
         add(Gui_Shop, "Shop");
+        add(Gui_Shop_Buy, "Buy");
         add(Gui_Shop_Page, "Page:");
         add(Gui_Shop_NoSpace, "Not enough space");
         add(Gui_Shop_Tier, "Tier:");
@@ -1816,6 +1821,29 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
+        add("death.attack.offhand", "%1$s was slain by %2$s");
+        add("death.attack.offhand.item", "%1$s was slain by %2$s using %3$s");
+        add("death.attack.air", "%1$s was blown away %2$s");
+        add("death.attack.air.item", "%1$s was blown away %2$s using %3$s");
+        add("death.attack.darkness", "%2$s lead %1$s into everlasting darkness");
+        add("death.attack.darkness.item", "%2$s lead %1$s into everlasting darkness using %3$s");
+        add("death.attack.lightning", "%2$s struck down %1$s, shocking!");
+        add("death.attack.lightning.item", "%2$s struck down %1$s using %3$s, shocking!");
+        add("death.attack.light", "%2$s taught %1$s that Kingdom Hearts is light");
+        add("death.attack.light.item", "%2$s taught %1$s that Kingdom Hearts is light using %3$s");
+        add("death.attack.ice", "%1$s was frozen by %2$s");
+        add("death.attack.ice.item", "%1$s was frozen by %2$s using %3$s");
+        add("death.attack.fire", "%1$s felt the heat from %2$s");
+        add("death.attack.fire.item", "%1$s felt the heat from %2$s using %3$s");
+        add("death.attack.water", "%1$s tried to dance with water from %2$s");
+        add("death.attack.water.item", "%1$s tried to dance with water from %2$s using %3$s");
 
+        //Effects
+
+        addKKEffect(ModMobEffects.FREEZE, "Freeze", "Slows your movement down and eventually deals frostburn.");
+        addKKEffect(ModMobEffects.AERO, "Aero", "Casts a wind shield around you, higher versions also deal damage on contact.");
+        addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
+        addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
+        addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
     }
 }

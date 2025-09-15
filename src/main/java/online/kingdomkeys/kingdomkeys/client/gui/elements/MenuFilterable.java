@@ -20,7 +20,7 @@ public abstract class MenuFilterable extends MenuBackground {
     protected List<MenuStockItem> inventory = new ArrayList<>();
 
     protected MenuFilterBar filterBar;
-    protected MenuScrollBar scrollBar;
+    protected MenuScrollBar scrollBar, scrollBar2;
     public ResourceLocation selectedRL = null;
     public ItemStack selectedItemStack;
     int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
@@ -41,16 +41,13 @@ public abstract class MenuFilterable extends MenuBackground {
         	filterBar.render(gui, mouseX, mouseY, partialTicks);
         if(scrollBar != null)
             scrollBar.render(gui, mouseX, mouseY, partialTicks);
+        if(scrollBar2 != null)
+            scrollBar2.render(gui, mouseX, mouseY, partialTicks);
         if (selectedItemStack == null)
             selectedItemStack = new ItemStack(ForgeRegistries.ITEMS.getValue(selectedRL));
 	    if (!ItemStack.matches(selectedItemStack, ItemStack.EMPTY)) {
 	        renderSelectedData(gui, mouseX, mouseY, partialTicks);
 	    }
-        
-        
-       // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
-        
-     //  super.render(mouseX, mouseY, partialTicks);
     }
     
     @Override

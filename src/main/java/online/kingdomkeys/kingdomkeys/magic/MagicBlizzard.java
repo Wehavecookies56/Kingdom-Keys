@@ -24,25 +24,25 @@ public class MagicBlizzard extends Magic {
 
 		switch (level) {
 		case 0:
-			ThrowableProjectile blizzard = new BlizzardEntity(player.level(), player, dmgMult);
+			ThrowableProjectile blizzard = new BlizzardEntity(player.level(), player, dmgMult, 100);
 			player.level().addFreshEntity(blizzard);
 			blizzard.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			break;
 		case 1:// -ra and -ga are dmg boosted here
 			for (int i = -1; i < 2; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.9F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.9F, 120);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i * 6, 0, 2F, 0);
 			}
 			break;
 		case 2:
 			for (int i = -1; i < 2; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.85F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.85F, 130);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i * 6, 0, 2F, 0);
 			}
 			for (int i = -1; i < 1; i++) {
-				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.85F);
+				ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult * 0.85F, 130);
 				player.level().addFreshEntity(blizzara);
 				blizzara.shootFromRotation(player, player.getXRot() - 6, player.getYRot() + i * 6 + 3, 0, 2F, 0);
 			}

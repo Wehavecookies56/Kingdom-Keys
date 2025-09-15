@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 import java.util.function.Supplier;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -97,6 +98,11 @@ public abstract class KKLanguageProvider extends LanguageProvider {
     public void addAdvancement(String key, String name, String desc) {
         add("advancements.kingdomkeys."+key, name);
         add("advancements.kingdomkeys."+key+".desc", desc);
+    }
+
+    public void addKKEffect(Supplier<? extends MobEffect> key, String name, String desc) {
+        addEffect(key, name);
+        add(key.get().getDescriptionId()+".desc", desc);
     }
 
 }

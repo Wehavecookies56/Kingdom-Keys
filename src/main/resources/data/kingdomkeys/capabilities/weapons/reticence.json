@@ -7,5 +7,10 @@
 			"max_strikes": 1,
 			"speed_bonus": -4.00
 		}
+	},
+	"collider": {
+		"number": 4,
+		"center": [0.0, 0.0, -1.0],
+		"size": [0.5, 0.4, 1.45]
 	}
 }

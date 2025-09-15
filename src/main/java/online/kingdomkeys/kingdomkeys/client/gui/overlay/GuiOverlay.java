@@ -30,15 +30,12 @@ public class GuiOverlay extends OverlayBase {
 	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
-	//public static boolean showLevelUp;
 	public static List<LevelUpData> levelUpList = new ArrayList<LevelUpData>();
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
 	public static String driveForm = "";
-	public static UUID playerWhoLevels = Util.NIL_UUID;
 	public static long timeExp;
 	public static long timeMunny;
-	public static long timeLevelUp;
 	public static long timeDriveLevelUp;
 	public static int munnyGet;
 	int levelSeconds = 6;
@@ -137,6 +134,8 @@ public class GuiOverlay extends OverlayBase {
 	}
 	
 	private void showLevelUp(GuiGraphics gui, float partialTick, int actual) {
+		final int LEVULUP_WIDTH = 155;
+
 		if(actual >= levelUpList.size())
 			return;
 		LevelUpData levelData = levelUpList.get(actual);
@@ -163,10 +162,10 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.translate(0, totalSpace , 0);
 
 			float notifXPos = levelData.prevNotifTicks + (levelData.notifTicks - levelData.prevNotifTicks) * partialTick;
-			if(notifXPos <= -155)
-				notifXPos = -155;
-			
-			matrixStack.translate(notifXPos + 155, 4, 0);
+			if(notifXPos <= -LEVULUP_WIDTH)
+				notifXPos = -LEVULUP_WIDTH;
+
+			matrixStack.translate(width + notifXPos, 4, 0);
 
 			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages.size());
 			RenderSystem.enableBlend();
@@ -175,25 +174,25 @@ public class GuiOverlay extends OverlayBase {
 			// Top
 			matrixStack.pushPose();
 			{
-				matrixStack.translate((width - 153.6f - 2), 0, 0);
+				matrixStack.translate(0, 0, 0);
 				matrixStack.scale(0.6f, 0.6f, 1);
 				blit(gui, levelUpTexture, 0, 0, 0, 0, 256, 36);
 			}
 			matrixStack.popPose();
 
 			RenderSystem.setShaderColor(1, 1, 0, 1F);
-			showText(matrixStack, "LEVEL UP!" + ChatFormatting.ITALIC, width - ((minecraft.font.width("LEVEL UP!")) * 0.75f) - 115, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
+			showText(matrixStack, "LEVEL UP!" + ChatFormatting.ITALIC, 6, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
 			RenderSystem.setShaderColor(1, 1, 1, 1F);
-			showText(matrixStack, "LV.", width - ((minecraft.font.width("LV. ")) * 0.75f) - 90, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
-			showText(matrixStack, "" + lvl, width - 256.0f * 0.75f + ((minecraft.font.width("999")) * 0.75f) + 88, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-			showText(matrixStack, name, width - ((minecraft.font.width(name)) * 0.75f) - 7, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText(matrixStack, "LV.", 50, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
+			showText(matrixStack, "" + lvl, 50 + font.width("LV."), 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+			showText(matrixStack, name, LEVULUP_WIDTH-5-font.width(name), 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 
 			// Half
 			RenderSystem.setShaderColor(notifColor[0] / 255F, notifColor[1] / 255F, notifColor[2] / 255F, 1F);
 
 			matrixStack.pushPose();
 			{
-				matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
+				matrixStack.translate(0, 36.0f * 0.6f, 0);
 				matrixStack.scale(0.6f, height, 1);
 				blit(gui, levelUpTexture, 0, 0, 0, 36, 256, 1);
 			}
@@ -204,7 +203,7 @@ public class GuiOverlay extends OverlayBase {
 
 			matrixStack.pushPose();
 			{
-				matrixStack.translate((width - 256.0f * 0.6f - 2), height + (36.0f * 0.6f), 0);
+				matrixStack.translate(0, height + (36.0f * 0.6f), 0);
 				matrixStack.scale(0.6f, 0.6f, 1);
 				blit(gui, levelUpTexture, 0, 0, 0, 37, 256, 14);
 			}
@@ -214,7 +213,7 @@ public class GuiOverlay extends OverlayBase {
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			for (int i = 0; i < levelData.messages.size(); i++) {
 				String message = levelData.messages.get(i).toString();
-				float x = (width - 256.0f * 0.8f + (minecraft.font.width("Maximum HP Increased!")) * 0.8f) - 35;
+				float x = 5;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
 				if(message.startsWith("A_")) {
 					blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);

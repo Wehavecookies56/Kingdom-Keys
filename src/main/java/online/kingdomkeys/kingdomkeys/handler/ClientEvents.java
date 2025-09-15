@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -84,52 +85,50 @@ public class ClientEvents {
 	public void onRenderTick(RenderTickEvent event) { //Lock on
 		Player player = Minecraft.getInstance().player;
 
-		if(InputHandler.lockOn != null && player != null) {
-			if(InputHandler.lockOn.isRemoved()) {
-                InputHandler.lockOn = null;
-                return;	
+		if (InputHandler.lockOn != null && player != null) {
+			if (InputHandler.lockOn.isRemoved()) {
+				InputHandler.lockOn = null;
+				return;
 			}
-            LivingEntity target = InputHandler.lockOn;
 
-            double dx = player.getX() - target.getX();
-            double dz = player.getZ() - target.getZ();
-            double dy = player.getY() - (target.getY() + (target.getBbHeight() / 2.0F)-player.getBbHeight());
-            double angle = Math.atan2(dz, dx) * 180 / Math.PI;
-            double pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 180 / Math.PI;
-            double distance = player.distanceTo(target);
-            
-            float rYaw = (float) Mth.wrapDegrees(angle - player.getYRot()) + 90;
-            float rPitch = (float) pitch - (float) (10.0F / Math.sqrt(distance)) + (float) (distance * Math.PI / 90);
-            
-            float f = player.getXRot();
-            float f1 = player.getYRot();
+			LivingEntity target = InputHandler.lockOn;
 
-			player.setYRot(Mth.rotLerp(event.renderTickTime, player.getYRot(), (float)(player.getYRot() + rYaw * 0.15D)));
-            player.setXRot(Mth.rotLerp(event.renderTickTime, player.getXRot(), (float)(player.getXRot() - -(rPitch - player.getXRot()) * 0.15D)));
-            player.xRotO = Mth.rotLerp(event.renderTickTime, player.getXRot(), player.getXRot() - f);
-            player.yRotO = Mth.rotLerp(event.renderTickTime, player.yRotO, player.yRotO + player.getYRot() - f1);
+			double dx = target.getX() - player.getX();
+			double dz = target.getZ() - player.getZ();
+			double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-            if (player.getVehicle() != null) {
-                player.getVehicle().onPassengerTurned(player);
-            }
+			double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
+			double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+
+			float currentYaw = player.getYRot();
+			float currentPitch = player.getXRot();
+
+			float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
+			float pitchDifference = (float) anglePitch - currentPitch;
+
+			float smoothFactor = 0.2F;
+
+			float newYaw = currentYaw + yawDifference * smoothFactor;
+			float newPitch = currentPitch + pitchDifference * smoothFactor;
+
+			player.setYRot(newYaw);
+			player.setXRot(newPitch);
+
+			player.yRotO = currentYaw;
+			player.xRotO = currentPitch;
+
+			if (player.getVehicle() != null) {
+				player.getVehicle().onPassengerTurned(player);
+			}
 		}
 	}
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingTickEvent event) {
-		
 		IGlobalCapabilities globalData = ModCapabilities.getGlobal(event.getEntity());
 		if (globalData != null) {
-			if (globalData.getStoppedTicks() > 0 ) {
-				if(event.getEntity().level().isClientSide) {
-					if(Minecraft.getInstance().screen == null)
-						Minecraft.getInstance().setScreen(new StopGui());
-				}
-				event.setCanceled(true);
-			}
 
-			//globalData.setKO(true);
-			if(globalData.isKO()) {
+			if(event.getEntity().hasEffect(ModMobEffects.KO.get())) {
 				if(event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
 					if(Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 						Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
@@ -139,6 +138,15 @@ public class ClientEvents {
 				}
 			}
 			if(event.getEntity() instanceof Player player) {
+				if (event.getEntity().hasEffect(ModMobEffects.STOP.get())) {
+					//Now the stop capabilty is synced to all clients so we need to make sure only the local player should open the gui
+					if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
+						if(Minecraft.getInstance().screen == null)
+							Minecraft.getInstance().setScreen(new StopGui());
+					}
+					event.setCanceled(true);
+				}
+
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 				if(playerData != null) {
 					if(playerData.getMagicCasttimeTicks() > 0) {
@@ -156,55 +164,49 @@ public class ClientEvents {
 	}
 	
 	@SubscribeEvent
-	public void RenderEntity(RenderLivingEvent.Post event) { //Hide the player shadow when KO'd
+	public void RenderEntity(RenderLivingEvent.Post<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) { //Hide the player shadow when KO'd
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-				if(globalData != null) {
-					if(globalData.isKO()) {
-						event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
-						event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
-					}
+				if(player.hasEffect(ModMobEffects.KO.get())) {
+					event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
+					event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
+				}
+			}
+
+			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
+			if (tempShotlockEntity != null && event.getEntity() == tempShotlockEntity) {
+				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+			}
+			if (localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+				LivingEntity e = event.getEntity();
+				if (localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())) {
+					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
 				}
 			}
 		}
 	}
 
-
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
-			IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(Minecraft.getInstance().player);
-			if(tempShotlockEntity != null && event.getEntity() == tempShotlockEntity){
-				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-			}
-			if(localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-				LivingEntity e = event.getEntity();
-				if(localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())){
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-				}
-			}
-
 			if(event.getEntity() instanceof Player player) {
 				IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-				IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-				if(globalData != null) {
-					if(globalData.isKO()) {
-						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
-						if (!((IDisabledAnimations) renderer).isDisabled()) {
-							event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-							event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-							float MAX = 100;
-					        double pos = player.tickCount % MAX / (MAX /2D);
+				if(player.hasEffect(ModMobEffects.KO.get())) {
+					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+					if (!((IDisabledAnimations) renderer).isDisabled()) {
+						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
+						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
+						float MAX = 100;
+						double pos = player.tickCount % MAX / (MAX /2D);
 
-							if (player.tickCount % MAX < (MAX / 2)) {
-								event.getPoseStack().translate(0, 0, pos * 0.3);
-							} else {
-								event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-							}
-							event.getPoseStack().translate(0, -1, 0.8);
+						if (player.tickCount % MAX < (MAX / 2)) {
+							event.getPoseStack().translate(0, 0, pos * 0.3);
+						} else {
+							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
 						}
+						event.getPoseStack().translate(0, -1, 0.8);
 					}
+
 				}
 				
 				if(playerData != null) {

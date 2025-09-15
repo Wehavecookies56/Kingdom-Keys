@@ -1,39 +1,45 @@
 package online.kingdomkeys.kingdomkeys.capability;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+
+import java.util.ArrayList;
 
 public class GlobalCapabilities implements IGlobalCapabilities {
 
 	@Override
 	public CompoundTag serializeNBT() {
 		CompoundTag storage = new CompoundTag();
-		storage.putInt("ticks_stopped", this.getStoppedTicks());
-		storage.putFloat("stop_dmg", this.getStopDamage());
-		storage.putInt("ticks_flat", this.getFlatTicks());
-		storage.putInt("aero_ticks", this.getAeroTicks());
-		storage.putInt("aero_level", this.getAeroLevel());
+		ListTag dmgList = new ListTag();
+
+		for (float unit : this.stopDmg) {
+			dmgList.add(FloatTag.valueOf(unit));
+		}
+
+		storage.put("stop_dmg", dmgList);
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
-		storage.putBoolean("is_ko", isKO);
 		return storage;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		CompoundTag properties = (CompoundTag) nbt;
-		this.setStoppedTicks(properties.getInt("ticks_stopped"));
-		this.setStopDamage(properties.getFloat("stop_dmg"));
-		this.setFlatTicks(properties.getInt("ticks_flat"));
-		this.setAeroTicks(properties.getInt("aero_ticks"), properties.getInt("aero_level"));
+		CompoundTag properties = nbt;
+		stopDmg.clear();
+		ListTag floatListTag = properties.getList("stop_dmg", Tag.TAG_FLOAT);
+		for (int i = 0; i < floatListTag.size(); i++) {
+			stopDmg.add(floatListTag.getFloat(i));
+		}
 		this.setCastleOblivionMarker(properties.getBoolean("castle_oblivion_marker"));
 		this.setLevel(properties.getInt("level"));
-		this.setKO(properties.getBoolean("is_ko"));
 	}
 
-	private int timeStopped, flatTicks, aeroTicks, aeroLevel, level, stopModelTicks;
-	float stopDmg;
+	private int level, stopModelTicks;
+	ArrayList<Float> stopDmg = new ArrayList<>();
 	private String stopCaster;
-	private boolean castleOblivionMarker, isKO;
+	private boolean castleOblivionMarker;
 
 	@Override
 	public void setLevel(int lvl) {
@@ -44,35 +50,20 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	public int getLevel() {
 		return level;
 	}
-	
+
 	@Override
-	public void setStoppedTicks(int time) {
-		this.timeStopped = time;
+	public ArrayList<Float> getStopDamage() {
+		return stopDmg ;//== null ? new ArrayList<>() : stopDmg;
 	}
 
 	@Override
-	public int getStoppedTicks() {
-		return timeStopped;
-	}
-
-	@Override
-	public void subStoppedTicks(int time) {
-		this.timeStopped -= time;
-	}
-
-	@Override
-	public float getStopDamage() {
-		return stopDmg;
-	}
-
-	@Override
-	public void setStopDamage(float dmg) {
+	public void setStopDamage(ArrayList<Float> dmg) {
 		this.stopDmg = dmg;
 	}
 
 	@Override
 	public void addDamage(float dmg) {
-		this.stopDmg+=dmg;
+		this.stopDmg.add(dmg);
 	}
 
 
@@ -84,47 +75,6 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 	@Override
 	public String getStopCaster() {
 		return this.stopCaster;
-	}
-
-	@Override
-	public int getFlatTicks() {
-		return flatTicks;
-	}
-
-	@Override
-	public void setFlatTicks(int time) {
-		this.flatTicks = time;
-	}
-
-	@Override
-	public void subFlatTicks(int time) {
-		this.flatTicks -= time;
-	}
-	
-	@Override
-	public int getAeroLevel() {
-		return aeroLevel;
-	}
-
-	@Override
-	public void setAeroLevel(int level) {
-		this.aeroLevel = level;
-	}
-	
-	@Override
-	public int getAeroTicks() {
-		return aeroTicks;
-	}
-
-	@Override
-	public void setAeroTicks(int i, int level) {
-		aeroTicks = i;
-		aeroLevel = level;
-	}
-	
-	@Override
-	public void remAeroTicks(int ticks) {
-		aeroTicks -= ticks;
 	}
 
 	@Override
@@ -147,13 +97,4 @@ public class GlobalCapabilities implements IGlobalCapabilities {
 		this.stopModelTicks = ticks;		
 	}
 
-	@Override
-	public boolean isKO() {
-		return isKO;
-	}
-
-	@Override
-	public void setKO(boolean ko) {
-		this.isKO = ko;
-	}
 }

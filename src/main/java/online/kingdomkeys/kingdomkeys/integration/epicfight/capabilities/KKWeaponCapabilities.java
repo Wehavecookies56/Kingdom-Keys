@@ -5,6 +5,7 @@ import java.util.Map;
 
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.skill.guard.GuardSkill;
@@ -29,7 +30,7 @@ public class KKWeaponCapabilities extends WeaponCapability {
     }
 
     @Override
-    public StaticAnimation getGuardMotion(GuardSkill skill, GuardSkill.BlockType blockType, PlayerPatch<?> playerpatch) {
+    public AnimationManager.AnimationAccessor<? extends StaticAnimation> getGuardMotion(GuardSkill skill, GuardSkill.BlockType blockType, PlayerPatch<?> playerpatch) {
         return guardMap.get(this.getWeaponCategory().toString()+this.getStyle(playerpatch)).getGuardAnimation(blockType);
     }
 

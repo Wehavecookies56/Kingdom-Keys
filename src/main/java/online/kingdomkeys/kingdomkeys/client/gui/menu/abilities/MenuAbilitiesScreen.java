@@ -134,7 +134,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		float boxPosX = (float) width * 0.2F;
 		float boxWidth = (float) width * 0.5F;
-		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
+		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,0.6F, new Color(4, 4, 68));
 
 		int buttonPosX = (int) (boxPosX * 1.3F);
 		int buttonPosY = (int) topBarHeight + 5;
@@ -336,7 +336,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		itemsPerPage = (int) (middleHeight / 19);
 		
 		addRenderableWidget(playerButton = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)this.buttonWidth, minecraft.player.getDisplayName().getString(), MenuButton.ButtonType.BUTTON, b -> {action(DriveForm.NONE.toString());}));
-		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms()).keySet());
+		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), Utils.getVisibleDriveForms(minecraft.player)).keySet());
 		forms.remove(DriveForm.NONE.toString());
 		forms.remove(DriveForm.SYNCH_BLADE.toString());
 		forms.remove(Strings.Form_Anti);
@@ -374,10 +374,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			}
 		}
 
-		if(abilities.isEmpty())
-			return;
-		int listHeight = (abilities.get(abilities.size()-1).getY()+20) - abilities.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
+		if(!abilities.isEmpty()) {
+			int listHeight = (abilities.get(abilities.size() - 1).getY() + 20) - abilities.get(0).getY() + 3;
+			scrollBar.setContentHeight(listHeight);
+		}
 
 		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 

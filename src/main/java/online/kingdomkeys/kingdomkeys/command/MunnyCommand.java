@@ -16,6 +16,8 @@ import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCapabilityPacket;
 
 public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> <amount> [player]
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
@@ -62,6 +64,8 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been set to " + value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
+
 		return 1;
 	}
 
@@ -82,6 +86,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been increased by " + value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
 
@@ -102,6 +107,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been decreased by " + value));
+		PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), player);
 		return 1;
 	}
 }

@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -44,10 +45,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ShopScreen extends MenuFilterable {
-	MenuBox boxL, boxM, boxR;
-	int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
+	MenuBox boxL, boxM;
 
-	Button create;
+	MenuButton create;
 	int itemsPerPage;
 	private MenuButton back;
 	
@@ -63,6 +63,9 @@ public class ShopScreen extends MenuFilterable {
 		this(parent);
 	}
 
+	public ShopList getShopList(){
+		return ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
+	}
 	protected void action(String string) {
 		switch (string) {
 		case "create":
@@ -74,13 +77,12 @@ public class ShopScreen extends MenuFilterable {
 	
 	@Override
 	public void init() {
-		float boxPosX = (float) width * 0.1437F;
+		float boxPosX = (float) width * 0.2F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, new Color(4, 4, 68));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, new Color(4, 4, 68));
-		boxR = new MenuBox((int) boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight, (int) (boxWidth*1.17F), (int) middleHeight, new Color(4, 4, 68));
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F, new Color(100, 4, 4));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, 1F,new Color(100, 4, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		float filterPosX = width * 0.3F;
@@ -98,14 +100,14 @@ public class ShopScreen extends MenuFilterable {
 
 	@Override
 	public void initItems() {
-		float invPosX = (float) width * 0.1494F;
+		float invPosX = (float) boxL.getX()+4;
 		float invPosY = (float) height * 0.1851F;
 		inventory.clear();
 		children().clear();
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
-		
-		ShopList shopList = ShopListRegistry.getInstance().getRegistry().get(new ResourceLocation(parent.invFile));
+
+		ShopList shopList = getShopList();
 
 		List<ResourceLocation> items = new ArrayList<>();
 		for (int i = 0; i < shopList.getList().size(); i++) {
@@ -132,29 +134,29 @@ public class ShopScreen extends MenuFilterable {
 			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
 				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
 			}
-			inventory.add(new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false));
+			MenuStockItem item = new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false);
+			item.setBackgroundColor(new Color(80,10,10));
+			inventory.add(item);
 		}
 		
 		inventory.forEach(this::addWidget);
 		
 		super.init();
-		
-		float buttonPosX = (float) width * 0.03F;
 
-        addRenderableWidget(create = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Synthesis_Synthesise_Create)), (e) -> {
+		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Buy, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("create");
-		}).bounds((boxM.getX()+3), (int) (height * 0.67), boxM.getWidth()-5, 20).build());
+		});
+		create.setCenterText(true);
+		addRenderableWidget(create);
 		
 		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.invFile, parent.name, parent.moogle))));
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
-		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		if(inventory.isEmpty())
@@ -201,7 +203,7 @@ public class ShopScreen extends MenuFilterable {
 		for(Renderable renderable : this.inventory){
 			if(renderable instanceof MenuStockItem menuStockItem){
 				menuStockItem.active = true;
-				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getHeight()-5); //Arbitrary number to hide the cut one
+				gui.enableScissor(boxL.getX()+2,scrollBar.getY()+2,boxL.getX()+boxL.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 				gui.disableScissor();
 			} else {
@@ -218,8 +220,7 @@ public class ShopScreen extends MenuFilterable {
 		float tooltipPosX = width * 0.3333F;
 		float tooltipPosY = height * 0.8F;
 
-		float iconPosX = boxR.getX();
-		float iconPosY = boxR.getY() + 25;
+		float iconPosY = boxM.getPosY() + 25;
 
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 
@@ -247,10 +248,11 @@ public class ShopScreen extends MenuFilterable {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
 				String line = item.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
-				line = Utils.getTierFromInt(item.getTier())+" - "+(10 + item.getTier()*2)+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				
+				if(ModConfigs.requireSynthTier) {
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
+					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
+					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
+				}
 				matrixStack.pushPose();
 				{
 					float size = 80;
@@ -262,48 +264,40 @@ public class ShopScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem) {
+		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
 			String ability = "";
-			int str=0, mag=0, ap = 0;
-			if(selectedItemStack.getItem() instanceof KeybladeItem) {
-				KeybladeItem kb = (KeybladeItem) selectedItemStack.getItem();
+			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
 				desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
-				str= kb.getStrength(0);
-				mag = kb.getMagic(0);
-				
 			} else if(selectedItemStack.getItem() instanceof KKAccessoryItem accessory) {
-                ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().get(0) : null;
-				str = accessory.getStr();
-				mag = accessory.getMag();
-				ap = accessory.getAp();
+				ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().get(0) : null;
 			}
-			
-				
+
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(boxM.getX()+20, height*0.58, 1);
-				
-				int offset = -20;
-				
-				if(ap != 0)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap, 0, offset+=10, 0xFFFF44);
-				if(str != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": +"+str, 0, offset+=10, 0xFF0000);
-				if(mag != 0 || selectedItemStack.getItem() instanceof KeybladeItem)
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": +"+mag, 0, offset+=10, 0x4444FF);
+				List<Component> stats = Utils.getResistancesStats(selectedItemStack);
+
+				float scale = stats.size() > 4 ? 1F-(stats.size()-4)*0.25F: 1F;
+				matrixStack.scale(scale, scale, scale);
+
+				int offset = -15;
+				for(int i=0;i<stats.size();i++){
+					Component c = stats.get(i);
+					gui.drawString(minecraft.font, c, 0, offset+(10*i), 0x4444FF);
+				}
+
 				if(ability != null) {
 					Ability a = ModAbilities.registry.get().getValue(new ResourceLocation(ability));
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
-						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), offset+=10, 0xFFAA44);
+						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
 					}
 				}
-
 			}
 			matrixStack.popPose();
-			
+
 			if(!desc.equals("")) {
 				matrixStack.pushPose();
 				{
@@ -332,9 +326,6 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
-		if (mouseButton == 1) {
-			GuiHelper.openMenu();
-		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 

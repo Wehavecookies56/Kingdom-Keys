@@ -38,6 +38,11 @@ minecraft {
             }
         }
 
+        client2 {
+            parent runs.client
+            args '--username', 'Dev2'
+        }
+
         server {
             taskName '[KingdomKeys]-Server'
         
@@ -149,7 +154,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.3.7'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.1'
 
     //JEI
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
@@ -158,7 +163,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:jer-240630:4689044")
 
 	implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:5057220")
-    implementation fg.deobf("curse.maven:epic-fight-mod-405076:5655318")
+    implementation fg.deobf("curse.maven:epic-fight-mod-405076:6576579")
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf("curse.maven:apothic-attributes-898963:5209162")

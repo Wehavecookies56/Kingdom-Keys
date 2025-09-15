@@ -28,6 +28,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -108,12 +109,11 @@ public class WaterEntity extends ThrowableProjectile {
 	        if (!list.isEmpty() && list.get(0) != this) {
 				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
 				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-	            for (int i = 0; i < list.size(); i++) {
-	                Entity e = (Entity) list.get(i);
-	                if (e instanceof LivingEntity) {
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-	                }
-	            }
+                for (Entity e : list) {
+                    if (e instanceof LivingEntity) {
+                        e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER, this, this.getOwner()), dmg * dmgMult);
+                    }
+                }
 	        }
 
 		} else { //Projectile

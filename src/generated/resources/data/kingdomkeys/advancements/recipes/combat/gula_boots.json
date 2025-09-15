@@ -1,28 +1,28 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "ava_boots": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "kingdomkeys:ava_boots"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "kingdomkeys:gula_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "leather_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:leather_boots"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "ava_boots",
+      "leather_boots",
       "has_the_recipe"
     ]
   ],

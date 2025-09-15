@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -9,22 +10,42 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
+import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisForgeScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.awt.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class MenuStockItem extends Button {
 
 	MenuFilterable parent;
     ResourceLocation rl;
     ItemStack stack;
-    boolean selected, showAmount;
+    boolean showAmount;
     String customName = null;
     public int offsetY;
+    public Color backgroundColor;
 
     final ResourceLocation texture = new ResourceLocation(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
@@ -60,6 +81,14 @@ public class MenuStockItem extends Button {
         this.customName = customName;
     }
 
+    public void setBackgroundColor(Color color){
+        this.backgroundColor = color;
+    }
+
+    public Color getBackgroundColor(){
+        return backgroundColor;
+    }
+
     @Override
     public int getY() {
         return super.getY() - offsetY;
@@ -88,6 +117,21 @@ public class MenuStockItem extends Button {
                     gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 47, 0, 17, 28);
                 }
                 matrixStack.popPose();
+            } else if(getBackgroundColor() != null) {
+                matrixStack.pushPose();
+                {
+                    RenderSystem.enableBlend();
+
+                    matrixStack.translate(getX() + 0.6F, getY(), 0);
+                    float scale = 0.5F;
+                    matrixStack.scale(scale, scale, 1);
+                    RenderSystem.setShaderColor(getBackgroundColor().getRed()/255F,getBackgroundColor().getGreen()/255F,getBackgroundColor().getBlue()/255F,1);
+                    gui.blit(texture, 0, 0, 219, 0, 18, 28);
+                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 239, 0, 2, 28, 256, 256);
+                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 239, 0, 17, 28);
+                    RenderSystem.setShaderColor(1,1,1,1);
+                }
+                matrixStack.popPose();
             }
             ItemCategory category = Utils.getCategoryForStack(stack);
             matrixStack.pushPose();
@@ -99,12 +143,77 @@ public class MenuStockItem extends Button {
                 gui.blit(texture, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
-            gui.drawString(mc.font, customName == null ? stack.getHoverName().getString() : customName, getX() + 15, getY() + 3, 0xFFFFFF); //If it's a keychain it will show the keyblade name
 
-            if(showAmount) {
-	            String count = Component.translatable("x%s ", stack.getCount()).getString();
-	            gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
+            ChatFormatting color = ChatFormatting.WHITE;
+            IPlayerCapabilities playerData = ModCapabilities.getPlayer(mc.player);
+
+            boolean displayTick = false;
+            if(parent instanceof SynthesisCreateScreen){
+                displayTick = true;
+                color = ChatFormatting.DARK_GRAY;
+
+                if(RecipeRegistry.getInstance().containsKey(rl)){
+                    Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
+                    if((recipe.getTier() <= playerData.getSynthLevel() || !ModConfigs.requireSynthTier) && playerData.getMunny() >= recipe.getCost()) {
+                        color = ChatFormatting.WHITE;
+
+                        for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
+                            if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                                color = ChatFormatting.DARK_GRAY;
+                            }
+                        }
+                    }
+
+                }
             }
+
+            if(parent instanceof SynthesisForgeScreen){
+                displayTick = true;
+                color = ChatFormatting.DARK_GRAY;
+                if(stack.getItem() instanceof KeychainItem kcItem) {
+                    KeybladeItem item = kcItem.getKeyblade();
+                    if(item.getKeybladeLevel(stack) >= item.getMaxLevel()){
+                        color = ChatFormatting.GOLD;
+                    } else {
+                        Iterator<Map.Entry<Item, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
+                        color = ChatFormatting.WHITE;
+                        while (itMats.hasNext()) { //Check if the player has the materials
+                            Map.Entry<Item, Integer> m = itMats.next();
+
+                            if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
+                                color = ChatFormatting.DARK_GRAY;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(parent instanceof ShopScreen shop){
+                displayTick = true;
+                ShopList shopList = shop.getShopList();
+                for(ShopItem item : shopList.getList()){
+                    if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
+                        color = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
+                        break;
+                    }
+                }
+            }
+
+            int rightMargin = 5;
+            if(showAmount) {
+                String count = Component.translatable("x%s ", stack.getCount()).getString();
+                gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
+                rightMargin += mc.font.width(count);
+            }
+
+            ClientUtils.drawScrollingString(gui,mc.font,Component.literal(color+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF, false); //If it's a keychain it will show the keyblade name
+            if(displayTick) {
+                Set<String> recipeList = playerData.getSynthesisedRecipes();
+                if(recipeList.contains(rl.toString())) {
+                    gui.drawString(mc.font, "✔", (int)(getWidth() * 1.49), getY() + 3, 0x00FF00); //If it's a keychain it will show the keyblade name
+                }
+            }
+
         }
     }
 

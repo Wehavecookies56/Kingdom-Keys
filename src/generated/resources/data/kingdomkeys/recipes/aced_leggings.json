@@ -3,23 +3,20 @@
   "category": "equipment",
   "group": "kingdomkeys",
   "key": {
-    "A": {
+    "D": {
+      "item": "minecraft:brown_dye"
+    },
+    "H": {
       "item": "minecraft:leather_leggings"
     },
-    "B": {
-      "item": "minecraft:clock"
-    },
-    "E": {
-      "item": "minecraft:book"
-    },
     "L": {
-      "tag": "forge:leather"
+      "item": "minecraft:leather"
     }
   },
   "pattern": [
-    "LBL",
-    "EAE",
-    "L L"
+    "DLD",
+    "LHL",
+    "D D"
   ],
   "result": {
     "item": "kingdomkeys:aced_leggings"

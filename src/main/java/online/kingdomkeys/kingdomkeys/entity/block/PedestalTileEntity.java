@@ -230,18 +230,18 @@ public class PedestalTileEntity extends BlockEntity implements MenuProvider {
 		this.scale = scale;
 	}
 
-	private static int ticksExisted;
-	public static int previousTicks;
+	private int ticksExisted;
+	public int previousTicks;
 
 	public int ticksExisted() {
 		return ticksExisted;
 	}
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		if (level.getBlockEntity(pos) instanceof PedestalTileEntity ped) {
+		if (blockEntity instanceof PedestalTileEntity ped) {
 			if(!ped.isPaused()) {
-				previousTicks = ticksExisted;
-				ticksExisted++;
+				ped.previousTicks = ped.ticksExisted;
+				ped.ticksExisted++;
 			}
 		}
 	}

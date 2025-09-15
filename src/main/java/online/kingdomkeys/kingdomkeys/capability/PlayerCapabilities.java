@@ -134,12 +134,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			forms.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("drive_forms", forms);
-		
-		CompoundTag visibleDriveForms = new CompoundTag();
-		for (String visibleForm : this.getVisibleDriveForms()) {
-			visibleDriveForms.putString(visibleForm, "");
-		}
-		storage.put("visible_drive_forms", visibleDriveForms);
 
 		CompoundTag abilities = new CompoundTag();
 		for (Entry<String, int[]> pair : this.getAbilityMap().entrySet()) {
@@ -213,9 +207,9 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 
 		CompoundTag airstepCompound = new CompoundTag();
 		Vec3 airstepVec = this.getAirStep().getCenter();
-		returnCompound.putDouble("x", airstepVec.x);
-		returnCompound.putDouble("y", airstepVec.y);
-		returnCompound.putDouble("z", airstepVec.z);
+		airstepCompound.putDouble("x", airstepVec.x);
+		airstepCompound.putDouble("y", airstepVec.y);
+		airstepCompound.putDouble("z", airstepVec.z);
 		storage.put("airstep_pos_compound", airstepCompound);
 
 		CompoundTag savePoints = new CompoundTag();
@@ -226,6 +220,14 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			savePoints.put(uuid.toString(), timeTag);
 		});
 		storage.put("save_points", savePoints);
+
+
+		CompoundTag synthedRecipes = new CompoundTag();
+		for (String rec : this.getSynthesisedRecipes()) {
+			synthedRecipes.putInt(rec, 0);
+		}
+
+		storage.put("synthesised_recipes",synthedRecipes);
 		return storage;
 	}
 
@@ -314,12 +316,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 				this.getDriveFormMap().put(driveFormName, nbt.getCompound("drive_forms").getIntArray(driveFormName));
 			}
 		}
-		
-		for (String driveFormName : nbt.getCompound("visible_drive_forms").getAllKeys()) {
-			if (ModDriveForms.registry.get().containsKey(new ResourceLocation(driveFormName))) { //If form exists
-				this.getVisibleDriveForms().add(driveFormName);
-			}
-		}
 
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
 			if (ModAbilities.registry.get().containsKey(new ResourceLocation(abilityName))) {
@@ -387,6 +383,15 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 			UUID uuid = UUID.fromString(key);
 			CompoundTag time = savePoints.getCompound(key);
 			addDiscoveredSavePoint(uuid, Instant.ofEpochSecond(time.getLong("second"), time.getInt("nano")));
+		}
+
+
+		synthesisedRecipes.clear();
+
+		for (String key : nbt.getCompound("synthesised_recipes").getAllKeys()) {
+			if (RecipeRegistry.getInstance().getRegistry().containsKey(new ResourceLocation(key))) {
+				this.getSynthesisedRecipes().add(key);
+			}
 		}
 	}
 
@@ -456,6 +461,8 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	private int notifColor = 16777215;
 
 	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
+
+	private Set<String> synthesisedRecipes = new HashSet<>();
 
 	//private String armorName = "";
 	
@@ -878,31 +885,6 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 	@Override
 	public void setDriveFormMap(LinkedHashMap<String, int[]> map) {
 		this.driveForms = map;
-	}
-	
-	@Override
-	public LinkedHashSet<String> getVisibleDriveForms() {
-		return visibleDriveforms;
-	}
-
-	@Override
-	public void setVisibleDriveForms(LinkedHashSet<String> forms) {
-		this.visibleDriveforms = forms;
-	}
-
-	@Override
-	public void addVisibleDriveForm(String form) {
-		if(!visibleDriveforms.contains(form)) {
-			this.visibleDriveforms.add(form);
-		}
-	}
-
-	@Override
-	public void remVisibleDriveForm(String form) {
-		if(visibleDriveforms.contains(form)) {
-			visibleDriveforms.remove(form);
-		}
-		
 	}
 
 	@Override
@@ -2243,6 +2225,7 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		}
 	}
 
+	@Override
 	public int getSynthExpNeeded(int level, int currentExp) {
 		if (level > 7)
 			return 0;
@@ -2364,6 +2347,19 @@ public class PlayerCapabilities implements IPlayerCapabilities {
 		return castMagic;
 	}
 
-	
+	public void setSynthesisedRecipes(Set<String> synthesisedRecipes) {
+		this.synthesisedRecipes = synthesisedRecipes;
+	}
+
+	public void addSynthesisedRecipe(String recipe){
+		if(RecipeRegistry.getInstance().containsKey(new ResourceLocation(recipe)))
+			this.synthesisedRecipes.add(recipe);
+		else
+			System.out.println("Recipe does not exist");
+	}
+
+	public Set<String> getSynthesisedRecipes(){
+		return this.synthesisedRecipes;
+	}
 
 }

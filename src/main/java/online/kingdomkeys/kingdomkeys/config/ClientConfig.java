@@ -12,10 +12,10 @@ import java.util.List;
 public class ClientConfig {
 
     public ForgeConfigSpec.BooleanValue corsairKeyboardLighting;
-    
+
     public ForgeConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors;
-    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset;
-    
+    public ForgeConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
+
     public ForgeConfigSpec.BooleanValue hpShowHearts;
     public ForgeConfigSpec.IntValue hpAlarm;
     
@@ -104,9 +104,40 @@ public class ClientConfig {
 			cmCursorMemory = builder
 					.comment("Keep the cursor position in the submenus")
 					.translation(KingdomKeys.MODID + "config.cm_cursor_memory")
-							.define("cmCursorMemory", true);
-	        
-	        builder.pop();
+					.define("cmCursorMemory", true);
+
+
+			cmEndLWidth = builder
+					.comment("Command Menu Element Left End Segment Width")
+					.translation(KingdomKeys.MODID + ".config.cm_end_l_width")
+					.defineInRange("cmEndLWidth", 10, 0, 256);
+
+			cmEndRWidth = builder
+					.comment("Command Menu Element Right End Segment Width")
+					.translation(KingdomKeys.MODID + ".config.cm_end_r_width")
+					.defineInRange("cmEndRWidth", 10, 0, 256);
+
+			cmHeaderEndLWidth = builder
+					.comment("Command Menu Header Left End Segment Width")
+					.translation(KingdomKeys.MODID + ".config.cm_header_end_l_width")
+					.defineInRange("cmHeaderEndLWidth", 10, 0, 256);
+
+			cmHeaderEndRWidth = builder
+					.comment("Command Menu Header Right End Segment Width")
+					.translation(KingdomKeys.MODID + ".config.cm_header_end_r_width")
+					.defineInRange("cmHeaderEndRWidth", 15, 0, 256);
+
+			cmReactionEndLWidth = builder
+					.comment("Reaction command left end segment width")
+					.translation(KingdomKeys.MODID + ".config.cm_reaction_end_l_width")
+					.defineInRange("cmReactionEndLWidth", 10, 0, 256);
+
+			cmReactionEndRWidth = builder
+					.comment("Reaction command right end segment width")
+					.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
+					.defineInRange("cmReactionEndRWidth", 10, 0, 256);
+
+		builder.pop();
 	        
 	        builder.push("hp_bar");
 	        

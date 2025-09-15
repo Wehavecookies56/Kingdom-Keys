@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -69,10 +70,8 @@ public class DriveFormFinal extends DriveForm {
 				
 				//Check if the player has the ability to cancel the variable
 				if(playerData.getIsGliding()) {
-					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && playerData.getEquippedAbilityLevel(Strings.glide)[1] == 0) {
+					if(!playerData.isAbilityEquipped(Strings.glide)) {
 						playerData.setIsGliding(false);
-						//if(player.world.isRemote)
-							//PacketHandler.sendToServer(new CSSetGlidingPacket(false));
 					}
 				}
 			}
@@ -93,12 +92,14 @@ public class DriveFormFinal extends DriveForm {
 			}
 		}
 	}
-	
+
 	private static void handleGlide(Player player, IPlayerCapabilities playerData) {
 		if (player.isInWater() || player.isInLava())
 			return;
+
 		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection
 			Minecraft mc = Minecraft.getInstance();
+
 			if (mc.player == player) { // Only the local player will send the packets
 				if (!player.onGround() && player.fallDistance > 0) { // Glide only when falling
 					if (mc.options.keyJump.isDown()) {
@@ -125,18 +126,45 @@ public class DriveFormFinal extends DriveForm {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);// TODO eventually replace it with the skill
+			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())
+					? playerData.getDriveFormLevel(Strings.Form_Final) - 2
+					: playerData.getDriveFormLevel(Strings.Form_Final);
+
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
-			
-			Vec3 motion = player.getDeltaMovement();
 
-			if (Math.abs(motion.x()) < limit && Math.abs(motion.z()) < limit)
-				player.setDeltaMovement(motion.x() * 1.1, glide, motion.z() * 1.1);
+			float forward = player.zza;
+			float strafe = player.xxa;
+
+			float yaw = player.getYRot();
+			float rad = (float) Math.toRadians(yaw);
+			double sin = Math.sin(rad);
+			double cos = Math.cos(rad);
+
+			double moveX = (strafe * cos - forward * sin);
+			double moveZ = (forward * cos + strafe * sin);
+
+			Vec3 current = player.getDeltaMovement();
+
+			double accelFactor = 0.1;
+			double xSpeed = current.x + (moveX * limit - current.x) * accelFactor;
+			double zSpeed = current.z + (moveZ * limit - current.z) * accelFactor;
+
+			double ySpeed = current.y;
+			if (current.y < glide) {
+				ySpeed = glide;
+			}
+
+			player.setDeltaMovement(new Vec3(xSpeed, ySpeed, zSpeed));
 
 			if (player.getForcedPose() != Pose.SWIMMING) {
 				player.setForcedPose(Pose.SWIMMING);
 			}
+		} else {
+			if (player.getForcedPose() == Pose.SWIMMING) {
+				player.setForcedPose(null);
+			}
 		}
+
 	}
 }

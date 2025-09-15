@@ -24,6 +24,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -105,6 +106,9 @@ public class FiragaEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
+					if (target.getEffect(ModMobEffects.FREEZE.get()) != null) {
+						target.removeEffect(ModMobEffects.FREEZE.get());
+					}
 					Party p = null;
 					if (getOwner() != null) {
 						p = ModCapabilities.getWorld(getOwner().level()).getPartyFromMember(getOwner().getUUID());
@@ -144,11 +148,14 @@ public class FiragaEntity extends ThrowableProjectile {
 			
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
-                    if (e instanceof LivingEntity) {
+                    if (e instanceof LivingEntity livingEntity) {
                         e.setSecondsOnFire(15);
                         float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
                         float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
                         e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg);
+						if (livingEntity.getEffect(ModMobEffects.FREEZE.get()) != null) {
+							livingEntity.removeEffect(ModMobEffects.FREEZE.get());
+						}
                     }
                 }
 			}

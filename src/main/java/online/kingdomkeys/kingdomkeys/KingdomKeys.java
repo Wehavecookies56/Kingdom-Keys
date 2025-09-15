@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import net.minecraft.nbt.CompoundTag;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -185,6 +186,7 @@ public class KingdomKeys {
 		ModEntities.TILE_ENTITIES.register(modEventBus);
         ModContainers.CONTAINERS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
+		ModMobEffects.MOB_EFFECTS.register(modEventBus);
 		TABS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);

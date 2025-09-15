@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +10,10 @@ public class DriveFormData {
 
     float strMult, magMult, speedMult;
     int cost, ap;
-    int[] levelUp;
-    List<String> abilities;
-    List<String> baseLevelUpAbilities;
-    List<String> dfLevelUpAbilities;
+    int[] levelUp = new int[0];
+    List<String> abilities = new ArrayList<>();
+    List<String> baseLevelUpAbilities = new ArrayList<>();
+    List<String> dfLevelUpAbilities = new ArrayList<>();
     boolean canGoAnti, canUseMagic;
     
     public DriveFormData() {

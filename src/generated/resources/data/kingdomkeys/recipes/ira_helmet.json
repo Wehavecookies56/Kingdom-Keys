@@ -1,13 +1,24 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "kingdomkeys",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:invi_helmet"
+  "key": {
+    "D": {
+      "item": "minecraft:white_dye"
+    },
+    "H": {
+      "item": "minecraft:leather_helmet"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
+  },
+  "pattern": [
+    "DLD",
+    "LHL"
   ],
   "result": {
     "item": "kingdomkeys:ira_helmet"
-  }
+  },
+  "show_notification": true
 }

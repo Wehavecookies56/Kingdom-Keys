@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +21,7 @@ import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IWorldCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -94,16 +96,13 @@ public class GravityEntity extends ThrowableProjectile {
 				if (!list.isEmpty()) {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity) {
-                            IGlobalCapabilities globalData = ModCapabilities.getGlobal((LivingEntity) e);
-                            globalData.setFlatTicks(100);
+                            ((LivingEntity) e).addEffect(new MobEffectInstance(ModMobEffects.GRAVITY.get(), 100, 0, false, false, false));
 
                             if (Utils.isHostile(e)) {
                                 float dmg = this.getOwner() instanceof Player ? ((LivingEntity) e).getMaxHealth() * DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2;
                                 dmg = Math.min(dmg, 99);
                                 e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
                             }
-                            if (e instanceof LivingEntity)
-                                PacketHandler.syncToAllAround((LivingEntity) e, globalData);
 
                             if (e instanceof ServerPlayer)
                                 PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);

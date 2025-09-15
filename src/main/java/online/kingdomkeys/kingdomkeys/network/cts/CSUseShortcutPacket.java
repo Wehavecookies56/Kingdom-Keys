@@ -11,6 +11,7 @@ import net.minecraftforge.network.NetworkEvent;
 import online.kingdomkeys.kingdomkeys.capability.IGlobalCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.IPlayerCapabilities;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -49,8 +50,8 @@ public class CSUseShortcutPacket {
 			IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
 			if(playerData == null || globalData == null)
 				return;
-			
-			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !globalData.isKO()) {
+
+			if(playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !player.hasEffect(ModMobEffects.KO.get())) {
 				if (playerData.getShortcutsMap().containsKey(message.index)) {
 					String[] data = playerData.getShortcutsMap().get(message.index).split(",");
 					String magicName = data[0];

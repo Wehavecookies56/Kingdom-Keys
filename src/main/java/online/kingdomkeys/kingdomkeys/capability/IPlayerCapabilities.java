@@ -142,11 +142,6 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	LinkedHashMap<String, int[]> getDriveFormMap();
 	void setDriveFormMap(LinkedHashMap<String,int[]> map);
 	
-	LinkedHashSet<String> getVisibleDriveForms();
-	void setVisibleDriveForms(LinkedHashSet<String> forms);
-	void addVisibleDriveForm(String form);
-	void remVisibleDriveForm(String form);
-	
 	int getDriveFormLevel(String name);
 	void setDriveFormLevel(String name, int level);
     int getDriveFormExp(String drive);
@@ -329,6 +324,8 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	void setSynthExperience(int exp);
 	void addSynthExperience(int exp);
 
+	int getSynthExpNeeded(int level, int currentExp);
+
 	SingleChoices getSingleStyle();
 	void setSingleStyle(SingleChoices singleStyle) ;
 	DualChoices getDualStyle();
@@ -346,4 +343,8 @@ public interface IPlayerCapabilities extends INBTSerializable<CompoundTag> {
 	Map<UUID, Instant> discoveredSavePoints();
 	void addDiscoveredSavePoint(UUID id, Instant time);
 	void setDiscoveredSavePoints(Map<UUID, Instant> list);
+
+	void setSynthesisedRecipes(Set<String> synthesisedRecipes);
+	void addSynthesisedRecipe(String recipe);
+	Set<String> getSynthesisedRecipes();
 }

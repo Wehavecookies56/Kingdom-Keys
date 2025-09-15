@@ -10,7 +10,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -96,8 +98,51 @@ import javax.annotation.Nullable;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ClientUtils {
+    public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color, boolean centered) {
+        int maxWidth = maxX - minX;
+        int textWidth = font.width(text.getVisualOrderText());
+        if (textWidth <= maxWidth) {
+            if (centered) {
+                int i = font.width(text);
+                int i1 = Mth.clamp((minX + maxX) / 2, minX + i / 2, maxX - i / 2);
+                gui.drawCenteredString(font, text, i1+1, y, color);
+                return maxWidth;
+            } else {
+                return gui.drawString(font, text, minX, y, color);
+            }
+        } else {
+            y-=1;
+            renderScrollingString(gui, font, text, minX, y, maxX, y + 9, color);
+            return maxWidth;
+        }
+    }
+
+    public static void renderScrollingString(GuiGraphics guiGraphics, Font font, Component text, int minX, int minY, int maxX, int maxY, int color) {
+        renderScrollingString(guiGraphics, font, text, (minX + maxX) / 2, minX, minY, maxX, maxY, color);
+    }
+
+    public static void renderScrollingString(GuiGraphics guiGraphics, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
+        int i = font.width(text);
+        int j = (minY + maxY - 9) / 2 + 1;
+        int k = maxX - minX;
+        if (i > k) {
+            int l = i - k;
+            double d0 = (double) Util.getMillis() / (double)1000.0F;
+            double d1 = Math.max((double)l * (double)0.5F, (double)3.0F);
+            double d2 = Math.sin((Math.PI / 2D) * Math.cos((Math.PI * 2D) * d0 / d1)) / (double)2.0F + (double)0.5F;
+            double d3 = Mth.lerp(d2, (double)0.0F, (double)l);
+            guiGraphics.enableScissor(minX, minY, maxX, maxY);
+            guiGraphics.drawString(font, text, minX - (int)d3, j, color);
+            guiGraphics.disableScissor();
+        } else {
+            int i1 = Mth.clamp(centerX, minX + i / 2, maxX - i / 2);
+            guiGraphics.drawCenteredString(font, text, i1, j, color);
+        }
+
+    }
 
     public static boolean getResourceExists(String path){
         try {
@@ -193,6 +238,10 @@ public class ClientUtils {
             public void run() {
                 Player player = Minecraft.getInstance().player;
                 player.refreshDimensions();
+
+                if (player.getForcedPose() != null && !ModCapabilities.getPlayer(player).getIsGliding()) {
+                    player.setForcedPose(null);
+                }
             }
         };
     }
@@ -243,7 +292,6 @@ public class ClientUtils {
                 playerData.setShotlockList(message.shotlockList);
                 playerData.setEquippedShotlock(message.equippedShotlock);
                 playerData.setDriveFormMap(message.driveFormMap);
-                playerData.setVisibleDriveForms(message.visibleDriveForms);
                 playerData.setAbilityMap(message.abilityMap);
                 playerData.setAntiPoints(message.antipoints);
                 playerData.setPartiesInvited(message.partyList);
@@ -283,7 +331,8 @@ public class ClientUtils {
 
                 playerData.setSingleStyle(message.singleStyle);
                 playerData.setDualStyle(message.dualStyle);
-                
+
+                playerData.setSynthesisedRecipes(message.synthesisedRecipes);
                 Minecraft.getInstance().player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(message.maxHp);
             }
         };
@@ -823,17 +872,18 @@ public class ClientUtils {
         return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
     }
 
-    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/shotlock_indicator.png"),
-                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+    public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID + ":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID, "textures/gui/shotlock_indicator.png"),
+                    false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
       public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
-                    false, false)).setTransparencyState(RenderStateShard.NO_TRANSPARENCY).setLightmapState(RenderStateShard.NO_LIGHTMAP).setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+                    false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
-        IPlayerCapabilities localPlayerData = ModCapabilities.getPlayer(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
 
         if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {

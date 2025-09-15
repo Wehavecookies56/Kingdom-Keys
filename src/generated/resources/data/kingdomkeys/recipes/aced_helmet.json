@@ -3,22 +3,19 @@
   "category": "equipment",
   "group": "kingdomkeys",
   "key": {
-    "A": {
+    "D": {
+      "item": "minecraft:brown_dye"
+    },
+    "H": {
       "item": "minecraft:leather_helmet"
     },
-    "B": {
-      "item": "minecraft:clock"
-    },
-    "E": {
-      "item": "minecraft:book"
-    },
     "L": {
-      "tag": "forge:leather"
+      "item": "minecraft:leather"
     }
   },
   "pattern": [
-    "LBL",
-    "EAE"
+    "DLD",
+    "LHL"
   ],
   "result": {
     "item": "kingdomkeys:aced_helmet"

@@ -1,13 +1,14 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Nullable;
 
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import org.lwjgl.glfw.GLFW;
@@ -61,7 +62,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 public class InputHandler {
 
     @Nullable public List<UUID> portalCommands;
-    @Nullable public Map<String, int[]> driveFormsMap;
     @Nullable public List<Member> targetsList;
     @Nullable public List<Limit> limitsList;
     @Nullable public List<String> magicList;
@@ -93,10 +93,20 @@ public class InputHandler {
         }
     }
 
-
+    boolean canSwitchTarget = true;
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
+
+        if(InputHandler.lockOn != null) {
+            if(canSwitchTarget && event.getKey() == mc.options.keySprint.getKey().getValue()){
+                switchTarget(player.isCrouching());
+                canSwitchTarget = false;
+            } else {
+                canSwitchTarget = true;
+            }
+        }
+
         Keybinds key = getPressedKey();
         if (player != null) {
             if(playerData == null)
@@ -245,14 +255,15 @@ public class InputHandler {
         PacketHandler.sendToServer(new CSSummonArmor());
     }
 
+    public static int LOCK_ON_REACH = 35;
+
     public void lockOn() {
         if (lockOn == null) {
-            int reach = 35;
-            HitResult rtr = getMouseOverExtended(reach);
+            HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
             if (rtr != null && rtr instanceof EntityHitResult ertr) {
                 double distance = player.distanceTo(ertr.getEntity());
 
-                if (reach >= distance) {
+                if (LOCK_ON_REACH >= distance) {
                     if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
@@ -262,6 +273,57 @@ public class InputHandler {
         } else {
             lockOn = null;
         }
+    }
+
+    private void switchTarget(boolean toRight) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null || InputHandler.lockOn == null) return;
+
+        LivingEntity currentTarget = InputHandler.lockOn;
+        //Get all entities in a radius (25% of the lock on reach)
+        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(LOCK_ON_REACH / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive());
+
+        if (candidates.size() <= 1)
+            return;
+
+        Vec3 playerPos = player.position();
+        Vec3 lookVec = player.getLookAngle();
+
+        // Sort enemies by angle from the player POV
+        List<Pair<LivingEntity, Double>> sorted = candidates.stream()
+                .map(entity -> {
+                    Vec3 dirToEntity = entity.position().subtract(playerPos).normalize();
+                    double angle = Math.toDegrees(Math.atan2(
+                            lookVec.z * dirToEntity.x - lookVec.x * dirToEntity.z,
+                            lookVec.x * dirToEntity.x + lookVec.z * dirToEntity.z
+                    ));
+                    return Pair.of(entity, angle);
+                })
+                .sorted(Comparator.comparingDouble(Pair::getSecond))
+                .toList();
+
+        int index = -1;
+        for (int i = 0; i < sorted.size(); i++) {
+            if (sorted.get(i).getFirst().equals(currentTarget)) {
+                index = i;
+                break;
+            }
+        }
+
+        // Fallback to the first enemy
+        if (index == -1) {
+            index = 0;
+        }
+
+        int nextIndex = (index + (toRight ? 1 : -1) + sorted.size()) % sorted.size();
+        LivingEntity nextTarget = sorted.get(nextIndex).getFirst();
+
+        // Prevent switching if entity is the same
+        if (nextTarget.equals(currentTarget))
+            return;
+
+        InputHandler.lockOn = nextTarget;
+        playSound(ModSounds.lockon.get());
     }
 
     public void commandUp() {
@@ -316,10 +378,6 @@ public class InputHandler {
         // Wisdom Form
         if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
             power = Constants.WISDOM_QR[wisdomLevel];
-            if (!player.onGround()) {
-                player.push(motionX * power / 2, 0, motionZ * power / 2);
-                qrCooldown = 20;
-            }
         } else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
             if (wisdomLevel > 2) {
                 power = Constants.WISDOM_QR[wisdomLevel - 2];
@@ -383,16 +441,16 @@ public class InputHandler {
         DriveForm form = ModDriveForms.registry.get().getValue(new ResourceLocation(playerData.getActiveDriveForm()));
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
+            if (globalData != null && !player.hasEffect(ModMobEffects.STOP.get())) {
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO.get())) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
                 }
             }
         }
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
-            if (globalData != null && globalData.getStoppedTicks() <= 0) {
-                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !globalData.isKO()) {
+            if (globalData != null && !player.hasEffect(ModMobEffects.STOP.get())) {
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO.get())) {
                     PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
                 }
             }
@@ -401,12 +459,6 @@ public class InputHandler {
 
     public void loadLists() {
         if(playerData != null && worldData != null) {
-            this.driveFormsMap = Utils.getSortedDriveForms(playerData.getDriveFormMap(), playerData.getVisibleDriveForms());
-            if(!playerData.isAbilityEquipped(Strings.darkDomination)) {
-            	this.driveFormsMap.remove(Strings.Form_Anti);
-            }
-            this.driveFormsMap.remove(DriveForm.NONE.toString());
-            this.driveFormsMap.remove(DriveForm.SYNCH_BLADE.toString());
             //this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
             this.portalCommands = worldData.getAllPortalsFromOwnerID(player.getUUID());
             this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsMap().containsKey(magic)).toList();

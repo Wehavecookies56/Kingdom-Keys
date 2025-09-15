@@ -72,7 +72,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 	// TODO remove attack damage
 	public KeybladeItem(Item.Properties properties) {
-		super(new KeybladeItemTier(0), 0, -1F, properties);
+		super(new KeybladeItemTier(0), 0, -2.4F, properties);
 		this.properties = properties;
 	}
 

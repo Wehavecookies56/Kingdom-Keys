@@ -23,10 +23,11 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
-import yesman.epicfight.api.client.model.AnimatedMesh;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
-import yesman.epicfight.api.client.model.transformer.CustomModelBakery;
+import yesman.epicfight.api.client.model.SkinnedMesh;
+import yesman.epicfight.api.client.model.StaticMesh;
+import yesman.epicfight.api.client.model.transformer.HumanoidModelBaker;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
@@ -34,14 +35,14 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
-public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>, AM extends AnimatedMesh> extends PatchedLayer<E, T, M, ShoulderLayerRenderer<E, M>> {
+public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>> extends PatchedLayer<E, T, M, ShoulderLayerRenderer<E, M>> {
     public PatchedShoulderLayerRenderer() {
     }
 
     ResourceLocation texture;
 
     @Override
-    protected void renderLayer(T t, E e, ShoulderLayerRenderer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
+    protected void renderLayer(T t, E e, ShoulderLayerRenderer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
             ItemStack armor = ModCapabilities.getPlayer(player).getEquippedKBArmor(0);
@@ -52,16 +53,17 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
             model = models.get(armorName);
             if (model != null) {
                 model.leftArm.visible = true;
-                AnimatedMesh modelAnimated = CustomModelBakery.bakeArmor(player, armor, (ArmorItem) ModItems.terra_Helmet.get(), EquipmentSlot.CHEST, emRenderLayer.getParentModel(), model, emRenderLayer.getParentModel(), Meshes.BIPED);
+                SkinnedMesh modelAnimated = HumanoidModelBaker.bakeArmor(player, armor, (ArmorItem) ModItems.terra_Helmet.get(), EquipmentSlot.CHEST, emRenderLayer.getParentModel(), model, emRenderLayer.getParentModel(), Meshes.BIPED.get());
                 texture = new ResourceLocation(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
                 model.setAllVisible(true);
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getModelName().equals("default");
                 //Item doesn't matter
                 poseStack.pushPose();
+                VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(texture)));
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);
-                modelAnimated.draw(poseStack, multiBufferSource, EpicFightRenderTypes.armorCutoutNoCull(texture), i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED, openMatrix4fs);
+                modelAnimated.drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), openMatrix4fs);
                 poseStack.popPose();
             }
         }

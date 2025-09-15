@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
@@ -11,49 +12,40 @@ import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 
 public class SCSyncGlobalCapabilityPacket {
 	//Sync to client global capabilities
-	private int stoppedTicks, flatTicks, level, aeroTicks, aeroLevel, stopModelTicks;
-	private float stopDmg;
-	private boolean castleOblivionMarker, isKO;
+	private int level, stopModelTicks;
+	private ArrayList<Float> stopDmg = new ArrayList<>();
+	private boolean castleOblivionMarker;
 
 	public SCSyncGlobalCapabilityPacket() {
 	}
 
 	public SCSyncGlobalCapabilityPacket(IGlobalCapabilities capability) {
-		this.stoppedTicks = capability.getStoppedTicks();
 		this.stopDmg = capability.getStopDamage();
-		this.flatTicks = capability.getFlatTicks();
-		this.aeroTicks = capability.getAeroTicks();
-		this.aeroLevel = capability.getAeroLevel();
 		this.castleOblivionMarker = capability.getCastleOblivionMarker();
 		this.level = capability.getLevel();
 		this.stopModelTicks = capability.getStopModelTicks();
-		this.isKO = capability.isKO();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.stoppedTicks);
-		buffer.writeFloat(this.stopDmg);
-		buffer.writeInt(this.flatTicks);
-		buffer.writeInt(this.aeroTicks);
-		buffer.writeInt(this.aeroLevel);
+		buffer.writeInt(this.stopDmg.size());
+		for(Float unit : stopDmg) {
+			buffer.writeFloat(unit);
+		}
 		buffer.writeBoolean(this.castleOblivionMarker);
 		buffer.writeInt(this.level);
 		buffer.writeInt(this.stopModelTicks);
-		buffer.writeBoolean(this.isKO);
 
 	}
 
 	public static SCSyncGlobalCapabilityPacket decode(FriendlyByteBuf buffer) {
 		SCSyncGlobalCapabilityPacket msg = new SCSyncGlobalCapabilityPacket();
-		msg.stoppedTicks = buffer.readInt();
-		msg.stopDmg = buffer.readFloat();
-		msg.flatTicks = buffer.readInt();
-		msg.aeroTicks = buffer.readInt();
-		msg.aeroLevel = buffer.readInt();
+		int len = buffer.readInt();
+		for(int i = 0; i < len; i++) {
+			msg.stopDmg.add(buffer.readFloat());
+		}
 		msg.castleOblivionMarker = buffer.readBoolean();
 		msg.level = buffer.readInt();
 		msg.stopModelTicks = buffer.readInt();
-		msg.isKO = buffer.readBoolean();
 		return msg;
 	}
 
@@ -61,14 +53,10 @@ public class SCSyncGlobalCapabilityPacket {
 		ctx.get().enqueueWork(() -> {
 			LazyOptional<IGlobalCapabilities> globalData = Minecraft.getInstance().player.getCapability(ModCapabilities.GLOBAL_CAPABILITIES);
 			globalData.ifPresent(cap -> {
-				cap.setStoppedTicks(message.stoppedTicks);
 				cap.setStopDamage(message.stopDmg);
-				cap.setFlatTicks(message.flatTicks);
-				cap.setAeroTicks(message.aeroTicks, message.aeroLevel);
 				cap.setCastleOblivionMarker(message.castleOblivionMarker);
 				cap.setLevel(message.level);
 				cap.setStopModelTicks(message.stopModelTicks);
-				cap.setKO(message.isKO);
 			});
 		});
 		ctx.get().setPacketHandled(true);

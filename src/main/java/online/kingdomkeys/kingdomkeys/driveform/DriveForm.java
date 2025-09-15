@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,8 +25,8 @@ public abstract class DriveForm {
 	public static final float[] VALOR_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.03F, 0.03F, 0.04F, 0.04F, 0.06F };
 	public static final float[] MASTER_AERIAL_DODGE_BOOST = { 0, 1, 1, 1.2F, 1.2F, 1.4F, 1.4F, 1.6F };
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.055F };
-	public static final float[] FINAL_GLIDE = { 0, -0.12F, -0.12F, -0.08F, -0.08F, -0.04F, -0.04F, -0.01F };
-	public static final float[] FINAL_GLIDE_SPEED = { 0, 0.4F, 0.4F, 0.5F, 0.5F, 0.6F, 0.6F, 0.7F };
+	public static final float[] FINAL_GLIDE = { 0, -0.09F, -0.09F, -0.06F, -0.06F, -0.03F, -0.03F, -0.01F };
+	public static final float[] FINAL_GLIDE_SPEED = { 0, 1.8F, 1.8F, 2.8F, 2.8F, 3.6F, 3.6F, 5F };
 	
 	ResourceLocation name;
 	int maxLevel;
@@ -38,7 +39,7 @@ public abstract class DriveForm {
 
 	boolean hasKeychain = false;
 
-	private DriveFormData data;	
+	private DriveFormData data = new DriveFormData();
 
 	public DriveForm(ResourceLocation registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this.name = registryName;
@@ -149,16 +150,27 @@ public abstract class DriveForm {
 			playerData.remDP(cost);
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
 			playerData.setAntiPoints(playerData.getAntiPoints() + getFormAntiPoints());
+
 			player.heal(ModConfigs.driveHeal * player.getMaxHealth() / 100);
-			
-			// Summon Keyblades
-			player.level().playSound(null, player.blockPosition(), ModSounds.drive.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			playerData.setMP(playerData.getMaxMP());
+
+			if(getDriveSound() != null)
+				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
 
-	private void pushEntities(Player player) {
+	public SoundEvent getDriveSound() {
+		return ModSounds.drive.get();
+	}
+
+	public SoundEvent getRevertSound() {
+		return ModSounds.unsummon.get();
+	}
+
+
+	public void pushEntities(Player player) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -191,7 +203,8 @@ public abstract class DriveForm {
 	public void endDrive(Player player) {
 		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
-		player.level().playSound(player, player.blockPosition(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		if(getRevertSound() != null)
+			player.level().playSound(player, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}

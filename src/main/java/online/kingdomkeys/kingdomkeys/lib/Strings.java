@@ -476,7 +476,7 @@ public class Strings {
             Gui_Shop_Page = Gui_Shop + ".page",
 	    	Gui_Shop_Tier = Gui_Shop + ".tier",
             Gui_Shop_Main = Gui_Shop + ".main",
-            Gui_Shop_NoSpace = Gui_Shop + "no_empty_slot",
+            Gui_Shop_NoSpace = Gui_Shop + ".no_empty_slot",
             Gui_Shop_Main_Title = Gui_Shop_Main + ".title",
             Gui_Shop_Main_Buy = Gui_Shop_Main + ".buy",
             Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
@@ -489,7 +489,10 @@ public class Strings {
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
 			Gui_Synthesis_Exp = Gui_Synthesis + ".exp",
-            Gui_Synthesis_Main = Gui_Synthesis + ".main",
+			Gui_Synthesis_Exp_MoogleLevel = Gui_Synthesis_Exp + ".mooglelevel",
+			Gui_Synthesis_Exp_NextLevel = Gui_Synthesis_Exp + ".nextlevel",
+
+			Gui_Synthesis_Main = Gui_Synthesis + ".main",
             Gui_Synthesis_Main_Title = Gui_Synthesis_Main + ".title",
             Gui_Synthesis_Main_Recipes = Gui_Synthesis_Main + ".recipes",
             Gui_Synthesis_Main_FreeDev = Gui_Synthesis_Main + ".freedevelopment",

@@ -53,34 +53,6 @@ public class PauldronItem extends Item implements IItemCategory {
 	}
 
 	@Override
-	public void onUseTick(Level levelIn, LivingEntity pLivingEntity, ItemStack pStack, int pRemainingUseDuration) {
-		if(pRemainingUseDuration <= getUseDuration(pStack)-20) {
-			if (pLivingEntity instanceof Player player) {
-				player.stopUsingItem();
-                for (int i = 0; i < 4; i++) {
-					ItemStack armorPieceStack = player.getInventory().getItem(36 + i);
-		
-					if (!ItemStack.isSameItem(armorPieceStack, ItemStack.EMPTY)) {
-						if (armorPieceStack.isEnchanted() && !Utils.hasArmorID(armorPieceStack)) {
-							switch (i) {
-								case 0 -> pStack.getTag().put("boots", armorPieceStack.getTag());
-								case 1 -> pStack.getTag().put("leggings", armorPieceStack.getTag());
-								case 2 -> pStack.getTag().put("chestplate", armorPieceStack.getTag());
-								case 3 -> pStack.getTag().put("helmet", armorPieceStack.getTag());
-							}
-
-							levelIn.playSound(player, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.MASTER, 1.0f, 1.0f);
-							armorPieceStack.setTag(new CompoundTag());
-						}
-					}
-				}
-			}
-		}
-		
-		super.onUseTick(levelIn, pLivingEntity, pStack, pRemainingUseDuration);
-	}
-
-	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
@@ -92,58 +64,12 @@ public class PauldronItem extends Item implements IItemCategory {
 			});
 		}
 
-		/**
-		boolean shouldSuck = false;
-		for (int i = 0; i < 4; i++) {
-			ItemStack armorPieceStack = playerIn.getInventory().getItem(36 + i);
-			if (!ItemStack.isSameItem(armorPieceStack, ItemStack.EMPTY)) {
-				if(armorPieceStack.isEnchanted()) {
-					shouldSuck = true;
-				}
-			}
-		}
-		if(shouldSuck)
-			playerIn.startUsingItem(handIn);
-		 **/
-		
 		return InteractionResultHolder.success(stack);
 	}
 	
 	@Override
-	public int getUseDuration(ItemStack pStack) {
-		return 72000;
-	}
-
-	/**
-	 * Returns the action that specifies what animation to play when the item is
-	 * being used.
-	 */
-	@Override
-	public UseAnim getUseAnimation(ItemStack pStack) {
-		return UseAnim.BOW;
-	}
-
-	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (stack.getTag() != null) {
-			if (!stack.getTag().contains("created")) {
-				stack.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-					IItemHandlerModifiable pauldronInventory = (IItemHandlerModifiable) iItemHandler;
-					boolean alreadyHasItem = false;
-					for (int i = 0; i < pauldronInventory.getSlots(); i++) {
-						if (!pauldronInventory.getStackInSlot(i).isEmpty()) {
-							alreadyHasItem = true;
-						}
-					}
-					if (!alreadyHasItem) {
-						pauldronInventory.setStackInSlot(0, new ItemStack(items[3]));
-						pauldronInventory.setStackInSlot(1, new ItemStack(items[2]));
-						pauldronInventory.setStackInSlot(2, new ItemStack(items[1]));
-						pauldronInventory.setStackInSlot(3, new ItemStack(items[0]));
-						stack.getTag().putBoolean("created", true);
-					}
-				});
-			}
 			if (!stack.getTag().hasUUID("armorID"))
 				stack.setTag(setID(stack.getTag()));
 		} else {

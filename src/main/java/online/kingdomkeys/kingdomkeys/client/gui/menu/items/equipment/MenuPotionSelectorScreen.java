@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectPotionButton;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -18,14 +19,18 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MenuPotionSelectorScreen extends MenuBackground {
-
-	MenuBox keyblades, details;
+	public MenuScrollBar scrollBar;
+	MenuBox boxL, boxR;
     Button back;
+	MenuColourBox equipped;
 
+	List<MenuSelectPotionButton> widgets = new ArrayList<>();
 	int buttonColour;
 	Color colour;
 	public int slot = -1;
@@ -54,6 +59,8 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		float listX = width * 0.21F;
 		float listY = height * 0.2546F;
 
+		widgets.clear();
+		addedItemsList.clear();
 
         addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
@@ -66,11 +73,11 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? ((KKPotionItem) equippedPotion.getItem()).getDescriptionId() : "---";
 		
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour));
+		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour);
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedPotion, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					addRenderableWidget(new MenuSelectPotionButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+					widgets.add(new MenuSelectPotionButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 				}
 			}
 			
@@ -82,22 +89,81 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 							int amount = addedItemsList.get(item);
 							addedItemsList.replace(item, amount+1);
 						} else {
-							addRenderableWidget(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+							widgets.add(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 							addedItemsList.put((KKPotionItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}
 				}
 			}
 		}
-		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, colour);
-		details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, colour);
+
+		widgets.forEach(this::addWidget);
+
+		boxL = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.6F, colour);
+		boxR = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight,0.6F, colour);
+
+		int scrollYPos = (int)listY;
+
+		int listHeight = 0;
+		if(!widgets.isEmpty())
+			listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
+
+		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
+		if (scrollBar.isVisible()) {
+			widgets.forEach(menuSelectEquipmentButton -> {
+				menuSelectEquipmentButton.setWidth((int) keybladesWidth-10-scrollBar.getWidth());
+			});
+		}
+		addRenderableWidget(scrollBar);
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
-		details.renderWidget(gui, mouseX, mouseY, partialTicks);
-		super.render(gui, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		equipped.render(gui, mouseX, mouseY, partialTicks);
+		scrollBar.render(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
+
+		for(MenuSelectPotionButton renderable : widgets){
+			gui.enableScissor(boxL.getX()+2,scrollBar.getY(), boxL.getX()+ boxL.getWidth(),scrollBar.getBottom()+1); //Arbitrary number to hide the cut one
+			renderable.render(gui,mouseX,mouseY,partialTicks);
+			gui.disableScissor();
+			renderable.renderData(gui,mouseX,mouseY,partialTicks);
+		}
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		updateScroll();
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	public void updateScroll() {
+		widgets.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaY) {
+		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaY);
+		updateScroll();
+		return false;
 	}
 }

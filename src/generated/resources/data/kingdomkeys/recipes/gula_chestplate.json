@@ -1,13 +1,25 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "kingdomkeys",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:ava_chestplate"
+  "key": {
+    "D": {
+      "item": "minecraft:yellow_dye"
+    },
+    "H": {
+      "item": "minecraft:leather_chestplate"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
+  },
+  "pattern": [
+    "D D",
+    "LHL",
+    "DLD"
   ],
   "result": {
     "item": "kingdomkeys:gula_chestplate"
-  }
+  },
+  "show_notification": true
 }

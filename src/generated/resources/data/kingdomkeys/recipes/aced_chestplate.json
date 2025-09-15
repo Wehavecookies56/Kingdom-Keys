@@ -3,23 +3,20 @@
   "category": "equipment",
   "group": "kingdomkeys",
   "key": {
-    "A": {
+    "D": {
+      "item": "minecraft:brown_dye"
+    },
+    "H": {
       "item": "minecraft:leather_chestplate"
     },
-    "B": {
-      "item": "minecraft:clock"
-    },
-    "E": {
-      "item": "minecraft:book"
-    },
     "L": {
-      "tag": "forge:leather"
+      "item": "minecraft:leather"
     }
   },
   "pattern": [
-    "LAL",
-    "EBE",
-    "LLL"
+    "D D",
+    "LHL",
+    "DLD"
   ],
   "result": {
     "item": "kingdomkeys:aced_chestplate"

@@ -28,15 +28,7 @@ public class CSGiveUpKO {
     public static void handle(CSGiveUpKO message, final Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             Player player = ctx.get().getSender();
-            IGlobalCapabilities globalData = ModCapabilities.getGlobal(player);
-
             killPlayer(player);
-            if(globalData != null){
-                globalData.setKO(false);
-                PacketHandler.syncToAllAround(player,globalData);
-            }
-            killPlayer(player);
-
         });
         ctx.get().setPacketHandled(true);
     }

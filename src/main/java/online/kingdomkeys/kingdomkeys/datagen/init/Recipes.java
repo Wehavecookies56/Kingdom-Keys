@@ -27,156 +27,180 @@ public class Recipes extends RecipeProvider {
 	@Override
     protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
     	//Terra
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
-	        .requires(ModItems.terra_Helmet.get())
-	        .requires(ModItems.terra_Chestplate.get())
-	        .requires(ModItems.terra_Leggings.get())
-	        .requires(ModItems.terra_Boots.get())
-	        .unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-	        .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.ORANGE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
-    	SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
+		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
-    	
-    	//Aqua
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
-        .requires(ModItems.aqua_Helmet.get())
-        .requires(ModItems.aqua_Chestplate.get())
-        .requires(ModItems.aqua_Leggings.get())
-        .requires(ModItems.aqua_Boots.get())
-        .unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
+
+		//Aqua
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.BLUE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
-    	
-    	//Ventus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
-        .requires(ModItems.ventus_Helmet.get())
-        .requires(ModItems.ventus_Chestplate.get())
-        .requires(ModItems.ventus_Leggings.get())
-        .requires(ModItems.ventus_Boots.get())
-        .unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
+
+		//Ventus
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.LIME_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
-    	
-    	//Nightmare Ventus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
-        .requires(ModItems.nightmareVentus_Helmet.get())
-        .requires(ModItems.nightmareVentus_Chestplate.get())
-        .requires(ModItems.nightmareVentus_Leggings.get())
-        .requires(ModItems.nightmareVentus_Boots.get())
-        .unlockedBy("nightmareverntus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
+
+		//Nightmare Ventus
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.BLACK_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("nightmareventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
-    	
-    	//Eraqus
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
-        .requires(ModItems.eraqus_Helmet.get())
-        .requires(ModItems.eraqus_Chestplate.get())
-        .requires(ModItems.eraqus_Leggings.get())
-        .requires(ModItems.eraqus_Boots.get())
-        .unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
+
+		//Eraqus
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.WHITE_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
-    	
-    	//Xehanort
-    	ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
-        .requires(ModItems.xehanort_Helmet.get())
-        .requires(ModItems.xehanort_Chestplate.get())
-        .requires(ModItems.xehanort_Leggings.get())
-        .requires(ModItems.xehanort_Boots.get())
-        .unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_INGOT))
-        .save(consumer);
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
+
+		//Xehanort
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
+				.define('B', ItemTags.BUTTONS)
+				.define('I', Items.IRON_INGOT)
+				.define('D', Items.GRAY_DYE)
+				.define('G', Items.GOLD_INGOT)
+				.pattern("DGD")
+				.pattern("IBI")
+				.pattern("DGD")
+				.group("kingdomkeys")
+				.unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
+				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
-        .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, new ResourceLocation(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
-    	
-        // blox
+				.unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
+
+		// blox
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())
                 .define('S', Tags.Items.STONE)
                 .define('N', Items.DIRT)
@@ -727,174 +751,224 @@ public class Recipes extends RecipeProvider {
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
 
-		
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
-                .pattern("LBL")
-                .pattern("EAE")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_HELMET)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
-                .pattern("LAL")
-                .pattern("EBE")
-                .pattern("LLL")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_CHESTPLATE)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
-                .pattern("LBL")
-                .pattern("EAE")
-                .pattern("L L")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_LEGGINGS)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
-                .pattern("EBE")
-                .pattern("LAL")
-                .define('B', Items.CLOCK)
-                .define('E', Items.BOOK)
-                .define('A', Items.LEATHER_BOOTS)
-                .define('L', Tags.Items.LEATHER)
-                .group("kingdomkeys")
-                .unlockedBy("clock", InventoryChangeTrigger.TriggerInstance.hasItems(Items.CLOCK))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Helmet.get())
-                .requires(ModItems.ira_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Helmet.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_helmet_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Chestplate.get())
-                .requires(ModItems.ira_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Chestplate.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_chestplate_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.BROWN_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Leggings.get())
-                .requires(ModItems.ira_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Leggings.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_leggings_shapeless"));
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.BROWN_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aced_Boots.get())
-                .requires(ModItems.ira_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("ira_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ira_Boots.get()))
-                .save(consumer, new ResourceLocation(KingdomKeys.MODID, "aced_boots_shapeless"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Helmet.get())
-                .requires(ModItems.aced_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Chestplate.get())
-                .requires(ModItems.aced_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Leggings.get())
-                .requires(ModItems.aced_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.WHITE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ava_Boots.get())
-                .requires(ModItems.aced_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("aced_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aced_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ira_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.WHITE_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Helmet.get())
-                .requires(ModItems.ava_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Helmet.get()))
-                .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Chestplate.get())
-                .requires(ModItems.ava_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Leggings.get())
-                .requires(ModItems.ava_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
-                .requires(ModItems.ava_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("ava_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ava_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.PINK_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Helmet.get())
-                .requires(ModItems.gula_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.ava_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.PINK_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Chestplate.get())
-                .requires(ModItems.gula_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Chestplate.get()))
-                .save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Leggings.get())
-                .requires(ModItems.gula_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.invi_Boots.get())
-                .requires(ModItems.gula_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("gula_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gula_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Helmet.get())
-                .requires(ModItems.invi_Helmet.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Helmet.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.YELLOW_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Chestplate.get())
-                .requires(ModItems.invi_Chestplate.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Chestplate.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.gula_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.YELLOW_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Leggings.get())
-                .requires(ModItems.invi_Leggings.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Leggings.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Helmet.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_HELMET)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
+				.save(consumer);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.ira_Boots.get())
-                .requires(ModItems.invi_Boots.get())
-                .group("kingdomkeys")
-                .unlockedBy("invi_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.invi_Boots.get()))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Chestplate.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.pattern("DLD")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_CHESTPLATE)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
+				.save(consumer);
 
-        // util blocks
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Leggings.get())
+				.pattern("DLD")
+				.pattern("LHL")
+				.pattern("D D")
+				.define('L', Items.LEATHER)
+				.define('H', Items.LEATHER_LEGGINGS)
+				.define('D', Items.BLUE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.invi_Boots.get())
+				.pattern("D D")
+				.pattern("LHL")
+				.define('D', Items.BLUE_DYE)
+				.define('H', Items.LEATHER_BOOTS)
+				.define('L', Items.LEATHER)
+				.group("kingdomkeys")
+				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
+				.save(consumer);
+
+
+		// util blocks
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magicalChest.get())
                 .pattern("GNG")
                 .pattern("GCG")

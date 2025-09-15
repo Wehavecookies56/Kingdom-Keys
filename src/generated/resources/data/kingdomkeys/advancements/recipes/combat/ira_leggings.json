@@ -7,12 +7,12 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "invi_leggings": {
+    "leather_leggings": {
       "conditions": {
         "items": [
           {
             "items": [
-              "kingdomkeys:invi_leggings"
+              "minecraft:leather_leggings"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "invi_leggings",
+      "leather_leggings",
       "has_the_recipe"
     ]
   ],
