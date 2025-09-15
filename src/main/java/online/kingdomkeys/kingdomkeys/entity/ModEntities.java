@@ -160,6 +160,8 @@ public class ModEntities {
     public static final RegistryObject<EntityType<BlackFungusEntity>> TYPE_BLACK_FUNGUS = createEntityType(BlackFungusEntity::new, BlackFungusEntity::new, MobCategory.MONSTER, "black_fungus", 0.6F, 1.1F);
     public static final RegistryObject<Item> BLACK_FUNGUS_EGG = ModItems.ITEMS.register("black_fungus_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_BLACK_FUNGUS, Color.DARK_GRAY.getRGB(), Color.MAGENTA.getRGB(), PROPERTIES));
 
+    public static final RegistryObject<EntityType<BloxBugEntity>> TYPE_BLOX_BUG = createEntityType(BloxBugEntity::new, BloxBugEntity::new, MobCategory.MONSTER, "blox_bug", 1F, 1F);
+    public static final RegistryObject<Item> BLOX_BUG_EGG = ModItems.ITEMS.register("blox_bug_spawn_egg", () -> new ForgeSpawnEggItem(TYPE_BLOX_BUG, 0x000000, 0xFF0000, PROPERTIES));
 
     //TODO update textures to work with newer model, make magic for
     /*
@@ -315,6 +317,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
         event.registerEntityRenderer(TYPE_BLACK_FUNGUS.get(), BlackFungusRenderer::new);
+        event.registerEntityRenderer(TYPE_BLOX_BUG.get(), BloxBugEntityRenderer::new);
 
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
@@ -428,6 +431,7 @@ public class ModEntities {
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
+        event.put(TYPE_BLOX_BUG.get(), BloxBugEntity.registerAttributes().build());
         
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
