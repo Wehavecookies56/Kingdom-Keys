@@ -20,7 +20,7 @@ public class InfestedNormalBlox extends BaseBlock {
     public void attack(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
         pLevel.setBlock(pPos, Blocks.AIR.defaultBlockState(), 3);
         BloxBugEntity entity = new BloxBugEntity(pLevel, true);
-        entity.setPos(new Vec3(pPos.getX(), pPos.getY(), pPos.getZ()));
+        entity.setPos(new Vec3(pPos.getX() + 0.5F, pPos.getY(), pPos.getZ() + 0.5F));
         pLevel.addFreshEntity(entity);
     }
 }

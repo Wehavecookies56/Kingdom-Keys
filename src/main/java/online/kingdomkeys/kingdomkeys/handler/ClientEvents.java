@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.SeparateClassToAvoidLoadingIssuesExtendedReach;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -353,8 +354,7 @@ public class ClientEvents {
 							}
 						}
 					}
-					
-					if(mc.options.keyAttack.isDown()) {
+					if(SeparateClassToAvoidLoadingIssuesExtendedReach.isAttacking()) {
 						if (focusingTicks > 0) {
 							// Has finished shotlocking, send packet to spawn entities and track enemies
 							if(!playerData.getShotlockEnemies().isEmpty()) {

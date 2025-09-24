@@ -35,8 +35,6 @@ public class CSExtendedReach {
 		ctx.get().enqueueWork(() -> {
 			Player player = ctx.get().getSender();
 	        Entity theEntity = player.level().getEntity(message.entityId);
-			if(SeparateClassToAvoidLoadingIssuesExtendedReach.isBattleMode(player))
-				return;
 	        if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY)) {
 	            return;
 	        }

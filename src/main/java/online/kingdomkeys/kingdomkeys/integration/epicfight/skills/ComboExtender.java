@@ -48,7 +48,7 @@ public class ComboExtender extends Skill {
 		PlayerPatch<?> pp = container.getExecutor();
 		if (!pp.isLogicalClient()) {
 			PlayerEventListener listener = container.getExecutor().getEventListener();
-			listener.addEventListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT, EVENT_UUID, event -> {
+			listener.addEventListener(PlayerEventListener.EventType.SKILL_CAST_EVENT, EVENT_UUID, event -> {
 
 				PlayerPatch<?> spp = container.getExecutor();
 				Player player = spp.getOriginal();
@@ -110,7 +110,7 @@ public class ComboExtender extends Skill {
 		super.onRemoved(container);
 		PlayerEventListener listener = container.getExecutor().getEventListener();
 
-		listener.removeListener(PlayerEventListener.EventType.SKILL_EXECUTE_EVENT, EVENT_UUID);
+		listener.removeListener(PlayerEventListener.EventType.SKILL_CAST_EVENT, EVENT_UUID);
 	}
 
 	@Override

@@ -119,7 +119,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode()) {
+                    if (ep.getOriginal().level().isClientSide) {
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(ModCapabilities.getPlayer((Player) ep.getOriginal()).getActiveDriveForm())));
                         }
@@ -214,7 +214,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -279,7 +279,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -288,7 +288,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -297,7 +297,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -306,7 +306,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -315,7 +315,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -324,7 +324,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -333,7 +333,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -342,7 +342,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -351,7 +351,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -360,7 +360,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -369,7 +369,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
@@ -378,7 +378,7 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {
-                    if (ep.getOriginal().level().isClientSide && ((PlayerPatch<?>) ep).isBattleMode())
+                    if (ep.getOriginal().level().isClientSide)
                         if (ClientUtils.isPlayerSummoning(ep)) {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
