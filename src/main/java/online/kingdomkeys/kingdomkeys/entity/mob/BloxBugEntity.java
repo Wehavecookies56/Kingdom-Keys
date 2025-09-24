@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.extensions.IForgeEntity;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -31,9 +33,11 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 
-public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob {
+public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob, IEntityAdditionalSpawnData {
 
     public static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(BloxBugEntity.class, EntityDataSerializers.INT);
+
+    boolean fromBlock;
 
     public static final int IDLE = 0,
                             SPAWN = 1,
@@ -66,6 +70,16 @@ public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob {
         this(ModEntities.TYPE_BLOX_BUG.get(), world);
     }
 
+    public BloxBugEntity(Level world, boolean fromBlock) {
+        this(ModEntities.TYPE_BLOX_BUG.get(), world);
+        this.fromBlock = fromBlock;
+        if (fromBlock) {
+            this.setState(SPAWN_BLOCK);
+        } else {
+            this.setState(SPAWN);
+        }
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<GeoAnimatable>(this, "main", 0, this::animController));
@@ -85,6 +99,10 @@ public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob {
 
     protected <E extends BloxBugEntity> PlayState animController(final AnimationState<GeoAnimatable> state) {
         switch (getState()) {
+            case SPAWN_BLOCK -> {
+                state.getController().setAnimation(SPAWN_BLOCK_ANIM);
+                return PlayState.CONTINUE;
+            }
             case WALKING -> {
                 //KingdomKeys.LOGGER.debug("WALK");
                 state.getController().setAnimation(WALK_ANIM);
@@ -145,9 +163,18 @@ public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob {
 
     }
 
+    int spawnBlockTicks = 0;
+
     @Override
     public void tick() {
         super.tick();
+        if (getState() == SPAWN_BLOCK) {
+            spawnBlockTicks++;
+        }
+        if (spawnBlockTicks > 31) {
+            spawnBlockTicks = 0;
+            setState(IDLE);
+        }
         if (getState() == WALKING || getState() == IDLE) {
             if ((xOld != getX() || zOld != getZ()) && onGround()) {
                 setState(WALKING);
@@ -196,6 +223,16 @@ public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob {
 
     public int getState() {
         return entityData.get(STATE);
+    }
+
+    @Override
+    public void writeSpawnData(FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeBoolean(fromBlock);
+    }
+
+    @Override
+    public void readSpawnData(FriendlyByteBuf friendlyByteBuf) {
+        fromBlock = friendlyByteBuf.readBoolean();
     }
 
     public static class BloxBugGoal extends Goal {

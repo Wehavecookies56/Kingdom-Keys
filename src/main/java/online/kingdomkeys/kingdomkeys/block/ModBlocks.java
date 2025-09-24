@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,17 +23,18 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, KingdomKeys.MODID);
 
     public static final RegistryObject<Block>
-            normalBlox = createNewBlock("normal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F)),
-            hardBlox = createNewBlock("hard_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 20.0F).requiresCorrectToolForDrops()),
+            normalBlox = createNewBlock("normal_blox", Block.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.0F, 10.0F)),
+            hardBlox = createNewBlock("hard_blox", Block.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(5.0F, 20.0F).requiresCorrectToolForDrops()),
             metalBlox = createNewBlock("metal_blox", Block.Properties.of().mapColor(MapColor.METAL).strength(10.0F, 60.0F).requiresCorrectToolForDrops()),
-            dangerBlox = createNewBlock("danger_blox", () -> new DangerBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F))),
-            bounceBlox = createNewBlock("bounce_blox", () -> new BounceBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
-            blastBlox = createNewBlock("blast_blox", () -> new BlastBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
-            ghostBlox = createNewBlock("ghost_blox", () -> new GhostBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
-            prizeBlox = createNewBlock("prize_blox", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
-            rarePrizeBlox = createNewBlock("rare_prize_blox", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
-            magnetBlox = createNewBlock("magnet_blox", () -> new MagnetBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 1.0F))),
-            pairBlox = createNewBlock("pair_blox", () -> new PairBloxBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(1.0F, 10.0F))),
+            dangerBlox = createNewBlock("danger_blox", () -> new DangerBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(1.0F))),
+            bounceBlox = createNewBlock("bounce_blox", () -> new BounceBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(1.0F, 10.0F))),
+            blastBlox = createNewBlock("blast_blox", () -> new BlastBloxBlock(Block.Properties.of().mapColor(MapColor.TERRACOTTA_RED).strength(1.0F, 10.0F))),
+            ghostBlox = createNewBlock("ghost_blox", () -> new GhostBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(1.0F, 10.0F))),
+            prizeBlox = createNewBlock("prize_blox", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.COLOR_PINK).strength(1.0F, 10.0F))),
+            rarePrizeBlox = createNewBlock("rare_prize_blox", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.GOLD).strength(1.0F, 10.0F))),
+            magnetBlox = createNewBlock("magnet_blox", () -> new MagnetBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F, 1.0F))),
+            pairBlox = createNewBlock("pair_blox", () -> new PairBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F, 10.0F))),
+            infestedNormalBlox = createNewBlock("infested_normal_blox", () -> new InfestedNormalBlox(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1, 10))),
 
             //TODO HARVEST LEVEL REPLACED BY TAGS
             blazingOre = createNewBlock("blazing_ore", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
