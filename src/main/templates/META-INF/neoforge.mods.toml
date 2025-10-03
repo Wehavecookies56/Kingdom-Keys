@@ -36,6 +36,12 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     versionRange="[1.21.1-0.7.5,)"
     ordering="BEFORE"
     side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    type="optional"
+    versionRange="[4,)"
+    ordering="AFTER"
+    side="BOTH"
 [mc-publish]
     modrinth="DrsqKwVw"
     curseforge=242862

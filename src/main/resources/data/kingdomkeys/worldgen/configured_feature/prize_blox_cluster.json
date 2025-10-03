@@ -7,14 +7,11 @@
       {
         "states": [
           { "Name": "kingdomkeys:prize_blox" },
-          { "Name": "kingdomkeys:prize_blox" },
-          { "Name": "kingdomkeys:prize_blox" },
-          { "Name": "kingdomkeys:prize_blox" },
-          { "Name": "kingdomkeys:rare_prize_blox" },
           { "Name": "kingdomkeys:rare_prize_blox" },
           { "Name": "kingdomkeys:danger_blox" },
           { "Name": "kingdomkeys:blast_blox" }
         ],
+        "weights": [ 4, 2, 1, 1 ],
         "target": {
           "predicate_type": "kingdomkeys:multiple_block_match",
           "blocks": [

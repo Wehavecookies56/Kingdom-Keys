@@ -9,8 +9,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * A modified copy of {@link net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration} so that multiple blockstates can be used
@@ -47,19 +46,38 @@ public class BloxOreFeatureConfig implements FeatureConfiguration {
                 return p_161043_.target;
             }), BlockState.CODEC.listOf().fieldOf("states").forGetter((p_161041_) -> {
                 return p_161041_.states;
+            }), Codec.INT.listOf().fieldOf("weights").forGetter(targetBlockState -> {
+                return targetBlockState.weights;
             })).apply(p_161039_, BloxOreFeatureConfig.TargetBlockState::new);
         });
         public final RuleTest target;
         public final List<BlockState> states;
+        public final List<Integer> weights;
 
-        TargetBlockState(RuleTest target, List<BlockState> states) {
+        public final Map<BlockState, Integer> weightedStates = new HashMap<>();
+
+        TargetBlockState(RuleTest target, List<BlockState> states, List<Integer> weights) {
             this.target = target;
             this.states = states;
+            this.weights = weights;
+            for (int i = 0; i < states.size(); ++i) {
+                if (i < weights.size()) {
+                    weightedStates.put(states.get(i), weights.get(i));
+                } else {
+                    weightedStates.put(states.get(i), 1);
+                }
+            }
         }
 
         public BlockState getState() {
-            int value = Utils.randomWithRange(0, states.size() - 1);
-            return states.get(value);
+            List<BlockState> weightAdjustedStates = new ArrayList<>();
+            weightedStates.forEach((blockState, integer) -> {
+                for (int i = 0; i < integer; ++i) {
+                    weightAdjustedStates.add(blockState);
+                }
+            });
+            int value = Utils.randomWithRange(0, weightAdjustedStates.size() - 1);
+            return weightAdjustedStates.get(value);
         }
     }
 

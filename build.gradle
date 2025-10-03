@@ -48,6 +48,14 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
 }
 
 base {
@@ -119,6 +127,7 @@ dependencies {
     compileOnly("vazkii.patchouli:Patchouli:1.21-88-NEOFORGE:api")
     runtimeOnly("vazkii.patchouli:Patchouli:1.21-88-NEOFORGE")
     //implementation "curse.maven:modern-ui-352491:6200236"
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
