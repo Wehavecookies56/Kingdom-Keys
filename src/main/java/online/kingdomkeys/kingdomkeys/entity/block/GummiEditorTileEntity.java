@@ -57,18 +57,18 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
-		CompoundTag invCompound = compound.getCompound("inv");
+		/*CompoundTag invCompound = compound.getCompound("inv");
 		itemStackHandler.deserializeNBT(provider, invCompound);
 		//CompoundNBT transformations = compound.getCompound("transforms");
-		displayStack = ItemStack.parse(provider, compound.getCompound("display_stack")).get();
+		displayStack = ItemStack.parse(provider, compound.getCompound("display_stack")).get();*/
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
-		compound.put("inv", itemStackHandler.serializeNBT(provider));
+		//compound.put("inv", itemStackHandler.serializeNBT(provider));
 		//CompoundNBT transformations = new CompoundNBT();
-		compound.put("display_stack", displayStack.save(provider));
+		//compound.put("display_stack", displayStack.save(provider));
 	}
 
 	@Override
@@ -122,32 +122,26 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 		GummiEditorTileEntity TE = (GummiEditorTileEntity) blockEntity;
 		Direction facing = state.getValue(GummiEditorBlock.FACING);
 		TE.ticks++;
-		//int y = 0;
-		for(int x=0;x<7;x++) {
-			for(int y=0;y<7;y++) {
-				for(int z=0;z<7;z++) {
-					if(x == 0 || x == 6 || z == 0 || z == 6) {
-						if(y == 0 || y == 6) {
-							switch(facing) {
-							case NORTH:
-								level.addParticle(new DustParticleOptions(new Vector3f(1,1,1), 1), pos.getX()+0.5 - 3 + x, pos.getY() + y+0.5, pos.getZ()+1.5 + z, 0,0,0);
-								break;
-							case SOUTH:
-								level.addParticle(new DustParticleOptions(new Vector3f(1,1,1), 1), pos.getX()+0.5 - 3 + x, pos.getY() + y+0.5, pos.getZ()-0.5 - z, 0,0,0);
-								break;
-							case EAST:
-								level.addParticle(new DustParticleOptions(new Vector3f(1,1,1), 1), pos.getX()-0.5 - 6 + x, pos.getY() + y+0.5, pos.getZ()+0.5 + 3 - z, 0,0,0);
-								break;
-							case WEST:
-								level.addParticle(new DustParticleOptions(new Vector3f(1,1,1), 1), pos.getX()-0.5 + 2 + x, pos.getY() + y+0.5, pos.getZ()+0.5 + 3 - z, 0,0,0);
-								break;
-							}
+
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 7; y++) {
+				for (int z = 0; z < 7; z++) {
+					boolean borderX = (x == 0 || x == 6);
+					boolean borderY = (y == 0 || y == 6);
+					boolean borderZ = (z == 0 || z == 6);
+
+					if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
+						switch (facing) {
+							case NORTH -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() + 0.5 - 3 + x,pos.getY() + y + 0.5,pos.getZ() + 1.5 + z,0, 0, 0);
+							case SOUTH -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() + 0.5 - 3 + x,pos.getY() + y + 0.5,pos.getZ() - 0.5 - z,0, 0, 0);
+							case EAST -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() - 0.5 - 6 + x,pos.getY() + y + 0.5,pos.getZ() + 0.5 + 3 - z,0, 0, 0);
+							case WEST -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() - 0.5 + 2 + x,pos.getY() + y + 0.5,pos.getZ() + 0.5 + 3 - z,0, 0, 0);
 						}
 					}
-	
-				}	
+				}
 			}
 		}
+
 
 	}
 	
