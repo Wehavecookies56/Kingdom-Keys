@@ -16,38 +16,36 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import org.jetbrains.annotations.UnknownNullability;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {// PigEntity {
 
 	public final static int MAX_TICKS = 30;
-	private String data;
 
-	GummiStructure structure;
+	CompoundTag data;
+	public GummiStructure structure;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
-		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
+		super(type, world);
 	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(DATA, "");
+		pBuilder.define(DATA, new CompoundTag());
 	}
 
-	public GummiShipEntity(Level world) {
+	public GummiShipEntity(Level world, GummiStructure gummiStruct) {
 		this(ModEntities.TYPE_GUMMI_SHIP.get(), world);
+		structure = gummiStruct;
+		this.setData(structure.serializeNBT(level().registryAccess()));
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
+		//this.kill();
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {
@@ -60,199 +58,70 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
                 ;
     }
-	private static final EntityDataAccessor<String> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<CompoundTag> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.COMPOUND_TAG);
 
-	public String getData() {
+	public CompoundTag getData() {
 		return data;
 	}
 
-	public void setData(String name) {
-		this.entityData.set(DATA, name);
-		this.data = name;
+	public void setData(CompoundTag struct) {
+		this.entityData.set(DATA, struct);
+		if (structure == null)
+			structure = new GummiStructure(7, 7, 7);
+		structure.deserializeNBT(level().registryAccess(), struct);
 	}
+
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+		super.onSyncedDataUpdated(key);
 		if (key.equals(DATA)) {
-			this.data = this.getDataDataManager();
+			CompoundTag tag = this.entityData.get(DATA);
+			if (structure == null)
+				structure = new GummiStructure(7, 7, 7);
+			structure.deserializeNBT(level().registryAccess(), tag);
 		}
 	}
 
+
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
-		compound.putString("Data", this.getData());
+		compound.put("data",structure.serializeNBT(this.level().registryAccess()));
+
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
-		this.setData(compound.getString("Data"));
+		this.setData(compound.getCompound("data"));
+
 	}
 
-	public String getDataDataManager() {
+	public CompoundTag getDataManager() {
 		return this.entityData.get(DATA);
 	}
 
 	@Override
-	public void writeSpawnData(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
-
+	public void writeSpawnData(RegistryFriendlyByteBuf buf) {
+		CompoundTag nbt = new CompoundTag();
+		nbt = structure.serializeNBT(level().registryAccess());
+		buf.writeNbt(nbt);
 	}
 
 	@Override
-	public void readSpawnData(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
-
-	}
-
-/*	@Override
-	public boolean canWalkOnFluid(Fluid fluid) {
-		if (this.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.OAK_PLANKS) {
-			if (this.getEquippedStack(EquipmentSlot.CHEST).getTag().getInt("type") == 0) {
-				return FluidTags.WATER.contains(fluid);
-			}
-		}
-		return false;
-	}*/
-
-	
-	/*@Override
-	public float getSaddledSpeed() {
-
-		return 1;
-	}*/
-
-	/*@Override
-	protected void registerGoals() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean canBeRiddenInWater() {
-		return true;
-	}
-
-	@Override
-	protected SoundEvent getAmbientSound() {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected SoundEvent getDeathSound() {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected SoundEvent getHurtSound(DamageSource source) {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected SoundEvent getFallSound(int distance) {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected SoundEvent getSplashSound() {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected SoundEvent getSwimSound() {
-		return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-	}
-
-	@Override
-	protected int calculateFallDamage(float distance, float damageMultiplier) {
-		return 0;
-	}
-
-	@Override
-	public int getMaxFallHeight() {
-		return 400;
-	}
-
-	@Override
-	public boolean preventDespawn() {
-		return true;
-	}
-
-	/*
-	@Override
-	protected boolean movesIndependently() {
-		if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.STICK) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canMoveVoluntarily() {
-		if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() == Items.STICK) {
-			return true;
-		}
-		return false;
-	}* /
-
-	@Override
-	public boolean canBePushed() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean canBeSteered() {
-		return true;
-	}
-
-	@Override
-	public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
-		if (!player.getEntityWorld().isRemote && player.getHeldItem(hand) == ItemStack.EMPTY && hand == Hand.MAIN_HAND) {
-			player.startRiding(this, true);
-			return ActionResultType.PASS;
-		}
-		return ActionResultType.FAIL;
-	}
-
-	@Override
-	public boolean isInvulnerable() {
-		return !dead;
-	}
-
-	@Override
-	public boolean isInvulnerableTo(DamageSource damageSource) {
-		if (damageSource != DamageSource.OUT_OF_WORLD) {
-			return true;
-		}
-		return false;
-	}
-
-	
-	@Override
-	public void updatePassenger(Entity passenger) {
-		int extra = 0;
-		passenger.fallDistance = 0;
-		if (this.getControllingPassenger() instanceof PlayerEntity) {
-			if (passenger == this.getControllingPassenger()) {
-				passenger.setPosition(this.getPosX(), this.getPosY() + 0.5 + extra, this.getPosZ());
-			} else {
-				Vector3d dir = this.getMotion().inverse();
-				int vv = this.getPassengers().indexOf(passenger);
-				passenger.setPosition(this.getControllingPassenger().getPosX() + dir.getX() * vv, this.getControllingPassenger().getPosY() + dir.getY() * vv, this.getControllingPassenger().getPosZ() + dir.getZ() * vv);
-			}
+	public void readSpawnData(RegistryFriendlyByteBuf buf) {
+		CompoundTag nbt = buf.readNbt();
+		if (nbt != null) {
+			if (structure == null)
+				structure = new GummiStructure(7, 7, 7);
+			structure.deserializeNBT(level().registryAccess(), nbt);
+			this.setData(nbt);
 		}
 	}
 
-	@Override
-	public boolean canBeCollidedWith() {
-		return true;
-	}
-
-	@Override
-	public boolean canCollide(Entity entity) {
-		return true;
-	}*/
 
 	public static class GummiStructure implements INBTSerializable<CompoundTag> {
-		BlockState[][][] blocks;
-		int width, height, depth;
+		public BlockState[][][] blocks;
+		public int width, height, depth;
 
 		public GummiStructure(int width, int height, int depth) {
 			this.width = width;
@@ -280,10 +149,16 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 			tag.putInt("width", width);
 			tag.putInt("height", height);
 			tag.putInt("depth", depth);
+
+			int index = 0;
 			for (int z = 0; z < depth; ++z) {
 				for (int y = 0; y < height; ++y) {
 					for (int x = 0; x < width; ++x) {
-						NbtUtils.writeBlockState(blocks[x][y][z]);
+						BlockState state = blocks[x][y][z];
+						if (state != null) {
+							tag.put("block_" + index, NbtUtils.writeBlockState(state));
+						}
+						index++;
 					}
 				}
 			}
@@ -296,14 +171,23 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 			height = tag.getInt("height");
 			depth = tag.getInt("depth");
 			blocks = new BlockState[width][height][depth];
+
+			int index = 0;
 			for (int z = 0; z < depth; ++z) {
 				for (int y = 0; y < height; ++y) {
 					for (int x = 0; x < width; ++x) {
-						blocks[x][y][z] = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag);
+						String key = "block_" + index;
+						if (tag.contains(key, Tag.TAG_COMPOUND)) {
+							blocks[x][y][z] = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag.getCompound(key));
+						} else {
+							blocks[x][y][z] = null;
+						}
+						index++;
 					}
 				}
 			}
 		}
+
 	}
 
 }

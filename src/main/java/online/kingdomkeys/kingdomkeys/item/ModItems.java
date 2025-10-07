@@ -946,7 +946,7 @@ public class ModItems {
 
 			
 			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
-    		//gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().group(KingdomKeys.miscGroup).maxStackSize(1)));
+    		gummiShip = createNewItem(Strings.gummiShip, () -> new GummiShipItem(new Item.Properties().stacksTo(1))),
 
 			//map cards
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),

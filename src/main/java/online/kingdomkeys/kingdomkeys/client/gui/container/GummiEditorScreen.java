@@ -8,8 +8,11 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
 import org.jetbrains.annotations.NotNull;
 
 public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> {
@@ -21,9 +24,14 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 		this.imageHeight = 186;
 	}
 
+	ExtendedButton create;
+
 	@Override
 	protected void init() {
 		super.init();
+		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("CREATE"), p -> {
+			PacketHandler.sendToServer(new CSCreateGummiShip(menu.containerId));
+		}));
 	}
 
 	@Override
@@ -42,13 +50,13 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
 		gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752, false);
+		gui.drawString(font, "Create gummi", 8.0F, 6.0F, 4210752, false);
 
 		// super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
 	}
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
-		Minecraft mc = Minecraft.getInstance();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 

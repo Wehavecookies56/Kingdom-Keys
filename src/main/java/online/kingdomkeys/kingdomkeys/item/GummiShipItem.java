@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -9,12 +10,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GummiShipItem extends Item implements IItemCategory {
@@ -25,12 +29,41 @@ public class GummiShipItem extends Item implements IItemCategory {
 		super(properties);
 	}
 
+	public static BlockState[][][] createArrowDown() {
+		BlockState[][][] blocks = new BlockState[7][7][7];
+		BlockState iron = Blocks.IRON_BLOCK.defaultBlockState();
+
+		int mid = 3;
+
+		for (int x = 0; x < 7; x++) {
+			for (int y = 0; y < 7; y++) {
+				for (int z = 0; z < 7; z++) {
+					blocks[x][y][z] = Blocks.AIR.defaultBlockState();
+
+					if (x == mid && z == mid && y >= 1 && y <= 5) {
+						blocks[x][y][z] = iron;
+					}
+
+					if (y == 0) {
+						int dist = Math.abs(x - mid) + Math.abs(z - mid);
+						if (dist <= 2) {
+							blocks[x][y][z] = iron;
+						}
+					}
+				}
+			}
+		}
+
+		return blocks;
+	}
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if (!world.isClientSide) {
-			GummiShipEntity gummi = new GummiShipEntity(world);
+			GummiShipEntity.GummiStructure gummiStruct = new GummiShipEntity.GummiStructure(7, 7, 7);
+			gummiStruct.blocks = createArrowDown();
+			GummiShipEntity gummi = new GummiShipEntity(world,gummiStruct);
+			System.out.println(gummiStruct.serializeNBT(world.registryAccess()));
 			gummi.setPos(player.getX(), player.getY(), player.getZ());
-			//gummi.setData(player.getItemInHand(hand).getTag().getString("data"));
 			world.addFreshEntity(gummi);
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));

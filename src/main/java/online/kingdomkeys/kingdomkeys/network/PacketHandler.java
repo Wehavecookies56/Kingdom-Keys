@@ -121,6 +121,7 @@ public class PacketHandler {
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 		server(CSRequestPlayerDataFromServer.TYPE, CSRequestPlayerDataFromServer.STREAM_CODEC);
 		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
+		server(CSCreateGummiShip.TYPE, CSCreateGummiShip.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {
