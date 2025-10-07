@@ -1,6 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,11 +16,21 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import org.jetbrains.annotations.UnknownNullability;
 
-public class GummiShipEntity extends Entity {// PigEntity {
+import java.util.Arrays;
+import java.util.List;
+
+public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {// PigEntity {
 
 	public final static int MAX_TICKS = 30;
 	private String data;
+
+	GummiStructure structure;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
@@ -26,7 +42,7 @@ public class GummiShipEntity extends Entity {// PigEntity {
 	}
 
 	public GummiShipEntity(Level world) {
-		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
+		this(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
 	@Override
@@ -74,6 +90,16 @@ public class GummiShipEntity extends Entity {// PigEntity {
 
 	public String getDataDataManager() {
 		return this.entityData.get(DATA);
+	}
+
+	@Override
+	public void writeSpawnData(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
+
+	}
+
+	@Override
+	public void readSpawnData(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
+
 	}
 
 /*	@Override
@@ -223,5 +249,61 @@ public class GummiShipEntity extends Entity {// PigEntity {
 	public boolean canCollide(Entity entity) {
 		return true;
 	}*/
+
+	public static class GummiStructure implements INBTSerializable<CompoundTag> {
+		BlockState[][][] blocks;
+		int width, height, depth;
+
+		public GummiStructure(int width, int height, int depth) {
+			this.width = width;
+			this.height = height;
+			this.depth = depth;
+			blocks = new BlockState[width][height][depth];
+		}
+
+		public GummiStructure(int width, int height, int depth, Level level, BlockPos pos) {
+			this(width, height, depth);
+			BlockPos.MutableBlockPos mutableBlockPos = pos.mutable();
+			for (int z = 0; z < depth; ++z) {
+				for (int y = 0; y < height; ++y) {
+					for (int x = 0; x < width; ++x) {
+						mutableBlockPos.move(x, y, z);
+						blocks[x][y][z] = level.getBlockState(mutableBlockPos);
+					}
+				}
+			}
+		}
+
+		@Override
+		public CompoundTag serializeNBT(HolderLookup.Provider provider) {
+			CompoundTag tag = new CompoundTag();
+			tag.putInt("width", width);
+			tag.putInt("height", height);
+			tag.putInt("depth", depth);
+			for (int z = 0; z < depth; ++z) {
+				for (int y = 0; y < height; ++y) {
+					for (int x = 0; x < width; ++x) {
+						NbtUtils.writeBlockState(blocks[x][y][z]);
+					}
+				}
+			}
+			return tag;
+		}
+
+		@Override
+		public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
+			width = tag.getInt("width");
+			height = tag.getInt("height");
+			depth = tag.getInt("depth");
+			blocks = new BlockState[width][height][depth];
+			for (int z = 0; z < depth; ++z) {
+				for (int y = 0; y < height; ++y) {
+					for (int x = 0; x < width; ++x) {
+						blocks[x][y][z] = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag);
+					}
+				}
+			}
+		}
+	}
 
 }

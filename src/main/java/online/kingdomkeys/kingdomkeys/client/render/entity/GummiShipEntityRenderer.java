@@ -1,10 +1,15 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 
@@ -27,14 +32,25 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			matrixStackIn.translate(0, 2.5, 0);
 			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 			String dataS = entityIn.getData();
-			if (dataS.contains(",")) {
+			/*if (dataS.contains(",")) {
 				String[] data = dataS.split(","); // "16711680,255,16711680,255,16711680".split(",");//dataS.split(";")
 				for (int i = 0; i < data.length; i++) {
 					if (!data[i].equals("-1")) {
-						Color color = new Color(Integer.parseInt(data[i]));
+						//Color color = new Color(Integer.parseInt(data[i]));
 						//model.parts[i].render(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 					}
 				}
+			}
+			 */
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					matrixStackIn.translate(j, 0, i);
+					Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.IRON_BLOCK.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.CUTOUT_MIPPED);
+					matrixStackIn.translate(-j, 0, -i);
+				}
+				matrixStackIn.translate(0, i, 0);
+				Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.GOLD_BLOCK.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.CUTOUT_MIPPED);
+				matrixStackIn.translate(0, -i, 0);
 			}
 		}
 		matrixStackIn.popPose();
