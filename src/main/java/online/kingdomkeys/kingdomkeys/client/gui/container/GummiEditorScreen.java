@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.container;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -25,13 +26,15 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	}
 
 	ExtendedButton create;
+	EditBox name;
 
 	@Override
 	protected void init() {
 		super.init();
 		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("CREATE"), p -> {
-			PacketHandler.sendToServer(new CSCreateGummiShip(menu.containerId));
+			PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
 		}));
+		addRenderableWidget(name = new EditBox(font, leftPos, topPos + 80, 100, 20, Component.empty()));
 	}
 
 	@Override
@@ -50,7 +53,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
 		gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752, false);
-		gui.drawString(font, "Create gummi", 8.0F, 6.0F, 4210752, false);
+		//gui.drawString(font, "Create gummi", 8.0F, 6.0F, 4210752, false);
 
 		// super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
 	}

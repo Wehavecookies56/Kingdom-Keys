@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,6 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 
 import java.awt.*;
 
@@ -38,23 +42,20 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			CompoundTag data = entityIn.getDataManager();
 
 			if(data != null && !data.isEmpty()){
-				GummiShipEntity.GummiStructure struc = new GummiShipEntity.GummiStructure(7,7,7);
-				struc.deserializeNBT(entityIn.level().registryAccess(),data);
-
 				// Centrar la estructura en torno al origen de la entidad
-				int w = entityIn.structure.width;
-				int h = entityIn.structure.height;
-				int d = entityIn.structure.depth;
+				int w = entityIn.structure.getWidth();
+				int h = entityIn.structure.getHeight();
+				int d = entityIn.structure.getDepth();
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot()));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 				// Renderizador de bloques del cliente
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-
 				// Recorremos todos los bloques del array tridimensional
 				for (int x = 0; x < w; x++) {
 					for (int y = 0; y < h; y++) {
 						for (int z = 0; z < d; z++) {
-							BlockState state = entityIn.structure.blocks[x][y][z];
+							BlockState state = entityIn.structure.getBlocks()[x][y][z];
 							if (state == null || state.isAir()) continue;
 							matrixStackIn.pushPose();
 							{
@@ -65,11 +66,11 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 						}
 					}
 				}
-
 			}
 					
 		}
 		matrixStackIn.popPose();
+
 	}
 
 	@Override

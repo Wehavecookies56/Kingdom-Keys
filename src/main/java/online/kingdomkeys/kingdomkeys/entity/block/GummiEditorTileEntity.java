@@ -123,6 +123,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 		Direction facing = state.getValue(GummiEditorBlock.FACING);
 		TE.ticks++;
 
+		/*
 		for (int x = 0; x < 7; x++) {
 			for (int y = 0; y < 7; y++) {
 				for (int z = 0; z < 7; z++) {
@@ -141,6 +142,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 				}
 			}
 		}
+		 */
 
 
 	}

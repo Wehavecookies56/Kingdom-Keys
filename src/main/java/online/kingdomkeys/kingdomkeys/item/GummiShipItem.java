@@ -17,6 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 		super(properties);
 	}
 
-	public GummiShipEntity.GummiStructure gummiStruct = new GummiShipEntity.GummiStructure(7, 7, 7);
+	public GummiStructure gummiStruct;
 
 	public static BlockState[][][] createArrowDown() {
 		BlockState[][][] blocks = new BlockState[7][7][7];
@@ -61,11 +62,13 @@ public class GummiShipItem extends Item implements IItemCategory {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if (!world.isClientSide) {
-			//gummiStruct.blocks = createArrowDown();
-			GummiShipEntity gummi = new GummiShipEntity(world,gummiStruct);
-			System.out.println(gummiStruct.serializeNBT(world.registryAccess()));
-			gummi.setPos(player.getX(), player.getY(), player.getZ());
-			world.addFreshEntity(gummi);
+			if (gummiStruct != null || gummiStruct.getBlocks().length > 0) {
+				//gummiStruct.blocks = createArrowDown();
+				GummiShipEntity gummi = new GummiShipEntity(world, gummiStruct);
+				System.out.println(gummiStruct.serializeNBT(world.registryAccess()));
+				gummi.setPos(player.getX(), player.getY(), player.getZ());
+				world.addFreshEntity(gummi);
+			}
 		}
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}

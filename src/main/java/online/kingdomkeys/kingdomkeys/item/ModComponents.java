@@ -10,6 +10,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 import java.util.UUID;
 
@@ -30,5 +31,6 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WayfinderItem.WayfinderOwner>> WAYFINDER_OWNER = COMPONENTS.registerComponentType("wayfinder_owner", builder -> builder.persistent(WayfinderItem.WayfinderOwner.CODEC).networkSynchronized(WayfinderItem.WayfinderOwner.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SAVE_POINT_TIER = COMPONENTS.registerComponentType("save_point_tier", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PAULDRON_CREATED = COMPONENTS.registerComponentType("pauldron_created", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding());
-
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GummiStructure>> GUMMI_STRUCTURE = COMPONENTS.registerComponentType("gummi_structure", builder -> builder.persistent(GummiStructure.CODEC).networkSynchronized(GummiStructure.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> BLUEPRINT_NAME = COMPONENTS.registerComponentType("blueprint_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding());
 }

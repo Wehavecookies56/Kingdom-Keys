@@ -10,17 +10,21 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
-public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {// PigEntity {
+public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 
 	public final static int MAX_TICKS = 30;
 
@@ -45,7 +49,29 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 	@Override
 	public void tick() {
 		super.tick();
-		//this.kill();
+		if (structure == null || structure.getBlocks().length == 0) {
+			this.kill();
+		} else {
+			boolean empty = true;
+			for (int x = 0; x < structure.getWidth(); x++) {
+				for (int y = 0; y < structure.getHeight(); y++) {
+					for (int z = 0; z < structure.getDepth(); z++) {
+						if (structure.getBlocks()[x][y][z] != null) {
+							empty = false;
+						}
+					}
+				}
+			}
+			if (empty) {
+				this.kill();
+			}
+		}
+	}
+
+	@Override
+	public InteractionResult interact(Player player, InteractionHand hand) {
+		player.startRiding(this);
+		return super.interact(player, hand);
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {
@@ -66,9 +92,7 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 
 	public void setData(CompoundTag struct) {
 		this.entityData.set(DATA, struct);
-		if (structure == null)
-			structure = new GummiStructure(7, 7, 7);
-		structure.deserializeNBT(level().registryAccess(), struct);
+		structure = new GummiStructure(level().registryAccess(), struct);
 	}
 
 
@@ -77,9 +101,7 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 		super.onSyncedDataUpdated(key);
 		if (key.equals(DATA)) {
 			CompoundTag tag = this.entityData.get(DATA);
-			if (structure == null)
-				structure = new GummiStructure(7, 7, 7);
-			structure.deserializeNBT(level().registryAccess(), tag);
+			structure = new GummiStructure(level().registryAccess(), tag);
 		}
 	}
 
@@ -102,8 +124,7 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 
 	@Override
 	public void writeSpawnData(RegistryFriendlyByteBuf buf) {
-		CompoundTag nbt = new CompoundTag();
-		nbt = structure.serializeNBT(level().registryAccess());
+		CompoundTag nbt = structure.serializeNBT(level().registryAccess());
 		buf.writeNbt(nbt);
 	}
 
@@ -111,83 +132,8 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 	public void readSpawnData(RegistryFriendlyByteBuf buf) {
 		CompoundTag nbt = buf.readNbt();
 		if (nbt != null) {
-			if (structure == null)
-				structure = new GummiStructure(7, 7, 7);
-			structure.deserializeNBT(level().registryAccess(), nbt);
+			structure = new GummiStructure(level().registryAccess(), nbt);
 			this.setData(nbt);
 		}
 	}
-
-
-	public static class GummiStructure implements INBTSerializable<CompoundTag> {
-		public BlockState[][][] blocks;
-		public int width, height, depth;
-
-		public GummiStructure(int width, int height, int depth) {
-			this.width = width;
-			this.height = height;
-			this.depth = depth;
-			blocks = new BlockState[width][height][depth];
-		}
-
-		public GummiStructure(int width, int height, int depth, Level level, BlockPos pos) {
-			this(width, height, depth);
-			BlockPos.MutableBlockPos mutableBlockPos = pos.mutable();
-			for (int z = 0; z < depth; ++z) {
-				for (int y = 0; y < height; ++y) {
-					for (int x = 0; x < width; ++x) {
-						mutableBlockPos.move(x, y, z);
-						blocks[x][y][z] = level.getBlockState(mutableBlockPos);
-					}
-				}
-			}
-		}
-
-		@Override
-		public CompoundTag serializeNBT(HolderLookup.Provider provider) {
-			CompoundTag tag = new CompoundTag();
-			tag.putInt("width", width);
-			tag.putInt("height", height);
-			tag.putInt("depth", depth);
-
-			int index = 0;
-			for (int z = 0; z < depth; ++z) {
-				for (int y = 0; y < height; ++y) {
-					for (int x = 0; x < width; ++x) {
-						BlockState state = blocks[x][y][z];
-						if (state != null) {
-							tag.put("block_" + index, NbtUtils.writeBlockState(state));
-						}
-						index++;
-					}
-				}
-			}
-			return tag;
-		}
-
-		@Override
-		public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
-			width = tag.getInt("width");
-			height = tag.getInt("height");
-			depth = tag.getInt("depth");
-			blocks = new BlockState[width][height][depth];
-
-			int index = 0;
-			for (int z = 0; z < depth; ++z) {
-				for (int y = 0; y < height; ++y) {
-					for (int x = 0; x < width; ++x) {
-						String key = "block_" + index;
-						if (tag.contains(key, Tag.TAG_COMPOUND)) {
-							blocks[x][y][z] = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag.getCompound(key));
-						} else {
-							blocks[x][y][z] = null;
-						}
-						index++;
-					}
-				}
-			}
-		}
-
-	}
-
 }

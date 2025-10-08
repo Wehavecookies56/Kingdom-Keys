@@ -593,6 +593,7 @@ public class Strings {
         
         wayfinder = "wayfinder",
         gummiShip = "gummiship",
+		gummiShipBlueprint = "gummi_ship_blueprint",
         
         powerBoost = "powerboost",
         magicBoost = "magicboost",

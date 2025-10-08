@@ -12,23 +12,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import org.joml.Vector3f;
 
-public record CSCreateGummiShip(int containerID) implements Packet {
+public record CSCreateGummiShip(String name, int containerID) implements Packet {
 
 	public static final Type<CSCreateGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSCreateGummiShip> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.STRING_UTF8,
+			CSCreateGummiShip::name,
 			ByteBufCodecs.INT,
 			CSCreateGummiShip::containerID,
 			CSCreateGummiShip::new
@@ -41,26 +48,37 @@ public record CSCreateGummiShip(int containerID) implements Packet {
 			return;
 
 		GummiEditorMenu container = (GummiEditorMenu) player.containerMenu;
-		ItemStack stack = container.getItems().get(0);
-		if (stack.isEmpty())
-			return;
+		ItemStack stack = container.getItems().getFirst();
 
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 
 		int size = 7;
-		GummiShipEntity.GummiStructure struct = new GummiShipEntity.GummiStructure(size, size, size);
 		BlockState hangar = level.getBlockState(origin);
-		struct = copyStructureWithFacing(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		GummiStructure struct = copyStructureWithFacing(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
+		shipEntity.setPos(new Vec3(origin.getX() + 10, origin.getY(), origin.getZ()));
+		switch (hangar.getValue(GummiEditorBlock.FACING)) {
+			default -> shipEntity.setYRot(0);
+			case SOUTH -> shipEntity.setYRot(180);
+			case EAST -> shipEntity.setYRot(90);
+			case WEST -> shipEntity.setYRot(270);
+		}
 
-		CompoundTag tag = struct.serializeNBT(level.registryAccess());
+		level.addFreshEntity(shipEntity);
+
+		if (stack.is(ModItems.gummiShipBlueprint.get())) {
+			stack.set(ModComponents.GUMMI_STRUCTURE, struct);
+			stack.set(ModComponents.BLUEPRINT_NAME, name);
+		}
+
+		//CompoundTag tag = struct.serializeNBT(level.registryAccess());
 		//stack.getOrCreateTag().put("data", tag);
-		((GummiShipItem)stack.getItem()).gummiStruct.deserializeNBT(player.level().registryAccess(),tag);
-		container.setItem(0,0, stack); // sincroniza el slot con el cliente
+		//container.setItem(0,0, stack); // sincroniza el slot con el cliente
 	}
 
-	public static GummiShipEntity.GummiStructure copyStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
-		GummiShipEntity.GummiStructure struct = new GummiShipEntity.GummiStructure(size, size, size);
+	public static GummiStructure copyStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
+		GummiStructure struct = new GummiStructure(size, size, size);
 
 		int max = size - 1;
 
@@ -88,7 +106,11 @@ public record CSCreateGummiShip(int containerID) implements Packet {
 					}
 
 					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
-					struct.blocks[x][y][z] = level.getBlockState(target);
+					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
+						struct.getBlocks()[x][y][z] = level.getBlockState(target);
+					} else {
+						struct.getBlocks()[x][y][z] = null;
+					}
 				}
 			}
 		}

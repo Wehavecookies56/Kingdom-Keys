@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
@@ -140,5 +141,11 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
             }
         }
         matrixStackIn.popPose();
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(GummiEditorTileEntity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB(pos.offset(-10,-10,-10).getCenter(), pos.offset(10,10,10).getCenter());
     }
 }
