@@ -359,6 +359,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
         event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_GUMMI_EDITOR.get(), GummiHangarRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
