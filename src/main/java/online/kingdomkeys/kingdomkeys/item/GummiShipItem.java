@@ -29,6 +29,8 @@ public class GummiShipItem extends Item implements IItemCategory {
 		super(properties);
 	}
 
+	public GummiShipEntity.GummiStructure gummiStruct = new GummiShipEntity.GummiStructure(7, 7, 7);
+
 	public static BlockState[][][] createArrowDown() {
 		BlockState[][][] blocks = new BlockState[7][7][7];
 		BlockState iron = Blocks.IRON_BLOCK.defaultBlockState();
@@ -59,8 +61,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if (!world.isClientSide) {
-			GummiShipEntity.GummiStructure gummiStruct = new GummiShipEntity.GummiStructure(7, 7, 7);
-			gummiStruct.blocks = createArrowDown();
+			//gummiStruct.blocks = createArrowDown();
 			GummiShipEntity gummi = new GummiShipEntity(world,gummiStruct);
 			System.out.println(gummiStruct.serializeNBT(world.registryAccess()));
 			gummi.setPos(player.getX(), player.getY(), player.getZ());
