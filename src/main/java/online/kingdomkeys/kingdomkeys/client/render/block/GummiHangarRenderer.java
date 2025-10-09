@@ -39,8 +39,10 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
         matrixStackIn.pushPose();
         {
             BlockState state = Minecraft.getInstance().level.getBlockState(TE.getBlockPos());
-            if(state.getBlock() != ModBlocks.gummiEditor.get())
+            if(state.getBlock() != ModBlocks.gummiEditor.get()) {
+                matrixStackIn.popPose();
                 return;
+            }
 
             int counter = 0;
             Direction facing = state.getValue(GummiEditorBlock.FACING);
