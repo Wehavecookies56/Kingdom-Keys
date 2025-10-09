@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
@@ -17,6 +18,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -41,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
@@ -77,7 +80,7 @@ public class ClientEvents {
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onRenderTick(RenderFrameEvent.Pre event) {
 		Player player = Minecraft.getInstance().player;
@@ -122,6 +125,12 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
+		if(event.getEntity() instanceof LocalPlayer player){
+			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
+				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown());
+			}
+		}
+
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {

@@ -25,15 +25,13 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
-public class GummiShipEntity extends Boat implements IEntityWithComplexSpawn {
-
-	public final static int MAX_TICKS = 30;
+public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
 	CompoundTag data;
 	public GummiStructure structure;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
-		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
+		super(type, world);
 	}
 
 	@Override
@@ -53,6 +51,11 @@ public class GummiShipEntity extends Boat implements IEntityWithComplexSpawn {
 	@Override
 	public EntityDimensions getDimensions(Pose pose) {
 		return EntityDimensions.scalable(Math.max(getRealDimensions().getX(), getRealDimensions().getY()), getRealDimensions().getZ());
+	}
+
+	@Override
+	protected int getMaxPassengers() {
+		return 1; //TODO change with max seats count
 	}
 
 	public Vec3i getRealDimensions(){
