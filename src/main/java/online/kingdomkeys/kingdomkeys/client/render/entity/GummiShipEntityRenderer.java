@@ -36,9 +36,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 	public void render(GummiShipEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			//matrixStackIn.translate(-2.5F, 0, -2.5);
-			//matrixStackIn.scale(0.5F, 0.5F, 0.5F);
-			//System.out.println(entityIn.getDataDataManager());
 			CompoundTag data = entityIn.getDataManager();
 
 			if(data != null && !data.isEmpty()){
@@ -46,12 +43,10 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				int w = entityIn.structure.getWidth();
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
-				matrixStackIn.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot()));
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(-entityIn.getYRot()-180));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
-				// Renderizador de bloques del cliente
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-				// Recorremos todos los bloques del array tridimensional
 				for (int x = 0; x < w; x++) {
 					for (int y = 0; y < h; y++) {
 						for (int z = 0; z < d; z++) {

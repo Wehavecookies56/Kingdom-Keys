@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -12,19 +13,19 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
-public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
+public class GummiShipEntity extends Boat implements IEntityWithComplexSpawn {
 
 	public final static int MAX_TICKS = 30;
 
@@ -32,11 +33,12 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 	public GummiStructure structure;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
-		super(type, world);
+		super(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
 		pBuilder.define(DATA, new CompoundTag());
 	}
 
@@ -44,6 +46,49 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 		this(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 		structure = gummiStruct;
 		this.setData(structure.serializeNBT(level().registryAccess()));
+
+		this.refreshDimensions();
+	}
+
+	@Override
+	public EntityDimensions getDimensions(Pose pose) {
+		return EntityDimensions.scalable(Math.max(getRealDimensions().getX(), getRealDimensions().getY()), getRealDimensions().getZ());
+	}
+
+	public Vec3i getRealDimensions(){
+		int sizeX = structure.getBlocks().length;
+		int sizeY = structure.getBlocks()[0].length;
+		int sizeZ = structure.getBlocks()[0][0].length;
+
+		int minX = sizeX, maxX = -1;
+		int minY = sizeY, maxY = -1;
+		int minZ = sizeZ, maxZ = -1;
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+					if (state != null && !state.isAir()) {
+						if (x < minX) minX = x;
+						if (x > maxX) maxX = x;
+						if (y < minY) minY = y;
+						if (y > maxY) maxY = y;
+						if (z < minZ) minZ = z;
+						if (z > maxZ) maxZ = z;
+					}
+				}
+			}
+		}
+
+		if (maxX == -1) {
+			return new Vec3i(0, 0, 0);
+		}
+
+		int realWidth  = (maxX - minX) + 1;
+		int realHeight = (maxY - minY) + 1;
+		int realDepth  = (maxZ - minZ) + 1;
+
+		return new Vec3i(realWidth, realHeight, realDepth);
 	}
 
 	@Override
@@ -64,15 +109,20 @@ public class GummiShipEntity extends Entity implements IEntityWithComplexSpawn {
 			}
 			if (empty) {
 				this.kill();
+			} else {
+				this.refreshDimensions();
 			}
 		}
 	}
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
-		player.startRiding(this);
-		return super.interact(player, hand);
+		if (!this.level().isClientSide) {
+			player.startRiding(this);
+		}
+		return InteractionResult.sidedSuccess(this.level().isClientSide);
 	}
+
 
 	public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
