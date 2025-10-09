@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> {
 
@@ -38,15 +39,25 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	}
 
 	@Override
-	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (name.isFocused()) {
+			if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+				onClose();
+			}
+			if (keyCode == GLFW.GLFW_KEY_ENTER) {
+				name.setFocused(false);
+			}
+			return name.keyPressed(keyCode, scanCode, modifiers);
+		} else {
+			return super.keyPressed(keyCode, scanCode, modifiers);
+		}
 	}
 
 	@Override
-	public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
-		this.renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
-		super.render(gui, p_render_1_, p_render_2_, p_render_3_);
-		this.renderTooltip(gui, p_render_1_, p_render_2_);
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		this.renderBackground(gui, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
+		this.renderTooltip(gui, mouseX, mouseY);
 	}
 
 	@Override
@@ -70,15 +81,10 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	}
 
 	@Override
-	public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
-		/*
-		 * rotationSpeedSlider.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_,
-		 * p_mouseReleased_5_); bobSpeedSlider.mouseReleased(p_mouseReleased_1_,
-		 * p_mouseReleased_3_, p_mouseReleased_5_);
-		 * scaleSlider.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_,
-		 * p_mouseReleased_5_); heightSlider.mouseReleased(p_mouseReleased_1_,
-		 * p_mouseReleased_3_, p_mouseReleased_5_);
-		 */
-		return super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_3_, p_mouseReleased_5_);
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		if (!(mouseX >= name.getX() && mouseX <= name.getX() + name.getWidth() && mouseY >= name.getY() && mouseY <= name.getY() + name.getHeight())) {
+			name.setFocused(false);
+		}
+		return super.mouseReleased(mouseX, mouseY, button);
 	}
 }
