@@ -262,92 +262,8 @@ public class KKVehicleEntity extends VehicleEntity implements Leashable {
             this.setDeltaMovement(vec31.add(vec3.scale(flag ? 0.15000000596046448 : 0.20000000298023224)));
         }
 
-
-        public float getGroundFriction() {
-            AABB aabb = this.getBoundingBox();
-            AABB aabb1 = new AABB(aabb.minX, aabb.minY - 0.001, aabb.minZ, aabb.maxX, aabb.minY, aabb.maxZ);
-            int i = Mth.floor(aabb1.minX) - 1;
-            int j = Mth.ceil(aabb1.maxX) + 1;
-            int k = Mth.floor(aabb1.minY) - 1;
-            int l = Mth.ceil(aabb1.maxY) + 1;
-            int i1 = Mth.floor(aabb1.minZ) - 1;
-            int j1 = Mth.ceil(aabb1.maxZ) + 1;
-            VoxelShape voxelshape = Shapes.create(aabb1);
-            float f = 0.0F;
-            int k1 = 0;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-            for(int l1 = i; l1 < j; ++l1) {
-                for(int i2 = i1; i2 < j1; ++i2) {
-                    int j2 = (l1 != i && l1 != j - 1 ? 0 : 1) + (i2 != i1 && i2 != j1 - 1 ? 0 : 1);
-                    if (j2 != 2) {
-                        for(int k2 = k; k2 < l; ++k2) {
-                            if (j2 <= 0 || k2 != k && k2 != l - 1) {
-                                blockpos$mutableblockpos.set(l1, k2, i2);
-                                BlockState blockstate = this.level().getBlockState(blockpos$mutableblockpos);
-                                if (!(blockstate.getBlock() instanceof WaterlilyBlock) && Shapes.joinIsNotEmpty(blockstate.getCollisionShape(this.level(), blockpos$mutableblockpos).move((double)l1, (double)k2, (double)i2), voxelshape, BooleanOp.AND)) {
-                                    f += blockstate.getFriction(this.level(), blockpos$mutableblockpos, this);
-                                    ++k1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return f / (float)k1;
-        }
-
-        private boolean checkInWater() {
-            AABB aabb = this.getBoundingBox();
-            int i = Mth.floor(aabb.minX);
-            int j = Mth.ceil(aabb.maxX);
-            int k = Mth.floor(aabb.minY);
-            int l = Mth.ceil(aabb.minY + 0.001);
-            int i1 = Mth.floor(aabb.minZ);
-            int j1 = Mth.ceil(aabb.maxZ);
-            boolean flag = false;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-            for(int k1 = i; k1 < j; ++k1) {
-                for(int l1 = k; l1 < l; ++l1) {
-                    for(int i2 = i1; i2 < j1; ++i2) {
-                        blockpos$mutableblockpos.set(k1, l1, i2);
-                        FluidState fluidstate = this.level().getFluidState(blockpos$mutableblockpos);
-                    }
-                }
-            }
-
-            return flag;
-        }
-
-        @Nullable
-        private net.minecraft.world.entity.vehicle.Boat.Status isUnderwater() {
-            AABB aabb = this.getBoundingBox();
-            double d0 = aabb.maxY + 0.001;
-            int i = Mth.floor(aabb.minX);
-            int j = Mth.ceil(aabb.maxX);
-            int k = Mth.floor(aabb.maxY);
-            int l = Mth.ceil(d0);
-            int i1 = Mth.floor(aabb.minZ);
-            int j1 = Mth.ceil(aabb.maxZ);
-            boolean flag = false;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-            for(int k1 = i; k1 < j; ++k1) {
-                for(int l1 = k; l1 < l; ++l1) {
-                    for(int i2 = i1; i2 < j1; ++i2) {
-                        blockpos$mutableblockpos.set(k1, l1, i2);
-                        FluidState fluidstate = this.level().getFluidState(blockpos$mutableblockpos);
-                    }
-                }
-            }
-
-            return flag ? net.minecraft.world.entity.vehicle.Boat.Status.UNDER_WATER : null;
-        }
-
         protected double getDefaultGravity() {
-            return 0.04;
+            return 0;
         }
 
         private void floatBoat() {
@@ -383,14 +299,16 @@ public class KKVehicleEntity extends VehicleEntity implements Leashable {
                     f -= 4F;
                 }
 
-                if(this.inputUp){
-                    this.setDeltaMovement(0,1,0);
+                Vec3 motion = this.getDeltaMovement();
+
+                if (this.inputUp) {
+                    motion = motion.add(0, 1, 0);
                 }
-                if(this.inputDown){
-                    this.setDeltaMovement(0,-1,0);
+                if (this.inputDown) {
+                    motion = motion.add(0, -1, 0);
                 }
 
-                this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), 0.0, (double)(Mth.cos(this.getYRot() * 0.017453292F) * f)));
+                this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
             }
         }
 
