@@ -1,29 +1,28 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+
+import java.util.LinkedList;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
@@ -49,13 +48,101 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	@Override
-	public EntityDimensions getDimensions(Pose pose) {
-		return EntityDimensions.scalable(Math.max(getRealDimensions().getX(), getRealDimensions().getY()), getRealDimensions().getZ());
+	protected int getMaxPassengers() {
+		return getShipStats().passengerSlots.size()+1; //Passengers + rider
+	}
+
+	float getSpeed() {
+		return getShipStats().speed;
+	}
+
+	int getWeight() {
+		return getShipStats().weight;
 	}
 
 	@Override
-	protected int getMaxPassengers() {
-		return 1; //TODO change with max seats count
+	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
+		double x=0, y=0, z=0;
+		int i = getPassengers().indexOf(entity); //return index of the entity in the big array
+		x = getShipStats().passengerSlots.get(i).x();
+		y = getShipStats().passengerSlots.get(i).y();
+		z = getShipStats().passengerSlots.get(i).z();
+		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2)-y-0.5F, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
+	}
+
+	private ShipStats getShipStats() {
+		float speed = 0;
+		LinkedList<Vec3> passengers = new LinkedList<>();
+		int weight = 0;
+
+		int sizeX = structure.getBlocks().length;
+		int sizeY = structure.getBlocks()[0].length;
+		int sizeZ = structure.getBlocks()[0][0].length;
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+					if (state != null && !state.isAir()) {
+						weight++;//TODO make heavier blocks
+						if(state.getBlock() instanceof SlabBlock){
+							passengers.addFirst(new Vec3(x,y,z));
+						}
+						if(state.getBlock() instanceof StairBlock){
+							passengers.add(new Vec3(x,y,z));
+						}
+						if(state.getBlock() == Blocks.OBSIDIAN){
+							weight++;
+						} else if(state.getBlock() == Blocks.PISTON){
+							speed+=0.5F;
+						} else if(state.getBlock() == Blocks.STICKY_PISTON){
+							speed++;
+						}
+
+					}
+				}
+			}
+		}
+		return new ShipStats(speed, weight, passengers);
+	}
+
+	void controlBoat() {
+		if (this.isVehicle()) {
+			float f = 0.0F;
+			if (this.inputLeft) {
+				this.deltaRotation-=getSpeed() / (getWeight() * 0.02F);
+			}
+
+			if (this.inputRight) {
+				this.deltaRotation+=getSpeed() / (getWeight() * 0.02F);
+			}
+
+			this.setYRot(this.getYRot() + this.deltaRotation);
+			if (this.inputForward) {
+				f += getSpeed() / (getWeight() * 0.05F);
+			}
+
+			if (this.inputBackward) {
+				f -= getSpeed() / (getWeight() * 0.05F);
+			}
+
+			Vec3 motion = this.getDeltaMovement();
+
+			if (this.inputUp) {
+				motion = motion.add(0, getSpeed() / (getWeight() * 0.05F), 0);
+			}
+			if (this.inputDown) {
+				motion = motion.add(0, -getSpeed() / (getWeight() * 0.05F), 0);
+			}
+
+			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
+		}
+	}
+
+
+	@Override
+	public EntityDimensions getDimensions(Pose pose) {
+		return EntityDimensions.scalable(Math.max(getRealDimensions().getX(), getRealDimensions().getZ()), getRealDimensions().getY());
 	}
 
 	public Vec3i getRealDimensions(){

@@ -69,7 +69,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
                                         matrixStackIn.pushPose();
                                         {
                                             matrixStackIn.translate(-(size / 2) + x, +y - 0.9999F, z); //slightly above ground to avoid Zfighting
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SMOOTH_STONE.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
+                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
                                         }
                                         matrixStackIn.popPose();
 
@@ -89,7 +89,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
                                         matrixStackIn.pushPose();
                                         {
                                             matrixStackIn.translate(size / 2 - x, +y - 0.9999F, -z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SMOOTH_STONE.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
+                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
                                         }
                                         matrixStackIn.popPose();
 
@@ -109,7 +109,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
                                         matrixStackIn.pushPose();
                                         {
                                             matrixStackIn.translate(-x, y - 0.9999F, -(size / 2) + z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SMOOTH_STONE.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
+                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
                                         }
                                         matrixStackIn.popPose();
                                     }
@@ -128,7 +128,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
                                         matrixStackIn.pushPose();
                                         {
                                             matrixStackIn.translate(x, y - 0.9999F, -(size / 2) + z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SMOOTH_STONE.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
+                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
                                         }
                                         matrixStackIn.popPose();
 

@@ -59,10 +59,10 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 		shipEntity.setPos(new Vec3(origin.getX() + 10, origin.getY(), origin.getZ()));
 		switch (hangar.getValue(GummiEditorBlock.FACING)) {
-			default -> shipEntity.setYRot(0);
-			case SOUTH -> shipEntity.setYRot(180);
-			case EAST -> shipEntity.setYRot(90);
-			case WEST -> shipEntity.setYRot(270);
+			default -> shipEntity.setYRot(180);
+			case SOUTH -> shipEntity.setYRot(0);
+			case EAST -> shipEntity.setYRot(270);
+			case WEST -> shipEntity.setYRot(90);
 		}
 
 		level.addFreshEntity(shipEntity);

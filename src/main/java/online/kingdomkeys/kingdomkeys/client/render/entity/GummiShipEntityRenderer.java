@@ -43,7 +43,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				int w = entityIn.structure.getWidth();
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
-				matrixStackIn.mulPose(Axis.YP.rotationDegrees(-entityIn.getYRot()-180));
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
