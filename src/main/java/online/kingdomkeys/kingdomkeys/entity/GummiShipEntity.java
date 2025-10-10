@@ -28,9 +28,43 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	CompoundTag data;
 	public GummiStructure structure;
+	public ShipStats ShipStats;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
+	}
+
+	public static class ShipStats{
+        public float speed;
+        public int weight;
+        public List<Vec3> passengerSlots = new ArrayList<>();
+    
+		public ShipStats(float speed, int weight, LinkedList<Vec3> passengerSlots){
+			this.speed = speed;
+			this.weight = weight;
+			this.passengerSlots = passengerSlots;
+
+			public int getWeight(){
+				return weight;
+			}
+			public void setWeight(int weight){
+				this.weight = weight
+			}
+
+			public float getSpeed(){
+				return speed;
+			}
+			public void setSpeed(float speed){
+				this.speed = speed
+			}
+
+			public LinkedList<Vec3> getPassengers(){
+				return passengers;
+			}
+			public void setPassengers(LinkedList<Vec3> passengers){
+				this.passengers = passengers
+			}
+		}
 	}
 
 	@Override
@@ -71,6 +105,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	private ShipStats getShipStats() {
+		if(shipStats == null){
+			shipStats = new ShipStats(speed, weight, passengers)
+		}
 		float speed = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		int weight = 0;
@@ -103,7 +140,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 		}
-		return new ShipStats(speed, weight, passengers);
+
+		shipStats.setWeight(weight);
+		shipStats.setSpeed(speed);
+		shipStats.setPassengers(passengers);
+		return shipStats;
 	}
 
 	void controlBoat() {
