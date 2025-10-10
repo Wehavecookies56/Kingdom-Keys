@@ -52,18 +52,6 @@ public abstract class KKVehicleEntity extends VehicleEntity {
         this.blocksBuilding = true;
     }
 
-    public static class ShipStats{
-        public float speed;
-        public int weight;
-        public List<Vec3> passengerSlots = new ArrayList<>();
-
-        public ShipStats(float speed, int weight, LinkedList<Vec3> passengerSlots){
-            this.speed = speed;
-            this.weight = weight;
-            this.passengerSlots = passengerSlots;
-        }
-    }
-
     protected Entity.MovementEmission getMovementEmission() {
         return MovementEmission.EVENTS;
     }
