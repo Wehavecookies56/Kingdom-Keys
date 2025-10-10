@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
+import online.kingdomkeys.kingdomkeys.network.cts.CSEditGummiShip;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -26,7 +27,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 		this.imageHeight = 186;
 	}
 
-	ExtendedButton create;
+	ExtendedButton create, editShip;
 	EditBox name;
 
 	@Override
@@ -34,6 +35,9 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 		super.init();
 		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("CREATE"), p -> {
 			PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
+		}));
+		addRenderableWidget(editShip = new ExtendedButton(leftPos + imageWidth - 53, topPos + 60, 45, 15, Component.translatable("EDIT GUMMI SHIP"), p -> {
+			PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
 		}));
 		addRenderableWidget(name = new EditBox(font, leftPos, topPos + 80, 100, 20, Component.empty()));
 	}

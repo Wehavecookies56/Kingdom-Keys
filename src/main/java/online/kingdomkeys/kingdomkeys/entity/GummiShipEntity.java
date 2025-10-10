@@ -23,49 +23,19 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
 	CompoundTag data;
 	public GummiStructure structure;
-	public ShipStats ShipStats;
+	public ShipStats shipStats;
 
 	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
 
-	public static class ShipStats{
-        public float speed;
-        public int weight;
-        public List<Vec3> passengerSlots = new ArrayList<>();
-    
-		public ShipStats(float speed, int weight, LinkedList<Vec3> passengerSlots){
-			this.speed = speed;
-			this.weight = weight;
-			this.passengerSlots = passengerSlots;
-
-			public int getWeight(){
-				return weight;
-			}
-			public void setWeight(int weight){
-				this.weight = weight
-			}
-
-			public float getSpeed(){
-				return speed;
-			}
-			public void setSpeed(float speed){
-				this.speed = speed
-			}
-
-			public LinkedList<Vec3> getPassengers(){
-				return passengers;
-			}
-			public void setPassengers(LinkedList<Vec3> passengers){
-				this.passengers = passengers
-			}
-		}
-	}
+	public record ShipStats(float speed, int weight, List<Vec3> passengerSlots) {}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
@@ -77,13 +47,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		this(ModEntities.TYPE_GUMMI_SHIP.get(), world);
 		structure = gummiStruct;
 		this.setData(structure.serializeNBT(level().registryAccess()));
-
 		this.refreshDimensions();
 	}
 
 	@Override
 	protected int getMaxPassengers() {
-		return getShipStats().passengerSlots.size()+1; //Passengers + rider
+		return getShipStats().passengerSlots.size(); //Passengers
 	}
 
 	float getSpeed() {
@@ -96,54 +65,51 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
-		double x=0, y=0, z=0;
 		int i = getPassengers().indexOf(entity); //return index of the entity in the big array
-		x = getShipStats().passengerSlots.get(i).x();
-		y = getShipStats().passengerSlots.get(i).y();
-		z = getShipStats().passengerSlots.get(i).z();
-		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2)-y-0.5F, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
+		double x = getShipStats().passengerSlots.get(i).x();
+		double y = getShipStats().passengerSlots.get(i).y();
+		double z = getShipStats().passengerSlots.get(i).z();
+		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2F)+y-3F, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
 	}
 
 	private ShipStats getShipStats() {
 		if(shipStats == null){
-			shipStats = new ShipStats(speed, weight, passengers)
-		}
-		float speed = 0;
-		LinkedList<Vec3> passengers = new LinkedList<>();
-		int weight = 0;
+			float speed = 0;
+			LinkedList<Vec3> passengers = new LinkedList<>();
+			int weight = 0;
 
-		int sizeX = structure.getBlocks().length;
-		int sizeY = structure.getBlocks()[0].length;
-		int sizeZ = structure.getBlocks()[0][0].length;
+			int sizeX = structure.getBlocks().length;
+			int sizeY = structure.getBlocks()[0].length;
+			int sizeZ = structure.getBlocks()[0][0].length;
 
-		for (int x = 0; x < sizeX; x++) {
-			for (int y = 0; y < sizeY; y++) {
-				for (int z = 0; z < sizeZ; z++) {
-					BlockState state = structure.getBlocks()[x][y][z];
-					if (state != null && !state.isAir()) {
-						weight++;//TODO make heavier blocks
-						if(state.getBlock() instanceof SlabBlock){
-							passengers.addFirst(new Vec3(x,y,z));
+			for (int x = 0; x < sizeX; x++) {
+				for (int y = 0; y < sizeY; y++) {
+					for (int z = 0; z < sizeZ; z++) {
+						BlockState state = structure.getBlocks()[x][y][z];
+						if (state != null && !state.isAir()) {
+							weight++;//TODO make heavier blocks
+							if(state.getBlock() instanceof SlabBlock){
+								passengers.addFirst(new Vec3(x,y,z));
+							}
+							if(state.getBlock() instanceof StairBlock){
+								passengers.add(new Vec3(x,y,z));
+							}
+							if(state.getBlock() == Blocks.OBSIDIAN){
+								weight++;
+							} else if(state.getBlock() == Blocks.PISTON){
+								speed+=0.5F;
+							} else if(state.getBlock() == Blocks.STICKY_PISTON){
+								speed++;
+							}
+							System.out.println("scanning");
 						}
-						if(state.getBlock() instanceof StairBlock){
-							passengers.add(new Vec3(x,y,z));
-						}
-						if(state.getBlock() == Blocks.OBSIDIAN){
-							weight++;
-						} else if(state.getBlock() == Blocks.PISTON){
-							speed+=0.5F;
-						} else if(state.getBlock() == Blocks.STICKY_PISTON){
-							speed++;
-						}
-
 					}
 				}
 			}
+
+			shipStats = new ShipStats(speed,weight,passengers);
 		}
 
-		shipStats.setWeight(weight);
-		shipStats.setSpeed(speed);
-		shipStats.setPassengers(passengers);
 		return shipStats;
 	}
 
@@ -178,6 +144,27 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
 		}
+	}
+
+
+
+	/*@Override
+	public void push(Entity entity) {
+		if (entity instanceof GummiShipEntity) {
+			if (entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
+				super.push(entity);
+			}
+		} else if (entity.getBoundingBox().minY <= this.getBoundingBox().minY) {
+			super.push(entity);
+		}
+	}*/
+
+	@Override
+	protected boolean canAddPassenger(Entity passenger) {
+		if(passenger instanceof Player) //If it's a player allow them
+			return true;
+		// Otherwise only allow them if there's an empty slot after they mount
+		return getPassengers().size() < getShipStats().passengerSlots().size() - 1;
 	}
 
 

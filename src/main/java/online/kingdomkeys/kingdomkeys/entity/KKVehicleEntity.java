@@ -44,8 +44,6 @@ public abstract class KKVehicleEntity extends VehicleEntity {
     public boolean inputForward;
     public boolean inputUp;
     public boolean inputDown;
-    @Nullable
-    private Leashable.LeashData leashData;
 
     public KKVehicleEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -65,41 +63,43 @@ public abstract class KKVehicleEntity extends VehicleEntity {
         return ModItems.gummiShip.get();
     }
 
+    @Override
     public boolean canCollideWith(Entity entity) {
-        return canVehicleCollide(this, entity);
+        return (entity.canBeCollidedWith() || entity.isPushable()) && !this.isPassengerOfSameVehicle(entity);
     }
 
-    public static boolean canVehicleCollide(Entity vehicle, Entity entity) {
-        return (entity.canBeCollidedWith() || entity.isPushable()) && !vehicle.isPassengerOfSameVehicle(entity);
-    }
-
+    @Override
     public boolean canBeCollidedWith() {
-        return true;
+        return this.getControllingPassenger() == null || !(this.getControllingPassenger() instanceof Player);
     }
-
+    @Override
     public boolean isPushable() {
         return true;
     }
 
+    @Override
     public Vec3 getRelativePortalPosition(Direction.Axis axis, BlockUtil.FoundRectangle portal) {
         return LivingEntity.resetForwardDirectionOfRelativePortalPosition(super.getRelativePortalPosition(axis, portal));
     }
 
+    @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
-
         return (new Vec3(0.0, dimensions.height() / 3.0F, 0.2F)).yRot(-this.getYRot() * 0.017453292F);
     }
 
+    @Override
     public void animateHurt(float yaw) {
         this.setHurtDir(-this.getHurtDir());
         this.setHurtTime(10);
         this.setDamage(this.getDamage() * 11.0F);
     }
 
+    @Override
     public boolean isPickable() {
         return !this.isRemoved();
     }
 
+    @Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
         this.lerpX = x;
         this.lerpY = y;
@@ -109,30 +109,31 @@ public abstract class KKVehicleEntity extends VehicleEntity {
         this.lerpSteps = 10;
     }
 
+    @Override
     public double lerpTargetX() {
         return this.lerpSteps > 0 ? this.lerpX : this.getX();
     }
-
+    @Override
     public double lerpTargetY() {
         return this.lerpSteps > 0 ? this.lerpY : this.getY();
     }
-
+    @Override
     public double lerpTargetZ() {
         return this.lerpSteps > 0 ? this.lerpZ : this.getZ();
     }
-
+    @Override
     public float lerpTargetXRot() {
         return this.lerpSteps > 0 ? (float)this.lerpXRot : this.getXRot();
     }
-
+    @Override
     public float lerpTargetYRot() {
         return this.lerpSteps > 0 ? (float)this.lerpYRot : this.getYRot();
     }
-
+    @Override
     public Direction getMotionDirection() {
         return this.getDirection().getClockWise();
     }
-
+    @Override
     public void tick() {
         if (this.getHurtTime() > 0) {
             this.setHurtTime(this.getHurtTime() - 1);
@@ -193,7 +194,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
             --this.lerpSteps;
         }
     }
-
+    @Override
     protected double getDefaultGravity() {
         return 0;
     }
