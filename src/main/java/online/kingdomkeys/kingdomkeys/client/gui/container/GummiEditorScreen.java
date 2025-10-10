@@ -1,20 +1,25 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEditGummiShip;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -29,19 +34,27 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 
 	ExtendedButton create, editShip;
 	EditBox name;
+	GummiStructure structure;
 
 	@Override
 	protected void init() {
 		super.init();
-		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("CREATE"), p -> {
+		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 70, topPos + 80, 60, 15, Component.translatable("CREATE"), p -> {
 			PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
 		}));
-		addRenderableWidget(editShip = new ExtendedButton(leftPos + imageWidth - 53, topPos + 60, 45, 15, Component.translatable("EDIT GUMMI SHIP"), p -> {
+		addRenderableWidget(editShip = new ExtendedButton(leftPos + imageWidth - 70, topPos + 60, 60, 15, Component.translatable("EDIT GUMMI"), p -> {
 			PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
 		}));
 		addRenderableWidget(name = new EditBox(font, leftPos, topPos + 80, 100, 20, Component.empty()));
 	}
 
+	public void updateShip(){
+		BlockPos origin = menu.TE.getBlockPos();
+		int size = 7;
+		BlockState hangar = minecraft.level.getBlockState(origin);
+
+		structure = Utils.getGummiStructureWithFacing(minecraft.level,origin,hangar.getValue(GummiEditorBlock.FACING),size);
+	}
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (name.isFocused()) {
@@ -68,7 +81,13 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
 		gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float) (this.imageHeight - 96 + 2), 4210752, false);
-		//gui.drawString(font, "Create gummi", 8.0F, 6.0F, 4210752, false);
+		updateShip();
+		if(structure != null){
+			GummiShipEntity.ShipStats stats = Utils.getShipStats(structure);
+			gui.drawString(font, "Speed: " + stats.speed(), 8.0F, 16, 4210752, false);
+			gui.drawString(font, "Weight: " + stats.weight(), 8.0F, 26, 4210752, false);
+			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), 8.0F, 36, 4210752, false);
+		}
 
 		// super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
 	}

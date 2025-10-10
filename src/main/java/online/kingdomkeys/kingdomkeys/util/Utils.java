@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -46,6 +47,11 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -64,8 +70,10 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -190,6 +198,106 @@ public class Utils {
 			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_DarkResShort)+": "+darkRes+"%").withStyle(ChatFormatting.DARK_GRAY));
 
 		return stats;
+	}
+
+	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
+		float speed = 0;
+		LinkedList<Vec3> passengers = new LinkedList<>();
+		int weight = 0;
+
+		int sizeX = structure.getBlocks().length;
+		int sizeY = structure.getBlocks()[0].length;
+		int sizeZ = structure.getBlocks()[0][0].length;
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+					if (state != null && !state.isAir()) {
+						weight++;//TODO make heavier blocks
+						if (state.getBlock() instanceof SlabBlock) {
+							passengers.addFirst(new Vec3(x, y, z));
+						}
+						if (state.getBlock() instanceof StairBlock) {
+							passengers.add(new Vec3(x, y, z));
+						}
+						if (state.getBlock() == Blocks.OBSIDIAN) {
+							weight++;
+						} else if (state.getBlock() == Blocks.PISTON) {
+							speed += 0.5F;
+						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
+							speed++;
+						}
+						//System.out.println("scanning");
+					}
+				}
+			}
+		}
+		return new GummiShipEntity.ShipStats(speed,weight,passengers);
+	}
+
+	public static GummiStructure getGummiStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
+		GummiStructure struct = new GummiStructure(size, size, size);
+
+		int max = size - 1;
+
+		int offsetX = 0;
+		int offsetZ = 0;
+
+		switch (facing) {
+			case NORTH -> { offsetX = -3; offsetZ = 1; }
+			case SOUTH -> { offsetX = -3; offsetZ = -7; }
+			case EAST  -> { offsetX = -7; offsetZ = -3; }
+			case WEST  -> { offsetX = 1;  offsetZ = -3; }
+		}
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
+
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
+					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
+						struct.getBlocks()[x][y][z] = level.getBlockState(target);
+					} else {
+						struct.getBlocks()[x][y][z] = null;
+					}
+				}
+			}
+		}
+		return struct;
+	}
+
+	public static GummiShipEntity getGummiShipInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
+		int offsetX = 0;
+		int offsetZ = 0;
+
+		switch (facing) {
+			case NORTH -> { offsetX = -3; offsetZ = 1; }
+			case SOUTH -> { offsetX = -3; offsetZ = -7; }
+			case EAST  -> { offsetX = -7; offsetZ = -3; }
+			case WEST  -> { offsetX = 1;  offsetZ = -3; }
+		}
+
+		AABB box = new AABB(origin.getX()+offsetX, origin.getY(), origin.getZ()+offsetZ, origin.getX()+offsetX+size, origin.getY() + size, origin.getZ()+offsetZ+size);
+		List<GummiShipEntity> entities = level.getEntitiesOfClass(GummiShipEntity.class, box);
+		System.out.println(entities);
+
+		//Only return if one single ship is detected
+		if(entities.size() == 1){
+			return entities.getFirst();
+		}
+
+		//None or more than 1 ship detected
+		return null;
 	}
 
 	public static class Title {

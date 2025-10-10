@@ -291,7 +291,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
     }
 
     protected int getMaxPassengers() {
-        return 2;
+        return 0;
     }
 
     @Nullable

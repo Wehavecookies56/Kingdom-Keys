@@ -20,14 +20,12 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
-import online.kingdomkeys.kingdomkeys.item.GummiShipItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import org.joml.Vector3f;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSCreateGummiShip(String name, int containerID) implements Packet {
 
@@ -55,24 +53,24 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 
 		int size = 7;
 		BlockState hangar = level.getBlockState(origin);
-		GummiStructure struct = copyStructureWithFacing(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 		switch (hangar.getValue(GummiEditorBlock.FACING)) {
 			default -> {
-				shipEntity.setPos(new Vec3(origin.getX(), origin.getY(), origin.getZ()+3.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+4.5F));
 				shipEntity.setYRot(180);
 			}
 			case SOUTH -> {
-				shipEntity.setPos(new Vec3(origin.getX(), origin.getY(), origin.getZ()-3.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()-3.5F));
 				shipEntity.setYRot(0);
 			}
 			case EAST -> {
-				shipEntity.setPos(new Vec3(origin.getX()-3.5F, origin.getY(), origin.getZ()));
-				shipEntity.setYRot(270);
+				shipEntity.setPos(new Vec3(origin.getX()-3.5F, origin.getY(), origin.getZ()+0.5F));
+				shipEntity.setYRot(90);
 			}
 			case WEST -> {
-				shipEntity.setPos(new Vec3(origin.getX()+3.5F, origin.getY(), origin.getZ()));
-				shipEntity.setYRot(90);
+				shipEntity.setPos(new Vec3(origin.getX()+4.5F, origin.getY(), origin.getZ() + 0.5F));
+				shipEntity.setYRot(270);
 			}
 		}
 
@@ -83,46 +81,6 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 			stack.set(ModComponents.GUMMI_STRUCTURE, struct);
 			stack.set(ModComponents.BLUEPRINT_NAME, name);
 		}
-	}
-
-	public static GummiStructure copyStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
-		GummiStructure struct = new GummiStructure(size, size, size);
-
-		int max = size - 1;
-
-		int offsetX = 0;
-		int offsetZ = 0;
-
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
-
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				for (int z = 0; z < size; z++) {
-					int rx = x;
-					int rz = z;
-
-					switch (facing) {
-						case NORTH -> { rx = x; rz = z; }
-						case SOUTH -> { rx = max - x; rz = max - z; }
-						case EAST  -> { rx = z; rz = max - x; }
-						case WEST  -> { rx = max - z; rz = x; }
-					}
-
-					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
-					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
-						struct.getBlocks()[x][y][z] = level.getBlockState(target);
-					} else {
-						struct.getBlocks()[x][y][z] = null;
-					}
-				}
-			}
-		}
-		return struct;
 	}
 
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {

@@ -14,15 +14,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
@@ -63,6 +60,13 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return getShipStats().weight;
 	}
 
+	private ShipStats getShipStats(){
+		if(shipStats == null){
+			shipStats = Utils.getShipStats(structure);
+		}
+		return shipStats;
+	}
+
 	@Override
 	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
 		int i = getPassengers().indexOf(entity); //return index of the entity in the big array
@@ -70,47 +74,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		double y = getShipStats().passengerSlots.get(i).y();
 		double z = getShipStats().passengerSlots.get(i).z();
 		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2F)+y-3F, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
-	}
-
-	private ShipStats getShipStats() {
-		if(shipStats == null){
-			float speed = 0;
-			LinkedList<Vec3> passengers = new LinkedList<>();
-			int weight = 0;
-
-			int sizeX = structure.getBlocks().length;
-			int sizeY = structure.getBlocks()[0].length;
-			int sizeZ = structure.getBlocks()[0][0].length;
-
-			for (int x = 0; x < sizeX; x++) {
-				for (int y = 0; y < sizeY; y++) {
-					for (int z = 0; z < sizeZ; z++) {
-						BlockState state = structure.getBlocks()[x][y][z];
-						if (state != null && !state.isAir()) {
-							weight++;//TODO make heavier blocks
-							if(state.getBlock() instanceof SlabBlock){
-								passengers.addFirst(new Vec3(x,y,z));
-							}
-							if(state.getBlock() instanceof StairBlock){
-								passengers.add(new Vec3(x,y,z));
-							}
-							if(state.getBlock() == Blocks.OBSIDIAN){
-								weight++;
-							} else if(state.getBlock() == Blocks.PISTON){
-								speed+=0.5F;
-							} else if(state.getBlock() == Blocks.STICKY_PISTON){
-								speed++;
-							}
-							System.out.println("scanning");
-						}
-					}
-				}
-			}
-
-			shipStats = new ShipStats(speed,weight,passengers);
-		}
-
-		return shipStats;
+		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 
 	void controlBoat() {
@@ -146,23 +110,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 	}
 
-
-
-	/*@Override
-	public void push(Entity entity) {
-		if (entity instanceof GummiShipEntity) {
-			if (entity.getBoundingBox().minY < this.getBoundingBox().maxY) {
-				super.push(entity);
-			}
-		} else if (entity.getBoundingBox().minY <= this.getBoundingBox().minY) {
-			super.push(entity);
-		}
-	}*/
-
 	@Override
 	protected boolean canAddPassenger(Entity passenger) {
 		if(passenger instanceof Player) //If it's a player allow them
-			return true;
+			return super.canAddPassenger(passenger);
 		// Otherwise only allow them if there's an empty slot after they mount
 		return getPassengers().size() < getShipStats().passengerSlots().size() - 1;
 	}
