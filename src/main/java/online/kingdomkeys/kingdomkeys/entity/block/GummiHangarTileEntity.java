@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -19,23 +18,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
-import org.joml.Vector3f;
+import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
+public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private final ItemStackHandler itemStackHandler = createInventory();
 	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
 	private ItemStack displayStack = ItemStack.EMPTY;
 
-	public GummiEditorTileEntity(BlockPos pos, BlockState state) {
-		super(ModEntities.TYPE_GUMMI_EDITOR.get(), pos, state);
+	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
+		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
 	}
 
 	private ItemStackHandler createInventory() {
@@ -79,7 +77,7 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
-		return new GummiEditorMenu(windowID, playerInventory, this);
+		return new GummiHangarMenu(windowID, playerInventory, this);
 	}
 
 	public ItemStack getDisplayStack() {
@@ -119,8 +117,8 @@ public class GummiEditorTileEntity extends BlockEntity implements MenuProvider {
 	int ticks = 0;
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		GummiEditorTileEntity TE = (GummiEditorTileEntity) blockEntity;
-		Direction facing = state.getValue(GummiEditorBlock.FACING);
+		GummiHangarTileEntity TE = (GummiHangarTileEntity) blockEntity;
+		Direction facing = state.getValue(GummiHangarBlock.FACING);
 		TE.ticks++;
 
 		/*

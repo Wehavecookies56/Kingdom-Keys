@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,17 +11,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
+import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -45,7 +42,7 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		if (player.containerMenu.containerId != containerID)
 			return;
 
-		GummiEditorMenu container = (GummiEditorMenu) player.containerMenu;
+		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
 		ItemStack stack = container.getItems().getFirst();
 
 		BlockPos origin = container.TE.getBlockPos();
@@ -53,9 +50,9 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 
 		int size = 7;
 		BlockState hangar = level.getBlockState(origin);
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
-		switch (hangar.getValue(GummiEditorBlock.FACING)) {
+		switch (hangar.getValue(GummiHangarBlock.FACING)) {
 			default -> {
 				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+4.5F));
 				shipEntity.setYRot(180);
@@ -75,7 +72,7 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		}
 
 		level.addFreshEntity(shipEntity);
-		removeBlocks(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 
 		if (stack.is(ModItems.gummiShipBlueprint.get())) {
 			stack.set(ModComponents.GUMMI_STRUCTURE, struct);

@@ -14,38 +14,38 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 
-public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileEntity> {
+public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
 
 	public GummiHangarRenderer(BlockEntityRendererProvider.Context context) {
 
     }
 
     @Override
-    public boolean shouldRender(GummiEditorTileEntity blockEntity, Vec3 cameraPos) {
+    public boolean shouldRender(GummiHangarTileEntity blockEntity, Vec3 cameraPos) {
         return true;
     }
 
     @Override
-    public boolean shouldRenderOffScreen(GummiEditorTileEntity blockEntity) {
+    public boolean shouldRenderOffScreen(GummiHangarTileEntity blockEntity) {
         return true;
     }
 
     @Override
-    public void render(GummiEditorTileEntity TE, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(GummiHangarTileEntity TE, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStackIn.pushPose();
         {
             BlockState state = Minecraft.getInstance().level.getBlockState(TE.getBlockPos());
-            if(state.getBlock() != ModBlocks.gummiEditor.get()) {
+            if(state.getBlock() != ModBlocks.gummiHangar.get()) {
                 matrixStackIn.popPose();
                 return;
             }
 
             int counter = 0;
-            Direction facing = state.getValue(GummiEditorBlock.FACING);
+            Direction facing = state.getValue(GummiHangarBlock.FACING);
             int size = 9;
             for (int x = 0; x < size; x++) {
                 for (int y = 0; y < size; y++) {
@@ -146,7 +146,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiEditorTileE
     }
 
     @Override
-    public AABB getRenderBoundingBox(GummiEditorTileEntity blockEntity) {
+    public AABB getRenderBoundingBox(GummiHangarTileEntity blockEntity) {
         BlockPos pos = blockEntity.getBlockPos();
         return new AABB(pos.offset(-10,-10,-10).getCenter(), pos.offset(10,10,10).getCenter());
     }

@@ -11,11 +11,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 
-public class GummiEditorMenu extends AbstractContainerMenu {
+public class GummiHangarMenu extends AbstractContainerMenu {
 
-	public final GummiEditorTileEntity TE;
+	public final GummiHangarTileEntity TE;
 	private final ContainerLevelAccess canInteractWith;
 
 	private static final int HOTBAR_SLOT_COUNT = 9;
@@ -26,14 +26,14 @@ public class GummiEditorMenu extends AbstractContainerMenu {
 
 	private static final int VANILLA_FIRST_SLOT_INDEX = 0;
 	private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-	private static final int GUMMI_EDITOR_SLOTS = GummiEditorTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
+	private static final int GUMMI_EDITOR_SLOTS = GummiHangarTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
 	public static final int TILE_INVENTORY_YPOS = 20; // the ContainerScreenBasic needs to know these so it can tell where to draw the
 														// Titles
 	public static final int PLAYER_INVENTORY_YPOS = 51;
 
-	public GummiEditorMenu(final int windowID, final Inventory playerInventory, final GummiEditorTileEntity tileEntity) {
-		super(ModMenus.GUMMI_EDITOR.get(), windowID);
+	public GummiHangarMenu(final int windowID, final Inventory playerInventory, final GummiHangarTileEntity tileEntity) {
+		super(ModMenus.GUMMI_HANGAR.get(), windowID);
 		TE = tileEntity;
 		canInteractWith = ContainerLevelAccess.create(TE.getLevel(), TE.getBlockPos());
 
@@ -60,22 +60,22 @@ public class GummiEditorMenu extends AbstractContainerMenu {
 		}
 	}
 
-	private static GummiEditorTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
+	private static GummiHangarTileEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf buf) {
 		final BlockEntity te = playerInventory.player.level().getBlockEntity(buf.readBlockPos());
-		if (te instanceof GummiEditorTileEntity) {
-			return (GummiEditorTileEntity) te;
+		if (te instanceof GummiHangarTileEntity) {
+			return (GummiHangarTileEntity) te;
 		}
 		throw new IllegalStateException("Tile Entity mismatch with container");
 	}
 
 
-	public GummiEditorMenu(final int windowId, final Inventory playerInventory, final FriendlyByteBuf buf) {
+	public GummiHangarMenu(final int windowId, final Inventory playerInventory, final FriendlyByteBuf buf) {
 		this(windowId, playerInventory, getTileEntity(playerInventory, buf));
 	}
 
 	@Override
 	public boolean stillValid(Player playerIn) {
-		return stillValid(canInteractWith, playerIn, ModBlocks.gummiEditor.get());
+		return stillValid(canInteractWith, playerIn, ModBlocks.gummiHangar.get());
 	}
 
 	@Override

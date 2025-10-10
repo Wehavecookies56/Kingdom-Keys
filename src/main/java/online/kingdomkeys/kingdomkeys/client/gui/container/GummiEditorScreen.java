@@ -12,10 +12,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
+import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEditGummiShip;
@@ -23,11 +23,11 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
-public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> {
+public class GummiEditorScreen extends AbstractContainerScreen<GummiHangarMenu> {
 
 	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_editor.png");
 
-	public GummiEditorScreen(GummiEditorMenu container, Inventory inventory, Component title) {
+	public GummiEditorScreen(GummiHangarMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
 		this.imageHeight = 186;
 	}
@@ -53,7 +53,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiEditorMenu> 
 		int size = 7;
 		BlockState hangar = minecraft.level.getBlockState(origin);
 
-		structure = Utils.getGummiStructureWithFacing(minecraft.level,origin,hangar.getValue(GummiEditorBlock.FACING),size);
+		structure = Utils.getGummiStructureWithFacing(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),size);
 	}
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

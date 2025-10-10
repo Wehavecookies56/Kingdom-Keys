@@ -26,7 +26,7 @@ public class ModMenus {
     public static final Supplier<MenuType<SynthesisBagMenu>> SYNTHESIS_BAG = createMenu("synthesis_bag", SynthesisBagMenu::fromNetwork);
     public static final Supplier<MenuType<PedestalMenu>> PEDESTAL = createMenu("pedestal_container", PedestalMenu::new);
     public static final Supplier<MenuType<MagicalChestMenu>> MAGICAL_CHEST = createMenu("magical_chest", MagicalChestMenu::new);
-    public static final Supplier<MenuType<GummiEditorMenu>> GUMMI_EDITOR = createMenu("gummi_editor_container", GummiEditorMenu::new);
+    public static final Supplier<MenuType<GummiHangarMenu>> GUMMI_HANGAR = createMenu("gummi_editor_container", GummiHangarMenu::new);
     public static final Supplier<MenuType<PauldronMenu>> PAULDRON = createMenu("pauldron", PauldronMenu::fromNetwork);
 
     public static <M extends AbstractContainerMenu> Supplier<MenuType<M>> createMenu(String name, IContainerFactory<M> container) {
@@ -38,7 +38,7 @@ public class ModMenus {
         event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
         event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
         event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
-        event.register(ModMenus.GUMMI_EDITOR.get(), GummiEditorScreen::new);
+        event.register(ModMenus.GUMMI_HANGAR.get(), GummiEditorScreen::new);
         event.register(ModMenus.PAULDRON.get(), PauldronScreen::new);
     }
 
@@ -46,7 +46,7 @@ public class ModMenus {
         event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new SynthesisBagInventory(object), ModItems.synthesisBag.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_EDITOR.get(), (object, context) -> object.inventory.get());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_HANGAR.get(), (object, context) -> object.inventory.get());
         event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new PauldronInventory(object), ModItems.terra_Shoulder.get(), ModItems.aqua_Shoulder.get(), ModItems.ventus_Shoulder.get(), ModItems.eraqus_Shoulder.get(), ModItems.xehanort_Shoulder.get(), ModItems.nightmareVentus_Shoulder.get(), ModItems.ux_Shoulder.get());
     }
 

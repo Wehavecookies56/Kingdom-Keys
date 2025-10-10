@@ -12,10 +12,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiEditorBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.menu.GummiEditorMenu;
+import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -37,14 +37,14 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 		if (player.containerMenu.containerId != containerID)
 			return;
 
-		GummiEditorMenu container = (GummiEditorMenu) player.containerMenu;
+		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
 
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 
 		int size = 7;
 		BlockState hangar = level.getBlockState(origin);
-		GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(level, origin, hangar.getValue(GummiEditorBlock.FACING), size);
+		GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		if(gummi != null){
 			GummiStructure struct = gummi.structure;
 
@@ -52,7 +52,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 
 			int offsetX = 0;
 			int offsetZ = 0;
-			Direction facing = hangar.getValue(GummiEditorBlock.FACING);
+			Direction facing = hangar.getValue(GummiHangarBlock.FACING);
 			switch (facing) {
 				case NORTH -> { offsetX = -3; offsetZ = 1; }
 				case SOUTH -> { offsetX = -3; offsetZ = -7; }

@@ -27,20 +27,20 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiEditorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 
 import javax.annotation.Nullable;
 
-public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
+public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-	public GummiEditorBlock(Properties properties) {
+	public GummiHangarBlock(Properties properties) {
 		super(properties);
 	}
 
 	@Override
 	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return simpleCodec(GummiEditorBlock::new);
+		return simpleCodec(GummiHangarBlock::new);
 	}
 
 	private static final VoxelShape collision = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
@@ -76,7 +76,7 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, IN
 		if (namedContainerProvider != null) {
 			if (!(player instanceof ServerPlayer serverPlayerEntity))
 				return ItemInteractionResult.FAIL;
-            if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof GummiEditorTileEntity te) {
+            if (state.hasBlockEntity() && level.getBlockEntity(pos) instanceof GummiHangarTileEntity te) {
                 if (te != null) {
 					serverPlayerEntity.openMenu(namedContainerProvider, (packetBuffer) -> {
 						packetBuffer.writeBlockPos(pos);
@@ -89,7 +89,7 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
-			GummiEditorTileEntity TE = (GummiEditorTileEntity) world.getBlockEntity(pos);
+			GummiHangarTileEntity TE = (GummiHangarTileEntity) world.getBlockEntity(pos);
 			if (TE != null) {
 				IItemHandler iItemHandler = TE.inventory.get();
 				if (iItemHandler != null) {
@@ -110,12 +110,12 @@ public class GummiEditorBlock extends BaseEntityBlock implements EntityBlock, IN
 	
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_GUMMI_EDITOR.get() ? GummiEditorTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+		return type == ModEntities.TYPE_GUMMI_HANGAR.get() ? GummiHangarTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
 	}
 	
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new GummiEditorTileEntity(pPos, pState);
+		return new GummiHangarTileEntity(pPos, pState);
 	}
 }
