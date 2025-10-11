@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -16,14 +17,15 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -43,6 +45,7 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -122,6 +125,23 @@ public class ClientEvents {
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void onCameraSetup(ViewportEvent.ComputeFov event) {
+		Camera camera = event.getCamera();
+		Entity viewEntity = camera.getEntity();
+
+		if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+			if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
+				if(ship.shipStats != null){
+					int maxSize = Math.max(Math.max(ship.structure.getHeight(),ship.structure.getDepth()),ship.structure.getWidth());
+					event.setFOV(event.getFOV()+maxSize*3);
+				}
+
+			}
+		}
+	}
+
 
 	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {

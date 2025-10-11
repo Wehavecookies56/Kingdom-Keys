@@ -24,9 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class KKVehicleEntity extends VehicleEntity {
@@ -62,6 +60,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
     protected Item getDropItem() {
         return ModItems.gummiShip.get();
     }
+
 
     @Override
     public boolean canCollideWith(Entity entity) {

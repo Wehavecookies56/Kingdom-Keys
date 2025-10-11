@@ -39,7 +39,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			CompoundTag data = entityIn.getDataManager();
 
 			if(data != null && !data.isEmpty()){
-				// Centrar la estructura en torno al origen de la entidad
 				int w = entityIn.structure.getWidth();
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
