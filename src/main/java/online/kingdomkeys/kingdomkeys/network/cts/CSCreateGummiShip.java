@@ -52,14 +52,15 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		BlockState hangar = level.getBlockState(origin);
 		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
+
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
 			default -> {
 				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+4.5F));
-				shipEntity.setYRot(180);
+				shipEntity.setYRot(0);
 			}
 			case SOUTH -> {
 				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()-3.5F));
-				shipEntity.setYRot(0);
+				shipEntity.setYRot(180);
 			}
 			case EAST -> {
 				shipEntity.setPos(new Vec3(origin.getX()-3.5F, origin.getY(), origin.getZ()+0.5F));

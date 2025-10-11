@@ -30,8 +30,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	private final ItemStackHandler itemStackHandler = createInventory();
 	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 
-	private ItemStack displayStack = ItemStack.EMPTY;
-
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
 	}
@@ -55,18 +53,11 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
-		/*CompoundTag invCompound = compound.getCompound("inv");
-		itemStackHandler.deserializeNBT(provider, invCompound);
-		//CompoundNBT transformations = compound.getCompound("transforms");
-		displayStack = ItemStack.parse(provider, compound.getCompound("display_stack")).get();*/
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
-		//compound.put("inv", itemStackHandler.serializeNBT(provider));
-		//CompoundNBT transformations = new CompoundNBT();
-		//compound.put("display_stack", displayStack.save(provider));
 	}
 
 	@Override
@@ -78,22 +69,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public AbstractContainerMenu createMenu(int windowID, Inventory playerInventory, Player playerEntity) {
 		return new GummiHangarMenu(windowID, playerInventory, this);
-	}
-
-	public ItemStack getDisplayStack() {
-		return displayStack;
-	}
-
-	public void setDisplayStack(ItemStack displayStack) {
-		this.displayStack = displayStack;
-		setChanged();
-	}
-
-	private int ticksExisted;
-	public int previousTicks;
-
-	public int ticksExisted() {
-		return ticksExisted;
 	}
 
 	@Nullable
@@ -112,37 +87,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		CompoundTag tag = new CompoundTag();
 		saveAdditional(tag, pRegistries);
 		return tag;
-	}
-
-	int ticks = 0;
-
-	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		GummiHangarTileEntity TE = (GummiHangarTileEntity) blockEntity;
-		Direction facing = state.getValue(GummiHangarBlock.FACING);
-		TE.ticks++;
-
-		/*
-		for (int x = 0; x < 7; x++) {
-			for (int y = 0; y < 7; y++) {
-				for (int z = 0; z < 7; z++) {
-					boolean borderX = (x == 0 || x == 6);
-					boolean borderY = (y == 0 || y == 6);
-					boolean borderZ = (z == 0 || z == 6);
-
-					if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
-						switch (facing) {
-							case NORTH -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() + 0.5 - 3 + x,pos.getY() + y + 0.5,pos.getZ() + 1.5 + z,0, 0, 0);
-							case SOUTH -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() + 0.5 - 3 + x,pos.getY() + y + 0.5,pos.getZ() - 0.5 - z,0, 0, 0);
-							case EAST -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() - 0.5 - 6 + x,pos.getY() + y + 0.5,pos.getZ() + 0.5 + 3 - z,0, 0, 0);
-							case WEST -> level.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1),pos.getX() - 0.5 + 2 + x,pos.getY() + y + 0.5,pos.getZ() + 0.5 + 3 - z,0, 0, 0);
-						}
-					}
-				}
-			}
-		}
-		 */
-
-
 	}
 	
 }

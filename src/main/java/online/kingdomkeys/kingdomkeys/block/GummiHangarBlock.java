@@ -2,35 +2,36 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 
 import javax.annotation.Nullable;
 
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
+	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
 
 	public GummiHangarBlock(Properties properties) {
 		super(properties);
@@ -44,13 +45,14 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false);
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
+		builder.add(SHOW_LINES);
 	}
 
 	@Override
@@ -89,14 +91,33 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		}
 	}
 
+	@Override
+	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
+		worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+	}
+
+	@Override
+	public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side) {
+		return true;
+	}
+
+	@Override
+	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
+		if (oldState.getBlock() != state.getBlock()) {
+			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+		}
+	}
+
+	@Override
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (!worldIn.isClientSide && worldIn.getBlockEntity(pos) == null) {
+			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+		}
+	}
+
 	@Deprecated
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
-	}
-	
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_GUMMI_HANGAR.get() ? GummiHangarTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
 	}
 	
 	@Nullable

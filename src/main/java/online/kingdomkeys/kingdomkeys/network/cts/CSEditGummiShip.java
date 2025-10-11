@@ -67,8 +67,8 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 						int rz = z;
 
 						switch (facing) {
-							case NORTH -> { rx = x; rz = z; }
-							case SOUTH -> { rx = max - x; rz = max - z; }
+							case SOUTH -> { rx = x; rz = z; }
+							case NORTH -> { rx = max - x; rz = max - z; }
 							case EAST  -> { rx = z; rz = max - x; }
 							case WEST  -> { rx = max - z; rz = x; }
 						}
