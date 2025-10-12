@@ -43,8 +43,6 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 			return;
 
 		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
-		ItemStack stack = container.getItems().getFirst();
-
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 

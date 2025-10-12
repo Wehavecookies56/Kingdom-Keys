@@ -67,8 +67,10 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                 }
             }
 
-            if(state.getValue(GummiHangarBlock.SHOW_LINES))
-                LevelRenderer.renderLineBox(matrixStackIn,a,origin.x(),origin.y(),origin.z(),dest.x(),dest.y(),dest.z(),0.3F,0.9F,1,0.3F);
+            float dist = (float) Math.sqrt(Minecraft.getInstance().player.distanceToSqr(TE.getBlockPos().getX(), TE.getBlockPos().getY(), TE.getBlockPos().getZ()));
+            System.out.println((80-dist)/100F);
+            if(dist < 80 && state.getValue(GummiHangarBlock.SHOW_LINES))
+                LevelRenderer.renderLineBox(matrixStackIn,a,origin.x(),origin.y(),origin.z(),dest.x(),dest.y(),dest.z(),0.3F,0.8F,1F,(80-dist)/100F);
 
            /* size= 9;
             for (int x = 0; x < size; x++) {
