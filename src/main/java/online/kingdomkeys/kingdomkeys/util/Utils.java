@@ -313,12 +313,10 @@ public class Utils {
 		AABB box = new AABB(origin.getX()+offsetX, origin.getY(), origin.getZ()+offsetZ, origin.getX()+offsetX+size, origin.getY() + size, origin.getZ()+offsetZ+size);
 		List<GummiShipEntity> entities = level.getEntitiesOfClass(GummiShipEntity.class, box);
 
-		//Only return if one single ship is detected
 		if(entities.size() == 1){
 			return entities.getFirst();
 		}
 
-		//None or more than 1 ship detected
 		return null;
 	}
 

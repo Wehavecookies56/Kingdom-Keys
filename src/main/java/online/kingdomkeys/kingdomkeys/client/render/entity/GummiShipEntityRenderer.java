@@ -11,25 +11,15 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
-import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import org.joml.AxisAngle4f;
-import org.joml.Quaternionf;
-
-import java.awt.*;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
-	int red = 96, green = 140, blue = 109, alpha = 255;
-	//private GummiShipModel model;
-
 	public GummiShipEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		//model = new GummiShipModel();
 	}
 
 	@Override

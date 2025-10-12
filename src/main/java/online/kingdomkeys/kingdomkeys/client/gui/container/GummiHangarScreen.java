@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -17,6 +18,8 @@ import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -163,6 +166,16 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 			BlockPos origin = menu.TE.getBlockPos();
 			BlockState hangar = minecraft.level.getBlockState(origin);
+
+			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
+
+			imp.active = stack.is(ModItems.gummiShipBlueprint.get());
+			exp.active = stack.is(ModItems.gummiShipBlueprint.get()) && !name.getValue().equals("");
+
+			if(stack.is(ModItems.gummiShipBlueprint.get())){
+				GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
+				imp.active = struct != null;
+			}
 
             build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE)) == 0;
 		}

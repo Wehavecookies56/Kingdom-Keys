@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
+	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
 	public static final IntegerProperty SIZE = IntegerProperty.create("size",5,11); //5 S, 7 M, 9 L, 11 XL
 
 	int size = 7;
@@ -57,7 +58,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(SIZE,size);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(SIZE,size).setValue(DISPLAY_BLUEPRINT,false);
 	}
 
 	@Override
@@ -66,6 +67,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		builder.add(FACING);
 		builder.add(SHOW_LINES);
 		builder.add(SIZE);
+		builder.add(DISPLAY_BLUEPRINT);
 	}
 
 	@Override
@@ -136,7 +138,6 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	@Override
 	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
-
 		if (oldState.getBlock() != state.getBlock()) {
 			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
 		}

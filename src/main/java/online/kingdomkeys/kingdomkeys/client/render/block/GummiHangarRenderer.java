@@ -1,20 +1,29 @@
 package online.kingdomkeys.kingdomkeys.client.render.block;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
 
@@ -71,101 +80,50 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             if(dist < 80 && state.getValue(GummiHangarBlock.SHOW_LINES))
                 LevelRenderer.renderLineBox(matrixStackIn,a,origin.x(),origin.y(),origin.z(),dest.x(),dest.y(),dest.z(),0.3F,0.8F,1F,(80-dist)/100F);
 
-           /* size= 9;
-            for (int x = 0; x < size; x++) {
-                for (int y = 0; y < size; y++) {
-                    for (int z = 0; z < size; z++) {
-                        boolean borderX = (x == 0 || x == size-1);
-                        boolean borderY = (y == 0 || y == size-1);
-                        boolean borderZ = (z == 0 || z == size-1);
 
-                        counter++;
+            if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
+                ItemStack stack = TE.inventory.get().getStackInSlot(0);
+                if (stack.is(ModItems.gummiShipBlueprint.get())) {
+                    GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
+                    if (struct != null) {
+                        int offsetX = 0;
+                        int offsetZ = 0;
+
                         switch (facing) {
-                            case NORTH -> {
-                                if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
-                                    matrixStackIn.pushPose();
-                                    {
-                                        matrixStackIn.translate(-(size / 2) + x, +y - 0.9999F, z); //slightly above ground to avoid Zfighting
-                                        //Minecraft.getInstance().getBlockRenderer().renderSingleBlock(counter % 2 == 1 ? Blocks.YELLOW_WOOL.defaultBlockState() : Blocks.BLACK_WOOL.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                    }
-                                    matrixStackIn.popPose();
-                                } else {
-                                    if(y == 0){
-                                        matrixStackIn.pushPose();
-                                        {
-                                            matrixStackIn.translate(-(size / 2) + x, +y - 0.9999F, z); //slightly above ground to avoid Zfighting
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                        }
-                                        matrixStackIn.popPose();
-
-                                    }
-                                }
+                            case NORTH -> { offsetX = -4; offsetZ = -8; }
+                            case SOUTH -> { offsetX = -3; offsetZ = -7; }
+                            case EAST  -> { offsetX = -4; offsetZ = -7;
+                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
                             }
-                            case SOUTH -> {
-                                if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
+                            case WEST  -> { offsetX = -3;  offsetZ = -8;
+                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
+                        }
+                        int w = struct.getWidth();
+                        int h = struct.getHeight();
+                        int d = struct.getDepth();
+                        matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
+                        matrixStackIn.translate(offsetX,0,offsetZ);
+
+                        BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
+                        RenderSystem.setShaderColor(1,1,1,0.75F);
+                        for (int x = 0; x < w; x++) {
+                            for (int y = 0; y < h; y++) {
+                                for (int z = 0; z < d; z++) {
+                                    BlockState s = struct.getBlocks()[x][y][z];
+                                    if (s == null || s.isAir()) continue;
                                     matrixStackIn.pushPose();
                                     {
-                                        matrixStackIn.translate(size / 2 - x, +y - 0.9999F, -z);
-                                        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(counter % 2 == 1 ? Blocks.YELLOW_WOOL.defaultBlockState() : Blocks.BLACK_WOOL.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                    }
-                                    matrixStackIn.popPose();
-                                } else {
-                                    if(y == 0){
-                                        matrixStackIn.pushPose();
-                                        {
-                                            matrixStackIn.translate(size / 2 - x, +y - 0.9999F, -z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                        }
-                                        matrixStackIn.popPose();
+                                        matrixStackIn.translate(x, y, z);
+                                        blockRenderer.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());
 
                                     }
-                                }
-                            }
-                            case EAST -> {
-                                if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
-                                    matrixStackIn.pushPose();
-                                    {
-                                        matrixStackIn.translate(-x, y - 0.9999F, -(size / 2) + z);
-                                        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(counter % 2 == 1 ? Blocks.YELLOW_WOOL.defaultBlockState() : Blocks.BLACK_WOOL.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                    }
                                     matrixStackIn.popPose();
-                                } else {
-                                    if(y == 0){
-                                        matrixStackIn.pushPose();
-                                        {
-                                            matrixStackIn.translate(-x, y - 0.9999F, -(size / 2) + z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                        }
-                                        matrixStackIn.popPose();
-                                    }
                                 }
-                            }
-                            case WEST -> {
-                                if ((borderX && borderY) || (borderX && borderZ) || (borderY && borderZ)) {
-                                    matrixStackIn.pushPose();
-                                    {
-                                        matrixStackIn.translate(x, y - 0.9999F, -(size / 2) + z);
-                                        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(counter % 2 == 1 ? Blocks.YELLOW_WOOL.defaultBlockState() : Blocks.BLACK_WOOL.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                    }
-                                    matrixStackIn.popPose();
-                                } else {
-                                    if(y == 0){
-                                        matrixStackIn.pushPose();
-                                        {
-                                            matrixStackIn.translate(x, y - 0.9999F, -(size / 2) + z);
-                                            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.SEA_LANTERN.defaultBlockState(), matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
-                                        }
-                                        matrixStackIn.popPose();
-
-                                    }
-                                }
-
                             }
                         }
-
                     }
                 }
-            }*/
+            }
         }
         matrixStackIn.popPose();
     }

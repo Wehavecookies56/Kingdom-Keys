@@ -20,6 +20,8 @@ import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import static online.kingdomkeys.kingdomkeys.block.GummiHangarBlock.DISPLAY_BLUEPRINT;
+
 public record CSImportExportGummiShip(String name, int containerID, boolean export) implements Packet {
 
 	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_import_export_gummi_ship"));
@@ -56,8 +58,7 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 			}
 		} else {
 			//IMPORT
-			//Check if space is empty of blocks or gummi ships
-			//Build the blocks from the blueprint if they are in a nearby chest? idk
+			level.setBlockAndUpdate(origin,hangar.setValue(DISPLAY_BLUEPRINT, !hangar.getValue(DISPLAY_BLUEPRINT)));
 		}
 	}
 
