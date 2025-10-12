@@ -26,7 +26,7 @@ public class ModMenus {
     public static final Supplier<MenuType<SynthesisBagMenu>> SYNTHESIS_BAG = createMenu("synthesis_bag", SynthesisBagMenu::fromNetwork);
     public static final Supplier<MenuType<PedestalMenu>> PEDESTAL = createMenu("pedestal_container", PedestalMenu::new);
     public static final Supplier<MenuType<MagicalChestMenu>> MAGICAL_CHEST = createMenu("magical_chest", MagicalChestMenu::new);
-    public static final Supplier<MenuType<GummiHangarMenu>> GUMMI_HANGAR = createMenu("gummi_editor_container", GummiHangarMenu::new);
+    public static final Supplier<MenuType<GummiHangarMenu>> GUMMI_HANGAR = createMenu("gummi_hangar_container", GummiHangarMenu::new);
     public static final Supplier<MenuType<PauldronMenu>> PAULDRON = createMenu("pauldron", PauldronMenu::fromNetwork);
 
     public static <M extends AbstractContainerMenu> Supplier<MenuType<M>> createMenu(String name, IContainerFactory<M> container) {
@@ -38,7 +38,7 @@ public class ModMenus {
         event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
         event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
         event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
-        event.register(ModMenus.GUMMI_HANGAR.get(), GummiEditorScreen::new);
+        event.register(ModMenus.GUMMI_HANGAR.get(), GummiHangarScreen::new);
         event.register(ModMenus.PAULDRON.get(), PauldronScreen::new);
     }
 

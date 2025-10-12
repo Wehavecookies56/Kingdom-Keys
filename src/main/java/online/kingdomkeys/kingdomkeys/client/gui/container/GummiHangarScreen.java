@@ -34,11 +34,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-public class GummiEditorScreen extends AbstractContainerScreen<GummiHangarMenu> {
+public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> {
 	private static final DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
 	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_hangar.png");
 
-	public GummiEditorScreen(GummiHangarMenu container, Inventory inventory, Component title) {
+	public GummiHangarScreen(GummiHangarMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
 		this.imageWidth = 193;
 		this.imageHeight = 212;
@@ -130,7 +130,7 @@ public class GummiEditorScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 	@Override
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
-		gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
+		gui.drawString(font, Component.translatable(this.title.getString()).getString(), 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
 		updateShip();
 		if(structure != null){

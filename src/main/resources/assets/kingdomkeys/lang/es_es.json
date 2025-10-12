@@ -78,6 +78,7 @@
 	"_comment": "Container",
 	"container.magical_chest": "Cofre Mágico", 
 	"container.pedestal": "Pedestal",
+	"container.gummi_hangar": "Hangar Gummi",
 
 	"_comment": "Menu",
 	"gui.menu.back": "Atrás",
@@ -433,7 +434,7 @@
 	"block.kingdomkeys.linked_savepoint": "Punto de Guardado Enlazado",
 	"block.kingdomkeys.warp_point": "Punto de Guardado Interdimensional",
 	"block.kingdomkeys.soa_door": "Puerta Misteriosa",
-	"block.kingdomkeys.gummi_editor": "Editor Gummi",
+	"block.kingdomkeys.gummi_hangar": "Hangar Gummi",
 	"block.kingdomkeys.sor_core": "Núcleo de Estación del Pesar",
 	"block.kingdomkeys.data_portal": "Portal de Datos",
 	"block.kingdomkeys.rod_cracked_stone": "Piedra Oscura Agrietada",

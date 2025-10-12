@@ -59,7 +59,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return Component.translatable("container.gummi_editor");
+		return Component.translatable("container.gummi_hangar");
 	}
 
 	@Nullable

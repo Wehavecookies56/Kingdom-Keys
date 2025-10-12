@@ -27,7 +27,7 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 
 	private static final int VANILLA_FIRST_SLOT_INDEX = 0;
 	private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-	private static final int GUMMI_EDITOR_SLOTS = GummiHangarTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
+	private static final int GUMMI_HANGAR_SLOTS = GummiHangarTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
 	public static final int TILE_INVENTORY_YPOS = 20; // the ContainerScreenBasic needs to know these so it can tell where to draw the
 														// Titles
@@ -86,11 +86,11 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index < GUMMI_EDITOR_SLOTS) {
-				if (!this.moveItemStackTo(itemstack1, GUMMI_EDITOR_SLOTS, this.slots.size(), true)) {
+			if (index < GUMMI_HANGAR_SLOTS) {
+				if (!this.moveItemStackTo(itemstack1, GUMMI_HANGAR_SLOTS, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, GUMMI_EDITOR_SLOTS, false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, GUMMI_HANGAR_SLOTS, false)) {
 				return ItemStack.EMPTY;
 			}
 

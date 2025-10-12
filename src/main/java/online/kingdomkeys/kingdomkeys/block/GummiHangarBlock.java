@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
-	public static final IntegerProperty SIZE = IntegerProperty.create("size",5,9);
+	public static final IntegerProperty SIZE = IntegerProperty.create("size",5,11); //5 S, 7 M, 9 L, 11 XL
 
 	int size = 7;
 

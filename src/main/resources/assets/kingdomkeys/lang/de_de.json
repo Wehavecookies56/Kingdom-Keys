@@ -287,7 +287,7 @@
   "block.kingdomkeys.linked_savepoint": "Verbundener Speicherpunkt",
   "block.kingdomkeys.warp_point": "Warp-Punkt",
 
-  "block.kingdomkeys.gummi_editor": "Gumi-Editor",
+  "block.kingdomkeys.gummi_hangar": "Gumi-Hangar",
   "block.kingdomkeys.magical_chest": "Magische Truhe",
   "block.kingdomkeys.moogle_projector": "Mogry-Projektor",
   "block.kingdomkeys.org_portal": "Organisations-Portal",
@@ -316,7 +316,7 @@
 
   "container.magical_chest": "Magische Truhe",
   "container.pedestal": "Podest",
-  "container.gummi_editor": "Gumi Editor",
+  "container.gummi_hangar": "Gumi Hangar",
 
   //DISC
 
