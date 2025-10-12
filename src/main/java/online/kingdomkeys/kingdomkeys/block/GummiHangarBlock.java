@@ -3,8 +3,10 @@ package online.kingdomkeys.kingdomkeys.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,10 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SignalGetter;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -25,11 +24,16 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
 
+@EventBusSubscriber
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
@@ -110,8 +114,29 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		return true;
 	}
 
+	@SubscribeEvent
+	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+		if(event.getEntity() instanceof Player player) {
+			Level level = event.getLevel();
+			ItemStack stack = event.getItemStack();
+
+			if (stack.getItem() == ModBlocks.gummiHangar.get().asItem()) {
+				BlockPlaceContext context = new BlockPlaceContext(player, event.getHand(), stack, event.getHitVec());
+				BlockPos placePos = context.getClickedPos();
+
+				if (Utils.hasBlocks(level, placePos, player.getDirection().getOpposite(), 7)) {
+					event.setCanceled(true);
+					player.displayClientMessage(Component.literal("You can't place the Gummi Hangar here"), true);
+					event.setCancellationResult(InteractionResult.FAIL);
+				}
+			}
+		}
+	}
+
+
 	@Override
 	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
+
 		if (oldState.getBlock() != state.getBlock()) {
 			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
 		}

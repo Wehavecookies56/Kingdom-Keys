@@ -42,10 +42,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		super(container, inventory, title);
 		this.imageWidth = 193;
 		this.imageHeight = 212;
-
 	}
 
-	ExtendedButton create, editShip, imp, exp;
+	ExtendedButton build, editShip, imp, exp;
 	EditBox name;
 	GummiStructure structure;
 
@@ -66,11 +65,18 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, true));
 		}));
 
-		addRenderableWidget(create = new ExtendedButton(leftPos + imageWidth - 91, topPos + 94, 60, 15, Component.translatable("CREATE"), p -> {
-			PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
+		addRenderableWidget(build = new ExtendedButton(leftPos + imageWidth - 180, topPos + 97, 70, 20, Component.translatable("BUILD GUMMI"), p -> {
+			BlockPos origin = menu.TE.getBlockPos();
+			BlockState hangar = minecraft.level.getBlockState(origin);
+
+			if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),hangar.getValue(GummiHangarBlock.SIZE)) == 0){
+				PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
+				minecraft.setScreen(null);
+			}
 		}));
-		addRenderableWidget(editShip = new ExtendedButton(leftPos + imageWidth - 91, topPos + 110, 60, 15, Component.translatable("EDIT GUMMI"), p -> {
+		addRenderableWidget(editShip = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 97, 70, 20, Component.translatable("EDIT GUMMI"), p -> {
 			PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
+			minecraft.setScreen(null);
 		}));
 	}
 
@@ -113,6 +119,17 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		List<Component> list = new ArrayList<>();
 		upgradeButton.visible = true;//bagLevel < 3;
 
+		BlockPos origin = menu.TE.getBlockPos();
+		BlockState hangar = minecraft.level.getBlockState(origin);
+
+		if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),hangar.getValue(GummiHangarBlock.SIZE)) != 0){
+			if (mouseX >= build.getX() && mouseX <= build.getX() + build.getWidth()) {
+				if (mouseY >= build.getY() && mouseY <= build.getY() + build.getHeight()) {
+					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("There's already a Gummi Ship in the building area").getString()));
+					gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+				}
+			}
+		}
 		if(upgradeButton.visible) {
 			if (mouseX >= upgradeButton.getX() && mouseX <= upgradeButton.getX() + upgradeButton.getWidth()) {
 				if (mouseY >= upgradeButton.getY() && mouseY <= upgradeButton.getY() + upgradeButton.getHeight()) {
@@ -135,16 +152,20 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		updateShip();
 		if(structure != null){
 			GummiShipEntity.ShipStats stats = Utils.getShipStats(structure);
-			int x = 6;
-			int y = this.imageHeight-154;
+			int x = 10;
+			int y = this.imageHeight-164;
 			String effSpeed = df.format(stats.getEffectiveSpeed()).equals("NaN")? "0": df.format(stats.getEffectiveSpeed()) ;
-			gui.drawString(font, "Engine Power: " + stats.speed(), x, y+=10, 4210752, false);
+			gui.drawString(font, "Power: " + stats.speed(), x, y+=10, 4210752, false);
+			//gui.drawString(font, "Firepower: ", imageWidth / 2, y, 4210752, false);
 			gui.drawString(font, "Weight: " + stats.weight(), x, y+=10, 4210752, false);
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
-		}
 
-		// super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
+			BlockPos origin = menu.TE.getBlockPos();
+			BlockState hangar = minecraft.level.getBlockState(origin);
+
+            build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE)) == 0;
+		}
 	}
 
 	@Override

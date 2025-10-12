@@ -3,10 +3,12 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -45,8 +47,12 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
-
 		BlockState hangar = level.getBlockState(origin);
+
+		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE)) > 0){
+			return;
+		}
+
 		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
@@ -70,43 +76,10 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		}
 
 		level.addFreshEntity(shipEntity);
-		removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
+		Utils.removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
 	}
 
-	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {
-		int max = size - 1;
 
-		int offsetX = 0;
-		int offsetZ = 0;
-
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
-
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				for (int z = 0; z < size; z++) {
-					int rx = x;
-					int rz = z;
-
-					switch (facing) {
-						case NORTH -> { rx = x; rz = z; }
-						case SOUTH -> { rx = max - x; rz = max - z; }
-						case EAST  -> { rx = z; rz = max - x; }
-						case WEST  -> { rx = max - z; rz = x; }
-					}
-
-					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
-					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
-						level.setBlockAndUpdate(target, Blocks.AIR.defaultBlockState());
-					}
-				}
-			}
-		}
-	}
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
