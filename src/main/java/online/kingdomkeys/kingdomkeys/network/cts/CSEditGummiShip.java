@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -49,10 +50,10 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 			GummiStructure struct = gummi.structure;
 
 			int max = size - 1;
+			Direction facing = hangar.getValue(GummiHangarBlock.FACING);
 
 			int offsetX = 0;
 			int offsetZ = 0;
-			Direction facing = hangar.getValue(GummiHangarBlock.FACING);
 			switch (facing) {
 				case NORTH -> { offsetX = -3; offsetZ = 1; }
 				case SOUTH -> { offsetX = -3; offsetZ = -7; }
@@ -60,24 +61,33 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 				case WEST  -> { offsetX = 1;  offsetZ = -3; }
 			}
 
+			Rotation rotation = switch (facing) {
+				case SOUTH -> Rotation.NONE;
+				case NORTH -> Rotation.CLOCKWISE_180;
+				case WEST  -> Rotation.CLOCKWISE_90;
+				case EAST  -> Rotation.COUNTERCLOCKWISE_90;
+				default -> Rotation.NONE;
+			};
+
+
 			for (int x = 0; x < size; x++) {
 				for (int y = 0; y < size; y++) {
 					for (int z = 0; z < size; z++) {
-						int rx = x;
-						int rz = z;
+						BlockState blockToPlace = struct.getBlocks()[x][y][z];
+						if (blockToPlace == null) continue;
 
+						int rx = x, rz = z;
 						switch (facing) {
-							case SOUTH -> { rx = x; rz = z; }
 							case NORTH -> { rx = max - x; rz = max - z; }
+							case SOUTH -> { rx = x; rz = z; }
 							case EAST  -> { rx = z; rz = max - x; }
 							case WEST  -> { rx = max - z; rz = x; }
 						}
 
 						BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
-						BlockState blockToPlace = struct.getBlocks()[x][y][z];
-						if(blockToPlace != null) {
-							level.setBlockAndUpdate(target, struct.getBlocks()[x][y][z]);
-						}
+						BlockState rotatedState = blockToPlace.rotate(rotation);
+
+						level.setBlockAndUpdate(target, rotatedState);
 					}
 				}
 			}

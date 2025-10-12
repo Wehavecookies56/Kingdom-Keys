@@ -46,10 +46,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -63,7 +60,6 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -89,7 +85,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -265,11 +260,21 @@ public class Utils {
 					}
 
 					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
-					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
-						struct.getBlocks()[x][y][z] = level.getBlockState(target);
-					} else {
-						struct.getBlocks()[x][y][z] = null;
+					BlockState original = level.getBlockState(target);
+
+					if (original.getBlock() != Blocks.AIR) {
+						Rotation rotation = switch (facing) {
+							case SOUTH -> Rotation.NONE;
+							case NORTH -> Rotation.CLOCKWISE_180;
+							case WEST  -> Rotation.COUNTERCLOCKWISE_90;
+							case EAST  -> Rotation.CLOCKWISE_90;
+                            default -> Rotation.NONE;
+						};
+						BlockState rotated = original.rotate(rotation);
+						struct.getBlocks()[x][y][z] = rotated;
+
 					}
+
 				}
 			}
 		}
