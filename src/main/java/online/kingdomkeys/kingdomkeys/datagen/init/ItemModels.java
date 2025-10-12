@@ -46,6 +46,8 @@ public class ItemModels extends ItemModelProvider {
 				// shields already have models set up
 			} else if (item instanceof SwordItem) {
 				// Wooden Keyblade/Stick
+			} else if (item instanceof GummiShipItem) { //Might become the phone
+
 			} else if (item instanceof SpawnEggItem) {
 				// Spawn Egg
 				// This
@@ -83,6 +85,8 @@ public class ItemModels extends ItemModelProvider {
 		} else if (block instanceof MagicalChestBlock) {
 			// manually generated version exists in main/resources
 			getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
+		} else if (block instanceof GummiHangarBlock) {
+			// skip - no texture/special block
 		} else {
 			// fallback in case block item could not be generated as part of blockstates
 			standardBlockItem(path);

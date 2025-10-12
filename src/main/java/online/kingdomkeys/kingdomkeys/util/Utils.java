@@ -1045,8 +1045,13 @@ public class Utils {
 	}
 
 	final static int[] bagCosts = {10000,20000,40000,80000};
+	final static int[] hangarCosts = {15000,30000,70000,80000};
+
 	public static int getBagCosts(int bagLevel) {
 		return bagCosts[bagLevel];
+	}
+	public static int getHangarCosts(int hangarLevel) {
+		return hangarCosts[hangarLevel];
 	}
 
 	public static String snakeToCamel(String str) {

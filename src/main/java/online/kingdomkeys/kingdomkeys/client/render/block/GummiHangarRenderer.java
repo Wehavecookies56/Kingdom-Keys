@@ -43,7 +43,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             }
 
             Direction facing = state.getValue(GummiHangarBlock.FACING);
-            int size = 7;
+            int size = state.getValue(GummiHangarBlock.SIZE);
             VertexConsumer a = bufferIn.getBuffer(RenderType.LINES);
 
             Vec3 origin = new Vec3(0,0,0);

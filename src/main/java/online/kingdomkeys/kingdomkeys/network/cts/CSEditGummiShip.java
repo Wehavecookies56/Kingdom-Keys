@@ -42,8 +42,8 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 
-		int size = 7;
 		BlockState hangar = level.getBlockState(origin);
+		int size = hangar.getValue(GummiHangarBlock.SIZE);
 		GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		if(gummi != null){
 			GummiStructure struct = gummi.structure;

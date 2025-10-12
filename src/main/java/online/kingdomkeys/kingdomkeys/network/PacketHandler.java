@@ -123,6 +123,7 @@ public class PacketHandler {
 		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
 		server(CSCreateGummiShip.TYPE, CSCreateGummiShip.STREAM_CODEC);
 		server(CSEditGummiShip.TYPE, CSEditGummiShip.STREAM_CODEC);
+		server(CSImportExportGummiShip.TYPE, CSImportExportGummiShip.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
@@ -32,9 +33,16 @@ import javax.annotation.Nullable;
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
+	public static final IntegerProperty SIZE = IntegerProperty.create("size",5,9);
+
+	int size = 7;
 
 	public GummiHangarBlock(Properties properties) {
 		super(properties);
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	@Override
@@ -45,7 +53,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(SIZE,size);
 	}
 
 	@Override
@@ -53,6 +61,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 		builder.add(SHOW_LINES);
+		builder.add(SIZE);
 	}
 
 	@Override

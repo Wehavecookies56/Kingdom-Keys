@@ -48,9 +48,8 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 
-		int size = 7;
 		BlockState hangar = level.getBlockState(origin);
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
+		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
@@ -73,12 +72,7 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		}
 
 		level.addFreshEntity(shipEntity);
-		removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
-
-		if (stack.is(ModItems.gummiShipBlueprint.get())) {
-			stack.set(ModComponents.GUMMI_STRUCTURE, struct);
-			stack.set(ModComponents.BLUEPRINT_NAME, name);
-		}
+		removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
 	}
 
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {

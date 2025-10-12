@@ -12,6 +12,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 public class GummiHangarMenu extends AbstractContainerMenu {
 
@@ -40,23 +41,23 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		int i,j;
 		//Gummi Ship slot
 		IItemHandler iih = TE.inventory.get();
-		addSlot(new SlotItemHandler(iih, 0, 152, 9) {
+		addSlot(new SlotItemHandler(iih, 0, 152, 18) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return true; //stack.getItem() instanceof KeybladeItem;
+				return stack.getItem() == ModItems.gummiShipBlueprint.get();
 			}
 		});
 
-		//Player inventory
+		//Player Inventory slots
 		for (i = 0; i < 3; ++i) {
 			for (j = 0; j < 9; ++j) {
-				addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 105 + i * 18));
+				addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 41 + 17 + (i + 4) * 18));
 			}
 		}
 
-		//Hotbar
+		//Player hotbar slots
 		for (i = 0; i < 9; ++i) {
-			addSlot(new Slot(playerInventory, i, 8 + i * 18, 163));
+			addSlot(new Slot(playerInventory, i, 8 + i * 18, 45 + 17 + (3 + 4) * 18));
 		}
 	}
 

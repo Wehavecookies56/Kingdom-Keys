@@ -32,7 +32,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, List<Vec3> passengerSlots) {}
+	public record ShipStats(float speed, int weight, List<Vec3> passengerSlots) {
+		public float getEffectiveSpeed(){
+            return speed() / (weight() * 0.05F);
+        }
+	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
@@ -54,6 +58,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	float getSpeed() {
 		return getShipStats().speed;
+	}
+
+	float getEffectiveSpeed(){
+		return getShipStats().getEffectiveSpeed();
 	}
 
 	int getWeight() {
@@ -81,29 +89,29 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		if (this.isVehicle()) {
 			float f = 0.0F;
 			if (this.inputLeft) {
-				this.deltaRotation-=getSpeed() / (getWeight() * 0.02F);
+				this.deltaRotation-=getEffectiveSpeed();
 			}
 
 			if (this.inputRight) {
-				this.deltaRotation+=getSpeed() / (getWeight() * 0.02F);
+				this.deltaRotation+=getEffectiveSpeed();
 			}
 
 			this.setYRot(this.getYRot() + this.deltaRotation);
 			if (this.inputForward) {
-				f += getSpeed() / (getWeight() * 0.05F);
+				f += getEffectiveSpeed();
 			}
 
 			if (this.inputBackward) {
-				f -= getSpeed() / (getWeight() * 0.05F);
+				f -= getEffectiveSpeed();
 			}
 
 			Vec3 motion = this.getDeltaMovement();
 
 			if (this.inputUp) {
-				motion = motion.add(0, getSpeed() / (getWeight() * 0.05F), 0);
+				motion = motion.add(0, getEffectiveSpeed(), 0);
 			}
 			if (this.inputDown) {
-				motion = motion.add(0, -getSpeed() / (getWeight() * 0.05F), 0);
+				motion = motion.add(0, -getEffectiveSpeed(), 0);
 			}
 
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));

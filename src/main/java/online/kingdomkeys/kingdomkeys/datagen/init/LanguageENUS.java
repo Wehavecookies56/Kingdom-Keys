@@ -361,7 +361,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("block." + MODID + ".linked_savepoint", "Linked Save Point");
         add("block." + MODID + ".warp_point", "Warp Point");
         addBlock(ModBlocks.soADoor, "Mysterious Door");
-        addBlock(ModBlocks.gummiHangar, "Gummi Editor");
+        addBlock(ModBlocks.gummiHangar, "Gummi Hangar");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
