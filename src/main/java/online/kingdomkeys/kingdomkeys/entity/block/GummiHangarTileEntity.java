@@ -50,11 +50,14 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	@Override
 	public void loadAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.loadAdditional(compound, provider);
+		CompoundTag invCompound = compound.getCompound("inv");
+		itemStackHandler.deserializeNBT(provider, invCompound);
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
+		compound.put("inv", itemStackHandler.serializeNBT(provider));
 	}
 
 	@Override

@@ -89,16 +89,18 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                         int offsetX = 0;
                         int offsetZ = 0;
 
-                        switch (facing) {
-                            case NORTH -> { offsetX = -4; offsetZ = -8; }
-                            case SOUTH -> { offsetX = -3; offsetZ = -7; }
-                            case EAST  -> { offsetX = -4; offsetZ = -7;
-                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
-                            }
-                            case WEST  -> { offsetX = -3;  offsetZ = -8;
+                        switch (facing) {//TODO change
+                            case NORTH -> { offsetX = -(size/2)-1; offsetZ = -size-1; }
+                            case SOUTH -> { offsetX = -(size/2); offsetZ = -size; }
+                            case EAST  -> { offsetX = -(size/2)-1; offsetZ = -size;
+                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
+                            case WEST  -> { offsetX = -(size/2);  offsetZ =-size-1;
                                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
                         }
-                        int w = struct.getWidth();
+
+
+
+                    int w = struct.getWidth();
                         int h = struct.getHeight();
                         int d = struct.getDepth();
                         matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
