@@ -30,6 +30,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
@@ -101,6 +102,10 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 				}
 			}
 			world.removeBlockEntity(pos);
+			ItemStack stack = new ItemStack(this);
+			stack.set(ModComponents.HANGAR_LEVEL, state.getValue(LEVEL));
+			System.out.println("level when breaking: "+state.getValue(LEVEL));
+			popResource(world, pos, stack); // suelta el ítem con el tag
 			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
 		}
 	}
@@ -137,7 +142,6 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		}
 	}
 
-
 	@Override
 	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
 		if (oldState.getBlock() != state.getBlock()) {
@@ -147,8 +151,15 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (!worldIn.isClientSide && worldIn.getBlockEntity(pos) == null) {
-			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+		if (!worldIn.isClientSide){
+			if(worldIn.getBlockEntity(pos) != null) {
+				//Give lvl to the block
+				if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
+					worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
+				} else {
+					worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+				}
+			}
 		}
 	}
 
