@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -106,8 +107,6 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                         matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
                         matrixStackIn.translate(offsetX,0,offsetZ);
 
-                        BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-                        RenderSystem.setShaderColor(1,1,1,0.75F);
                         for (int x = 0; x < w; x++) {
                             for (int y = 0; y < h; y++) {
                                 for (int z = 0; z < d; z++) {
@@ -116,15 +115,13 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                                     matrixStackIn.pushPose();
                                     {
                                         matrixStackIn.translate(x, y, z);
-                                        blockRenderer.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());
+                                        ClientUtils.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent(), 0.75F);
 
                                     }
                                     matrixStackIn.popPose();
                                 }
                             }
                         }
-                        //RenderSystem.setShaderColor(1,1,1,1);
-
                     }
                 }
             }

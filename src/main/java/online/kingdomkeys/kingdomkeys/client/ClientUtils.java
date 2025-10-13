@@ -18,6 +18,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -25,19 +26,27 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.RenderTypeHelper;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -55,6 +64,7 @@ import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 
 public class ClientUtils {
@@ -490,6 +500,79 @@ public class ClientUtils {
         PlayerData playerData = PlayerData.get((Player) Minecraft.getInstance().level.getEntity(player));
         playerData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), data);
         return playerData;
+    }
+
+
+    /**
+     * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha
+     */
+    public static void renderSingleBlock(BlockState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, ModelData modelData, RenderType renderType, float alpha) {
+        RenderShape rendershape = state.getRenderShape();
+        if (rendershape != RenderShape.INVISIBLE) {
+            switch (rendershape) {
+                case MODEL:
+                    BakedModel bakedmodel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
+                    int i = Minecraft.getInstance().getBlockRenderer().blockColors.getColor(state, (BlockAndTintGetter)null, (BlockPos)null, 0);
+                    float r = (float)(i >> 16 & 255) / 255.0F;
+                    float g = (float)(i >> 8 & 255) / 255.0F;
+                    float b = (float)(i & 255) / 255.0F;
+                    Iterator var16 = bakedmodel.getRenderTypes(state, RandomSource.create(42L), modelData).iterator();
+
+                    while(var16.hasNext()) {
+                        RenderType rt = (RenderType)var16.next();
+                        renderModel(poseStack.last(), bufferSource.getBuffer(renderType != null ? renderType : RenderTypeHelper.getEntityRenderType(rt, false)), state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, rt);
+                    }
+
+                    return;
+                case ENTITYBLOCK_ANIMATED:
+                    ItemStack stack = new ItemStack(state.getBlock());
+                    IClientItemExtensions.of(stack).getCustomRenderer().renderByItem(stack, ItemDisplayContext.NONE, poseStack, bufferSource, packedLight, packedOverlay);
+            }
+        }
+
+    }
+
+    /**
+     * Copied from {@link net.minecraft.client.renderer.block.ModelBlockRenderer#renderModel(PoseStack.Pose, VertexConsumer, BlockState, BakedModel, float, float, float, int, int, ModelData, RenderType)} modified to use alpha
+     */
+    private static void renderModel(PoseStack.Pose pose, VertexConsumer consumer, @Nullable BlockState state, BakedModel model, float red, float green, float blue, float alpha, int packedLight, int packedOverlay, ModelData modelData, RenderType renderType) {
+        RandomSource randomsource = RandomSource.create();
+        long i = 42L;
+        Direction[] var15 = Direction.values();
+        int var16 = var15.length;
+
+        for(int var17 = 0; var17 < var16; ++var17) {
+            Direction direction = var15[var17];
+            randomsource.setSeed(42L);
+            renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, randomsource, modelData, renderType), packedLight, packedOverlay);
+        }
+
+        randomsource.setSeed(42L);
+        renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, (Direction)null, randomsource, modelData, renderType), packedLight, packedOverlay);
+
+    }
+
+    /**
+     * Copied from {@link net.minecraft.client.renderer.block.ModelBlockRenderer#renderQuadList} modified to use alpha
+     */
+    private static void renderQuadList(PoseStack.Pose pose, VertexConsumer consumer, float red, float green, float blue, float alpha, List<BakedQuad> quads, int packedLight, int packedOverlay) {
+        BakedQuad bakedquad;
+        float f;
+        float f1;
+        float f2;
+        for(Iterator var8 = quads.iterator(); var8.hasNext(); consumer.putBulkData(pose, bakedquad, f, f1, f2, alpha, packedLight, packedOverlay)) {
+            bakedquad = (BakedQuad)var8.next();
+            if (bakedquad.isTinted()) {
+                f = Mth.clamp(red, 0.0F, 1.0F);
+                f1 = Mth.clamp(green, 0.0F, 1.0F);
+                f2 = Mth.clamp(blue, 0.0F, 1.0F);
+            } else {
+                f = 1.0F;
+                f1 = 1.0F;
+                f2 = 1.0F;
+            }
+        }
+
     }
 }
 
