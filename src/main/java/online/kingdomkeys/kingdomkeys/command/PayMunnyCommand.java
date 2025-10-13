@@ -13,6 +13,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 import java.util.Collection;
 
@@ -41,6 +43,8 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 				targetData.setMunny(targetData.getMunny() + value);
 				user.sendSystemMessage(Component.translatable("You paid " + value + " munny to " + target.getDisplayName().getString()));
 				target.sendSystemMessage(Component.translatable("You got " + value + " munny from " + user.getDisplayName().getString()));
+				PacketHandler.sendTo(new SCSyncPlayerData(user), user);
+				PacketHandler.sendTo(new SCSyncPlayerData(target), target);
 			}
 		} else {
 			user.sendSystemMessage(Component.translatable("You don't have enough munny (" + value + ") to pay " + getPlayersString(players)));	

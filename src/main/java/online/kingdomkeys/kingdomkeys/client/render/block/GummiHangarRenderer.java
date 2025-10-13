@@ -100,7 +100,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
 
 
-                    int w = struct.getWidth();
+                        int w = struct.getWidth();
                         int h = struct.getHeight();
                         int d = struct.getDepth();
                         matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
@@ -123,6 +123,8 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                                 }
                             }
                         }
+                        //RenderSystem.setShaderColor(1,1,1,1);
+
                     }
                 }
             }

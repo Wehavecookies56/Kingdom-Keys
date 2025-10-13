@@ -44,7 +44,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 	public GummiHangarScreen(GummiHangarMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
-		this.imageWidth = 193;
+		this.imageWidth = 176;
 		this.imageHeight = 212;
 	}
 
@@ -57,7 +57,8 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	@Override
 	protected void init() {
 		super.init();
-		addRenderableWidget(upgradeButton = new HiddenButton((width - imageWidth) / 2 + imageWidth - 20, (height / 2) - (imageHeight / 2) + 17, 18, 18, (e) -> {
+		int xPos = (width - imageWidth) / 2;
+		addRenderableWidget(upgradeButton = new HiddenButton(xPos+imageWidth-3, (height / 2) - (imageHeight / 2) + 15, 17, 21, texture,176,0, (e) -> {
 			upgrade();
 		}));
 		addRenderableWidget(name = new EditBox(font, leftPos+((imageWidth - upgradeButton.getWidth())/2) - 50, topPos + 16, 100, 20, Component.empty()));
@@ -69,7 +70,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, true));
 		}));
 
-		addRenderableWidget(build = new ExtendedButton(leftPos + imageWidth - 180, topPos + 97, 70, 20, Component.translatable("BUILD GUMMI"), p -> {
+		addRenderableWidget(build = new ExtendedButton(leftPos + imageWidth - 162, topPos + 97, 70, 20, Component.translatable("BUILD GUMMI"), p -> {
 			BlockPos origin = menu.TE.getBlockPos();
 			BlockState hangar = minecraft.level.getBlockState(origin);
 

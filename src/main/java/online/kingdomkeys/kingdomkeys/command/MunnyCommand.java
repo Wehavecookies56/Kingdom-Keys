@@ -12,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 import java.util.Collection;
 
@@ -60,6 +62,8 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been set to " + value));
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+
 		return 1;
 	}
 
@@ -80,6 +84,8 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been increased by " + value));
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+
 		return 1;
 	}
 
@@ -100,6 +106,8 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
 
 		player.sendSystemMessage(Component.translatable("Your munny has been decreased by " + value));
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+
 		return 1;
 	}
 }
