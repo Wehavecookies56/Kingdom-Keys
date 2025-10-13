@@ -79,7 +79,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		double x = getShipStats().passengerSlots.get(i).x();
 		double y = getShipStats().passengerSlots.get(i).y();
 		double z = getShipStats().passengerSlots.get(i).z();
-		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2F)+y-3F, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
+		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
 		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 

@@ -28,6 +28,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -117,19 +118,20 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@SubscribeEvent
 	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
 		//If config is on
+		if(!ModConfigs.allowBlocksInHangarArea){
+			if(event.getEntity() instanceof Player player) {
+				Level level = event.getLevel();
+				ItemStack stack = event.getItemStack();
 
-		if(event.getEntity() instanceof Player player) {
-			Level level = event.getLevel();
-			ItemStack stack = event.getItemStack();
+				if (stack.getItem() == ModBlocks.gummiHangar.get().asItem()) {
+					BlockPlaceContext context = new BlockPlaceContext(player, event.getHand(), stack, event.getHitVec());
+					BlockPos placePos = context.getClickedPos();
 
-			if (stack.getItem() == ModBlocks.gummiHangar.get().asItem()) {
-				BlockPlaceContext context = new BlockPlaceContext(player, event.getHand(), stack, event.getHitVec());
-				BlockPos placePos = context.getClickedPos();
-
-				if (Utils.hasBlocks(level, placePos, player.getDirection().getOpposite(), 7)) {
-					event.setCanceled(true);
-					player.displayClientMessage(Component.literal("You can't place the Gummi Hangar here"), true);
-					event.setCancellationResult(InteractionResult.FAIL);
+					if (Utils.hasBlocks(level, placePos, player.getDirection().getOpposite(), 11)) {
+						event.setCanceled(true);
+						player.displayClientMessage(Component.literal("You can't place the Gummi Hangar here"), true);
+						event.setCancellationResult(InteractionResult.FAIL);
+					}
 				}
 			}
 		}

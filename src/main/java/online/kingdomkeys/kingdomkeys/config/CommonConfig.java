@@ -25,6 +25,7 @@ public class CommonConfig {
     public ModConfigSpec.BooleanValue mobLevelName;
 
     public ModConfigSpec.BooleanValue bombExplodeWithFire;
+    public ModConfigSpec.BooleanValue allowBlocksInHangarArea;
     public ModConfigSpec.BooleanValue keybladeOpenDoors;
 
     public ModConfigSpec.IntValue driveHeal;
@@ -110,6 +111,11 @@ public class CommonConfig {
                 .comment("Stats restored when using a warp point (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.warp_point_restore_list")
                 .define("warpPointRestoreList", "HP,HUNGER,MP,FOCUS,DRIVE", o -> o instanceof String);
+
+        allowBlocksInHangarArea = builder
+                .comment("Allow the player to place a hangar in a zone where there are blocks already (probably a good idea to disable on servers)")
+                .translation(KingdomKeys.MODID + ".config.allow_blocks_in_hangar_area")
+                .define("allowBlocksInHangarArea", true);
 
         builder.pop();
 

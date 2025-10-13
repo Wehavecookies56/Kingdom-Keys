@@ -331,7 +331,7 @@ public class ModConfigs {
         cmReactionEndRWidth = CLIENT.cmReactionEndRWidth.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -384,6 +384,9 @@ public class ModConfigs {
         warpPointRecovers = COMMON.warpPointRecovers.get();
 
         startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::parse).toList();
+
+        allowBlocksInHangarArea = COMMON.allowBlocksInHangarArea.get();
+
     }
 
     @SubscribeEvent
