@@ -49,7 +49,7 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 		Level level = player.level();
 
 		BlockState hangar = level.getBlockState(origin);
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
+		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
 
 		if(export) {
 			if (stack.is(ModItems.gummiShipBlueprint.get())) {

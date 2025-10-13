@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -44,22 +45,30 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 		Level level = player.level();
 
 		BlockState hangar = level.getBlockState(origin);
-		int size = hangar.getValue(GummiHangarBlock.SIZE);
+		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		if(gummi != null){
 			GummiStructure struct = gummi.structure;
 
+			//Vec3i shipSize = Utils.getRealGummiStructureSize(struct);
+			//If gummi ship trying to be turned into blocks is bigger than the build plate complain about it
+			//if(shipSize.getX() > size || shipSize.getY() > size || shipSize.getZ() > size){
+			if(struct.getWidth() > size){
+				System.out.println("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
+				player.sendSystemMessage(Component.translatable("This Gummi Ship is too big"));
+
+			} else {
+				//If ship is smaller allow it in and adapt it's array
+				System.out.println("Resizing ship size from "+gummi.structure.getWidth()+" to "+size);
+				struct = Utils.resizeStructure(struct,size);
+			}
+
 			int max = size - 1;
 			Direction facing = hangar.getValue(GummiHangarBlock.FACING);
 
-			int offsetX = 0;
-			int offsetZ = 0;
-			switch (facing) {
-				case NORTH -> { offsetX = -3; offsetZ = 1; }
-				case SOUTH -> { offsetX = -3; offsetZ = -7; }
-				case EAST  -> { offsetX = -7; offsetZ = -3; }
-				case WEST  -> { offsetX = 1;  offsetZ = -3; }
-			}
+			int[] offsets = Utils.getShipOffset(facing,size);
+			if(offsets == null)
+				return;
 
 			Rotation rotation = switch (facing) {
 				case SOUTH -> Rotation.NONE;
@@ -83,7 +92,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 							case WEST  -> { rx = max - z; rz = x; }
 						}
 
-						BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
+						BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 						BlockState rotatedState = blockToPlace.rotate(rotation);
 
 						level.setBlockAndUpdate(target, rotatedState);

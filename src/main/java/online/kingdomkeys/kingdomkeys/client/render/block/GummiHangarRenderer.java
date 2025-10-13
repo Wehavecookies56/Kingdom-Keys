@@ -52,7 +52,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             }
 
             Direction facing = state.getValue(GummiHangarBlock.FACING);
-            int size = state.getValue(GummiHangarBlock.SIZE);
+            int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
             VertexConsumer a = bufferIn.getBuffer(RenderType.LINES);
 
             Vec3 origin = new Vec3(0,0,0);
@@ -89,7 +89,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                         int offsetX = 0;
                         int offsetZ = 0;
 
-                        switch (facing) {//TODO change
+                        switch (facing) {
                             case NORTH -> { offsetX = -(size/2)-1; offsetZ = -size-1; }
                             case SOUTH -> { offsetX = -(size/2); offsetZ = -size; }
                             case EAST  -> { offsetX = -(size/2)-1; offsetZ = -size;

@@ -7,6 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -223,7 +224,6 @@ public class Utils {
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
 						}
-						//System.out.println("scanning");
 					}
 				}
 			}
@@ -231,20 +231,77 @@ public class Utils {
 		return new GummiShipEntity.ShipStats(speed,weight,passengers);
 	}
 
+	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {
+		int oldSize = original.getWidth();
+
+		// Si la nave es más grande que el hangar, no se puede guardar
+		if (oldSize > newSize) {
+			return null;
+		}
+
+		GummiStructure resized = new GummiStructure(newSize, newSize, newSize);
+		BlockState[][][] oldBlocks = original.getBlocks();
+		BlockState[][][] newBlocks = resized.getBlocks();
+
+		int offset = (newSize - oldSize) / 2; // centrado
+
+		for (int x = 0; x < oldSize; x++) {
+			for (int y = 0; y < oldSize; y++) {
+				for (int z = 0; z < oldSize; z++) {
+					newBlocks[x + offset][y][z + offset] = oldBlocks[x][y][z];
+				}
+			}
+		}
+
+		return resized;
+	}
+
+
+	public static Vec3i getRealGummiStructureSize(GummiStructure structure){
+		int sizeX = structure.getBlocks().length;
+		int sizeY = structure.getBlocks()[0].length;
+		int sizeZ = structure.getBlocks()[0][0].length;
+
+		int minX = sizeX, maxX = -1;
+		int minY = sizeY, maxY = -1;
+		int minZ = sizeZ, maxZ = -1;
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+					if (state != null && !state.isAir()) {
+						if (x < minX) minX = x;
+						if (x > maxX) maxX = x;
+						if (y < minY) minY = y;
+						if (y > maxY) maxY = y;
+						if (z < minZ) minZ = z;
+						if (z > maxZ) maxZ = z;
+					}
+				}
+			}
+		}
+
+		if (maxX == -1) {
+			return new Vec3i(0, 0, 0);
+		}
+
+		int realWidth  = (maxX - minX) + 1;
+		int realHeight = (maxY - minY) + 1;
+		int realDepth  = (maxZ - minZ) + 1;
+
+		return new Vec3i(realWidth, realHeight, realDepth);
+	}
+
 	public static GummiStructure getGummiStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
 		GummiStructure struct = new GummiStructure(size, size, size);
 
 		int max = size - 1;
 
-		int offsetX = 0;
-		int offsetZ = 0;
 
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -259,7 +316,7 @@ public class Utils {
 						case WEST  -> { rx = max - z; rz = x; }
 					}
 
-					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 					BlockState original = level.getBlockState(target);
 
 					if (original.getBlock() != Blocks.AIR) {
@@ -282,35 +339,22 @@ public class Utils {
 	}
 
 	public static int getAmountOfGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
-		int offsetX = 0;
-		int offsetZ = 0;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return 0;
 
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
-
-		AABB box = new AABB(origin.getX()+offsetX, origin.getY(), origin.getZ()+offsetZ, origin.getX()+offsetX+size, origin.getY() + size, origin.getZ()+offsetZ+size);
+		AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
 		List<GummiShipEntity> entities = level.getEntitiesOfClass(GummiShipEntity.class, box);
 
-		//None or more than 1 ship detected
 		return entities.size();
 	}
 
 	public static GummiShipEntity getGummiShipInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
-		int offsetX = 0;
-		int offsetZ = 0;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
-
-		AABB box = new AABB(origin.getX()+offsetX, origin.getY(), origin.getZ()+offsetZ, origin.getX()+offsetX+size, origin.getY() + size, origin.getZ()+offsetZ+size);
+		AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
 		List<GummiShipEntity> entities = level.getEntitiesOfClass(GummiShipEntity.class, box);
 
 		if(entities.size() == 1){
@@ -323,15 +367,9 @@ public class Utils {
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
 
-		int offsetX = 0;
-		int offsetZ = 0;
-
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return;
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -346,7 +384,7 @@ public class Utils {
 						case WEST  -> { rx = max - z; rz = x; }
 					}
 
-					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
 						level.setBlockAndUpdate(target, Blocks.AIR.defaultBlockState());
 					}
@@ -358,15 +396,9 @@ public class Utils {
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
 
-		int offsetX = 0;
-		int offsetZ = 0;
-
-		switch (facing) {
-			case NORTH -> { offsetX = -3; offsetZ = 1; }
-			case SOUTH -> { offsetX = -3; offsetZ = -7; }
-			case EAST  -> { offsetX = -7; offsetZ = -3; }
-			case WEST  -> { offsetX = 1;  offsetZ = -3; }
-		}
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return false;
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -381,7 +413,7 @@ public class Utils {
 						case WEST  -> { rx = max - z; rz = x; }
 					}
 
-					BlockPos target = origin.offset(offsetX + rx, y, offsetZ + rz);
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
 						return true;
 					}
@@ -389,6 +421,24 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+
+	public static int[] getShipOffset(Direction facing, int size) {
+		switch (facing) {
+			case NORTH -> {
+				return new int[]{ -(size/2), 1};
+			}
+			case SOUTH -> {
+				return new int[]{ -(size/2),-size};
+			}
+			case EAST  -> {
+				return new int[]{ -size, -(size/2)};
+			}
+			case WEST  -> {
+				return new int[]{1, -(size/2)};
+			}
+		}
+		return null;
 	}
 
 	public static class Title {

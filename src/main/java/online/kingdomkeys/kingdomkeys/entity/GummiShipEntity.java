@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -14,7 +13,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -129,43 +127,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	public EntityDimensions getDimensions(Pose pose) {
-		return EntityDimensions.scalable(Math.max(getRealDimensions().getX(), getRealDimensions().getZ()), getRealDimensions().getY());
-	}
-
-	public Vec3i getRealDimensions(){
-		int sizeX = structure.getBlocks().length;
-		int sizeY = structure.getBlocks()[0].length;
-		int sizeZ = structure.getBlocks()[0][0].length;
-
-		int minX = sizeX, maxX = -1;
-		int minY = sizeY, maxY = -1;
-		int minZ = sizeZ, maxZ = -1;
-
-		for (int x = 0; x < sizeX; x++) {
-			for (int y = 0; y < sizeY; y++) {
-				for (int z = 0; z < sizeZ; z++) {
-					BlockState state = structure.getBlocks()[x][y][z];
-					if (state != null && !state.isAir()) {
-						if (x < minX) minX = x;
-						if (x > maxX) maxX = x;
-						if (y < minY) minY = y;
-						if (y > maxY) maxY = y;
-						if (z < minZ) minZ = z;
-						if (z > maxZ) maxZ = z;
-					}
-				}
-			}
-		}
-
-		if (maxX == -1) {
-			return new Vec3i(0, 0, 0);
-		}
-
-		int realWidth  = (maxX - minX) + 1;
-		int realHeight = (maxY - minY) + 1;
-		int realDepth  = (maxZ - minZ) + 1;
-
-		return new Vec3i(realWidth, realHeight, realDepth);
+		return EntityDimensions.scalable(Math.max(Utils.getRealGummiStructureSize(structure).getX(), Utils.getRealGummiStructureSize(structure).getZ()), Utils.getRealGummiStructureSize(structure).getY());
 	}
 
 	@Override

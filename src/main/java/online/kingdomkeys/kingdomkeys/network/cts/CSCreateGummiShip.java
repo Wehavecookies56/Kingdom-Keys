@@ -49,37 +49,37 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);
 
-		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE)) > 0){
+		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
+
+		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			return;
 		}
 
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
+		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
 			default -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+4.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+(size/2F)+1));
 				shipEntity.setYRot(0);
 			}
 			case SOUTH -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()-3.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()-(size/2F)));
 				shipEntity.setYRot(180);
 			}
 			case EAST -> {
-				shipEntity.setPos(new Vec3(origin.getX()-3.5F, origin.getY(), origin.getZ()+0.5F));
+				shipEntity.setPos(new Vec3(origin.getX()-(size/2F), origin.getY(), origin.getZ()+0.5F));
 				shipEntity.setYRot(90);
 			}
 			case WEST -> {
-				shipEntity.setPos(new Vec3(origin.getX()+4.5F, origin.getY(), origin.getZ() + 0.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+(size/2F)+1, origin.getY(), origin.getZ() + 0.5F));
 				shipEntity.setYRot(270);
 			}
 		}
 
 		level.addFreshEntity(shipEntity);
-		Utils.removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangar.getValue(GummiHangarBlock.SIZE));
+		Utils.removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 	}
-
-
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {

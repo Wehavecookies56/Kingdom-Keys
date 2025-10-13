@@ -38,16 +38,14 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
-	public static final IntegerProperty SIZE = IntegerProperty.create("size",5,11); //5 S, 7 M, 9 L, 11 XL
-
-	int size = 7;
+	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,3); //5 S, 7 M, 9 L, 11 XL
 
 	public GummiHangarBlock(Properties properties) {
 		super(properties);
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public static int getSize(int level) {
+		return 5+(level*2);
 	}
 
 	@Override
@@ -58,7 +56,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(SIZE,size).setValue(DISPLAY_BLUEPRINT,false);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
 	}
 
 	@Override
@@ -66,7 +64,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 		builder.add(SHOW_LINES);
-		builder.add(SIZE);
+		builder.add(LEVEL);
 		builder.add(DISPLAY_BLUEPRINT);
 	}
 
@@ -118,6 +116,8 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	@SubscribeEvent
 	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+		//If config is on
+
 		if(event.getEntity() instanceof Player player) {
 			Level level = event.getLevel();
 			ItemStack stack = event.getItemStack();
