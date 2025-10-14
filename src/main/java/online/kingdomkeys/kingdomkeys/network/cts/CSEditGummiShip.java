@@ -93,7 +93,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 						}
 
 						BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-						BlockState rotatedState = blockToPlace.rotate(rotation);
+						BlockState rotatedState = Utils.rotateBlock(blockToPlace,rotation);
 
 						level.setBlockAndUpdate(target, rotatedState);
 					}

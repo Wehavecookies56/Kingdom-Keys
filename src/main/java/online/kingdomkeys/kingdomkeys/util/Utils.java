@@ -49,6 +49,8 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -327,7 +329,7 @@ public class Utils {
 							case EAST  -> Rotation.CLOCKWISE_90;
                             default -> Rotation.NONE;
 						};
-						BlockState rotated = original.rotate(rotation);
+						BlockState rotated = Utils.rotateBlock(original,rotation);
 						struct.getBlocks()[x][y][z] = rotated;
 
 					}
@@ -423,19 +425,35 @@ public class Utils {
 		return false;
 	}
 
+	public static BlockState rotateBlock(BlockState state, Rotation rotation) {
+		// If block has custom rotate implementatio
+		BlockState rotated = state.rotate(rotation);
+		if (!rotated.equals(state))
+			return rotated;
+
+		// If it doesn't change we force it
+		for (Property<?> property : state.getProperties()) { //Get all properties
+			if (property.getName().equalsIgnoreCase("facing") && property instanceof DirectionProperty dirProp) { //Get facing
+				Direction dir = state.getValue(dirProp);
+				return state.setValue(dirProp, rotation.rotate(dir));
+			}
+		}
+
+		return state; // if none of the above work we just return the same block
+	}
 	public static int[] getShipOffset(Direction facing, int size) {
 		switch (facing) {
 			case NORTH -> {
-				return new int[]{ -(size/2), 1};
+				return new int[]{ -(size/2), 1 };
 			}
 			case SOUTH -> {
-				return new int[]{ -(size/2),-size};
+				return new int[]{ -(size/2), -size };
 			}
 			case EAST  -> {
-				return new int[]{ -size, -(size/2)};
+				return new int[]{ -size, -(size/2) };
 			}
 			case WEST  -> {
-				return new int[]{1, -(size/2)};
+				return new int[]{ 1, -(size/2) };
 			}
 		}
 		return null;
