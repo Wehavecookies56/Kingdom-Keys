@@ -222,9 +222,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			GummiShipEntity.ShipStats stats = Utils.getShipStats(structure);
 			int x = 10;
 			int y = this.imageHeight-164;
-			String effSpeed = df.format(stats.getEffectiveSpeed()).equals("NaN")? "0": df.format(stats.getEffectiveSpeed()) ;
+			String effSpeed = df.format(stats.getEffectiveSpeed()).equals("NaN") ? "0" : df.format(stats.getEffectiveSpeed());
 			gui.drawString(font, "Power: " + stats.speed(), x, y+=10, 4210752, false);
-			//gui.drawString(font, "Firepower: ", imageWidth / 2, y, 4210752, false);
+			gui.drawString(font, "Firepower: "+ stats.firepower().size(), imageWidth / 2, y, 4210752, false);
 			gui.drawString(font, "Weight: " + stats.weight(), x, y+=10, 4210752, false);
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);

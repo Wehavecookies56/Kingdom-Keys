@@ -51,7 +51,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 					}
 				}
 			}
-					
 		}
 		matrixStackIn.popPose();
 

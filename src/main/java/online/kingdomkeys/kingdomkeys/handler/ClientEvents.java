@@ -53,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGummiFirePacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -259,11 +260,32 @@ public class ClientEvents {
 
 	private static int selectedSlot = 0;
 
+	private static long timeSinceLastshot = 0;
 	@SubscribeEvent
 	public void clientTickPre(ClientTickEvent.Pre event) {
-		if (Minecraft.getInstance().level != null) {
+		Minecraft mc = Minecraft.getInstance();
+
+		if (mc.level != null) {
 			selectedSlot = Minecraft.getInstance().player.getInventory().selected;
 		}
+
+		if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
+			return;
+
+		boolean leftClick = mc.options.keyAttack.isDown();
+		boolean rightClick = mc.options.keyUse.isDown();
+
+		System.out.println(timeSinceLastshot);
+		if (System.currentTimeMillis() - timeSinceLastshot >= 100) {
+			timeSinceLastshot = System.currentTimeMillis();
+			if (leftClick) {
+				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
+			}
+			if (rightClick) {
+				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), true));
+			}
+		}
+
 	}
 
 	@SubscribeEvent
@@ -440,7 +462,7 @@ public class ClientEvents {
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){
 				event.setCanceled(true);
 			}
-		}	
+		}
 	}
 
 	@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)

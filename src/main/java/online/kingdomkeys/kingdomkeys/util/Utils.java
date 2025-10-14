@@ -201,6 +201,7 @@ public class Utils {
 	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
 		float speed = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
+		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
 
 		int sizeX = structure.getBlocks().length;
@@ -225,12 +226,14 @@ public class Utils {
 							speed += 0.5F;
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
+						} else if (state.getBlock() == Blocks.DISPENSER) {
+							weapons.add(new Vec3(x, y, z));
 						}
 					}
 				}
 			}
 		}
-		return new GummiShipEntity.ShipStats(speed,weight,passengers);
+		return new GummiShipEntity.ShipStats(speed,weight,weapons,passengers);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {

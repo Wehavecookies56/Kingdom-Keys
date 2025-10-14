@@ -5,6 +5,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,9 +13,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -30,7 +34,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, List<Vec3> passengerSlots) {
+	public record ShipStats(float speed, int weight, List<Vec3> firepower, List<Vec3> passengerSlots) {
 		public float getEffectiveSpeed(){
             return speed() / (weight() * 0.05F);
         }
@@ -47,6 +51,21 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		structure = gummiStruct;
 		this.setData(structure.serializeNBT(level().registryAccess()));
 		this.refreshDimensions();
+	}
+
+	int weaponCounter = 0;
+	public void fire(Player player, boolean rightClick) {
+		ThrowableProjectile blizzard = new LaserDomeShotEntity(player.level(), player, 10);
+		player.level().addFreshEntity(blizzard);
+		Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
+		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x(), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()).yRot(-this.getYRot() * 0.017453292F);
+		Vec3 finalPos = new Vec3(posInShip.x+getX(),posInShip.y+getY(),posInShip.z+getZ());
+		blizzard.setPos(finalPos);
+		blizzard.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1F, 0);
+		level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+
+		if(weaponCounter >= shipStats.firepower().size())
+			weaponCounter = 0;
 	}
 
 	@Override
