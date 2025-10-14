@@ -272,11 +272,14 @@ public class ClientEvents {
 		if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
 			return;
 
+		if(ship.shipStats == null || ship.shipStats.firepower().size() == 0)
+			return;
+
 		boolean leftClick = mc.options.keyAttack.isDown();
 		boolean rightClick = mc.options.keyUse.isDown();
 
-		System.out.println(timeSinceLastshot);
-		if (System.currentTimeMillis() - timeSinceLastshot >= 100) {
+		int delay = 500 / ship.shipStats.firepower().size();
+		if (System.currentTimeMillis() - timeSinceLastshot >= delay) {
 			timeSinceLastshot = System.currentTimeMillis();
 			if (leftClick) {
 				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));

@@ -106,11 +106,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		if (this.isVehicle()) {
 			float f = 0.0F;
 			if (this.inputLeft) {
-				this.deltaRotation-=getEffectiveSpeed()*3;
+				this.deltaRotation-=getEffectiveSpeed()*4;
 			}
 
 			if (this.inputRight) {
-				this.deltaRotation+=getEffectiveSpeed()*3;
+				this.deltaRotation+=getEffectiveSpeed()*4;
 			}
 
 			this.setYRot(this.getYRot() + this.deltaRotation);
