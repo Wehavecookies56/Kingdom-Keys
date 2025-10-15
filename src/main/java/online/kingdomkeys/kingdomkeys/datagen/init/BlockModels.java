@@ -1,10 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+
+import java.util.function.Supplier;
 
 public class BlockModels extends BlockModelProvider {
 	public BlockModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -57,9 +61,17 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("castle_oblivion_wall2", "cutout");
 		standardCube("castle_oblivion_wall3", "cutout");
 		standardCube("castle_oblivion_wall_chiseled", "cutout");
+
+		for(Supplier<Block> b : ModBlocks.gummiCubes) {
+			gummiCube(b.get().getName().getString());
+		}
 	}
 
 	public void standardCube(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).texture("all", "block/" + name);
+	}
+
+	public void gummiCube(String name) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).texture("all", "block/" + name);
 	}
 

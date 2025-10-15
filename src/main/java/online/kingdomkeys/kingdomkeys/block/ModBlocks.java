@@ -2,16 +2,20 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -79,9 +83,10 @@ public class ModBlocks {
             station_of_awakening_core = createNewBlock("station_of_awakening_core", () -> new SoAPlatformCoreBlock(Block.Properties.of().instrument(NoteBlockInstrument.HAT).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
             orgPortal = createNewBlock("org_portal", () -> new OrgPortalBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
             moogleProjector = createNewBlock("moogle_projector", () -> new MoogleProjectorBlock(Block.Properties.of().mapColor(MapColor.METAL).lightLevel((state) -> 6).noOcclusion().strength(2F,1F))), //HL 0
-            gummiHangar = createNewBlock("gummi_hangar", () -> new GummiHangarBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
             sorCore = createNewBlock("sor_core", () -> new SoRCore(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
             dataPortal = createNewBlock("data_portal", () -> new DataPortalBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))),
+
+            gummiHangar = createNewBlock("gummi_hangar", () -> new GummiHangarBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
 
             cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(Block.Properties.of().mapColor(MapColor.WOOD).strength(-1.0F, 3600000.0F))),
             structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F).dropsLike(Blocks.AIR).isValidSpawn((p1, p2, p3, p4) -> false))),
@@ -99,6 +104,11 @@ public class ModBlocks {
 
             airstepTarget = createNewBlock("airstep_target",()-> new AirStepBlock(Block.Properties.of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 10.0F).lightLevel(state -> 10)));
 
+    public static List<Supplier<Block>> gummiCubes = new ArrayList<>();
+    static {
+        createNewGummiBlock("gummi_cube", gummiCubes);
+    }
+
     /**
      * Helper method to create basic blocks
      * @param name The registry name
@@ -111,6 +121,14 @@ public class ModBlocks {
         return newBlock;
     }
 
+    private static void createNewGummiBlock(String name, List<Supplier<Block>> list) {
+        for(DyeColor dye : DyeColor.values()) {
+            BlockBehaviour.Properties props = Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F);
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlock(props, dye));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
     private static Supplier<Block> createNewBlock(String name, Block.Properties properties, CreativeModeTab tab) {
         Supplier<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
         createNewBlockItem(name, newBlock, tab);

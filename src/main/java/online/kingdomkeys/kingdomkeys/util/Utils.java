@@ -38,10 +38,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -61,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -462,7 +460,13 @@ public class Utils {
 		return null;
 	}
 
-	public static class Title {
+    public static Block getGummiBlockColorFromDye(DyeColor dyeColor) {
+		System.out.println(dyeColor.getId());
+
+		return ModBlocks.gummiCubes.get(dyeColor.getId()).get();
+    }
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 

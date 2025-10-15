@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -33,6 +34,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import online.kingdomkeys.kingdomkeys.block.GummiBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
@@ -69,6 +71,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public class ClientEvents {
 	@SubscribeEvent
@@ -473,6 +476,7 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -498,12 +502,19 @@ public class ClientEvents {
 			return colour.getRGB();
 		}
 
+		public static int getGummiBlockColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+			int colour = Color.RED.getRGB();
+			if(state.getBlock() instanceof GummiBlock gummi) {
+				colour = gummi.getColor().getTextureDiffuseColor();
+			}
+			return colour;
+		}
+
 		@SubscribeEvent
 		public static void itemColour(RegisterColorHandlersEvent.Item event) {
 			event.register((pStack, pTintIndex) -> {
-				Color colour = Color.WHITE;
 				int itemColor = ((WayfinderItem)pStack.getItem()).getColor(pStack);
-				colour = new Color(itemColor);
+				Color colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
 		}

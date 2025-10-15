@@ -104,9 +104,8 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 			world.removeBlockEntity(pos);
 			ItemStack stack = new ItemStack(this);
 			stack.set(ModComponents.HANGAR_LEVEL, state.getValue(LEVEL));
-			System.out.println("level when breaking: "+state.getValue(LEVEL));
-			popResource(world, pos, stack); // suelta el ítem con el tag
-			super.onRemove(state, world, pos, newState, isMoving); // call it last, because it removes the TileEntity
+			popResource(world, pos, stack);
+			super.onRemove(state, world, pos, newState, isMoving);
 		}
 	}
 
@@ -122,7 +121,6 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
 	@SubscribeEvent
 	public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-		//If config is on
 		if(!ModConfigs.allowBlocksInHangarArea){
 			if(event.getEntity() instanceof Player player) {
 				Level level = event.getLevel();

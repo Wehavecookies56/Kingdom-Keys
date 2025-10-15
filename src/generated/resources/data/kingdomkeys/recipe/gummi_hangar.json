@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "item": "minecraft:crafter"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "IEI",
+    "QCQ",
+    "IRI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_hangar"
+  }
+}
