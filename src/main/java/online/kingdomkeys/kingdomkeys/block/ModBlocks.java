@@ -124,8 +124,7 @@ public class ModBlocks {
 
     private static void createNewGummiBlock(String name, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
-            BlockBehaviour.Properties props = Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F);
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlock(props, dye));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlock(Block.Properties.of().noOcclusion().strength(0F, 3600000.0F), dye));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

@@ -49,9 +49,9 @@ public class GummiBlock extends BaseBlock {
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.getItem() instanceof DyeItem dyeItem) {
             DyeColor dyeColor = dyeItem.getDyeColor();
-            System.out.println("Set color to "+dyeColor);
             Block b = Utils.getGummiBlockColorFromDye(dyeColor);
             level.setBlockAndUpdate(pos, b.defaultBlockState());
+            player.swing(hand);
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }

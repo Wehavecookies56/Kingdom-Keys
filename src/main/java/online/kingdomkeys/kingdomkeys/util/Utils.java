@@ -461,8 +461,6 @@ public class Utils {
 	}
 
     public static Block getGummiBlockColorFromDye(DyeColor dyeColor) {
-		System.out.println(dyeColor.getId());
-
 		return ModBlocks.gummiCubes.get(dyeColor.getId()).get();
     }
 

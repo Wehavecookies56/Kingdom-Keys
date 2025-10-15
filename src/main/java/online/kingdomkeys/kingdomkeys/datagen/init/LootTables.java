@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class LootTables extends BlockLootSubProvider {
 
@@ -79,6 +80,10 @@ public class LootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.rodCrackedStone.get());
 
 		dropSelf(ModBlocks.airstepTarget.get());
+
+		for(Supplier<Block> block : ModBlocks.gummiCubes) {
+			dropSelf(block.get());
+		}
 
 		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
