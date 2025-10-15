@@ -20,6 +20,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -517,6 +519,13 @@ public class ClientEvents {
 				Color colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
+			event.register((itemStack, i) -> {
+				int colour = Color.RED.getRGB();
+				if(((BlockItem)itemStack.getItem()).getBlock() instanceof GummiBlock gummi) {
+					colour = gummi.getColor().getTextureDiffuseColor();
+				}
+				return colour;
+			}, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 

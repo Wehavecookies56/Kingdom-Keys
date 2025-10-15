@@ -63,7 +63,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("castle_oblivion_wall_chiseled", "cutout");
 
 		for(Supplier<Block> b : ModBlocks.gummiCubes) {
-			gummiCube(b.get().getName().getString());
+			gummiCube(b.get().getName().getString().substring(18));
 		}
 	}
 
@@ -72,7 +72,7 @@ public class BlockModels extends BlockModelProvider {
 	}
 
 	public void gummiCube(String name) {
-		getBuilder(name).parent(new ModelFile.UncheckedModelFile("block/cube_all")).texture("all", "block/" + name);
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted")).texture("all", "block/" + name);
 	}
 
 	public void standardCube(String name, String type) {

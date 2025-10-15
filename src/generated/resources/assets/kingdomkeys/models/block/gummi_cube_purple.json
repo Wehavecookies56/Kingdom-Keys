@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "kingdomkeys:block/cube_tinted",
   "textures": {
     "all": "kingdomkeys:block/gummi_cube_purple"
   }

@@ -105,6 +105,7 @@ public class ModBlocks {
             airstepTarget = createNewBlock("airstep_target",()-> new AirStepBlock(Block.Properties.of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 10.0F).lightLevel(state -> 10)));
 
     public static List<Supplier<Block>> gummiCubes = new ArrayList<>();
+
     static {
         createNewGummiBlock("gummi_cube", gummiCubes);
     }
