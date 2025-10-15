@@ -8,7 +8,8 @@ public class Strings {
             keybladesGroup = "kingdomkeys_keyblades",
             organizationGroup = "kingdomkeys_org_weapons",
             equipablesGroup = "kingdomkeys_equipables",
-            miscGroup = "kingdomkeys_misc";
+            miscGroup = "kingdomkeys_misc",
+			gummiGroup = "kingdomkeys_gummi";
     // Records
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
