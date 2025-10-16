@@ -30,6 +30,7 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("blast_blox");
 		//standardCube("magnet_blox_on"); //has special on state
 		standardCube("magnet_blox_off");
+		standardCube("gummi_meteor");
 
 		// ore
 		standardCube("blazing_ore");

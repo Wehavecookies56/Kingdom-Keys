@@ -42,6 +42,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.RotatableGummiBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
@@ -206,7 +207,7 @@ public class ClientEvents {
 		LocalPlayer player = mc.player;
 		if (player == null || mc.level == null || mc.options.hideGui) return;
 
-		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || !(blockItem.getBlock() instanceof GummiBlockBase)) return;
+		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || !(blockItem.getBlock() instanceof RotatableGummiBlock)) return;
 
 		HitResult hit = mc.hitResult;
 		if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
@@ -327,21 +328,19 @@ public class ClientEvents {
 		if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
 			return;
 
-		if(ship.shipStats == null || ship.shipStats.firepower().size() == 0)
+		if(ship.shipStats == null || ship.shipStats.firepower().isEmpty())
 			return;
 
-		boolean leftClick = mc.options.keyAttack.isDown();
-		boolean rightClick = mc.options.keyUse.isDown();
 
 		int delay = 500 / ship.shipStats.firepower().size();
 		if (System.currentTimeMillis() - timeSinceLastshot >= delay) {
 			timeSinceLastshot = System.currentTimeMillis();
-			if (leftClick) {
+			if (mc.options.keyAttack.isDown()) {
 				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
 			}
-			if (rightClick) {
+			/*if (mc.options.keyUse.isDown()) {
 				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), true));
-			}
+			}*/
 		}
 
 	}
