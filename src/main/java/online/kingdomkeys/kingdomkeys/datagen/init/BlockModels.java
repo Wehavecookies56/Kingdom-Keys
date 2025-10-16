@@ -72,7 +72,7 @@ public class BlockModels extends BlockModelProvider {
 	}
 
 	public void gummiCube(String name) {
-		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted")).texture("all", "block/" + name);
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted")).texture("all", "block/gummi_solid_colour");
 	}
 
 	public void standardCube(String name, String type) {
