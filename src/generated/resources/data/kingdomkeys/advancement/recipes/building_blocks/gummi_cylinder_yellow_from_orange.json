@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gummi_cylinder_orange": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:gummi_cylinder_orange"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gummi_cylinder_yellow_from_orange"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gummi_cylinder_orange"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gummi_cylinder_yellow_from_orange"
+    ]
+  }
+}

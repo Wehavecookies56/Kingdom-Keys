@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gummi_pyramid_pink": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:gummi_pyramid_pink"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gummi_pie_pink_from_pyramid"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gummi_pyramid_pink"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gummi_pie_pink_from_pyramid"
+    ]
+  }
+}

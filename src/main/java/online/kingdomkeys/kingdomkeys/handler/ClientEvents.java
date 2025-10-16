@@ -155,7 +155,7 @@ public class ClientEvents {
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
-				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown());
+				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
 		}
 
@@ -530,6 +530,12 @@ public class ClientEvents {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPyramids.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCylinders.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPies.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiRoundCorners.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCones.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiDomes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -580,6 +586,12 @@ public class ClientEvents {
 			}, ModItems.wayfinder.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPyramids.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCylinders.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPies.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiRoundCorners.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCones.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiDomes.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 

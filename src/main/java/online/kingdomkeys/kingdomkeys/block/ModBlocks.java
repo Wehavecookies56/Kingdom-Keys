@@ -105,12 +105,24 @@ public class ModBlocks {
 
     public static List<Supplier<Block>>
             gummiCubes = new ArrayList<>(),
-            gummiWedges = new ArrayList<>()
+            gummiWedges = new ArrayList<>(),
+            gummiPyramids = new ArrayList<>(),
+            gummiCylinders = new ArrayList<>(),
+            gummiPies = new ArrayList<>(),
+            gummiRoundCorners = new ArrayList<>(),
+            gummiCones = new ArrayList<>(),
+            gummiDomes = new ArrayList<>()
     ;
 
     static {
         createNewGummiBlock("gummi_cube", 5, gummiCubes);
         createNewRotatableGummiBlock("gummi_wedge", 3, gummiWedges);
+        createNewRotatableGummiBlock("gummi_pyramid", 3, gummiPyramids);
+        createNewRotatableGummiBlock("gummi_cylinder", 4, gummiCylinders);
+        createNewRotatableGummiBlock("gummi_pie", 4, gummiPies);
+        createNewRotatableGummiBlock("gummi_round_corner", 3, gummiRoundCorners);
+        createNewRotatableGummiBlock("gummi_cone", 3, gummiCones);
+        createNewRotatableGummiBlock("gummi_dome", 3, gummiDomes);
     }
 
     /**

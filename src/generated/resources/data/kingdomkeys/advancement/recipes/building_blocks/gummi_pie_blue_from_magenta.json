@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gummi_pie_magenta": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:gummi_pie_magenta"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gummi_pie_blue_from_magenta"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gummi_pie_magenta"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gummi_pie_blue_from_magenta"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredient": {
+    "item": "kingdomkeys:gummi_dome_green"
+  },
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_round_corner_green"
+  }
+}

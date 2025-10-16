@@ -42,6 +42,8 @@ public abstract class KKVehicleEntity extends VehicleEntity {
     public boolean inputForward;
     public boolean inputUp;
     public boolean inputDown;
+    public float cameraX;
+    public float cameraY;
 
     public KKVehicleEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -306,13 +308,15 @@ public abstract class KKVehicleEntity extends VehicleEntity {
         return var10000;
     }
 
-    public void setInput(boolean inputLeft, boolean inputRight, boolean inputFW, boolean inputBW, boolean inputUp, boolean inputDown) {
+    public void setInput(boolean inputLeft, boolean inputRight, boolean inputFW, boolean inputBW, boolean inputUp, boolean inputDown, float cameraX, float cameraY) {
         this.inputLeft = inputLeft;
         this.inputRight = inputRight;
         this.inputUp = inputUp;
         this.inputDown = inputDown;
         this.inputBackward = inputBW;
         this.inputForward = inputFW;
+        this.cameraX = cameraX;
+        this.cameraY = cameraY;
     }
 
     protected Component getTypeName() {

@@ -1053,7 +1053,7 @@ public class Recipes extends RecipeProvider {
 				Items.BLACK_DYE
 		);
 
-		List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges);
+		List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes);
 
 		for (int i = 0; i < gummiBlocks.size(); i++) {
 			for (int j = 0; j < gummiBlocks.size(); j++) {

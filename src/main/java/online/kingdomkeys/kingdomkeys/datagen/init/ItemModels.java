@@ -65,6 +65,18 @@ public class ItemModels extends ItemModelProvider {
 		if (block instanceof RotatableGummiBlock) {
 			if (path.contains("gummi_wedge")) {
 				gummiBlockItem(path, "gummi_wedge");
+			} else if (path.contains("gummi_pyramid")) {
+				gummiBlockItem(path, "gummi_pyramid");
+			} else if (path.contains("gummi_cylinder")) {
+				gummiBlockItem(path, "gummi_cylinder");
+			} else if (path.contains("gummi_pie")) {
+				gummiBlockItem(path, "gummi_pie");
+			} else if (path.contains("gummi_round_corner")) {
+				gummiBlockItem(path, "gummi_round_corner");
+			} else if (path.contains("gummi_cone")) {
+				gummiBlockItem(path, "gummi_cone");
+			} else if (path.contains("gummi_dome")) {
+				gummiBlockItem(path, "gummi_dome");
 			}
 		} else if (block instanceof GhostBloxBlock) {
 			// generated as part of blockstates provider

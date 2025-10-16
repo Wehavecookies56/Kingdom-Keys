@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -32,6 +33,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
+				//matrixStackIn.mulPose(Axis.XP.rotationDegrees(-(Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot()))));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();

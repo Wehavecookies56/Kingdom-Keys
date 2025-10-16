@@ -40,6 +40,18 @@ public class BlockStates extends BlockStateProvider {
 					String blockName = Utils.getBlockRegistryName(block).getPath();
 					if (blockName.contains("gummi_wedge")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_wedge"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_pyramid")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pyramid"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_cylinder")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cylinder"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_pie")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pie"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_round_corner")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_round_corner"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_cone")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cone"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_dome")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
 					}
 					int x = switch (quarter) {
 						case TOP -> 180;

@@ -17,6 +17,7 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -131,7 +132,20 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				motion = motion.add(0, -getEffectiveSpeed(), 0);
 			}
 
+			//this.setXRot(lerp(this.getXRot(), cameraX, 5));
+			//this.setYRot(lerp(Mth.positiveModulo(this.getYRot(), 360), Mth.positiveModulo(cameraY, 360), 3));
+			//this.getControllingPassenger().setYBodyRot(this.getYRot());
+			//this.getControllingPassenger().
+
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
+		}
+	}
+
+	private float lerp(float current, float target, float delta) {
+		if (Math.abs(target - current) < delta) {
+			return target;
+		} else {
+			return current + Math.signum(target - current) * delta;
 		}
 	}
 
