@@ -1,9 +1,15 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -14,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class KKLanguageProvider extends LanguageProvider {
@@ -105,6 +112,13 @@ public abstract class KKLanguageProvider extends LanguageProvider {
     public void addKKEffect(Holder<MobEffect> key, String name, String desc) {
         add(key.value(), name);
         add(key.value().getDescriptionId()+".desc", desc);
+    }
+
+    public void addTintedBlock(List<Supplier<Block>> blocks, String name) {
+        for (int i = 0; i < DyeColor.values().length; i++) {
+            String colour = Component.translatable("color.minecraft." + DyeColor.values()[i].getName()).getString();
+            addBlock(blocks.get(i), String.format(name, colour));
+        }
     }
 
 }

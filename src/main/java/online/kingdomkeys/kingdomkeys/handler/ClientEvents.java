@@ -21,7 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,7 +36,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import online.kingdomkeys.kingdomkeys.block.GummiBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
@@ -479,6 +479,7 @@ public class ClientEvents {
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -504,9 +505,17 @@ public class ClientEvents {
 			return colour.getRGB();
 		}
 
+		public static int getGummiBlockColour(ItemStack stack, int tintIndex) {
+			if (stack.getItem() instanceof BlockItem blockItem) {
+				return getGummiBlockColour(blockItem.getBlock().defaultBlockState(), null, null, tintIndex);
+			} else {
+				return Color.BLACK.getRGB();
+			}
+		}
+
 		public static int getGummiBlockColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
 			int colour = Color.RED.getRGB();
-			if(state.getBlock() instanceof GummiBlock gummi) {
+			if(state.getBlock() instanceof GummiBlockBase gummi) {
 				colour = gummi.getColor().getTextureDiffuseColor();
 			}
 			return colour;
@@ -519,13 +528,8 @@ public class ClientEvents {
 				Color colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
-			event.register((itemStack, i) -> {
-				int colour = Color.RED.getRGB();
-				if(((BlockItem)itemStack.getItem()).getBlock() instanceof GummiBlock gummi) {
-					colour = gummi.getColor().getTextureDiffuseColor();
-				}
-				return colour;
-			}, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 

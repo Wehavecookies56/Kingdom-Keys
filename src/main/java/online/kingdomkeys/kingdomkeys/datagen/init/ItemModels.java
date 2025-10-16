@@ -62,7 +62,11 @@ public class ItemModels extends ItemModelProvider {
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
-		if (block instanceof GhostBloxBlock) {
+		if (block instanceof RotatableGummiBlock) {
+			if (path.contains("gummi_wedge")) {
+				gummiBlockItem(path, "gummi_wedge");
+			}
+		} else if (block instanceof GhostBloxBlock) {
 			// generated as part of blockstates provider
 		} else if (block instanceof PairBloxBlock) {
 			// generated as part of blockstates provider
@@ -122,6 +126,19 @@ public class ItemModels extends ItemModelProvider {
 
 	void standardBlockItem(String name) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + name));
+	}
+
+	void gummiBlockItem(String name, String type) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
+				.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
+				.transform(ItemDisplayContext.GUI).scale(0.6F, 0.6F, 0.6F).rotation(45, -135, 0).end()
+				.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
+				.transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
+				.transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(70, -135, 0).translation(0, 3, 0).end()
+				.transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(70, -135, 0).translation(0, 3, 0).end()
+				.transform(ItemDisplayContext.FIXED).scale(0.5F, 0.5F, 0.5F).end()
+				.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
+				.end();
 	}
 
     void standardItem(String name) {

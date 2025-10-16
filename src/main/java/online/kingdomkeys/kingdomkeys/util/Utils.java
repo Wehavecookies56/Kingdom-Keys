@@ -445,24 +445,20 @@ public class Utils {
 	public static int[] getShipOffset(Direction facing, int size) {
 		switch (facing) {
 			case NORTH -> {
-				return new int[]{ -(size/2), 1 };
+				return new int[]{-(size / 2), 1};
 			}
 			case SOUTH -> {
-				return new int[]{ -(size/2), -size };
+				return new int[]{-(size / 2), -size};
 			}
-			case EAST  -> {
-				return new int[]{ -size, -(size/2) };
+			case EAST -> {
+				return new int[]{-size, -(size / 2)};
 			}
-			case WEST  -> {
-				return new int[]{ 1, -(size/2) };
+			case WEST -> {
+				return new int[]{1, -(size / 2)};
 			}
 		}
 		return null;
 	}
-
-    public static Block getGummiBlockColorFromDye(DyeColor dyeColor) {
-		return ModBlocks.gummiCubes.get(dyeColor.getId()).get();
-    }
 
     public static class Title {
 		public String title, subtitle;

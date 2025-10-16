@@ -31,7 +31,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
-import online.kingdomkeys.kingdomkeys.block.GummiBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -96,10 +96,10 @@ public class KingdomKeys {
 	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> (item.getItem() instanceof KKPotionItem || item.getItem() instanceof KKArmorItem || item.getItem() instanceof KKAccessoryItem)).toList());
 	private static final Supplier<List<ItemStack>> gummi = Suppliers.memoize(() ->
 			kkItems.get().stream()
-					.filter(block -> block.getItem() instanceof BlockItem blockItem && (blockItem.getBlock() instanceof GummiBlock || blockItem.getBlock() instanceof GummiHangarBlock))
+					.filter(block -> block.getItem() instanceof BlockItem blockItem && (blockItem.getBlock() instanceof GummiBlockBase || blockItem.getBlock() instanceof GummiHangarBlock))
 					.map(item -> new ItemStack(item.getItem()))
 					.toList()
-	);	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof KeychainItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem) && (item.getItem() instanceof BlockItem blockItem && !(blockItem.getBlock() instanceof GummiBlock) && !(blockItem.getBlock() instanceof GummiHangarBlock))).toList());
+	);	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof KeychainItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem) && (item.getItem() instanceof BlockItem blockItem && !(blockItem.getBlock() instanceof GummiBlockBase) && !(blockItem.getBlock() instanceof GummiHangarBlock))).toList());
 
 	@SuppressWarnings("unused")
 	public static final Supplier<CreativeModeTab>

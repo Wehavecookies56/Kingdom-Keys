@@ -391,7 +391,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
         addBlock(ModBlocks.rodStone, "Dark Stone");
-        
+
+        addTintedBlock(ModBlocks.gummiCubes, "Angular/G-01 (Cube %s)");
+        addTintedBlock(ModBlocks.gummiWedges, "Angular/G-02 (Wedge %s)");
+
 
         /**KK stuff**/
         //Abilities
@@ -1823,6 +1826,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
         add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");

@@ -6,15 +6,26 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.SingleItemRecipe;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
@@ -1022,5 +1033,54 @@ public class Recipes extends RecipeProvider {
                 .group("kingdomkeys")
                 .unlockedBy("mosaic_stained_glass", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.mosaic_stained_glass.get()))
                 .save(consumer);
+
+		List<Item> dyes = List.of(
+				Items.WHITE_DYE,
+				Items.ORANGE_DYE,
+				Items.MAGENTA_DYE,
+				Items.LIGHT_BLUE_DYE,
+				Items.YELLOW_DYE,
+				Items.LIME_DYE,
+				Items.PINK_DYE,
+				Items.GRAY_DYE,
+				Items.LIGHT_GRAY_DYE,
+				Items.CYAN_DYE,
+				Items.PURPLE_DYE,
+				Items.BLUE_DYE,
+				Items.BROWN_DYE,
+				Items.GREEN_DYE,
+				Items.RED_DYE,
+				Items.BLACK_DYE
+		);
+
+		List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges);
+
+		for (int i = 0; i < gummiBlocks.size(); i++) {
+			for (int j = 0; j < gummiBlocks.size(); j++) {
+				if (i != j) {
+					for (int k = 0; k < dyes.size(); k++) {
+						SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiBlocks.get(j).get(k).get())
+								.group(KingdomKeys.MODID + "_gummi_blocks")
+								.unlockedBy("has_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiBlocks.get(i).get(k).get()))
+								.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < dyes.size(); i++) {
+			for (int j = 0; j < dyes.size(); j++) {
+				if (i != j) {
+					for (List<Supplier<Block>> blocks : gummiBlocks) {
+						ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
+								.requires(blocks.get(j).get())
+								.requires(dyes.get(i))
+								.group(KingdomKeys.MODID + "_gummi_blocks")
+								.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(j).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(j).get()))
+								.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_" + DyeColor.values()[j].getName()));
+					}
+				}
+			}
+		}
     }
 }

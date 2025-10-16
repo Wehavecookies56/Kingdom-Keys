@@ -103,10 +103,14 @@ public class ModBlocks {
 
             airstepTarget = createNewBlock("airstep_target",()-> new AirStepBlock(Block.Properties.of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 10.0F).lightLevel(state -> 10)));
 
-    public static List<Supplier<Block>> gummiCubes = new ArrayList<>();
+    public static List<Supplier<Block>>
+            gummiCubes = new ArrayList<>(),
+            gummiWedges = new ArrayList<>()
+    ;
 
     static {
-        createNewGummiBlock("gummi_cube", gummiCubes);
+        createNewGummiBlock("gummi_cube", 5, gummiCubes);
+        createNewRotatableGummiBlock("gummi_wedge", 3, gummiWedges);
     }
 
     /**
@@ -121,13 +125,22 @@ public class ModBlocks {
         return newBlock;
     }
 
-    private static void createNewGummiBlock(String name, List<Supplier<Block>> list) {
+    private static void createNewGummiBlock(String name, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlock(Block.Properties.of().noOcclusion().strength(0F, 3600000.0F), dye));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockBase(Block.Properties.of().noOcclusion().strength(1F, 10.0F), armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }
     }
+
+    private static void createNewRotatableGummiBlock(String name, int armour, List<Supplier<Block>> list) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new RotatableGummiBlock(Block.Properties.of().noOcclusion().strength(1F, 10.0F), armour, dye, list));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
+
     private static Supplier<Block> createNewBlock(String name, Block.Properties properties, CreativeModeTab tab) {
         Supplier<Block> newBlock = BLOCKS.register(name, () -> new Block(properties));
         createNewBlockItem(name, newBlock, tab);
