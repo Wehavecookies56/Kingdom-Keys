@@ -101,6 +101,36 @@ public class ClientUtils {
         return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
     }
 
+    public static void drawXOnFace(PoseStack stack, VertexConsumer builder, double x, double y, double z, Direction face) {
+        float r = 0.0F, g = 0F, b = 0F, a = 1.0F;
+
+        switch (face) {
+            case NORTH, SOUTH -> {
+                drawLine(builder, stack, x, y, z, x + 1, y + 1, z, r, g, b, a);
+                drawLine(builder, stack, x + 1, y, z, x, y + 1, z, r, g, b, a);
+            }
+            case EAST, WEST -> {
+                drawLine(builder, stack, x, y, z, x, y + 1, z + 1, r, g, b, a);
+                drawLine(builder, stack, x, y, z + 1, x, y + 1, z, r, g, b, a);
+            }
+            case UP, DOWN -> {
+                drawLine(builder, stack, x, y, z, x + 1, y, z + 1, r, g, b, a);
+                drawLine(builder, stack, x + 1, y, z, x, y, z + 1, r, g, b, a);
+            }
+        }
+    }
+
+    public static void drawLine(VertexConsumer builder, PoseStack stack, double x1, double y1, double z1, double x2, double y2, double z2, float r, float g, float b, float a) {
+        Matrix4f mat = stack.last().pose();
+        builder.addVertex(mat, (float)x1, (float)y1, (float)z1)
+                .setColor(r, g, b, a)
+                .setNormal(stack.last(), 0, 1, 0);
+        builder.addVertex(mat, (float)x2, (float)y2, (float)z2)
+                .setColor(r, g, b, a)
+                .setNormal(stack.last(), 0, 1, 0);
+
+    }
+
     public enum Angle{
     	X,Y,Z
     }

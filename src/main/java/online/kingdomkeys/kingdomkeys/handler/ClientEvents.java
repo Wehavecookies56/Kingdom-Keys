@@ -11,8 +11,11 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
@@ -28,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -192,7 +196,53 @@ public class ClientEvents {
 			}
 		}
 	}
-	
+
+
+	@SubscribeEvent
+	public void onRenderWorld(RenderLevelStageEvent event) {
+		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
+
+		Minecraft mc = Minecraft.getInstance();
+		LocalPlayer player = mc.player;
+		if (player == null || mc.level == null || mc.options.hideGui) return;
+
+		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || !(blockItem.getBlock() instanceof GummiBlockBase)) return;
+
+		HitResult hit = mc.hitResult;
+		if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+			BlockHitResult blockHit = (BlockHitResult) hit;
+			BlockPos pos = blockHit.getBlockPos();
+			Direction face = blockHit.getDirection();
+
+			PoseStack poseStack = event.getPoseStack();
+			MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+
+			Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
+			double x = pos.getX() - cameraPos.x;
+			double y = pos.getY() - cameraPos.y;
+			double z = pos.getZ() - cameraPos.z;
+
+			double offset = 0.001;
+
+			poseStack.pushPose();
+			VertexConsumer builder = buffer.getBuffer(RenderType.lines());
+
+			switch (face) {
+				case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
+				case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
+				case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
+				case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
+				case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
+				case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
+			}
+
+			poseStack.popPose();
+		}
+	}
+
+
+
+
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post<Player, ? extends PlayerModel<Player>> event) { //Hide the player shadow when KO'd
 		if(event.getEntity() != null) {

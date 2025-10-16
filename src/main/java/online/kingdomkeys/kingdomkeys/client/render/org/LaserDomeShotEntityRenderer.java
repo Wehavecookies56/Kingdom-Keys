@@ -30,19 +30,21 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
 
 	@Override
 	public void render(LaserDomeShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-		matrixStackIn.pushPose();
-    	{	
-    		matrixStackIn.translate(0, 0.05, 0);
-    		matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
-    		matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
-    		if(entity.getDeltaMovement().equals(new Vec3(0,0,0))) {
-    			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
-    		} else {
-    			matrixStackIn.scale(0.2F, 0.2F, 0.8F);
-    		}
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color(1, 0.2F, 0.2F, 1).getRGB());
-     	}
-     	matrixStackIn.popPose();
+		if(entity.tickCount > 0) { // To avoid them spawning in your face when gummi shipping
+			matrixStackIn.pushPose();
+			{
+				matrixStackIn.translate(0, 0.05, 0);
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+				matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
+				if (entity.getDeltaMovement().equals(new Vec3(0, 0, 0))) {
+					matrixStackIn.scale(0.3F, 0.3F, 0.3F);
+				} else {
+					matrixStackIn.scale(0.2F, 0.2F, 0.8F);
+				}
+				model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color(1, 0.2F, 0.2F, 1).getRGB());
+			}
+			matrixStackIn.popPose();
+		}
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 

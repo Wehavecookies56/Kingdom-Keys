@@ -54,7 +54,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
             Direction facing = state.getValue(GummiHangarBlock.FACING);
             int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
-            VertexConsumer a = bufferIn.getBuffer(RenderType.LINES);
+            VertexConsumer vertexLines = bufferIn.getBuffer(RenderType.LINES);
 
             Vec3 origin = new Vec3(0,0,0);
             Vec3 dest = new Vec3(size,size,size);
@@ -78,9 +78,13 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             }
 
             float dist = (float) Math.sqrt(Minecraft.getInstance().player.distanceToSqr(TE.getBlockPos().getX(), TE.getBlockPos().getY(), TE.getBlockPos().getZ()));
-            if(dist < 80 && state.getValue(GummiHangarBlock.SHOW_LINES))
-                LevelRenderer.renderLineBox(matrixStackIn,a,origin.x(),origin.y(),origin.z(),dest.x(),dest.y(),dest.z(),0.3F,0.8F,1F,(80-dist)/100F);
-
+            if(dist < 80 && state.getValue(GummiHangarBlock.SHOW_LINES)) {
+                float r = 0.3F, g = 0.8F, b = 1F, a = (80-dist)/100F;
+                LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r,g,b,a);
+                // X shape
+                ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
+                ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
+            }
 
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
                 ItemStack stack = TE.inventory.get().getStackInSlot(0);
@@ -98,8 +102,6 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                             case WEST  -> { offsetX = -(size/2);  offsetZ =-size-1;
                                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
                         }
-
-
 
                         int w = struct.getWidth();
                         int h = struct.getHeight();
