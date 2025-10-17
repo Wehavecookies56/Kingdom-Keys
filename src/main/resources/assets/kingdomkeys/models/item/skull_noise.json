@@ -10,7 +10,8 @@
 		"model": "kingdomkeys:models/item/keyblade/skullnoise.obj",
 		"flip_v" : true,
 		"textures": {
-	
+			"skullnoise1": "kingdomkeys:item/models/keyblades/skullnoise_1",
+			"skullnoise2": "kingdomkeys:item/models/keyblades/skullnoise_2"
 		},
 		"display": {
 			"firstperson_righthand": {
