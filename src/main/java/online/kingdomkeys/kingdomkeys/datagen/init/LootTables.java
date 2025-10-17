@@ -117,7 +117,16 @@ public class LootTables extends BlockLootSubProvider {
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
 						.when(InvertedLootItemCondition.invert(hasSilkTouch()))
-						.add(EntryGroup.list(gummiEntries)));
+						.add(EntryGroup.list(gummiEntries))
+						.add(LootItem.lootTableItem(ModItems.fluorite.get()).setWeight(4)
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
+						.add(LootItem.lootTableItem(ModItems.damascus.get()).setWeight(3)
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
+						.add(LootItem.lootTableItem(ModItems.adamantite.get()).setWeight(2)
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
+						.add(LootItem.lootTableItem(ModItems.electrum.get()).setWeight(1)
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
+				);
 
 		add(ModBlocks.gummiMeteor.get(), table);
 
@@ -147,11 +156,6 @@ public class LootTables extends BlockLootSubProvider {
 						LootItem.lootTableItem(ModItems.stormy_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
 						LootItem.lootTableItem(ModItems.writhing_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
 						LootItem.lootTableItem(ModItems.pulsing_stone.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-						LootItem.lootTableItem(ModItems.fluorite.get()).setWeight(4).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-						LootItem.lootTableItem(ModItems.damascus.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-						LootItem.lootTableItem(ModItems.adamantite.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
 						LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
 					)
 				))));
@@ -184,47 +188,10 @@ public class LootTables extends BlockLootSubProvider {
 						LootItem.lootTableItem(ModItems.lost_illusion.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
 						
 						LootItem.lootTableItem(ModItems.illusory_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-						LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-						LootItem.lootTableItem(ModItems.electrum.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
+						LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
 					)
 				))));
 
-		//Gummi Meteor
-		/*add(ModBlocks.gummiMeteor.get(), LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-				.add(AlternativesEntry.alternatives(
-						LootItem.lootTableItem(ModBlocks.rarePrizeBlox.get().asItem()).when(hasSilkTouch()),
-						EntryGroup.list(
-								LootItem.lootTableItem(ModItems.valorOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.wisdomOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.masterOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.finalOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.limitOrb.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-								LootItem.lootTableItem(ModItems.betwixt_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.sinister_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.stormy_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.writhing_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.pulsing_gem.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-								LootItem.lootTableItem(ModItems.betwixt_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.sinister_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.stormy_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.writhing_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.pulsing_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-								LootItem.lootTableItem(ModItems.orichalcum.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.orichalcumplus.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.manifest_illusion.get()).setWeight(3).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.lost_illusion.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-								LootItem.lootTableItem(ModItems.illusory_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-								LootItem.lootTableItem(ModItems.evanescent_crystal.get()).setWeight(1).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))),
-
-								LootItem.lootTableItem(ModItems.electrum.get()).setWeight(2).apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
-						)
-				))));*/
-        
     }
 
 	private void ores() {
