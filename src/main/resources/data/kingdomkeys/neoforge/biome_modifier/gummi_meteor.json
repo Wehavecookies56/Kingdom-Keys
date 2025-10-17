@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "kingdomkeys:gummi_meteor"
+  ],
+  "step": "surface_structures",
+  "count": 1,
+  "rarity": 200
+}
