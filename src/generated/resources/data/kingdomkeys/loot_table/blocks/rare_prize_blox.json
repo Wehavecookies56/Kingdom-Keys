@@ -265,18 +265,6 @@
                     }
                   ],
                   "name": "kingdomkeys:evanescent_crystal"
-                },
-                {
-                  "type": "minecraft:item",
-                  "functions": [
-                    {
-                      "enchantment": "minecraft:fortune",
-                      "formula": "minecraft:ore_drops",
-                      "function": "minecraft:apply_bonus"
-                    }
-                  ],
-                  "name": "kingdomkeys:electrum",
-                  "weight": 2
                 }
               ]
             }
