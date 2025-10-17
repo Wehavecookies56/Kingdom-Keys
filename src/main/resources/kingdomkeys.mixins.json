@@ -17,7 +17,8 @@
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
-    "client.PlayerRendererMixin"
+    "client.PlayerRendererMixin",
+    "client.CameraMixin"
   ],
   "minVersion": "0.8"
 }
