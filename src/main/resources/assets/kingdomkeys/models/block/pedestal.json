@@ -9,5 +9,9 @@
 		"rotation":[0,45,0]
 	},
 	"textures": {
+		"side": "kingdomkeys:block/standside",
+		"top": "kingdomkeys:block/standtop",
+		"bottom": "kingdomkeys:block/standbottom",
+		"particle": "#side"
 	}
 }

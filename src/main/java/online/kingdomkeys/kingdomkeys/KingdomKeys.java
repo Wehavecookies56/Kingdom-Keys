@@ -9,6 +9,9 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +27,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
@@ -73,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -206,6 +211,7 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::modLoaded);
 		modEventBus.addListener(ModMenus::registerCapabilities);
+		modEventBus.addListener(this::findPacks);
 
 		if (FMLEnvironment.dist.isClient()) {
 			modEventBus.addListener(ModMenus::registerGUIFactories);
@@ -275,5 +281,10 @@ public class KingdomKeys {
 		event.addListener(new ShopListDataLoader());
 		event.addListener(new LimitDataLoader());
 		ModJsonRegistries.registry.forEach(event::addListener);
+	}
+
+	public void findPacks(AddPackFindersEvent event) {
+		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (Overworld)"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

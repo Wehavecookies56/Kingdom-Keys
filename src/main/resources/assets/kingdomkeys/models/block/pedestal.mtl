@@ -2,14 +2,14 @@
 
 newmtl side
 Kd 0.80000 0.80000 0.80000
-map_Kd kingdomkeys:block/standside
+map_Kd #side
 
 
 newmtl top
 Kd 0.80000 0.80000 0.80000
-map_Kd kingdomkeys:block/standtop
+map_Kd #top
 
 newmtl bottom
 Kd 0.80000 0.80000 0.80000
-map_Kd kingdomkeys:block/standbottom
+map_Kd #bottom
 

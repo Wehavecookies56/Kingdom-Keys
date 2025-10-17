@@ -4,4 +4,4 @@
 newmtl material000
 Kd 0.640000 0.640000 0.640000
 d 1.000000
-map_Kd kingdomkeys:block/magical_chest
+map_Kd #texture

@@ -9,5 +9,7 @@
 		"rotation": [ 0, 180, 0 ]
 	},
 	"textures": {
+		"texture": "kingdomkeys:block/magical_chest",
+		"particle": "#texture"
 	}
 }
