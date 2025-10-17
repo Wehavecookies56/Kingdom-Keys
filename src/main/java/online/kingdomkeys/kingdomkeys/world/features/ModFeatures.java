@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.world.features;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,4 +17,5 @@ public class ModFeatures {
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, KingdomKeys.MODID);
     public static final Supplier<Feature<BloxOreFeatureConfig>> BLOX = FEATURES.register("blox", () -> new BloxOreFeature(BloxOreFeatureConfig.CODEC));
+    public static final Supplier<Feature<NoneFeatureConfiguration>> GUMMI_METEOR = FEATURES.register("gummi_meteor", () -> new GummiMeteorFeature(NoneFeatureConfiguration.CODEC));
 }
