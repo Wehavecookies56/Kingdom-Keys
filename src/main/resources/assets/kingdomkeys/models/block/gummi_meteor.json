@@ -1,9 +1,38 @@
 {
   "parent": "minecraft:block/cube_all",
-	"textures": {
-		"all": "kingdomkeys:block/gummi_meteor"
-	},
-	"neoforge_data": {
-		"emissive_texture": true
-	}
+  "textures": {
+    "all": "kingdomkeys:block/gummi_meteor",
+    "glow": "kingdomkeys:block/gummi_meteor_glow"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "texture": "#all", "cullface": "down", "tintindex": 0 },
+        "up":    { "texture": "#all", "cullface": "up", "tintindex": 0 },
+        "north": { "texture": "#all", "cullface": "north", "tintindex": 0 },
+        "south": { "texture": "#all", "cullface": "south", "tintindex": 0 },
+        "west":  { "texture": "#all", "cullface": "west", "tintindex": 0 },
+        "east":  { "texture": "#all", "cullface": "east", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "texture": "#glow", "cullface": "down", "tintindex": 1 },
+        "up":    { "texture": "#glow", "cullface": "up", "tintindex": 1 },
+        "north": { "texture": "#glow", "cullface": "north", "tintindex": 1 },
+        "south": { "texture": "#glow", "cullface": "south", "tintindex": 1 },
+        "west":  { "texture": "#glow", "cullface": "west", "tintindex": 1 },
+        "east":  { "texture": "#glow", "cullface": "east", "tintindex": 1 }
+      },
+      "neoforge_data": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout_mipped"
 }
