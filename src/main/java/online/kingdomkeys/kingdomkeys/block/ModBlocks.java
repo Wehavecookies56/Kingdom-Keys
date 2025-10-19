@@ -112,14 +112,14 @@ public class ModBlocks {
     ;
 
     static {
-        createNewGummiBlock("gummi_cube", 5, gummiCubes);
-        createNewRotatableGummiBlock("gummi_wedge", 3, gummiWedges);
-        createNewRotatableGummiBlock("gummi_pyramid", 3, gummiPyramids);
-        createNewRotatableGummiBlock("gummi_cylinder", 4, gummiCylinders);
-        createNewRotatableGummiBlock("gummi_pie", 4, gummiPies);
-        createNewRotatableGummiBlock("gummi_round_corner", 3, gummiRoundCorners);
-        createNewRotatableGummiBlock("gummi_cone", 3, gummiCones);
-        createNewRotatableGummiBlock("gummi_dome", 3, gummiDomes);
+        createNewGummiBlock("gummi_cube", 1,5, gummiCubes);
+        createNewRotatableGummiBlock("gummi_wedge",1, 3, gummiWedges);
+        createNewRotatableGummiBlock("gummi_pyramid",1, 3, gummiPyramids);
+        createNewRotatableGummiBlock("gummi_cylinder", 1,4, gummiCylinders);
+        createNewRotatableGummiBlock("gummi_pie", 1,4, gummiPies);
+        createNewRotatableGummiBlock("gummi_round_corner", 1,3, gummiRoundCorners);
+        createNewRotatableGummiBlock("gummi_cone", 1,3, gummiCones);
+        createNewRotatableGummiBlock("gummi_dome", 1,3, gummiDomes);
     }
 
     /**
@@ -134,17 +134,17 @@ public class ModBlocks {
         return newBlock;
     }
 
-    private static void createNewGummiBlock(String name, int armour, List<Supplier<Block>> list) {
+    private static void createNewGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockBase(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), armour, dye, list));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockBase(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }
     }
 
-    private static void createNewRotatableGummiBlock(String name, int armour, List<Supplier<Block>> list) {
+    private static void createNewRotatableGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new RotatableGummiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), armour, dye, list));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new RotatableGummiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

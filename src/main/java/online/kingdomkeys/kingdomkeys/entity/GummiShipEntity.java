@@ -9,15 +9,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -35,7 +37,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, List<Vec3> firepower, List<Vec3> passengerSlots) {
+	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots) {
 		public float getEffectiveSpeed(){
             return speed() / (weight() * 0.05F);
         }
@@ -59,14 +61,45 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		ThrowableProjectile blizzard = new LaserDomeShotEntity(player.level(), player, 10);
 		player.level().addFreshEntity(blizzard);
 		Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
-		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x(), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()).yRot(-this.getYRot() * 0.017453292F);
+		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x(), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+0.5F).yRot(-this.getYRot() * 0.017453292F);
 		Vec3 finalPos = new Vec3(posInShip.x+getX(),posInShip.y+getY(),posInShip.z+getZ());
 		blizzard.setPos(finalPos);
-		blizzard.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1F, 0);
+		blizzard.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
 		level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
 
 		if(weaponCounter >= shipStats.firepower().size())
 			weaponCounter = 0;
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		if (!this.level().isClientSide && !this.isRemoved()) {
+			if (this.isInvulnerableTo(source)) {
+				return false;
+			} else {
+				if(this.getPassengers().contains(source.getEntity())){
+					return false;
+				}
+				this.setHurtDir(-this.getHurtDir());
+				this.setHurtTime(10);
+				this.markHurt();
+				this.setDamage(this.getDamage() + amount);
+				System.out.println(getDamage());
+				this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
+				boolean flag = source.getEntity() instanceof Player && ((Player)source.getEntity()).getAbilities().instabuild;
+				if (flag) { //If creative player hits a ship
+					this.discard();
+				}
+				//If accumulated damage > defense
+				if (this.getDamage() > getArmour()) {//&& !this.shouldSourceDestroy(source)) {
+					this.destroy(source);
+				}
+
+				return true;
+			}
+		} else {
+			return true;
+		}
 	}
 
 	@Override
@@ -86,6 +119,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return getShipStats().weight;
 	}
 
+	float getArmour(){
+		return getShipStats().armour;
+	}
+
 	private ShipStats getShipStats(){
 		if(shipStats == null){
 			shipStats = Utils.getShipStats(structure);
@@ -103,6 +140,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 
+	@Override
 	void controlBoat() {
 		if (this.isVehicle()) {
 			float f = 0.0F;
@@ -132,20 +170,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				motion = motion.add(0, -getEffectiveSpeed(), 0);
 			}
 
-			//this.setXRot(lerp(this.getXRot(), cameraX, 5));
-			//this.setYRot(lerp(Mth.positiveModulo(this.getYRot(), 360), Mth.positiveModulo(cameraY, 360), 3));
-			//this.getControllingPassenger().setYBodyRot(this.getYRot());
-			//this.getControllingPassenger().
-
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
-		}
-	}
-
-	private float lerp(float current, float target, float delta) {
-		if (Math.abs(target - current) < delta) {
-			return target;
-		} else {
-			return current + Math.signum(target - current) * delta;
 		}
 	}
 
@@ -165,7 +190,41 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	public void tick() {
-		super.tick();
+		super.baseTick();
+		if (this.isControlledByLocalInstance()) {
+
+			this.floatBoat();
+			if (this.level().isClientSide) {
+				this.controlBoat();
+			}
+
+			this.move(MoverType.SELF, this.getDeltaMovement());
+		} else {
+			this.setDeltaMovement(Vec3.ZERO);
+		}
+
+		this.checkInsideBlocks();
+		List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
+		if (!list.isEmpty()) {
+			boolean flag = !this.level().isClientSide && !(this.getControllingPassenger() instanceof Player);
+
+			for (Entity entity : list) {
+				if (!entity.hasPassenger(this)) {
+					if (flag
+							&& this.getPassengers().size() < this.getMaxPassengers()
+							&& !entity.isPassenger()
+							&& this.hasEnoughSpaceFor(entity)
+							&& entity instanceof LivingEntity
+							&& !(entity instanceof WaterAnimal)
+							&& !(entity instanceof Player)) {
+						entity.startRiding(this);
+					} else {
+						this.push(entity);
+					}
+				}
+			}
+		}
+		//End of vanilla tick()
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
 		} else {
@@ -194,7 +253,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 		return InteractionResult.sidedSuccess(this.level().isClientSide);
 	}
-
 
 	public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()

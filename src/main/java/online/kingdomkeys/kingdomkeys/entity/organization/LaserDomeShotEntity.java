@@ -16,6 +16,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class LaserDomeShotEntity extends ThrowableProjectile {
@@ -102,6 +103,13 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
                 if (target != getOwner()) {
 	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
 					remove(RemovalReason.KILLED);
+				}
+			}
+
+			//Gummi
+			if(ertResult != null && ertResult.getEntity() instanceof GummiShipEntity gummi){
+				if(!gummi.getPassengers().contains(this.getOwner())){
+					gummi.hurt(gummi.damageSources().thrown(this, this.getOwner()), dmg);
 				}
 			}
 			remove(RemovalReason.KILLED);

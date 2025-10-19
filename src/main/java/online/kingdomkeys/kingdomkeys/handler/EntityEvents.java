@@ -64,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
@@ -1244,8 +1245,7 @@ public class EntityEvents {
 		int multiplier = 1;
 		if (player.getMainHandItem().getItem() instanceof IOrgWeapon weapon) {
 			if (weapon.getMember() == playerData.getAlignment() || (event.getSource().getDirectEntity() instanceof KKThrowableEntity && playerData.getAlignment() == OrgMember.AXEL)) { // If the item used to kill is for the correct alignment OR if it's been a
-				// throwable entity and the player is Axel (probably the only case so far which
-				// could be true)
+				// throwable entity and the player is Axel (probably the only case so far which could be true)
 				multiplier = 2;
 			}
 		}
@@ -1255,7 +1255,10 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onFall(LivingFallEvent event) {
 		if (event.getEntity() instanceof Player player) {
-            PlayerData playerData = PlayerData.get(player);
+			if(player.getVehicle() instanceof GummiShipEntity){
+				event.setDistance(0);
+			}
+			PlayerData playerData = PlayerData.get(player);
 			// Check to prevent edge case crash
 			if (playerData != null && playerData.getActiveDriveForm() != null) {
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {

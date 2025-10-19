@@ -26,17 +26,22 @@ public class GummiBlockBase extends BaseBlock {
     DyeColor color;
     List<Supplier<Block>> blocks;
 
-    int armour;
+    int armour, weight;
 
-    public GummiBlockBase(Properties properties, int armour, DyeColor color, List<Supplier<Block>> blocks) {
+    public GummiBlockBase(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
         super(properties);
         this.color = color;
         this.blocks = blocks;
+        this.weight = weight;
         this.armour = armour;
     }
 
     public int getArmour() {
         return armour;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 
     public DyeColor getColor() {

@@ -37,8 +37,8 @@ public class RotatableGummiBlock extends GummiBlockBase {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<Quarter> QUARTER = EnumProperty.create("quarter", Quarter.class);
 
-    public RotatableGummiBlock(Properties properties, int armour, DyeColor color, List<Supplier<Block>> blocks) {
-        super(properties, armour, color, blocks);
+    public RotatableGummiBlock(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
+        super(properties, weight, armour, color, blocks);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(QUARTER, Quarter.BOTTOM));
     }
 

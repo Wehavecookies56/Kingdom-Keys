@@ -58,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -201,6 +202,7 @@ public class Utils {
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
+		int armour = 0;
 
 		int sizeX = structure.getBlocks().length;
 		int sizeY = structure.getBlocks()[0].length;
@@ -212,12 +214,19 @@ public class Utils {
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
 						weight++;//TODO make heavier blocks
+						armour++;
 						if (state.getBlock() instanceof SlabBlock) {
 							passengers.addFirst(new Vec3(x, y, z));
 						}
 						if (state.getBlock() instanceof StairBlock) {
 							passengers.add(new Vec3(x, y, z));
 						}
+						if (state.getBlock() instanceof GummiBlockBase gummi) {
+							armour += gummi.getArmour();
+							weight += gummi.getWeight()-1;// we already add one by default
+						}
+
+						//TODO placeholder blocks, change for gummi thrusters and weapons
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
 						} else if (state.getBlock() == Blocks.PISTON) {
@@ -231,7 +240,7 @@ public class Utils {
 				}
 			}
 		}
-		return new GummiShipEntity.ShipStats(speed,weight,weapons,passengers);
+		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,passengers);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {
@@ -1268,6 +1277,10 @@ public class Utils {
 
 	public static boolean isPlayerLowHP(Player player) {
 		return player.getHealth() < player.getMaxHealth() / 4;
+	}
+
+	public static boolean isLowHP(float hp, float maxHP) {
+		return hp < maxHP / 4;
 	}
 
 	// Gets items excluding AIR

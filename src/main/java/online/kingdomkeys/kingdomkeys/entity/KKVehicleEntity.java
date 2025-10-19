@@ -144,7 +144,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
             this.setDamage(this.getDamage() - 1.0F);
         }
 
-        super.tick();
+        super.baseTick();
         this.tickLerp();
         if (this.isControlledByLocalInstance()) {
             this.floatBoat();
@@ -200,7 +200,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
         return 0;
     }
 
-    private void floatBoat() {
+    protected void floatBoat() {
         this.invFriction = 0.5F;
         Vec3 vec3 = this.getDeltaMovement();
         this.setDeltaMovement(vec3.x * (double)this.invFriction, 0, vec3.z * (double)this.invFriction);

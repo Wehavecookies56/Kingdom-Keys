@@ -226,6 +226,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			gui.drawString(font, "Power: " + stats.speed(), x, y+=10, 4210752, false);
 			gui.drawString(font, "Firepower: "+ stats.firepower().size(), imageWidth / 2, y, 4210752, false);
 			gui.drawString(font, "Weight: " + stats.weight(), x, y+=10, 4210752, false);
+			gui.drawString(font, "Armor: "+ stats.armour(), imageWidth / 2, y, 4210752, false);
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
 
