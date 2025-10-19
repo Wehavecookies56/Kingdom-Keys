@@ -342,7 +342,7 @@ public class ModConfigs {
 
     public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
-    public static String linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
+    public static String savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
     public static List<ResourceLocation> startingRecipes;
 
@@ -379,6 +379,7 @@ public class ModConfigs {
         bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
     	needKeybladeForHeartless = COMMON.needKeybladeForHeartless.get();
 
+        savePointMaterials = COMMON.savePointMaterials.get();
         linkedSavePointRecovers = COMMON.linkedSavePointRecovers.get();
         savePointRecovers = COMMON.savePointRecovers.get();
         warpPointRecovers = COMMON.warpPointRecovers.get();

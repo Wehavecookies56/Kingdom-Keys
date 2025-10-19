@@ -2,7 +2,9 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -143,7 +145,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
                 case WARP -> ModConfigs.warpPointRecovers;
             };
 
-			if(stack.getItem() == ModItems.orichalcum.get()){
+			if(stack.getItem() == getItemToUpgrade("HP")){
 				if(savepoint.getHeal() > 1 && list.contains("HP")){
 					stack.shrink(1);
 					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
@@ -151,7 +153,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				} else {
 					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.healing")), true);
 				}
-			} else if(stack.getItem() == ModItems.illusory_crystal.get()){
+			} else if(stack.getItem() == getItemToUpgrade("MP")){
 				if(savepoint.getMagic() > 1 && list.contains("MP")){
 					stack.shrink(1);
 					savepoint.setMagic(Math.max(savepoint.getMagic() - 4, 1));
@@ -159,7 +161,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				} else {
 					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.magic")), true);
 				}
-			} else if(stack.getItem() == ModItems.hungry_crystal.get()){
+			} else if(stack.getItem() == getItemToUpgrade("HUNGER")){
 				if(savepoint.getHunger() > 1 && list.contains("HUNGER")){
 					stack.shrink(1);
 					savepoint.setHunger(Math.max(savepoint.getHunger() - 4, 1));
@@ -167,7 +169,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				} else {
 					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.feed")), true);
 				}
-			} else if(stack.getItem() == ModItems.remembrance_crystal.get()){
+			} else if(stack.getItem() == getItemToUpgrade("FOCUS")){
 				if(savepoint.getFocus() > 1 && list.contains("FOCUS")){
 					stack.shrink(1);
 					savepoint.setFocus(Math.max(savepoint.getFocus() - 4, 1));
@@ -175,7 +177,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				} else {
 					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.focus")), true);
 				}
-			} else if(stack.getItem() == ModItems.evanescent_crystal.get()){
+			} else if(stack.getItem() == getItemToUpgrade("DRIVE")){
 				if(savepoint.getDrive() > 1 && list.contains("DRIVE")){
 					stack.shrink(1);
 					savepoint.setDrive(Math.max(savepoint.getDrive() - 4, 1));
@@ -192,11 +194,40 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				} else {
 					player.displayClientMessage(Component.translatable("savepoint.max_upgrade"), true);
 				}
+			} else {
+				player.displayClientMessage(Component.translatable("This item cannot be used to upgrade anything"), true);
 			}
 		}
 		return ItemInteractionResult.CONSUME;
 	}
 
+	public static Item getItemToUpgrade(String type){
+		String[] configLine = ModConfigs.savePointMaterials.split(",");
+		Item material = null;
+
+		for(String line : configLine){
+			if(line.contains(type)){
+				material = BuiltInRegistries.ITEM.get(ResourceLocation.parse(line.split("=")[1]));
+				return material;
+			}
+		}
+
+		if(material == null){
+			throw new IllegalStateException("Save point material does not exist: " + type);
+		}
+
+		return material;
+		/*return switch (type){
+			case "HP" -> ModItems.orichalcum.get();
+			case "MP" -> ModItems.illusory_crystal.get();
+			case "HUNGER" -> ModItems.hungry_crystal.get();
+			case "FOCUS" -> ModItems.remembrance_crystal.get();
+			case "DRIVE" -> ModItems.evanescent_crystal.get();
+			case "TIER" -> ModItems.orichalcumplus.get();
+
+			default -> throw new IllegalStateException("Unexpected value for save point upgrade: " + type);
+        };*/
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {

@@ -104,10 +104,6 @@ public class LootTables extends BlockLootSubProvider {
 		for(Block block : allGummiBlocks) {
 			dropSelf(block);
 		}
-		LootPoolEntryContainer.Builder<?>[] gummiEntries = allGummiBlocks.stream()
-				.map(item -> LootItem.lootTableItem(item)
-						.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
-				.toArray(LootPoolEntryContainer.Builder[]::new);
 
 		LootTable.Builder table = LootTable.lootTable()
 				.withPool(LootPool.lootPool()
@@ -117,7 +113,8 @@ public class LootTables extends BlockLootSubProvider {
 				.withPool(LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
 						.when(InvertedLootItemCondition.invert(hasSilkTouch()))
-						.add(EntryGroup.list(gummiEntries))
+						.add(LootItem.lootTableItem(ModItems.gummiMeteorFragment.get()).setWeight(50)
+								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
 						.add(LootItem.lootTableItem(ModItems.fluorite.get()).setWeight(4)
 								.apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE))))
 						.add(LootItem.lootTableItem(ModItems.damascus.get()).setWeight(3)

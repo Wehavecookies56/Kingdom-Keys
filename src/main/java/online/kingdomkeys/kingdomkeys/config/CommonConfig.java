@@ -50,7 +50,7 @@ public class CommonConfig {
 
     public ModConfigSpec.BooleanValue bossDespawnIfNoTarget;
     public ModConfigSpec.BooleanValue needKeybladeForHeartless;
-    public ModConfigSpec.ConfigValue<String> linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
+    public ModConfigSpec.ConfigValue<String> savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
     
@@ -97,18 +97,23 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
 
+        savePointMaterials = builder
+                .comment("Materials used to upgrade save points (Default values: HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus)")
+                .translation(KingdomKeys.MODID + ".config.save_point_materials")
+                .define("savePointMaterials", "HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus", o -> o instanceof String);
+
         savePointRecovers = builder
-                .comment("Stats restored when using a normal savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .comment("Stats restored when using a normal savepoint (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.normal_save_point_restore_list")
                 .define("normalSavePointRestoreList", "HP,MP", o -> o instanceof String);
 
         linkedSavePointRecovers = builder
-                .comment("Stats restored when using a linked savepoint (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .comment("Stats restored when using a linked savepoint (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.full_save_point_restore_list")
                 .define("fullSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
 
         warpPointRecovers = builder
-                .comment("Stats restored when using a warp point (Allowed values: HP,HUNGER,MP,FOCUS,DRIVE)")
+                .comment("Stats restored when using a warp point (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.warp_point_restore_list")
                 .define("warpPointRestoreList", "HP,HUNGER,MP,FOCUS,DRIVE", o -> o instanceof String);
 

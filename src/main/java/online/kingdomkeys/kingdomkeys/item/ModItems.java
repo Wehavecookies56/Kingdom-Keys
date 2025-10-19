@@ -7,6 +7,8 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
@@ -819,6 +821,9 @@ public class ModItems {
 			electrum = createNewItem(Strings.SM_Electrum, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			evanescent_crystal = createNewItem(Strings.SM_EvanescentCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
+
+			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
+
 
 			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire")),
 			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard")),
