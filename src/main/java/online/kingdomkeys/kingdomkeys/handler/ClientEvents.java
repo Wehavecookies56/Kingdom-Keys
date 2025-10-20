@@ -41,8 +41,9 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockCorner;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.RotatableGummiBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockRotable;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
@@ -207,37 +208,54 @@ public class ClientEvents {
 		LocalPlayer player = mc.player;
 		if (player == null || mc.level == null || mc.options.hideGui) return;
 
-		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || !(blockItem.getBlock() instanceof RotatableGummiBlock)) return;
+		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem))
+			return;
 
-		HitResult hit = mc.hitResult;
-		if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
-			BlockHitResult blockHit = (BlockHitResult) hit;
-			BlockPos pos = blockHit.getBlockPos();
-			Direction face = blockHit.getDirection();
+		if(blockItem.getBlock() instanceof GummiBlockRotable || blockItem.getBlock() instanceof GummiBlockCorner) {
 
-			PoseStack poseStack = event.getPoseStack();
-			MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+			HitResult hit = mc.hitResult;
+			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+				BlockHitResult blockHit = (BlockHitResult) hit;
+				BlockPos pos = blockHit.getBlockPos();
+				Direction face = blockHit.getDirection();
 
-			Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
-			double x = pos.getX() - cameraPos.x;
-			double y = pos.getY() - cameraPos.y;
-			double z = pos.getZ() - cameraPos.z;
+				PoseStack poseStack = event.getPoseStack();
+				MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
 
-			double offset = 0.001;
+				Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
+				double x = pos.getX() - cameraPos.x;
+				double y = pos.getY() - cameraPos.y;
+				double z = pos.getZ() - cameraPos.z;
 
-			poseStack.pushPose();
-			VertexConsumer builder = buffer.getBuffer(RenderType.lines());
+				double offset = 0.001;
 
-			switch (face) {
-				case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
-				case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
-				case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
-				case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
-				case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
-				case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
+				poseStack.pushPose();
+				{
+					VertexConsumer builder = buffer.getBuffer(RenderType.lines());
+
+					if (blockItem.getBlock() instanceof GummiBlockCorner) {
+						switch (face) {
+							case UP -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
+							case DOWN -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
+							case NORTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
+							case SOUTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
+							case EAST -> ClientUtils.drawPlusOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
+							case WEST -> ClientUtils.drawPlusOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
+						}
+
+					} else {
+						switch (face) {
+							case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
+							case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
+							case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
+							case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
+							case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
+							case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
+						}
+					}
+				}
+				poseStack.popPose();
 			}
-
-			poseStack.popPose();
 		}
 	}
 

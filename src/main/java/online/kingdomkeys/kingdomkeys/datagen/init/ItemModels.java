@@ -62,7 +62,7 @@ public class ItemModels extends ItemModelProvider {
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
-		if (block instanceof RotatableGummiBlock) {
+		if (block instanceof GummiBlockRotable) {
 			if (path.contains("gummi_wedge")) {
 				gummiBlockItem(path, "gummi_wedge");
 			} else if (path.contains("gummi_pyramid")) {

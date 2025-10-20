@@ -120,14 +120,33 @@ public class ClientUtils {
         }
     }
 
+    public static void drawPlusOnFace(PoseStack stack, VertexConsumer builder, double x, double y, double z, Direction face) {
+        float r = 0.0F, g = 0F, b = 0F, a = 1.0F;
+
+        switch (face) {
+            case NORTH, SOUTH -> {
+                drawLine(builder, stack, x+0.5, y, z, x + 0.5, y + 1, z, r, g, b, a);
+                drawLine(builder, stack, x, y+0.5, z, x+1, y + 0.5, z, r, g, b, a);
+            }
+            case EAST, WEST -> {
+                drawLine(builder, stack, x, y+0.5F, z, x, y+0.5F, z+1F, r, g, b, a);
+                drawLine(builder, stack, x, y, z + 0.5F, x, y + 1, z+0.5F, r, g, b, a);
+            }
+            case UP, DOWN -> {
+                drawLine(builder, stack, x+0.5F, y, z, x + 0.5, y, z + 1, r, g, b, a);
+                drawLine(builder, stack, x + 1, y, z+0.5, x, y, z + 0.5, r, g, b, a);
+            }
+        }
+    }
+
     public static void drawLine(VertexConsumer builder, PoseStack stack, double x1, double y1, double z1, double x2, double y2, double z2, float r, float g, float b, float a) {
         Matrix4f mat = stack.last().pose();
         builder.addVertex(mat, (float)x1, (float)y1, (float)z1)
                 .setColor(r, g, b, a)
-                .setNormal(stack.last(), 0, 1, 0);
+                .setNormal(stack.last(), 0, 0, 0);
         builder.addVertex(mat, (float)x2, (float)y2, (float)z2)
                 .setColor(r, g, b, a)
-                .setNormal(stack.last(), 0, 1, 0);
+                .setNormal(stack.last(), 0, 0, 0);
 
     }
 

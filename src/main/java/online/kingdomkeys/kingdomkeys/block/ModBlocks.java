@@ -114,10 +114,10 @@ public class ModBlocks {
     static {
         createNewGummiBlock("gummi_cube", 1,5, gummiCubes);
         createNewRotatableGummiBlock("gummi_wedge",1, 3, gummiWedges);
-        createNewRotatableGummiBlock("gummi_pyramid",1, 3, gummiPyramids);
+        createNewCornerGummiBlock("gummi_pyramid",1, 3, gummiPyramids);
         createNewRotatableGummiBlock("gummi_cylinder", 1,4, gummiCylinders);
         createNewRotatableGummiBlock("gummi_pie", 1,4, gummiPies);
-        createNewRotatableGummiBlock("gummi_round_corner", 1,3, gummiRoundCorners);
+        createNewCornerGummiBlock("gummi_round_corner", 1,3, gummiRoundCorners);
         createNewRotatableGummiBlock("gummi_cone", 1,3, gummiCones);
         createNewRotatableGummiBlock("gummi_dome", 1,3, gummiDomes);
     }
@@ -144,7 +144,15 @@ public class ModBlocks {
 
     private static void createNewRotatableGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new RotatableGummiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockRotable(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
+
+    private static void createNewCornerGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockCorner(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }
