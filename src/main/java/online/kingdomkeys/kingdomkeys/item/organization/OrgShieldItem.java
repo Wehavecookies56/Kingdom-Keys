@@ -8,13 +8,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.KKShieldItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
+public class OrgShieldItem extends KKShieldItem implements IOrgWeapon, ICreativeTab {
 	OrganizationData data = new OrganizationData();
 
 	public OrgShieldItem() {
@@ -98,6 +99,11 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon {
 				tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
 			}
 		}
+	}
+
+	@Override
+	public ICreativeTab.TABS getTab() {
+		return TABS.ORGANIZATION;
 	}
 }
 

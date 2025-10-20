@@ -90,6 +90,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		return ItemInteractionResult.SUCCESS;
 	}
 
+	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
 			GummiHangarTileEntity TE = (GummiHangarTileEntity) world.getBlockEntity(pos);

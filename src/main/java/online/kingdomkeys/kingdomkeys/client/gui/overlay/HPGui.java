@@ -2,11 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -14,18 +13,17 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-//TODO cleanup + comments
 public class HPGui extends OverlayBase {
 
 	public static final HPGui INSTANCE = new HPGui();
-	float hpBarWidth, missingHpBarWidth, missingGummiHpBarWidth;
-	int guiHeight = 10;
 
-	private float playerHealth, gummiHealth;
-	private long lastSystemTime, lastGummiSystemTime;
-	private float lastPlayerHealth, lastGummiHealth;
+	private float displayedPlayerHP, realPlayerHP;
+	private float displayedGummiHP, realGummiHP;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+	private long playerDelayEnd = 0;
+	private long gummiDelayEnd = 0;
+
+    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
 
 	private HPGui() {
 		super();
@@ -35,149 +33,137 @@ public class HPGui extends OverlayBase {
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
 		Player player = minecraft.player;
-		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-
-		float scale = 1f;
-		switch (minecraft.options.guiScale().get()) {
-			case Constants.SCALE_AUTO:
-				scale = 0.85F;
-				break;
-		}
-		float scaleFactor = 1.5F * ModConfigs.hpXScale/100F;
-
-		hpBarWidth = (player.getHealth() * scaleFactor);
-
-		int hpBarMaxWidth = (int) (player.getMaxHealth() * scaleFactor);
-
-		float i = player.getHealth();
-		long j = Util.getMillis();
-		if (i < this.playerHealth && player.invulnerableTime > 0) {
-			this.lastSystemTime = j;
-		} else if (i > this.playerHealth && player.invulnerableTime > 0) {
-			this.lastSystemTime = j;
-		}
-
-		missingHpBarWidth = Math.max(((lastPlayerHealth - player.getHealth()) * scaleFactor),0);
-
-		if (j - this.lastSystemTime > 1000L || this.playerHealth < player.getHealth()) { // If 1 second since last attack has passed update variables
-			this.playerHealth = i;
-			this.lastPlayerHealth = i;
-			this.lastSystemTime = j;
-		}
+		if (player == null)
+			return;
 
 		PoseStack poseStack = guiGraphics.pose();
+		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+		float scale = 1f;
+		if (minecraft.options.guiScale().get() == Constants.SCALE_AUTO)
+			scale = 0.85F;
+
+		float scaleFactor = 1.5F * ModConfigs.hpXScale / 100F;
+		RenderSystem.enableBlend();
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		poseStack.pushPose();
-		{
-			RenderSystem.enableBlend();
-			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
-			//Player HP
-			poseStack.pushPose();
-			{
-				poseStack.translate((screenWidth - hpBarMaxWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-				poseStack.scale(scale, scale, scale);
-				drawHPBarBack(guiGraphics, 0, 0, hpBarMaxWidth, scale, player.getHealth(), player.getMaxHealth());
+		poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
+
+		long now = net.minecraft.Util.getMillis();
+		// Player
+		float playerMaxHP = player.getMaxHealth();
+
+		if (realPlayerHP == 0) {
+			realPlayerHP = player.getHealth();
+			displayedPlayerHP = player.getHealth();
+		}
+
+		float playerHP = player.getHealth();
+		if (playerHP < realPlayerHP) {
+			playerDelayEnd = now + 1000;
+		}
+		realPlayerHP = playerHP;
+
+		if (now > playerDelayEnd) {
+			displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
+		}
+
+		drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP, false);
+
+		// Gummi
+		if (player.getVehicle() instanceof GummiShipEntity gummi && gummi.shipStats != null) {
+			float gummiHP = gummi.shipStats.armour() - gummi.getDamage();
+			float gummiMaxHP = gummi.shipStats.armour();
+
+			if (realGummiHP == 0) {
+				realGummiHP = gummiHP;
+				displayedGummiHP = gummiHP;
 			}
-			poseStack.popPose();
 
-			poseStack.pushPose();
-			{
-				poseStack.translate((screenWidth - (hpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-				poseStack.scale(scale, scale, scale);
-				drawHPBarTop(guiGraphics, 0, 0, hpBarWidth, scale);
+			if (gummiHP < realGummiHP) {
+				gummiDelayEnd = now + 1000;
 			}
-			poseStack.popPose();
-			poseStack.pushPose(); // Red portion of the bar
-			{
-				poseStack.translate((screenWidth - (hpBarWidth + missingHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-				poseStack.scale(scale, scale, scale);
-				drawDamagedHPBarTop(guiGraphics, 0, 0, missingHpBarWidth, scale);
+			realGummiHP = gummiHP;
+
+			if (now > gummiDelayEnd) {
+				displayedGummiHP = Mth.lerp(0.05F * partialTick, displayedGummiHP, realGummiHP);
 			}
-			poseStack.popPose();
 
-			//Ship HP
-			if(player.getVehicle() instanceof GummiShipEntity gummi && gummi.shipStats != null) {
-				float gummiHpBarWidth = (gummi.shipStats.armour() - gummi.getDamage()) * scaleFactor;
-				poseStack.translate(0, -10, 0);
-
-				poseStack.pushPose();
-				{
-					poseStack.translate((screenWidth - gummiHpBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-					poseStack.scale(scale, scale, scale);
-					drawHPBarBack(guiGraphics, 0, 0, gummiHpBarWidth, scale, gummi.getDamage(), gummi.shipStats.armour());
-				}
-				poseStack.popPose();
-
-				poseStack.pushPose();
-				{
-					poseStack.translate((screenWidth - (gummiHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-					poseStack.scale(scale, scale, scale);
-					drawHPBarTop(guiGraphics, 0, 0, gummiHpBarWidth, scale);
-				}
-				poseStack.popPose();
-				poseStack.pushPose(); // Red portion of the bar
-				{
-					float gummiHP = gummi.shipStats.armour()-gummi.getDamage();
-					missingGummiHpBarWidth = Math.max(((lastGummiHealth - gummiHP) * scaleFactor),0);
-					j = Util.getMillis();
-					if (gummiHP < gummiHealth && gummi.invulnerableTime > 0) {
-						this.lastGummiSystemTime = j;
-					} else if (i > this.gummiHealth && gummi.invulnerableTime > 0) {
-						this.lastGummiSystemTime = j;
-					}
-					if (j - this.lastGummiSystemTime > 1000L || this.gummiHealth < gummi.shipStats.armour()) { // If 1 second since last attack has passed update variables
-						this.gummiHealth = gummiHP;
-						this.lastGummiHealth = gummiHP;
-						this.lastGummiSystemTime = j;
-					}
-
-					poseStack.translate((screenWidth - (gummiHpBarWidth + missingGummiHpBarWidth) * scale) - 8 * scale, (screenHeight - (guiHeight) * scale) - 1 * scale - 0.1F, 0);
-					poseStack.scale(scale, scale, scale);
-					drawDamagedHPBarTop(guiGraphics, 0, 0, missingGummiHpBarWidth, scale);
-				}
-				poseStack.popPose();
-			}
-			RenderSystem.disableBlend();
+			poseStack.translate(0, -10, 0);
+			drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedGummiHP, realGummiHP, gummiMaxHP, true);
 		}
 		poseStack.popPose();
+		RenderSystem.disableBlend();
+	}
+
+	private void drawHPBars(GuiGraphics gui, PoseStack poseStack, int screenWidth, int screenHeight, float scale, float scaleFactor, float displayedHP, float realHP, float maxHP, boolean isGummi) {
+		float maxBarWidth = maxHP * scaleFactor;
+		float realBarWidth = realHP * scaleFactor;
+		float displayedBarWidth = displayedHP * scaleFactor;
+		float missingWidth = Math.max(displayedBarWidth - realBarWidth, 0);
+
+		// Background & outline
+		poseStack.pushPose();
+        int guiHeight = 10;
+        {
+			poseStack.translate((screenWidth - maxBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
+			poseStack.scale(scale, scale, scale);
+			drawHPBarBack(gui, 0, 0, maxBarWidth, scale, realHP, maxHP);
+		}
+		poseStack.popPose();
+
+		// Green HP
+		poseStack.pushPose();
+		{
+			poseStack.translate((screenWidth - realBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 1 * scale, 0);
+			poseStack.scale(scale, scale, scale);
+			if (isGummi)
+				RenderSystem.setShaderColor(0.3F, 0.6F, 0.3F, 1);
+			drawHPBarTop(gui, 0, 0, realBarWidth, scale);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
+		}
+		poseStack.popPose();
+
+		// Red
+		if (missingWidth > 0.5F) {
+			poseStack.pushPose();
+			{
+				poseStack.translate((screenWidth - (realBarWidth + missingWidth) * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 1 * scale, 0);
+				poseStack.scale(scale, scale, scale);
+				drawDamagedHPBarTop(gui, 0, 0, missingWidth, scale);
+			}
+			poseStack.popPose();
+		}
 	}
 
 	public void drawHPBarBack(GuiGraphics gui, int posX, int posY, float width, float scale, float hp, float maxHP) {
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			// Left
-			matrixStack.pushPose();
-			{
-				matrixStack.translate(scale * posX, scale * posY, 0);
-				matrixStack.scale(scale, scale, 0);
-				blit(gui, texture, 0, 0, 0, 0, 2, 12);
-			}
-			matrixStack.popPose();
-
-			// Middle
-			matrixStack.pushPose();
-			{
-				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
-				matrixStack.scale(width, scale, 0);
-				int v = Utils.isLowHP(hp,maxHP) ? 8 : 2;
-				blit(gui, texture, 0, 0, v, 0, 1, 12);
-			}
-			matrixStack.popPose();
-
-			// Right
-			matrixStack.pushPose();
-			{
-				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
-				matrixStack.scale(scale, scale, 0);
-				blit(gui, texture, 0, 0, 3, 0, 2, 12);
-			}
-			matrixStack.popPose();
+			matrixStack.translate(scale * posX, scale * posY, 0);
+			matrixStack.scale(scale, scale, 0);
+			blit(gui, texture, 0, 0, 0, 0, 2, 12);
 		}
 		matrixStack.popPose();
 
+		matrixStack.pushPose();
+		{
+			matrixStack.translate((posX + 2) * scale, posY * scale, 0);
+			matrixStack.scale(width, scale, 0);
+			int v = Utils.isLowHP(hp, maxHP) ? 8 : 2;
+			blit(gui, texture, 0, 0, v, 0, 1, 12);
+		}
+		matrixStack.popPose();
+
+		matrixStack.pushPose();
+		{
+			matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
+			matrixStack.scale(scale, scale, 0);
+			blit(gui, texture, 0, 0, 3, 0, 2, 12);
+		}
+		matrixStack.popPose();
 	}
 
 	public void drawHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale) {
@@ -189,18 +175,16 @@ public class HPGui extends OverlayBase {
 			blit(gui, texture, 0, -1, 2, 12, 1, 8);
 		}
 		matrixStack.popPose();
-
 	}
-	
+
 	public void drawDamagedHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale) {
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
 			matrixStack.scale(width, scale, 0);
-			blit(gui, texture,0, -1, 2, 22, 1, 8);
+			blit(gui, texture, 0, -1, 2, 22, 1, 8);
 		}
 		matrixStack.popPose();
 	}
-
 }

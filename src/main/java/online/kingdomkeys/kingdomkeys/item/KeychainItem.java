@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
 import java.util.List;
 import java.util.UUID;
 
-public class KeychainItem extends SwordItem implements IKeychain, IItemCategory {
+public class KeychainItem extends SwordItem implements IKeychain, IItemCategory, ICreativeTab {
 
 	KeybladeItem keyblade;
 	
@@ -102,5 +102,10 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory 
 	@Override
 	public boolean isEnchantable(ItemStack pStack) {
 		return true;
+	}
+
+	@Override
+	public TABS getTab() {
+		return TABS.KEYCHAINS;
 	}
 }

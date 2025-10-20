@@ -14,7 +14,9 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -80,7 +82,9 @@ import org.apache.logging.log4j.Logger;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -94,17 +98,22 @@ public class KingdomKeys {
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
 	private static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
-	//private static final Supplier<List<ItemStack>> kkBlocks = Suppliers.memoize(() -> ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
-	private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof IOrgWeapon).toList());
-	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeybladeItem).toList());
-	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof KeychainItem).toList());
-	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> (item.getItem() instanceof KKPotionItem || item.getItem() instanceof KKArmorItem || item.getItem() instanceof KKAccessoryItem)).toList());
-	private static final Supplier<List<ItemStack>> gummi = Suppliers.memoize(() ->
-			kkItems.get().stream()
-					.filter(block -> block.getItem() instanceof BlockItem blockItem && (blockItem.getBlock() instanceof GummiBlockBase || blockItem.getBlock() instanceof GummiHangarBlock))
-					.map(item -> new ItemStack(item.getItem()))
-					.toList()
-	);	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> !(item.getItem() instanceof KeybladeItem) && !(item.getItem() instanceof KeychainItem) && !(item.getItem() instanceof IOrgWeapon) && !(item.getItem() instanceof KKPotionItem) && !(item.getItem() instanceof KKArmorItem) && !(item.getItem() instanceof KKAccessoryItem) && (item.getItem() instanceof BlockItem blockItem && !(blockItem.getBlock() instanceof GummiBlockBase) && !(blockItem.getBlock() instanceof GummiHangarBlock))).toList());
+	private static final Supplier<List<ItemStack>> kkBlocks = Suppliers.memoize(() -> ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
+
+	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.TABS.KEYBLADES).toList());
+	private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.TABS.ORGANIZATION).toList());
+	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.TABS.KEYCHAINS).toList());
+	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.TABS.EQUIPABLES).toList());
+	private static final Supplier<List<ItemStack>> gummi = Suppliers.memoize(() -> kkBlocks.get().stream().filter(stack -> {
+						if (!(stack.getItem() instanceof BlockItem block))
+							return false;
+						return block.getBlock() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.TABS.GUMMI;
+					}).toList());
+
+	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> {
+		Set<Item> gummiItems = gummi.get().stream().map(ItemStack::getItem).collect(Collectors.toSet());
+		return kkItems.get().stream().filter(stack -> !(stack.getItem() instanceof ICreativeTab) && !gummiItems.contains(stack.getItem())).toList();
+	});
 
 	@SuppressWarnings("unused")
 	public static final Supplier<CreativeModeTab>

@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class KKAccessoryItem extends Item implements IItemCategory {
+public class KKAccessoryItem extends Item implements IItemCategory, ICreativeTab {
 
 	int ap,str,mag;
 	String[] abilities;
@@ -30,6 +30,11 @@ public class KKAccessoryItem extends Item implements IItemCategory {
 		this.mag = mag;
 		this.abilities = abilities;
     }
+
+	@Override
+	public TABS getTab() {
+		return TABS.EQUIPABLES;
+	}
 
     @OnlyIn(Dist.CLIENT)
     @Override

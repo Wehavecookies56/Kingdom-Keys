@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach {
+public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedReach, ICreativeTab {
 
 	// Level 0 = no upgrades, will use base stats in the data file
 	public KeybladeData data;
@@ -344,7 +344,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public boolean isEnchantable(ItemStack pStack) {
 		return true;
 	}
-	
+
+	@Override
+	public TABS getTab() {
+		return TABS.KEYBLADES;
+	}
+
 	@EventBusSubscriber
 	public static class KeybladeEvents {
 		@SubscribeEvent

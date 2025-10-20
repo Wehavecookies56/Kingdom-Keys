@@ -16,16 +16,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-public class GummiBlockBase extends BaseBlock {
+public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     DyeColor color;
     List<Supplier<Block>> blocks;
-
     int armour, weight;
 
     public GummiBlockBase(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
@@ -60,6 +60,11 @@ public class GummiBlockBase extends BaseBlock {
             }
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
+    @Override
+    public TABS getTab() {
+        return TABS.GUMMI;
     }
 
     /* @Nullable

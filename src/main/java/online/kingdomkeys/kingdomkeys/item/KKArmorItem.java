@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.List;
 import java.util.Map;
 
-public class KKArmorItem extends Item implements IItemCategory {
+public class KKArmorItem extends Item implements IItemCategory, ICreativeTab {
     private final int defence;
     private final ImmutableMap<KKResistanceType, Integer> resList;
     public KKArmorItem(Properties properties, int defense, ImmutableMap<KKResistanceType, Integer> resList ) {
@@ -28,7 +28,11 @@ public class KKArmorItem extends Item implements IItemCategory {
     public int getDefense() {
         return defence;
     }
-    
+
+    @Override
+    public TABS getTab() {
+        return TABS.EQUIPABLES;
+    }
    
     @OnlyIn(Dist.CLIENT)
     @Override

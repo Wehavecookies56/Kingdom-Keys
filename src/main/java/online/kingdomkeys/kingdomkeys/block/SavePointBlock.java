@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -73,15 +75,27 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 		if (stack.has(ModComponents.SAVE_POINT_TIER)) {
-			if (tooltipComponents.get(0) != null) {
+			if (tooltipComponents.getFirst() != null) {
 				if (stack.get(ModComponents.SAVE_POINT_TIER).equals(SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase())) {
 					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".linked_savepoint"));
 				} else if (stack.get(ModComponents.SAVE_POINT_TIER).equals(SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase())) {
 					tooltipComponents.set(0, Component.translatable("block." + KingdomKeys.MODID + ".warp_point"));
 				}
+
+				addToList(tooltipComponents, Utils.translateToLocal("savepoint.healing"), stack.get(ModComponents.SAVE_POINT_HEAL));
+				addToList(tooltipComponents, Utils.translateToLocal("savepoint.magic"), stack.get(ModComponents.SAVE_POINT_MAGIC));
+				addToList(tooltipComponents, Utils.translateToLocal("savepoint.feed"), stack.get(ModComponents.SAVE_POINT_HUNGER));
+				addToList(tooltipComponents, Utils.translateToLocal("savepoint.drive"), stack.get(ModComponents.SAVE_POINT_DRIVE));
+				addToList(tooltipComponents, Utils.translateToLocal("savepoint.focus"), stack.get(ModComponents.SAVE_POINT_FOCUS));
+
 			}
 		}
 		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+	}
+
+	private void addToList(List<Component> tooltipComponents, String s, Integer val) {
+		if(val != null)
+			tooltipComponents.add(Component.translatable(Character.toUpperCase(s.charAt(0))+s.substring(1)+": "+val+"%"));
 	}
 
 	@Override
@@ -113,9 +127,18 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
 		if (pNewState.getBlock() != this) {
-			if (pState.getValue(TIER) != SavePointStorage.SavePointType.NORMAL) {
+			//if (pState.getValue(TIER) != SavePointStorage.SavePointType.NORMAL) {
 				if (!pLevel.isClientSide()) {
 					SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
+					ItemStack stack = new ItemStack(this);
+					stack.set(ModComponents.SAVE_POINT_TIER, pState.getValue(TIER).name());
+					stack.set(ModComponents.SAVE_POINT_HEAL, te.getHeal());
+					stack.set(ModComponents.SAVE_POINT_MAGIC, te.getMagic());
+					stack.set(ModComponents.SAVE_POINT_HUNGER, te.getHunger());
+					stack.set(ModComponents.SAVE_POINT_FOCUS, te.getFocus());
+					stack.set(ModComponents.SAVE_POINT_DRIVE, te.getDrive());
+					popResource(pLevel, pPos, stack);
+
 					SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
 					if (storage.savePointRegistered(te.getID())) {
 						SavePointStorage.SavePoint removed = storage.getSavePoint(te.getID());
@@ -128,9 +151,27 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 						}
 					}
 				}
-			}
+			//}
 		}
 		super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
+	}
+
+	@Override
+	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (!worldIn.isClientSide){
+			if(worldIn.getBlockEntity(pos) != null) {
+				if (stack.get(ModComponents.SAVE_POINT_TIER) != null) {
+					worldIn.setBlockAndUpdate(pos, state.setValue(TIER, Enum.valueOf(SavePointStorage.SavePointType.class,stack.get(ModComponents.SAVE_POINT_TIER))));
+					if(worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint){
+						savepoint.setHeal(stack.get(ModComponents.SAVE_POINT_HEAL));
+						savepoint.setMagic(stack.get(ModComponents.SAVE_POINT_MAGIC));
+						savepoint.setHunger(stack.get(ModComponents.SAVE_POINT_HUNGER));
+						savepoint.setDrive(stack.get(ModComponents.SAVE_POINT_DRIVE));
+						savepoint.setFocus(stack.get(ModComponents.SAVE_POINT_FOCUS));
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -203,30 +244,14 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	public static Item getItemToUpgrade(String type){
 		String[] configLine = ModConfigs.savePointMaterials.split(",");
-		Item material = null;
 
 		for(String line : configLine){
 			if(line.contains(type)){
-				material = BuiltInRegistries.ITEM.get(ResourceLocation.parse(line.split("=")[1]));
-				return material;
+				return BuiltInRegistries.ITEM.get(ResourceLocation.parse(line.split("=")[1]));
 			}
 		}
 
-		if(material == null){
-			throw new IllegalStateException("Save point material does not exist: " + type);
-		}
-
-		return material;
-		/*return switch (type){
-			case "HP" -> ModItems.orichalcum.get();
-			case "MP" -> ModItems.illusory_crystal.get();
-			case "HUNGER" -> ModItems.hungry_crystal.get();
-			case "FOCUS" -> ModItems.remembrance_crystal.get();
-			case "DRIVE" -> ModItems.evanescent_crystal.get();
-			case "TIER" -> ModItems.orichalcumplus.get();
-
-			default -> throw new IllegalStateException("Unexpected value for save point upgrade: " + type);
-        };*/
+		throw new IllegalStateException("Save point material does not exist: " + type);
 	}
 	@SuppressWarnings("deprecation")
 	@Override
@@ -285,7 +310,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_SAVEPOINT.get() ? SavepointTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+		return type == ModEntities.TYPE_SAVEPOINT.get() ? SavepointTileEntity::tick : null;
 	}
 	
 	@Nullable

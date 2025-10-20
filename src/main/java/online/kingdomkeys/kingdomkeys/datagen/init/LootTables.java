@@ -76,7 +76,7 @@ public class LootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.mosaic_stained_glass.get());
         dropSelf(ModBlocks.station_of_awakening_core.get());
         dropSelf(ModBlocks.pedestal.get());        
-        dropSelf(ModBlocks.savepoint.get());
+        //dropSelf(ModBlocks.savepoint.get());
         dropSelf(ModBlocks.magicalChest.get());
         
         dropSelf(ModBlocks.rodStone.get());

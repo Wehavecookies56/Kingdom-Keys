@@ -9,12 +9,13 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Unbreakable;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 
 import java.util.List;
 
-public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExtendedReach{
+public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExtendedReach, ICreativeTab {
     OrganizationData data = new OrganizationData();
 
     public OrgSwordItem() {
@@ -96,5 +97,10 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
                 tooltip.add(Component.translatable(ChatFormatting.WHITE + stack.get(ModComponents.KEYBLADE_ID).toString()));
             }
         }
+    }
+
+    @Override
+    public TABS getTab() {
+        return TABS.ORGANIZATION;
     }
 }

@@ -22,8 +22,13 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class KKPotionItem extends Item implements IItemCategory {
-	
+public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
+
+	@Override
+	public TABS getTab() {
+		return TABS.EQUIPABLES;
+	}
+
 	public enum PotionType {
 		HP, MP, HPMP, DRIVE, FOCUS
 	}
