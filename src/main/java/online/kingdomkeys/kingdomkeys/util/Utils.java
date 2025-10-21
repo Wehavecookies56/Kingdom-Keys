@@ -59,12 +59,12 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -246,7 +246,6 @@ public class Utils {
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {
 		int oldSize = original.getWidth();
 
-		// Si la nave es más grande que el hangar, no se puede guardar
 		if (oldSize > newSize) {
 			return null;
 		}
@@ -255,7 +254,7 @@ public class Utils {
 		BlockState[][][] oldBlocks = original.getBlocks();
 		BlockState[][][] newBlocks = resized.getBlocks();
 
-		int offset = (newSize - oldSize) / 2; // centrado
+		int offset = (newSize - oldSize) / 2;
 
 		for (int x = 0; x < oldSize; x++) {
 			for (int y = 0; y < oldSize; y++) {
@@ -433,6 +432,37 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+
+	public static ArrayList<Block> getBannedBlocks(Level level, BlockPos origin, Direction facing, int size) {
+		ArrayList<Block> blocks = new ArrayList<>();
+		int max = size - 1;
+
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
+
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					if (level.getBlockState(target).getBlock().builtInRegistryHolder().is(BlockTagsGen.BANNED_GUMMI_BLOCKS)) {
+						blocks.add(level.getBlockState(target).getBlock());
+					}
+				}
+			}
+		}
+		return blocks;
 	}
 
 	public static BlockState rotateBlock(BlockState state, Rotation rotation) {

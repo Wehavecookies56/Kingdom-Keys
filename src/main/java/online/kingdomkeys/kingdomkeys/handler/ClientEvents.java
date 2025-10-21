@@ -201,9 +201,7 @@ public class ClientEvents {
 
 
 	@SubscribeEvent
-	public void onRenderWorld(RenderLevelStageEvent event) {
-		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
-
+	public void onRenderWorld(RenderHighlightEvent.Block event) {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
 		if (player == null || mc.level == null || mc.options.hideGui) return;
@@ -212,55 +210,47 @@ public class ClientEvents {
 			return;
 
 		if(blockItem.getBlock() instanceof GummiBlockEdge || blockItem.getBlock() instanceof GummiBlockCorner) {
+			BlockPos pos = event.getTarget().getBlockPos();
+			Direction face = event.getTarget().getDirection();
 
-			HitResult hit = mc.hitResult;
-			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
-				BlockHitResult blockHit = (BlockHitResult) hit;
-				BlockPos pos = blockHit.getBlockPos();
-				Direction face = blockHit.getDirection();
+			PoseStack poseStack = event.getPoseStack();
+			MultiBufferSource buffer = event.getMultiBufferSource();
 
-				PoseStack poseStack = event.getPoseStack();
-				MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+			Vec3 cameraPos = event.getCamera().getPosition();
+			double x = pos.getX() - cameraPos.x;
+			double y = pos.getY() - cameraPos.y;
+			double z = pos.getZ() - cameraPos.z;
 
-				Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
-				double x = pos.getX() - cameraPos.x;
-				double y = pos.getY() - cameraPos.y;
-				double z = pos.getZ() - cameraPos.z;
+			double offset = 0.001;
 
-				double offset = 0.001;
+			poseStack.pushPose();
+			{
+				VertexConsumer builder = buffer.getBuffer(RenderType.lines());
 
-				poseStack.pushPose();
-				{
-					VertexConsumer builder = buffer.getBuffer(RenderType.lines());
+				if (blockItem.getBlock() instanceof GummiBlockCorner) {
+					switch (face) {
+						case UP -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
+						case DOWN -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
+						case NORTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
+						case SOUTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
+						case EAST -> ClientUtils.drawPlusOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
+						case WEST -> ClientUtils.drawPlusOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
+					}
 
-					if (blockItem.getBlock() instanceof GummiBlockCorner) {
-						switch (face) {
-							case UP -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
-							case DOWN -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
-							case NORTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
-							case SOUTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
-							case EAST -> ClientUtils.drawPlusOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
-							case WEST -> ClientUtils.drawPlusOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
-						}
-
-					} else {
-						switch (face) {
-							case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
-							case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
-							case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
-							case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
-							case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
-							case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
-						}
+				} else {
+					switch (face) {
+						case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
+						case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
+						case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
+						case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
+						case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
+						case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
 					}
 				}
-				poseStack.popPose();
 			}
+			poseStack.popPose();
 		}
 	}
-
-
-
 
 	@SubscribeEvent
 	public void RenderEntity(RenderLivingEvent.Post<Player, ? extends PlayerModel<Player>> event) { //Hide the player shadow when KO'd

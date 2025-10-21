@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -36,7 +37,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 	public static final TagKey<Block> STORMY = create("c:ores/stormy");
 	public static final TagKey<Block> TRANQUILITY = create("c:ores/tranquility");
 	public static final TagKey<Block> TWILIGHT = create("c:ores/twilight");
-
+	public static final TagKey<Block> GUMMI_DROPS = create(KingdomKeys.MODID+":gummi_drops");
+	public static final TagKey<Block> BANNED_GUMMI_BLOCKS = create(KingdomKeys.MODID+":banned_gummi");
 
 
 	public BlockTagsGen(DataGenerator generator, CompletableFuture<Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
@@ -47,6 +49,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 	protected void addTags(Provider pProvider) {
 		add(BlockTags.DRAGON_IMMUNE, ModBlocks.metalBlox.get());
 		add(BlockTags.WITHER_IMMUNE, ModBlocks.metalBlox.get());
+
+		add(GUMMI_DROPS,Blocks.PISTON);
+		add(BANNED_GUMMI_BLOCKS, ModBlocks.savepoint.get());
+
 		// add(BlockTags.BEACON_BASE_BLOCKS, ModBlocks.metalBlox.get());
         for (DeferredHolder<Block, ? extends Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
             final Block block = itemRegistryObject.get();
@@ -113,6 +119,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 if(block == ModBlocks.normalBlox.get() || block == ModBlocks.hardBlox.get() || block == ModBlocks.metalBlox.get() || block == ModBlocks.dangerBlox.get() || block == ModBlocks.blastBlox.get() || block == ModBlocks.prizeBlox.get() || block == ModBlocks.rarePrizeBlox.get() || block == ModBlocks.pairBlox.get() || block == ModBlocks.ghostBlox.get() || block == ModBlocks.bounceBlox.get() || block == ModBlocks.magnetBlox.get()) {
                 	add(BLOX,block);
                 }
+
             }
 
         }		

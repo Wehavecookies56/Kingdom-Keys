@@ -336,7 +336,7 @@ public class ModConfigs {
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
 
-    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent;
 
     public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier;
 
@@ -387,7 +387,7 @@ public class ModConfigs {
         startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::parse).toList();
 
         allowBlocksInHangarArea = COMMON.allowBlocksInHangarArea.get();
-
+        gummiBlocksDropPercent = COMMON.gummiBlocksDropPercent.get();
     }
 
     @SubscribeEvent

@@ -139,16 +139,29 @@ public class ClientUtils {
         }
     }
 
-    public static void drawLine(VertexConsumer builder, PoseStack stack, double x1, double y1, double z1, double x2, double y2, double z2, float r, float g, float b, float a) {
-        Matrix4f mat = stack.last().pose();
-        builder.addVertex(mat, (float)x1, (float)y1, (float)z1)
-                .setColor(r, g, b, a)
-                .setNormal(stack.last(), 0, 0, 0);
-        builder.addVertex(mat, (float)x2, (float)y2, (float)z2)
-                .setColor(r, g, b, a)
-                .setNormal(stack.last(), 0, 0, 0);
 
+
+    public static void drawLine(VertexConsumer builder, PoseStack stack, double x1, double y1, double z1, double x2, double y2, double z2, float r, float g, float b, float a) {
+        Matrix4f pose = stack.last().pose();
+        PoseStack.Pose lastPose = stack.last();
+        float dx = (float)(x2 - x1);
+        float dy = (float)(y2 - y1);
+        float dz = (float)(z2 - z1);
+
+        float len = Mth.sqrt(dx * dx + dy * dy + dz * dz);
+
+        //Avoid /0
+        if (len == 0)
+            len = 1;
+
+        float nx = dx / len;
+        float ny = dy / len;
+        float nz = dz / len;
+
+        builder.addVertex(pose, (float)x1, (float)y1, (float)z1).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
+        builder.addVertex(pose, (float)x2, (float)y2, (float)z2).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
     }
+
 
     public enum Angle{
     	X,Y,Z
