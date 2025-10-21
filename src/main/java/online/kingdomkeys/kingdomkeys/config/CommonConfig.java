@@ -28,7 +28,7 @@ public class CommonConfig {
     public ModConfigSpec.BooleanValue allowBlocksInHangarArea;
     public ModConfigSpec.BooleanValue keybladeOpenDoors;
 
-    public ModConfigSpec.IntValue driveHeal;
+    public ModConfigSpec.IntValue driveHeal, gummiBlocksDropPercent;
 
     public ModConfigSpec.DoubleValue drivePointsMultiplier;
     public ModConfigSpec.DoubleValue focusPointsMultiplier;
@@ -121,6 +121,11 @@ public class CommonConfig {
                 .comment("Allow the player to place a hangar in a zone where there are blocks already (probably a good idea to disable on servers)")
                 .translation(KingdomKeys.MODID + ".config.allow_blocks_in_hangar_area")
                 .define("allowBlocksInHangarArea", true);
+
+        gummiBlocksDropPercent = builder
+                .comment("Percentage of blocks dropped when the Gummi Ship gets destroyed")
+                .translation(KingdomKeys.MODID + ".config.gummi_blocks_drop_percent")
+                .defineInRange("gummiBlocksDropPercent",80,0,100);
 
         builder.pop();
 

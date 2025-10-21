@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,15 +17,23 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
@@ -99,6 +108,51 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		} else {
 			return true;
 		}
+	}
+
+	protected Item[] getDropItems() {
+		ArrayList<Item> items = new ArrayList<>();
+		int sizeX = structure.getBlocks().length;
+		int sizeY = structure.getBlocks()[0].length;
+		int sizeZ = structure.getBlocks()[0][0].length;
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+					if (state != null && !state.isAir()) {
+						Block block = state.getBlock();
+						if (block.builtInRegistryHolder().is(BlockTagsGen.GUMMI_DROPS)) {
+							items.add(block.asItem());
+						} else {
+							int number = level().random.nextInt(100);
+							if (number < ModConfigs.gummiBlocksDropPercent) {
+								items.add(block.asItem());
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return items.toArray(new Item[0]);
+	}
+
+	@Override
+	protected void destroy(DamageSource source) {
+		destroy(this.getDropItems());
+	}
+
+	public void destroy(Item[] dropItems) {
+		this.kill();
+		if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+			for(Item dropItem : dropItems) {
+				ItemStack itemstack = new ItemStack(dropItem);
+				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
+				this.spawnAtLocation(itemstack);
+			}
+		}
+
 	}
 
 	@Override
