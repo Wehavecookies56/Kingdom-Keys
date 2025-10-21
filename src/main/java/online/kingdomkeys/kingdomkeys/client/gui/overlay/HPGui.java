@@ -1,17 +1,25 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
 
 public class HPGui extends OverlayBase {
 
@@ -37,7 +45,40 @@ public class HPGui extends OverlayBase {
 			return;
 
 		PoseStack poseStack = guiGraphics.pose();
-		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
+		/*
+        poseStack.pushPose();
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+
+            int fillID = TextureUtil.generateTextureId();
+            int maskID = TextureUtil.generateTextureId();
+
+            RenderSystem.setShaderTexture(fillID, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
+            ClientSetup.alphaMaskShader.setSampler("FillTex", fillID);
+            RenderSystem.setShaderTexture(maskID, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+            ClientSetup.alphaMaskShader.setSampler("MaskTex", maskID);
+            ClientSetup.alphaMaskShader.safeGetUniform("Fill").set(player.getHealth() / player.getMaxHealth());
+            RenderSystem.setShader(() -> ClientSetup.alphaMaskShader);
+
+            Matrix4f matrix = poseStack.last().pose();
+
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+            buffer.addVertex(matrix, 0, 0 + 256, 0).setUv(0, 1);
+            buffer.addVertex(matrix, 0 + 256, 0 + 256, 0).setUv(1, 1);
+            buffer.addVertex(matrix, 0 + 256, 0, 0).setUv(1, 0);
+            buffer.addVertex(matrix, 0, 0, 0).setUv(0, 0);
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
+
+            RenderSystem.disableBlend();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        }
+        poseStack.popPose();
+		*/
+
+        float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();

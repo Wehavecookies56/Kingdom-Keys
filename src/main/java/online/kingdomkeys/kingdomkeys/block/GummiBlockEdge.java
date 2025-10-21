@@ -23,12 +23,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class GummiBlockRotable extends GummiBlockBase {
+public class GummiBlockEdge extends GummiBlockBase {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<Quarter> QUARTER = EnumProperty.create("quarter", Quarter.class);
 
-    public GummiBlockRotable(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
+    public GummiBlockEdge(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
         super(properties, weight, armour, color, blocks);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(QUARTER, Quarter.BOTTOM));
     }

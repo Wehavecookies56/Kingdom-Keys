@@ -1,76 +1,38 @@
 {
   "variants": {
-    "facing=east,quarter=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "y": 180
-    },
-    "facing=east,quarter=left": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 270,
-      "y": 180
-    },
-    "facing=east,quarter=right": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 90,
-      "y": 180
-    },
-    "facing=east,quarter=top": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 180,
-      "y": 180
-    },
-    "facing=north,quarter=bottom": {
+    "corner=1,half=bottom": {
       "model": "kingdomkeys:block/gummi/gummi_pyramid",
       "y": 90
     },
-    "facing=north,quarter=left": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 270,
-      "y": 90
-    },
-    "facing=north,quarter=right": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 90,
-      "y": 90
-    },
-    "facing=north,quarter=top": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 180,
-      "y": 90
-    },
-    "facing=south,quarter=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "y": 270
-    },
-    "facing=south,quarter=left": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 270,
-      "y": 270
-    },
-    "facing=south,quarter=right": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 90,
-      "y": 270
-    },
-    "facing=south,quarter=top": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 180,
-      "y": 270
-    },
-    "facing=west,quarter=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid"
-    },
-    "facing=west,quarter=left": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 270
-    },
-    "facing=west,quarter=right": {
-      "model": "kingdomkeys:block/gummi/gummi_pyramid",
-      "x": 90
-    },
-    "facing=west,quarter=top": {
+    "corner=1,half=top": {
       "model": "kingdomkeys:block/gummi/gummi_pyramid",
       "x": 180
+    },
+    "corner=2,half=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid",
+      "y": 180
+    },
+    "corner=2,half=top": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid",
+      "x": 180,
+      "y": 90
+    },
+    "corner=3,half=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid",
+      "y": 270
+    },
+    "corner=3,half=top": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid",
+      "x": 180,
+      "y": 180
+    },
+    "corner=4,half=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid"
+    },
+    "corner=4,half=top": {
+      "model": "kingdomkeys:block/gummi/gummi_pyramid",
+      "x": 180,
+      "y": 270
     }
   }
 }

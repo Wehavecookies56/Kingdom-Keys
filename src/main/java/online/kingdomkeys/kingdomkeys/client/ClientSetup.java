@@ -1,8 +1,14 @@
 package online.kingdomkeys.kingdomkeys.client;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -36,9 +42,11 @@ import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
 @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
@@ -294,5 +302,18 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/station_of_awakening")));
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+	}
+
+	public static ShaderInstance alphaMaskShader;
+
+	@SubscribeEvent
+	public static void registerShaders(RegisterShadersEvent event) {
+		try {
+			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.parse("kingdomkeys:alpha_mask"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> alphaMaskShader = shaderInstance);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Could not load shader");
+		}
 	}
 }

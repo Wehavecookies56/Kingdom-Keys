@@ -43,7 +43,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockCorner;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockRotable;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockEdge;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
@@ -211,7 +211,7 @@ public class ClientEvents {
 		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem))
 			return;
 
-		if(blockItem.getBlock() instanceof GummiBlockRotable || blockItem.getBlock() instanceof GummiBlockCorner) {
+		if(blockItem.getBlock() instanceof GummiBlockEdge || blockItem.getBlock() instanceof GummiBlockCorner) {
 
 			HitResult hit = mc.hitResult;
 			if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
