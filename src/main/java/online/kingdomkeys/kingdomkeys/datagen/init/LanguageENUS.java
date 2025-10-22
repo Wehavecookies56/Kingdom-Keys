@@ -316,6 +316,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.magnetBlox, "Magnet Blox");
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
+        addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
@@ -529,6 +530,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.treacherousRepository, "Treacherous Repository");
         addItem(ModItems.reposefulGrove, "Reposeful Grove");
 
+        addItem(ModItems.plainsCard,"Plains Card");
+        addItem(ModItems.netherCard,"Nether Card");
+
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
         addItem(ModItems.blazing_stone, "Blazing Stone");
@@ -621,6 +625,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.electrum, "Electrum");
         addItem(ModItems.evanescent_crystal, "Evanescent Crystal");
         addItem(ModItems.illusory_crystal, "Illusory Crystal");
+
+        addItem(ModItems.gummiMeteorFragment, "Gummi Fragment");
+        addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Abaddon Plasma");

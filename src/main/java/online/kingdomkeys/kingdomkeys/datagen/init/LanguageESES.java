@@ -467,6 +467,8 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.magnetBlox, "Blox Magn\u00e9tico");
         addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
         addBlock(ModBlocks.infestedNormalBlox, "Blox Normal Infestado");
+        addBlock(ModBlocks.gummiMeteor, "Meteorito Gummi");
+
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Mena \u00edgnea");
@@ -864,6 +866,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.treacherousRepository, "Treacherous Repository");
         addItem(ModItems.reposefulGrove, "Reposeful Grove");
 
+        addItem(ModItems.plainsCard,"Carta de Llanuras");
+        addItem(ModItems.netherCard,"Carta de Nether");
+
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");
         addItem(ModItems.blazing_stone, "Roca \u00edgnea");
@@ -956,6 +961,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.electrum, "Electrum");
         addItem(ModItems.evanescent_crystal, "Cristal Evanescente");
         addItem(ModItems.illusory_crystal, "Cristal Ilusorio");
+
+        addItem(ModItems.gummiMeteorFragment, "Fragmento de Gummi");
+        addItem(ModItems.gummiShipBlueprint, "Planos de Gummi");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Plasma de Abad\u00f3n");
