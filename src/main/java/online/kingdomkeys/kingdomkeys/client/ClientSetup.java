@@ -304,12 +304,14 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
 	}
 
-	public static ShaderInstance alphaMaskShader;
+	public static ShaderInstance testShader;
 
 	@SubscribeEvent
 	public static void registerShaders(RegisterShadersEvent event) {
 		try {
-			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.parse("kingdomkeys:alpha_mask"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> alphaMaskShader = shaderInstance);
+			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.parse("kingdomkeys:test"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+				testShader = shaderInstance;
+			});
 
 		} catch (IOException e) {
 			e.printStackTrace();

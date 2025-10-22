@@ -45,38 +45,44 @@ public class HPGui extends OverlayBase {
 			return;
 
 		PoseStack poseStack = guiGraphics.pose();
-		/*
+
         poseStack.pushPose();
         {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            int fillID = TextureUtil.generateTextureId();
-            int maskID = TextureUtil.generateTextureId();
+			float health = minecraft.player.getHealth();
+			float maxHealth = minecraft.player.getMaxHealth();
+			float healthPercentage = health / maxHealth;
 
-            RenderSystem.setShaderTexture(fillID, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
-            ClientSetup.alphaMaskShader.setSampler("FillTex", fillID);
-            RenderSystem.setShaderTexture(maskID, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
-            ClientSetup.alphaMaskShader.setSampler("MaskTex", maskID);
-            ClientSetup.alphaMaskShader.safeGetUniform("Fill").set(player.getHealth() / player.getMaxHealth());
-            RenderSystem.setShader(() -> ClientSetup.alphaMaskShader);
+
+			int barWidth = 256;
+			int barHeight = 256;
+			int barX = 0;
+			int barY = 0;
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
+			RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+            ClientSetup.testShader.setSampler("Sampler0", 0);
+			ClientSetup.testShader.setSampler("Sampler1", 1);
+			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
+			ClientSetup.testShader.apply();
+            RenderSystem.setShader(() -> ClientSetup.testShader);
 
             Matrix4f matrix = poseStack.last().pose();
-
             Tesselator tesselator = Tesselator.getInstance();
             BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            buffer.addVertex(matrix, 0, 0 + 256, 0).setUv(0, 1);
-            buffer.addVertex(matrix, 0 + 256, 0 + 256, 0).setUv(1, 1);
-            buffer.addVertex(matrix, 0 + 256, 0, 0).setUv(1, 0);
-            buffer.addVertex(matrix, 0, 0, 0).setUv(0, 0);
+            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
             BufferUploader.drawWithShader(buffer.buildOrThrow());
 
             RenderSystem.disableBlend();
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
         }
         poseStack.popPose();
-		*/
+
 
         float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 

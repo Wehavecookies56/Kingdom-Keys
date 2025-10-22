@@ -42,10 +42,11 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         addAbilityDesc(key, value2);
     }
 
-    public void addGrowthAbility(Supplier<Ability> key, String... value) {
+    public void addGrowthAbility(Supplier<Ability> key, String description, String... value) {
         for (int i = 0; i < value.length; i++) {
             add(i+1, key.get(), value[i]);
         }
+        add(key.get().getDescTranslationKey(), description);
     }
 
     public void addAbilityDesc(Supplier<Ability> key, String value) {

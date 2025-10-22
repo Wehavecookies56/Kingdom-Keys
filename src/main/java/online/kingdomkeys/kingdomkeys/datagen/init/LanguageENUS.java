@@ -26,7 +26,6 @@ public class LanguageENUS extends KKLanguageProvider {
 
     @Override
     protected void addTranslations() {
-    	/**GUIS**/
     	//Advancements
     	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
     	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
@@ -46,10 +45,11 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
 
-    	        
+        /**GUIS**/
         //Containers
         add("container.magical_chest", "Magical Chest");
         add("container.pedestal", "Pedestal");
+        add("container.gummi_hangar", "Gummi Hangar");
 
         //Menu
         add(Gui_Menu_Back, "Back");
@@ -379,19 +379,20 @@ public class LanguageENUS extends KKLanguageProvider {
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
         addBlock(ModBlocks.structureWall, "Structure Wall");
-        // addBlock(ModBlocks.castleOblivionWall, "Oblivion Block");
-        // addBlock(ModBlocks.castleOblivionWallChisled, "Chisled Oblivion Block");
-        // addBlock(ModBlocks.castleOblivionWall2, "Dark Oblivion Block");
-        // addBlock(ModBlocks.castleOblivionWall3, "Darker Oblivion Block");
-        // addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
-        // addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
-        // addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
+        addBlock(ModBlocks.castleOblivionWall, "Oblivion Block");
+        addBlock(ModBlocks.castleOblivionWallChiseled, "Chiseled Oblivion Block");
+        addBlock(ModBlocks.castleOblivionWall2, "Dark Oblivion Block");
+        addBlock(ModBlocks.castleOblivionWall3, "Darker Oblivion Block");
+        addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
+        addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
+        addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
         
         //Realm of Darkness
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
         addBlock(ModBlocks.rodStone, "Dark Stone");
 
+        //Gummi
         addTintedBlock(ModBlocks.gummiCubes, "Angular/G-01 (Cube %s)");
         addTintedBlock(ModBlocks.gummiWedges, "Angular/G-02 (Wedge %s)");
 
@@ -405,16 +406,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
         addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
 
-        addGrowthAbility(ModAbilities.HIGH_JUMP, "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
-        addAbilityDesc(ModAbilities.HIGH_JUMP, "Now you can jump really high!");
-        addGrowthAbility(ModAbilities.QUICK_RUN, "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");
-        addAbilityDesc(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.");
-        addGrowthAbility(ModAbilities.DODGE_ROLL, "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
-        addAbilityDesc(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will dodge roll. ");
-        addGrowthAbility(ModAbilities.AERIAL_DODGE, "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
-        addAbilityDesc(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.");
-        addGrowthAbility(ModAbilities.GLIDE, "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
-        addAbilityDesc(ModAbilities.GLIDE, "In the air, hold the jump key to glide.");
+        addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
+        addGrowthAbility(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.", "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");
+        addGrowthAbility(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will dodge roll. ", "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
+        addGrowthAbility(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.", "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
+        addGrowthAbility(ModAbilities.GLIDE,"In the air, hold the jump key to glide.", "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");
         addAbilityWithDesc(ModAbilities.ZERO_EXP, "Zero EXP", "Disables the gaining of experience.");
@@ -1405,7 +1401,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.firagunBangle, "Firagun Bangle");
         addItem(ModItems.protectBelt, "Protect Belt");
         addItem(ModItems.gaiaBelt, "Gaia Belt");
-        //addItem(ModItems.lightDefTest, "Light Res. Test");
         addItem(ModItems.midnightAnklet, "Midnight Anklet");
         addItem(ModItems.shadowAnklet, "Shadow Anklet");
         addItem(ModItems.shockCharm, "Shock Charm");
@@ -1620,7 +1615,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");
 
-        //Orbs
+        //Spell orbs
         addItem(ModItems.fireSpell, "Fire Spell");
         addItem(ModItems.blizzardSpell, "Blizzard Spell");
         addItem(ModItems.waterSpell, "Water Spell");
@@ -1632,6 +1627,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gravitySpell, "Gravity Spell");
         addItem(ModItems.stopSpell, "Stop Spell");
 
+        //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");
         addItem(ModItems.wisdomOrb, "Wisdom Form Orb");
         addItem(ModItems.limitOrb, "Limit Form Orb");
