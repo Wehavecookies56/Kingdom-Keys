@@ -46,6 +46,7 @@ public class HPGui extends OverlayBase {
 
 		PoseStack poseStack = guiGraphics.pose();
 
+		/*
         poseStack.pushPose();
         {
             RenderSystem.enableBlend();
@@ -82,7 +83,7 @@ public class HPGui extends OverlayBase {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
         }
         poseStack.popPose();
-
+		*/
 
         float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
