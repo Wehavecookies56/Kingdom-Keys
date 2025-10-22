@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.Item;
@@ -96,7 +98,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 				boolean flag = source.getEntity() instanceof Player && ((Player)source.getEntity()).getAbilities().instabuild;
 				if (flag) { //If creative player hits a ship
-					this.discard();
+					this.destroy(source);
 				}
 				//If accumulated damage > defense
 				if (this.getDamage() > getArmour()) {//&& !this.shouldSourceDestroy(source)) {
@@ -140,16 +142,37 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	protected void destroy(DamageSource source) {
+		Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
+		if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+			level().explode(this,this.getX(),this.getY(),this.getZ(), Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ()),Level.ExplosionInteraction.BLOCK);
+		} else {
+			level().explode(this,this.getX(),this.getY(),this.getZ(), Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ()),Level.ExplosionInteraction.BLOCK);		}
+
 		destroy(this.getDropItems());
 	}
 
 	public void destroy(Item[] dropItems) {
 		this.kill();
 		if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+			Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
+			int scatterRadius = Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ());
 			for(Item dropItem : dropItems) {
 				ItemStack itemstack = new ItemStack(dropItem);
 				itemstack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
-				this.spawnAtLocation(itemstack);
+
+				int randomX = level().random.nextInt(scatterRadius*2)-scatterRadius;
+				int randomY = level().random.nextInt(scatterRadius*2)-scatterRadius;
+				int randomZ = level().random.nextInt(scatterRadius*2)-scatterRadius;
+
+				ItemEntity itementity = new ItemEntity(this.level(), this.getX()+randomX, this.getY()+randomY, this.getZ()+randomZ, itemstack);
+				itementity.setDefaultPickUpDelay();
+				if (this.captureDrops() != null) {
+					this.captureDrops().add(itementity);
+				} else {
+					this.level().addFreshEntity(itementity);
+				}
+
+				//this.spawnAtLocation(itemstack);
 			}
 		}
 
