@@ -67,7 +67,7 @@ public class MenuStruggle extends MenuBackground {
 
 		Struggle s = WorldData.getClient().getStruggleFromParticipant(minecraft.player.getUUID());
 		if(s != null) {
-			System.out.println(s.getOwner().getUsername());
+			KingdomKeys.LOGGER.debug(s.getOwner().getUsername());
 		}
 		updateButtons();
 	}

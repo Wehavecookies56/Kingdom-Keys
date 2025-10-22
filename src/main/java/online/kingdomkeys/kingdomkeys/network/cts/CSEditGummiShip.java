@@ -54,12 +54,12 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 			//If gummi ship trying to be turned into blocks is bigger than the build plate complain about it
 			//if(shipSize.getX() > size || shipSize.getY() > size || shipSize.getZ() > size){
 			if(struct.getWidth() > size){
-				System.out.println("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
+				KingdomKeys.LOGGER.debug("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
 				player.sendSystemMessage(Component.translatable("This Gummi Ship is too big"));
 
 			} else {
 				//If ship is smaller allow it in and adapt it's array
-				System.out.println("Resizing ship size from "+gummi.structure.getWidth()+" to "+size);
+				KingdomKeys.LOGGER.debug("Resizing ship size from "+gummi.structure.getWidth()+" to "+size);
 				struct = Utils.resizeStructure(struct,size);
 			}
 

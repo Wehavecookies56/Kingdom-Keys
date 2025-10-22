@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -37,7 +38,7 @@ public class KOGui extends ChatScreen {
 
 				this.minecraft.clearClientLevel(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
 				this.minecraft.setScreen(new TitleScreen());}
-            default -> System.out.println("Unexpected value: " + string);
+            default -> KingdomKeys.LOGGER.debug("Unexpected value: " + string);
         }
 	}
 

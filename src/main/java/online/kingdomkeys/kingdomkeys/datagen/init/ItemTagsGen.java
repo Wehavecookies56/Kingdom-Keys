@@ -52,7 +52,6 @@ public class ItemTagsGen extends ItemTagsProvider {
 		for(int shape = 0; shape <Recipes.gummiBlocks.size();shape++){
 			List<Supplier<Block>> suppliers = Recipes.gummiBlocks.get(shape);
 			List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
-			System.out.println(items);
 
             for (Item item : items) {
                 add(GUMMI_BLOCK_KEYS.get(shape), item);

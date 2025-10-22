@@ -15,6 +15,9 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
+import java.util.List;
+import java.util.Map;
+
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 

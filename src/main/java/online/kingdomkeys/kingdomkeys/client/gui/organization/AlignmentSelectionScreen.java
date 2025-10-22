@@ -261,7 +261,7 @@ public class AlignmentSelectionScreen extends Screen {
                 playerData.setAlignment(current);
                 Minecraft.getInstance().setScreen(null);
                 if(playerData.getEquippedKeychain(DriveForm.NONE) != null) {
-                    System.out.println("Summoned keyblade: "+Utils.findSummoned(minecraft.player.getInventory()));
+                    KingdomKeys.LOGGER.debug("Summoned keyblade: "+Utils.findSummoned(minecraft.player.getInventory()));
 					if(Utils.findSummoned(minecraft.player.getInventory())> -1)
 						PacketHandler.sendToServer(new CSSummonKeyblade(true));
 				}

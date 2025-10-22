@@ -44,7 +44,6 @@ public class GummiBlockEdge extends GummiBlockBase {
             double horizontalClickPos = direction != Direction.EAST && direction != Direction.WEST ? context.getClickLocation().x - (double) blockpos.getX() : context.getClickLocation().z - (double) blockpos.getZ();
             double verticalClickPos = context.getClickLocation().y - (double) blockpos.getY();
             Quarter quarter = getQuarter(horizontalClickPos, verticalClickPos);
-            System.out.println(quarter);
             if ((quarter == Quarter.LEFT || quarter == Quarter.RIGHT) && (direction == Direction.WEST || direction == Direction.SOUTH)) {
                 quarter = quarter.opposite();
             }

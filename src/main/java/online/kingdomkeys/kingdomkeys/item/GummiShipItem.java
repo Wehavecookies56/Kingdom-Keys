@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -65,7 +66,7 @@ public class GummiShipItem extends Item implements IItemCategory {
 			if (gummiStruct != null || gummiStruct.getBlocks().length > 0) {
 				//gummiStruct.blocks = createArrowDown();
 				GummiShipEntity gummi = new GummiShipEntity(world, gummiStruct);
-				System.out.println(gummiStruct.serializeNBT(world.registryAccess()));
+				KingdomKeys.LOGGER.debug(gummiStruct.serializeNBT(world.registryAccess()));
 				gummi.setPos(player.getX(), player.getY(), player.getZ());
 				world.addFreshEntity(gummi);
 			}
