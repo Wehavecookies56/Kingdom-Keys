@@ -13,11 +13,15 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.BaseBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public class BlockTagsGen extends BlockTagsProvider {
 	
@@ -39,6 +43,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 	public static final TagKey<Block> TWILIGHT = create("c:ores/twilight");
 	public static final TagKey<Block> GUMMI_DROPS = create(KingdomKeys.MODID+":gummi_drops");
 	public static final TagKey<Block> BANNED_GUMMI_BLOCKS = create(KingdomKeys.MODID+":banned_gummi");
+	public static final TagKey<Block> GUMMI_BLOCK = create(KingdomKeys.MODID+":gummi_block");
 
 
 	public BlockTagsGen(DataGenerator generator, CompletableFuture<Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
@@ -59,6 +64,10 @@ public class BlockTagsGen extends BlockTagsProvider {
             String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
 
             if (block instanceof Block) {
+				if(block instanceof GummiBlockBase){
+					add(GUMMI_BLOCK, block);
+				}
+
                 if(block == ModBlocks.rodSand.get()) {
             		add(BlockTags.MINEABLE_WITH_SHOVEL, block);
                 } else {

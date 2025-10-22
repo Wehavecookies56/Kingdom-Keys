@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredients": [
+    {
+      "tag": "kingdomkeys:gummi_block_cone"
+    },
+    {
+      "item": "minecraft:orange_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_cone_orange"
+  }
+}

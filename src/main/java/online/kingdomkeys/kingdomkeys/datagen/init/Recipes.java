@@ -11,8 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.SingleItemRecipe;
-import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
@@ -21,8 +19,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -30,6 +26,7 @@ import java.util.function.Supplier;
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
@@ -1053,8 +1050,6 @@ public class Recipes extends RecipeProvider {
 				Items.BLACK_DYE
 		);
 
-		List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes);
-
 		for (int i = 0; i < gummiBlocks.size(); i++) {
 			for (int j = 0; j < gummiBlocks.size(); j++) {
 				if (i != j) {
@@ -1083,7 +1078,18 @@ public class Recipes extends RecipeProvider {
 						.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
 						.save(consumer);
 			}
-			for (int j = 0; j < dyes.size(); j++) {
+
+			for (int shape=0; shape<gummiBlocks.size();shape++) {
+				List<Supplier<Block>> blocks = gummiBlocks.get(shape);
+				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
+						.requires(ItemTagsGen.GUMMI_BLOCK_KEYS.get(shape))
+						.requires(dyes.get(i))
+						.group(KingdomKeys.MODID + "_gummi_blocks")
+						.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
+						.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+			}
+
+			/*for (int j = 0; j < dyes.size(); j++) {
 				if (i != j) {
 					for (List<Supplier<Block>> blocks : gummiBlocks) {
 						ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
@@ -1094,7 +1100,7 @@ public class Recipes extends RecipeProvider {
 								.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_" + DyeColor.values()[j].getName()));
 					}
 				}
-			}
+			}*/
 		}
     }
 }

@@ -91,15 +91,6 @@ public class InputHandler {
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
 
-        if(InputHandler.lockOn != null) {
-            if(canSwitchTarget && event.getKey() == mc.options.keySprint.getKey().getValue()){
-                switchTarget(player.isCrouching());
-                canSwitchTarget = false;
-            } else {
-                canSwitchTarget = true;
-            }
-        }
-
         Keybinds key = getPressedKey();
         if (player != null) {
             if(playerData == null)
@@ -130,6 +121,7 @@ public class InputHandler {
                         case SUMMON_ARMOR -> summonArmor();
                         case ACTION -> commandAction();
                         case LOCK_ON -> lockOn();
+                        case LOCK_ON_SWAP -> lockOnSwap();
                         case REACTION_COMMAND -> reactionCommand();
                     }
                     NeoForge.EVENT_BUS.post(new KKInputEvent.Post(key, this));
@@ -264,6 +256,15 @@ public class InputHandler {
         }
     }
 
+    public void lockOnSwap() {
+        if(canSwitchTarget){
+            switchTarget(player.isCrouching());
+        }
+        canSwitchTarget = !canSwitchTarget;
+
+        switchTarget(player.isCrouching());
+    }
+
     private void switchTarget(boolean toRight) {
         Player player = Minecraft.getInstance().player;
         if (player == null || InputHandler.lockOn == null) return;
@@ -314,9 +315,6 @@ public class InputHandler {
         InputHandler.lockOn = nextTarget;
         playSound(ModSounds.lockon.get());
     }
-
-
-
 
     public void commandUp() {
         CommandMenuGui.up();
@@ -551,6 +549,7 @@ public class InputHandler {
         SCROLL_ACTIVATOR("key.kingdomkeys.scrollactivator",GLFW.GLFW_KEY_LEFT_ALT),
         SUMMON_KEYBLADE("key.kingdomkeys.summonkeyblade", GLFW.GLFW_KEY_G),
         LOCK_ON("key.kingdomkeys.lockon",GLFW.GLFW_KEY_Z),
+        LOCK_ON_SWAP("key.kingdomkeys.lockonswap",GLFW.GLFW_KEY_C),
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
         ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
         SUMMON_ARMOR("key.kingdomkeys.summonarmor",GLFW.GLFW_KEY_H),
