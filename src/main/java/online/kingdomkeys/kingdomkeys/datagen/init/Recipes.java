@@ -1068,7 +1068,21 @@ public class Recipes extends RecipeProvider {
 			}
 		}
 
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiCubes.getFirst().get()))
+				.requires(ModItems.gummiMeteorFragment.get())
+				.group(KingdomKeys.MODID + "_gummi_blocks")
+				.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+				.save(consumer);
+
 		for (int i = 0; i < dyes.size(); i++) {
+			if(i > 0) {
+				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiCubes.get(i).get()))
+						.requires(ModItems.gummiMeteorFragment.get())
+						.requires(dyes.get(i))
+						.group(KingdomKeys.MODID + "_gummi_blocks")
+						.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+						.save(consumer);
+			}
 			for (int j = 0; j < dyes.size(); j++) {
 				if (i != j) {
 					for (List<Supplier<Block>> blocks : gummiBlocks) {

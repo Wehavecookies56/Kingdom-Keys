@@ -15,6 +15,8 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
+import java.util.ArrayList;
+
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
@@ -66,10 +68,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Llaves Espada");
         add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organizaci\u00f3n");
-        add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");//TODO
+        add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Bloques Gummi");
 
         //Death messages
-        add("keybladedamage.death", "%s was slain by %s"); //TODO
+        add("keybladedamage.death", "%s fue asesinado por %s");
         add("death.attack.air", "%1$s fue aireado por %2$s");
         add("death.attack.air.item", "%1$s due aireado por %2$s usando %3$s");
         add("death.attack.darkness", "%2$s llev\u00f3 a %1$s a la oscuridad");
@@ -116,8 +118,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Journal + ".desc", "");
         add(Gui_Menu_Main_Button_Config, "Preferencias");
         add(Gui_Menu_Main_Button_Config + ".desc", "Configura varios aspectos gr\u00e1ficos de los elementos en pantalla.");
-        add(Gui_Menu_Main_Button_Style, "Combat Style"); //TODO
-        add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight"); //TODO
+        add(Gui_Menu_Main_Button_Style, "Estilo de combate");
+        add(Gui_Menu_Main_Button_Style + ".desc", "Establece tu estilo de combate con Epic Fight");
 
         //Main Menu Status Bar
         add(Gui_Menu_Main_Synthesis_Tier, "S\u00edntesis");
@@ -159,7 +161,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Party_Join + ".desc", "\u00fanete a un grupo ya creado.");
         add(Gui_Menu_Party_Leader_Invite, "Invitar");
         add(Gui_Menu_Party_Leader_Settings, "Opciones");
-        add(Gui_Menu_Party_Leader_Promote, "Promote"); //TODO
+        add(Gui_Menu_Party_Leader_Promote, "Promover");
         add(Gui_Menu_Party_Leader_Kick, "Echar");
         add(Gui_Menu_Party_Leader_Disband, "Disolver");
         add(Gui_Menu_Party_Member_Leave, "Abandonar");
@@ -179,16 +181,16 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Status_FireRes, "Resistencia Piro");
         add(Gui_Menu_Status_BlizzardRes, "Resistencia Hielo");
         add(Gui_Menu_Status_ThunderRes, "Resistencia Electro");
-        add(Gui_Menu_Status_LightRes, "Light Resistance"); //TODO
-        add(Gui_Menu_Status_AirRes, "Air Resistance"); //TODO
-        add(Gui_Menu_Status_WaterRes, "Water Resistance"); //TODO
+        add(Gui_Menu_Status_LightRes, "Resistencia Luz");
+        add(Gui_Menu_Status_AirRes, "Resistencia Aero");
+        add(Gui_Menu_Status_WaterRes, "Resistencia Aqua");
         add(Gui_Menu_Status_DarkRes, "Resistencia Oscuridad");
         add(Gui_Menu_Status_FireResShort, "Res. Piro");
         add(Gui_Menu_Status_BlizzardResShort, "Res. Hielo");
         add(Gui_Menu_Status_ThunderResShort, "Res. Elec.");
-        add(Gui_Menu_Status_LightResShort, "Light Res."); //TODO
-        add(Gui_Menu_Status_AirResShort, "Air Res."); //TODO
-        add(Gui_Menu_Status_WaterResShort, "Water Res."); //TODO
+        add(Gui_Menu_Status_LightResShort, "Res. Luz");
+        add(Gui_Menu_Status_AirResShort, "Res. Aero");
+        add(Gui_Menu_Status_WaterResShort, "Res. Aqua");
         add(Gui_Menu_Status_DarkResShort, "Res. Osc.");
         add(Gui_Menu_Status_FormLevel, "Niv. de Forma");
         add(Gui_Menu_Status_FormGauge, "Indicador de Forma");
@@ -212,7 +214,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".x_pos", "Posici\u00f3n X");
         add(Gui_Menu_Config + ".selected_x_pos", "Margen X Seleccionado");
         add(Gui_Menu_Config + ".y_pos", "Posici\u00f3n Y");
-        add(Gui_Menu_Config + ".y_dist", "Y Distance"); //TODO
+        add(Gui_Menu_Config + ".y_dist", "Distancia Y");
         add(Gui_Menu_Config + ".sub_x_offset", "Pos. X extra Submenu");
         add(Gui_Menu_Config + ".header_title", "T\u00edtulo de Cabecera");
         add(Gui_Menu_Config + ".text_x_offset", "Pos. X del Texto extra");
@@ -234,10 +236,10 @@ public class LanguageESES extends KKLanguageProvider {
         //Journal
         add(Gui_Menu_Journal, "Diario");
 
-        //Combat Style //TODO
-        add(Gui_Menu_Style, "Combat Style");
-        add(Gui_Menu_Style + ".single", "Single");
-        add(Gui_Menu_Style + ".dual", "Dual");
+        //Combat Style
+        add(Gui_Menu_Style, "Estilo de combate");
+        add(Gui_Menu_Style + ".single", "Una mano");
+        add(Gui_Menu_Style + ".dual", "Dos manos");
         add(Gui_Menu_Style + ".sora", "Sora");
         add(Gui_Menu_Style + ".roxas", "Roxas");
         add(Gui_Menu_Style + ".riku", "Riku");
@@ -288,44 +290,43 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Title, "Formas");
         add(Gui_CommandMenu_Limit_Title, "L\u00edmites");
 
-        //TODO
-        add("kingdomkeys.helmet", "Helmet");
-        add("kingdomkeys.chestplate", "Chestplate");
-        add("kingdomkeys.leggings", "Leggings");
-        add("kingdomkeys.boots", "Boots");
+        add("kingdomkeys.helmet", "Casco");
+        add("kingdomkeys.chestplate", "Pechera");
+        add("kingdomkeys.leggings", "Grebas");
+        add("kingdomkeys.boots", "Botas");
 
         //Synthesis Bag
-        add("gui.synthesisbag.upgrade", "Upgrade size");
-        add("gui.synthesisbag.munny", "Munny");
-        add("gui.synthesisbag.notenoughmunny", "Not enough munny");
+        add("gui.synthesisbag.upgrade", "Mejorar tamaño");
+        add("gui.synthesisbag.munny", "Platines");
+        add("gui.synthesisbag.notenoughmunny", "No tienes suf. platines");
 
-        add("gui.statboost.increased","Increased %s, now it's %s");
-        add("gui.statboost.tooltip", "Increases %s by 1");
+        add("gui.statboost.increased","%s aumentada, ahora es %s");
+        add("gui.statboost.tooltip", "aumenta %s en 1");
 
-        add("gui.magicspell.unlock","Unlocks %s");
-        add("gui.magicspell.maxed", "%s is already maxed");
+        add("gui.magicspell.unlock","Desbloquea %s");
+        add("gui.magicspell.maxed", "%s está al máximo");
 
-        add("gui.driveformorb.tooltip", "Upgrades %s Form");
-        add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
+        add("gui.driveformorb.tooltip", "Mejora Forma %s");
+        add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");
 
 
         //Proof of Heart
-        add("gui.proofofheart.desc", "Use this to leave Organization XIII");
-        add("gui.proofofheart.desc2", "You won't be able to use it if you're wearing the Organization XIII robes");
-        add("gui.proofofheart.notinorg", "You are not in Organization XIII");
-        add("gui.proofofheart.leftorg", "You have left Organization XIII");
-        add("gui.proofofheart.unequip", "First unequip your Organization XIII armor");
+        add("gui.proofofheart.desc", "Úsalo para salir de la Organización XIII");
+        add("gui.proofofheart.desc2", "No podrás usarlo si llevas la ropa de la Organización XIII");
+        add("gui.proofofheart.notinorg", "No estás en la Organización XIII");
+        add("gui.proofofheart.leftorg", "Has salido de la Organización XIII");
+        add("gui.proofofheart.unequip", "Primero desequípate la ropa de la Organización XIII");
 
         //Organization XIII
-        add("gui.org.line1", "By donning the Dark Robe you are now a member of Organization XIII.");
-        add("gui.org.line2", "Choose a member of Organization XIII you align with.");
-        add("gui.org.line3", "Your choice will determine the weapon you start with.");
-        add("gui.org.line4", "You wish to align with %1$s?");
-        add("gui.org.line5", "It will cost to change this after you have made your choice.");
+        add("gui.org.line1", "Al llevar el Ropaje Oscuro te vuelves un miembro de la Organización XIII.");
+        add("gui.org.line2", "Elige un miembro de la Organización XIII para alinearte con él.");
+        add("gui.org.line3", "Tu elección determinará tu arma inicial.");
+        add("gui.org.line4", "Deseas alinearte con %1$s?");
+        add("gui.org.line5", "Costará de cambiar dicha decisión.");
         add("gui.org.ok", "Ok");
-        add("gui.org.select", "Select");
-        add("gui.org.cancel", "Cancel");
-        add("gui.org.confirm", "Confirm");
+        add("gui.org.select", "Seleccionar");
+        add("gui.org.cancel", "Cancelar");
+        add("gui.org.confirm", "Confirmar");
 
         //Save point
         add(Gui_Save_Creation_Title, "Nombre punto de guardado");
@@ -450,8 +451,8 @@ public class LanguageESES extends KKLanguageProvider {
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
         addShotlock(ModShotlocks.DARK_VOLLEY, "Volea Umbr\u00eda");
         addShotlock(ModShotlocks.PRISM_RAIN, "Chorro Irisado");
-        addShotlock(ModShotlocks.SONIC_SHADOW, "Sonic Shadow"); //TODO
-        addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon"); //TODO
+        addShotlock(ModShotlocks.SONIC_SHADOW, "Sombra Sónica");
+        addShotlock(ModShotlocks.ULTIMA_CANNON, "Cañón Artema");
 
         //Blox
         addBlock(ModBlocks.normalBlox, "Blox Normal");
@@ -464,42 +465,41 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.prizeBlox, "Blox de Premio");
         addBlock(ModBlocks.rarePrizeBlox, "Blox de Premio Raro");
         addBlock(ModBlocks.magnetBlox, "Blox Magn\u00e9tico");
-        addBlock(ModBlocks.pairBlox, "Pair Blox"); //TODO
-        addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox"); //TODO
+        addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
+        addBlock(ModBlocks.infestedNormalBlox, "Blox Normal Infestado");
 
         //Ores
-        //TODO specify end/nether/deepslate?
         addBlock(ModBlocks.blazingOre, "Mena \u00edgnea");
-        addBlock(ModBlocks.blazingOreN, "Mena \u00edgnea");
-        addBlock(ModBlocks.blazingOreD, "Mena \u00edgnea");
+        addBlock(ModBlocks.blazingOreN, "Mena \u00edgnea del Nether");
+        addBlock(ModBlocks.blazingOreD, "Mena \u00edgnea de pizarra profunda");
         addBlock(ModBlocks.soothingOre, "Mena Vital");
-        addBlock(ModBlocks.soothingOreD, "Mena Vital");
+        addBlock(ModBlocks.soothingOreD, "Mena Vital de pizarra profunda");
         addBlock(ModBlocks.writhingOre, "Mena Tortuosa");
-        addBlock(ModBlocks.writhingOreN, "Mena Tortuosa");
-        addBlock(ModBlocks.writhingOreE, "Mena Tortuosa");
-        addBlock(ModBlocks.writhingOreD, "Mena Tortuosa ");
+        addBlock(ModBlocks.writhingOreN, "Mena Tortuosa del Nether");
+        addBlock(ModBlocks.writhingOreE, "Mena Tortuosa del End");
+        addBlock(ModBlocks.writhingOreD, "Mena Tortuosa de pizarra profunda");
         addBlock(ModBlocks.betwixtOre, "Mena Neutra");
-        addBlock(ModBlocks.betwixtOreD, "Mena Neutra");
-        addBlock(ModBlocks.betwixtOreE, "Mena Neutra");
+        addBlock(ModBlocks.betwixtOreD, "Mena Neutra de pizarra profunda");
+        addBlock(ModBlocks.betwixtOreE, "Mena Neutra del End");
         addBlock(ModBlocks.wellspringOre, "Mena de Poder");
-        addBlock(ModBlocks.wellspringOreN, "Mena de Poder");
+        addBlock(ModBlocks.wellspringOreN, "Mena de Poder del Nether");
         addBlock(ModBlocks.frostOre, "Mena Fr\u00eda");
-        addBlock(ModBlocks.frostOreD, "Mena Fr\u00eda");
+        addBlock(ModBlocks.frostOreD, "Mena Fr\u00eda de pizarra profunda");
         addBlock(ModBlocks.lucidOre, "Mena Clara");
         addBlock(ModBlocks.lightningOre, "Mena Luminosa");
         addBlock(ModBlocks.pulsingOre, "Mena de Fuerza");
-        addBlock(ModBlocks.pulsingOreD, "Mena de Fuerza");
-        addBlock(ModBlocks.pulsingOreE, "Mena de Fuerza");
+        addBlock(ModBlocks.pulsingOreD, "Mena de Fuerza de pizarra profunda");
+        addBlock(ModBlocks.pulsingOreE, "Mena de Fuerza del End");
         addBlock(ModBlocks.remembranceOre, "Mena Evocadora");
         addBlock(ModBlocks.hungryOre, "Mena Voraz");
         addBlock(ModBlocks.sinisterOre, "Mena Siniestra");
-        addBlock(ModBlocks.sinisterOreD, "Mena Siniestra");
+        addBlock(ModBlocks.sinisterOreD, "Mena Siniestra de pizarra profunda");
         addBlock(ModBlocks.stormyOre, "Mena Recia");
-        addBlock(ModBlocks.stormyOreD, "Mena Recia");
+        addBlock(ModBlocks.stormyOreD, "Mena Recia de pizarra profunda");
         addBlock(ModBlocks.tranquilityOre, "Mena Sosegada");
         addBlock(ModBlocks.twilightOre, "Mena Crepuscular");
-        addBlock(ModBlocks.twilightOreD, "Mena Crepuscular");
-        addBlock(ModBlocks.twilightOreN, "Mena Crepuscular");
+        addBlock(ModBlocks.twilightOreD, "Mena Crepuscular de pizarra profunda");
+        addBlock(ModBlocks.twilightOreN, "Mena Crepuscular del Nether");
 
         //Other
         addBlock(ModBlocks.mosaic_stained_glass, "Mosaico de Cristal Tintado");
@@ -527,25 +527,39 @@ public class LanguageESES extends KKLanguageProvider {
         add("savepoint.upgrade", "La velocidad de %s est\u00e1 al %s%%");
         add("savepoint.upgrade_type", "Punto de guardado mejorado a {0}");
 
-        //Castle Oblivion //TODO
-        addBlock(ModBlocks.cardDoor, "Card Door");
-        addBlock(ModBlocks.structureWall, "Structure Wall");
-        addBlock(ModBlocks.castleOblivionWall, "Oblivion Block");
-        addBlock(ModBlocks.castleOblivionWallChiseled, "Chiseled Oblivion Block");
-        addBlock(ModBlocks.castleOblivionWall2, "Dark Oblivion Block");
-        addBlock(ModBlocks.castleOblivionWall3, "Darker Oblivion Block");
-        addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
-        addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
-        addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
+        //Castle Oblivion
+        addBlock(ModBlocks.cardDoor, "Puerta de Carta");
+        addBlock(ModBlocks.structureWall, "Pared de Estructura");
+        addBlock(ModBlocks.castleOblivionWall, "Bloque del Olvido");
+        addBlock(ModBlocks.castleOblivionWallChiseled, "Bloque del Olvido chiselado");
+        addBlock(ModBlocks.castleOblivionWall2, "Bloque del Olvido oscuro");
+        addBlock(ModBlocks.castleOblivionWall3, "Bloque del Olvido sombrío");
+        addBlock(ModBlocks.castleOblivionPillar, "Pilar del Olvido");
+        addBlock(ModBlocks.castleOblivionStairs, "Escaleras del Olvido");
+        addBlock(ModBlocks.castleOblivionSlab, "Losa del Olvido");
 
         //Realm of Darkness
         addBlock(ModBlocks.rodCrackedStone, "Piedra Oscura Agrietada");
         addBlock(ModBlocks.rodSand, "Arena Oscura");
         addBlock(ModBlocks.rodStone, "Piedra Oscura");
 
-        //Gummi //TODO
-        addTintedBlock(ModBlocks.gummiCubes, "Angular/G-01 (Cube %s)");
-        addTintedBlock(ModBlocks.gummiWedges, "Angular/G-02 (Wedge %s)");
+        //Gummi
+        addTintedBlock(ModBlocks.gummiCubes, "Gummi Coraza (Cubo %s)");
+        addTintedBlock(ModBlocks.gummiWedges, "Gummi Coraza (Rampa %s)");
+        addTintedBlock(ModBlocks.gummiPyramids, "Gummi Coraza (Pirámide %s)");
+        addTintedBlock(ModBlocks.gummiCylinders, "Gummi Coraza (Cilindro %s)");
+        addTintedBlock(ModBlocks.gummiPies, "Gummi Coraza (Tarta %s)");
+        addTintedBlock(ModBlocks.gummiRoundCorners, "Gummi Coraza (Corner %s)");
+        addTintedBlock(ModBlocks.gummiCones, "Gummi Coraza (Cono %s)");
+        addTintedBlock(ModBlocks.gummiDomes, "Gummi Coraza (Domo %s)");
+
+        //Rest of blocks:
+        //Shell: Gummi Escudo
+        //Tier 3: Gummi Antimagia
+        //Thrusters: Gummi piro, gummi piro+, gummi piro++, gummi fulgor, gummi sanctus
+        //Canons: Gummi Electro, Gummi Electro+, Gummi Electro++,
+        //Lasers: Cometa, Meteo, Artema
+        //Cockpits: Gummi Cura, Gummi Cura+?, Gummi Cura++, Gummi Lázaro (revive)
 
         // Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valiente");
@@ -728,7 +742,7 @@ public class LanguageESES extends KKLanguageProvider {
         addMusicDisc(ModItems.disc_Destati, "Destati", "Yoko Shimomura");
 
         //Armour
-        add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory"); //TODO
+        add("gui.summonarmor.notenoughspace", "No tienes suficiente espacio en el inventario");
 
         addItem(ModItems.organizationRobe_Helmet, "Capucha de la Organizaci\u00f3n");
         addItem(ModItems.organizationRobe_Chestplate, "Abrigo de la Organizaci\u00f3n");
@@ -1734,12 +1748,12 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
-        addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");//TODO
+        addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Trepador");
         addEntityType(ModEntities.TYPE_DUSK, "Umbr\u00edo");
         addEntityType(ModEntities.TYPE_ASSASSIN, "Asesino");
-        addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon"); //TODO?
+        addEntityType(ModEntities.TYPE_DRAGOON, "Dragón");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
         //Spawn eggs
@@ -1765,7 +1779,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
-        addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");//TODO
+        addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Generar Trepador");
         addItem(ModEntities.DUSK_EGG, "Generar Umbr\u00edo");
@@ -1791,13 +1805,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.wayfinder.player_not_in_party", "El jugador %s no est\u00e1 en tu grupo");
         add("message.wayfinder.player_not_online", "El jugador %s no est\u00e1 en l\u00ednea");
         add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, d\u00e1selo a otro jugador");
-        add("message.wayfinder.owner","Owner: %s"); //TODO
-        add("message.wayfinder.cooldown","Cooldown: %s%%"); //TODO
+        add("message.wayfinder.owner","Propietario: %s");
+        add("message.wayfinder.cooldown","Recarga: %s%%");
         add("message.recipe.already_learnt", "Receta ya aprendida para %s");
         add("message.recipe.cant_learn_yet", "A\u00fan no puedes aprender esa receta");
         add("message.recipe.learnt", "Aprendida la receta de %s");
         add("message.recipe.no_more_to_learn", "No quedan m\u00e1s recetas para aprender");
-        add("message.kingdomkeys.gui_toggle", "GUI display set to: %s"); //TODO
+        add("message.kingdomkeys.gui_toggle", "Interfaz establecida en: %s");
 
         //Station of awakening
         add("soa.menu.1", "Antes de poder abrir el men\u00fa.");
@@ -1841,17 +1855,17 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");
-        add("biome.kingdomkeys.realm_of_darkness", "Realm of Darkness"); //TODO
-        add("biome.kingdomkeys.station_of_sorrow", "Station of Sorrow"); //TODO
-        add("biome.kingdomkeys.castle_oblivion", "Castle Oblivion"); //TODO
-        add("biome.kingdomkeys.castle_oblivion_interior", "Castle Oblivion Interior"); //TODO
+        add("biome.kingdomkeys.realm_of_darkness", "Reino de la Oscuridad");
+        add("biome.kingdomkeys.station_of_sorrow", "Estación del Pesar");
+        add("biome.kingdomkeys.castle_oblivion", "Castillo del Olvido");
+        add("biome.kingdomkeys.castle_oblivion_interior", "Interior del Castillo del Olvido");
 
-        //Effects //TODO
-        addKKEffect(ModMobEffects.FREEZE, "Freeze", "Slows your movement down and eventually deals frostburn.");
-        addKKEffect(ModMobEffects.AERO, "Aero", "Casts a wind shield around you, higher versions also deal damage on contact.");
-        addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
-        addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
-        addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
+        //Effects
+        addKKEffect(ModMobEffects.FREEZE, "Hielo", "Ralentiza tu movimiento y termina causando quemadura de escarcha.");
+        addKKEffect(ModMobEffects.AERO, "Aero", "Invoca un escudo de viento a tu alrededor, versiones superiores también dañan al contacto.");
+        addKKEffect(ModMobEffects.STOP, "Paro", "Evita todo movimiento, todo el daño recibido se aplicará de golpe cuando el efecto termine.");
+        addKKEffect(ModMobEffects.GRAVITY, "Gravedad", "Limita tu movimiento mientras estás aplastado.");
+        addKKEffect(ModMobEffects.KO, "KO", "Permite a un jugador en tu grupo salvarte usando Cura o una Poción en tí.");
 
         //JEI
         add("jei.category.kingdomkeys.synthesis", "S\u00edntesis de Objetos");
