@@ -34,10 +34,13 @@ public record CSExtendedReach(int entityId) implements Packet {
 			return;
 		}
 		if (player.getMainHandItem().getItem() instanceof IExtendedReach theExtendedReachWeapon) {
-            double distanceSq = player.distanceToSqr(theEntity);
-			double reachSq = theExtendedReachWeapon.getReach() * theExtendedReachWeapon.getReach();
-			if (reachSq >= distanceSq) {
-				player.attack(theEntity);
+            double distanceSq = 0;
+            if (theEntity != null) {
+				distanceSq = player.distanceToSqr(theEntity);
+				double reachSq = theExtendedReachWeapon.getReach() * theExtendedReachWeapon.getReach();
+				if (reachSq >= distanceSq) {
+					player.attack(theEntity);
+				}
 			}
 		}
 	}
