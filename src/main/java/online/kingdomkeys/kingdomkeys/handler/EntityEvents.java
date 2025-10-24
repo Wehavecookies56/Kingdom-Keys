@@ -641,7 +641,6 @@ public class EntityEvents {
 						}
 						if (airstepTicks > -1)
 							player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
-
 					}
 				}
 			}
@@ -657,11 +656,14 @@ public class EntityEvents {
 				//Stop effect hitting the entities with the real damage every 5 ticks once it expires
 				if (!entity.hasEffect(ModMobEffects.STOP) && !globalData.getStopDamage().isEmpty()) {
 					if (globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO) && entity.tickCount % 4 == 0) {
-						entity.hurt(StopDamageSource.getStopDamage(Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase())), globalData.getStopDamage().getFirst() / 3F);
-						globalData.getStopDamage().removeFirst();
-						entity.invulnerableTime = 4;
-						if(globalData.getStopDamage().isEmpty()){
-							globalData.setStopCaster(null);
+						Player player = Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase());
+						if(player != null) {
+							entity.hurt(StopDamageSource.getStopDamage(player), globalData.getStopDamage().getFirst() / 3F);
+							globalData.getStopDamage().removeFirst();
+							entity.invulnerableTime = 4;
+							if (globalData.getStopDamage().isEmpty()) {
+								globalData.setStopCaster(null);
+							}
 						}
 					}
 				}

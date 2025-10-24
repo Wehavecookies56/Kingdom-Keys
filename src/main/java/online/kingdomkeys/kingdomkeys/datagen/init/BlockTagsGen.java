@@ -57,6 +57,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
 		add(GUMMI_DROPS,Blocks.PISTON);
 		add(BANNED_GUMMI_BLOCKS, ModBlocks.savepoint.get());
+		add(BANNED_GUMMI_BLOCKS, ModBlocks.gummiHangar.get());
 
 		// add(BlockTags.BEACON_BASE_BLOCKS, ModBlocks.metalBlox.get());
         for (DeferredHolder<Block, ? extends Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {

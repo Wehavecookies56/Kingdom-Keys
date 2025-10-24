@@ -13,6 +13,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -71,6 +72,39 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
             friendlyByteBuf ->
                 new GummiStructure(friendlyByteBuf.registryAccess(), friendlyByteBuf.readNbt())
     );
+
+    public boolean containsBlock (Block block){
+        for (int z = 0; z < depth; ++z) {
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    BlockState state = getBlocks()[x][y][z];
+                    if (state != null && !state.isAir()) {
+                        if(state.getBlock() == block){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getBlockCount (Block block){
+        int count = 0;
+        for (int z = 0; z < depth; ++z) {
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    BlockState state = getBlocks()[x][y][z];
+                    if (state != null && !state.isAir()) {
+                        if(state.getBlock() == block){
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
 
     public GummiStructure(int width, int height, int depth) {
         this.width = width;

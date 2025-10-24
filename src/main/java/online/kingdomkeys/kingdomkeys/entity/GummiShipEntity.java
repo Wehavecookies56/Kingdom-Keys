@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -142,11 +143,17 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	protected void destroy(DamageSource source) {
-		Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
-		if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
-			level().explode(this,this.getX(),this.getY(),this.getZ(), Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ()),Level.ExplosionInteraction.BLOCK);
-		} else {
-			level().explode(this,this.getX(),this.getY(),this.getZ(), Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ()),Level.ExplosionInteraction.BLOCK);		}
+		//Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
+		//int size = Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ());
+		if(structure.containsBlock(Blocks.PISTON)){
+			float size = structure.getBlockCount(Blocks.PISTON) / 10F;
+			if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.BLOCK);
+			} else {
+				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.BLOCK);
+			}
+		}
+
 
 		destroy(this.getDropItems());
 	}
@@ -218,8 +225,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	void controlBoat() {
+		System.out.println(level().isClientSide);
 		if (this.isVehicle()) {
 			float f = 0.0F;
+			System.out.println(level().isClientSide+": "+inputLeft);
 			if (this.inputLeft) {
 				this.deltaRotation-=getEffectiveSpeed()*4;
 			}
@@ -266,7 +275,8 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	public void tick() {
-		super.baseTick();
+		super.tick();
+
 		if (this.isControlledByLocalInstance()) {
 
 			this.floatBoat();

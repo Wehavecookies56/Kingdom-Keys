@@ -49,7 +49,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider pProvider) {
-		for(int shape = 0; shape <Recipes.gummiBlocks.size();shape++){
+		for(int shape = 0; shape < Recipes.gummiBlocks.size();shape++){
 			List<Supplier<Block>> suppliers = Recipes.gummiBlocks.get(shape);
 			List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
 
