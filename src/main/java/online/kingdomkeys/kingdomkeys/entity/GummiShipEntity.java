@@ -225,10 +225,8 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	void controlBoat() {
-		System.out.println(level().isClientSide);
 		if (this.isVehicle()) {
 			float f = 0.0F;
-			System.out.println(level().isClientSide+": "+inputLeft);
 			if (this.inputLeft) {
 				this.deltaRotation-=getEffectiveSpeed()*4;
 			}
@@ -276,41 +274,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	public void tick() {
 		super.tick();
-
-		if (this.isControlledByLocalInstance()) {
-
-			this.floatBoat();
-			if (this.level().isClientSide) {
-				this.controlBoat();
-			}
-
-			this.move(MoverType.SELF, this.getDeltaMovement());
-		} else {
-			this.setDeltaMovement(Vec3.ZERO);
-		}
-
-		this.checkInsideBlocks();
-		List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
-		if (!list.isEmpty()) {
-			boolean flag = !this.level().isClientSide && !(this.getControllingPassenger() instanceof Player);
-
-			for (Entity entity : list) {
-				if (!entity.hasPassenger(this)) {
-					if (flag
-							&& this.getPassengers().size() < this.getMaxPassengers()
-							&& !entity.isPassenger()
-							&& this.hasEnoughSpaceFor(entity)
-							&& entity instanceof LivingEntity
-							&& !(entity instanceof WaterAnimal)
-							&& !(entity instanceof Player)) {
-						entity.startRiding(this);
-					} else {
-						this.push(entity);
-					}
-				}
-			}
-		}
-		//End of vanilla tick()
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
 		} else {

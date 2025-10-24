@@ -140,7 +140,6 @@ public abstract class KKVehicleEntity extends VehicleEntity {
             this.setHurtTime(this.getHurtTime() - 1);
         }
 
-
         super.baseTick();
         this.tickLerp();
         if (this.isControlledByLocalInstance()) {
