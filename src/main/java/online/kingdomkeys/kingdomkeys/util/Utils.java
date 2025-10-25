@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.util;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -304,122 +305,90 @@ public class Utils {
 		return new Vec3i(realWidth, realHeight, realDepth);
 	}
 
-	public static GummiStructure shiftShip(GummiStructure ship, Direction moveDir, Direction facing) {
-		if (ship == null || moveDir == null || facing == null) return ship;
+	public static void moveShip(Level level, BlockPos origin, Direction facing, int size, String moveDirStr) {
+		Direction realDir = switch (moveDirStr.toUpperCase()) {
+			case "FORWARD" -> facing.getOpposite();
+			case "BACKWARD" -> facing;
+			case "LEFT" -> switch (facing) {
+				case NORTH -> Direction.EAST;
+				case SOUTH -> Direction.WEST;
+				case EAST -> Direction.SOUTH;
+				case WEST -> Direction.NORTH;
+				default -> facing;
+			};
+			case "RIGHT" -> switch (facing) {
+				case NORTH -> Direction.WEST;
+				case SOUTH -> Direction.EAST;
+				case EAST -> Direction.NORTH;
+				case WEST -> Direction.SOUTH;
+				default -> facing;
+			};
+			case "UP" -> Direction.UP;
+			case "DOWN" -> Direction.DOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + moveDirStr.toUpperCase());
+        };
 
-		BlockState[][][] blocks = ship.getBlocks();
-		int sizeX = blocks.length;
-		int sizeY = blocks[0].length;
-		int sizeZ = blocks[0][0].length;
+		int dx = realDir.getStepX();
+		int dy = realDir.getStepY();
+		int dz = realDir.getStepZ();
 
-		BlockState[][][] shifted = new BlockState[sizeX][sizeY][sizeZ];
+		int[] offsets = Utils.getShipOffset(facing, size);
+		if (offsets == null)
+			return;
 
-		for (int x = 0; x < sizeX; x++) {
-			for (int y = 0; y < sizeY; y++) {
-				for (int z = 0; z < sizeZ; z++) {
-					BlockState block = blocks[x][y][z];
-					if (block == null) continue;
+		BlockPos minCorner = origin.offset(offsets[0], 0, offsets[1]);
+		BlockPos maxCorner = minCorner.offset(size - 1, size - 1, size - 1);
 
-					int newX = x, newY = y, newZ = z;
+		List<BlockPos> positions = new ArrayList<>();
+		Map<BlockPos, BlockState> blocks = new HashMap<>();
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					int rx = x, rz = z;
 
 					switch (facing) {
-						case SOUTH -> {
-							switch (moveDir) {
-								case NORTH -> newZ = z - 1;
-								case SOUTH -> newZ = z + 1;
-								case WEST -> newX = x - 1;
-								case EAST -> newX = x + 1;
-								case UP -> newY = y + 1;
-								case DOWN -> newY = y - 1;
-							}
-						}
-						case NORTH -> {
-							switch (moveDir) {
-								case NORTH -> newZ = z + 1;
-								case SOUTH -> newZ = z - 1;
-								case WEST -> newX = x + 1;
-								case EAST -> newX = x - 1;
-								case UP -> newY = y + 1;
-								case DOWN -> newY = y - 1;
-							}
-						}
-						case EAST -> {
-							switch (moveDir) {
-								case NORTH -> newX = x - 1;
-								case SOUTH -> newX = x + 1;
-								case WEST -> newZ = z + 1;
-								case EAST -> newZ = z - 1;
-								case UP -> newY = y + 1;
-								case DOWN -> newY = y - 1;
-							}
-						}
-						case WEST -> {
-							switch (moveDir) {
-								case NORTH -> newX = x + 1;
-								case SOUTH -> newX = x - 1;
-								case WEST -> newZ = z - 1;
-								case EAST -> newZ = z + 1;
-								case UP -> newY = y + 1;
-								case DOWN -> newY = y - 1;
-							}
-						}
-						default -> {}
+						case SOUTH -> { rx = x; rz = z; }
+						case NORTH -> { rx = size - 1 - x; rz = size - 1 - z; }
+						case EAST -> { rx = z; rz = size - 1 - x; }
+						case WEST -> { rx = size - 1 - z; rz = x; }
 					}
 
-					if (newX >= 0 && newX < sizeX && newY >= 0 && newY < sizeY && newZ >= 0 && newZ < sizeZ) {
-						shifted[newX][newY][newZ] = block;
-					}
+					BlockPos pos = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					BlockState state = level.getBlockState(pos);
+					if (state.isAir())
+						continue;
+
+					positions.add(pos);
+					blocks.put(pos, state);
 				}
 			}
 		}
 
-		GummiStructure newShip = new GummiStructure(sizeX, sizeY, sizeZ);
-		newShip.setBlocks(shifted);
-		return newShip;
-	}
-
-
-	/**
-	 * Comprueba si se puede mover sin salirse del array.
-	 */
-	private static boolean canMove(BlockState[][][] blocks, Direction dir) {
-		int sizeX = blocks.length;
-		int sizeY = blocks[0].length;
-		int sizeZ = blocks[0][0].length;
-
-		return switch (dir) {
-			case NORTH -> isEmptyLayer(blocks, 0, Direction.Axis.Z);
-			case SOUTH -> isEmptyLayer(blocks, sizeZ - 1, Direction.Axis.Z);
-			case WEST  -> isEmptyLayer(blocks, 0, Direction.Axis.X);
-			case EAST  -> isEmptyLayer(blocks, sizeX - 1, Direction.Axis.X);
-			case UP    -> isEmptyLayer(blocks, sizeY - 1, Direction.Axis.Y);
-			case DOWN  -> isEmptyLayer(blocks, 0, Direction.Axis.Y);
-		};
-	}
-
-	private static boolean isEmptyLayer(BlockState[][][] blocks, int index, Direction.Axis axis) {
-		int sizeX = blocks.length;
-		int sizeY = blocks[0].length;
-		int sizeZ = blocks[0][0].length;
-
-		switch (axis) {
-			case X -> {
-				for (int y = 0; y < sizeY; y++)
-					for (int z = 0; z < sizeZ; z++)
-						if (blocks[index][y][z] != null) return false;
-			}
-			case Y -> {
-				for (int x = 0; x < sizeX; x++)
-					for (int z = 0; z < sizeZ; z++)
-						if (blocks[x][index][z] != null) return false;
-			}
-			case Z -> {
-				for (int x = 0; x < sizeX; x++)
-					for (int y = 0; y < sizeY; y++)
-						if (blocks[x][y][index] != null) return false;
+		//To prevent moving outside the building area
+		boolean canMove = true;
+		for (BlockPos pos : positions) {
+			BlockPos newPos = pos.offset(dx, dy, dz);
+			if (newPos.getX() < minCorner.getX() || newPos.getX() > maxCorner.getX() || newPos.getY() < minCorner.getY() || newPos.getY() > maxCorner.getY() || newPos.getZ() < minCorner.getZ() || newPos.getZ() > maxCorner.getZ()) {
+				canMove = false;
+				break;
 			}
 		}
-		return true;
+
+		if (!canMove) {
+			System.out.println("Can't move, ouut of hangar");
+			return;
+		}
+
+		for (BlockPos pos : positions) {
+			level.removeBlock(pos, false);
+		}
+
+		for (BlockPos pos : positions) {
+			BlockState state = blocks.get(pos);
+			BlockPos newPos = pos.offset(dx, dy, dz);
+			level.setBlock(newPos, state, 3);
+		}
 	}
 
 	public static GummiStructure getGummiStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {

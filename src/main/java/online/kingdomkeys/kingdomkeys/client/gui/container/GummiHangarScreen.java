@@ -90,30 +90,37 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				}
 			}
 		}));
-		addRenderableWidget(moveShipFW = new ExtendedButton(build.getX()+build.getWidth()+30, topPos + 77, 20, 10, Component.translatable("^"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipBW = new ExtendedButton(build.getX()+build.getWidth()+30, topPos + 87, 20, 10, Component.translatable("v"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipLeft = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 87, 20, 10, Component.translatable("<"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipRight = new ExtendedButton(build.getX()+build.getWidth()+50, topPos + 87, 20, 10, Component.translatable(">"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipUp = new ExtendedButton(build.getX()+build.getWidth()+50, topPos + 77, 20, 10, Component.translatable("Up"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipDown = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 77, 20, 10, Component.translatable("Down"), p -> {
+
+		int x = editShip.getX();
+		int y = topPos + 76;
+		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.translatable("⤓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
 			//onClose();
 		}));
+		addRenderableWidget(moveShipFW = new ExtendedButton(x + 21, y, 20, 10, Component.translatable("↑"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipUp = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("⤒"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
+			//onClose();
+		}));
+
+		y += 11;
+		addRenderableWidget(moveShipBW = new ExtendedButton(x, y, 20, 10, Component.translatable("↓"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipLeft = new ExtendedButton(x + 21, y, 20, 10, Component.translatable("←"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipRight = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("→"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
+			//onClose();
+		}));
+
+
 	}
 
 	private void upgrade() {
@@ -184,6 +191,31 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			}
 		}
 
+		if(isHoveringButton(moveShipFW,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship forward").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+		if(isHoveringButton(moveShipBW,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship backwards").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+		if(isHoveringButton(moveShipLeft,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship to the left").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+		if(isHoveringButton(moveShipRight,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship to the right").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+		if(isHoveringButton(moveShipUp,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship higher").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+		if(isHoveringButton(moveShipDown,mouseX,mouseY)){
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship lower").getString()));
+			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+		}
+
 		if (mouseX >= imp.getX() && mouseX <= imp.getX() + imp.getWidth()) {
 			if (mouseY >= imp.getY() && mouseY <= imp.getY() + imp.getHeight()) {
 				ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
@@ -230,6 +262,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				}
 			}
 		}
+	}
+
+	public boolean isHoveringButton(ExtendedButton button, int mouseX, int mouseY) {
+		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight();
 	}
 
 	@Override

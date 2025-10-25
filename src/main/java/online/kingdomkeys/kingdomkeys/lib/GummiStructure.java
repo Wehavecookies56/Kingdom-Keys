@@ -15,6 +15,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
@@ -44,6 +45,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
     public int getDepth() {
         return depth;
+    }
+
+    public void rotate(Rotation rotation){
+
     }
 
     public static final Codec<GummiStructure> CODEC = RecordCodecBuilder.create(instance -> instance.group(

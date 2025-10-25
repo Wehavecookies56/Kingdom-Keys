@@ -45,68 +45,8 @@ public record CSMoveGummiShipPacket(String direction, int containerID) implement
 		BlockState hangar = level.getBlockState(origin);
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		Direction facing = hangar.getValue(GummiHangarBlock.FACING);
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 
-		Direction moveDir = switch (direction.toUpperCase()) {
-			case "FORWARD" -> switch (facing) {
-				case NORTH -> Direction.NORTH;
-				case SOUTH -> Direction.SOUTH;
-				case EAST  -> Direction.EAST;
-				case WEST  -> Direction.WEST;
-				default -> null;
-			};
-			case "BACKWARD" -> switch (facing) {
-				case NORTH -> Direction.SOUTH;
-				case SOUTH -> Direction.NORTH;
-				case EAST  -> Direction.WEST;
-				case WEST  -> Direction.EAST;
-				default -> null;
-			};
-			case "LEFT" -> switch (facing) {
-				case NORTH -> Direction.WEST;
-				case SOUTH -> Direction.EAST;
-				case EAST  -> Direction.NORTH;
-				case WEST  -> Direction.SOUTH;
-				default -> null;
-			};
-			case "RIGHT" -> switch (facing) {
-				case NORTH -> Direction.EAST;
-				case SOUTH -> Direction.WEST;
-				case EAST  -> Direction.SOUTH;
-				case WEST  -> Direction.NORTH;
-				default -> null;
-			};
-			case "UP" -> Direction.UP;
-			case "DOWN" -> Direction.DOWN;
-			default -> null;
-		};
-
-		System.out.println(moveDir);
-		if (moveDir != null) {
-			struct = Utils.shiftShip(struct, moveDir, facing);
-		}
-
-		Utils.removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
-
-//Place the new struct
-
-		int[] offsets = Utils.getShipOffset(facing,size);
-		if(offsets == null)
-			return;
-
-		for (int x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
-				for (int z = 0; z < size; z++) {
-					BlockState blockToPlace = struct.getBlocks()[x][y][z];
-					if (blockToPlace == null)
-						continue;
-
-					BlockPos target = origin.offset(offsets[0] + x, y, offsets[1] + z);
-					level.setBlockAndUpdate(target, blockToPlace);
-				}
-			}
-		}
-
+		Utils.moveShip(player.level(), origin, facing, size, direction);
 	}
 
 	@Override
