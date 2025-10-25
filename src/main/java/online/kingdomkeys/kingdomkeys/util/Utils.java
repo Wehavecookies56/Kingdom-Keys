@@ -304,11 +304,128 @@ public class Utils {
 		return new Vec3i(realWidth, realHeight, realDepth);
 	}
 
+	public static GummiStructure shiftShip(GummiStructure ship, Direction moveDir, Direction facing) {
+		if (ship == null || moveDir == null || facing == null) return ship;
+
+		BlockState[][][] blocks = ship.getBlocks();
+		int sizeX = blocks.length;
+		int sizeY = blocks[0].length;
+		int sizeZ = blocks[0][0].length;
+
+		BlockState[][][] shifted = new BlockState[sizeX][sizeY][sizeZ];
+
+		for (int x = 0; x < sizeX; x++) {
+			for (int y = 0; y < sizeY; y++) {
+				for (int z = 0; z < sizeZ; z++) {
+					BlockState block = blocks[x][y][z];
+					if (block == null) continue;
+
+					int newX = x, newY = y, newZ = z;
+
+					switch (facing) {
+						case SOUTH -> {
+							switch (moveDir) {
+								case NORTH -> newZ = z - 1;
+								case SOUTH -> newZ = z + 1;
+								case WEST -> newX = x - 1;
+								case EAST -> newX = x + 1;
+								case UP -> newY = y + 1;
+								case DOWN -> newY = y - 1;
+							}
+						}
+						case NORTH -> {
+							switch (moveDir) {
+								case NORTH -> newZ = z + 1;
+								case SOUTH -> newZ = z - 1;
+								case WEST -> newX = x + 1;
+								case EAST -> newX = x - 1;
+								case UP -> newY = y + 1;
+								case DOWN -> newY = y - 1;
+							}
+						}
+						case EAST -> {
+							switch (moveDir) {
+								case NORTH -> newX = x - 1;
+								case SOUTH -> newX = x + 1;
+								case WEST -> newZ = z + 1;
+								case EAST -> newZ = z - 1;
+								case UP -> newY = y + 1;
+								case DOWN -> newY = y - 1;
+							}
+						}
+						case WEST -> {
+							switch (moveDir) {
+								case NORTH -> newX = x + 1;
+								case SOUTH -> newX = x - 1;
+								case WEST -> newZ = z - 1;
+								case EAST -> newZ = z + 1;
+								case UP -> newY = y + 1;
+								case DOWN -> newY = y - 1;
+							}
+						}
+						default -> {}
+					}
+
+					if (newX >= 0 && newX < sizeX && newY >= 0 && newY < sizeY && newZ >= 0 && newZ < sizeZ) {
+						shifted[newX][newY][newZ] = block;
+					}
+				}
+			}
+		}
+
+		GummiStructure newShip = new GummiStructure(sizeX, sizeY, sizeZ);
+		newShip.setBlocks(shifted);
+		return newShip;
+	}
+
+
+	/**
+	 * Comprueba si se puede mover sin salirse del array.
+	 */
+	private static boolean canMove(BlockState[][][] blocks, Direction dir) {
+		int sizeX = blocks.length;
+		int sizeY = blocks[0].length;
+		int sizeZ = blocks[0][0].length;
+
+		return switch (dir) {
+			case NORTH -> isEmptyLayer(blocks, 0, Direction.Axis.Z);
+			case SOUTH -> isEmptyLayer(blocks, sizeZ - 1, Direction.Axis.Z);
+			case WEST  -> isEmptyLayer(blocks, 0, Direction.Axis.X);
+			case EAST  -> isEmptyLayer(blocks, sizeX - 1, Direction.Axis.X);
+			case UP    -> isEmptyLayer(blocks, sizeY - 1, Direction.Axis.Y);
+			case DOWN  -> isEmptyLayer(blocks, 0, Direction.Axis.Y);
+		};
+	}
+
+	private static boolean isEmptyLayer(BlockState[][][] blocks, int index, Direction.Axis axis) {
+		int sizeX = blocks.length;
+		int sizeY = blocks[0].length;
+		int sizeZ = blocks[0][0].length;
+
+		switch (axis) {
+			case X -> {
+				for (int y = 0; y < sizeY; y++)
+					for (int z = 0; z < sizeZ; z++)
+						if (blocks[index][y][z] != null) return false;
+			}
+			case Y -> {
+				for (int x = 0; x < sizeX; x++)
+					for (int z = 0; z < sizeZ; z++)
+						if (blocks[x][index][z] != null) return false;
+			}
+			case Z -> {
+				for (int x = 0; x < sizeX; x++)
+					for (int y = 0; y < sizeY; y++)
+						if (blocks[x][y][index] != null) return false;
+			}
+		}
+		return true;
+	}
+
 	public static GummiStructure getGummiStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
 		GummiStructure struct = new GummiStructure(size, size, size);
 
 		int max = size - 1;
-
 
 		int[] offsets = Utils.getShipOffset(facing,size);
 		if(offsets == null)

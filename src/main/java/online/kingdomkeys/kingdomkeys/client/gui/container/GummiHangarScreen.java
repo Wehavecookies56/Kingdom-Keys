@@ -23,10 +23,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSCreateGummiShip;
-import online.kingdomkeys.kingdomkeys.network.cts.CSEditGummiShip;
-import online.kingdomkeys.kingdomkeys.network.cts.CSImportExportGummiShip;
-import online.kingdomkeys.kingdomkeys.network.cts.CSUpgradeGummiHangarPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -48,7 +45,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		this.imageHeight = 212;
 	}
 
-	ExtendedButton build, editShip, imp, exp;
+	ExtendedButton build, editShip, imp, exp, moveShipFW,moveShipBW,moveShipLeft,moveShipRight,moveShipUp,moveShipDown;
 	EditBox name;
 	GummiStructure structure;
 
@@ -92,6 +89,30 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 					onClose();
 				}
 			}
+		}));
+		addRenderableWidget(moveShipFW = new ExtendedButton(build.getX()+build.getWidth()+30, topPos + 77, 20, 10, Component.translatable("^"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipBW = new ExtendedButton(build.getX()+build.getWidth()+30, topPos + 87, 20, 10, Component.translatable("v"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipLeft = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 87, 20, 10, Component.translatable("<"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipRight = new ExtendedButton(build.getX()+build.getWidth()+50, topPos + 87, 20, 10, Component.translatable(">"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipUp = new ExtendedButton(build.getX()+build.getWidth()+50, topPos + 77, 20, 10, Component.translatable("Up"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
+			//onClose();
+		}));
+		addRenderableWidget(moveShipDown = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 77, 20, 10, Component.translatable("Down"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
+			//onClose();
 		}));
 	}
 

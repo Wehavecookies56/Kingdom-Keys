@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -33,7 +35,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
-				//matrixStackIn.mulPose(Axis.XP.rotationDegrees(-(Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot()))));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
@@ -45,7 +46,8 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 							matrixStackIn.pushPose();
 							{
 								matrixStackIn.translate(x, y, z);
-								blockRenderer.renderSingleBlock(state, matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, null);
+								RenderType renderType = ItemBlockRenderTypes.getRenderType(state, false);
+								blockRenderer.renderSingleBlock(state, matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
 							}
 							matrixStackIn.popPose();
 						}

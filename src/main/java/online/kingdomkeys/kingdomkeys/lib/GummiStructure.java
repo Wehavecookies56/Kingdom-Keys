@@ -30,6 +30,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         return blocks;
     }
 
+    public void setBlocks(BlockState[][][] blocks) {
+        this.blocks = blocks;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -223,4 +227,6 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
             return false;
         }
     }
+
+
 }
