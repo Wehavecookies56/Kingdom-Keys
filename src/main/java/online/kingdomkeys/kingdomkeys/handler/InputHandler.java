@@ -507,7 +507,6 @@ public class InputHandler {
         HitResult bestBlockHit = null;
         double bestBlockAngle = coneAngleDeg;
 
-        // --- BLOQUES: rayos distribuidos uniformemente en el cono ---
         for (int phiStep = -raySteps; phiStep <= raySteps; phiStep++) {
             for (int thetaStep = -raySteps; thetaStep <= raySteps; thetaStep++) {
                 double phi = Math.toRadians(coneAngleDeg) * phiStep / raySteps;
@@ -532,10 +531,8 @@ public class InputHandler {
             }
         }
 
-        // Si hay bloque válido, devolver directamente
         if (bestBlockHit != null) return bestBlockHit;
 
-        // --- ENTIDADES: solo si no hay bloque ---
         HitResult bestEntityHit = null;
         double bestEntityDist = dist;
         double bestEntityAngle = coneAngleDeg;
@@ -566,18 +563,14 @@ public class InputHandler {
         return bestEntityHit;
     }
 
-    // --- rota un vector dado phi/ theta alrededor del vector lookVec ---
     private static Vec3 rotateVector(Vec3 lookVec, double phi, double theta) {
-        // lookVec = eje Z local
         Vec3 z = lookVec.normalize();
 
-        // Ejes ortogonales X e Y
         Vec3 x = z.cross(new Vec3(0, 1, 0));
         if (x.lengthSqr() < 1e-6) x = z.cross(new Vec3(1, 0, 0));
         x = x.normalize();
         Vec3 y = z.cross(x).normalize();
 
-        // Vector en coordenadas locales
         Vec3 dir = x.scale(Math.sin(phi) * Math.cos(theta))
                 .add(y.scale(Math.sin(phi) * Math.sin(theta)))
                 .add(z.scale(Math.cos(phi)));

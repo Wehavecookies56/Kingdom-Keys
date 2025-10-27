@@ -223,37 +223,106 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 
+	public float currentSpeed = 0F;
+	private final float acceleration = 0.02F; // ajusta según lo suave que quieras
+	private final float deceleration = 0.02F; // más rápido al frenar
+	private final float brake = 0.5F;
+
+	public float currentRotationSpeed = 0F;
+	private final float rotationAcceleration = 0.08F;
+	private final float rotationDeceleration = 0.08F;
+
+	public float currentVerticalSpeed = 0F;
+	private final float ascendAcceleration = 0.04F;
+	private final float descendAcceleration = 0.04F;
+
 	@Override
 	void controlBoat() {
 		if (this.isVehicle()) {
-			float f = 0.0F;
-			if (this.inputLeft) {
-				this.deltaRotation-=getEffectiveSpeed()*4;
+			//Forward / Backwards
+			float targetSpeed = 0F;
+			if (this.inputForward)
+				targetSpeed = getEffectiveSpeed();
+			else if (this.inputBackward)
+				targetSpeed = -getEffectiveSpeed()/2F;
+
+			float delta = targetSpeed - currentSpeed;
+
+			if(targetSpeed == 0){
+				currentSpeed += delta * brake;
+				if (currentSpeed < targetSpeed)
+					currentSpeed = targetSpeed;
+			} else {
+				if (delta > 0) {
+					// Forward
+					currentSpeed += delta * acceleration;
+					if (currentSpeed > targetSpeed)
+						currentSpeed = targetSpeed;
+				} else {
+					// Backwards
+					currentSpeed += delta * deceleration;
+					if (currentSpeed < targetSpeed)
+						currentSpeed = targetSpeed;
+				}
 			}
 
-			if (this.inputRight) {
-				this.deltaRotation+=getEffectiveSpeed()*4;
-			}
+			// Left / Right
+			float targetRotation = 0F;
 
+			if (this.inputLeft)
+				targetRotation = -getEffectiveSpeed() * 4; //TODO change blocks for wings maybe?
+			else if (this.inputRight)
+				targetRotation = getEffectiveSpeed() * 4;
+
+			float rotationDelta = targetRotation - currentRotationSpeed;
+			if(targetRotation == 0){
+				currentRotationSpeed += rotationDelta * brake;
+				if (Math.abs(currentRotationSpeed) < targetRotation)
+					currentRotationSpeed = targetRotation;
+
+			} else {
+				if (rotationDelta > 0) {
+					currentRotationSpeed += rotationDelta * rotationAcceleration;
+					if (currentRotationSpeed > targetRotation)
+						currentRotationSpeed = targetRotation;
+				} else {
+					currentRotationSpeed += rotationDelta * rotationDeceleration;
+					if (currentRotationSpeed < targetRotation)
+						currentRotationSpeed = targetRotation;
+				}
+			}
+			this.deltaRotation = currentRotationSpeed;
 			this.setYRot(this.getYRot() + this.deltaRotation);
-			if (this.inputForward) {
-				f += getEffectiveSpeed();
+
+			// UP / Down
+			float targetVertical = 0;
+
+			if (this.inputUp)
+				targetVertical = getEffectiveSpeed();
+			else if (this.inputDown)
+				targetVertical = -getEffectiveSpeed()*2;
+
+			float verticalDelta = targetVertical - currentVerticalSpeed;
+
+			if(targetVertical == 0){
+				currentVerticalSpeed += verticalDelta * brake;
+				if (Math.abs(currentVerticalSpeed) < targetVertical)
+					currentVerticalSpeed = targetVertical;
+			} else {
+				if (verticalDelta > 0) {
+					// Forward
+					currentVerticalSpeed += verticalDelta * ascendAcceleration;
+					if (currentVerticalSpeed > targetVertical)
+						currentVerticalSpeed = targetVertical;
+				} else {
+					// Backwards
+					currentVerticalSpeed += verticalDelta * descendAcceleration;
+					if (currentVerticalSpeed < targetVertical)
+						currentVerticalSpeed = targetVertical;
+				}
 			}
 
-			if (this.inputBackward) {
-				f -= getEffectiveSpeed();
-			}
-
-			Vec3 motion = this.getDeltaMovement();
-
-			if (this.inputUp) {
-				motion = motion.add(0, getEffectiveSpeed(), 0);
-			}
-			if (this.inputDown) {
-				motion = motion.add(0, -getEffectiveSpeed(), 0);
-			}
-
-			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * f), motion.y(), Math.cos(this.getYRot() * 0.017453292F) * f));
+			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
 		}
 	}
 
