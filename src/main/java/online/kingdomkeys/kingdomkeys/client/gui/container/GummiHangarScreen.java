@@ -95,32 +95,24 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		int y = topPos + 76;
 		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.translatable("⤓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
-			//onClose();
 		}));
 		addRenderableWidget(moveShipFW = new ExtendedButton(x + 21, y, 20, 10, Component.translatable("↑"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
-			//onClose();
 		}));
 		addRenderableWidget(moveShipUp = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("⤒"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
-			//onClose();
 		}));
 
 		y += 11;
-		addRenderableWidget(moveShipBW = new ExtendedButton(x, y, 20, 10, Component.translatable("↓"), p -> {
-			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
-			//onClose();
-		}));
-		addRenderableWidget(moveShipLeft = new ExtendedButton(x + 21, y, 20, 10, Component.translatable("←"), p -> {
+		addRenderableWidget(moveShipLeft = new ExtendedButton(x, y, 20, 10, Component.translatable("←"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
-			//onClose();
+		}));
+		addRenderableWidget(moveShipBW = new ExtendedButton(x+21, y, 20, 10, Component.translatable("↓"), p -> {
+			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
 		}));
 		addRenderableWidget(moveShipRight = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("→"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
-			//onClose();
 		}));
-
-
 	}
 
 	private void upgrade() {

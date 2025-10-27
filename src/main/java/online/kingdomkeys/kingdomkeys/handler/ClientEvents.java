@@ -403,8 +403,11 @@ public class ClientEvents {
 					focusGaugeTemp-=0.8;
 
 				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
-				if (rt == null)
+				if (rt == null) {
+					lockedAirStep = BlockPos.ZERO;
+
 					return;
+				}
 
 				if (rt instanceof BlockHitResult blockResult) { //Airstep
 					tempShotlockEntity = null;
@@ -412,6 +415,9 @@ public class ClientEvents {
 						if (!lockedAirStep.equals(blockResult.getBlockPos())) {
 							player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.5F);
 						}
+						lockedAirStep = blockResult.getBlockPos();
+
+						// On right click
 						if (mc.options.keyUse.isDown()) {
 							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
 							lockedAirStep = new BlockPos(0, 0, 0);
@@ -424,7 +430,6 @@ public class ClientEvents {
 							return;
 						}
 					}
-					lockedAirStep = blockResult.getBlockPos();
 				}
 
 				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity

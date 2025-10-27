@@ -6,23 +6,27 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -487,58 +491,101 @@ public class InputHandler {
         level.playSound(player, player.position().x(),player.position().y(),player.position().z(), sound, SoundSource.MASTER, 1.0f, 1.0f);
     }
 
-    public static HitResult getMouseOverExtended(float dist) {
+    public static HitResult getMouseOverExtended(double dist) {
         Minecraft mc = Minecraft.getInstance();
-        Entity theRenderViewEntity = mc.getCameraEntity();
-        AABB theViewBoundingBox = new AABB(theRenderViewEntity.getX() - 0.5D, theRenderViewEntity.getY() - 0.0D, theRenderViewEntity.getZ() - 0.5D, theRenderViewEntity.getX() + 0.5D, theRenderViewEntity.getY() + 1.5D, theRenderViewEntity.getZ() + 0.5D);
-        HitResult returnMOP = null;
-        if (mc.level != null) {
-            double var2 = dist;
-            returnMOP = theRenderViewEntity.pick(var2, 0, false);
-            double calcdist = var2;
-            Vec3 pos = theRenderViewEntity.getEyePosition(0);
-            var2 = calcdist;
-            if (returnMOP != null) {
-                calcdist = returnMOP.getLocation().distanceTo(pos);
-            }
+        Entity camera = mc.getCameraEntity();
+        if (mc.level == null || camera == null) return null;
 
-            Vec3 lookvec = theRenderViewEntity.getViewVector(0);
-            Vec3 var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
-            Entity pointedEntity = null;
-            float var9 = 1.0F;
+        final float coneAngleDeg = 12f;
+        final int raySteps = 5; // número de divisiones en el cono
+        final boolean checkVisibility = true;
 
-            List<Entity> list = mc.level.getEntities(theRenderViewEntity, theViewBoundingBox.inflate(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).inflate(var9, var9, var9));
-            double d = calcdist;
+        Vec3 eyePos = camera.getEyePosition(0);
+        Vec3 lookVec = camera.getViewVector(0).normalize();
+        Level level = mc.level;
 
-            for (Entity entity : list) {
-                if (entity.isPickable()) {
-                    float bordersize = entity.getPickRadius();
-                    AABB aabb = new AABB(entity.getX() - entity.getBbWidth() / 2, entity.getY(), entity.getZ() - entity.getBbWidth() / 2, entity.getX() + entity.getBbWidth() / 2, entity.getY() + entity.getBbHeight(), entity.getZ() + entity.getBbWidth() / 2);
-                    aabb.inflate(bordersize, bordersize, bordersize);
-                    Optional<Vec3> mop0 = aabb.clip(pos, var8);
+        HitResult bestBlockHit = null;
+        double bestBlockAngle = coneAngleDeg;
 
-                    if (aabb.contains(pos)) {
-                        if (0.0D < d || d == 0.0D) {
-                            pointedEntity = entity;
-                            d = 0.0D;
-                        }
-                    } else if (mop0 != null && mop0.isPresent()) {
-                        double d1 = pos.distanceTo(mop0.get());
+        // --- BLOQUES: rayos distribuidos uniformemente en el cono ---
+        for (int phiStep = -raySteps; phiStep <= raySteps; phiStep++) {
+            for (int thetaStep = -raySteps; thetaStep <= raySteps; thetaStep++) {
+                double phi = Math.toRadians(coneAngleDeg) * phiStep / raySteps;
+                double theta = Math.toRadians(coneAngleDeg) * thetaStep / raySteps;
 
-                        if (d1 < d || d == 0.0D) {
-                            pointedEntity = entity;
-                            d = d1;
+                Vec3 dir = rotateVector(lookVec, phi, theta).normalize();
+                Vec3 end = eyePos.add(dir.scale(dist));
+
+                HitResult hit = level.clip(new ClipContext(eyePos, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, camera));
+                if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+                    BlockPos pos = ((BlockHitResult) hit).getBlockPos();
+                    BlockState state = level.getBlockState(pos);
+
+                    if (state.is(ModBlocks.airstepTarget.get())) {
+                        double angle = Math.toDegrees(Math.acos(lookVec.dot(dir)));
+                        if (angle < bestBlockAngle) {
+                            bestBlockHit = hit;
+                            bestBlockAngle = angle;
                         }
                     }
                 }
             }
+        }
 
-            if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
-                returnMOP = new EntityHitResult(pointedEntity);
+        // Si hay bloque válido, devolver directamente
+        if (bestBlockHit != null) return bestBlockHit;
+
+        // --- ENTIDADES: solo si no hay bloque ---
+        HitResult bestEntityHit = null;
+        double bestEntityDist = dist;
+        double bestEntityAngle = coneAngleDeg;
+
+        for (Entity e : level.getEntities(camera, camera.getBoundingBox().inflate(dist), Entity::isPickable)) {
+            Vec3 targetPos = e.position().add(0, e.getBbHeight() * 0.5, 0);
+            Vec3 dir = targetPos.subtract(eyePos);
+            double d = dir.length();
+            if (d > dist) continue;
+
+            Vec3 dirNorm = dir.normalize();
+            double angle = Math.toDegrees(Math.acos(lookVec.dot(dirNorm)));
+            if (angle > coneAngleDeg) continue;
+
+            if (checkVisibility) {
+                HitResult hit = level.clip(new ClipContext(eyePos, targetPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, camera));
+                if (hit.getType() == HitResult.Type.BLOCK && hit.getLocation().distanceTo(eyePos) + 0.5 < d)
+                    continue;
+            }
+
+            if (angle < bestEntityAngle || (angle == bestEntityAngle && d < bestEntityDist)) {
+                bestEntityHit = new EntityHitResult(e);
+                bestEntityAngle = angle;
+                bestEntityDist = d;
             }
         }
-        return returnMOP;
+
+        return bestEntityHit;
     }
+
+    // --- rota un vector dado phi/ theta alrededor del vector lookVec ---
+    private static Vec3 rotateVector(Vec3 lookVec, double phi, double theta) {
+        // lookVec = eje Z local
+        Vec3 z = lookVec.normalize();
+
+        // Ejes ortogonales X e Y
+        Vec3 x = z.cross(new Vec3(0, 1, 0));
+        if (x.lengthSqr() < 1e-6) x = z.cross(new Vec3(1, 0, 0));
+        x = x.normalize();
+        Vec3 y = z.cross(x).normalize();
+
+        // Vector en coordenadas locales
+        Vec3 dir = x.scale(Math.sin(phi) * Math.cos(theta))
+                .add(y.scale(Math.sin(phi) * Math.sin(theta)))
+                .add(z.scale(Math.cos(phi)));
+
+        return dir.normalize();
+    }
+
+
 
     public enum Keybinds {
         OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M),
