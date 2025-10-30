@@ -3,13 +3,15 @@
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/gummi/gummi_pyramid.obj",
+	"flip_v" : true,
 	"transform":{
 		"translation": [ -1.75, -0.25, -1.75 ],
 		"scale": [ 0.5, 0.5, 0.5 ],
 		"rotation": [ 0, 180, 0 ]
 	},
 	"textures": {
-		"texture0": "kingdomkeys:block/gummi_solid_colour",
+		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
+		"texture1": "kingdomkeys:block/gummi/dispel_gummi_pyramid",
 		"particle": "#texture0"
 	}
 }

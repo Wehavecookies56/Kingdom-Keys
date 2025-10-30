@@ -29,15 +29,14 @@ public class GummiMeteorFeature extends Feature<NoneFeatureConfiguration> {
         int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ());
         BlockPos center = new BlockPos(origin.getX(), surfaceY, origin.getZ());
 
-        // Evitar agua y bloques no sólidos
         BlockState surfaceBlock = level.getBlockState(center.below());
         if (surfaceBlock.getFluidState().isSource()) {
-            return false; // abortar spawn
+            return false;
         }
 
-        int craterRadius = 6 + random.nextInt(5); // 6–10 bloques
+        int craterRadius = 5 + random.nextInt(4);
         int craterDepth = 3 + random.nextInt(3);
-        int meteorRadius = 2 + random.nextInt(2); // 2 o 3 bloques
+        int meteorRadius = 1 + random.nextInt(2);
 
         spawnCrater(level, random, center, craterRadius, craterDepth, meteorRadius);
 
@@ -61,7 +60,7 @@ public class GummiMeteorFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         //Add random meteor fragments
-        int fragCount = 6 + random.nextInt(5);
+        int fragCount = 4 + random.nextInt(5);
         for (int i = 0; i < fragCount; i++) {
             double angle = random.nextDouble() * Math.PI * 2;
             double dist = craterRadius + random.nextDouble() * 3.0;
