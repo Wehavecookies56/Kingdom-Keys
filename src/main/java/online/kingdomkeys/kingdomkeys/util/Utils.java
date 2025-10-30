@@ -140,7 +140,11 @@ public class Utils {
 			Magic m = ModMagic.registry.get(ResourceLocation.parse(magic.getKey()));
 			if(m != null){
 				int lvl = magic.getValue()[0];
+				if(m.getCost(lvl,player) == 300){ //If has cure return it since it's used to calculate whether to show magic available or not.
+					return m.getCost(lvl,player);
+				}
 				min = Math.min(m.getCost(lvl,player),min);
+
 			}
 		}
         return min;
