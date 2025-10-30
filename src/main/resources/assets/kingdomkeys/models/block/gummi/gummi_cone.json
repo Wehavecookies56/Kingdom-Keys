@@ -1,5 +1,5 @@
 {
-	"parent": "forge:block/default",
+	"parent": "neoforge:block/default",
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/gummi/gummi_cone.obj",

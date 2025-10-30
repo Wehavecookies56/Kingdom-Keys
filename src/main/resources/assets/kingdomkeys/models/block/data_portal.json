@@ -1,5 +1,5 @@
 {
-	"parent": "forge:block/default",
+	"parent": "neoforge:block/default",
 	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/data_portal.obj",
 	"flip_v" : true,
