@@ -77,7 +77,7 @@ public class MenuScreen extends MenuBackground {
 			case CUSTOMIZE -> minecraft.setScreen(new MenuCustomizeScreen());
 			case JOURNAL -> minecraft.setScreen(new MenuJournalScreen());
 			case CONFIG -> minecraft.setScreen(new MenuConfigScreen());
-			case STYLES -> minecraft.setScreen(new StylesMenu());
+			case STYLES -> minecraft.setScreen(new StylesMenu(playerData));
 		}
 		updateButtons();
 	}

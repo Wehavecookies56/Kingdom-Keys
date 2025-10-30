@@ -24,9 +24,11 @@ public class StylesMenu extends MenuBackground {
     private MenuButton kh2RoxasDual, daysRoxasDual;
     private final List<MenuButton> singleStyleList = new ArrayList<>();
     private final List<MenuButton> dualStyleList = new ArrayList<>();
+    PlayerData playerData;
 
-    public StylesMenu() {
+    public StylesMenu(PlayerData playerData) {
         super(Strings.Gui_Menu_Style, new Color(0, 0, 255));
+        this.playerData = playerData;
     }
 
     @Override
@@ -42,7 +44,6 @@ public class StylesMenu extends MenuBackground {
 
     private void initSingle(){
         int pos = 0;
-        PlayerData playerData = PlayerData.get(minecraft.player);
         addRenderableWidget(sora = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.sora"), MenuButton.ButtonType.BUTTON, e ->
         {
             playerData.setSingleStyle(SingleChoices.SORA);
@@ -85,7 +86,6 @@ public class StylesMenu extends MenuBackground {
     private void initDualStyle(){
         int pos = 0;
 
-        PlayerData playerData = PlayerData.get(minecraft.player);
         addRenderableWidget(kh2RoxasDual = new MenuButton((int) ( buttonPosX+ 50 + buttonWidth), (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.kh2roxasdual"), MenuButton.ButtonType.BUTTON, e ->
         {
             playerData.setDualStyle(DualChoices.KH2_ROXAS_DUAL);
@@ -103,7 +103,6 @@ public class StylesMenu extends MenuBackground {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         super.render(gui, mouseX, mouseY, partialTicks);
-        PlayerData playerData = PlayerData.get(minecraft.player);
         for (MenuButton b : singleStyleList) {
             b.active = false;
             b.visible = false;

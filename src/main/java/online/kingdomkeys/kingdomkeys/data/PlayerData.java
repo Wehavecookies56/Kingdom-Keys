@@ -420,10 +420,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
 		String s = nbt.getString("single_style");
-		if(!s.equals(""))
-			//this.setSingleStyle(SingleChoices.valueOf(s));
+		if(!s.isEmpty())
+			this.setSingleStyle(SingleChoices.valueOf(s));
 		s=nbt.getString("dual_style");
-		if(!s.equals(""))
+		if(!s.isEmpty())
 			this.setDualStyle(DualChoices.valueOf(s));
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));

@@ -27,7 +27,7 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
 [[dependencies.${mod_id}]]
     modId="epicfight"
     type="optional"
-    versionRange="[20.8,)"
+    versionRange="[21.13,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.${mod_id}]]

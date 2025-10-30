@@ -25,6 +25,7 @@ import net.minecraft.world.phys.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -38,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -207,15 +209,15 @@ public class InputHandler {
 
     public void summonKeyblade() {
         if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-            if(EpicFightUtils.isBattleMode(player)) {
+            if(KingdomKeys.efmLoaded) {
                 if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE) {
-                    /*if (!playerData.isAbilityEquipped(Strings.synchBlade)) {
+                    if (!playerData.isAbilityEquipped(Strings.synchBlade)) {
                         PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
                     } else {
                         PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
-                    }*/
+                    }
                 } else if(Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE) {
-                    //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
+                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
                 } else {
                     PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
                 }
@@ -225,8 +227,8 @@ public class InputHandler {
             }
         } else {
 
-            if(EpicFightUtils.isBattleMode(player) && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
-                //PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
+            if(KingdomKeys.efmLoaded && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
+                PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             } else {
                 PacketHandler.sendToServer(new CSSummonKeyblade(ResourceLocation.parse(playerData.getActiveDriveForm())));
             }

@@ -89,7 +89,9 @@ public class PacketHandler {
 		server(CSPartyPromote.TYPE, CSPartyPromote.STREAM_CODEC);
 		server(CSPartySettings.TYPE, CSPartySettings.STREAM_CODEC);
 		server(CSPedestalConfig.TYPE, CSPedestalConfig.STREAM_CODEC);
-		//server(CSPlayAnimation.TYPE, CSPlayAnimation.STREAM_CODEC);
+		if (KingdomKeys.efmLoaded) {
+			server(CSPlayAnimation.TYPE, CSPlayAnimation.STREAM_CODEC);
+		}
 		server(CSSavePointTP.TYPE, CSSavePointTP.STREAM_CODEC);
 		server(CSSetAerialDodgeTicksPacket.TYPE, CSSetAerialDodgeTicksPacket.STREAM_CODEC);
 		server(CSSetAirStepPacket.TYPE, CSSetAirStepPacket.STREAM_CODEC);

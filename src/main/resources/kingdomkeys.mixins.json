@@ -14,11 +14,13 @@
   ],
   "client": [
     "client.BiomeMixin",
+    "client.CameraMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
-    "client.CameraMixin"
+    "epicfight.PHumanoidRendererMixin",
+    "epicfight.RenderEngineEventsMixin"
   ],
   "minVersion": "0.8"
 }

@@ -126,7 +126,7 @@ dependencies {
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE:api")
     runtimeOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE")
-    //implementation "curse.maven:modern-ui-352491:6200236"
+    implementation "curse.maven:epic-fight-mod-405076:7132918-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 }
 

@@ -1744,6 +1744,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add("jei.info.kingdomkeys.master_orb", "Use to unlock Master Form. Master has a 2nd Keyblade slot. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.");
         add("jei.info.kingdomkeys.final_orb", "Use to unlock Final Form. Final has a 2nd Keyblade slot. Activation requires 5 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.");
 
+        /**Epic Fight**/
+        add("epicfight.style.sora", "Sora");
+        add("epicfight.style.roxas", "Roxas");
+        add("epicfight.style.riku", "Riku");
+        add("epicfight.style.terra", "Terra");
+        add("epicfight.style.aqua", "Aqua");
+        add("epicfight.style.ventus", "Ventus");
+
+        add("epicfight.style.kh2_roxas_dual", "Roxas (KH2)");
+        add("epicfight.style.days_roxas_dual", "Roxas (358/2 Days)");
+
         /**Others**/
         //Messages
         add("message.magnet_blox.attract", "Attract Mode");

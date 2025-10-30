@@ -1,21 +1,23 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
-import net.minecraft.world.entity.player.Player;
-
-import java.util.function.Function;
+import net.minecraft.client.Minecraft;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class EpicFightUtils {
     private EpicFightUtils() {}
 
-    private static Function<Player, Boolean> battleMode = player -> false;
-
     public static final EpicFightUtils INSTANCE = new EpicFightUtils();
 
-    public static void setBattleMode(Function<Player, Boolean> battleMode) {
-        EpicFightUtils.battleMode = battleMode;
+    public static boolean isAttacking() {
+        if (KingdomKeys.efmLoaded) {
+            return Minecraft.getInstance().mouseHandler.isLeftPressed();
+        } else {
+            return Minecraft.getInstance().options.keyAttack.isDown();
+        }
     }
 
-    public static boolean isBattleMode(Player player) {
-        return battleMode.apply(player);
+    public static boolean isPlayerSummoning(LivingEntityPatch<?> playerPatch) {
+        return Minecraft.getInstance().player.getId() == playerPatch.getOriginal().getId();
     }
 }
